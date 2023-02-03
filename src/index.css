@@ -1,0 +1,48 @@
+:root{
+  --clr-primary: #38798E;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('./assets/fonts/DM_Sans/DMSans-Regular.eot');
+    src: url('./assets/fonts/DM_Sans/DMSans-Regular.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/DM_Sans/DMSans-Regular.woff2') format('woff2'),
+        url('./assets/fonts/DM_Sans/DMSans-Regular.woff') format('woff'),
+        url('./assets/fonts/DM_Sans/DMSans-Regular.ttf') format('truetype'),
+        url('./assets/fonts/DM_Sans/DMSans-Regular.svg#DMSans-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+html {
+  font-family: 'DM Sans';
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+margin: 0;
+padding: 0;
+font-size: 1.4rem;
+height: 100vh;
+overflow: hidden;
+}
+
+img {
+  width: 100%;
+}
+
+#root{
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+}
+
+
+
