@@ -6,28 +6,52 @@
   padding-block: 2rem;
   box-shadow: 4px 0 12px rgba(0,0,0,0.1);
 
-  // transform: translateX(-85%);
+  &.open{
+    .sidebar__link-text {
+      display: block;
+    }
+
+    .chevron{
+      transform: rotate(180deg);
+
+    }
+    
+  }
 
 
-  &__button--open {
+  &__button--toggle {
     position: absolute;
     border: none;
-    background-color: transparent;
+    background-color: #fff;
+    height: 2.8rem;
+    width: 2.8rem;
     top: 7rem;
     right: -1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     cursor: pointer;
+
+    .chevron {
+      height: 3.2rem;
+      width: 3.2rem;
+    }
   }
 
   &__logo {
-    width: 4.5rem;
-    margin: 0 auto;
+    width: 4.6rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    // margin: 0 auto;
   }
   &__nav-list {
     list-style: none;
     margin: 0;
-    margin-top: 3rem;
-    margin-left: 2rem;
+    // margin-top: 3rem;
+    // margin-left: 2rem;
     padding: 0;
     
   
@@ -54,14 +78,22 @@
 
    &__nav-icon {
     position: relative;
-    margin-right: 1.2rem;
+    // margin-right: 1.2rem;
     padding: .8rem; 
-    height: 1.8rem;
-    width: 1.8rem;
+    height: 2.4rem;
+    width: 2.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+
+    .icon {
+      height: 2.4rem;
+      width: 2.4rem;
+    }
    }
+
+
 
     &__nav-icon::after {
     content: '';
@@ -83,7 +115,13 @@
    }
 
 
-   .active &__nav-icon path {
+   .active &__nav-icon .icon {
     fill: white;
+    stroke: white;
+   }
+
+   &__link-text {
+    display: none;
+    margin-left: 1rem;
    }
 }
