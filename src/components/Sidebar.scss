@@ -8,14 +8,18 @@
 
   &:hover &__button--toggle {
     opacity: 1;
+    transform: translateX(0);
+    transition: transform .4s ease;
+
   }
   &.open{
     .sidebar__link-text {
-      display: block;
+      display: flex;
     }
 
     .sidebar__button--toggle {
       opacity: 1;
+      transform: translateX(0);
     }
 
     .chevron{
@@ -40,6 +44,8 @@
     justify-content: center;
     opacity: 0;
     box-shadow: 8px 0 4px rgba(0,0,0,0.1);
+    transform: translateX(-50%);
+    transition: transform .4s ease;
 
     
     cursor: pointer;
@@ -133,5 +139,6 @@
    &__link-text {
     display: none;
     margin-left: 1rem;
+    transition: width 1s ease;
    }
 }
