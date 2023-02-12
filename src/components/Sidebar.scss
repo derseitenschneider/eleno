@@ -6,9 +6,16 @@
   padding-block: 2rem;
   box-shadow: 4px 0 12px rgba(0,0,0,0.1);
 
+  &:hover &__button--toggle {
+    opacity: 1;
+  }
   &.open{
     .sidebar__link-text {
       display: block;
+    }
+
+    .sidebar__button--toggle {
+      opacity: 1;
     }
 
     .chevron{
@@ -26,11 +33,14 @@
     height: 2.8rem;
     width: 2.8rem;
     top: 7rem;
-    right: -1.6rem;
+    right: -1.2rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    box-shadow: 8px 0 4px rgba(0,0,0,0.1);
+
     
     cursor: pointer;
 
