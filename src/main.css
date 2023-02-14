@@ -49,6 +49,12 @@ a {
   color: inherit;
 }
 
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 p,
 a,
 strong,

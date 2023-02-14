@@ -19,6 +19,8 @@ type TStudent = {
   dayOfLesson?: string,
   startOfLesson?: string,
   endOfLesson?: string
+  archive: boolean;
+  location: string;
 }
 
 type ContextType = {students: TStudent[] | null, setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
