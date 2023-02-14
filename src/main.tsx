@@ -6,19 +6,19 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import ErrorPage from "./pages/error";
+import ErrorPage from "./pages/error/error";
 
-import Dashboard from './pages/Dashboard';
-import Students from './pages/Students';
-import Timetable from './pages/Timetable';
-import Lessons from './pages/Lessons';
-import ToDos from './pages/ToDos';
-import RootLayout from './pages/RootLayout';
+import Dashboard from './pages/dashboard/Dashboard';
+import Students from './pages/students/Students';
+import Timetable from './pages/timetable/Timetable';
+import Lessons from './pages/lessons/Lessons';
+import ToDos from './pages/todos/ToDos';
+import Application from './Application';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout/>,
+    element: <Application/>,
     errorElement: <ErrorPage />,
     children: [
       {
