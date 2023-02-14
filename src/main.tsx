@@ -10,6 +10,9 @@ import ErrorPage from "./pages/error/error";
 
 import Dashboard from './pages/dashboard/Dashboard';
 import Students from './pages/students/Students';
+import StudentList from './pages/students/studentList/StudentList';
+import StudentsArchive from './pages/students/studentsArchive/StudentsArchive';
+import CreateStudent from './pages/students/createStudent/CreateStudent';
 import Timetable from './pages/timetable/Timetable';
 import Lessons from './pages/lessons/Lessons';
 import ToDos from './pages/todos/ToDos';
@@ -27,7 +30,21 @@ const router = createBrowserRouter([
       },
       {
         path: '/students',
-        element: <Students/>
+        element: <Students/>,
+        children: [
+          {
+            path: '/students',
+            element: <StudentList/>
+          },         
+          {
+            path: '/students/newstudent',
+            element: <CreateStudent/>
+          },
+          {
+            path: '/students/archive',
+            element: <StudentsArchive/>
+          }
+        ]
       },
       {
         path: '/timetable',

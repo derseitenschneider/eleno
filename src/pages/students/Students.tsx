@@ -1,26 +1,23 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useStudents } from '../../Application';
-import CreateNewStudentForm from '../../components/createNewStudentForm/CreateNewStudentForm.component';
+import Navbar from '../../components/navbar/Navbar.component';
 
+const navLinks = [
+  {path: '/students/', label: 'Schülerliste', key: 1},
+  {path: '/students/newstudent', label: 'Schüler:inn erfassen', key:2},
+  {path: '/students/archive', label: 'Papierkorb', key: 3},
+]
 
-export default function Students() {
-  const {students, setStudents}  = useStudents()
-  const [formOpen, setFormOpen] = useState(false)
-
-  function toggleStudentFormOpen() {
-    setFormOpen(!formOpen);
-  }
-
-
-
+export default function Students(props) {
+ const {students, setStudents}  = useStudents()
+ console.log(students)
   return (
     <div>
       <h1>Schüler:innen</h1>
-      <ul>
-        {students.map(student => <li>{student.firstName}</li>)}
-      </ul>
-      <button onClick={toggleStudentFormOpen}>Schüler:in hinzufügen</button>
-      <CreateNewStudentForm showForm={formOpen}/>
+       <Navbar navLinks={navLinks}/>
+        <Outlet/>
     </div>
   );
 }
+

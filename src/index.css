@@ -34,14 +34,40 @@ img {
   width: 100%;
 }
 
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p,
+a,
+strong,
+span {
+  font-size: 1.6rem;
+}
+
 #root{
   height: 100%;
 }
 
 .App {
   display: flex;
-  gap: 3rem;
+
   height: 100%;
+}
+
+#main {
+  width: 100%;
 }
 
 

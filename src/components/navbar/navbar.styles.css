@@ -1,0 +1,19 @@
+.navbar {
+  background-color: #eee;
+  padding: 0 2rem;
+  font-size: 2rem;
+}
+
+.navbar .navlist {
+  padding: 0;
+  display: flex;
+}
+
+.navbar .navlist .nav-item {
+  padding: 2.4rem 1.2rem;
+}
+
+.nav-item:has(.navlink.active) {
+  background-color: var(--clr-primary);
+  color: #fff;
+}
