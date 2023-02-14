@@ -4,12 +4,11 @@ import CreateNewStudentForm from '../../components/createNewStudentForm/CreateNe
 
 
 export default function Students() {
-  const {students, setStudents}  = useStudents();
-  const {formOpen, setStudentFormOpen} = useState(false)
-  console.log(studentFormOpen);
+  const {students, setStudents}  = useStudents()
+  const [formOpen, setFormOpen] = useState(false)
 
   function toggleStudentFormOpen() {
-    setStudentFormOpen(!studentFormOpen);
+    setFormOpen(!formOpen);
   }
 
 
@@ -21,7 +20,7 @@ export default function Students() {
         {students.map(student => <li>{student.firstName}</li>)}
       </ul>
       <button onClick={toggleStudentFormOpen}>Schüler:in hinzufügen</button>
-      <CreateNewStudentForm showForm={studentFormOpen}/>
+      <CreateNewStudentForm showForm={formOpen}/>
     </div>
   );
 }

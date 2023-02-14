@@ -1,9 +1,9 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
 import { useStudents } from '../../Application';
+import './CreateNewStudentForm.styles.css'
 
-function CreateNewStudentForm(props) {
-    const open = props.showForm;
-    console.log(props)
+function CreateNewStudentForm({showForm}) {
+    console.log(showForm)
 
     const {students, setStudents}  = useStudents();
     const [input, setInput] = useState({
@@ -26,7 +26,9 @@ function CreateNewStudentForm(props) {
   }
   return (
     <div>
-        <form action="" onSubmit={createNewStudent}>
+        <form 
+          onSubmit={createNewStudent}
+          className= {`form-newStudent ${showForm ? 'open': ''}`}>
       <h3 >Vorname</h3>
       <input 
         id='firstName' 

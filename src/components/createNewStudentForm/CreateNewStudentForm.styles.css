@@ -1,0 +1,9 @@
+.form-newStudent {
+  display: none;
+  position: absolute;
+  
+}
+
+.form-newStudent.open {
+  display: block;
+}
