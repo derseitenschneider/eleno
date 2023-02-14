@@ -11,12 +11,10 @@ const navLinks = [
 
 export default function Students(props) {
  const {students, setStudents}  = useStudents()
- console.log(students)
   return (
     <div>
-      <h1>Schüler:innen</h1>
        <Navbar navLinks={navLinks}/>
-        <Outlet/>
+        <Outlet context={{students, setStudents}}/>
     </div>
   );
 }
