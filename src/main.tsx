@@ -25,37 +25,37 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        index:true,
         element: <Dashboard/>
       },
       {
-        path: '/students',
+        path: 'students',
         element: <Students/>,
         children: [
           {
-            path: '/students',
+            index:true,
             element: <StudentList/>
           },         
           {
-            path: '/students/newstudent',
+            path: 'newstudent',
             element: <CreateStudent/>
           },
           {
-            path: '/students/archive',
+            path: 'archive',
             element: <StudentsArchive/>
           }
         ]
       },
       {
-        path: '/timetable',
+        path: 'timetable',
         element: <Timetable/>
       },
        {
-        path: '/lessons',
+        path: 'lessons',
         element: <Lessons/>
       },
        {
-        path: '/todos',
+        path: 'todos',
         element: <ToDos/>
       },
     ]

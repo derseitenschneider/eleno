@@ -44,7 +44,7 @@ function Sidebar() {
           </li>
 
           <li className="sidebar__nav-el">     
-            <NavLink to="/students" className="sidebar__nav-link">
+            <NavLink to="students" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                <IoPeopleCircleOutline className='icon'/>
               </div>
@@ -54,7 +54,7 @@ function Sidebar() {
           </li>
 
           <li className="sidebar__nav-el">
-            <NavLink to="/timetable" className="sidebar__nav-link">
+            <NavLink to="timetable" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                <IoCalendarClearOutline className='icon'/>
               </div>
@@ -64,7 +64,7 @@ function Sidebar() {
           </li>
 
           <li className="sidebar__nav-el">
-            <NavLink to="/lessons" className="sidebar__nav-link">
+            <NavLink to="lessons" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                 <IoSchoolOutline className='icon'/>
               </div>
@@ -73,7 +73,7 @@ function Sidebar() {
           </li>
 
           <li className="sidebar__nav-el">
-            <NavLink to="/todos" className="sidebar__nav-link">
+            <NavLink to="todos" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                 <IoListOutline className='icon'/>
               </div>

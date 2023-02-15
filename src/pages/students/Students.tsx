@@ -4,9 +4,9 @@ import { useStudents } from '../../Application';
 import Navbar from '../../components/navbar/Navbar.component';
 
 const navLinks = [
-  {path: '/students/', label: 'Schülerliste', key: 1},
-  {path: '/students/newstudent', label: 'Schüler:inn erfassen', key:2},
-  {path: '/students/archive', label: 'Archiv', key: 3},
+  {path: '', label: 'Schülerliste', key: 1},
+ 
+  {path: 'archive', label: 'Archiv', key: 2},
 ]
 
 export default function Students() {
