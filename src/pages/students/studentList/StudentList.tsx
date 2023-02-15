@@ -4,17 +4,21 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { IoSearchOutline } from 'react-icons/io5';
 import { IoCloseOutline } from 'react-icons/io5';
+import { IoSchoolOutline } from "react-icons/io5";
 import './studentlist.styles.scss'
 
 
 
 export default function StudentList() {
   const {students}  = useStudents()
+  const [filteredStudents, setFilteredStudents] = useState(students)
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
 
-  const addStudentEventHandler = () => {
+  const toggleNewStudentOpen = () => {
     setNewStudentRowOpen(!newStudentRowOpen)
-    inputRef.current.focus()
+  }
+  const addStudentEventHandler = () => {
+    toggleNewStudentOpen();
   }
 
 
@@ -27,7 +31,8 @@ export default function StudentList() {
             <input type="search" placeholder='suchen'/>
             <button 
             title='Schüler:in erfassen'
-            onClick={addStudentEventHandler}>
+            onClick={addStudentEventHandler}
+            className={`button-add-student ${newStudentRowOpen && 'disabled'}`}>
               <IoPersonAddOutline className='icon icon-add'/>
             </button>
         </div>
@@ -104,8 +109,9 @@ export default function StudentList() {
                 />
               </td>
               <td>
-                <button title='Archivieren'><IoTrashOutline className='icon icon-trash'/></button>
-                
+
+                <button title='Unterrichtsblatt'><IoSchoolOutline className='icon icon-lessons'/></button>
+                <button title='Archivieren'><IoTrashOutline className='icon icon-trash'/></button>                
               </td>
           </tr>
           )}
@@ -115,6 +121,7 @@ export default function StudentList() {
       </table>
 
         {newStudentRowOpen && 
+        <div>
         <table className="student-list-table add-new">
           <tr className='new-student-row'>
             <td>
@@ -149,10 +156,10 @@ export default function StudentList() {
             <td>
                 <input
               type='text'
-             placeholder='Von'
+             placeholder='von'
               className = 'input-time'
               />
-              <span>  </span> 
+              <span> - </span> 
                 <input
               type='text'
               placeholder='bis'
@@ -176,10 +183,9 @@ export default function StudentList() {
               </td>
               <td>
                 <div className="new-student-buttons">
-                  <button title='Speichern' className='btn-save'>
-                    Speichern</button>
+              
                   
-                  <button title='Löschen' className='btn-delete'>
+                  <button title='Löschen' className='btn-delete' onClick={toggleNewStudentOpen}>
                     <IoCloseOutline className='icon icon-delete'/>
                   </button>
                 </div>
@@ -187,6 +193,8 @@ export default function StudentList() {
               </td>
           </tr>
           </table>
+          <button title='Speichern' className='btn-save'>Speichern</button>
+          </div>
           }
         
     </div>

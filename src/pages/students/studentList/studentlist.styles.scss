@@ -20,7 +20,7 @@
         left: 1.2rem;
       }
 
-      button {
+      .button-add-student {
         padding: .8rem;
         margin-left: 1.2rem;
         background-color: var(--clr-primary);
@@ -31,6 +31,12 @@
           display: block;
           height: 2rem;
           width: 2rem;
+        }
+
+        &.disabled {
+          background-color: #ddd;
+          pointer-events: none;
+
         }
       }
       
@@ -101,7 +107,8 @@
 
   .icon {
     height: 2rem;
-    width: 2rem
+    width: 2rem;
+    color: var(--clr-primary);
   }
 
   .icon-add {
@@ -125,13 +132,7 @@
     gap: 1.8rem;
     margin-right: .8rem;
 
-    .btn-save {
-      background-color: var(--clr-primary);
-      padding: .8rem;
-      color: #fff;
-      border-radius: .5rem;
-      font-size: 1.6rem;
-    }
+   
 
     .btn-delete {
       background-color: var(--clr-primary-bright);
@@ -148,6 +149,19 @@
       color: var(--clr-primary);
     }
   }
+
+  
   
 }
+
+ .btn-save {
+      background-color: var(--clr-primary);
+      padding: .8rem;
+      color: #fff;
+      border-radius: .5rem;
+      font-size: 1.6rem;
+      margin-top: 1.2rem;
+      margin-left: auto;
+      float: right;
+    }
 
