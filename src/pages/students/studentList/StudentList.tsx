@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStudents } from '../../../Application';
 import { IoTrashOutline } from 'react-icons/io5';
 import { IoPersonAddOutline } from 'react-icons/io5';
@@ -11,7 +11,7 @@ import './studentlist.styles.scss'
 
 export default function StudentList() {
   const {students}  = useStudents()
-  const [filteredStudents, setFilteredStudents] = useState(students)
+  const [searchInput, setSearchInput] = useState('');
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
 
   const toggleNewStudentOpen = () => {
@@ -21,18 +21,40 @@ export default function StudentList() {
     toggleNewStudentOpen();
   }
 
+  const onChangeHandlerInput = (e) => {
+    setSearchInput(e.target.value.toLowerCase());
+  }
+
+  const filteredStudents = students.filter(student => student.firstName.toLowerCase().includes(searchInput) || 
+  student.lastName.toLocaleLowerCase().includes(searchInput) ||
+  student.instrument.toLocaleLowerCase().includes(searchInput) ||
+  student.location.toLocaleLowerCase().includes(searchInput) ||
+  student.dayOfLesson.toLocaleLowerCase().includes(searchInput))
+
+
 
   return (
     <div className='student-list'>
       <div className="heading">
-        <h1>Schülerliste</h1>
+        <select name="" id="" defaultValue='Aktion'>
+          <option disabled hidden >Aktion</option>
+          <option value='archive' >Archivieren</option>
+          <option value="delete">Löschen</option>
+        </select>
         <div className="container-right">
             <IoSearchOutline className='icon icon-search'/>
-            <input type="search" placeholder='suchen'/>
+            <input 
+            type="search" 
+            placeholder='suchen'
+            value = {searchInput}
+            onChange={onChangeHandlerInput}
+            />
             <button 
             title='Schüler:in erfassen'
             onClick={addStudentEventHandler}
             className={`button-add-student ${newStudentRowOpen && 'disabled'}`}>
+              <span>Neu</span>
+
               <IoPersonAddOutline className='icon icon-add'/>
             </button>
         </div>
@@ -41,6 +63,7 @@ export default function StudentList() {
       <table className='student-list-table'>
         <thead>
         <tr>
+          <th></th>
           <th>Vorname</th>
           <th>Nachname</th>
           <th>Instrument</th>
@@ -51,8 +74,11 @@ export default function StudentList() {
         </tr>
         </thead>
         <tbody>
-        {students.filter(student => !student.archive).map(student =>
+        {filteredStudents.filter(student => !student.archive).map(student =>
           <tr>
+            <td>
+              <input type="checkbox" name="" id="" />
+            </td>
             <td>
               <input
               type='text'

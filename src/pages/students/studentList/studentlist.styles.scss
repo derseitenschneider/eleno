@@ -26,6 +26,9 @@
         background-color: var(--clr-primary);
         color: #fff;
         border-radius: .5rem;
+        display: flex;
+        align-items: center;
+        gap: .8rem;
 
         .icon-add {
           display: block;
@@ -98,7 +101,8 @@
   }
 
   .input-duration{
-      width: 1.8rem;
+      width: 2rem;
+      padding: 0;
     }
 
   .input-location {
