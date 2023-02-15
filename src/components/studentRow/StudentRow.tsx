@@ -1,7 +1,7 @@
 import './studentrow.styles.scss'
 
 interface StudentRowProps {
-  
+ 
 }
  
 const StudentRow: FunctionComponent<StudentRowProps> = () => {

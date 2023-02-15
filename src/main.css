@@ -1,5 +1,6 @@
 :root{
-  --clr-primary: #38798E;
+  --clr-primary: hsl(195, 43%, 39%);
+  --clr-primary-bright: hsl(195, 43%, 90%);
 }
 
 @font-face {
