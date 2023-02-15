@@ -1,0 +1,112 @@
+.student-list {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .container-right {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      input {
+      font-size: 1.6rem;
+      padding: .4rem .8rem .4rem 3rem;
+      }
+
+      .icon-search{
+        position: absolute;
+        top: 30%;
+        left: 1.2rem;
+      }
+
+      button {
+        padding: .8rem;
+        margin-left: 1.2rem;
+        background-color: var(--clr-primary);
+        color: #fff;
+        border-radius: .5rem;
+
+        .icon-add {
+          display: block;
+          height: 2rem;
+          width: 2rem;
+        }
+      }
+      
+    }
+    
+
+  }
+
+
+}
+
+.student-list-table {
+  border: 1px solid #eee;
+  border-collapse: collapse;
+  font-size: 1.6rem;
+  width: 100%;
+
+  th {
+    padding: .4rem .8rem;
+    font-weight: bold;
+    font-size: 1.8rem;
+
+  }
+
+  th, td {
+  text-align: left;
+  }
+
+  td input, td select {
+    font-size: inherit;
+    border: none;
+    padding: .4rem .8rem;
+    background-color: transparent; 
+    line-height: 2;
+  }
+
+  td input:focus-visible, td select:focus-visible{
+    outline: none;
+    box-shadow: 0 1px 0 rgba(0 0 0/.2);
+    background-color: #fff;
+  }
+
+  input[type="time"] {
+    font-family: inherit;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: #eee;
+  }
+
+  .input-time {
+    width: 4rem;
+  }
+
+  .input-duration{
+      width: 1.8rem;
+    }
+
+  .input-location {
+      width: 20rem;
+    }
+
+  .icon {
+    height: 2rem;
+    width: 2rem
+  }
+
+  .icon-add {
+    stroke: var(--clr-primary);
+  }
+
+}

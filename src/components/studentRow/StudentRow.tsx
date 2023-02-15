@@ -1,43 +1,12 @@
-import { useStudents } from '../../../Application';
-import { IoTrashOutline } from 'react-icons/io5';
-import { IoPersonAddOutline } from 'react-icons/io5';
-import { IoSearchOutline } from 'react-icons/io5';
-import './studentlist.styles.scss'
+import './studentrow.styles.scss'
 
-
-
-export default function StudentList() {
-  const {students}  = useStudents()
-
-
-  return (
-    <div className='student-list'>
-      <div className="heading">
-        <h1>Schülerliste</h1>
-        <div className="container-right">
-            <IoSearchOutline className='icon icon-search'/>
-            <input type="search" placeholder='suchen'/>
-            <button title='Schüler:in erfassen'>
-              <IoPersonAddOutline className='icon icon-add'/>
-            </button>
-        </div>
-        </div>
-      
-      <table className='student-list-table'>
-        <thead>
-        <tr>
-          <th>Vorname</th>
-          <th>Nachname</th>
-          <th>Instrument</th>
-          <th>Tag</th>
-          <th>Zeit</th>
-          <th>Dauer</th>
-          <th>Unterrichtsort</th>
-        </tr>
-        </thead>
-        <tbody>
-        {students.filter(student => !student.archive).map(student =>
-          <tr>
+interface StudentRowProps {
+  
+}
+ 
+const StudentRow: FunctionComponent<StudentRowProps> = () => {
+  return ( 
+     <tr>
             <td>
               <input
               type='text'
@@ -98,10 +67,7 @@ export default function StudentList() {
                 
               </td>
           </tr>
-          )}
-          </tbody>
-      </table>
-        
-    </div>
-  );
+   );
 }
+ 
+export default StudentRow;

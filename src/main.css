@@ -30,6 +30,10 @@ height: 100vh;
 overflow: hidden;
 }
 
+img, svg {
+  display: block;
+}
+
 img {
   width: 100%;
 }
