@@ -33,13 +33,9 @@ const router = createBrowserRouter([
         element: <Students/>,
         children: [
           {
-            index:true,
+            path: 'list',
             element: <StudentList/>
           },         
-          {
-            path: 'newstudent',
-            element: <CreateStudent/>
-          },
           {
             path: 'archive',
             element: <StudentsArchive/>

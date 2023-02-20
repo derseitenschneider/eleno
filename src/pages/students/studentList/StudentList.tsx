@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { useStudents } from '../../../Application';
 import { IoTrashOutline } from 'react-icons/io5';
 import { IoPersonAddOutline } from 'react-icons/io5';
@@ -7,10 +7,12 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { IoSchoolOutline } from "react-icons/io5";
 import './studentlist.styles.scss'
 
+import {archiveStudent} from '../../../supabase/supabase'
+
 
 
 export default function StudentList() {
-  const {students}  = useStudents()
+  const {students, setStudents}  = useStudents()
   const [searchInput, setSearchInput] = useState('');
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
 
@@ -21,8 +23,16 @@ export default function StudentList() {
     toggleNewStudentOpen();
   }
 
-  const onChangeHandlerInput = (e) => {
+  const onChangeHandlerInput = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value.toLowerCase());
+  }
+
+  const handerDeleteButton = (e:MouseEventHandler<HTMLButtonElement>) => {
+    const id = +e.target.closest('button').dataset.id
+    const newStudents = students.filter(student => student.id !== id)
+    setStudents([...newStudents])
+
+    archiveStudent(id);
   }
 
   const filteredStudents = students.filter(student => student.firstName.toLowerCase().includes(searchInput) || 
@@ -75,7 +85,7 @@ export default function StudentList() {
         </thead>
         <tbody>
         {filteredStudents.filter(student => !student.archive).map(student =>
-          <tr>
+          <tr key={student.id}>
             <td>
               <input type="checkbox" name="" id="" />
             </td>
@@ -137,7 +147,14 @@ export default function StudentList() {
               <td>
 
                 <button title='Unterrichtsblatt'><IoSchoolOutline className='icon icon-lessons'/></button>
-                <button title='Archivieren'><IoTrashOutline className='icon icon-trash'/></button>                
+                <button 
+                title='Archivieren' 
+                onClick={handerDeleteButton}
+                data-id={student.id}
+
+
+                ><IoTrashOutline 
+                className='icon icon-trash'/></button>                
               </td>
           </tr>
           )}
@@ -211,7 +228,11 @@ export default function StudentList() {
                 <div className="new-student-buttons">
               
                   
-                  <button title='Löschen' className='btn-delete' onClick={toggleNewStudentOpen}>
+                  <button 
+                  title='Löschen' 
+                  className='btn-delete' 
+                  onClick={toggleNewStudentOpen}
+                  >
                     <IoCloseOutline className='icon icon-delete'/>
                   </button>
                 </div>

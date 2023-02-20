@@ -44,7 +44,7 @@ function Sidebar() {
           </li>
 
           <li className="sidebar__nav-el">     
-            <NavLink to="students" className="sidebar__nav-link">
+            <NavLink to="students"  className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                <IoPeopleCircleOutline className='icon'/>
               </div>

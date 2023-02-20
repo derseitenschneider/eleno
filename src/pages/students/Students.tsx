@@ -1,10 +1,10 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useStudents } from '../../Application';
-import Navbar from '../../components/navbar/Navbar.component';
+import Navbar from '../../components/navbar/navbar.component';
 
 const navLinks = [
-  {path: '', label: 'Schülerliste', key: 1},
+  {path: 'list', label: 'Schülerliste', key: 1},
  
   {path: 'archive', label: 'Archiv', key: 2},
 ]
