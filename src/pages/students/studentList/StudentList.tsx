@@ -27,8 +27,9 @@ export default function StudentList() {
     setSearchInput(e.target.value.toLowerCase());
   }
 
-  const handerDeleteButton = (e:MouseEventHandler<HTMLButtonElement>) => {
-    const id = +e.target.closest('button').dataset.id
+  const handlerArchiveButton = (e:React.MouseEvent) => {
+    const target = e.target as Element
+    const id = +target.closest('button').dataset.id
     const newStudents = students.filter(student => student.id !== id)
     setStudents([...newStudents])
 
@@ -73,7 +74,9 @@ export default function StudentList() {
       <table className='student-list-table'>
         <thead>
         <tr>
-          <th></th>
+          <th>
+            <input type="checkbox" />
+          </th>
           <th>Vorname</th>
           <th>Nachname</th>
           <th>Instrument</th>
@@ -149,10 +152,8 @@ export default function StudentList() {
                 <button title='Unterrichtsblatt'><IoSchoolOutline className='icon icon-lessons'/></button>
                 <button 
                 title='Archivieren' 
-                onClick={handerDeleteButton}
+                onClick={handlerArchiveButton}
                 data-id={student.id}
-
-
                 ><IoTrashOutline 
                 className='icon icon-trash'/></button>                
               </td>

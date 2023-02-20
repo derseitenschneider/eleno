@@ -65,6 +65,10 @@
 
   }
 
+  th:first-child {
+    padding: .4rem .1rem;
+  }
+
   th, td {
   text-align: left;
   }
