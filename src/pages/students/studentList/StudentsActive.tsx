@@ -1,217 +1,146 @@
 // Style
 
 // Icons
-import { IoArchiveOutline } from 'react-icons/io5';
-import { IoPersonAddOutline } from 'react-icons/io5';
-import { IoSearchOutline } from 'react-icons/io5';
-import { IoCloseOutline } from 'react-icons/io5';
-import { IoSchoolOutline } from "react-icons/io5";
+import { IoArchiveOutline } from 'react-icons/io5'
+import { IoPersonAddOutline } from 'react-icons/io5'
+import { IoSearchOutline } from 'react-icons/io5'
+import { IoCloseOutline } from 'react-icons/io5'
+import { IoSchoolOutline } from 'react-icons/io5'
 
 // Hooks
-import { useState } from 'react';
-import { useStudents } from '../../../contexts/StudentContext';
+import { useState } from 'react'
+import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import {postArchiveStudent} from '../../../supabase/supabase'
+import { postArchiveStudent } from '../../../supabase/supabase'
+import { postNewStudent } from '../../../supabase/supabase'
 
 // Components
-import StudentRow from '../../../components/studentRow/StudentRow';
-
-
+import StudentRow from '../../../components/studentRow/StudentRow'
+import NewStudentRow from '../../../components/newStudentRow/NewStudentRow'
+import { TStudent } from '../../../types/Students.type'
 
 export default function StudentsActive() {
-  const {students, setStudents}  = useStudents()
-  const [searchInput, setSearchInput] = useState('');
+  const { students, setStudents } = useStudents()
+  const [searchInput, setSearchInput] = useState('')
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
-
 
   const toggleNewStudentOpen = () => {
     setNewStudentRowOpen(!newStudentRowOpen)
   }
+
   const addStudentEventHandler = () => {
-    toggleNewStudentOpen();
+    toggleNewStudentOpen()
   }
 
-  const onChangeHandlerInput = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value.toLowerCase());
+  const onChangeHandlerInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value.toLowerCase())
   }
 
-  const handlerArchive = (e:React.MouseEvent) => {
+  const handlerArchive = (e: React.MouseEvent) => {
     const target = e.target as Element
     const id = +target.closest('button').dataset.id
-    const archivedStudent = students.find(student => student.id === id)
+    const archivedStudent = students.find((student) => student.id === id)
     archivedStudent.archive = true
     setStudents([...students])
-    postArchiveStudent(id);
+    postArchiveStudent(id)
   }
 
-  const showInStudentList = students.filter(student => !student.archive)
+  const createNewStudent = (
+    e: React.FormEvent<HTMLFormElement>,
+    input: TStudent
+  ) => {
+    e.preventDefault()
+    setStudents([...students, input])
+    postNewStudent(input)
+  }
 
-  const filteredStudents = showInStudentList.filter(student => 
-  student.firstName.toLowerCase().includes(searchInput) || 
-  student.lastName.toLocaleLowerCase().includes(searchInput) ||
-  student.instrument.toLocaleLowerCase().includes(searchInput) ||
-  student.location.toLocaleLowerCase().includes(searchInput) ||
-  student.dayOfLesson.toLocaleLowerCase().includes(searchInput))
+  const showInStudentList = students.filter((student) => !student.archive)
 
-  
-
-
+  const filteredStudents = showInStudentList.filter(
+    (student) =>
+      student.firstName.toLowerCase().includes(searchInput) ||
+      student.lastName.toLocaleLowerCase().includes(searchInput) ||
+      student.instrument.toLocaleLowerCase().includes(searchInput) ||
+      student.location.toLocaleLowerCase().includes(searchInput) ||
+      student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
+  )
 
   return (
-    <div className='student-list'>
+    <div className="student-list">
       <h1>Liste Schüler:innen</h1>
       <div className="heading">
-        <select name="" id="" defaultValue='Aktion'>
-          <option disabled hidden >Aktion</option>
-          <option value='archive' >Archivieren</option>
+        <select name="" id="" defaultValue="Aktion">
+          <option disabled hidden>
+            Aktion
+          </option>
+          <option value="archive">Archivieren</option>
           <option value="delete">Löschen</option>
         </select>
         <div className="container-right">
-            <IoSearchOutline className='icon icon-search'/>
-            <input 
-            type="search" 
-            placeholder='suchen'
-            value = {searchInput}
+          <IoSearchOutline className="icon icon-search" />
+          <input
+            type="search"
+            placeholder="suchen"
+            value={searchInput}
             onChange={onChangeHandlerInput}
-            />
-            <button 
-            title='Schüler:in erfassen'
+          />
+          <button
+            title="Schüler:in erfassen"
             onClick={addStudentEventHandler}
-            className={`button-add-student ${newStudentRowOpen && 'disabled'}`}>
-              <span>Neu</span>
+            className={`button-add-student ${newStudentRowOpen && 'disabled'}`}
+          >
+            <span>Neu</span>
 
-              <IoPersonAddOutline className='icon icon-add'/>
-            </button>
+            <IoPersonAddOutline className="icon icon-add" />
+          </button>
         </div>
-        </div>
-      
-      <table className='student-list-table'>
+      </div>
+
+      <table className="student-list-table">
         <thead>
-        <tr>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <th>Vorname</th>
-          <th>Nachname</th>
-          <th>Instrument</th>
-          <th>Tag</th>
-          <th>Zeit</th>
-          <th>Dauer</th>
-          <th>Unterrichtsort</th>
-        </tr>
+          <tr>
+            <th>
+              <input type="checkbox" />
+            </th>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Instrument</th>
+            <th>Tag</th>
+            <th>Zeit</th>
+            <th>Dauer</th>
+            <th>Unterrichtsort</th>
+          </tr>
         </thead>
         <tbody>
-          {
-            filteredStudents
-            .map(student => 
-            <StudentRow 
-            key = {student.id}
-            form = {true}
-            student={student}
-            buttons={
-              [
+          {filteredStudents.map((student) => (
+            <StudentRow
+              key={student.id}
+              form={true}
+              student={student}
+              buttons={[
                 {
                   label: 'Unterrichtsblatt',
                   icon: IoSchoolOutline,
-                  handler: () => {}
+                  handler: () => {},
                 },
-                {label: 'Archivieren',
-                icon: IoArchiveOutline,
-                handler: handlerArchive
-                }
-              ]
-            }
+                {
+                  label: 'Archivieren',
+                  icon: IoArchiveOutline,
+                  handler: handlerArchive,
+                },
+              ]}
             />
-            )
-          }       
-          </tbody>
+          ))}
+        </tbody>
       </table>
 
-        {newStudentRowOpen && 
-        <div>
-        <table className="student-list-table add-new">
-          <tr className='new-student-row'>
-            <td>
-              <input
-              required
-              type='text'
-              placeholder='Vorname'
-              autoFocus
-              />
-              </td>
-            <td>
-               <input
-               required
-              type='text'
-              placeholder='Nachname'
-              />
-              </td>
-            <td>
-               <input
-               required
-              type='text'
-              placeholder='Instrument'
-              />
-              </td>
-            <td>
-                <select name='dayOfLesson' id="" >
-                  <option selected disabled hidden>Tag</option>
-                  <option value="Montag">Montag</option>
-                  <option value="Dienstag">Dienstag</option>
-                  <option value="Mittwoch">Mittwoch</option>
-                  <option value="Donnerstag">Donnerstag</option>
-                  <option value="Freitag">Freitag</option>
-                </select>
-            </td>
-            <td>
-                <input
-              type='text'
-             placeholder='von'
-              className = 'input-time'
-              />
-              <span> - </span> 
-                <input
-              type='text'
-              placeholder='bis'
-               className = 'input-time'
-              />
-               </td>
-            <td>
-              <input 
-              type="text"  
-              placeholder=''
-              className='input-duration'
-              />
-              <span>min</span>
-              </td>
-              <td>
-                <input 
-                type="text" 
-                placeholder='Ort'
-                className='input-location'
-                />
-              </td>
-              <td>
-                <div className="new-student-buttons">
-              
-                  
-                  <button 
-                  title='Löschen' 
-                  className='btn-delete' 
-                  onClick={toggleNewStudentOpen}
-                  >
-                    <IoCloseOutline className='icon icon-delete'/>
-                  </button>
-                </div>
-                
-              </td>
-          </tr>
-          </table>
-          <button title='Speichern' className='btn-save'>Speichern</button>
-          </div>
-          }
-        
+      {newStudentRowOpen && (
+        <NewStudentRow
+          handlerSubmit={createNewStudent}
+          handlerCloseButton={toggleNewStudentOpen}
+        />
+      )}
     </div>
-  );
+  )
 }

@@ -4,7 +4,6 @@ import { TStudent } from '../../types/Students.type';
 import { IconType } from 'react-icons/lib';
 
 interface StudentRowProps {
-  key: number,
   student: TStudent,
   form: boolean,
   buttons?: {
@@ -15,9 +14,9 @@ interface StudentRowProps {
   }[]
 }
  
-const StudentRow: FunctionComponent<StudentRowProps> = ({key, student, form, buttons}) => {
+const StudentRow: FunctionComponent<StudentRowProps> = ({ student, form, buttons}) => {
   return (  
-     <tr key={key}>
+     <tr>
             <td>
               <input type="checkbox" name="" id="" />
             </td>
