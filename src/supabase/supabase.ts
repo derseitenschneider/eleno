@@ -24,19 +24,23 @@ export const postNewStudent = async function (student: TStudent) {
     location,
   } = student
 
-  const { data, error } = await supabase.from('students').insert([
-    {
-      firstName,
-      lastName,
-      instrument,
-      durationMinutes,
-      startOfLesson,
-      endOfLesson,
-      dayOfLesson,
-      archive,
-      location,
-    },
-  ])
+  const { data, error } = await supabase
+    .from('students')
+    .insert([
+      {
+        firstName,
+        lastName,
+        instrument,
+        durationMinutes,
+        startOfLesson,
+        endOfLesson,
+        dayOfLesson,
+        archive,
+        location,
+      },
+    ])
+    .select()
+  return data
 }
 
 export const postArchiveStudent = async function (studentId: number) {

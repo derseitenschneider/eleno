@@ -6,7 +6,7 @@ import { TStudent } from '../../types/Students.type'
 import './newstudentrow.style.scss'
 
 interface NewStudentRowProps {
-  handlerSubmit: (e: React.FormEvent<HTMLFormElement>, input: TStudent) => void
+  handlerSubmit: (input: TStudent) => void
   handlerCloseButton: () => void
 }
 
@@ -18,6 +18,7 @@ const studentData: TStudent = {
   archive: false,
   dayOfLesson: 'Montag',
   location: '',
+  id: null,
 }
 
 const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
@@ -33,7 +34,12 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
   }
   return (
     <>
-      <form onSubmit={(e) => handlerSubmit(e, input)}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handlerSubmit(input)
+        }}
+      >
         <table className="student-list-table add-new">
           <tr className="new-student-row">
             <td>
@@ -137,12 +143,9 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
             </td>
           </tr>
         </table>
-        <input
-          type="submit"
-          title="Speichern"
-          value="Speichern"
-          className="btn-save"
-        />
+        <button type="submit" title="Speichern" className="btn-save">
+          Speichern
+        </button>
       </form>
     </>
   )

@@ -46,13 +46,14 @@ export default function StudentsActive() {
     postArchiveStudent(id)
   }
 
-  const createNewStudent = (
-    e: React.FormEvent<HTMLFormElement>,
-    input: TStudent
-  ) => {
-    e.preventDefault()
+  const createNewStudent = (input: TStudent) => {
     setStudents([...students, input])
-    postNewStudent(input)
+    const postAndFetchStudent = async () => {
+      const [data] = await postNewStudent(input)
+      setStudents([...students, data])
+    }
+    postAndFetchStudent()
+    setNewStudentRowOpen(false)
   }
 
   const showInStudentList = students.filter((student) => !student.archive)
