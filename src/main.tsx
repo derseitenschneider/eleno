@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <Students/>,
         children: [
           {
-            path: 'list',
+            index: true,
             element: <StudentList/>
           },         
           {

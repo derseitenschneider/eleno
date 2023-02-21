@@ -9,6 +9,8 @@ import './studentlist.styles.scss'
 
 import {archiveStudent} from '../../../supabase/supabase'
 
+import StudentRow from '../../../components/studentRow/StudentRow';
+
 
 
 export default function StudentList() {
@@ -27,7 +29,7 @@ export default function StudentList() {
     setSearchInput(e.target.value.toLowerCase());
   }
 
-  const handlerArchiveButton = (e:React.MouseEvent) => {
+  const handlerArchive = (e:React.MouseEvent) => {
     const target = e.target as Element
     const id = +target.closest('button').dataset.id
     const newStudents = students.filter(student => student.id !== id)
@@ -87,80 +89,28 @@ export default function StudentList() {
         </tr>
         </thead>
         <tbody>
-        {filteredStudents.filter(student => !student.archive).map(student =>
-          <tr key={student.id}>
-            <td>
-              <input type="checkbox" name="" id="" />
-            </td>
-            <td>
-              <input
-              type='text'
-              value = {student.firstName}
-              />
-              </td>
-            <td>
-               <input
-              type='text'
-              value = {student.lastName}
-              />
-              </td>
-            <td>
-               <input
-              type='text'
-              value = {student.instrument}
-              />
-              </td>
-            <td>
-                <select name='dayOfLesson' id="" defaultValue={student.dayOfLesson}>
-                  <option value="Montag">Montag</option>
-                  <option value="Dienstag">Dienstag</option>
-                  <option value="Mittwoch">Mittwoch</option>
-                  <option value="Donnerstag">Donnerstag</option>
-                  <option value="Freitag">Freitag</option>
-                </select>
-            </td>
-            <td>
-                <input
-              type='text'
-              value = {student.startOfLesson}
-              className = 'input-time'
-              />
-              <span> - </span> 
-                <input
-              type='text'
-              value = {student.endOfLesson}
-               className = 'input-time'
-              />
-               </td>
-            <td>
-              <input 
-              type="text"  
-              value={student.durationMinutes}
-              className='input-duration'
-              />
-              <span>min</span>
-              </td>
-              <td>
-                <input 
-                type="text" 
-                value={student.location} 
-                className='input-location'
-                />
-              </td>
-              <td>
-
-                <button title='Unterrichtsblatt'><IoSchoolOutline className='icon icon-lessons'/></button>
-                <button 
-                title='Archivieren' 
-                onClick={handlerArchiveButton}
-                data-id={student.id}
-                ><IoTrashOutline 
-                className='icon icon-trash'/></button>                
-              </td>
-          </tr>
-          )}
-
-        
+          {
+            filteredStudents
+            .filter(student => !student.archive)
+            .map(student => 
+            <StudentRow 
+            student={student}
+            buttons={
+              [
+                {
+                  label: 'Unterrichtsblatt',
+                  icon: IoSchoolOutline,
+                  handler: () => {}
+                },
+                {label: 'Archivieren',
+                icon: IoTrashOutline,
+                handler: handlerArchive
+                }
+              ]
+            }
+            />
+            )
+          }       
           </tbody>
       </table>
 

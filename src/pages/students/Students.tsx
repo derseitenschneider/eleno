@@ -4,7 +4,6 @@ import { useStudents } from '../../Application';
 import Navbar from '../../components/navbar/navbar.component';
 
 const navLinks = [
-  {path: 'list', label: 'Schülerliste', key: 1},
  
   {path: 'archive', label: 'Archiv', key: 2},
 ]
