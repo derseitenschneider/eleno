@@ -1,4 +1,6 @@
 .student-list {
+  position: relative;
+  min-height: calc(100vh - 12.2rem);
   .heading {
     display: flex;
     justify-content: space-between;
@@ -40,16 +42,10 @@
         &.disabled {
           background-color: #ddd;
           pointer-events: none;
-
         }
-      }
-      
+      } 
     }
-    
-
   }
-
-
 }
 
 .student-list-table {
@@ -73,7 +69,7 @@
   text-align: left;
   }
 
-  td input, td select {
+  td input, td select, span {
     font-size: inherit;
     border: none;
     padding: .4rem .8rem;
@@ -172,5 +168,13 @@
       margin-top: 1.2rem;
       margin-left: auto;
       float: right;
-    }
+}
+
+td.td-buttons {
+  text-align: right;
+}
+
+.btn-delete .icon {
+  color: red;
+}
 

@@ -5,38 +5,53 @@ import { IconType } from 'react-icons/lib';
 
 interface StudentRowProps {
   student: TStudent,
+  form: boolean,
   buttons?: {
     label: string,
     icon: IconType,
+    className?: string,
     handler: (e: React.MouseEvent) => void
   }[]
 }
  
-const StudentRow: FunctionComponent<StudentRowProps> = ({student, buttons}) => {
+const StudentRow: FunctionComponent<StudentRowProps> = ({student, form, buttons}) => {
   return (  
      <tr key={student.id}>
             <td>
               <input type="checkbox" name="" id="" />
             </td>
             <td>
-              <input
-              type='text'
-              value = {student.firstName}
-              />
+              {form && 
+                <input
+                type='text'
+                value = {student.firstName}
+                />}
+                {!form && 
+                  <span>{student.firstName}</span>
+                }
               </td>
             <td>
-               <input
-              type='text'
-              value = {student.lastName}
-              />
+              {form &&
+                <input
+                type='text'
+                value = {student.lastName}
+                />
+              }
+              {!form && <span>{student.lastName}</span>}
               </td>
             <td>
-               <input
+              {form && 
+                <input
               type='text'
               value = {student.instrument}
               />
+              }
+              {!form  && <span>{student.instrument}</span>}
+               
               </td>
-            <td>
+              {form &&
+              <>
+                <td>
                 <select name='dayOfLesson' id="" defaultValue={student.dayOfLesson}>
                   <option value="Montag">Montag</option>
                   <option value="Dienstag">Dienstag</option>
@@ -44,41 +59,45 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({student, buttons}) => {
                   <option value="Donnerstag">Donnerstag</option>
                   <option value="Freitag">Freitag</option>
                 </select>
-            </td>
-            <td>
-                <input
-              type='text'
-              value = {student.startOfLesson}
-              className = 'input-time'
-              />
-              <span> - </span> 
-                <input
-              type='text'
-              value = {student.endOfLesson}
-               className = 'input-time'
-              />
-               </td>
-            <td>
-              <input 
-              type="text"  
-              value={student.durationMinutes}
-              className='input-duration'
-              />
-              <span>min</span>
-              </td>
-              <td>
-                <input 
-                type="text" 
-                value={student.location} 
-                className='input-location'
-                />
-              </td>
-              <td>
+                 </td>
+                <td>
+                    <input
+                  type='text'
+                  value = {student.startOfLesson}
+                  className = 'input-time'
+                  />
+                  <span> - </span> 
+                    <input
+                  type='text'
+                  value = {student.endOfLesson}
+                  className = 'input-time'
+                  />
+                  </td>
+                <td>
+                  <input 
+                  type="text"  
+                  value={student.durationMinutes}
+                  className='input-duration'
+                  />
+                  <span>min</span>
+                  </td>
+                  <td>
+                    <input 
+                    type="text" 
+                    value={student.location} 
+                    className='input-location'
+                    />
+                  </td>
+              </>
+              }
+            
+              <td className='td-buttons'>
                 {
-                  buttons.map(button => 
+                  buttons?.map(button => 
                     <button
                     title={button.label}
                     onClick={button.handler}
+                    className= {button.className}
                     data-id = {student.id}
                     >
                       <button.icon className='icon'/>

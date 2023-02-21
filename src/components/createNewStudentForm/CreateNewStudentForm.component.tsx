@@ -1,5 +1,5 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
-import { useStudents } from '../../Application';
+import { useStudents } from '../../contexts/StudentContext';
 import './CreateNewStudentForm.styles.css'
 
 function CreateNewStudentForm({showForm}) {
@@ -13,8 +13,7 @@ function CreateNewStudentForm({showForm}) {
 
   const createNewStudent = (e:FormEvent) => {
     e.preventDefault();
-    setStudents([...students, {firstName: 'Brian', lastName: 'Boy', instrument:'Gitarre', durationMinutes: 40  }])
-    setInput(null);
+  
   }
 
   function setFieldToInput<ChangeEventHandler>(e:ChangeEvent<HTMLInputElement>):void {

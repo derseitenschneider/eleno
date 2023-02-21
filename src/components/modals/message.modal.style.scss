@@ -1,0 +1,44 @@
+
+
+.container-modal {
+   top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  z-index: 1;
+}
+
+.modal {
+  background-color: var(--clr-white);
+  padding: 6.4rem;
+  box-shadow: .4rem .4rem .8rem rgba(0 0 0 /0.2);
+  // min-height: 60%;
+  // min-width: 60%;
+  display: grid;
+  place-content: center;
+
+  z-index: 2;
+}
+
+.button--close-modal svg{
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+.button--close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+
+.overlay {
+  position: absolute;
+  top: -200%;
+  left: -100%;
+  width: 200vw;
+  height: 200vh;
+  background-color: rgba(0 0 0/.4);
+  z-index: -1;  
+}

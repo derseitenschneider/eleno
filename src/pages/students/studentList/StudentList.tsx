@@ -1,14 +1,20 @@
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
-import { useStudents } from '../../../Application';
-import { IoTrashOutline } from 'react-icons/io5';
+// Style
+
+// Icons
+import { IoArchiveOutline } from 'react-icons/io5';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { IoSearchOutline } from 'react-icons/io5';
 import { IoCloseOutline } from 'react-icons/io5';
 import { IoSchoolOutline } from "react-icons/io5";
-import './studentlist.styles.scss'
 
-import {archiveStudent} from '../../../supabase/supabase'
+// Hooks
+import { useState } from 'react';
+import { useStudents } from '../../../contexts/StudentContext';
 
+// Functions
+import {postArchiveStudent} from '../../../supabase/supabase'
+
+// Components
 import StudentRow from '../../../components/studentRow/StudentRow';
 
 
@@ -17,6 +23,7 @@ export default function StudentList() {
   const {students, setStudents}  = useStudents()
   const [searchInput, setSearchInput] = useState('');
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
+
 
   const toggleNewStudentOpen = () => {
     setNewStudentRowOpen(!newStudentRowOpen)
@@ -32,17 +39,23 @@ export default function StudentList() {
   const handlerArchive = (e:React.MouseEvent) => {
     const target = e.target as Element
     const id = +target.closest('button').dataset.id
-    const newStudents = students.filter(student => student.id !== id)
-    setStudents([...newStudents])
-
-    archiveStudent(id);
+    const archivedStudent = students.find(student => student.id === id)
+    archivedStudent.archive = true
+    setStudents([...students])
+    console.log(students);
+    postArchiveStudent(id);
   }
 
-  const filteredStudents = students.filter(student => student.firstName.toLowerCase().includes(searchInput) || 
+  const showInStudentList = students.filter(student => !student.archive)
+
+  const filteredStudents = showInStudentList.filter(student => 
+  student.firstName.toLowerCase().includes(searchInput) || 
   student.lastName.toLocaleLowerCase().includes(searchInput) ||
   student.instrument.toLocaleLowerCase().includes(searchInput) ||
   student.location.toLocaleLowerCase().includes(searchInput) ||
   student.dayOfLesson.toLocaleLowerCase().includes(searchInput))
+
+  
 
 
 
@@ -91,9 +104,9 @@ export default function StudentList() {
         <tbody>
           {
             filteredStudents
-            .filter(student => !student.archive)
             .map(student => 
             <StudentRow 
+            form = {true}
             student={student}
             buttons={
               [
@@ -103,7 +116,7 @@ export default function StudentList() {
                   handler: () => {}
                 },
                 {label: 'Archivieren',
-                icon: IoTrashOutline,
+                icon: IoArchiveOutline,
                 handler: handlerArchive
                 }
               ]

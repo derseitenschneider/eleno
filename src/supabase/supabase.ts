@@ -12,11 +12,20 @@ export const fetchStudents = async function() {
       return students
     }
 
-export const archiveStudent = async function(studentId: number) {
+export const postArchiveStudent = async function(studentId: number) {
   const { data, error } = await supabase
   .from('students')
   .update({ archive: true })
   .eq('id', studentId)
+}
+
+export const postRestoreStudent = async function(studentId: number) {
+  const {data, error} = await supabase
+  .from('students')
+  .update({archive: false})
+  .eq('id', studentId)
+
+  console.log('student restored')
 }
 
 export const deleteStudents = async function(studentId:number) {

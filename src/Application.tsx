@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Sidebar from './components/sidebar/Sidebar.component'
+import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet, useOutletContext } from "react-router-dom";
 import { fetchStudents } from './supabase/supabase';
 
@@ -8,16 +8,15 @@ import { TStudent } from './types/Students.type';
 
 
 
-type ContextType = {students: TStudent[] | null, setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
-}
+
 
 export default function Application() {
   const [students, setStudents] = useState<TStudent[] | null>([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const students = await fetchStudents();
-      setStudents([...students])
+      const data = await fetchStudents();
+      setStudents([...data])
     }
      fetchData();
   }, [])
@@ -35,9 +34,9 @@ export default function Application() {
   )
 }
 
-export function useStudents() {
-  return useOutletContext<ContextType>();
-}
+// export function useStudents() {
+//   return useOutletContext<ContextType>();
+// }
 
 
 
