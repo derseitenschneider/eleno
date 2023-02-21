@@ -10,7 +10,7 @@ import ErrorPage from "./pages/error/error";
 
 import Dashboard from './pages/dashboard/Dashboard';
 import Students from './pages/students/Students';
-import StudentList from './pages/students/studentList/StudentList';
+import StudentList from './pages/students/studentList/StudentsActive';
 import StudentsArchive from './pages/students/studentsArchive/StudentsArchive';
 import CreateStudent from './pages/students/createStudent/CreateStudent';
 import Timetable from './pages/timetable/Timetable';

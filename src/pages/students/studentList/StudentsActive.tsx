@@ -19,7 +19,7 @@ import StudentRow from '../../../components/studentRow/StudentRow';
 
 
 
-export default function StudentList() {
+export default function StudentsActive() {
   const {students, setStudents}  = useStudents()
   const [searchInput, setSearchInput] = useState('');
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
@@ -42,7 +42,6 @@ export default function StudentList() {
     const archivedStudent = students.find(student => student.id === id)
     archivedStudent.archive = true
     setStudents([...students])
-    console.log(students);
     postArchiveStudent(id);
   }
 
@@ -61,6 +60,7 @@ export default function StudentList() {
 
   return (
     <div className='student-list'>
+      <h1>Liste Schüler:innen</h1>
       <div className="heading">
         <select name="" id="" defaultValue='Aktion'>
           <option disabled hidden >Aktion</option>
@@ -106,6 +106,7 @@ export default function StudentList() {
             filteredStudents
             .map(student => 
             <StudentRow 
+            key = {student.id}
             form = {true}
             student={student}
             buttons={
@@ -133,6 +134,7 @@ export default function StudentList() {
           <tr className='new-student-row'>
             <td>
               <input
+              required
               type='text'
               placeholder='Vorname'
               autoFocus
@@ -140,12 +142,14 @@ export default function StudentList() {
               </td>
             <td>
                <input
+               required
               type='text'
               placeholder='Nachname'
               />
               </td>
             <td>
                <input
+               required
               type='text'
               placeholder='Instrument'
               />

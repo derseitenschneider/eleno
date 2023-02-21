@@ -4,17 +4,18 @@ import { IoHandLeft, IoTrashOutline, IoArrowBackCircle } from 'react-icons/io5';
 
 // Hooks
 import { useStudents } from '../../../contexts/StudentContext';
-
+import { postDeleteStudents, postRestoreStudent } from '../../../supabase/supabase';
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow';
 import { useState } from 'react';
 import MessageModal from '../../../components/modals/message.modal.component';
-import { postRestoreStudent } from '../../../supabase/supabase';
+import { TStudent } from '../../../types/Students.type';
 
 
 function StudentsArchive() {
   const {students, setStudents} = useStudents();
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentStudentDelete, setCurrentStudentDelete] = useState<TStudent | null>(null)
 
   const restoreStudent = (e:React.MouseEvent) => {
     const target = e.target as Element
@@ -22,7 +23,27 @@ function StudentsArchive() {
     const restoredStudent = students.find(student => student.id === id)
     restoredStudent.archive = false
     setStudents([...students])
-    postRestoreStudent(id);
+    postRestoreStudent(id)
+  }
+
+  const openModal = (e:React.MouseEvent) => {
+    setIsModalOpen(true)
+    const target = e.target as Element
+    const id = +target.closest('button').dataset.id
+    const studentToDelete = students.find(student => student.id === id)
+    setCurrentStudentDelete(studentToDelete)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setCurrentStudentDelete(null)
+  }
+
+  const deleteStudent = () => {
+    const newStudents = students.filter(student => student.id !== currentStudentDelete.id)
+    setStudents(newStudents)
+    postDeleteStudents(currentStudentDelete.id)
+    closeModal();
   }
   
 
@@ -41,6 +62,7 @@ function StudentsArchive() {
         <tbody>
           {
             students.filter(student => student.archive).map(student => <StudentRow  
+            key= {student.id}
             form = {false}
             student={student}
             buttons= {
@@ -55,7 +77,7 @@ function StudentsArchive() {
                   label: 'Löschen',
                   icon: IoTrashOutline,
                   className: 'btn-delete',
-                  handler: () => {setIsModalOpen(true)}
+                  handler: openModal
                 }
               ]
             }/>)
@@ -77,7 +99,7 @@ function StudentsArchive() {
           },
           {
             label: 'Löschen',
-            handler: () =>{}
+            handler: deleteStudent
           }
         ]}
         />

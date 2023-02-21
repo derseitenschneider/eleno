@@ -24,11 +24,9 @@ export const postRestoreStudent = async function(studentId: number) {
   .from('students')
   .update({archive: false})
   .eq('id', studentId)
-
-  console.log('student restored')
 }
 
-export const deleteStudents = async function(studentId:number) {
+export const postDeleteStudents = async function(studentId:number) {
 const { data, error } = await supabase
   .from('students')
   .delete()
