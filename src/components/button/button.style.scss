@@ -1,0 +1,23 @@
+.button {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+
+  &--primary {
+    border: 3px solid var(--clr-primary);
+    color: var(--clr-primary);
+  }
+
+  &--danger {
+    border: 3px solid var(--clr-warning);
+    color: var(--clr-warning);
+  }
+
+  &.inactive {
+    border: 3px solid var(--clr-darkgrey);
+    background-color: var(--clr-lightgrey);
+    color: var(--clr-darkgrey);
+    pointer-events: none;
+  }
+}

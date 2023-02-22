@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react'
 import { useState } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import { SubmitFunction } from 'react-router-dom'
-import { TStudent } from '../../types/Students.type'
+import { TStudent } from '../../types/types'
+import Button from '../button/Button.component'
 import './newstudentrow.style.scss'
 
 interface NewStudentRowProps {
@@ -17,6 +17,8 @@ const studentData: TStudent = {
   durationMinutes: 0,
   archive: false,
   dayOfLesson: 'Montag',
+  startOfLesson: '',
+  endOfLesson: '',
   location: '',
   id: null,
 }
@@ -144,9 +146,9 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
             </td>
           </tr>
         </table>
-        <button type="submit" title="Speichern" className="btn-save">
-          Speichern
-        </button>
+        <div className="container-btn">
+          <Button type="submit" label="Speichern" btnStyle="primary" />
+        </div>
       </form>
     </>
   )

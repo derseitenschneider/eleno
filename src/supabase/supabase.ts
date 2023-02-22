@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { TStudent } from '../types/Students.type'
+import { TStudent } from '../types/types'
 
 const supabaseUrl = 'https://brhpqxeowknyhrimssxw.supabase.co'
 const supabaseKey =

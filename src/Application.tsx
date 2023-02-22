@@ -4,7 +4,7 @@ import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet, useOutletContext } from 'react-router-dom'
 import { fetchStudents } from './supabase/supabase'
 
-import { TStudent } from './types/Students.type'
+import { TStudent } from './types/types'
 
 export default function Application() {
   const [students, setStudents] = useState<TStudent[] | null>([])

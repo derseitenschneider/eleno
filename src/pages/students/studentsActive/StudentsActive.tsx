@@ -18,7 +18,8 @@ import { postNewStudent } from '../../../supabase/supabase'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import NewStudentRow from '../../../components/newStudentRow/NewStudentRow'
-import { TStudent } from '../../../types/Students.type'
+import { TStudent } from '../../../types/types'
+import Button from '../../../components/button/Button.component'
 
 export default function StudentsActive() {
   const { students, setStudents } = useStudents()
@@ -95,15 +96,15 @@ export default function StudentsActive() {
             value={searchInput}
             onChange={onChangeHandlerInput}
           />
-          <button
-            title="Schüler:in erfassen"
-            onClick={addStudentEventHandler}
-            className={`button-add-student ${newStudentRowOpen && 'disabled'}`}
-          >
-            <span>Neu</span>
 
-            <IoPersonAddOutline className="icon icon-add" />
-          </button>
+          <Button
+            handler={addStudentEventHandler}
+            btnStyle="primary"
+            type="button"
+            label="Neu"
+            icon={<IoPersonAddOutline />}
+            className={`${newStudentRowOpen && 'inactive'}  `}
+          />
         </div>
       </div>
 

@@ -26,19 +26,16 @@
   }
 }
 
-.btn-save {
-  background-color: var(--clr-primary);
-  padding: 0.8rem;
-  color: #fff;
-  border-radius: 0.5rem;
-  font-size: 1.6rem;
-  margin-top: 1.2rem;
-}
-
 td.td-buttons {
   text-align: right;
 }
 
 .btn-delete .icon {
   color: red;
+}
+
+.container-btn {
+  width: min-content;
+  margin-top: 2.4rem;
+  margin-left: auto;
 }
