@@ -66,7 +66,9 @@ export default function StudentsActive() {
     setNewStudentRowOpen(false)
   }
 
-  const showInStudentList = students.filter((student) => !student.archive)
+  const showInStudentList: TStudent[] = students.filter(
+    (student) => !student.archive
+  )
 
   const filteredStudents = showInStudentList.filter(
     (student) =>
@@ -123,6 +125,7 @@ export default function StudentsActive() {
             <th>Unterrichtsort</th>
           </tr>
         </thead>
+
         <tbody>
           {filteredStudents.map((student) => (
             <StudentRow
@@ -145,6 +148,10 @@ export default function StudentsActive() {
           ))}
         </tbody>
       </table>
+
+      {showInStudentList.length <= 0 && (
+        <em>Keine Aktiven Schüler:innen in der Liste</em>
+      )}
 
       {newStudentRowOpen && (
         <NewStudentRow
