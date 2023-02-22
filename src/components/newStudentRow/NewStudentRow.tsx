@@ -133,6 +133,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
             <td>
               <div className="new-student-buttons">
                 <button
+                  type="button"
                   title="Löschen"
                   className="btn-delete"
                   onClick={handlerCloseButton}

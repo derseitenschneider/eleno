@@ -11,7 +11,9 @@ export const fetchStudents = async function () {
   return students
 }
 
-export const postNewStudent = async function (student: TStudent) {
+export const postNewStudent = async function (
+  student: TStudent
+): Promise<TStudent[]> {
   const {
     firstName,
     lastName,

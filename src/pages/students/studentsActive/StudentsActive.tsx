@@ -47,10 +47,19 @@ export default function StudentsActive() {
   }
 
   const createNewStudent = (input: TStudent) => {
-    setStudents([...students, input])
+    const tempNewStudent = { ...input }
+    const tempId = Math.floor(Math.random() * 10000000)
+    tempNewStudent.id = tempId
+    setStudents((students) => [...students, tempNewStudent])
     const postAndFetchStudent = async () => {
       const [data] = await postNewStudent(input)
-      setStudents([...students, data])
+      const newId = data.id
+      setStudents((students) => {
+        const newStudents = students.map((student) =>
+          student.id === tempId ? { ...student, id: newId } : student
+        )
+        return newStudents
+      })
     }
     postAndFetchStudent()
     setNewStudentRowOpen(false)
