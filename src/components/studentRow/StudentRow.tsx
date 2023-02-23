@@ -1,11 +1,15 @@
 import './studentrow.styles.scss'
 import {
+  ChangeEvent,
   FunctionComponent,
   FunctionComponentElement,
   ReactComponentElement,
+  useState,
 } from 'react'
 import { TStudent } from '../../types/types'
 import { IconType } from 'react-icons/lib'
+import { useStudents } from '../../contexts/StudentContext'
+import { postUpdateStudent } from '../../supabase/supabase'
 
 interface StudentRowProps {
   student: TStudent
@@ -23,27 +27,87 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   form,
   buttons,
 }) => {
+  const { students, setStudents } = useStudents()
+  const [inputCurrentStudent, setInputCurrentStudent] = useState(student)
+
+  const hanlderOnChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const name = e.target.name
+    const value = e.target.value
+    const newInput = { ...inputCurrentStudent, [name]: value }
+
+    setInputCurrentStudent(newInput)
+  }
+
+  const handlerOnBlur = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const value = e.target.value
+    const name = e.target.name
+    const id = +e.target.dataset.id
+    const newStudents = students.map((student) =>
+      student.id === id ? { ...student, [name]: value } : student
+    )
+    setStudents(newStudents)
+    postUpdateStudent(id, name, value)
+  }
+
   return (
     <tr>
       <td>
         <input type="checkbox" name="" id="" />
       </td>
       <td>
-        {form && <input type="text" value={student.firstName} />}
+        {form && (
+          <input
+            data-id={inputCurrentStudent.id}
+            type="text"
+            value={inputCurrentStudent.firstName}
+            name="firstName"
+            onChange={hanlderOnChange}
+            onBlur={handlerOnBlur}
+          />
+        )}
         {!form && <span>{student.firstName}</span>}
       </td>
       <td>
-        {form && <input type="text" value={student.lastName} />}
+        {form && (
+          <input
+            data-id={inputCurrentStudent.id}
+            type="text"
+            value={inputCurrentStudent.lastName}
+            name="lastName"
+            onChange={hanlderOnChange}
+            onBlur={handlerOnBlur}
+          />
+        )}
         {!form && <span>{student.lastName}</span>}
       </td>
       <td>
-        {form && <input type="text" value={student.instrument} />}
+        {form && (
+          <input
+            data-id={inputCurrentStudent.id}
+            type="text"
+            value={inputCurrentStudent.instrument}
+            name="instrument"
+            onChange={hanlderOnChange}
+            onBlur={handlerOnBlur}
+          />
+        )}
         {!form && <span>{student.instrument}</span>}
       </td>
       {form && (
         <>
           <td>
-            <select name="dayOfLesson" id="" defaultValue={student.dayOfLesson}>
+            <select
+              data-id={inputCurrentStudent.id}
+              name="dayOfLesson"
+              id=""
+              defaultValue={inputCurrentStudent.dayOfLesson}
+              onChange={hanlderOnChange}
+              onBlur={handlerOnBlur}
+            >
               <option value="Montag">Montag</option>
               <option value="Dienstag">Dienstag</option>
               <option value="Mittwoch">Mittwoch</option>
@@ -53,30 +117,46 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
           </td>
           <td>
             <input
+              data-id={inputCurrentStudent.id}
+              name="startOfLesson"
               type="text"
-              value={student.startOfLesson}
+              value={inputCurrentStudent.startOfLesson}
+              onChange={hanlderOnChange}
+              onBlur={handlerOnBlur}
               className="input-time"
             />
             <span> - </span>
             <input
+              data-id={inputCurrentStudent.id}
+              name="endOfLesson"
               type="text"
-              value={student.endOfLesson}
+              value={inputCurrentStudent.endOfLesson}
+              onChange={hanlderOnChange}
+              onBlur={handlerOnBlur}
               className="input-time"
             />
           </td>
           <td>
             <input
+              name="durationMinutes"
+              data-id={inputCurrentStudent.id}
               type="text"
-              value={student.durationMinutes}
+              value={inputCurrentStudent.durationMinutes}
+              onChange={hanlderOnChange}
+              onBlur={handlerOnBlur}
               className="input-duration"
             />
             <span>min</span>
           </td>
           <td>
             <input
+              name="location"
+              data-id={inputCurrentStudent.id}
               type="text"
-              value={student.location}
+              value={inputCurrentStudent.location}
               className="input-location"
+              onChange={hanlderOnChange}
+              onBlur={handlerOnBlur}
             />
           </td>
         </>

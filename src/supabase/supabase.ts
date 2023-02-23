@@ -65,3 +65,14 @@ export const postDeleteStudents = async function (studentId: number) {
     .delete()
     .eq('id', studentId)
 }
+
+export const postUpdateStudent = async function (
+  studentId: number,
+  row: string,
+  newValue: string | number
+) {
+  const { data, error } = await supabase
+    .from('students')
+    .update({ [row]: newValue })
+    .eq('id', studentId)
+}
