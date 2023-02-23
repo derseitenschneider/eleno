@@ -50,22 +50,23 @@ function StudentsArchive() {
     closeModal()
   }
 
+  const archiveStudents = students.filter((student) => student.archive)
+
   return (
     <div className="student-list">
       <h1>Archiv</h1>
-      <table className="student-list-table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Vorname</th>
-            <th>Nachname</th>
-            <th>Instrument</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students
-            .filter((student) => student.archive)
-            .map((student) => (
+      {archiveStudents.length ? (
+        <table className="student-list-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Vorname</th>
+              <th>Nachname</th>
+              <th>Instrument</th>
+            </tr>
+          </thead>
+          <tbody>
+            {archiveStudents.map((student) => (
               <StudentRow
                 key={student.id}
                 form={false}
@@ -86,8 +87,11 @@ function StudentsArchive() {
                 ]}
               />
             ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      ) : (
+        <em>Das Archiv ist akutell leer.</em>
+      )}
 
       {isModalOpen && (
         <MessageModal

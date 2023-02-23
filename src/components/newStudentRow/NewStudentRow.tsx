@@ -43,108 +43,110 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
         }}
       >
         <table className="student-list-table add-new">
-          <tr className="new-student-row">
-            <td>
-              <input
-                name="firstName"
-                value={input.firstName}
-                onChange={changeHandler}
-                required
-                type="text"
-                placeholder="Vorname"
-                autoFocus
-              />
-            </td>
-            <td>
-              <input
-                name="lastName"
-                onChange={changeHandler}
-                value={input.lastName}
-                required
-                type="text"
-                placeholder="Nachname"
-              />
-            </td>
-            <td>
-              <input
-                name="instrument"
-                value={input.instrument}
-                onChange={changeHandler}
-                required
-                type="text"
-                placeholder="Instrument"
-              />
-            </td>
-            <td>
-              <select
-                name="dayOfLesson"
-                id=""
-                value={input.dayOfLesson}
-                onChange={changeHandler}
-              >
-                <option selected disabled hidden>
-                  Tag
-                </option>
-                <option value="Montag">Montag</option>
-                <option value="Dienstag">Dienstag</option>
-                <option value="Mittwoch">Mittwoch</option>
-                <option value="Donnerstag">Donnerstag</option>
-                <option value="Freitag">Freitag</option>
-              </select>
-            </td>
-            <td>
-              <input
-                name="startOfLesson"
-                type="text"
-                placeholder="von"
-                className="input-time"
-                value={input.startOfLesson}
-                onChange={changeHandler}
-              />
-              <span> - </span>
-              <input
-                name="endOfLesson"
-                type="text"
-                placeholder="bis"
-                className="input-time"
-                value={input.endOfLesson}
-                onChange={changeHandler}
-              />
-            </td>
-            <td>
-              <input
-                name="durationMinutes"
-                type="text"
-                placeholder=""
-                className="input-duration"
-                value={input.durationMinutes}
-                onChange={changeHandler}
-              />
-              <span>min</span>
-            </td>
-            <td>
-              <input
-                name="location"
-                type="text"
-                placeholder="Ort"
-                className="input-location"
-                value={input.location}
-                onChange={changeHandler}
-              />
-            </td>
-            <td>
-              <div className="new-student-buttons">
-                <button
-                  type="button"
-                  title="Löschen"
-                  className="btn-delete"
-                  onClick={handlerCloseButton}
+          <tbody>
+            <tr className="new-student-row">
+              <td>
+                <input
+                  name="firstName"
+                  value={input.firstName}
+                  onChange={changeHandler}
+                  required
+                  type="text"
+                  placeholder="Vorname"
+                  autoFocus
+                />
+              </td>
+              <td>
+                <input
+                  name="lastName"
+                  onChange={changeHandler}
+                  value={input.lastName}
+                  required
+                  type="text"
+                  placeholder="Nachname"
+                />
+              </td>
+              <td>
+                <input
+                  name="instrument"
+                  value={input.instrument}
+                  onChange={changeHandler}
+                  required
+                  type="text"
+                  placeholder="Instrument"
+                />
+              </td>
+              <td>
+                <select
+                  name="dayOfLesson"
+                  id=""
+                  value={input.dayOfLesson}
+                  onChange={changeHandler}
                 >
-                  <IoCloseOutline className="icon icon-delete" />
-                </button>
-              </div>
-            </td>
-          </tr>
+                  <option selected disabled hidden>
+                    Tag
+                  </option>
+                  <option value="Montag">Montag</option>
+                  <option value="Dienstag">Dienstag</option>
+                  <option value="Mittwoch">Mittwoch</option>
+                  <option value="Donnerstag">Donnerstag</option>
+                  <option value="Freitag">Freitag</option>
+                </select>
+              </td>
+              <td>
+                <input
+                  name="startOfLesson"
+                  type="text"
+                  placeholder="von"
+                  className="input-time"
+                  value={input.startOfLesson}
+                  onChange={changeHandler}
+                />
+                <span> - </span>
+                <input
+                  name="endOfLesson"
+                  type="text"
+                  placeholder="bis"
+                  className="input-time"
+                  value={input.endOfLesson}
+                  onChange={changeHandler}
+                />
+              </td>
+              <td>
+                <input
+                  name="durationMinutes"
+                  type="text"
+                  placeholder=""
+                  className="input-duration"
+                  value={input.durationMinutes}
+                  onChange={changeHandler}
+                />
+                <span>min</span>
+              </td>
+              <td>
+                <input
+                  name="location"
+                  type="text"
+                  placeholder="Ort"
+                  className="input-location"
+                  value={input.location}
+                  onChange={changeHandler}
+                />
+              </td>
+              <td>
+                <div className="new-student-buttons">
+                  <button
+                    type="button"
+                    title="Löschen"
+                    className="btn-delete"
+                    onClick={handlerCloseButton}
+                  >
+                    <IoCloseOutline className="icon icon-delete" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div className="container-btn">
           <Button type="submit" label="Speichern" btnStyle="primary" />

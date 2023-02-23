@@ -14,6 +14,7 @@ import { useStudents } from '../../../contexts/StudentContext'
 // Functions
 import { postArchiveStudent } from '../../../supabase/supabase'
 import { postNewStudent } from '../../../supabase/supabase'
+import { NavLink } from 'react-router-dom'
 
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
@@ -66,11 +67,9 @@ export default function StudentsActive() {
     setNewStudentRowOpen(false)
   }
 
-  const showInStudentList: TStudent[] = students.filter(
-    (student) => !student.archive
-  )
+  const activeStudents = students.filter((student) => !student.archive)
 
-  const filteredStudents = showInStudentList.filter(
+  const filteredActiveStudents = activeStudents.filter(
     (student) =>
       student.firstName.toLowerCase().includes(searchInput) ||
       student.lastName.toLocaleLowerCase().includes(searchInput) ||
@@ -82,75 +81,98 @@ export default function StudentsActive() {
   return (
     <div className="student-list">
       <h1>Liste Schüler:innen</h1>
-      <div className="heading">
-        <select name="" id="" defaultValue="Aktion">
-          <option disabled hidden>
-            Aktion
-          </option>
-          <option value="archive">Archivieren</option>
-          <option value="delete">Löschen</option>
-        </select>
-        <div className="container-right">
-          <IoSearchOutline className="icon icon-search" />
-          <input
-            type="search"
-            placeholder="suchen"
-            value={searchInput}
-            onChange={onChangeHandlerInput}
-          />
+      {activeStudents.length > 0 && (
+        <div className="container-list">
+          <div className="heading">
+            <select name="" id="" defaultValue="Aktion">
+              <option disabled hidden>
+                Aktion
+              </option>
+              <option value="archive">Archivieren</option>
+              <option value="delete">Löschen</option>
+            </select>
+            <div className="container-right">
+              <IoSearchOutline className="icon icon-search" />
+              <input
+                type="search"
+                placeholder="suchen"
+                value={searchInput}
+                onChange={onChangeHandlerInput}
+              />
 
-          <Button
-            handler={addStudentEventHandler}
-            btnStyle="primary"
-            type="button"
-            label="Neu"
-            icon={<IoPersonAddOutline />}
-            className={`${newStudentRowOpen && 'inactive'}  `}
-          />
+              <Button
+                handler={addStudentEventHandler}
+                btnStyle="primary"
+                type="button"
+                label="Neu"
+                icon={<IoPersonAddOutline />}
+                className={`${newStudentRowOpen && 'inactive'}  `}
+              />
+            </div>
+          </div>
+
+          <table className="student-list-table">
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" />
+                </th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Instrument</th>
+                <th>Tag</th>
+                <th>Zeit</th>
+                <th>Dauer</th>
+                <th>Unterrichtsort</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredActiveStudents.map((student) => (
+                <StudentRow
+                  key={student.id}
+                  form={true}
+                  student={student}
+                  buttons={[
+                    {
+                      label: 'Unterrichtsblatt',
+                      icon: IoSchoolOutline,
+                      handler: () => {},
+                    },
+                    {
+                      label: 'Archivieren',
+                      icon: IoArchiveOutline,
+                      handler: handlerArchive,
+                    },
+                  ]}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      )}
 
-      <table className="student-list-table">
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" />
-            </th>
-            <th>Vorname</th>
-            <th>Nachname</th>
-            <th>Instrument</th>
-            <th>Tag</th>
-            <th>Zeit</th>
-            <th>Dauer</th>
-            <th>Unterrichtsort</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredStudents.map((student) => (
-            <StudentRow
-              key={student.id}
-              form={true}
-              student={student}
-              buttons={[
-                {
-                  label: 'Unterrichtsblatt',
-                  icon: IoSchoolOutline,
-                  handler: () => {},
-                },
-                {
-                  label: 'Archivieren',
-                  icon: IoArchiveOutline,
-                  handler: handlerArchive,
-                },
-              ]}
+      {activeStudents.length <= 0 && !newStudentRowOpen && (
+        <>
+          <h2>Keine Aktiven Schüler:innen in der Liste</h2>
+          <div className="container-buttons">
+            <Button
+              type="button"
+              btnStyle="primary"
+              label="Neue Schüler:in erfassen"
+              handler={addStudentEventHandler}
             />
-          ))}
-        </tbody>
-      </table>
 
-      {showInStudentList.length <= 0 && (
-        <em>Keine Aktiven Schüler:innen in der Liste</em>
+            <NavLink to="archive">
+              <Button
+                type="button"
+                btnStyle="secondary"
+                label="Aus Archiv wiederherstellen"
+              />
+            </NavLink>
+          </div>
+        </>
       )}
 
       {newStudentRowOpen && (

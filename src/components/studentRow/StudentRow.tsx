@@ -40,9 +40,18 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     setInputCurrentStudent(newInput)
   }
 
-  const handlerOnBlur = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handlerOnBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const name = e.target.name
+    const id = +e.target.dataset.id
+    const newStudents = students.map((student) =>
+      student.id === id ? { ...student, [name]: value } : student
+    )
+    setStudents(newStudents)
+    postUpdateStudent(id, name, value)
+  }
+
+  const handlerOnSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value
     const name = e.target.name
     const id = +e.target.dataset.id
@@ -105,8 +114,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               name="dayOfLesson"
               id=""
               defaultValue={inputCurrentStudent.dayOfLesson}
-              onChange={hanlderOnChange}
-              onBlur={handlerOnBlur}
+              onChange={handlerOnSelect}
             >
               <option value="Montag">Montag</option>
               <option value="Dienstag">Dienstag</option>

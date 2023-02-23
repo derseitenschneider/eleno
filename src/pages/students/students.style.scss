@@ -1,6 +1,6 @@
 .student-list {
   position: relative;
-  min-height: calc(100vh - 12.2rem);
+  // min-height: calc(100vh - 12.2rem);
   .heading {
     display: flex;
     justify-content: space-between;
@@ -52,13 +52,25 @@
 .student-list-table {
   border: 1px solid #eee;
   border-collapse: collapse;
+  border: none;
   font-size: 1.6rem;
-  width: 100%;
+  display: block;
+  max-height: 45vh;
+
+  overflow-y: auto;
+
+  thead {
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
 
   th {
     padding: 0.4rem 0.8rem;
     font-weight: bold;
     font-size: 1.8rem;
+    background-color: var(--clr-white);
+    border-bottom: 1px solid var(--clr-primary);
   }
 
   th:first-child {
@@ -82,8 +94,7 @@
 
   td input:focus-visible,
   td select:focus-visible {
-    outline: none;
-    background-color: #fff;
+    outline: var(--clr-primary-bright);
   }
 
   input[type='time'] {
@@ -97,7 +108,7 @@
     text-overflow: '';
   }
 
-  tbody tr:nth-child(odd) {
+  tbody tr:nth-child(odd):not(.new-student-row) {
     background-color: var(--clr-lightgrey);
   }
 

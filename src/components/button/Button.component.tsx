@@ -1,6 +1,7 @@
 import { spawn } from 'child_process'
-import { FunctionComponent, ReactElement } from 'react'
+import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { IconType } from 'react-icons/lib'
+import { NavLinkProps } from 'react-router-dom'
 
 import './button.style.scss'
 
@@ -11,6 +12,7 @@ interface ButtonProps {
   btnStyle: 'primary' | 'secondary' | 'warming' | 'danger'
   handler?: (e: React.MouseEvent) => void
   className?: string
+  children?: ReactNode
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -20,6 +22,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   btnStyle,
   handler,
   className,
+  children,
 }) => {
   return (
     <>
@@ -31,6 +34,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         <>
           <span>{label}</span>
           {icon && <span>{icon}</span>}
+          {children}
         </>
       </button>
     </>
