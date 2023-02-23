@@ -94,7 +94,7 @@
 
   td input:focus-visible,
   td select:focus-visible {
-    outline: var(--clr-primary-bright);
+    outline: none;
   }
 
   input[type='time'] {

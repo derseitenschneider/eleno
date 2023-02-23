@@ -1,4 +1,5 @@
-// Style
+// Types
+import { TSorting } from '../../../types/types'
 
 // Icons
 import { IoArchiveOutline } from 'react-icons/io5'
@@ -15,6 +16,8 @@ import { useStudents } from '../../../contexts/StudentContext'
 import { postArchiveStudent } from '../../../supabase/supabase'
 import { postNewStudent } from '../../../supabase/supabase'
 import { NavLink } from 'react-router-dom'
+import { compareLastName } from '../../../utils/utils'
+import { compareInstrument } from '../../../utils/utils'
 
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
@@ -23,10 +26,13 @@ import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
 
 export default function StudentsActive() {
+  // STATE
   const { students, setStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
+  const [sorting, letSorting] = useState<TSorting>('lastName')
 
+  // HANDLER-FUNCTIONS //
   const toggleNewStudentOpen = () => {
     setNewStudentRowOpen(!newStudentRowOpen)
   }
@@ -67,9 +73,23 @@ export default function StudentsActive() {
     setNewStudentRowOpen(false)
   }
 
+  // SORT & FILTER STUDENTS //
   const activeStudents = students.filter((student) => !student.archive)
 
-  const filteredActiveStudents = activeStudents.filter(
+  const sortedActiveStudents = (() => {
+    switch (sorting) {
+      case 'lastName':
+        return activeStudents.sort(compareLastName)
+        break
+      case 'instrument':
+        return activeStudents.sort(compareInstrument)
+        break
+      default:
+        return activeStudents
+    }
+  })()
+
+  const filteredActiveStudents = sortedActiveStudents.filter(
     (student) =>
       student.firstName.toLowerCase().includes(searchInput) ||
       student.lastName.toLocaleLowerCase().includes(searchInput) ||

@@ -15,3 +15,10 @@ export type ContextType = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
 }
+
+export type TSorting =
+  | 'firstName'
+  | 'lastName'
+  | 'instrument'
+  | 'dayOfLesson'
+  | 'location'
