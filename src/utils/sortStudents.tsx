@@ -1,6 +1,6 @@
-import { TStudent } from '../types/types'
+import { TSorting, TStudent } from '../types/types'
 
-export const compareLastName = (a: TStudent, b: TStudent) => {
+const compareLastName = (a: TStudent, b: TStudent) => {
   const studentA = a.lastName.toUpperCase()
   const studentB = b.lastName.toUpperCase()
 
@@ -13,7 +13,7 @@ export const compareLastName = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-export const compareInstrument = (a: TStudent, b: TStudent) => {
+const compareInstrument = (a: TStudent, b: TStudent) => {
   const studentA = a.instrument.toUpperCase()
   const studentB = b.instrument.toUpperCase()
 
@@ -24,4 +24,17 @@ export const compareInstrument = (a: TStudent, b: TStudent) => {
     comparison = -1
   }
   return comparison
+}
+
+export const sortStudents = (students: TStudent[], sorting: TSorting) => {
+  switch (sorting) {
+    case 'lastName':
+      return students.sort(compareLastName)
+      break
+    case 'instrument':
+      return students.sort(compareInstrument)
+      break
+    default:
+      return students
+  }
 }

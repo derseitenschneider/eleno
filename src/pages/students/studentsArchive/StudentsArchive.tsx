@@ -22,9 +22,10 @@ function StudentsArchive() {
   const restoreStudent = (e: React.MouseEvent) => {
     const target = e.target as Element
     const id = +target.closest('button').dataset.id
-    const restoredStudent = students.find((student) => student.id === id)
-    restoredStudent.archive = false
-    setStudents([...students])
+    const newStudents = students.map((student) =>
+      student.id === id ? { ...student, archive: false } : student
+    )
+    setStudents(newStudents)
     postRestoreStudent(id)
   }
 

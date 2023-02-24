@@ -9,15 +9,14 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { IoSchoolOutline } from 'react-icons/io5'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
 import { postArchiveStudent } from '../../../supabase/supabase'
 import { postNewStudent } from '../../../supabase/supabase'
 import { NavLink } from 'react-router-dom'
-import { compareLastName } from '../../../utils/utils'
-import { compareInstrument } from '../../../utils/utils'
+import { sortStudents } from '../../../utils/sortStudents'
 
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
@@ -26,11 +25,18 @@ import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
 
 export default function StudentsActive() {
+  console.log('render')
   // STATE
   const { students, setStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
   const [sorting, letSorting] = useState<TSorting>('lastName')
+
+  const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
+  const [sortedStudents, setSortedStudents] =
+    useState<TStudent[]>(activeStudents)
+  const [filteredStudents, setFilteredStudents] =
+    useState<TStudent[]>(sortedStudents)
 
   // HANDLER-FUNCTIONS //
   const toggleNewStudentOpen = () => {
@@ -48,9 +54,10 @@ export default function StudentsActive() {
   const handlerArchive = (e: React.MouseEvent) => {
     const target = e.target as Element
     const id = +target.closest('button').dataset.id
-    const archivedStudent = students.find((student) => student.id === id)
-    archivedStudent.archive = true
-    setStudents([...students])
+    const newStudents = students.map((student) =>
+      student.id === id ? { ...student, archive: true } : student
+    )
+    setStudents(newStudents)
     postArchiveStudent(id)
   }
 
@@ -74,29 +81,30 @@ export default function StudentsActive() {
   }
 
   // SORT & FILTER STUDENTS //
-  const activeStudents = students.filter((student) => !student.archive)
+  // const activeStudents = students.filter((student) => !student.archive)
 
-  const sortedActiveStudents = (() => {
-    switch (sorting) {
-      case 'lastName':
-        return activeStudents.sort(compareLastName)
-        break
-      case 'instrument':
-        return activeStudents.sort(compareInstrument)
-        break
-      default:
-        return activeStudents
-    }
-  })()
+  useEffect(() => {
+    const activeStudents = students.filter((student) => !student.archive)
+    setActiveStudents(activeStudents)
+  }, [students])
 
-  const filteredActiveStudents = sortedActiveStudents.filter(
-    (student) =>
-      student.firstName.toLowerCase().includes(searchInput) ||
-      student.lastName.toLocaleLowerCase().includes(searchInput) ||
-      student.instrument.toLocaleLowerCase().includes(searchInput) ||
-      student.location.toLocaleLowerCase().includes(searchInput) ||
-      student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
-  )
+  useEffect(() => {
+    const sortedStudents = sortStudents(activeStudents, sorting)
+    setSortedStudents(sortedStudents)
+  }, [activeStudents])
+
+  useEffect(() => {
+    const filteredStudents = sortedStudents.filter(
+      (student) =>
+        student.firstName.toLowerCase().includes(searchInput) ||
+        student.lastName.toLocaleLowerCase().includes(searchInput) ||
+        student.instrument.toLocaleLowerCase().includes(searchInput) ||
+        student.location.toLocaleLowerCase().includes(searchInput) ||
+        student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
+    )
+
+    setFilteredStudents(filteredStudents)
+  }, [searchInput, sortedStudents])
 
   return (
     <div className="student-list">
@@ -149,7 +157,7 @@ export default function StudentsActive() {
             </thead>
 
             <tbody>
-              {filteredActiveStudents.map((student) => (
+              {filteredStudents.map((student) => (
                 <StudentRow
                   key={student.id}
                   form={true}
