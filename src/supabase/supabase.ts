@@ -11,6 +11,11 @@ export const fetchStudents = async function () {
   return students
 }
 
+export const fetchLessons = async function () {
+  let { data: lessons, error } = await supabase.from('lessons').select('*')
+  return lessons
+}
+
 export const postNewStudent = async function (
   student: TStudent
 ): Promise<TStudent[]> {

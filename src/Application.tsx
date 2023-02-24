@@ -1,27 +1,37 @@
 import { useEffect, useState } from 'react'
 
 import Sidebar from './layouts/sidebar/Sidebar.component'
-import { Outlet, useOutletContext } from 'react-router-dom'
-import { fetchStudents } from './supabase/supabase'
+import { Outlet } from 'react-router-dom'
+import { fetchLessons, fetchStudents } from './supabase/supabase'
 
-import { TStudent } from './types/types'
+import { TLesson, TStudent } from './types/types'
 
 export default function Application() {
   const [students, setStudents] = useState<TStudent[] | null>([])
+  const [lessons, setLessons] = useState<TLesson[] | null>([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchStudents()
-      setStudents([...data])
+    const fetchAllData = async () => {
+      const fetchStudentData = async () => {
+        const students = await fetchStudents()
+        setStudents([...students])
+      }
+
+      const fetchLessonData = async () => {
+        const lessons = await fetchLessons()
+        setLessons([...lessons])
+      }
+      Promise.all([fetchStudentData(), fetchLessonData()])
     }
-    fetchData()
+
+    fetchAllData()
   }, [])
 
   return (
     <div className="App">
       <Sidebar />
       <div id="main">
-        <Outlet context={{ students, setStudents }} />
+        <Outlet context={{ students, setStudents, lessons, setLessons }} />
       </div>
     </div>
   )

@@ -25,7 +25,6 @@ import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
 
 export default function StudentsActive() {
-  console.log('render')
   // STATE
   const { students, setStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')

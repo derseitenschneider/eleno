@@ -11,9 +11,22 @@ export type TStudent = {
   location: string
 }
 
-export type ContextType = {
+export type TLesson = {
+  id?: number
+  date: string
+  lessonContent?: string
+  homework: string
+  studentId: number
+}
+
+export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
+}
+
+export type ContextTypeLessons = {
+  lessons: TLesson[] | null
+  setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
 }
 
 export type TSorting =
