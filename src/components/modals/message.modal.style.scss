@@ -5,6 +5,12 @@
   transform: translate(-50%, -50%);
 
   z-index: 1;
+
+  & .container-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 2.4rem;
+  }
 }
 
 .modal {
@@ -38,10 +44,4 @@
   height: 200vh;
   background-color: rgba(0 0 0/0.4);
   z-index: -1;
-}
-
-.container-buttons {
-  margin-left: auto;
-  display: flex;
-  gap: 2.4rem;
 }

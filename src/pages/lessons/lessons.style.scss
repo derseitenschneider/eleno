@@ -1,6 +1,11 @@
-header {
+.container--header {
   display: flex;
-  width: 100%;
   background-color: var(--clr-lightgrey);
   align-items: center;
+  justify-content: space-between;
+
+  & .container--buttons {
+    display: flex;
+    gap: 2rem;
+  }
 }

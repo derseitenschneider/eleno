@@ -1,18 +1,17 @@
-.sidebar{
+.sidebar {
   position: relative;
   top: 0;
   max-width: 18rem;
-  height: 100%;
+  min-height: 100vh;
   padding-block: 2rem;
-  box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
 
   &:hover &__button--toggle {
     opacity: 1;
     transform: translateX(0);
-    transition: transform .4s ease;
-
+    transition: transform 0.4s ease;
   }
-  &.open{
+  &.open {
     .sidebar__link-text {
       display: flex;
     }
@@ -22,13 +21,10 @@
       transform: translateX(0);
     }
 
-    .chevron{
+    .chevron {
       transform: rotate(180deg);
-
     }
-    
   }
-
 
   &__button--toggle {
     position: absolute;
@@ -44,11 +40,10 @@
     align-items: center;
     justify-content: center;
     // opacity: 0;
-    box-shadow: 8px 0 4px rgba(0,0,0,0.1);
+    box-shadow: 8px 0 4px rgba(0, 0, 0, 0.1);
     // transform: translateX(-50%);
     // transition: transform .4s ease;
 
-    
     cursor: pointer;
 
     .chevron {
@@ -70,33 +65,29 @@
     // margin-top: 3rem;
     // margin-left: 2rem;
     padding: 0;
-    
-  
   }
 
-   &__nav-el {
-      padding: 1.2rem;     
-    a{
+  &__nav-el {
+    padding: 1.2rem;
+    a {
       text-decoration: none;
       color: inherit;
     }
-   }
+  }
 
-     .active {
+  .active {
     color: var(--clr-primary);
-   }
+  }
 
-   &__nav-link {
+  &__nav-link {
     display: flex;
     align-items: center;
-   }
-   
-  
+  }
 
-   &__nav-icon {
+  &__nav-icon {
     position: relative;
     // margin-right: 1.2rem;
-    padding: .8rem; 
+    padding: 0.8rem;
     height: 2.4rem;
     width: 2.4rem;
     display: flex;
@@ -108,11 +99,9 @@
       height: 2.4rem;
       width: 2.4rem;
     }
-   }
+  }
 
-
-
-    &__nav-icon::after {
+  &__nav-icon::after {
     content: '';
     position: absolute;
     top: 0;
@@ -122,24 +111,22 @@
     background-color: var(--clr-primary);
     z-index: -1;
     transform: scale(0);
-    transition: transform .8s cubic-bezier(.47,1.64,.41,.8);;
+    transition: transform 0.8s cubic-bezier(0.47, 1.64, 0.41, 0.8);
     border-radius: 50%;
+  }
 
-   }
-
-   .active &__nav-icon::after {
+  .active &__nav-icon::after {
     transform: scale(1);
-   }
+  }
 
-
-   .active &__nav-icon .icon {
+  .active &__nav-icon .icon {
     fill: white;
     stroke: white;
-   }
+  }
 
-   &__link-text {
+  &__link-text {
     display: none;
     margin-left: 1rem;
     transition: width 1s ease;
-   }
+  }
 }

@@ -3,6 +3,10 @@ import { TStudent, TLesson } from '../../types/types'
 import { useStudents } from '../../contexts/StudentContext'
 import { useLessons } from '../../contexts/LessonsContext'
 import Button from '../../components/button/Button.component'
+import {
+  IoArrowBackCircleOutline,
+  IoArrowForwardCircleOutline,
+} from 'react-icons/io5'
 import './lessons.style.scss'
 
 interface LessonProps {}
@@ -47,8 +51,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   return (
     <>
       {currentStudent ? (
-        <header>
-          <div className="container-infos">
+        <header className="container container--header">
+          <div className="container--infos">
             <h3>
               {currentStudent.firstName} {currentStudent.lastName}
               <span> {currentStudent.durationMinutes} Minuten</span>
@@ -58,30 +62,30 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               {currentStudent.endOfLesson}
             </p>
           </div>
-          <div className="container-buttons">
+          <div className="container--buttons">
             <Button
               type="button"
               btnStyle="primary"
               handler={handlerPreviousStudent}
-              label="Vorheriger Schüler:in"
+              icon={<IoArrowBackCircleOutline />}
             />
             <Button
               type="button"
               btnStyle="primary"
               handler={handlerNextStudent}
-              label="Nächste:r Schüler:in"
+              icon={<IoArrowForwardCircleOutline />}
             />
           </div>
         </header>
       ) : null}
       {currentLessons
         ? currentLessons.map((lesson) => (
-            <>
+            <div className="container">
               <h4>Datum: {lesson.date}</h4>
               <p>Lektionsinhalt: {lesson.lessonContent}</p>
               <p>Hausaufgaben: {lesson.homework}</p>
               <hr />
-            </>
+            </div>
           ))
         : null}
     </>

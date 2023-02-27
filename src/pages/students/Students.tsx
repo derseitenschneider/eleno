@@ -9,7 +9,7 @@ const navLinks = [{ path: 'archive', label: 'Archiv', key: 2 }]
 export default function Students() {
   const { students, setStudents } = useStudents()
   return (
-    <div>
+    <div className="container">
       <Navbar navLinks={navLinks} />
       <Outlet context={{ students, setStudents }} />
     </div>
