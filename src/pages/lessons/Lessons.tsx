@@ -3,6 +3,7 @@ import { TStudent, TLesson } from '../../types/types'
 import { useStudents } from '../../contexts/StudentContext'
 import { useLessons } from '../../contexts/LessonsContext'
 import Button from '../../components/button/Button.component'
+import './lessons.style.scss'
 
 interface LessonProps {}
 
@@ -46,10 +47,32 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   return (
     <>
       {currentStudent ? (
-        <h1>
-          Unterrichtsblatt für {currentStudent.firstName}{' '}
-          {currentStudent.lastName}
-        </h1>
+        <header>
+          <div className="container-infos">
+            <h3>
+              {currentStudent.firstName} {currentStudent.lastName}
+              <span> {currentStudent.durationMinutes} Minuten</span>
+            </h3>
+            <p>
+              {currentStudent.dayOfLesson} {currentStudent.startOfLesson} -{' '}
+              {currentStudent.endOfLesson}
+            </p>
+          </div>
+          <div className="container-buttons">
+            <Button
+              type="button"
+              btnStyle="primary"
+              handler={handlerPreviousStudent}
+              label="Vorheriger Schüler:in"
+            />
+            <Button
+              type="button"
+              btnStyle="primary"
+              handler={handlerNextStudent}
+              label="Nächste:r Schüler:in"
+            />
+          </div>
+        </header>
       ) : null}
       {currentLessons
         ? currentLessons.map((lesson) => (
@@ -57,22 +80,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               <h4>Datum: {lesson.date}</h4>
               <p>Lektionsinhalt: {lesson.lessonContent}</p>
               <p>Hausaufgaben: {lesson.homework}</p>
+              <hr />
             </>
           ))
         : null}
-
-      <Button
-        type="button"
-        btnStyle="primary"
-        handler={handlerPreviousStudent}
-        label="Vorheriger Schüler:in"
-      />
-      <Button
-        type="button"
-        btnStyle="primary"
-        handler={handlerNextStudent}
-        label="Nächste:r Schüler:in"
-      />
     </>
   )
 }
