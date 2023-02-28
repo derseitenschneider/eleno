@@ -1,4 +1,4 @@
-import { TSorting, TStudent } from '../types/types'
+import { TLesson, TSorting, TStudent } from '../types/types'
 
 const compareLastName = (a: TStudent, b: TStudent) => {
   const studentA = a.lastName.toUpperCase()
@@ -37,4 +37,28 @@ export const sortStudents = (students: TStudent[], sorting: TSorting) => {
     default:
       return students
   }
+}
+
+export const compareDateString = (a: TLesson, b: TLesson) => {
+  const lessonA = a.date
+    .split('.')
+    .reverse()
+    .map((el) => el.trim())
+    .join('')
+  const lessonB = b.date
+    .split('.')
+    .reverse()
+    .map((el) => el.trim())
+    .join('')
+
+  console.log({ lessonA, lessonB })
+
+  let comparison = 0
+  if (lessonA > lessonB) {
+    comparison = 1
+  } else if (lessonA < lessonB) {
+    comparison = -1
+  }
+
+  return comparison
 }

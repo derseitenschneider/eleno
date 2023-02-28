@@ -1,19 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
-import { TStudent } from '../types/types'
+import { TLesson, TStudent } from '../types/types'
 
 const supabaseUrl = 'https://brhpqxeowknyhrimssxw.supabase.co'
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyaHBxeGVvd2tueWhyaW1zc3h3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0MDgwMzUsImV4cCI6MTk5MTk4NDAzNX0.hIvCoJwGTLAZTXVhvYi8OCbbXT_EoUKFMF-j_ik-5Vk'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// Students
 export const fetchStudents = async function () {
   let { data: students, error } = await supabase.from('students').select('*')
   return students
-}
-
-export const fetchLessons = async function () {
-  let { data: lessons, error } = await supabase.from('lessons').select('*')
-  return lessons
 }
 
 export const postNewStudent = async function (
@@ -80,4 +76,19 @@ export const postUpdateStudent = async function (
     .from('students')
     .update({ [row]: newValue })
     .eq('id', studentId)
+}
+
+// Lessons
+export const fetchLessons = async function () {
+  let { data: lessons, error } = await supabase.from('lessons').select('*')
+  return lessons
+}
+
+export const postLesson = async function (lesson: TLesson) {
+  const { date, homework, lessonContent, studentId } = lesson
+  let { data, error } = await supabase
+    .from('lessons')
+    .insert([{ date, homework, lessonContent, studentId }])
+    .select()
+  return data
 }

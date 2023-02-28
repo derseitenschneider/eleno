@@ -1,3 +1,6 @@
+@import url('./fonts.scss');
+@import url('./typography.scss');
+
 :root {
   --clr-primary: hsl(195, 43%, 39%);
   --clr-primary-bright: hsl(195, 43%, 90%);
@@ -8,33 +11,23 @@
   --clr-lightgrey: #f0f0f0;
 }
 
-@font-face {
-  font-family: 'DM Sans';
-  src: url('../assets/fonts/DM_Sans/DMSans-Regular.eot');
-  src: url('../assets/fonts/DM_Sans/DMSans-Regular.eot?#iefix')
-      format('embedded-opentype'),
-    url('../assets/fonts/DM_Sans/DMSans-Regular.woff2') format('woff2'),
-    url('../assets/fonts/DM_Sans/DMSans-Regular.woff') format('woff'),
-    url('../assets/fonts/DM_Sans/DMSans-Regular.ttf') format('truetype'),
-    url('../assets/fonts/DM_Sans/DMSans-Regular.svg#DMSans-Regular')
-      format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
   font-family: 'DM Sans';
-  box-sizing: border-box;
   font-size: 62.5%;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-size: 1.4rem;
-  // height: 100vh;
-  overflow: hidden;
+  font-size: 1.6rem;
   color: var(--clr-text);
 }
 
@@ -90,5 +83,5 @@ span {
 }
 
 .container {
-  padding: 0 4.8rem;
+  padding: 2.4rem 4.8rem;
 }

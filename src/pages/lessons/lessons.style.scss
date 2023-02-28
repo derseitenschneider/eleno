@@ -4,8 +4,66 @@
   align-items: center;
   justify-content: space-between;
 
+  & .row-1 {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+    margin-bottom: 2.4rem;
+    & .student-name {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-weight: 500;
+      font-size: 2rem;
+
+      & .icon {
+        color: var(--clr-primary);
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+  }
+
   & .container--buttons {
     display: flex;
     gap: 2rem;
+  }
+}
+
+.container--lessons {
+  .container--two-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    & > * {
+      outline: 1px solid var(--clr-primary);
+      padding: 0.8rem;
+    }
+  }
+
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    width: 100%;
+    resize: none;
+    min-height: 10rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.container--new-lesson {
+  input {
+    font-size: inherit;
+    font-family: inherit;
+    border: none;
+    margin-left: 0.8rem;
+  }
+
+  & .btn--save {
+    margin-top: 3.2rem;
+    margin-left: auto;
   }
 }

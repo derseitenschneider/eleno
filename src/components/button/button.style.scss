@@ -4,6 +4,7 @@
   padding: 0.7rem 1.4rem;
   border-radius: 8px;
   height: fit-content;
+  align-items: center;
 
   &--primary {
     background-color: var(--clr-primary);
@@ -26,5 +27,19 @@
     background-color: var(--clr-lightgrey);
     color: var(--clr-darkgrey);
     pointer-events: none;
+  }
+
+  & span:empty {
+    display: none;
+  }
+
+  & span:empty + span svg {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  & svg {
+    height: 2rem;
+    width: 2rem;
   }
 }
