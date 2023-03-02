@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { TStudent, TLesson } from '../../types/types'
 import { useStudents } from '../../contexts/StudentContext'
 import { useLessons } from '../../contexts/LessonsContext'
+import { useLoading } from '../../contexts/LoadingContext'
 import Button from '../../components/button/Button.component'
 import {
   IoArrowBackOutline,
@@ -11,6 +12,8 @@ import {
 import './lessons.style.scss'
 import { compareDateString } from '../../utils/sortStudents'
 import { postLesson } from '../../supabase/supabase'
+
+import { formatDate } from '../../utils/formateDate'
 
 const lessonData: TLesson = {
   date: '',
@@ -22,6 +25,8 @@ const lessonData: TLesson = {
 interface LessonProps {}
 
 const Lesson: FunctionComponent<LessonProps> = () => {
+  const { loading } = useLoading()
+  const [date, setDate] = useState<string>()
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
@@ -31,30 +36,41 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
 
+  const [previousLesson, setPreviousLesson] = useState<TLesson>()
+
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
 
   //EFFECTS
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString('de-DE')
-    setdateOfLesson(today)
+    const today = new Date()
+      .toLocaleDateString('de-CH')
+      .split('.')
+      .map((e) => e.padStart(2, '0'))
+      .join('.')
+    setDate(today)
   }, [])
+
   useEffect(() => {
-    setActiveStudents(students?.filter((student) => !student.archive))
+    students &&
+      setActiveStudents(students.filter((student) => !student.archive))
   }, [students])
 
   useEffect(() => {
-    setCurrentStudent(activeStudents[studentIndex])
+    activeStudents && setCurrentStudent(activeStudents[studentIndex])
   }, [activeStudents, studentIndex])
 
   useEffect(() => {
-    const currentLessons = lessons?.filter(
-      (lesson) => lesson?.studentId === currentStudent?.id
-    )
+    currentStudent &&
+      setCurrentLessons(
+        lessons.filter((lesson) => lesson.studentId === currentStudent.id)
+      )
+  }, [currentStudent, lessons])
 
-    const currentLessonsSorted = currentLessons.sort(compareDateString)
-    setCurrentLessons(currentLessonsSorted)
-  }, [])
+  useEffect(() => {
+    currentLessons &&
+      setPreviousLesson(currentLessons[currentLessons.length - 1])
+  }, [currentLessons, lessons])
 
   // HANDLER
   const handlerNextStudent = () => {
@@ -77,34 +93,39 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }
 
   const handlerSaveLesson = () => {
-    const tempId = Math.floor(Math.random() * 10000000)
-    const lessonToSave: TLesson = {
+    const tempID = Math.floor(Math.random() * 10000000)
+    const newLesson: TLesson = {
       ...inputNewLesson,
       studentId: currentStudent.id,
-      date: dateOfLesson,
+      date: date,
+      id: tempID,
     }
-    const newLessons = [...currentLessons, { ...lessonToSave, id: tempId }]
-    setCurrentLessons(newLessons)
-    const postAndFetchLesson = async () => {
-      const [data] = await postLesson(lessonToSave)
-      const tempLessons = currentLessons.map((lesson) =>
-        lesson.id === tempId ? { ...lesson, id: data.id } : lesson
-      )
-      setCurrentLessons(tempLessons)
+    console.log({ newLesson })
+
+    const tempNewLessons: TLesson[] = [...lessons, newLesson]
+    setLessons(tempNewLessons)
+
+    const postNewLesson = async () => {
+      const [data] = await postLesson(newLesson)
+      console.log(data.id)
+
+      setLessons((l) => {
+        const newLessonsArray = l.map((lesson) =>
+          lesson.id === tempID ? { ...lesson, id: data.id } : lesson
+        )
+        return newLessonsArray
+      })
     }
-    postAndFetchLesson()
+    postNewLesson()
   }
-
-  console.log(currentLessons)
-
   return (
     <>
+      {loading && <p>loading</p>}
       {currentStudent ? (
         <header className="container container--header">
           <div className="container--infos">
             <div className="row-1">
               <div className="student-name">
-                {' '}
                 <IoPersonCircleOutline className="icon" />
                 {currentStudent.firstName} {currentStudent.lastName}
               </div>
@@ -132,23 +153,19 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           </div>
         </header>
       ) : null}
-      {currentLessons.length ? (
+      {previousLesson ? (
         <div className="container container--lessons">
           <h5 className="heading-5">
-            Letzte Lektion: {currentLessons[currentLessons.length - 1].date}
+            Letzte Lektion: {formatDate(previousLesson.date)}
           </h5>
           <div className="container--two-rows">
             <div className="row-left">
               <h4 className="heading-4">Lektion</h4>
-              <textarea>
-                {currentLessons[currentLessons.length - 1].lessonContent}
-              </textarea>
+              <textarea value={previousLesson.lessonContent} />
             </div>
             <div className="row-right">
               <h4 className="heading-4">Hausaufgaben</h4>
-              <textarea>
-                {currentLessons[currentLessons.length - 1].homework}
-              </textarea>
+              <textarea value={previousLesson.homework} />
             </div>
           </div>
         </div>
@@ -156,9 +173,9 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
       <div className="container container--lessons container--new-lesson">
         <h3 className="heading-3">
-          Aktuelle Lektion{' '}
+          Aktuelle Lektion
           <span>
-            <input type="text" value={dateOfLesson} />
+            <input type="text" value={date} onChange={() => {}} />
           </span>
         </h3>
         <div className="container--two-rows">

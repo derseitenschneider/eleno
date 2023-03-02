@@ -51,8 +51,6 @@ export const compareDateString = (a: TLesson, b: TLesson) => {
     .map((el) => el.trim())
     .join('')
 
-  console.log({ lessonA, lessonB })
-
   let comparison = 0
   if (lessonA > lessonB) {
     comparison = 1

@@ -29,6 +29,11 @@ export type ContextTypeLessons = {
   setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
 }
 
+export type ContextTypeLoading = {
+  loading: boolean | null
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export type TSorting =
   | 'firstName'
   | 'lastName'

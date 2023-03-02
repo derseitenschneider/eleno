@@ -54,15 +54,14 @@
   border-collapse: collapse;
   border: none;
   font-size: 1.6rem;
-  display: block;
+  // display: block;
   max-height: 45vh;
-
-  overflow-y: auto;
+  width: 100%;
+  white-space: nowrap;
 
   thead {
     position: sticky;
     top: 0;
-    width: 100%;
   }
 
   th {
@@ -113,16 +112,16 @@
   }
 
   .input-time {
-    width: 4rem;
+    width: 6rem;
   }
 
   .input-duration {
-    width: 2rem;
+    width: 4rem;
     padding: 0;
   }
 
   .input-location {
-    width: 20rem;
+    // width: 20rem;
   }
 
   .icon {

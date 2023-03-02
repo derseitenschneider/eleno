@@ -8,7 +8,10 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 // Students
 export const fetchStudents = async function () {
-  let { data: students, error } = await supabase.from('students').select('*')
+  let { data: students, error } = await supabase
+    .from('students')
+    .select('*')
+    .order('dayOfLesson', { ascending: false })
   return students
 }
 
@@ -80,7 +83,10 @@ export const postUpdateStudent = async function (
 
 // Lessons
 export const fetchLessons = async function () {
-  let { data: lessons, error } = await supabase.from('lessons').select('*')
+  let { data: lessons, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .order('date')
   return lessons
 }
 

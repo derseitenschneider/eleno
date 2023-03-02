@@ -88,12 +88,12 @@ export default function StudentsActive() {
   }, [students])
 
   useEffect(() => {
-    const sortedStudents = sortStudents(activeStudents, sorting)
-    setSortedStudents(sortedStudents)
+    // const sortedStudents = sortStudents(activeStudents, sorting)
+    // setSortedStudents(activeStudents)
   }, [activeStudents])
 
   useEffect(() => {
-    const filteredStudents = sortedStudents.filter(
+    const filteredStudents = activeStudents.filter(
       (student) =>
         student.firstName.toLowerCase().includes(searchInput) ||
         student.lastName.toLocaleLowerCase().includes(searchInput) ||
@@ -103,7 +103,7 @@ export default function StudentsActive() {
     )
 
     setFilteredStudents(filteredStudents)
-  }, [searchInput, sortedStudents])
+  }, [searchInput, activeStudents])
 
   return (
     <div className="student-list">
