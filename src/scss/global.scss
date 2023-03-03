@@ -2,13 +2,19 @@
 @import url('./typography.scss');
 
 :root {
-  --clr-primary: hsl(195, 43%, 39%);
-  --clr-primary-bright: hsl(195, 43%, 90%);
-  --clr-white: #fff;
-  --clr-text: #333;
+  // --clr-primary: hsl(195, 43%, 39%);
+  --clr-primary: #4794ae;
+  --clr-primary-bright: hsl(195, 42%, 70%);
+  // --clr-primary-bright: hsl(195, 43%, 90%);
+  --clr-text: #d5d6d7;
   --clr-warning: rgb(234, 58, 58);
   --clr-darkgrey: #aaa;
-  --clr-lightgrey: #f0f0f0;
+  --clr-grey-400: #f0f0f0;
+  --clr-grey-300: #f3f3f3;
+  --clr-grey-200: #f8f9fa;
+  --clr-white: #e9eaeb;
+  --clr-bg-black-500: #343a40;
+  --clr-bg-black-400: #484e53;
 }
 
 *,
@@ -28,6 +34,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 1.6rem;
+  background-color: var(--clr-bg-black-500);
   color: var(--clr-text);
 }
 

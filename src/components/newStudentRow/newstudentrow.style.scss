@@ -11,7 +11,8 @@
     margin-right: 0.8rem;
 
     .btn-delete {
-      background-color: var(--clr-primary-bright);
+      // background-color: var(--clr-warning);
+      border: 1px solid var(--clr-warning);
       padding: 0;
       height: 1.8rem;
       width: 1.8rem;
@@ -22,7 +23,7 @@
     }
 
     .icon-delete {
-      color: var(--clr-primary);
+      color: var(--clr-warning);
     }
   }
 }

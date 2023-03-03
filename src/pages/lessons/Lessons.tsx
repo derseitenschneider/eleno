@@ -31,7 +31,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const { students } = useStudents()
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
   const [studentIndex, setStudentIndex] = useState(0)
-  const [dateOfLesson, setdateOfLesson] = useState('')
 
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
@@ -117,6 +116,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       })
     }
     postNewLesson()
+    setInputNewLesson(lessonData)
   }
   return (
     <>

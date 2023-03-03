@@ -7,6 +7,11 @@
     align-items: center;
     margin-bottom: 1.8rem;
 
+    select {
+      color: var(--clr-text);
+      background-color: var(--clr-bg-black-400);
+    }
+
     .container-right {
       display: flex;
       gap: 3.2rem;
@@ -16,6 +21,8 @@
       input {
         font-size: 1.6rem;
         padding: 0.4rem 0.8rem 0.4rem 3rem;
+        background-color: var(--clr-bg-black-400);
+        border: none;
       }
 
       .icon-search {
@@ -50,7 +57,6 @@
 }
 
 .student-list-table {
-  border: 1px solid #eee;
   border-collapse: collapse;
   border: none;
   font-size: 1.6rem;
@@ -68,8 +74,8 @@
     padding: 0.4rem 0.8rem;
     font-weight: bold;
     font-size: 1.8rem;
-    background-color: var(--clr-white);
-    border-bottom: 1px solid var(--clr-primary);
+    // background-color: var(--clr-white);
+    border-bottom: 1px solid var(--clr-bg-black-400);
   }
 
   th:first-child {
@@ -85,6 +91,7 @@
   td select,
   span {
     font-size: inherit;
+    color: var(--clr-text);
     border: none;
     padding: 0.4rem 0.8rem;
     background-color: transparent;

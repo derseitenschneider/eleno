@@ -5,12 +5,14 @@
   min-height: 100vh;
   padding-block: 2rem;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--clr-bg-black-400);
 
   &:hover &__button--toggle {
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.4s ease;
   }
+
   &.open {
     .sidebar__link-text {
       display: flex;
@@ -30,25 +32,21 @@
     position: absolute;
     border: none;
     background-color: var(--clr-primary);
-    color: white;
-    height: 2.4rem;
-    width: 2.4rem;
-    top: 50%;
-    right: -1.2rem;
+    color: var(--clr-white);
+    height: 2rem;
+    width: 2rem;
+    top: 8.2rem;
+    right: -1rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    // opacity: 0;
-    box-shadow: 8px 0 4px rgba(0, 0, 0, 0.1);
-    // transform: translateX(-50%);
-    // transition: transform .4s ease;
 
     cursor: pointer;
 
     .chevron {
-      height: 100%;
-      width: 100%;
+      // height: 100%;
+      // width: 100%;
     }
   }
 
@@ -74,7 +72,7 @@
   }
 
   .active {
-    color: var(--clr-primary);
+    color: var(--clr-white);
   }
 
   &__nav-link {
