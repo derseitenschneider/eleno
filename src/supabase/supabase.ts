@@ -90,9 +90,9 @@ export const fetchLessons = async function () {
   return lessons
 }
 
-export const postLesson = async function (lesson: TLesson) {
+export const postLesson = async function (lesson: TLesson): Promise<TLesson[]> {
   const { date, homework, lessonContent, studentId } = lesson
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from('lessons')
     .insert([{ date, homework, lessonContent, studentId }])
     .select()

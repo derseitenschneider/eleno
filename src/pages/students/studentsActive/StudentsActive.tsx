@@ -23,6 +23,7 @@ import StudentRow from '../../../components/studentRow/StudentRow'
 import NewStudentRow from '../../../components/newStudentRow/NewStudentRow'
 import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
+import { toast } from 'react-toastify'
 
 export default function StudentsActive() {
   // STATE
@@ -58,6 +59,7 @@ export default function StudentsActive() {
     )
     setStudents(newStudents)
     postArchiveStudent(id)
+    toast('Schüler:in archiviert')
   }
 
   const createNewStudent = (input: TStudent) => {
@@ -77,6 +79,7 @@ export default function StudentsActive() {
     }
     postAndFetchStudent()
     setNewStudentRowOpen(false)
+    toast('Schüler:in erstellt')
   }
 
   // SORT & FILTER STUDENTS //

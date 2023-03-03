@@ -4,6 +4,9 @@ import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet } from 'react-router-dom'
 import { fetchLessons, fetchStudents } from './supabase/supabase'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { TLesson, TStudent } from './types/types'
 
 export default function Application() {
@@ -25,6 +28,18 @@ export default function Application() {
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+      />
       <Sidebar />
       <div id="main">
         <Outlet

@@ -15,6 +15,11 @@
   --clr-white: #e9eaeb;
   --clr-bg-black-500: #343a40;
   --clr-bg-black-400: #484e53;
+
+  --toastify-color-dark: var(--clr-bg-black-400) !important;
+  --toastify-text-color-dark: var(--clr-text) !important;
+
+  --toastify-color-progress-dark: var(--clr-primary) !important;
 }
 
 *,

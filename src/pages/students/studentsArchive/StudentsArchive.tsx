@@ -12,6 +12,7 @@ import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
 import MessageModal from '../../../components/modals/message.modal.component'
 import { TStudent } from '../../../types/types'
+import { toast } from 'react-toastify'
 
 function StudentsArchive() {
   const { students, setStudents } = useStudents()
@@ -27,6 +28,7 @@ function StudentsArchive() {
     )
     setStudents(newStudents)
     postRestoreStudent(id)
+    toast('Schüler:in wiederhergestellt')
   }
 
   const openModal = (e: React.MouseEvent) => {

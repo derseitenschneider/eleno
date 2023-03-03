@@ -13,7 +13,11 @@ import './lessons.style.scss'
 import { compareDateString } from '../../utils/sortStudents'
 import { postLesson } from '../../supabase/supabase'
 
-import { formatDate } from '../../utils/formateDate'
+import {
+  formatDateToDisplay,
+  formatDateToDatabase,
+} from '../../utils/formateDate'
+import { toast } from 'react-toastify'
 
 const lessonData: TLesson = {
   date: '',
@@ -26,7 +30,7 @@ interface LessonProps {}
 
 const Lesson: FunctionComponent<LessonProps> = () => {
   const { loading } = useLoading()
-  const [date, setDate] = useState<string>()
+  const [date, setDate] = useState<string>('')
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
@@ -47,6 +51,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       .split('.')
       .map((e) => e.padStart(2, '0'))
       .join('.')
+    console.log(typeof today)
     setDate(today)
   }, [])
 
@@ -91,32 +96,41 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setInputNewLesson(newInput)
   }
 
+  const handlerInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setDate(value)
+  }
+
+  console.log(date)
+
   const handlerSaveLesson = () => {
+    console.log(date)
     const tempID = Math.floor(Math.random() * 10000000)
     const newLesson: TLesson = {
       ...inputNewLesson,
       studentId: currentStudent.id,
-      date: date,
+      date: formatDateToDatabase(date),
       id: tempID,
     }
-    console.log({ newLesson })
 
-    const tempNewLessons: TLesson[] = [...lessons, newLesson]
-    setLessons(tempNewLessons)
+    // const tempNewLessons: TLesson[] = [...lessons, newLesson]
+    setLessons((lessons) => [...lessons, newLesson])
 
     const postNewLesson = async () => {
       const [data] = await postLesson(newLesson)
-      console.log(data.id)
+      const newId = data.id
+      // console.log(data.id)
 
-      setLessons((l) => {
-        const newLessonsArray = l.map((lesson) =>
-          lesson.id === tempID ? { ...lesson, id: data.id } : lesson
+      setLessons((lessons) => {
+        const newLessonsArray = lessons.map((lesson) =>
+          lesson.id === tempID ? { ...lesson, id: newId } : lesson
         )
         return newLessonsArray
       })
     }
     postNewLesson()
     setInputNewLesson(lessonData)
+    toast('Lektion gespeichert')
   }
   return (
     <>
@@ -156,7 +170,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       {previousLesson ? (
         <div className="container container--lessons">
           <h5 className="heading-5">
-            Letzte Lektion: {formatDate(previousLesson.date)}
+            Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
           </h5>
           <div className="container--two-rows">
             <div className="row-left">
@@ -175,7 +189,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
         <h3 className="heading-3">
           Aktuelle Lektion
           <span>
-            <input type="text" value={date} onChange={() => {}} />
+            <input type="text" value={date} onChange={handlerInputDate} />
           </span>
         </h3>
         <div className="container--two-rows">
