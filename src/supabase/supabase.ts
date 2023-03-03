@@ -98,3 +98,12 @@ export const postLesson = async function (lesson: TLesson): Promise<TLesson[]> {
     .select()
   return data
 }
+
+// Notes
+export const fetchNotes = async function () {
+  const { data, error } = await supabase
+    .from('notes')
+    .select('*')
+    .order('created_at')
+  return data
+}

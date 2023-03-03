@@ -8,10 +8,11 @@
   & .row-1 {
     display: flex;
     align-items: center;
-    gap: 2.4rem;
+    gap: 1rem;
     margin-bottom: 1.8rem;
-    color: var(--clr-white);
+
     & .student-name {
+      color: var(--clr-white);
       display: flex;
       align-items: center;
       gap: 1.2rem;
@@ -32,46 +33,94 @@
   }
 }
 
-.container--lessons {
-  width: 70%;
+.container--content {
+  flex-grow: 1;
+  display: flex;
 
-  .container--two-rows {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 0.8rem;
-    margin-bottom: 2.4rem;
-  }
+  .middle {
+    flex-basis: 80%;
+    .container--lessons {
+      .container--two-rows {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2.4rem;
+        margin-bottom: 2.4rem;
 
-  textarea {
-    background-color: var(--clr-bg-black-400);
-    color: var(--clr-white);
-    font-family: inherit;
-    font-size: inherit;
-    border: none;
-    width: 100%;
-    padding: 0.8rem;
+        textarea {
+          font-family: inherit;
+          font-size: inherit;
+          color: inherit;
+          border: none;
+          width: 100%;
+          padding: 0.8rem;
 
-    resize: none;
-    min-height: 10rem;
+          resize: none;
+          outline: none;
+        }
+      }
+    }
 
-    &:focus {
-      outline: none;
+    .container--previous-lesson {
+      border-bottom: 1px solid var(--clr-bg-black-400);
+
+      textarea {
+        background-color: inherit;
+      }
+    }
+
+    .container--new-lesson {
+      textarea {
+        background-color: var(--clr-bg-black-400);
+        color: var(--clr-white);
+
+        min-height: 10rem;
+
+        &:focus {
+          outline: none;
+        }
+      }
+      input {
+        background-color: var(--clr-bg-black-500);
+        color: var(--clr-white);
+        font-size: inherit;
+        font-family: inherit;
+        border: none;
+        margin-left: 0.8rem;
+        padding: 0.8rem;
+        width: 10rem;
+        &:focus {
+          background-color: var(--clr-bg-black-400);
+          outline: none;
+        }
+      }
+
+      & .btn--save {
+        margin-top: 3.2rem;
+        margin-left: auto;
+      }
     }
   }
-}
 
-.container--new-lesson {
-  input {
-    background-color: var(--clr-bg-black-400);
-    color: var(--clr-white);
-    font-size: inherit;
-    font-family: inherit;
-    border: none;
-    margin-left: 0.8rem;
-  }
+  .left {
+    // background-color: var(--clr-bg-black-400);
+    border-left: 1px solid var(--clr-bg-black-400);
+    flex-grow: 1;
+    padding: 0.8rem;
+    // flex-basis: 30%;
 
-  & .btn--save {
-    margin-top: 3.2rem;
-    margin-left: auto;
+    .note {
+      margin-top: 2.4 rem;
+      min-height: 18rem;
+      line-height: 1.9;
+      background-color: var(--clr-bg-black-600);
+      padding: 1.2rem;
+      padding-bottom: 3.2rem;
+      white-space: pre;
+      box-shadow: 4px 4px 4px rgba(0 0 0 /0.2);
+
+      .heading-5 {
+        font-weight: 500;
+      }
+    }
   }
 }

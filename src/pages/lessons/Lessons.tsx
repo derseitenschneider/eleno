@@ -1,23 +1,34 @@
+import './lessons.style.scss'
+
+// React
 import { FunctionComponent, useEffect, useState } from 'react'
-import { TStudent, TLesson } from '../../types/types'
+
+// Types
+import { TStudent, TLesson, TNotes } from '../../types/types'
+
+// Contexts
 import { useStudents } from '../../contexts/StudentContext'
 import { useLessons } from '../../contexts/LessonsContext'
+import { useNotes } from '../../contexts/NotesContext'
 import { useLoading } from '../../contexts/LoadingContext'
+
+// Components
 import Button from '../../components/button/Button.component'
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoPersonCircleOutline,
 } from 'react-icons/io5'
-import './lessons.style.scss'
-import { compareDateString } from '../../utils/sortStudents'
-import { postLesson } from '../../supabase/supabase'
+
+// Functions
 
 import {
   formatDateToDisplay,
   formatDateToDatabase,
 } from '../../utils/formateDate'
 import { toast } from 'react-toastify'
+
+import { postLesson } from '../../supabase/supabase'
 
 const lessonData: TLesson = {
   date: '',
@@ -33,11 +44,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [date, setDate] = useState<string>('')
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
+  const { notes, setNotes } = useNotes()
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
   const [studentIndex, setStudentIndex] = useState(0)
 
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
+  const [currentNotes, setCurrentNotes] = useState<TNotes[]>([])
 
   const [previousLesson, setPreviousLesson] = useState<TLesson>()
 
@@ -51,7 +64,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       .split('.')
       .map((e) => e.padStart(2, '0'))
       .join('.')
-    console.log(typeof today)
     setDate(today)
   }, [])
 
@@ -75,6 +87,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     currentLessons &&
       setPreviousLesson(currentLessons[currentLessons.length - 1])
   }, [currentLessons, lessons])
+
+  useEffect(() => {
+    currentStudent &&
+      setCurrentNotes(
+        notes.filter((note) => note.studentId === currentStudent.id)
+      )
+  }, [currentStudent])
 
   // HANDLER
   const handlerNextStudent = () => {
@@ -101,10 +120,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setDate(value)
   }
 
-  console.log(date)
-
   const handlerSaveLesson = () => {
-    console.log(date)
     const tempID = Math.floor(Math.random() * 10000000)
     const newLesson: TLesson = {
       ...inputNewLesson,
@@ -119,7 +135,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     const postNewLesson = async () => {
       const [data] = await postLesson(newLesson)
       const newId = data.id
-      // console.log(data.id)
 
       setLessons((lessons) => {
         const newLessonsArray = lessons.map((lesson) =>
@@ -167,57 +182,77 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           </div>
         </header>
       ) : null}
-      {previousLesson ? (
-        <div className="container container--lessons">
-          <h5 className="heading-5">
-            Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
-          </h5>
-          <div className="container--two-rows">
-            <div className="row-left">
-              <h4 className="heading-4">Lektion</h4>
-              <textarea value={previousLesson.lessonContent} />
+      <div className="container--content">
+        <div className="middle">
+          {previousLesson ? (
+            <div className="container container--lessons container--previous-lesson">
+              <h5 className="heading-5">
+                Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
+              </h5>
+              <div className="container--two-rows">
+                <div className="row-left">
+                  <h4 className="heading-4">Lektion</h4>
+                  <textarea
+                    value={previousLesson.lessonContent}
+                    onChange={() => {}}
+                  />
+                </div>
+                <div className="row-right">
+                  <h4 className="heading-4">Hausaufgaben</h4>
+                  <textarea
+                    value={previousLesson.homework}
+                    onChange={() => {}}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="row-right">
-              <h4 className="heading-4">Hausaufgaben</h4>
-              <textarea value={previousLesson.homework} />
-            </div>
-          </div>
-        </div>
-      ) : null}
+          ) : null}
 
-      <div className="container container--lessons container--new-lesson">
-        <h3 className="heading-3">
-          Aktuelle Lektion
-          <span>
-            <input type="text" value={date} onChange={handlerInputDate} />
-          </span>
-        </h3>
-        <div className="container--two-rows">
-          <div className="row-left">
-            <h4 className="heading-4">Lektion</h4>
-            <textarea
-              name="lessonContent"
-              autoFocus
-              value={inputNewLesson.lessonContent}
-              onChange={handlerInputNewLesson}
-            ></textarea>
-          </div>
-          <div className="row-right">
-            <h4 className="heading-4">Hausaufgaben</h4>
-            <textarea
-              name="homework"
-              value={inputNewLesson.homework}
-              onChange={handlerInputNewLesson}
-            ></textarea>
+          <div className="container container--lessons container--new-lesson">
+            <h3 className="heading-3">
+              Aktuelle Lektion
+              <span>
+                <input type="text" value={date} onChange={handlerInputDate} />
+              </span>
+            </h3>
+            <div className="container--two-rows">
+              <div className="row-left">
+                <h4 className="heading-4">Lektion</h4>
+                <textarea
+                  name="lessonContent"
+                  autoFocus
+                  value={inputNewLesson.lessonContent}
+                  onChange={handlerInputNewLesson}
+                ></textarea>
+              </div>
+              <div className="row-right">
+                <h4 className="heading-4">Hausaufgaben</h4>
+                <textarea
+                  name="homework"
+                  value={inputNewLesson.homework}
+                  onChange={handlerInputNewLesson}
+                ></textarea>
+              </div>
+            </div>
+            <Button
+              type="button"
+              btnStyle="primary"
+              label="Speichern"
+              className="btn--save"
+              handler={handlerSaveLesson}
+            />
           </div>
         </div>
-        <Button
-          type="button"
-          btnStyle="primary"
-          label="Speichern"
-          className="btn--save"
-          handler={handlerSaveLesson}
-        />
+        <div className="left">
+          <h4 className="heading-4">Notizen</h4>
+          {currentNotes &&
+            currentNotes.map((note) => (
+              <div className="note" key={note.id}>
+                <h5 className="heading-5">{note.title}</h5>
+                <p>{note.text}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </>
   )

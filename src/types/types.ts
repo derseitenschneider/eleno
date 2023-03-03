@@ -19,6 +19,13 @@ export type TLesson = {
   studentId: number
 }
 
+export type TNotes = {
+  id?: number
+  studentId: number
+  title?: string
+  text?: string
+}
+
 export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
@@ -32,6 +39,11 @@ export type ContextTypeLessons = {
 export type ContextTypeLoading = {
   loading: boolean | null
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type ContextTypeNotes = {
+  notes: TNotes[] | null
+  setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
 }
 
 export type TSorting =
