@@ -23,6 +23,9 @@
       height: 2rem !important;
       width: 2rem !important;
     }
+    &.warning {
+      color: var(--clr-warning);
+    }
   }
 
   &--danger {

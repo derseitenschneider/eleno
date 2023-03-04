@@ -9,10 +9,11 @@ interface ButtonProps {
   type: 'button' | 'submit'
   label?: string
   icon?: ReactElement<IconType>
-  btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warming' | 'danger'
+  btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warning' | 'danger'
   handler?: (e: React.MouseEvent) => void
   className?: string
   children?: ReactNode
+  dataref?: string | number
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -23,6 +24,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   handler,
   className,
   children,
+  dataref,
 }) => {
   return (
     <>
@@ -30,6 +32,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         type={type}
         className={`button button--${btnStyle} ${className}`}
         onClick={handler}
+        data-ref={dataref}
       >
         <>
           <span>{label}</span>

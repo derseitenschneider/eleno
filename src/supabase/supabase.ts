@@ -64,10 +64,21 @@ export const postRestoreStudent = async function (studentId: number) {
 }
 
 export const postDeleteStudents = async function (studentId: number) {
+  const { data: data1, error: error1 } = await supabase
+    .from('lessons')
+    .delete()
+    .eq('studentId', studentId)
+
+  const { data: data2, error: error2 } = await supabase
+    .from('notes')
+    .delete()
+    .eq('studentId', studentId)
+
   const { data, error } = await supabase
     .from('students')
     .delete()
     .eq('id', studentId)
+  error && console.log(error)
 }
 
 export const postUpdateStudent = async function (
@@ -97,6 +108,15 @@ export const postLesson = async function (lesson: TLesson): Promise<TLesson[]> {
     .insert([{ date, homework, lessonContent, studentId }])
     .select()
   return data
+}
+
+export const deleteLessonSupabase = async (lessonId: number) => {
+  const { data, error } = await supabase
+    .from('lessons')
+    .delete()
+    .eq('id', lessonId)
+
+  error && console.log(error)
 }
 
 // Notes

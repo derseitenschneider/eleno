@@ -19,7 +19,7 @@ import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoPersonCircleOutline,
-  IoPencil,
+  IoTrashOutline,
 } from 'react-icons/io5'
 
 import { HiPencilSquare } from 'react-icons/hi2'
@@ -33,7 +33,7 @@ import {
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
-import { postLesson } from '../../supabase/supabase'
+import { postLesson, deleteLessonSupabase } from '../../supabase/supabase'
 
 const lessonData: TLesson = {
   date: '',
@@ -158,11 +158,20 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gespeichert')
   }
 
+  const deleteLesson = (e: React.MouseEvent) => {
+    const target = e.target as Element
+    const lessonId = +target.closest('button').dataset.ref
+    const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
+    setLessons(newLessons)
+    deleteLessonSupabase(lessonId)
+    toast('Lektion gelöscht')
+  }
+
   const toggleModal = () => {
     setModalOpen(!modalOpen)
   }
   return (
-    <>
+    <div className="lessons">
       {loading && <p>loading</p>}
       {currentStudent ? (
         <header className="container container--header">
@@ -196,34 +205,41 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           </div>
         </header>
       ) : null}
+
       <div className="container--content">
         <div className="middle">
           {previousLesson ? (
             <div className="container container--lessons container--previous-lesson">
-              <Button
-                type="button"
-                btnStyle="icon-only"
-                icon={<HiPencilSquare />}
-                className="button--edit"
-                handler={toggleModal}
-              />
-              <h5 className="heading-5">
-                Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
-              </h5>
+              <div className="container--edit-buttons">
+                <Button
+                  type="button"
+                  btnStyle="icon-only"
+                  icon={<HiPencilSquare />}
+                  className="button--edit"
+                  handler={toggleModal}
+                />
+                <Button
+                  type="button"
+                  btnStyle="icon-only"
+                  icon={<IoTrashOutline />}
+                  className="warning"
+                  handler={deleteLesson}
+                  dataref={previousLesson.id}
+                />
+              </div>
+              <p>Letzte Lektion: {formatDateToDisplay(previousLesson.date)}</p>
               <div className="container--two-rows">
                 <div className="row-left">
                   <h4 className="heading-4">Lektion</h4>
-                  <textarea
-                    value={previousLesson.lessonContent}
-                    onChange={() => {}}
-                  />
+                  <div className="content--previous-lesson">
+                    {previousLesson.lessonContent}
+                  </div>
                 </div>
                 <div className="row-right">
                   <h4 className="heading-4">Hausaufgaben</h4>
-                  <textarea
-                    value={previousLesson.homework}
-                    onChange={() => {}}
-                  />
+                  <div className="content--previous-lesson">
+                    {previousLesson.homework}
+                  </div>
                 </div>
               </div>
             </div>
@@ -263,6 +279,23 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               handler={handlerSaveLesson}
             />
           </div>
+          {modalOpen && (
+            <Modal
+              heading="Lektion bearbeiten"
+              handlerOverlay={toggleModal}
+              handlerClose={toggleModal}
+              buttons={[
+                { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
+              ]}
+            >
+              <div className="container--new-lesson">
+                <textarea
+                  className="input"
+                  value={previousLesson.lessonContent}
+                />
+              </div>
+            </Modal>
+          )}
         </div>
         <div className="left">
           <h4 className="heading-4">Notizen</h4>
@@ -275,17 +308,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             ))}
         </div>
       </div>
-      {modalOpen && (
-        <Modal
-          heading="Lektion bearbeiten"
-          handlerOverlay={toggleModal}
-          handlerClose={toggleModal}
-          buttons={[
-            { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
-          ]}
-        />
-      )}
-    </>
+    </div>
   )
 }
 
