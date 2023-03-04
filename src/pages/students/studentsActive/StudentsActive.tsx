@@ -108,22 +108,36 @@ export default function StudentsActive() {
     setFilteredStudents(filteredStudents)
   }, [searchInput, activeStudents])
 
+  useEffect(() => {
+    window.addEventListener('keyup', (e) => {
+      console.log(e)
+      e.key === 'n' && toggleNewStudentOpen()
+    })
+  }, [])
+
   return (
     <div className="student-list">
       <h1>Liste Schüler:innen</h1>
       {activeStudents.length > 0 && (
         <div className="container-list">
           <div className="heading">
-            <select name="" id="" defaultValue="Aktion">
+            <select
+              name=""
+              id=""
+              defaultValue="Aktion"
+              className="select-action"
+            >
               <option disabled hidden>
                 Aktion
               </option>
               <option value="archive">Archivieren</option>
               <option value="delete">Löschen</option>
             </select>
+
             <div className="container-right">
               <IoSearchOutline className="icon icon-search" />
               <input
+                className="input input--search"
                 type="search"
                 placeholder="suchen"
                 value={searchInput}
@@ -211,6 +225,11 @@ export default function StudentsActive() {
           handlerCloseButton={toggleNewStudentOpen}
         />
       )}
+      <div className="count-students">
+        <p>
+          Anzahl Schüler:innen <span>{activeStudents.length}</span>
+        </p>
+      </div>
     </div>
   )
 }

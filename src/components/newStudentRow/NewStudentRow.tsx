@@ -44,10 +44,11 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
       >
         <table className="student-list-table add-new">
           <tbody>
-            <tr className="new-student-row">
+            <tr className="student-row student-row--new">
               <td>
                 <input
                   name="firstName"
+                  className="input input--firstName"
                   value={input.firstName}
                   onChange={changeHandler}
                   required
@@ -59,6 +60,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
               <td>
                 <input
                   name="lastName"
+                  className="input input--lastName"
                   onChange={changeHandler}
                   value={input.lastName}
                   required
@@ -68,6 +70,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
               </td>
               <td>
                 <input
+                  className="input input--instrument"
                   name="instrument"
                   value={input.instrument}
                   onChange={changeHandler}
@@ -78,6 +81,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
               </td>
               <td>
                 <select
+                  className="input input--dayOfLesson"
                   name="dayOfLesson"
                   id=""
                   value={input.dayOfLesson}
@@ -98,7 +102,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
                   name="startOfLesson"
                   type="text"
                   placeholder="von"
-                  className="input-time"
+                  className="input input--time"
                   value={input.startOfLesson}
                   onChange={changeHandler}
                 />
@@ -107,7 +111,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
                   name="endOfLesson"
                   type="text"
                   placeholder="bis"
-                  className="input-time"
+                  className="input input--time"
                   value={input.endOfLesson}
                   onChange={changeHandler}
                 />
@@ -117,7 +121,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
                   name="durationMinutes"
                   type="text"
                   placeholder=""
-                  className="input-duration"
+                  className="input input--duration"
                   value={input.durationMinutes}
                   onChange={changeHandler}
                 />
@@ -128,7 +132,7 @@ const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
                   name="location"
                   type="text"
                   placeholder="Ort"
-                  className="input-location"
+                  className="input input--location"
                   value={input.location}
                   onChange={changeHandler}
                 />

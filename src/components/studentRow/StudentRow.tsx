@@ -63,13 +63,14 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   }
 
   return (
-    <tr key={student.id}>
+    <tr key={student.id} className="student-row">
       <td>
-        <input type="checkbox" name="" id="" />
+        <input type="checkbox" name="" id="" className="checkbox" />
       </td>
       <td>
         {form && (
           <input
+            className="input input--firstName"
             data-id={inputCurrentStudent.id}
             type="text"
             value={inputCurrentStudent.firstName}
@@ -83,6 +84,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       <td>
         {form && (
           <input
+            className="input input--lastName"
             data-id={inputCurrentStudent.id}
             type="text"
             value={inputCurrentStudent.lastName}
@@ -96,6 +98,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       <td>
         {form && (
           <input
+            className="input input--instrument"
             data-id={inputCurrentStudent.id}
             type="text"
             value={inputCurrentStudent.instrument}
@@ -110,6 +113,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         <>
           <td>
             <select
+              className="input input--dayOfLesson"
               data-id={inputCurrentStudent.id}
               name="dayOfLesson"
               id=""
@@ -131,9 +135,9 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               value={inputCurrentStudent.startOfLesson}
               onChange={hanlderOnChange}
               onBlur={handlerOnBlur}
-              className="input-time"
+              className="input input--time"
             />
-            <span> - </span>
+            <span>-</span>
             <input
               data-id={inputCurrentStudent.id}
               name="endOfLesson"
@@ -141,7 +145,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               value={inputCurrentStudent.endOfLesson}
               onChange={hanlderOnChange}
               onBlur={handlerOnBlur}
-              className="input-time"
+              className="input input--time"
             />
           </td>
           <td>
@@ -152,7 +156,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               value={inputCurrentStudent.durationMinutes}
               onChange={hanlderOnChange}
               onBlur={handlerOnBlur}
-              className="input-duration"
+              className="input input--duration"
             />
             <span>min</span>
           </td>
@@ -162,7 +166,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               data-id={inputCurrentStudent.id}
               type="text"
               value={inputCurrentStudent.location}
-              className="input-location"
+              className="input input--location"
               onChange={hanlderOnChange}
               onBlur={handlerOnBlur}
             />
@@ -170,27 +174,19 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         </>
       )}
 
-      <td className="td-buttons">
+      <td className="buttons">
         {buttons?.map((button) => (
           <button
             title={button.label}
             onClick={button.handler}
-            className={button.className}
+            className={`button button--${button.label.toLocaleLowerCase()}`}
             data-id={student.id}
           >
-            <button.icon className="icon" />
+            <button.icon
+              className={`icon icon--${button.label.toLocaleLowerCase()}`}
+            />
           </button>
         ))}
-
-        {/* <button title='Unterrichtsblatt'>
-                  <IoSchoolOutline className='icon icon-lessons'/></button>
-                <button 
-                title='Archivieren' 
-                onClick={handlerArchive}
-                data-id={student.id}
-                >
-                  <IoTrashOutline className='icon icon-trash'/>
-                </button>                 */}
       </td>
     </tr>
   )

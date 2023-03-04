@@ -1,15 +1,20 @@
 .student-list {
   position: relative;
-  // min-height: calc(100vh - 12.2rem);
+  // max-height: calc(100vh - 50rem);
   .heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.8rem;
 
-    select {
+    .select-action {
       color: var(--clr-text);
       background-color: var(--clr-bg-black-400);
+      font-size: inherit;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     .container-right {
@@ -18,11 +23,18 @@
       align-items: center;
       position: relative;
 
-      input {
+      .input--search {
         font-size: 1.6rem;
         padding: 0.4rem 0.8rem 0.4rem 3rem;
         background-color: var(--clr-bg-black-400);
+        color: var(--clr-text);
         border: none;
+
+        &:focus {
+          outline: none;
+          box-shadow: inset 1px 1px 0 var(--clr-primary),
+            inset -1px -1px 0 var(--clr-primary);
+        }
       }
 
       .icon-search {
@@ -54,24 +66,34 @@
       }
     }
   }
+
+  .count-students {
+    margin-top: 2.4rem;
+  }
 }
 
 .student-list-table {
   border-collapse: collapse;
   border: none;
   font-size: 1.6rem;
-  // display: block;
-  max-height: 45vh;
+  display: block;
+  max-height: 65vh;
+  overflow-y: scroll;
   width: 100%;
   white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
 
   thead {
     position: sticky;
     top: 0;
+    background-color: var(--clr-bg-black-600);
   }
 
   th {
-    padding: 0.4rem 0.8rem;
+    padding: 0.4rem 0;
     font-weight: bold;
     font-size: 1.8rem;
     // background-color: var(--clr-white);
@@ -79,56 +101,15 @@
   }
 
   th:first-child {
-    padding: 0.4rem 0.1rem;
+    padding: 0.4rem 0.8rem;
   }
 
-  th,
-  td {
+  th {
     text-align: left;
   }
 
-  td input,
-  td select,
-  span {
-    font-size: inherit;
-    color: var(--clr-text);
-    border: none;
-    padding: 0.4rem 0.8rem;
-    background-color: transparent;
-    line-height: 2;
-  }
-
-  td input:focus-visible,
-  td select:focus-visible {
-    outline: none;
-  }
-
-  input[type='time'] {
-    font-family: inherit;
-  }
-
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-  }
-
   tbody tr:nth-child(odd):not(.new-student-row) {
-    background-color: var(--clr-lightgrey);
-  }
-
-  .input-time {
-    width: 6rem;
-  }
-
-  .input-duration {
-    width: 4rem;
-    padding: 0;
-  }
-
-  .input-location {
-    // width: 20rem;
+    background-color: var(--clr-bg-black-400);
   }
 
   .icon {

@@ -1,4 +1,4 @@
-.new-student-row {
+.student-row--new {
   line-height: 4;
   border: 2px solid var(--clr-primary);
   padding: 2rem;
@@ -33,7 +33,7 @@ td.td-buttons {
 }
 
 .btn-delete .icon {
-  color: red;
+  color: var(--clr-warning);
 }
 
 .container-btn {
