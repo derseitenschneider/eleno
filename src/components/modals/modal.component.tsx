@@ -11,7 +11,7 @@ interface ModalProps {
   buttons: {
     label: string
     handler: (e: React.MouseEvent) => void
-    btnStyle: 'primary' | 'secondary' | 'warming' | 'danger'
+    btnStyle: 'primary' | 'secondary' | 'warning' | 'danger'
   }[]
 }
 
@@ -28,7 +28,7 @@ const Modal: FunctionComponent<ModalProps> = ({
         <button onClick={handlerClose} className="button--close-modal">
           <IoCloseOutline />
         </button>
-        <h1>{heading}</h1>
+        <h2 className="heading-modal">{heading}</h2>
         {children}
         <div className="container-buttons">
           {buttons.map((button) => (

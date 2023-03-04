@@ -108,97 +108,104 @@ export default function StudentsActive() {
     setFilteredStudents(filteredStudents)
   }, [searchInput, activeStudents])
 
-  useEffect(() => {
-    const handleEvent = (e: KeyboardEvent) => {
-      e.key === 'n' && toggleNewStudentOpen()
-    }
-    window.addEventListener('keyup', handleEvent)
+  // useEffect(() => {
+  //   const handleEvent = (e: KeyboardEvent) => {
+  //     e.key === 'n' && toggleNewStudentOpen()
+  //   }
+  //   window.addEventListener('keyup', handleEvent)
 
-    return () => {
-      window.removeEventListener('keyup', handleEvent)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('keyup', handleEvent)
+  //   }
+  // }, [])
 
   return (
     <div className="student-list">
       <h1>Liste Schüler:innen</h1>
       {activeStudents.length > 0 && (
-        <div className="container-list">
-          <div className="heading">
-            <select
-              name=""
-              id=""
-              defaultValue="Aktion"
-              className="select-action"
-            >
-              <option disabled hidden>
-                Aktion
-              </option>
-              <option value="archive">Archivieren</option>
-              <option value="delete">Löschen</option>
-            </select>
+        <>
+          <div className="container-list">
+            <div className="heading">
+              <select
+                name=""
+                id=""
+                defaultValue="Aktion"
+                className="select-action"
+              >
+                <option disabled hidden>
+                  Aktion
+                </option>
+                <option value="archive">Archivieren</option>
+                <option value="delete">Löschen</option>
+              </select>
 
-            <div className="container-right">
-              <IoSearchOutline className="icon icon-search" />
-              <input
-                className="input input--search"
-                type="search"
-                placeholder="suchen"
-                value={searchInput}
-                onChange={onChangeHandlerInput}
-              />
-
-              <Button
-                handler={addStudentEventHandler}
-                btnStyle="primary"
-                type="button"
-                label="Neu"
-                icon={<IoPersonAddOutline />}
-                className={`${newStudentRowOpen && 'inactive'}  `}
-              />
-            </div>
-          </div>
-
-          <table className="student-list-table">
-            <thead>
-              <tr>
-                <th>
-                  <input type="checkbox" />
-                </th>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Instrument</th>
-                <th>Tag</th>
-                <th>Zeit</th>
-                <th>Dauer</th>
-                <th>Unterrichtsort</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredStudents.map((student) => (
-                <StudentRow
-                  key={student.id}
-                  form={true}
-                  student={student}
-                  buttons={[
-                    {
-                      label: 'Unterrichtsblatt',
-                      icon: IoSchoolOutline,
-                      handler: () => {},
-                    },
-                    {
-                      label: 'Archivieren',
-                      icon: IoArchiveOutline,
-                      handler: handlerArchive,
-                    },
-                  ]}
+              <div className="container-right">
+                <IoSearchOutline className="icon icon-search" />
+                <input
+                  className="input input--search"
+                  type="search"
+                  placeholder="suchen"
+                  value={searchInput}
+                  onChange={onChangeHandlerInput}
                 />
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+                <Button
+                  handler={addStudentEventHandler}
+                  btnStyle="primary"
+                  type="button"
+                  label="Neu"
+                  icon={<IoPersonAddOutline />}
+                  className={`${newStudentRowOpen && 'inactive'}  `}
+                />
+              </div>
+            </div>
+
+            <table className="student-list-table">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" />
+                  </th>
+                  <th className="th--firstName">Vorname</th>
+                  <th className="th--lastName">Nachname</th>
+                  <th className="th--instrument">Instrument</th>
+                  <th className="th--day">Tag</th>
+                  <th className="th--time">Zeit</th>
+                  <th className="th--duration">Dauer</th>
+                  <th>Unterrichtsort</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredStudents.map((student) => (
+                  <StudentRow
+                    key={student.id}
+                    form={true}
+                    student={student}
+                    buttons={[
+                      {
+                        label: 'Unterrichtsblatt',
+                        icon: IoSchoolOutline,
+                        handler: () => {},
+                      },
+                      {
+                        label: 'Archivieren',
+                        icon: IoArchiveOutline,
+                        handler: handlerArchive,
+                      },
+                    ]}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="count-students">
+            <p>
+              Anzahl Schüler:innen <span>{activeStudents.length}</span>
+            </p>
+          </div>
+        </>
       )}
 
       {activeStudents.length <= 0 && !newStudentRowOpen && (
@@ -229,11 +236,6 @@ export default function StudentsActive() {
           handlerCloseButton={toggleNewStudentOpen}
         />
       )}
-      <div className="count-students">
-        <p>
-          Anzahl Schüler:innen <span>{activeStudents.length}</span>
-        </p>
-      </div>
     </div>
   )
 }

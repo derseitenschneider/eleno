@@ -7,7 +7,8 @@
   --clr-primary-bright: hsl(195, 42%, 70%);
   // --clr-primary-bright: hsl(195, 43%, 90%);
   --clr-text: #d5d6d7;
-  --clr-warning: rgb(234, 58, 58);
+  // --clr-warning: rgb(234, 58, 58);
+  --clr-warning: #ae476d;
   --clr-darkgrey: #aaa;
   --clr-grey-400: #f0f0f0;
   --clr-grey-300: #f3f3f3;
@@ -79,6 +80,20 @@ a,
 strong,
 span {
   font-size: 1.6rem;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background-color: var(--clr-bg-black-400);
+  border: none;
+  width: 100%;
+  padding: 0.8rem;
+
+  resize: none;
+  outline: none;
 }
 
 .App {

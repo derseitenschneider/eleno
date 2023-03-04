@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 function ToDos() {
   return (
-    <div>
+    <div className="container">
       <h1>ToDos</h1>
     </div>
-  );
+  )
 }
 
-export default ToDos;
+export default ToDos

@@ -62,18 +62,6 @@
             margin-top: 1.2rem;
             margin-bottom: 0.8rem;
           }
-          .input,
-          textarea {
-            font-family: inherit;
-            font-size: inherit;
-            color: inherit;
-            border: none;
-            width: 100%;
-            padding: 0.8rem;
-
-            resize: none;
-            outline: none;
-          }
         }
       }
 
@@ -123,12 +111,16 @@
     }
 
     .left {
-      // background-color: var(--clr-bg-black-400);
+      position: relative;
       border-left: 1px solid var(--clr-bg-black-400);
       flex-grow: 1;
       padding: 0.8rem;
-      // flex-basis: 30%;
 
+      .button--add-note {
+        position: absolute;
+        top: 0.8rem;
+        right: 0.8rem;
+      }
       .note {
         margin-top: 2.4 rem;
         min-height: 18rem;
@@ -144,5 +136,13 @@
         }
       }
     }
+  }
+
+  .note-title {
+    margin-bottom: 2.4rem;
+  }
+
+  .note-content {
+    height: 16rem;
   }
 }

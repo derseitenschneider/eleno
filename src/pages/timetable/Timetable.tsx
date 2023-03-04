@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 function Timetable() {
   return (
-    <div>
-      <h1>Timetable</h1>
+    <div className="container">
+      <h1>Stundenplan</h1>
     </div>
-  );
+  )
 }
 
-export default Timetable;
+export default Timetable

@@ -19,6 +19,7 @@
 
   &--icon-only {
     color: var(--clr-primary-bright);
+    padding: 0.4rem;
     & span:empty + span svg {
       height: 2rem !important;
       width: 2rem !important;

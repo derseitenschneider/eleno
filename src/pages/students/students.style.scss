@@ -77,7 +77,7 @@
   border: none;
   font-size: 1.6rem;
   display: block;
-  max-height: 65vh;
+  max-height: 45vh;
   overflow-y: scroll;
   width: 100%;
   white-space: nowrap;
@@ -96,16 +96,30 @@
     padding: 0.4rem 0;
     font-weight: bold;
     font-size: 1.8rem;
+    width: 100%;
+
     // background-color: var(--clr-white);
     border-bottom: 1px solid var(--clr-bg-black-400);
   }
 
   th:first-child {
     padding: 0.4rem 0.8rem;
+    width: 1rem;
   }
 
   th {
     text-align: left;
+  }
+
+  .th--firstName,
+  .th--lastName,
+  .th--instrument,
+  .th--day {
+    width: 10ch;
+  }
+
+  .th--duration {
+    padding-right: 10rem;
   }
 
   tbody tr:nth-child(odd):not(.new-student-row) {

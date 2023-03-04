@@ -3,6 +3,7 @@
   left: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
+  min-width: 50vw;
 
   z-index: 1;
 
@@ -20,10 +21,14 @@
   padding: 6.4rem;
   box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2);
 
-  display: grid;
-  place-content: center;
+  // display: grid;
+  // place-content: center;
 
   z-index: 2;
+
+  .heading-modal {
+    margin-bottom: 1.2rem;
+  }
 }
 
 .button--close-modal svg {
@@ -40,10 +45,10 @@
 
 .overlay {
   position: absolute;
-  top: -200%;
-  left: -100%;
-  width: 200vw;
-  height: 200vh;
+  top: -200vh;
+  left: -100vh;
+  width: 500vw;
+  height: 500vh;
   background-color: rgba(0 0 0/0.4);
   z-index: -1;
 }

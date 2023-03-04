@@ -20,6 +20,7 @@ import {
   IoArrowForwardOutline,
   IoPersonCircleOutline,
   IoTrashOutline,
+  IoAddOutline,
 } from 'react-icons/io5'
 
 import { HiPencilSquare } from 'react-icons/hi2'
@@ -42,6 +43,11 @@ const lessonData: TLesson = {
   lessonContent: '',
 }
 
+const noteData = {
+  title: '',
+  content: '',
+}
+
 interface LessonProps {}
 
 const Lesson: FunctionComponent<LessonProps> = () => {
@@ -61,7 +67,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalEditOpen, setModalEditOpen] = useState(false)
+  const [modalNotesOpen, setModalNotesOpen] = useState(false)
+
+  const [newNoteInput, setNewNoteInput] = useState(noteData)
 
   //EFFECTS
 
@@ -158,6 +167,17 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gespeichert')
   }
 
+  const handlerInputNote = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const name = e.target.name
+    const value = e.target.value
+    const tempNewNoteInput = { ...newNoteInput, [name]: value }
+    setNewNoteInput(tempNewNoteInput)
+  }
+
+  const addNote = () => {}
+
   const deleteLesson = (e: React.MouseEvent) => {
     const target = e.target as Element
     const lessonId = +target.closest('button').dataset.ref
@@ -167,9 +187,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gelöscht')
   }
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen)
+  const toggleModalEdit = () => {
+    setModalEditOpen(!modalEditOpen)
   }
+
+  const toggleModalNotes = () => {
+    setModalNotesOpen(!modalNotesOpen)
+  }
+
   return (
     <div className="lessons">
       {loading && <p>loading</p>}
@@ -216,7 +241,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                   btnStyle="icon-only"
                   icon={<HiPencilSquare />}
                   className="button--edit"
-                  handler={toggleModal}
+                  handler={toggleModalEdit}
                 />
                 <Button
                   type="button"
@@ -279,11 +304,11 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               handler={handlerSaveLesson}
             />
           </div>
-          {modalOpen && (
+          {modalEditOpen && (
             <Modal
               heading="Lektion bearbeiten"
-              handlerOverlay={toggleModal}
-              handlerClose={toggleModal}
+              handlerOverlay={toggleModalEdit}
+              handlerClose={toggleModalEdit}
               buttons={[
                 { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
               ]}
@@ -298,6 +323,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           )}
         </div>
         <div className="left">
+          <Button
+            type="button"
+            btnStyle="icon-only"
+            className="button--add-note"
+            icon={<IoAddOutline />}
+            handler={toggleModalNotes}
+          />
           <h4 className="heading-4">Notizen</h4>
           {currentNotes &&
             currentNotes.map((note) => (
@@ -308,6 +340,32 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             ))}
         </div>
       </div>
+      {modalNotesOpen && (
+        <Modal
+          heading="Neue Notiz erstellen"
+          handlerClose={toggleModalNotes}
+          handlerOverlay={toggleModalNotes}
+          buttons={[
+            { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
+          ]}
+        >
+          <input
+            type="text"
+            name="title"
+            placeholder="Titel"
+            className="note-title"
+            value={newNoteInput.title}
+            onChange={handlerInputNote}
+          />
+          <textarea
+            name="content"
+            placeholder="Inhalt"
+            className="note-content"
+            value={newNoteInput.content}
+            onChange={handlerInputNote}
+          />
+        </Modal>
+      )}
     </div>
   )
 }
