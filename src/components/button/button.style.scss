@@ -17,6 +17,14 @@
     color: var(--clr-primary);
   }
 
+  &--icon-only {
+    color: var(--clr-primary-bright);
+    & span:empty + span svg {
+      height: 2rem !important;
+      width: 2rem !important;
+    }
+  }
+
   &--danger {
     border: 1px solid var(--clr-warning);
     color: var(--clr-warning);

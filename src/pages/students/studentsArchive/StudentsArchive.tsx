@@ -10,7 +10,7 @@ import {
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
-import MessageModal from '../../../components/modals/message.modal.component'
+import MessageModal from '../../../components/modals/modal.component'
 import { TStudent } from '../../../types/types'
 import { toast } from 'react-toastify'
 
@@ -99,7 +99,6 @@ function StudentsArchive() {
       {isModalOpen && (
         <MessageModal
           heading="Schüler:in löschen?"
-          body="Möchtest du diese:n Schüler:in unwiederruflich löschen?"
           handlerOverlay={() => {
             setIsModalOpen(false)
           }}
@@ -120,7 +119,9 @@ function StudentsArchive() {
               btnStyle: 'danger',
             },
           ]}
-        />
+        >
+          <p>Möchtest alle Daten diese:r Schüler:in unwiederruflich löschen?</p>
+        </MessageModal>
       )}
     </div>
   )

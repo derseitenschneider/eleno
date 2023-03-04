@@ -47,3 +47,7 @@
   background-color: rgba(0 0 0/0.4);
   z-index: -1;
 }
+
+body:has(.overlay) {
+  overflow: hidden;
+}

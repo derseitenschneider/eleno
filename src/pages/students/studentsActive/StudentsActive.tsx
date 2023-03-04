@@ -109,10 +109,14 @@ export default function StudentsActive() {
   }, [searchInput, activeStudents])
 
   useEffect(() => {
-    window.addEventListener('keyup', (e) => {
-      console.log(e)
+    const handleEvent = (e: KeyboardEvent) => {
       e.key === 'n' && toggleNewStudentOpen()
-    })
+    }
+    window.addEventListener('keyup', handleEvent)
+
+    return () => {
+      window.removeEventListener('keyup', handleEvent)
+    }
   }, [])
 
   return (

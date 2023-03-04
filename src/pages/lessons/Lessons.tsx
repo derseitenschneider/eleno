@@ -14,11 +14,15 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 // Components
 import Button from '../../components/button/Button.component'
+import Modal from '../../components/modals/modal.component'
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoPersonCircleOutline,
+  IoPencil,
 } from 'react-icons/io5'
+
+import { HiPencilSquare } from 'react-icons/hi2'
 
 // Functions
 
@@ -26,6 +30,7 @@ import {
   formatDateToDisplay,
   formatDateToDatabase,
 } from '../../utils/formateDate'
+import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
 import { postLesson } from '../../supabase/supabase'
@@ -56,6 +61,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   //EFFECTS
 
   useEffect(() => {
@@ -68,8 +75,11 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }, [])
 
   useEffect(() => {
-    students &&
-      setActiveStudents(students.filter((student) => !student.archive))
+    if (students) {
+      const activeStudents = students.filter((student) => !student.archive)
+      const sortedStudents = sortStudentsDateTime(activeStudents)
+      setActiveStudents(sortedStudents)
+    }
   }, [students])
 
   useEffect(() => {
@@ -147,6 +157,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setInputNewLesson(lessonData)
     toast('Lektion gespeichert')
   }
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen)
+  }
   return (
     <>
       {loading && <p>loading</p>}
@@ -186,6 +200,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
         <div className="middle">
           {previousLesson ? (
             <div className="container container--lessons container--previous-lesson">
+              <Button
+                type="button"
+                btnStyle="icon-only"
+                icon={<HiPencilSquare />}
+                className="button--edit"
+                handler={toggleModal}
+              />
               <h5 className="heading-5">
                 Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
               </h5>
@@ -254,6 +275,16 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             ))}
         </div>
       </div>
+      {modalOpen && (
+        <Modal
+          heading="Lektion bearbeiten"
+          handlerOverlay={toggleModal}
+          handlerClose={toggleModal}
+          buttons={[
+            { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
+          ]}
+        />
+      )}
     </>
   )
 }

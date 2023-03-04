@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react'
-import './message.modal.style.scss'
+import { FunctionComponent, ReactNode } from 'react'
+import './modal.style.scss'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../button/Button.component'
 
-interface MessageModalProps {
+interface ModalProps {
   heading: string
-  body: string
+  children?: ReactNode
   handlerOverlay: (e: React.MouseEvent) => void
   handlerClose: (e: React.MouseEvent) => void
   buttons: {
@@ -15,9 +15,9 @@ interface MessageModalProps {
   }[]
 }
 
-const MessageModal: FunctionComponent<MessageModalProps> = ({
+const Modal: FunctionComponent<ModalProps> = ({
   heading,
-  body,
+  children,
   handlerOverlay,
   handlerClose,
   buttons,
@@ -29,7 +29,7 @@ const MessageModal: FunctionComponent<MessageModalProps> = ({
           <IoCloseOutline />
         </button>
         <h1>{heading}</h1>
-        <p>{body}</p>
+        {children}
         <div className="container-buttons">
           {buttons.map((button) => (
             <Button
@@ -46,4 +46,4 @@ const MessageModal: FunctionComponent<MessageModalProps> = ({
   )
 }
 
-export default MessageModal
+export default Modal

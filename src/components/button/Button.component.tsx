@@ -9,7 +9,7 @@ interface ButtonProps {
   type: 'button' | 'submit'
   label?: string
   icon?: ReactElement<IconType>
-  btnStyle: 'primary' | 'secondary' | 'warming' | 'danger'
+  btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warming' | 'danger'
   handler?: (e: React.MouseEvent) => void
   className?: string
   children?: ReactNode
