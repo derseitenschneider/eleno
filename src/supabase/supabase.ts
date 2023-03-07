@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { TLesson, TStudent } from '../types/types'
+import { TLesson, TNotes, TStudent } from '../types/types'
 
 const supabaseUrl = 'https://brhpqxeowknyhrimssxw.supabase.co'
 const supabaseKey =
@@ -126,4 +126,23 @@ export const fetchNotes = async function () {
     .select('*')
     .order('created_at')
   return data
+}
+
+export const postNotes = async function (
+  note: TNotes,
+  studentID: number
+): Promise<TNotes[]> {
+  const { studentId, title, text } = note
+  const { data, error } = await supabase
+    .from('notes')
+    .insert([{ studentId, title, text }])
+    .select()
+
+  error && console.log(error)
+
+  return data
+}
+
+export const deleteNoteSupabase = async function (noteId: number) {
+  const { data, error } = await supabase.from('notes').delete().eq('id', noteId)
 }

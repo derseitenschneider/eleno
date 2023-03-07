@@ -122,7 +122,8 @@
         right: 0.8rem;
       }
       .note {
-        margin-top: 2.4 rem;
+        position: relative;
+        margin-top: 2.4rem;
         min-height: 18rem;
         line-height: 1.9;
         background-color: var(--clr-bg-black-600);
@@ -133,6 +134,12 @@
 
         .heading-5 {
           font-weight: 500;
+        }
+
+        .button--delete-note {
+          position: absolute;
+          top: 1.2rem;
+          right: 1.2rem;
         }
       }
     }

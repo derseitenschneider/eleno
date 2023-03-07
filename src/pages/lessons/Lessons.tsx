@@ -21,6 +21,7 @@ import {
   IoPersonCircleOutline,
   IoTrashOutline,
   IoAddOutline,
+  IoClose,
 } from 'react-icons/io5'
 
 import { HiPencilSquare } from 'react-icons/hi2'
@@ -34,7 +35,12 @@ import {
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
-import { postLesson, deleteLessonSupabase } from '../../supabase/supabase'
+import {
+  postLesson,
+  deleteLessonSupabase,
+  postNotes,
+  deleteNoteSupabase,
+} from '../../supabase/supabase'
 
 const lessonData: TLesson = {
   date: '',
@@ -43,9 +49,10 @@ const lessonData: TLesson = {
   lessonContent: '',
 }
 
-const noteData = {
+const noteData: TNotes = {
   title: '',
-  content: '',
+  text: '',
+  studentId: 0,
 }
 
 interface LessonProps {}
@@ -112,7 +119,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       setCurrentNotes(
         notes.filter((note) => note.studentId === currentStudent.id)
       )
-  }, [currentStudent])
+  }, [currentStudent, notes])
 
   // HANDLER
   const handlerNextStudent = () => {
@@ -178,7 +185,32 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }
 
   // [ ] add note functionallity
-  const addNote = () => {}
+  const saveNote = () => {
+    const tempID = Math.floor(Math.random() * 10000000)
+    const newNote = { ...newNoteInput, studentId: currentStudent.id }
+    const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
+    setNotes(tempNotes)
+    setNewNoteInput(noteData)
+    setModalNotesOpen(false)
+    const postData = async () => {
+      const [data] = await postNotes(newNote, currentStudent.id)
+      setNotes((notes) =>
+        notes.map((note) =>
+          note.id === tempID ? { ...note, id: data.id } : note
+        )
+      )
+    }
+    postData()
+    toast('Notiz gespeichert')
+  }
+
+  const deleteNote = (e: React.MouseEvent) => {
+    const target = e.target as Element
+    const currNoteId = +target.closest('button').dataset.ref
+    setNotes((notes) => notes.filter((note) => note.id !== currNoteId))
+    deleteNoteSupabase(currNoteId)
+    toast('Notiz gelöscht')
+  }
 
   const deleteLesson = (e: React.MouseEvent) => {
     const target = e.target as Element
@@ -283,7 +315,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             <div className="container--two-rows">
               <div className="row-left">
                 <h4 className="heading-4">Lektion</h4>
-                // [ ] focus on textarea when student changes
+                {/* // [ ] focus on textarea when student changes */}
                 <textarea
                   name="lessonContent"
                   autoFocus
@@ -338,6 +370,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           {currentNotes &&
             currentNotes.map((note) => (
               <div className="note" key={note.id}>
+                <Button
+                  type="button"
+                  btnStyle="icon-only"
+                  handler={deleteNote}
+                  icon={<IoClose />}
+                  className="button--delete-note"
+                  dataref={note.id}
+                />
                 <h5 className="heading-5">{note.title}</h5>
                 <p>{note.text}</p>
               </div>
@@ -350,7 +390,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
           handlerClose={toggleModalNotes}
           handlerOverlay={toggleModalNotes}
           buttons={[
-            { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
+            { label: 'Speichern', btnStyle: 'primary', handler: saveNote },
           ]}
         >
           <input
@@ -362,10 +402,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             onChange={handlerInputNote}
           />
           <textarea
-            name="content"
+            name="text"
             placeholder="Inhalt"
             className="note-content"
-            value={newNoteInput.content}
+            value={newNoteInput.text}
             onChange={handlerInputNote}
           />
         </Modal>
