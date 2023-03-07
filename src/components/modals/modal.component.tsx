@@ -8,6 +8,7 @@ interface ModalProps {
   children?: ReactNode
   handlerOverlay: (e: React.MouseEvent) => void
   handlerClose: (e: React.MouseEvent) => void
+  className?: string
   buttons: {
     label: string
     handler: (e: React.MouseEvent) => void
@@ -21,9 +22,10 @@ const Modal: FunctionComponent<ModalProps> = ({
   handlerOverlay,
   handlerClose,
   buttons,
+  className,
 }) => {
   return (
-    <div className="container-modal">
+    <div className={`container-modal ${className}`}>
       <div className="modal">
         <button onClick={handlerClose} className="button--close-modal">
           <IoCloseOutline />

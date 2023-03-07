@@ -228,6 +228,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   // [ ] Focus on Title input field
   const toggleModalNotes = () => {
     setModalNotesOpen(!modalNotesOpen)
+    setNewNoteInput(noteData)
   }
 
   return (
@@ -267,125 +268,126 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       ) : null}
 
       <div className="container--content">
-        <div className="middle">
-          {previousLesson ? (
-            <div className="container container--lessons container--previous-lesson">
-              <div className="container--edit-buttons">
-                <Button
-                  type="button"
-                  btnStyle="icon-only"
-                  icon={<HiPencilSquare />}
-                  className="button--edit"
-                  handler={toggleModalEdit}
-                />
-                <Button
-                  type="button"
-                  btnStyle="icon-only"
-                  icon={<IoTrashOutline />}
-                  className="warning"
-                  handler={deleteLesson}
-                  dataref={previousLesson.id}
-                />
-              </div>
-              <p>Letzte Lektion: {formatDateToDisplay(previousLesson.date)}</p>
-              <div className="container--two-rows">
-                <div className="row-left">
-                  <h4 className="heading-4">Lektion</h4>
-                  <div className="content--previous-lesson">
-                    {previousLesson.lessonContent}
-                  </div>
-                </div>
-                <div className="row-right">
-                  <h4 className="heading-4">Hausaufgaben</h4>
-                  <div className="content--previous-lesson">
-                    {previousLesson.homework}
-                  </div>
-                </div>
-              </div>
+        {previousLesson ? (
+          <div className="container container--lessons container--previous-lesson">
+            <div className="container--edit-buttons">
+              <Button
+                type="button"
+                btnStyle="icon-only"
+                icon={<HiPencilSquare />}
+                className="button--edit"
+                handler={toggleModalEdit}
+              />
+              <Button
+                type="button"
+                btnStyle="icon-only"
+                icon={<IoTrashOutline />}
+                className="warning"
+                handler={deleteLesson}
+                dataref={previousLesson.id}
+              />
             </div>
-          ) : null}
-
-          <div className="container container--lessons container--new-lesson">
-            <h3 className="heading-3">
-              Aktuelle Lektion
-              <span>
-                <input type="text" value={date} onChange={handlerInputDate} />
-              </span>
-            </h3>
+            <p>Letzte Lektion: {formatDateToDisplay(previousLesson.date)}</p>
             <div className="container--two-rows">
               <div className="row-left">
                 <h4 className="heading-4">Lektion</h4>
-                {/* // [ ] focus on textarea when student changes */}
-                <textarea
-                  name="lessonContent"
-                  autoFocus
-                  value={inputNewLesson.lessonContent}
-                  onChange={handlerInputNewLesson}
-                ></textarea>
+                <div className="content--previous-lesson">
+                  {previousLesson.lessonContent}
+                </div>
               </div>
               <div className="row-right">
                 <h4 className="heading-4">Hausaufgaben</h4>
-                <textarea
-                  name="homework"
-                  value={inputNewLesson.homework}
-                  onChange={handlerInputNewLesson}
-                ></textarea>
+                <div className="content--previous-lesson">
+                  {previousLesson.homework}
+                </div>
               </div>
             </div>
-            <Button
-              type="button"
-              btnStyle="primary"
-              label="Speichern"
-              className="btn--save"
-              handler={handlerSaveLesson}
-            />
           </div>
-          {modalEditOpen && (
-            <Modal
-              heading="Lektion bearbeiten"
-              handlerOverlay={toggleModalEdit}
-              handlerClose={toggleModalEdit}
-              buttons={[
-                { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
-              ]}
-            >
-              <div className="container--new-lesson">
-                <textarea
-                  className="input"
-                  value={previousLesson.lessonContent}
-                />
-              </div>
-            </Modal>
-          )}
-        </div>
-        <div className="left">
+        ) : null}
+
+        <div className="container container--lessons container--new-lesson">
+          <h3 className="heading-3">
+            Aktuelle Lektion
+            <span>
+              <input type="text" value={date} onChange={handlerInputDate} />
+            </span>
+          </h3>
+          <div className="container--two-rows">
+            <div className="row-left">
+              <h4 className="heading-4">Lektion</h4>
+              {/* // [ ] focus on textarea when student changes */}
+              <textarea
+                name="lessonContent"
+                autoFocus
+                value={inputNewLesson.lessonContent}
+                onChange={handlerInputNewLesson}
+              ></textarea>
+            </div>
+            <div className="row-right">
+              <h4 className="heading-4">Hausaufgaben</h4>
+              <textarea
+                name="homework"
+                value={inputNewLesson.homework}
+                onChange={handlerInputNewLesson}
+              ></textarea>
+            </div>
+          </div>
           <Button
             type="button"
-            btnStyle="icon-only"
-            className="button--add-note"
-            icon={<IoAddOutline />}
-            handler={toggleModalNotes}
+            btnStyle="primary"
+            label="Speichern"
+            className="btn--save"
+            handler={handlerSaveLesson}
           />
-          <h4 className="heading-4">Notizen</h4>
-          {currentNotes &&
-            currentNotes.map((note) => (
-              <div className="note" key={note.id}>
-                <Button
-                  type="button"
-                  btnStyle="icon-only"
-                  handler={deleteNote}
-                  icon={<IoClose />}
-                  className="button--delete-note"
-                  dataref={note.id}
-                />
-                <h5 className="heading-5">{note.title}</h5>
-                <p>{note.text}</p>
-              </div>
-            ))}
         </div>
+        {modalEditOpen && (
+          <Modal
+            heading="Lektion bearbeiten"
+            handlerOverlay={toggleModalEdit}
+            handlerClose={toggleModalEdit}
+            buttons={[
+              { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
+            ]}
+          >
+            <div className="container--new-lesson">
+              <textarea
+                className="input"
+                value={previousLesson.lessonContent}
+              />
+            </div>
+          </Modal>
+        )}
       </div>
+
+      <div className="container--aside">
+        <Button
+          type="button"
+          btnStyle="icon-only"
+          className="button--add-note"
+          icon={<IoAddOutline />}
+          handler={toggleModalNotes}
+        />
+        <h4 className="heading-4">Notizen</h4>
+        {currentNotes &&
+          currentNotes.map((note) => (
+            <div className="note" key={note.id}>
+              <Button
+                type="button"
+                btnStyle="icon-only"
+                handler={deleteNote}
+                icon={<IoClose />}
+                className="button--delete-note"
+                dataref={note.id}
+              />
+              <h5 className="heading-5">{note.title}</h5>
+              <p>{note.text}</p>
+            </div>
+          ))}
+      </div>
+
       {modalNotesOpen && (
         <Modal
+          className="modal--notes"
           heading="Neue Notiz erstellen"
           handlerClose={toggleModalNotes}
           handlerOverlay={toggleModalNotes}
