@@ -22,6 +22,7 @@ const studentData: TStudent = {
   location: '',
   id: null,
 }
+// [ ] popup instead of new row but with bulk function to add multiple students
 
 const NewStudentRow: FunctionComponent<NewStudentRowProps> = ({
   handlerSubmit,

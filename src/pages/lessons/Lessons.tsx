@@ -73,7 +73,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [newNoteInput, setNewNoteInput] = useState(noteData)
 
   //EFFECTS
-
+  // [ ] get rid of effects -> change them to memo or none
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')
@@ -139,6 +139,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setDate(value)
   }
 
+  // [ ] no save when fields are empty
   const handlerSaveLesson = () => {
     const tempID = Math.floor(Math.random() * 10000000)
     const newLesson: TLesson = {
@@ -176,6 +177,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(tempNewNoteInput)
   }
 
+  // [ ] add note functionallity
   const addNote = () => {}
 
   const deleteLesson = (e: React.MouseEvent) => {
@@ -187,6 +189,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gelöscht')
   }
 
+  // [ ] add edit funcitonallity
   const toggleModalEdit = () => {
     setModalEditOpen(!modalEditOpen)
   }
@@ -280,6 +283,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             <div className="container--two-rows">
               <div className="row-left">
                 <h4 className="heading-4">Lektion</h4>
+                // [ ] focus on textarea when student changes
                 <textarea
                   name="lessonContent"
                   autoFocus

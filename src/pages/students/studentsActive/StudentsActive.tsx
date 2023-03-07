@@ -82,9 +82,11 @@ export default function StudentsActive() {
     toast('Schüler:in erstellt')
   }
 
-  // SORT & FILTER STUDENTS //
+  // [ ] implement sorting functionallity with buttons
+  // SORT & FILTER STUDENTS
   // const activeStudents = students.filter((student) => !student.archive)
 
+  // [ ] get rid of effects -> change them to memo or none
   useEffect(() => {
     const activeStudents = students.filter((student) => !student.archive)
     setActiveStudents(activeStudents)

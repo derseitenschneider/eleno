@@ -12,6 +12,8 @@ import { TLesson, TStudent, TNotes } from './types/types'
 export default function Application() {
   const [loading, setLoading] = useState<boolean>()
 
+  // [ ] add closestCurrentStudent to context
+
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
