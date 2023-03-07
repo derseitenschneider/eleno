@@ -184,7 +184,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(tempNewNoteInput)
   }
 
-  // [ ] add note functionallity
   const saveNote = () => {
     const tempID = Math.floor(Math.random() * 10000000)
     const newNote = { ...newNoteInput, studentId: currentStudent.id }

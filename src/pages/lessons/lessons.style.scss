@@ -84,8 +84,7 @@
         textarea {
           background-color: var(--clr-bg-black-400);
           color: var(--clr-white);
-          // [ ] More rows min. 5
-          min-height: 10rem;
+          min-height: 15rem;
 
           &:focus {
             outline: none;
