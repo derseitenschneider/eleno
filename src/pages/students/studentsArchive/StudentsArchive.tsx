@@ -54,7 +54,7 @@ function StudentsArchive() {
   }
 
   const archiveStudents = students.filter((student) => student.archive)
-
+  // [ ] create link back to main list
   return (
     <div className="student-list">
       <h1>Archiv</h1>

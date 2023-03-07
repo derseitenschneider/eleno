@@ -226,6 +226,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setModalEditOpen(!modalEditOpen)
   }
 
+  // [ ] Focus on Title input field
   const toggleModalNotes = () => {
     setModalNotesOpen(!modalNotesOpen)
   }

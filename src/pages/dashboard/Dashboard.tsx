@@ -1,21 +1,22 @@
-import './dashboard.css'
+import { NavLink } from 'react-router-dom'
+import './dashboard.scss'
 
 function Dashboard() {
   return (
     <div>
       <header className="container container--header">
-        <h1>Dashboard</h1>
+        <h1 className="heading-1">Dashboard</h1>
       </header>
       <div className="grid-container container">
-        <div className="card">
-          <h5>Unterricht starten</h5>
-        </div>
-        <div className="card">
-          <h5>Schüler:in hinzufügen</h5>
-        </div>
-        <div className="card">
-          <h5>To Do erfassen</h5>
-        </div>
+        <NavLink to={'lessons'} className="card">
+          <p className="card-title">Unterricht starten</p>
+        </NavLink>
+        <NavLink to={'students'} className="card">
+          <p className="card-title">Schüler:in hinzufügen</p>
+        </NavLink>
+        <NavLink to={'todos'} className="card">
+          <p className="card-title">To Do erfassen</p>
+        </NavLink>
       </div>
     </div>
   )

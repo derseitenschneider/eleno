@@ -18,6 +18,7 @@ export default function Application() {
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
 
+  // [ ] fetch only previous 3 lesson
   useEffect(() => {
     setLoading(true)
 

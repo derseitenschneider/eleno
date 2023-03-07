@@ -1,0 +1,27 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.card {
+  display: block;
+  background-color: var(--clr-bg-black-400);
+  height: 20rem;
+  padding: 2rem;
+  width: 35rem;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  box-shadow: inset 4px 4px 4px var(--clr-primary),
+    inset -4px -4px 4px var(--clr-primary);
+
+  transition: transform 0.4s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+  .card-title {
+    font-size: 2.4rem;
+  }
+}

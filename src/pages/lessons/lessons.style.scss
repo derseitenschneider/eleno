@@ -1,3 +1,6 @@
+// [ ] grid instead of flex for better containment of sections
+
+// [ ] Try tags for heading last lesson
 .lessons {
   .container--header {
     display: flex;
@@ -81,7 +84,7 @@
         textarea {
           background-color: var(--clr-bg-black-400);
           color: var(--clr-white);
-
+          // [ ] More rows min. 5
           min-height: 10rem;
 
           &:focus {
