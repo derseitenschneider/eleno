@@ -1,15 +1,23 @@
 import './login.style.scss'
 import React from 'react'
 import Button from '../../components/button/Button.component'
+import { signUpSupabase, createNewUserSupabase } from '../../supabase/supabase'
 
 const LoginPage = () => {
+  const signUp = async (e) => {
+    e.preventDefault()
+    const user = await signUpSupabase('brian.boy@gmx.ch', '123456')
+
+    createNewUserSupabase(user.id, user.email, 'Brian', 'Boy')
+  }
+
   return (
     <div className="login-page">
       <h1 className="heading-1">Login</h1>
       <div className="card-login">
         <div className="wrapper wrapper--signup">
           <h4 className="heading-4">Neuer Account</h4>
-          <form action="" className="form form--signup">
+          <form action="" className="form form--signup" onSubmit={signUp}>
             <div className="form-item form-item--firstName">
               <label htmlFor="firstName">Vorname</label>
               <input type="text" id="firstName" />

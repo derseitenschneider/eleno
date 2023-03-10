@@ -6,6 +6,34 @@ const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyaHBxeGVvd2tueWhyaW1zc3h3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0MDgwMzUsImV4cCI6MTk5MTk4NDAzNX0.hIvCoJwGTLAZTXVhvYi8OCbbXT_EoUKFMF-j_ik-5Vk'
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+//
+export const signUpSupabase = async (email: string, password: string) => {
+  let { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  })
+  console.log(data?.user)
+  error && console.log(error)
+  if (data) {
+    return data.user
+  }
+}
+
+export const createNewUserSupabase = async (
+  uid: string,
+  email: string,
+  firstName: string,
+  lastName: string
+) => {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ email, firstName, lastName })
+    .eq('id', uid)
+
+  console.log(error)
+  console.log('New user created')
+}
+
 // Students
 export const fetchStudents = async function () {
   let { data: students, error } = await supabase

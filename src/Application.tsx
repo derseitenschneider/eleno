@@ -37,8 +37,6 @@ export default function Application() {
     })
   }, [])
 
-  console.log(session)
-
   // [ ] fetch only previous 3 lesson
   useEffect(() => {
     setLoading(true)
@@ -85,34 +83,7 @@ export default function Application() {
           </div>
         </>
       ) : (
-        <div className="container container--login">
-          <Auth
-            supabaseClient={supabase}
-            appearance={{ theme: ThemeSupa }}
-            theme="dark"
-            providers={[]}
-            localization={{
-              variables: {
-                sign_in: {
-                  email_label: 'Email-Adresse',
-                  email_input_placeholder: '',
-                  password_label: 'Passwort',
-                  password_input_placeholder: '',
-                  button_label: 'Konto erstellen',
-                  link_text: 'Ich habe noch kein Benutzerkonto',
-                },
-                sign_up: {
-                  email_label: 'Email-Adresse',
-                  email_input_placeholder: '',
-                  password_label: 'Passwort',
-                  password_input_placeholder: '',
-                  button_label: 'Anmelden',
-                  link_text: 'Ich habe bereits ein Benutzerkonto',
-                },
-              },
-            }}
-          />
-        </div>
+        <LoginPage />
       )}
     </div>
   )
