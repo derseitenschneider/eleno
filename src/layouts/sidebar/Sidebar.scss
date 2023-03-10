@@ -85,6 +85,10 @@
     justify-content: center;
     z-index: 1;
 
+    &:has(.icon--logout) {
+      cursor: pointer;
+    }
+
     .icon {
       height: 2.4rem;
       width: 2.4rem;
@@ -118,5 +122,11 @@
     display: none;
     margin-left: 1rem;
     transition: width 1s ease;
+  }
+
+  .container-settings {
+    margin-top: 15rem;
+    position: relative;
+    bottom: 0;
   }
 }

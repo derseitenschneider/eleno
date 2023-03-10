@@ -112,3 +112,9 @@ textarea {
 .container {
   padding: 1.2rem 2.4rem 1.2rem 3.2rem;
 }
+
+.container--login {
+  display: grid;
+  width: 100%;
+  place-content: center;
+}

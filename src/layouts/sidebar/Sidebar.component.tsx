@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
 import './Sidebar.scss'
+import React, { useState } from 'react'
+import { supabase } from '../../supabase/supabase'
 import { Link, NavLink } from 'react-router-dom'
-import { IoCompassOutline } from 'react-icons/io5'
-import { IoPeopleCircleOutline } from 'react-icons/io5'
-import { IoCalendarClearOutline } from 'react-icons/io5'
-import { IoSchoolOutline } from 'react-icons/io5'
-import { IoListOutline } from 'react-icons/io5'
-import { IoChevronForwardOutline } from 'react-icons/io5'
+import {
+  IoCompassOutline,
+  IoPeopleCircleOutline,
+  IoCalendarClearOutline,
+  IoSchoolOutline,
+  IoListOutline,
+  IoChevronForwardOutline,
+  IoLogOutOutline,
+} from 'react-icons/io5'
+
 import Logo from '../../components/logo/Logo.component'
+import Button from '../../components/button/Button.component'
 
 //Icons
 import Logo1 from '../../assets/icons/logo1.svg'
@@ -17,6 +23,10 @@ function Sidebar() {
 
   function toggleSidebar() {
     setSidebarOpen(!sidebarOpen)
+  }
+
+  const logout = async () => {
+    let { error } = await supabase.auth.signOut()
   }
 
   return (
@@ -79,6 +89,15 @@ function Sidebar() {
             </li>
           </ul>
         </nav>
+        <div className="container-settings">
+          <div className="sidebar__nav-el">
+            <div className="sidebar__nav-link" onClick={logout}>
+              <div className="sidebar__nav-icon">
+                <IoLogOutOutline className="icon icon--logout" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
