@@ -13,8 +13,10 @@ import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import { postArchiveStudent } from '../../../supabase/supabase'
-import { postNewStudent } from '../../../supabase/supabase'
+import {
+  postArchiveStudent,
+  postNewStudent,
+} from '../../../supabase/students/students.supabase'
 import { NavLink } from 'react-router-dom'
 import { sortStudents } from '../../../utils/sortStudents'
 

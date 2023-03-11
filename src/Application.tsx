@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 
 import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet } from 'react-router-dom'
-import { fetchLessons, fetchStudents, fetchNotes } from './supabase/supabase'
+import { fetchStudents } from './supabase/students/students.supabase'
+import { fetchLessons } from './supabase/lessons/lessons.supabase'
+import { fetchNotes } from './supabase/notes/notes.supabase'
 
 import { Auth } from '@supabase/auth-ui-react'
 
@@ -24,7 +26,6 @@ export default function Application() {
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
-  const [userLoggedIn, setUserLoggedIn] = useState(false)
   const [session, setSession] = useState<Session>()
 
   useEffect(() => {
@@ -34,7 +35,6 @@ export default function Application() {
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-      console.log({ session })
     })
   }, [])
 
@@ -50,6 +50,7 @@ export default function Application() {
         setLoading(false)
       }
     )
+    setLoading(false)
   }, [])
 
   return (

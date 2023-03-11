@@ -6,7 +6,7 @@ import { useStudents } from '../../../contexts/StudentContext'
 import {
   postDeleteStudents,
   postRestoreStudent,
-} from '../../../supabase/supabase'
+} from '../../../supabase/students/students.supabase'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'

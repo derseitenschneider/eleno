@@ -25,6 +25,7 @@ function Sidebar() {
     setSidebarOpen(!sidebarOpen)
   }
 
+  // [ ] redirect to homepage
   const logout = async () => {
     let { error } = await supabase.auth.signOut()
   }

@@ -38,9 +38,12 @@ import { toast } from 'react-toastify'
 import {
   postLesson,
   deleteLessonSupabase,
+} from '../../supabase/lessons/lessons.supabase'
+
+import {
   postNotes,
   deleteNoteSupabase,
-} from '../../supabase/supabase'
+} from '../../supabase/notes/notes.supabase'
 
 const lessonData: TLesson = {
   date: '',

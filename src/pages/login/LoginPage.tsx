@@ -4,11 +4,10 @@ import { toast } from 'react-toastify'
 import Button from '../../components/button/Button.component'
 import {
   signUpSupabase,
-  createNewUserSupabase,
   loginSupabase,
   recoverPasswordSupabase,
-  supabase,
-} from '../../supabase/supabase'
+} from '../../supabase/users/users.supabase'
+import { supabase } from '../../supabase/supabase'
 import Loader from '../../components/loader/Loader'
 
 const dataLogin = {
@@ -40,6 +39,7 @@ const LoginPage = () => {
   const [inputRecover, setInputRecover] = useState(dataRecover)
 
   const [recoverSuccess, setRecoverSuccess] = useState(false)
+  const [confirmEmailSent, setConfirmEmailSent] = useState(false)
 
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -64,25 +64,21 @@ const LoginPage = () => {
       return
     }
     setLoading(true)
-    const user = await signUpSupabase(email, password, 'Brian', lastName)
+    const user = await signUpSupabase(email, password, firstName, lastName)
+    setConfirmEmailSent(true)
     setLoading(false)
-    // await createNewUserSupabase(
-    //   user.id,
-    //   inputSignup.email,
-    //   inputSignup.firstName,
-    //   inputSignup.lastName
-    // )
   }
 
   const logIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setInputLogin(dataLogin)
     try {
       const error = await loginSupabase(inputLogin.email, inputLogin.password)
       if (error) throw error
     } catch (error) {
       toast('Email und/oder passwort inkorrekt!', { type: 'error' })
+      setLoading(false)
+    } finally {
       setLoading(false)
     }
   }
@@ -106,6 +102,8 @@ const LoginPage = () => {
     const name = e.target.name
     setInputSignup({ ...inputSignup, [name]: value })
   }
+
+  console.log(confirmEmailSent)
 
   return (
     <div className="login-page">
@@ -160,78 +158,84 @@ const LoginPage = () => {
       {displayForm === SIGNUP && !loading && (
         <div className="card-login">
           <div className="wrapper wrapper--signup">
-            <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>
-            <form className="form form--signup" onSubmit={signUp}>
-              <div className="form-item form-item--firstName">
-                <label htmlFor="firstName">Vorname</label>
-                <input
-                  required
-                  name="firstName"
-                  type="text"
-                  id="firstName"
-                  value={inputSignup.firstName}
-                  onChange={handlerInputSignup}
-                />
-              </div>
-              <div className="form-item form-item--lastName">
-                <label htmlFor="lastName">Nachname</label>
-                <input
-                  required
-                  name="lastName"
-                  type="text"
-                  id="lastName"
-                  value={inputSignup.lastName}
-                  onChange={handlerInputSignup}
-                />
-              </div>
-              <div className="form-item form-item--email">
-                <label htmlFor="email">Email</label>
-                <input
-                  required
-                  name="email"
-                  type="email"
-                  id="email"
-                  value={inputSignup.email}
-                  onChange={handlerInputSignup}
-                />
-              </div>
-              <div className="form-item form-item--pw1">
-                <label htmlFor="password">Passwort</label>
-                <input
-                  required
-                  name="password"
-                  type="password"
-                  id="password"
-                  value={inputSignup.password}
-                  onChange={handlerInputSignup}
-                />
-              </div>
-              <div className="form-item form-item--pw2">
-                <label htmlFor="password2">Passwort-Wiederholung</label>
-                <input
-                  required
-                  name="password2"
-                  type="password"
-                  id="password2"
-                  value={inputSignup.password2}
-                  onChange={handlerInputSignup}
-                />
-              </div>
-              <Button
-                type="submit"
-                btnStyle="primary"
-                label="Erstellen"
-                className="button--signup"
-              />
-              <button
-                className="button button--account-exists"
-                onClick={() => {
-                  setDisplayForm(LOGIN)
-                }}
-              >
-                ☝️ Ich habe bereits ein Benutzerkonto
-              </button>
-            </form>
+            {confirmEmailSent ? (
+              <p>Der Aktivierungslink wurde an deine Email-Adresse gesendet</p>
+            ) : (
+              <>
+                <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>
+                <form className="form form--signup" onSubmit={signUp}>
+                  <div className="form-item form-item--firstName">
+                    <label htmlFor="firstName">Vorname</label>
+                    <input
+                      required
+                      name="firstName"
+                      type="text"
+                      id="firstName"
+                      value={inputSignup.firstName}
+                      onChange={handlerInputSignup}
+                    />
+                  </div>
+                  <div className="form-item form-item--lastName">
+                    <label htmlFor="lastName">Nachname</label>
+                    <input
+                      required
+                      name="lastName"
+                      type="text"
+                      id="lastName"
+                      value={inputSignup.lastName}
+                      onChange={handlerInputSignup}
+                    />
+                  </div>
+                  <div className="form-item form-item--email">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      required
+                      name="email"
+                      type="email"
+                      id="email"
+                      value={inputSignup.email}
+                      onChange={handlerInputSignup}
+                    />
+                  </div>
+                  <div className="form-item form-item--pw1">
+                    <label htmlFor="password">Passwort</label>
+                    <input
+                      required
+                      name="password"
+                      type="password"
+                      id="password"
+                      value={inputSignup.password}
+                      onChange={handlerInputSignup}
+                    />
+                  </div>
+                  <div className="form-item form-item--pw2">
+                    <label htmlFor="password2">Passwort-Wiederholung</label>
+                    <input
+                      required
+                      name="password2"
+                      type="password"
+                      id="password2"
+                      value={inputSignup.password2}
+                      onChange={handlerInputSignup}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    btnStyle="primary"
+                    label="Erstellen"
+                    className="button--signup"
+                  />
+                  <button
+                    className="button button--account-exists"
+                    onClick={() => {
+                      setDisplayForm(LOGIN)
+                    }}
+                  >
+                    ☝️ Ich habe bereits ein Benutzerkonto
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       )}

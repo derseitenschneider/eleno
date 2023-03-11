@@ -9,7 +9,7 @@ import {
 import { TStudent } from '../../types/types'
 import { IconType } from 'react-icons/lib'
 import { useStudents } from '../../contexts/StudentContext'
-import { postUpdateStudent } from '../../supabase/supabase'
+import { postUpdateStudent } from '../../supabase/students/students.supabase'
 
 interface StudentRowProps {
   student: TStudent
