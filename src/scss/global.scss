@@ -73,6 +73,7 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+  color: inherit;
 }
 
 p,
@@ -117,4 +118,9 @@ textarea {
   display: grid;
   width: 100%;
   place-content: center;
+}
+
+.container--loader {
+  display: flex;
+  justify-content: center;
 }

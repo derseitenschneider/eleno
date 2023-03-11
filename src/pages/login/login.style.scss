@@ -13,9 +13,7 @@
     margin: 0 auto;
     padding: 3.2rem;
     border-radius: 8px;
-
-    display: grid;
-    grid-template-columns: 45rem 35rem;
+    min-width: 45rem;
     column-gap: 4.8rem;
     background-color: var(--clr-bg-black-500);
     align-items: center;
@@ -27,12 +25,36 @@
     }
     .form {
       display: grid;
-      row-gap: 1.2rem;
+      row-gap: 2rem;
+      column-gap: 2rem;
+      margin-bottom: 4rem;
 
       .form-item {
         display: grid;
         row-gap: 0.8rem;
       }
+
+      .button {
+        margin: 0 auto;
+      }
+
+      &--signup {
+        grid-template-columns: 25rem 25rem;
+
+        .form-item--email,
+        .form-item--pw1,
+        .form-item--pw2,
+        .button--signup,
+        .button--account-exists {
+          grid-column: 1/-1;
+        }
+      }
+    }
+
+    .container--links {
+      display: flex;
+      gap: 2rem;
+      justify-content: space-evenly;
     }
   }
 }

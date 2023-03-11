@@ -14,6 +14,8 @@ import Timetable from './pages/timetable/Timetable'
 import Lessons from './pages/lessons/Lessons'
 import ToDos from './pages/todos/ToDos'
 import Application from './Application'
+import Settings from './pages/settings/Settings'
+import ResetPW from './pages/settings/reset-pw/ResetPw'
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,16 @@ const router = createBrowserRouter([
       {
         path: 'todos',
         element: <ToDos />,
+      },
+      {
+        path: 'settings',
+        element: <Settings />,
+        children: [
+          {
+            path: 'reset-pw',
+            element: <ResetPW />,
+          },
+        ],
       },
     ],
   },

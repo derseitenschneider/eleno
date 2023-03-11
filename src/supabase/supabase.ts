@@ -1,18 +1,28 @@
 import { createClient } from '@supabase/supabase-js'
 import { TLesson, TNotes, TStudent } from '../types/types'
-
+import { toast } from 'react-toastify'
 const supabaseUrl = 'https://brhpqxeowknyhrimssxw.supabase.co'
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyaHBxeGVvd2tueWhyaW1zc3h3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0MDgwMzUsImV4cCI6MTk5MTk4NDAzNX0.hIvCoJwGTLAZTXVhvYi8OCbbXT_EoUKFMF-j_ik-5Vk'
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
-//
-export const signUpSupabase = async (email: string, password: string) => {
-  let { data, error } = await supabase.auth.signUp({
+// Users
+export const signUpSupabase = async (
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string
+) => {
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        firstName,
+        lastName,
+      },
+    },
   })
-  console.log(data?.user)
   error && console.log(error)
   if (data) {
     return data.user
@@ -29,9 +39,18 @@ export const createNewUserSupabase = async (
     .from('profiles')
     .update({ email, firstName, lastName })
     .eq('id', uid)
+}
 
-  console.log(error)
-  console.log('New user created')
+export const loginSupabase = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  })
+  return error
+}
+
+export const recoverPasswordSupabase = async (email: string) => {
+  let { data, error } = await supabase.auth.resetPasswordForEmail(email)
 }
 
 // Students

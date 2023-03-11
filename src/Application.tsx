@@ -34,6 +34,7 @@ export default function Application() {
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
+      console.log({ session })
     })
   }, [])
 
