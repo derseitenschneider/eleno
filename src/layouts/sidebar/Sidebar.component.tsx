@@ -1,7 +1,7 @@
 import './Sidebar.scss'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '../../supabase/supabase'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   IoCompassOutline,
   IoPeopleCircleOutline,
@@ -13,10 +13,6 @@ import {
 } from 'react-icons/io5'
 
 import Logo from '../../components/logo/Logo.component'
-import Button from '../../components/button/Button.component'
-
-//Icons
-import Logo1 from '../../assets/icons/logo1.svg'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)

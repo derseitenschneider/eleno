@@ -42,6 +42,7 @@ const LoginPage = () => {
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
 
   const signUp = async (e: React.FormEvent) => {
+    // [ ] error meassage for duplicate email-adress
     e.preventDefault()
     const { email, password, firstName, lastName } = inputSignup
     // Check if both passwords are identical
@@ -102,8 +103,6 @@ const LoginPage = () => {
     const name = e.target.name
     setInputSignup({ ...inputSignup, [name]: value })
   }
-
-  console.log(confirmEmailSent)
 
   return (
     <div className="login-page">

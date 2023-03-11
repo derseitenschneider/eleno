@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import Sidebar from './layouts/sidebar/Sidebar.component'
-import { Outlet } from 'react-router-dom'
+import { Outlet, redirect } from 'react-router-dom'
 import { fetchStudents } from './supabase/students/students.supabase'
 import { fetchLessons } from './supabase/lessons/lessons.supabase'
 import { fetchNotes } from './supabase/notes/notes.supabase'
