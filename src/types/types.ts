@@ -1,3 +1,10 @@
+export type TUser = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
 export type TStudent = {
   id?: number
   firstName: string
@@ -24,6 +31,12 @@ export type TNotes = {
   studentId: number
   title?: string
   text?: string
+}
+
+// CONTEXT TYPES
+export type ContextTypeUser = {
+  user: TUser | null
+  setUser: React.Dispatch<React.SetStateAction<TUser>>
 }
 
 export type ContextTypeStudents = {

@@ -1,12 +1,11 @@
 .dashboard {
   .heading-1 {
-    text-align: center;
   }
   .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 3rem;
-    justify-items: center;
+    justify-items: start;
   }
 
   .card {

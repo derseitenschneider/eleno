@@ -33,3 +33,11 @@ export const loginSupabase = async (email: string, password: string) => {
 export const recoverPasswordSupabase = async (email: string) => {
   let { data, error } = await supabase.auth.resetPasswordForEmail(email)
 }
+
+export const getProfiles = async (uid: string) => {
+  let { data: profiles, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', uid)
+  return profiles
+}

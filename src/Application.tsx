@@ -2,39 +2,59 @@ import { useEffect, useState } from 'react'
 
 import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet, redirect } from 'react-router-dom'
+
+// SUPABASE
+import { getProfiles } from './supabase/users/users.supabase'
 import { fetchStudents } from './supabase/students/students.supabase'
 import { fetchLessons } from './supabase/lessons/lessons.supabase'
 import { fetchNotes } from './supabase/notes/notes.supabase'
-
-import { Auth } from '@supabase/auth-ui-react'
-
-import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 import { supabase } from './supabase/supabase'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { TLesson, TStudent, TNotes } from './types/types'
+import { TUser, TLesson, TStudent, TNotes } from './types/types'
 import LoginPage from './pages/login/LoginPage'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
+import Loader from './components/loader/Loader'
 
 export default function Application() {
-  const [loading, setLoading] = useState<boolean>()
+  const [loading, setLoading] = useState(false)
 
   // [ ] add closestCurrentStudent to context
 
+  const [user, setUser] = useState<TUser>()
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
   const [session, setSession] = useState<Session>()
 
+  const getUserProfiles = async (userId: string) => {
+    setLoading(true)
+    const [data] = await getProfiles(userId)
+    const user: TUser = {
+      email: data.email,
+      id: data.id,
+      firstName: data.first_name,
+      lastName: data.last_name,
+    }
+    setUser(user)
+    setLoading(false)
+  }
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
+      if (session) {
+        getUserProfiles(session.user.id)
+      }
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
+      if (session) {
+        getUserProfiles(session.user.id)
+      }
     })
   }, [])
 
@@ -50,7 +70,6 @@ export default function Application() {
         setLoading(false)
       }
     )
-    setLoading(false)
   }, [])
 
   return (
@@ -73,6 +92,7 @@ export default function Application() {
           <div id="main">
             <Outlet
               context={{
+                user,
                 students,
                 setStudents,
                 lessons,
