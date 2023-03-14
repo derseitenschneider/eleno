@@ -6,14 +6,27 @@ import { useEffect } from 'react'
 import { useUser } from '../../contexts/UserContext'
 import { useLoading } from '../../contexts/LoadingContext'
 import Loader from '../../components/loader/Loader'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useStudents } from '../../contexts/StudentContext'
+import { sortStudentsDateTime } from '../../utils/sortStudents'
 
 function Dashboard() {
   const { user } = useUser()
+  const { students } = useStudents()
   const { loading, setLoading } = useLoading()
+  const { closestStudentIndex } = useClosestStudent()
 
   useEffect(() => {
     user && setLoading(false)
   }, [user])
+
+  useEffect(() => {}, [])
+
+  const filteredSortedStudents = sortStudentsDateTime(students).filter(
+    (student) => !student.archive
+  )
+
+  const closestStudent = filteredSortedStudents[closestStudentIndex]
 
   return (
     <div className="dashboard">
@@ -34,7 +47,10 @@ function Dashboard() {
               <p className="card-title">Unterricht starten</p>
               <hr />
               <p>Nächste Lektion:</p>
-              <p>Benjamin Kluge - Mittwoch, 13:30 Uhr </p>
+              <p>
+                {closestStudent.firstName} {closestStudent.lastName} -{' '}
+                {closestStudent.dayOfLesson}, {closestStudent.startOfLesson} Uhr
+              </p>
             </NavLink>
             <NavLink to={'students'} className="card">
               <IoPeopleCircleOutline className="icon" />
