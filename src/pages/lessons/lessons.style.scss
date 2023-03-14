@@ -1,4 +1,4 @@
-// [ ] Try tags for heading last lesson
+// [X] Try tabs for heading last lesson
 .lessons {
   display: grid;
   grid-template-columns: 1fr 40rem;
@@ -52,6 +52,20 @@
         // position: absolute;
         // bottom: 1.2rem;
         // right: 2.4rem;
+      }
+
+      .container--tabs {
+        display: flex;
+        gap: 2rem;
+
+        .tab {
+          padding: 0.8rem;
+          background-color: var(--clr-bg-black-600);
+
+          &--active {
+            background-color: var(--clr-bg-black-400);
+          }
+        }
       }
       .container--two-rows {
         display: grid;

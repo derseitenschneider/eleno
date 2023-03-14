@@ -64,8 +64,9 @@ li {
   display: block;
 }
 
-br {
-  background-color: red;
+hr {
+  // border-color: var(--clr-bg-black-400);
+  margin: 1.8rem 0;
 }
 
 a {

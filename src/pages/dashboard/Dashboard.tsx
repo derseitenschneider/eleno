@@ -27,8 +27,9 @@ function Dashboard() {
             <NavLink to={'lessons'} className="card">
               <IoSchoolSharp className="icon" />
               <p className="card-title">Unterricht starten</p>
-              <p>Nächste Lektion</p>
-              <p> Mittwoch, 13:30 Uhr &rarr; Benjamin Kluge </p>
+              <hr />
+              <p>Nächste Lektion:</p>
+              <p>Benjamin Kluge - Mittwoch, 13:30 Uhr </p>
             </NavLink>
             <NavLink to={'students'} className="card">
               <IoPeopleCircleOutline className="icon" />

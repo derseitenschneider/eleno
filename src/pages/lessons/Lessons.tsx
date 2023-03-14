@@ -74,6 +74,9 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [currentNotes, setCurrentNotes] = useState<TNotes[]>([])
 
   const [previousLesson, setPreviousLesson] = useState<TLesson>()
+  const [prePreviousLesson, setPrePreviousLesson] = useState<TLesson>()
+  const [lastBut2Lesson, setLastBut2Lesson] = useState<TLesson>()
+  const [tabIndex, setTabIndex] = useState(0)
 
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
 
@@ -81,6 +84,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [modalNotesOpen, setModalNotesOpen] = useState(false)
 
   const [newNoteInput, setNewNoteInput] = useState(noteData)
+
+  const tabs = []
 
   //EFFECTS
   // [ ] get rid of effects -> change them to memo or none
@@ -113,8 +118,11 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }, [currentStudent, lessons])
 
   useEffect(() => {
-    currentLessons &&
+    if (currentLessons) {
       setPreviousLesson(currentLessons[currentLessons.length - 1])
+      setPrePreviousLesson(currentLessons[currentLessons.length - 2])
+      setLastBut2Lesson(currentLessons[currentLessons.length - 3])
+    }
   }, [currentLessons, lessons])
 
   useEffect(() => {
@@ -126,6 +134,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   // HANDLER
   const handlerNextStudent = () => {
+    setTabIndex(0)
     studentIndex < activeStudents.length - 1
       ? setStudentIndex(studentIndex + 1)
       : setStudentIndex(0)
@@ -290,18 +299,47 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                 dataref={previousLesson.id}
               />
             </div>
-            <p>Letzte Lektion: {formatDateToDisplay(previousLesson.date)}</p>
+            <div className="container--tabs">
+              <button
+                className={`tab ${tabIndex === 0 && 'tab--active'}`}
+                onClick={() => setTabIndex(0)}
+              >
+                Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
+              </button>
+
+              {prePreviousLesson && (
+                <button
+                  className={`tab ${tabIndex === 1 && 'tab--active'}`}
+                  onClick={() => setTabIndex(1)}
+                >
+                  {formatDateToDisplay(prePreviousLesson.date)}
+                </button>
+              )}
+
+              {lastBut2Lesson && (
+                <button
+                  className={`tab ${tabIndex === 2 && 'tab--active'}`}
+                  onClick={() => setTabIndex(2)}
+                >
+                  {formatDateToDisplay(lastBut2Lesson.date)}
+                </button>
+              )}
+            </div>
             <div className="container--two-rows">
               <div className="row-left">
                 <h4 className="heading-4">Lektion</h4>
                 <div className="content--previous-lesson">
-                  {previousLesson.lessonContent}
+                  {tabIndex === 0 ? previousLesson.lessonContent : null}
+                  {tabIndex === 1 ? prePreviousLesson.lessonContent : null}
+                  {tabIndex === 2 ? lastBut2Lesson.lessonContent : null}
                 </div>
               </div>
               <div className="row-right">
                 <h4 className="heading-4">Hausaufgaben</h4>
                 <div className="content--previous-lesson">
-                  {previousLesson.homework}
+                  {tabIndex === 0 ? previousLesson.homework : null}
+                  {tabIndex === 1 ? prePreviousLesson.homework : null}
+                  {tabIndex === 2 ? lastBut2Lesson.homework : null}
                 </div>
               </div>
             </div>
