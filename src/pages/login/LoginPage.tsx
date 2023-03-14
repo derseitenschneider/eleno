@@ -107,7 +107,6 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <Loader loading={loading} />
-
       {displayForm === LOGIN && !loading && (
         <div className="card-login">
           <div className="wrapper wrapper--login">
@@ -153,7 +152,7 @@ const LoginPage = () => {
           </div>
         </div>
       )}
-
+      // [ ] Add privacy policy checkbox
       {displayForm === SIGNUP && !loading && (
         <div className="card-login">
           <div className="wrapper wrapper--signup">
@@ -238,7 +237,6 @@ const LoginPage = () => {
           </div>
         </div>
       )}
-
       {displayForm === FORGOT_PASSWORD && !loading && (
         <div className="card-login">
           <div className="wrapper wrapper--forgot-pw">

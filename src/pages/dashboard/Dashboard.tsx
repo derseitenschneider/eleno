@@ -16,7 +16,7 @@ function Dashboard() {
         <h1 className="heading-1">Dashboard</h1>
       </header>
       <Loader loading={loading} />
-      {!loading && (
+      {!loading && user && (
         <>
           <div className="container container-message">
             <h4 className="heading-4">

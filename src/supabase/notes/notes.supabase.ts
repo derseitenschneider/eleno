@@ -1,6 +1,7 @@
 import { supabase } from '../supabase'
 import { TNotes } from '../../types/types'
 
+// [ ] try fetch only notes from active students
 export const fetchNotes = async function () {
   const { data, error } = await supabase
     .from('notes')

@@ -1,6 +1,7 @@
 import { supabase } from '../supabase'
 import { TLesson } from '../../types/types'
 
+// [ ] try fetch only lessons from active students
 export const fetchLessons = async function () {
   let { data: lessons, error } = await supabase
     .from('lessons')

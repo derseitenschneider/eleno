@@ -39,10 +39,10 @@ export default function Application() {
       lastName: data.last_name,
     }
     setUser(user)
-    setLoading(false)
   }
 
   useEffect(() => {
+    setLoading(true)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       if (session) {
@@ -52,6 +52,7 @@ export default function Application() {
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
+
       if (session) {
         getUserProfiles(session.user.id)
       }
