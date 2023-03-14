@@ -7,7 +7,6 @@ export const fetchLessons = async function () {
     .select('*')
     .order('date')
 
-  console.log(lessons)
   return lessons
 }
 
