@@ -34,6 +34,7 @@ function Dashboard() {
             <NavLink to={'students'} className="card">
               <IoPeopleCircleOutline className="icon" />
               <p className="card-title">Schüler:in hinzufügen</p>
+              <hr />
               <p>Aktuell 27 Schüler:innen erfasst</p>
             </NavLink>
             <NavLink to={'todos'} className="card">

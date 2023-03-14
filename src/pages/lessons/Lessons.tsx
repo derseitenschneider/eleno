@@ -133,6 +133,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }, [currentStudent, notes])
 
   // HANDLER
+  // [ ] save input befor change if not empty
   const handlerNextStudent = () => {
     setTabIndex(0)
     studentIndex < activeStudents.length - 1
