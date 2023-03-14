@@ -101,6 +101,7 @@ export default function Application() {
                 notes,
                 setNotes,
                 loading,
+                setLoading,
               }}
             />
           </div>

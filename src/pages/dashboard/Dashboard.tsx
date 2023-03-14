@@ -2,13 +2,18 @@ import { NavLink } from 'react-router-dom'
 import './dashboard.style.scss'
 import { IoSchoolSharp, IoPeopleCircleOutline, IoList } from 'react-icons/io5'
 
+import { useEffect } from 'react'
 import { useUser } from '../../contexts/UserContext'
 import { useLoading } from '../../contexts/LoadingContext'
 import Loader from '../../components/loader/Loader'
 
 function Dashboard() {
   const { user } = useUser()
-  const { loading } = useLoading()
+  const { loading, setLoading } = useLoading()
+
+  useEffect(() => {
+    user && setLoading(false)
+  }, [user])
 
   return (
     <div className="dashboard">

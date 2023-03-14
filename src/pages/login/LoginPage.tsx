@@ -152,7 +152,7 @@ const LoginPage = () => {
           </div>
         </div>
       )}
-      // [ ] Add privacy policy checkbox
+      {/* // [ ] Add privacy policy checkbox */}
       {displayForm === SIGNUP && !loading && (
         <div className="card-login">
           <div className="wrapper wrapper--signup">

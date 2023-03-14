@@ -264,7 +264,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             </p>
           </div>
           <div className="container--buttons">
-            // [ ] search field for student
+            {/* // [ ] search field for student */}
             <Button
               type="button"
               btnStyle="primary"
