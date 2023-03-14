@@ -20,7 +20,7 @@ function Dashboard() {
         <>
           <div className="container container-message">
             <h4 className="heading-4">
-              👋 Hey {user?.firstName}, schön dich zu sehen!{' '}
+              👋 Hey {user.firstName}, schön dich zu sehen!{' '}
             </h4>
           </div>
           <div className="grid-container container">
