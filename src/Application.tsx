@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react'
-
-import Sidebar from './layouts/sidebar/Sidebar.component'
 import { Outlet, redirect } from 'react-router-dom'
 
-// SUPABASE
+// Supabase
+import { supabase } from './supabase/supabase'
 import { getProfiles } from './supabase/users/users.supabase'
 import { fetchStudents } from './supabase/students/students.supabase'
 import { fetchLessons } from './supabase/lessons/lessons.supabase'
 import { fetchNotes } from './supabase/notes/notes.supabase'
+import { Session } from '@supabase/gotrue-js/src/lib/types'
 
-import { supabase } from './supabase/supabase'
+// Toast
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+// Types
 import { TUser, TLesson, TStudent, TNotes } from './types/types'
+
+// Pages
 import LoginPage from './pages/login/LoginPage'
-import { Session } from '@supabase/gotrue-js/src/lib/types'
+
+// Components
+import Sidebar from './layouts/sidebar/Sidebar.component'
 import Loader from './components/loader/Loader'
+
+// Functions
+import { getClosestStudentIndex } from './utils/getClosestStudentIndex'
 
 export default function Application() {
   const [loading, setLoading] = useState(false)
@@ -28,6 +36,8 @@ export default function Application() {
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
   const [session, setSession] = useState<Session>()
+
+  const [closestStudentIndex, setClosestStudentIndex] = useState(0)
 
   const getUserProfiles = async (userId: string) => {
     setLoading(true)
@@ -73,6 +83,10 @@ export default function Application() {
     )
   }, [])
 
+  useEffect(() => {
+    if (students) setClosestStudentIndex(getClosestStudentIndex(students))
+  }, [students])
+
   return (
     <div className="App">
       <ToastContainer
@@ -102,6 +116,7 @@ export default function Application() {
                 setNotes,
                 loading,
                 setLoading,
+                closestStudentIndex,
               }}
             />
           </div>

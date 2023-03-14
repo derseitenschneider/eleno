@@ -44,6 +44,7 @@ import {
   postNotes,
   deleteNoteSupabase,
 } from '../../supabase/notes/notes.supabase'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 
 const lessonData: TLesson = {
   date: '',
@@ -67,7 +68,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const { students } = useStudents()
   const { notes, setNotes } = useNotes()
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
-  const [studentIndex, setStudentIndex] = useState(0)
 
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
@@ -85,10 +85,16 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   const [newNoteInput, setNewNoteInput] = useState(noteData)
 
-  const tabs = []
+  const { closestStudentIndex } = useClosestStudent()
+  const [studentIndex, setStudentIndex] = useState(0)
 
   //EFFECTS
   // [ ] get rid of effects -> change them to memo or none
+
+  useEffect(() => {
+    setStudentIndex(closestStudentIndex)
+  }, [closestStudentIndex])
+
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')

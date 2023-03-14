@@ -59,6 +59,11 @@ export type ContextTypeNotes = {
   setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
 }
 
+export type ContextTypeClosestStudent = {
+  closestStudentIndex: number
+  setClosestStudentIndex: React.Dispatch<React.SetStateAction<number>>
+}
+
 export type TSorting =
   | 'firstName'
   | 'lastName'
