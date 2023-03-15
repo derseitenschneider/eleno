@@ -81,6 +81,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [tabIndex, setTabIndex] = useState(0)
 
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
+  const [inputEditLesson, setInputEditLesson] = useState<TLesson>(lessonData)
 
   const [modalEditOpen, setModalEditOpen] = useState(false)
   const [modalNotesOpen, setModalNotesOpen] = useState(false)
@@ -98,6 +99,15 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   // [ ] No Closest Studet update when teaching
 
   console.log('render')
+
+  useEffect(() => {
+    const today = new Date()
+      .toLocaleDateString('de-CH')
+      .split('.')
+      .map((e) => e.padStart(2, '0'))
+      .join('.')
+    setDate(today)
+  }, [])
 
   useEffect(() => {
     setStudentIndex(closestStudentIndex)
@@ -160,8 +170,26 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setDate(value)
   }
 
+  const handlerInputEditLesson = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const name = e.target.name
+    const value = e.target.value
+    const newInput = { ...inputEditLesson, [name]: value }
+    setInputEditLesson(newInput)
+  }
+
   // [ ] no save when fields are empty
   const handlerSaveLesson = () => {
+    if (!inputNewLesson.date) {
+      toast('Die Lektion hat kein Datum', { type: 'error' })
+      return
+    }
+    if (!inputNewLesson.lessonContent) {
+      toast('Die Lektion hat keinen Lektionsinhalt', { type: 'error' })
+      return
+    }
+
     const tempID = Math.floor(Math.random() * 10000000)
     const newLesson: TLesson = {
       ...inputNewLesson,
@@ -386,17 +414,30 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             heading="Lektion bearbeiten"
             handlerOverlay={toggleModalEdit}
             handlerClose={toggleModalEdit}
+            className="modal--edit-lesson"
             buttons={[
               { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
             ]}
           >
+            <div className="container-date">
+              <label htmlFor="date">Datum</label>
+              <input
+                type="text"
+                id="date"
+                name="date"
+                value={formatDateToDisplay(prevLessonsArr[tabIndex].date)}
+              />
+            </div>
             <div className="container--edit-lesson">
               <textarea
                 className="input"
-                value={prevLessonsArr[tabIndex].lessonContent}
+                name="lessonContent"
+                value={inputEditLesson.lessonContent}
+                onChange={handlerInputEditLesson}
               />
               <textarea
                 className="input"
+                name="homework"
                 value={prevLessonsArr[tabIndex].homework}
               />
             </div>

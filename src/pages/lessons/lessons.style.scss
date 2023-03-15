@@ -120,9 +120,16 @@
       }
     }
 
-    .container--edit-lesson {
-      display: flex;
-      gap: 2rem;
+    .modal--edit-lesson {
+      width: 65vw;
+
+      .container-date {
+        margin-bottom: 2rem;
+      }
+      .container--edit-lesson {
+        display: flex;
+        gap: 2rem;
+      }
     }
   }
 
