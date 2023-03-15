@@ -63,7 +63,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   }
 
   return (
-    <tr key={student.id} className="student-row">
+    <tr className="student-row">
       <td>
         <input type="checkbox" name="" id="" className="checkbox" />
       </td>

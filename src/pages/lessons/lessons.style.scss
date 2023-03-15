@@ -1,4 +1,3 @@
-// [X] Try tabs for heading last lesson
 .lessons {
   display: grid;
   grid-template-columns: 1fr 40rem;
@@ -40,6 +39,29 @@
 
   .container--content {
     flex-basis: 80%;
+    textarea {
+      background-color: var(--clr-bg-black-400);
+      color: var(--clr-white);
+      min-height: 15rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+    input {
+      background-color: var(--clr-bg-black-500);
+      color: var(--clr-white);
+      font-size: inherit;
+      font-family: inherit;
+      border: none;
+      margin-left: 0.8rem;
+      padding: 0.8rem;
+      width: 10rem;
+      &:focus {
+        background-color: var(--clr-bg-black-400);
+        outline: none;
+      }
+    }
     .container--lessons {
       position: relative;
       .container--edit-buttons {
@@ -61,6 +83,7 @@
 
         .tab {
           padding: 0.8rem;
+          padding-right: 1.1rem;
           background-color: var(--clr-bg-black-600);
           border-left: 3px solid transparent;
           &--active {
@@ -85,43 +108,21 @@
       border-bottom: 1px solid var(--clr-bg-black-400);
       min-height: 20rem;
 
-      textarea {
-        background-color: inherit;
-      }
       .content--previous-lesson {
         white-space: pre-line;
       }
     }
 
     .container--new-lesson {
-      textarea {
-        background-color: var(--clr-bg-black-400);
-        color: var(--clr-white);
-        min-height: 15rem;
-
-        &:focus {
-          outline: none;
-        }
-      }
-      input {
-        background-color: var(--clr-bg-black-500);
-        color: var(--clr-white);
-        font-size: inherit;
-        font-family: inherit;
-        border: none;
-        margin-left: 0.8rem;
-        padding: 0.8rem;
-        width: 10rem;
-        &:focus {
-          background-color: var(--clr-bg-black-400);
-          outline: none;
-        }
-      }
-
       & .btn--save {
         margin-top: 3.2rem;
         margin-left: auto;
       }
+    }
+
+    .container--edit-lesson {
+      display: flex;
+      gap: 2rem;
     }
   }
 

@@ -1,4 +1,4 @@
-import './Sidebar.scss'
+import './sidebar.style.scss'
 import { useState } from 'react'
 import { supabase } from '../../supabase/supabase'
 import { NavLink } from 'react-router-dom'
@@ -32,60 +32,62 @@ function Sidebar() {
         <button className="sidebar__button--toggle" onClick={toggleSidebar}>
           <IoChevronForwardOutline className="chevron" />
         </button>
-        <div className="sidebar__logo">
-          <Logo />
+        <div className="container-top">
+          <div className="sidebar__logo">
+            <Logo />
+          </div>
+          <nav className="sidebar__navigation">
+            <ul className="sidebar__nav-list">
+              <li className="sidebar__nav-el">
+                <NavLink to="/" className="sidebar__nav-link">
+                  <div className="sidebar__nav-icon">
+                    <IoCompassOutline className="icon" />
+                  </div>
+                  <span className="sidebar__link-text">Dashboard</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink to="students" className="sidebar__nav-link">
+                  <div className="sidebar__nav-icon">
+                    <IoPeopleCircleOutline className="icon" />
+                  </div>
+
+                  <span className="sidebar__link-text">Schüler:innen</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink to="lessons" className="sidebar__nav-link">
+                  <div className="sidebar__nav-icon">
+                    <IoSchoolOutline className="icon" />
+                  </div>
+                  <span className="sidebar__link-text">Unterrichten</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink to="timetable" className="sidebar__nav-link">
+                  <div className="sidebar__nav-icon">
+                    <IoCalendarClearOutline className="icon" />
+                  </div>
+
+                  <span className="sidebar__link-text">Stundenplan</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink to="todos" className="sidebar__nav-link">
+                  <div className="sidebar__nav-icon">
+                    <IoListOutline className="icon" />
+                  </div>
+
+                  <span className="sidebar__link-text">To Dos</span>
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <nav className="sidebar__navigation">
-          <ul className="sidebar__nav-list">
-            <li className="sidebar__nav-el">
-              <NavLink to="/" className="sidebar__nav-link">
-                <div className="sidebar__nav-icon">
-                  <IoCompassOutline className="icon" />
-                </div>
-                <span className="sidebar__link-text">Dashboard</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el">
-              <NavLink to="students" className="sidebar__nav-link">
-                <div className="sidebar__nav-icon">
-                  <IoPeopleCircleOutline className="icon" />
-                </div>
-
-                <span className="sidebar__link-text">Schüler:innen</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el">
-              <NavLink to="lessons" className="sidebar__nav-link">
-                <div className="sidebar__nav-icon">
-                  <IoSchoolOutline className="icon" />
-                </div>
-                <span className="sidebar__link-text">Unterrichten</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el">
-              <NavLink to="timetable" className="sidebar__nav-link">
-                <div className="sidebar__nav-icon">
-                  <IoCalendarClearOutline className="icon" />
-                </div>
-
-                <span className="sidebar__link-text">Stundenplan</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el">
-              <NavLink to="todos" className="sidebar__nav-link">
-                <div className="sidebar__nav-icon">
-                  <IoListOutline className="icon" />
-                </div>
-
-                <span className="sidebar__link-text">To Dos</span>
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
         <div className="container-settings">
           <div className="sidebar__nav-el">
             <div className="sidebar__nav-link" onClick={logout}>

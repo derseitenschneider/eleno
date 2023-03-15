@@ -3,6 +3,9 @@
   top: 0;
   max-width: 18rem;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding-block: 2rem;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
   background-color: var(--clr-bg-black-400);

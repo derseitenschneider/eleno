@@ -5,6 +5,7 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
   const filteredSortedStudents = sortStudentsDateTime(students).filter(
     (student) => !student.archive
   )
+
   const day = new Date().getDay()
   const now = new Date().toTimeString().slice(0, 5)
   let today: string
@@ -31,7 +32,7 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
       today = 'Sonntag'
       break
   }
-  const todayStudents = filteredSortedStudents?.filter(
+  const todayStudents = filteredSortedStudents.filter(
     (student) => student.dayOfLesson === today
   )
 
@@ -39,12 +40,15 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
   if (!todayStudents.length) return 0
 
   const upcomingStudent = todayStudents.filter(
-    // endoflesson must be >= now + lessonduration
     (student) => student.endOfLesson > now
   )[0]
+
+  // When the last student of the current day passed, show the first one of the next
+  if (!upcomingStudent) return 0
 
   const closestStudentIndex = filteredSortedStudents.findIndex(
     (student) => student.id === upcomingStudent.id
   )
+
   return closestStudentIndex
 }

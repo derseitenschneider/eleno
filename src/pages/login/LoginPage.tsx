@@ -1,5 +1,5 @@
 import './login.style.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Button from '../../components/button/Button.component'
 import {
@@ -40,6 +40,10 @@ const LoginPage = () => {
 
   const [recoverSuccess, setRecoverSuccess] = useState(false)
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
+
+  useEffect(() => {
+    setLoading(false)
+  }, [])
 
   const signUp = async (e: React.FormEvent) => {
     // [ ] error meassage for duplicate email-adress
@@ -103,7 +107,6 @@ const LoginPage = () => {
     const name = e.target.name
     setInputSignup({ ...inputSignup, [name]: value })
   }
-
   return (
     <div className="login-page">
       <Loader loading={loading} />

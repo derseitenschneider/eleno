@@ -26,6 +26,8 @@ import NewStudentRow from '../../../components/newStudentRow/NewStudentRow'
 import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
 import { toast } from 'react-toastify'
+import Loader from '../../../components/loader/Loader'
+import { useLoading } from '../../../contexts/LoadingContext'
 
 export default function StudentsActive() {
   // STATE
@@ -33,6 +35,7 @@ export default function StudentsActive() {
   const [searchInput, setSearchInput] = useState('')
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
   const [sorting, letSorting] = useState<TSorting>('lastName')
+  const { loading, setLoading } = useLoading()
 
   const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
   const [sortedStudents, setSortedStudents] =
@@ -124,122 +127,125 @@ export default function StudentsActive() {
   // }, [])
 
   return (
-    <div className="student-list">
-      <h1>Liste Schüler:innen</h1>
-      {activeStudents.length > 0 && (
-        <>
-          <div className="container-list">
-            <div className="heading">
-              <select
-                name=""
-                id=""
-                defaultValue="Aktion"
-                className="select-action"
-              >
-                <option disabled hidden>
-                  Aktion
-                </option>
-                <option value="archive">Archivieren</option>
-                <option value="delete">Löschen</option>
-              </select>
+    <>
+      <Loader loading={loading} />
+      <div className="student-list">
+        {!loading && activeStudents.length && (
+          <>
+            <h1>Liste Schüler:innen</h1>
+            <div className="container-list">
+              <div className="heading">
+                <select
+                  name=""
+                  id=""
+                  defaultValue="Aktion"
+                  className="select-action"
+                >
+                  <option disabled hidden>
+                    Aktion
+                  </option>
+                  <option value="archive">Archivieren</option>
+                  <option value="delete">Löschen</option>
+                </select>
 
-              <div className="container-right">
-                <IoSearchOutline className="icon icon-search" />
-                <input
-                  className="input input--search"
-                  type="search"
-                  placeholder="suchen"
-                  value={searchInput}
-                  onChange={onChangeHandlerInput}
-                />
-
-                <Button
-                  handler={addStudentEventHandler}
-                  btnStyle="primary"
-                  type="button"
-                  label="Neu"
-                  icon={<IoPersonAddOutline />}
-                  className={`${newStudentRowOpen && 'inactive'}  `}
-                />
-              </div>
-            </div>
-
-            <table className="student-list-table">
-              <thead>
-                <tr>
-                  <th>
-                    <input type="checkbox" />
-                  </th>
-                  <th className="th--firstName">Vorname</th>
-                  <th className="th--lastName">Nachname</th>
-                  <th className="th--instrument">Instrument</th>
-                  <th className="th--day">Tag</th>
-                  <th className="th--time">Zeit</th>
-                  <th className="th--duration">Dauer</th>
-                  <th>Unterrichtsort</th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredStudents.map((student) => (
-                  <StudentRow
-                    key={student.id}
-                    form={true}
-                    student={student}
-                    buttons={[
-                      {
-                        label: 'Unterrichtsblatt',
-                        icon: IoSchoolOutline,
-                        handler: () => {},
-                      },
-                      {
-                        label: 'Archivieren',
-                        icon: IoArchiveOutline,
-                        handler: handlerArchive,
-                      },
-                    ]}
+                <div className="container-right">
+                  <IoSearchOutline className="icon icon-search" />
+                  <input
+                    className="input input--search"
+                    type="search"
+                    placeholder="suchen"
+                    value={searchInput}
+                    onChange={onChangeHandlerInput}
                   />
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="count-students">
-            <p>
-              Anzahl Schüler:innen <span>{activeStudents.length}</span>
-            </p>
-          </div>
-        </>
-      )}
 
-      {activeStudents.length <= 0 && !newStudentRowOpen && (
-        <>
-          <h2>Keine Aktiven Schüler:innen in der Liste</h2>
-          <div className="container-buttons">
-            <Button
-              type="button"
-              btnStyle="primary"
-              label="Neue Schüler:in erfassen"
-              handler={addStudentEventHandler}
-            />
+                  <Button
+                    handler={addStudentEventHandler}
+                    btnStyle="primary"
+                    type="button"
+                    label="Neu"
+                    icon={<IoPersonAddOutline />}
+                    className={`${newStudentRowOpen && 'inactive'}  `}
+                  />
+                </div>
+              </div>
 
-            <NavLink to="archive">
+              <table className="student-list-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" />
+                    </th>
+                    <th className="th--firstName">Vorname</th>
+                    <th className="th--lastName">Nachname</th>
+                    <th className="th--instrument">Instrument</th>
+                    <th className="th--day">Tag</th>
+                    <th className="th--time">Zeit</th>
+                    <th className="th--duration">Dauer</th>
+                    <th>Unterrichtsort</th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {filteredStudents.map((student) => (
+                    <StudentRow
+                      key={student.id}
+                      form={true}
+                      student={student}
+                      buttons={[
+                        {
+                          label: 'Unterrichtsblatt',
+                          icon: IoSchoolOutline,
+                          handler: () => {},
+                        },
+                        {
+                          label: 'Archivieren',
+                          icon: IoArchiveOutline,
+                          handler: handlerArchive,
+                        },
+                      ]}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="count-students">
+              <p>
+                Anzahl Schüler:innen <span>{activeStudents.length}</span>
+              </p>
+            </div>
+          </>
+        )}
+
+        {!loading && activeStudents.length <= 0 && !newStudentRowOpen && (
+          <>
+            <h2>Keine Aktiven Schüler:innen in der Liste</h2>
+            <div className="container-buttons">
               <Button
                 type="button"
-                btnStyle="secondary"
-                label="Aus Archiv wiederherstellen"
+                btnStyle="primary"
+                label="Neue Schüler:in erfassen"
+                handler={addStudentEventHandler}
               />
-            </NavLink>
-          </div>
-        </>
-      )}
 
-      {newStudentRowOpen && (
-        <NewStudentRow
-          handlerSubmit={createNewStudent}
-          handlerCloseButton={toggleNewStudentOpen}
-        />
-      )}
-    </div>
+              <NavLink to="archive">
+                <Button
+                  type="button"
+                  btnStyle="secondary"
+                  label="Aus Archiv wiederherstellen"
+                />
+              </NavLink>
+            </div>
+          </>
+        )}
+
+        {newStudentRowOpen && (
+          <NewStudentRow
+            handlerSubmit={createNewStudent}
+            handlerCloseButton={toggleNewStudentOpen}
+          />
+        )}
+      </div>
+    </>
   )
 }

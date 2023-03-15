@@ -1,5 +1,7 @@
 import './lessons.style.scss'
 
+// [ ] check loading state with 'loading' top left
+
 // React
 import { FunctionComponent, useEffect, useState } from 'react'
 
@@ -67,7 +69,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
   const { notes, setNotes } = useNotes()
-  const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
+  // const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
 
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
@@ -91,30 +93,23 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   //EFFECTS
   // [ ] get rid of effects -> change them to memo or none
 
+  // [ ] Bring back today state for date
+
+  // [ ] No Closest Studet update when teaching
+
+  console.log('render')
+
   useEffect(() => {
     setStudentIndex(closestStudentIndex)
   }, [closestStudentIndex])
 
-  useEffect(() => {
-    const today = new Date()
-      .toLocaleDateString('de-CH')
-      .split('.')
-      .map((e) => e.padStart(2, '0'))
-      .join('.')
-    setDate(today)
-  }, [])
-
-  useEffect(() => {
-    if (students) {
-      const activeStudents = students.filter((student) => !student.archive)
-      const sortedStudents = sortStudentsDateTime(activeStudents)
-      setActiveStudents(sortedStudents)
-    }
-  }, [students])
+  const activeStudents: TStudent[] = sortStudentsDateTime(
+    students?.filter((student) => !student.archive)
+  )
 
   useEffect(() => {
     activeStudents && setCurrentStudent(activeStudents[studentIndex])
-  }, [activeStudents, studentIndex])
+  }, [studentIndex])
 
   useEffect(() => {
     currentStudent &&
@@ -250,9 +245,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(noteData)
   }
 
+  const prevLessonsArr = [previousLesson, prePreviousLesson, lastBut2Lesson]
+
   return (
     <div className="lessons">
-      {loading && <p>loading</p>}
       {currentStudent ? (
         <header className="container container--header">
           <div className="container--infos">
@@ -312,7 +308,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                 className={`tab ${tabIndex === 0 && 'tab--active'}`}
                 onClick={() => setTabIndex(0)}
               >
-                Letzte Lektion: {formatDateToDisplay(previousLesson.date)}
+                {formatDateToDisplay(previousLesson.date)}
               </button>
 
               {prePreviousLesson && (
@@ -337,17 +333,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               <div className="row-left">
                 <h4 className="heading-4">Lektion</h4>
                 <div className="content--previous-lesson">
-                  {tabIndex === 0 ? previousLesson.lessonContent : null}
-                  {tabIndex === 1 ? prePreviousLesson.lessonContent : null}
-                  {tabIndex === 2 ? lastBut2Lesson.lessonContent : null}
+                  {prevLessonsArr[tabIndex].lessonContent}
                 </div>
               </div>
               <div className="row-right">
                 <h4 className="heading-4">Hausaufgaben</h4>
                 <div className="content--previous-lesson">
-                  {tabIndex === 0 ? previousLesson.homework : null}
-                  {tabIndex === 1 ? prePreviousLesson.homework : null}
-                  {tabIndex === 2 ? lastBut2Lesson.homework : null}
+                  {prevLessonsArr[tabIndex].homework}
                 </div>
               </div>
             </div>
@@ -398,10 +390,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
             ]}
           >
-            <div className="container--new-lesson">
+            <div className="container--edit-lesson">
               <textarea
                 className="input"
-                value={previousLesson.lessonContent}
+                value={prevLessonsArr[tabIndex].lessonContent}
+              />
+              <textarea
+                className="input"
+                value={prevLessonsArr[tabIndex].homework}
               />
             </div>
           </Modal>

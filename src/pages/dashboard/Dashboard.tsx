@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import './dashboard.style.scss'
 import { IoSchoolSharp, IoPeopleCircleOutline, IoList } from 'react-icons/io5'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useUser } from '../../contexts/UserContext'
 import { useLoading } from '../../contexts/LoadingContext'
 import Loader from '../../components/loader/Loader'
@@ -20,13 +20,14 @@ function Dashboard() {
     user && setLoading(false)
   }, [user])
 
-  useEffect(() => {}, [])
+  const sortedStudents = (students && sortStudentsDateTime(students)) || null
 
-  const filteredSortedStudents = sortStudentsDateTime(students).filter(
-    (student) => !student.archive
+  const filteredSortedStudents = sortedStudents?.filter(
+    (student) => !student.archive || null
   )
-
-  const closestStudent = filteredSortedStudents[closestStudentIndex]
+  const closestStudent =
+    (filteredSortedStudents && filteredSortedStudents[closestStudentIndex]) ||
+    null
 
   return (
     <div className="dashboard">
@@ -48,8 +49,9 @@ function Dashboard() {
               <hr />
               <p>Nächste Lektion:</p>
               <p>
-                {closestStudent.firstName} {closestStudent.lastName} -{' '}
-                {closestStudent.dayOfLesson}, {closestStudent.startOfLesson} Uhr
+                {closestStudent?.firstName} {closestStudent?.lastName} -{' '}
+                {closestStudent?.dayOfLesson}, {closestStudent?.startOfLesson}{' '}
+                Uhr
               </p>
             </NavLink>
             <NavLink to={'students'} className="card">

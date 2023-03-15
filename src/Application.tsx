@@ -31,7 +31,7 @@ export default function Application() {
 
   // [ ] add closestCurrentStudent to context
 
-  const [user, setUser] = useState<TUser>()
+  const [user, setUser] = useState<TUser | null>(null)
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
@@ -40,7 +40,6 @@ export default function Application() {
   const [closestStudentIndex, setClosestStudentIndex] = useState(0)
 
   const getUserProfiles = async (userId: string) => {
-    setLoading(true)
     const [data] = await getProfiles(userId)
     const user: TUser = {
       email: data.email,
@@ -52,7 +51,6 @@ export default function Application() {
   }
 
   useEffect(() => {
-    setLoading(true)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       if (session) {
@@ -62,7 +60,6 @@ export default function Application() {
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-
       if (session) {
         getUserProfiles(session.user.id)
       }
@@ -71,59 +68,65 @@ export default function Application() {
 
   // [ ] fetch only previous 3 lesson
   useEffect(() => {
-    setLoading(true)
-
-    Promise.all([fetchStudents(), fetchLessons(), fetchNotes()]).then(
-      ([students, lessons, notes]) => {
-        setStudents([...students])
-        setLessons([...lessons])
-        setNotes([...notes])
-        setLoading(false)
-      }
-    )
-  }, [])
+    if (user) {
+      Promise.all([fetchStudents(), fetchLessons(), fetchNotes()]).then(
+        ([students, lessons, notes]) => {
+          setStudents([...students])
+          setLessons([...lessons])
+          setNotes([...notes])
+          setLoading(false)
+        }
+      )
+    }
+  }, [user])
 
   useEffect(() => {
-    if (students) setClosestStudentIndex(getClosestStudentIndex(students))
+    if (students) {
+      setClosestStudentIndex(getClosestStudentIndex(students))
+    }
   }, [students])
 
   return (
-    <div className="App">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="dark"
-      />
-      {session ? (
-        <>
-          <Sidebar />
-          <div id="main">
-            <Outlet
-              context={{
-                user,
-                students,
-                setStudents,
-                lessons,
-                setLessons,
-                notes,
-                setNotes,
-                loading,
-                setLoading,
-                closestStudentIndex,
-              }}
-            />
-          </div>
-        </>
-      ) : (
-        <LoginPage />
-      )}
-    </div>
+    <>
+      <Loader loading={loading} />
+
+      <div className="App">
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+        {!loading && session ? (
+          <>
+            <Sidebar />
+            <div id="main">
+              <Outlet
+                context={{
+                  user,
+                  students,
+                  setStudents,
+                  lessons,
+                  setLessons,
+                  notes,
+                  setNotes,
+                  loading,
+                  setLoading,
+                  closestStudentIndex,
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <LoginPage />
+        )}
+      </div>
+    </>
   )
 }
