@@ -69,14 +69,16 @@ export default function Application() {
   // [ ] fetch only previous 3 lesson
   useEffect(() => {
     if (user) {
-      Promise.all([fetchStudents(), fetchLessons(), fetchNotes()]).then(
-        ([students, lessons, notes]) => {
-          setStudents([...students])
-          setLessons([...lessons])
-          setNotes([...notes])
-          setLoading(false)
-        }
-      )
+      Promise.all([
+        fetchStudents(user.id),
+        fetchLessons(user.id),
+        fetchNotes(user.id),
+      ]).then(([students, lessons, notes]) => {
+        setStudents([...students])
+        setLessons([...lessons])
+        setNotes([...notes])
+        setLoading(false)
+      })
     }
   }, [user])
 

@@ -28,9 +28,11 @@ import Button from '../../../components/button/Button.component'
 import { toast } from 'react-toastify'
 import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
+import { useUser } from '../../../contexts/UserContext'
 
 export default function StudentsActive() {
   // STATE
+  const { user } = useUser()
   const { students, setStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
   const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
@@ -73,7 +75,7 @@ export default function StudentsActive() {
     tempNewStudent.id = tempId
     setStudents((students) => [...students, tempNewStudent])
     const postAndFetchStudent = async () => {
-      const [data] = await postNewStudent(input)
+      const [data] = await postNewStudent(input, user.id)
       const newId = data.id
       setStudents((students) => {
         const newStudents = students.map((student) =>

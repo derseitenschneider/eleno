@@ -49,6 +49,7 @@ import {
 } from '../../supabase/notes/notes.supabase'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import Loader from '../../components/loader/Loader'
+import { useUser } from '../../contexts/UserContext'
 
 const lessonData: TLesson = {
   date: '',
@@ -67,6 +68,7 @@ interface LessonProps {}
 
 const Lesson: FunctionComponent<LessonProps> = () => {
   const { loading } = useLoading()
+  const { user } = useUser()
   const [date, setDate] = useState<string>('')
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
@@ -201,7 +203,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setLessons((lessons) => [...lessons, newLesson])
 
     const postNewLesson = async () => {
-      const [data] = await postLesson(newLesson)
+      const [data] = await postLesson(newLesson, user.id)
       const newId = data.id
 
       setLessons((lessons) => {
@@ -233,7 +235,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(noteData)
     setModalNotesOpen(false)
     const postData = async () => {
-      const [data] = await postNotes(newNote, currentStudent.id)
+      const [data] = await postNotes(newNote, currentStudent.id, user.id)
       setNotes((notes) =>
         notes.map((note) =>
           note.id === tempID ? { ...note, id: data.id } : note

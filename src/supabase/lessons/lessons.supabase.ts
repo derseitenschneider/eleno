@@ -2,21 +2,25 @@ import { supabase } from '../supabase'
 import { TLesson } from '../../types/types'
 
 // [ ] try fetch only lessons from active students
-export const fetchLessons = async function () {
+export const fetchLessons = async function (userId: string) {
   let { data: lessons, error } = await supabase
     .from('lessons')
     .select('*')
+    .eq('user_id', userId)
     .order('date')
 
   if (error) throw new Error(`${error}`)
   return lessons
 }
 
-export const postLesson = async function (lesson: TLesson): Promise<TLesson[]> {
+export const postLesson = async function (
+  lesson: TLesson,
+  userId: string
+): Promise<TLesson[]> {
   const { date, homework, lessonContent, studentId } = lesson
   const { data, error } = await supabase
     .from('lessons')
-    .insert([{ date, homework, lessonContent, studentId }])
+    .insert([{ date, homework, lessonContent, studentId, user_id: userId }])
     .select()
   return data
 }

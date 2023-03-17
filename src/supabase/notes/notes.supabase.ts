@@ -2,22 +2,24 @@ import { supabase } from '../supabase'
 import { TNotes } from '../../types/types'
 
 // [ ] try fetch only notes from active students
-export const fetchNotes = async function () {
+export const fetchNotes = async function (uid: string) {
   const { data, error } = await supabase
     .from('notes')
     .select('*')
+    .eq('user_id', uid)
     .order('created_at')
   return data
 }
 
 export const postNotes = async function (
   note: TNotes,
-  studentID: number
+  studentID: number,
+  userId: string
 ): Promise<TNotes[]> {
   const { studentId, title, text } = note
   const { data, error } = await supabase
     .from('notes')
-    .insert([{ studentId, title, text }])
+    .insert([{ studentId, title, text, user_id: userId }])
     .select()
 
   error && console.log(error)

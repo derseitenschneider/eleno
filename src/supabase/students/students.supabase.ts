@@ -1,16 +1,18 @@
 import { supabase } from '../supabase'
 import { TStudent } from '../../types/types'
 
-export const fetchStudents = async function () {
+export const fetchStudents = async function (userId) {
   let { data: students, error } = await supabase
     .from('students')
     .select('*')
+    .eq('user_id', userId)
     .order('dayOfLesson', { ascending: false })
   return students
 }
 
 export const postNewStudent = async function (
-  student: TStudent
+  student: TStudent,
+  userId: string
 ): Promise<TStudent[]> {
   const {
     firstName,
@@ -37,9 +39,11 @@ export const postNewStudent = async function (
         dayOfLesson,
         archive,
         location,
+        user_id: userId,
       },
     ])
     .select()
+  error && console.log(error)
   return data
 }
 

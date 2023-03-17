@@ -47,18 +47,24 @@ function Dashboard() {
               <IoSchoolSharp className="icon" />
               <p className="card-title">Unterricht starten</p>
               <hr />
-              <p>Nächste Lektion:</p>
-              <p>
-                {closestStudent?.firstName} {closestStudent?.lastName} -{' '}
-                {closestStudent?.dayOfLesson}, {closestStudent?.startOfLesson}{' '}
-                Uhr
-              </p>
+              {students.length ? (
+                <>
+                  <p>Nächste Lektion:</p>
+                  <p>
+                    {closestStudent?.firstName} {closestStudent?.lastName} -{' '}
+                    {closestStudent?.dayOfLesson},{' '}
+                    {closestStudent?.startOfLesson} Uhr
+                  </p>
+                </>
+              ) : (
+                <p>Noch keine Schüler:innen erfasst</p>
+              )}
             </NavLink>
             <NavLink to={'students'} className="card">
               <IoPeopleCircleOutline className="icon" />
               <p className="card-title">Schüler:in hinzufügen</p>
               <hr />
-              <p>Aktuell 27 Schüler:innen erfasst</p>
+              <p>Aktuell {students.length} Schüler:innen erfasst</p>
             </NavLink>
             <NavLink to={'todos'} className="card">
               <IoList className="icon" />
