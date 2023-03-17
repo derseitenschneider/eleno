@@ -39,7 +39,13 @@ function Sidebar() {
           <nav className="sidebar__navigation">
             <ul className="sidebar__nav-list">
               <li className="sidebar__nav-el">
-                <NavLink to="/" className="sidebar__nav-link">
+                <NavLink
+                  to="/"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
                   <div className="sidebar__nav-icon">
                     <IoCompassOutline className="icon" />
                   </div>
@@ -48,7 +54,13 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="students" className="sidebar__nav-link">
+                <NavLink
+                  to="students"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
                   <div className="sidebar__nav-icon">
                     <IoPeopleCircleOutline className="icon" />
                   </div>
@@ -58,7 +70,13 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="lessons" className="sidebar__nav-link">
+                <NavLink
+                  to="lessons"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
                   <div className="sidebar__nav-icon">
                     <IoSchoolOutline className="icon" />
                   </div>
@@ -67,7 +85,13 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="timetable" className="sidebar__nav-link">
+                <NavLink
+                  to="timetable"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
                   <div className="sidebar__nav-icon">
                     <IoCalendarClearOutline className="icon" />
                   </div>
@@ -77,7 +101,13 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="todos" className="sidebar__nav-link">
+                <NavLink
+                  to="todos"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
                   <div className="sidebar__nav-icon">
                     <IoListOutline className="icon" />
                   </div>
@@ -94,6 +124,7 @@ function Sidebar() {
               <div className="sidebar__nav-icon">
                 <IoLogOutOutline className="icon icon--logout" />
               </div>
+              <span className="sidebar__link-text">Log out</span>
             </div>
           </div>
         </div>

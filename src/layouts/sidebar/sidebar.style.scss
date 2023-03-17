@@ -1,29 +1,26 @@
 .sidebar {
-  position: relative;
+  position: fixed;
   top: 0;
-  max-width: 18rem;
-  height: 100%;
+  left: 0;
+  width: 6rem;
+  height: 100vh;
+  z-index: 1;
+  background-color: var(--clr-bg-black-400);
   display: flex;
+  align-items: left;
   flex-direction: column;
   justify-content: space-between;
   padding-block: 2rem;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
   background-color: var(--clr-bg-black-400);
-
-  &:hover &__button--toggle {
-    opacity: 1;
-    transform: translateX(0);
-    transition: transform 0.4s ease;
-  }
+  transition: width 0.3s ease;
 
   &.open {
+    width: 18rem;
     .sidebar__link-text {
-      display: flex;
-    }
-
-    .sidebar__button--toggle {
       opacity: 1;
-      transform: translateX(0);
+      pointer-events: all;
+      visibility: visible;
     }
 
     .chevron {
@@ -63,6 +60,7 @@
   }
 
   &__nav-el {
+    width: 100%;
     padding: 1.2rem;
     a {
       text-decoration: none;
@@ -77,6 +75,7 @@
   &__nav-link {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
   &__nav-icon {
@@ -123,9 +122,13 @@
   }
 
   &__link-text {
-    display: none;
     margin-left: 1rem;
     transition: width 1s ease;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+
+    transition: opacity 0.3s 0.1s;
   }
 
   .container-settings {
