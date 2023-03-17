@@ -29,6 +29,7 @@ import { toast } from 'react-toastify'
 import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
 import { useUser } from '../../../contexts/UserContext'
+import NoActiveStudent from '../../../components/noActiveStudent/NoActiveStudent'
 
 export default function StudentsActive() {
   // STATE
@@ -132,7 +133,7 @@ export default function StudentsActive() {
     <>
       <Loader loading={loading} />
       <div className="student-list">
-        {!loading && activeStudents.length && (
+        {!loading && activeStudents.length ? (
           <>
             <h1>Liste Schüler:innen</h1>
             <div className="container-list">
@@ -217,28 +218,10 @@ export default function StudentsActive() {
               </p>
             </div>
           </>
-        )}
+        ) : null}
 
         {!loading && activeStudents.length <= 0 && !newStudentRowOpen && (
-          <>
-            <h2>Keine Aktiven Schüler:innen in der Liste</h2>
-            <div className="container-buttons">
-              <Button
-                type="button"
-                btnStyle="primary"
-                label="Neue Schüler:in erfassen"
-                handler={addStudentEventHandler}
-              />
-
-              <NavLink to="archive">
-                <Button
-                  type="button"
-                  btnStyle="secondary"
-                  label="Aus Archiv wiederherstellen"
-                />
-              </NavLink>
-            </div>
-          </>
+          <NoActiveStudent handler={addStudentEventHandler} />
         )}
 
         {newStudentRowOpen && (

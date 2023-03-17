@@ -50,6 +50,8 @@ import {
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import Loader from '../../components/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
+import NoActiveStudent from '../../components/noActiveStudent/NoActiveStudent'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const lessonData: TLesson = {
   date: '',
@@ -93,6 +95,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   const { closestStudentIndex } = useClosestStudent()
   const [studentIndex, setStudentIndex] = useState(0)
+
+  const navigate = useNavigate()
 
   //EFFECTS
   // [ ] get rid of effects -> change them to memo or none
@@ -296,10 +300,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(noteData)
   }
 
+  const navigateToStudents = () => {
+    navigate('/students')
+  }
+
   return (
     <>
       <Loader loading={loading} />
-      {!loading && (
+      {!loading && activeStudents.length ? (
         <div className="lessons">
           {currentStudent ? (
             <header className="container container--header">
@@ -529,6 +537,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               />
             </Modal>
           )}
+        </div>
+      ) : (
+        <div className="container">
+          <NoActiveStudent handler={navigateToStudents} />
         </div>
       )}
     </>

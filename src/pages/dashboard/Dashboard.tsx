@@ -9,10 +9,12 @@ import Loader from '../../components/loader/Loader'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
+import { useLessons } from '../../contexts/LessonsContext'
 
 function Dashboard() {
   const { user } = useUser()
   const { students } = useStudents()
+  const { lessons } = useLessons()
   const { loading, setLoading } = useLoading()
   const { closestStudentIndex } = useClosestStudent()
 
@@ -47,7 +49,7 @@ function Dashboard() {
               <IoSchoolSharp className="icon" />
               <p className="card-title">Unterricht starten</p>
               <hr />
-              {students.length ? (
+              {students.filter((student) => !student.archive).length ? (
                 <>
                   <p>Nächste Lektion:</p>
                   <p>
@@ -57,18 +59,22 @@ function Dashboard() {
                   </p>
                 </>
               ) : (
-                <p>Noch keine Schüler:innen erfasst</p>
+                <p>Aktuell keine aktiven Schüler:innen erfasst</p>
               )}
             </NavLink>
             <NavLink to={'students'} className="card">
               <IoPeopleCircleOutline className="icon" />
               <p className="card-title">Schüler:in hinzufügen</p>
               <hr />
-              <p>Aktuell {students.length} Schüler:innen erfasst</p>
+              <p>Aktuell {students.length} aktive Schüler:innen erfasst</p>
+              <p>0 Schüler:innen archiviert</p>
             </NavLink>
             <NavLink to={'todos'} className="card">
               <IoList className="icon" />
               <p className="card-title">To Do erfassen</p>
+              <hr />
+              <p>0 Todos offen</p>
+              <p style={{ color: 'red' }}>0 davon überfällig</p>
             </NavLink>
           </div>
         </>
