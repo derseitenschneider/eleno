@@ -40,6 +40,7 @@ import { toast } from 'react-toastify'
 import {
   postLesson,
   deleteLessonSupabase,
+  updateLessonSupabase,
 } from '../../supabase/lessons/lessons.supabase'
 
 import {
@@ -47,6 +48,7 @@ import {
   deleteNoteSupabase,
 } from '../../supabase/notes/notes.supabase'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import Loader from '../../components/loader/Loader'
 
 const lessonData: TLesson = {
   date: '',
@@ -69,7 +71,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
   const { notes, setNotes } = useNotes()
-  // const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
 
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
@@ -94,11 +95,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   //EFFECTS
   // [ ] get rid of effects -> change them to memo or none
 
-  // [ ] Bring back today state for date
-
   // [ ] No Closest Studet update when teaching
-
-  console.log('render')
 
   useEffect(() => {
     const today = new Date()
@@ -114,12 +111,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   }, [closestStudentIndex])
 
   const activeStudents: TStudent[] = sortStudentsDateTime(
-    students?.filter((student) => !student.archive)
+    students.filter((student) => !student.archive)
   )
+
+  const prevLessonsArr = [previousLesson, prePreviousLesson, lastBut2Lesson]
 
   useEffect(() => {
     activeStudents && setCurrentStudent(activeStudents[studentIndex])
-  }, [studentIndex])
+  }, [activeStudents, studentIndex])
 
   useEffect(() => {
     currentStudent &&
@@ -181,7 +180,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
 
   // [ ] no save when fields are empty
   const handlerSaveLesson = () => {
-    if (!inputNewLesson.date) {
+    if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
     }
@@ -262,9 +261,31 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gelöscht')
   }
 
+  const updateLesson = () => {
+    const updateLesson = {
+      ...inputEditLesson,
+      date: formatDateToDatabase(inputEditLesson.date),
+    }
+    setCurrentLessons((prev) =>
+      prev.map((lesson) =>
+        lesson.id === updateLesson.id ? updateLesson : lesson
+      )
+    )
+    const updateData = async () => {
+      try {
+        updateLessonSupabase(updateLesson)
+      } catch (err) {
+        console.log('etwas ist schiefgelaufen')
+      }
+    }
+    updateData()
+    toggleModalEdit()
+  }
+
   // [ ] add edit funcitonallity
   const toggleModalEdit = () => {
     setModalEditOpen(!modalEditOpen)
+    setInputEditLesson(prevLessonsArr[tabIndex])
   }
 
   // [ ] Focus on Title input field
@@ -273,232 +294,242 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(noteData)
   }
 
-  const prevLessonsArr = [previousLesson, prePreviousLesson, lastBut2Lesson]
-
   return (
-    <div className="lessons">
-      {currentStudent ? (
-        <header className="container container--header">
-          <div className="container--infos">
-            <div className="row-1">
-              <div className="student-name">
-                <IoPersonCircleOutline className="icon" />
-                {currentStudent.firstName} {currentStudent.lastName}
+    <>
+      <Loader loading={loading} />
+      {!loading && (
+        <div className="lessons">
+          {currentStudent ? (
+            <header className="container container--header">
+              <div className="container--infos">
+                <div className="row-1">
+                  <div className="student-name">
+                    <IoPersonCircleOutline className="icon" />
+                    {currentStudent.firstName} {currentStudent.lastName}
+                  </div>
+
+                  <span> {currentStudent.durationMinutes} Minuten</span>
+                </div>
+                <p>
+                  {currentStudent.dayOfLesson} {currentStudent.startOfLesson} -{' '}
+                  {currentStudent.endOfLesson}
+                </p>
               </div>
+              <div className="container--buttons">
+                {/* // [ ] search field for student */}
+                <Button
+                  type="button"
+                  btnStyle="primary"
+                  handler={handlerPreviousStudent}
+                  icon={<IoArrowBackOutline />}
+                />
+                <Button
+                  type="button"
+                  btnStyle="primary"
+                  handler={handlerNextStudent}
+                  icon={<IoArrowForwardOutline />}
+                />
+              </div>
+            </header>
+          ) : null}
 
-              <span> {currentStudent.durationMinutes} Minuten</span>
-            </div>
-            <p>
-              {currentStudent.dayOfLesson} {currentStudent.startOfLesson} -{' '}
-              {currentStudent.endOfLesson}
-            </p>
-          </div>
-          <div className="container--buttons">
-            {/* // [ ] search field for student */}
-            <Button
-              type="button"
-              btnStyle="primary"
-              handler={handlerPreviousStudent}
-              icon={<IoArrowBackOutline />}
-            />
-            <Button
-              type="button"
-              btnStyle="primary"
-              handler={handlerNextStudent}
-              icon={<IoArrowForwardOutline />}
-            />
-          </div>
-        </header>
-      ) : null}
+          <div className="container--content">
+            {previousLesson ? (
+              <div className="container container--lessons container--previous-lesson">
+                <div className="container--edit-buttons">
+                  <Button
+                    type="button"
+                    btnStyle="icon-only"
+                    icon={<HiPencilSquare />}
+                    className="button--edit"
+                    handler={toggleModalEdit}
+                  />
+                  <Button
+                    type="button"
+                    btnStyle="icon-only"
+                    icon={<IoTrashOutline />}
+                    className="warning"
+                    handler={deleteLesson}
+                    dataref={previousLesson.id}
+                  />
+                </div>
+                <div className="container--tabs">
+                  <button
+                    className={`tab ${tabIndex === 0 && 'tab--active'}`}
+                    onClick={() => setTabIndex(0)}
+                  >
+                    {formatDateToDisplay(previousLesson.date)}
+                  </button>
 
-      <div className="container--content">
-        {previousLesson ? (
-          <div className="container container--lessons container--previous-lesson">
-            <div className="container--edit-buttons">
+                  {prePreviousLesson && (
+                    <button
+                      className={`tab ${tabIndex === 1 && 'tab--active'}`}
+                      onClick={() => setTabIndex(1)}
+                    >
+                      {formatDateToDisplay(prePreviousLesson.date)}
+                    </button>
+                  )}
+
+                  {lastBut2Lesson && (
+                    <button
+                      className={`tab ${tabIndex === 2 && 'tab--active'}`}
+                      onClick={() => setTabIndex(2)}
+                    >
+                      {formatDateToDisplay(lastBut2Lesson.date)}
+                    </button>
+                  )}
+                </div>
+                <div className="container--two-rows">
+                  <div className="row-left">
+                    <h4 className="heading-4">Lektion</h4>
+                    <div className="content--previous-lesson">
+                      {prevLessonsArr[tabIndex].lessonContent}
+                    </div>
+                  </div>
+                  <div className="row-right">
+                    <h4 className="heading-4">Hausaufgaben</h4>
+                    <div className="content--previous-lesson">
+                      {prevLessonsArr[tabIndex].homework}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="container container--lessons container--new-lesson">
+              <h3 className="heading-3">
+                Aktuelle Lektion
+                <span>
+                  <input type="text" value={date} onChange={handlerInputDate} />
+                </span>
+              </h3>
+              <div className="container--two-rows">
+                <div className="row-left">
+                  <h4 className="heading-4">Lektion</h4>
+                  {/* // [ ] focus on textarea when student changes */}
+                  <textarea
+                    name="lessonContent"
+                    autoFocus
+                    value={inputNewLesson.lessonContent}
+                    onChange={handlerInputNewLesson}
+                  ></textarea>
+                </div>
+                <div className="row-right">
+                  <h4 className="heading-4">Hausaufgaben</h4>
+                  <textarea
+                    name="homework"
+                    value={inputNewLesson.homework}
+                    onChange={handlerInputNewLesson}
+                  ></textarea>
+                </div>
+              </div>
               <Button
                 type="button"
-                btnStyle="icon-only"
-                icon={<HiPencilSquare />}
-                className="button--edit"
-                handler={toggleModalEdit}
-              />
-              <Button
-                type="button"
-                btnStyle="icon-only"
-                icon={<IoTrashOutline />}
-                className="warning"
-                handler={deleteLesson}
-                dataref={previousLesson.id}
+                btnStyle="primary"
+                label="Speichern"
+                className="btn--save"
+                handler={handlerSaveLesson}
               />
             </div>
-            <div className="container--tabs">
-              <button
-                className={`tab ${tabIndex === 0 && 'tab--active'}`}
-                onClick={() => setTabIndex(0)}
+            {modalEditOpen && (
+              <Modal
+                heading="Lektion bearbeiten"
+                handlerOverlay={toggleModalEdit}
+                handlerClose={toggleModalEdit}
+                className="modal--edit-lesson"
+                buttons={[
+                  {
+                    label: 'Speichern',
+                    btnStyle: 'primary',
+                    handler: updateLesson,
+                  },
+                  { label: 'Löschen', btnStyle: 'danger', handler: () => {} },
+                ]}
               >
-                {formatDateToDisplay(previousLesson.date)}
-              </button>
-
-              {prePreviousLesson && (
-                <button
-                  className={`tab ${tabIndex === 1 && 'tab--active'}`}
-                  onClick={() => setTabIndex(1)}
-                >
-                  {formatDateToDisplay(prePreviousLesson.date)}
-                </button>
-              )}
-
-              {lastBut2Lesson && (
-                <button
-                  className={`tab ${tabIndex === 2 && 'tab--active'}`}
-                  onClick={() => setTabIndex(2)}
-                >
-                  {formatDateToDisplay(lastBut2Lesson.date)}
-                </button>
-              )}
-            </div>
-            <div className="container--two-rows">
-              <div className="row-left">
-                <h4 className="heading-4">Lektion</h4>
-                <div className="content--previous-lesson">
-                  {prevLessonsArr[tabIndex].lessonContent}
+                <div className="container-date">
+                  <label htmlFor="date">Datum</label>
+                  <input
+                    type="text"
+                    id="date"
+                    name="date"
+                    value={formatDateToDisplay(inputEditLesson.date)}
+                    onChange={handlerInputEditLesson}
+                  />
                 </div>
-              </div>
-              <div className="row-right">
-                <h4 className="heading-4">Hausaufgaben</h4>
-                <div className="content--previous-lesson">
-                  {prevLessonsArr[tabIndex].homework}
+                <div className="container--edit-lesson">
+                  <textarea
+                    className="input"
+                    name="lessonContent"
+                    value={inputEditLesson.lessonContent}
+                    onChange={handlerInputEditLesson}
+                  />
+                  <textarea
+                    className="input"
+                    name="homework"
+                    value={inputEditLesson.homework}
+                    onChange={handlerInputEditLesson}
+                  />
                 </div>
-              </div>
-            </div>
+              </Modal>
+            )}
           </div>
-        ) : null}
 
-        <div className="container container--lessons container--new-lesson">
-          <h3 className="heading-3">
-            Aktuelle Lektion
-            <span>
-              <input type="text" value={date} onChange={handlerInputDate} />
-            </span>
-          </h3>
-          <div className="container--two-rows">
-            <div className="row-left">
-              <h4 className="heading-4">Lektion</h4>
-              {/* // [ ] focus on textarea when student changes */}
-              <textarea
-                name="lessonContent"
-                autoFocus
-                value={inputNewLesson.lessonContent}
-                onChange={handlerInputNewLesson}
-              ></textarea>
-            </div>
-            <div className="row-right">
-              <h4 className="heading-4">Hausaufgaben</h4>
-              <textarea
-                name="homework"
-                value={inputNewLesson.homework}
-                onChange={handlerInputNewLesson}
-              ></textarea>
-            </div>
+          <div className="container--aside">
+            <Button
+              type="button"
+              btnStyle="icon-only"
+              className="button--add-note"
+              icon={<IoAddOutline />}
+              handler={toggleModalNotes}
+            />
+            <h4 className="heading-4">Notizen</h4>
+            {currentNotes &&
+              currentNotes.map((note) => (
+                <div className="note" key={note.id}>
+                  <Button
+                    type="button"
+                    btnStyle="icon-only"
+                    handler={deleteNote}
+                    icon={<IoClose />}
+                    className="button--delete-note"
+                    dataref={note.id}
+                  />
+                  <h5 className="heading-5">{note.title}</h5>
+                  <p>{note.text}</p>
+                </div>
+              ))}
           </div>
-          <Button
-            type="button"
-            btnStyle="primary"
-            label="Speichern"
-            className="btn--save"
-            handler={handlerSaveLesson}
-          />
-        </div>
-        {modalEditOpen && (
-          <Modal
-            heading="Lektion bearbeiten"
-            handlerOverlay={toggleModalEdit}
-            handlerClose={toggleModalEdit}
-            className="modal--edit-lesson"
-            buttons={[
-              { label: 'Speichern', btnStyle: 'primary', handler: () => {} },
-            ]}
-          >
-            <div className="container-date">
-              <label htmlFor="date">Datum</label>
+
+          {modalNotesOpen && (
+            <Modal
+              className="modal--notes"
+              heading="Neue Notiz erstellen"
+              handlerClose={toggleModalNotes}
+              handlerOverlay={toggleModalNotes}
+              buttons={[
+                { label: 'Speichern', btnStyle: 'primary', handler: saveNote },
+              ]}
+            >
               <input
                 type="text"
-                id="date"
-                name="date"
-                value={formatDateToDisplay(prevLessonsArr[tabIndex].date)}
-              />
-            </div>
-            <div className="container--edit-lesson">
-              <textarea
-                className="input"
-                name="lessonContent"
-                value={inputEditLesson.lessonContent}
-                onChange={handlerInputEditLesson}
+                name="title"
+                placeholder="Titel"
+                className="note-title"
+                value={newNoteInput.title}
+                onChange={handlerInputNote}
               />
               <textarea
-                className="input"
-                name="homework"
-                value={prevLessonsArr[tabIndex].homework}
+                name="text"
+                placeholder="Inhalt"
+                className="note-content"
+                value={newNoteInput.text}
+                onChange={handlerInputNote}
               />
-            </div>
-          </Modal>
-        )}
-      </div>
-
-      <div className="container--aside">
-        <Button
-          type="button"
-          btnStyle="icon-only"
-          className="button--add-note"
-          icon={<IoAddOutline />}
-          handler={toggleModalNotes}
-        />
-        <h4 className="heading-4">Notizen</h4>
-        {currentNotes &&
-          currentNotes.map((note) => (
-            <div className="note" key={note.id}>
-              <Button
-                type="button"
-                btnStyle="icon-only"
-                handler={deleteNote}
-                icon={<IoClose />}
-                className="button--delete-note"
-                dataref={note.id}
-              />
-              <h5 className="heading-5">{note.title}</h5>
-              <p>{note.text}</p>
-            </div>
-          ))}
-      </div>
-
-      {modalNotesOpen && (
-        <Modal
-          className="modal--notes"
-          heading="Neue Notiz erstellen"
-          handlerClose={toggleModalNotes}
-          handlerOverlay={toggleModalNotes}
-          buttons={[
-            { label: 'Speichern', btnStyle: 'primary', handler: saveNote },
-          ]}
-        >
-          <input
-            type="text"
-            name="title"
-            placeholder="Titel"
-            className="note-title"
-            value={newNoteInput.title}
-            onChange={handlerInputNote}
-          />
-          <textarea
-            name="text"
-            placeholder="Inhalt"
-            className="note-content"
-            value={newNoteInput.text}
-            onChange={handlerInputNote}
-          />
-        </Modal>
+            </Modal>
+          )}
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

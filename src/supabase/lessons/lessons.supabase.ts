@@ -8,6 +8,7 @@ export const fetchLessons = async function () {
     .select('*')
     .order('date')
 
+  if (error) throw new Error(`${error}`)
   return lessons
 }
 
@@ -27,4 +28,13 @@ export const deleteLessonSupabase = async (lessonId: number) => {
     .eq('id', lessonId)
 
   error && console.log(error)
+}
+
+export const updateLessonSupabase = async (lesson: TLesson) => {
+  const { error } = await supabase
+    .from('lessons')
+    .update({ ...lesson })
+    .eq('id', lesson.id)
+
+  console.log(error)
 }
