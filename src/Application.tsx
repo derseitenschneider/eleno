@@ -68,6 +68,7 @@ export default function Application() {
 
   // [ ] fetch only previous 3 lesson
   useEffect(() => {
+    setLoading(true)
     if (user) {
       Promise.all([
         fetchStudents(user.id),
@@ -125,9 +126,8 @@ export default function Application() {
               />
             </div>
           </>
-        ) : (
-          <LoginPage />
-        )}
+        ) : null}
+        {!loading && !session ? <LoginPage /> : null}
       </div>
     </>
   )

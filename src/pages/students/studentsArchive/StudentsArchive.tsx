@@ -10,7 +10,7 @@ import {
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
-import MessageModal from '../../../components/modals/modal.component'
+import MessageModal from '../../../components/modals/Modal.component'
 import { TStudent } from '../../../types/types'
 import { toast } from 'react-toastify'
 

@@ -39,6 +39,4 @@ export const updateLessonSupabase = async (lesson: TLesson) => {
     .from('lessons')
     .update({ ...lesson })
     .eq('id', lesson.id)
-
-  console.log(error)
 }

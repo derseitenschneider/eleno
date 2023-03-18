@@ -16,7 +16,7 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 // Components
 import Button from '../../components/button/Button.component'
-import Modal from '../../components/modals/modal.component'
+import Modal from '../../components/modals/Modal.component'
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
@@ -24,6 +24,7 @@ import {
   IoTrashOutline,
   IoAddOutline,
   IoClose,
+  IoEllipsisHorizontal,
 } from 'react-icons/io5'
 
 import { HiPencilSquare } from 'react-icons/hi2'
@@ -52,6 +53,7 @@ import Loader from '../../components/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
 import NoActiveStudent from '../../components/noActiveStudent/NoActiveStudent'
 import { Navigate, useNavigate } from 'react-router-dom'
+import ModalEditLesson from '../../components/modals/modalEditLesson/ModalEditLesson.component'
 
 const lessonData: TLesson = {
   date: '',
@@ -175,15 +177,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setDate(value)
   }
 
-  const handlerInputEditLesson = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    const newInput = { ...inputEditLesson, [name]: value }
-    setInputEditLesson(newInput)
-  }
-
   // [ ] no save when fields are empty
   const handlerSaveLesson = () => {
     if (!date) {
@@ -258,36 +251,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Notiz gelöscht')
   }
 
-  const deleteLesson = (e: React.MouseEvent) => {
-    const target = e.target as Element
-    const lessonId = +target.closest('button').dataset.ref
-    const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
-    setLessons(newLessons)
-    deleteLessonSupabase(lessonId)
-    toast('Lektion gelöscht')
-  }
-
-  const updateLesson = () => {
-    const updateLesson = {
-      ...inputEditLesson,
-      date: formatDateToDatabase(inputEditLesson.date),
-    }
-    setCurrentLessons((prev) =>
-      prev.map((lesson) =>
-        lesson.id === updateLesson.id ? updateLesson : lesson
-      )
-    )
-    const updateData = async () => {
-      try {
-        updateLessonSupabase(updateLesson)
-      } catch (err) {
-        console.log('etwas ist schiefgelaufen')
-      }
-    }
-    updateData()
-    toggleModalEdit()
-  }
-
   // [ ] add edit funcitonallity
   const toggleModalEdit = () => {
     setModalEditOpen(!modalEditOpen)
@@ -350,17 +313,9 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                   <Button
                     type="button"
                     btnStyle="icon-only"
-                    icon={<HiPencilSquare />}
+                    icon={<IoEllipsisHorizontal />}
                     className="button--edit"
                     handler={toggleModalEdit}
-                  />
-                  <Button
-                    type="button"
-                    btnStyle="icon-only"
-                    icon={<IoTrashOutline />}
-                    className="warning"
-                    handler={deleteLesson}
-                    dataref={previousLesson.id}
                   />
                 </div>
                 <div className="container--tabs">
@@ -442,45 +397,14 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               />
             </div>
             {modalEditOpen && (
-              <Modal
-                heading="Lektion bearbeiten"
-                handlerOverlay={toggleModalEdit}
-                handlerClose={toggleModalEdit}
-                className="modal--edit-lesson"
-                buttons={[
-                  {
-                    label: 'Speichern',
-                    btnStyle: 'primary',
-                    handler: updateLesson,
-                  },
-                  { label: 'Löschen', btnStyle: 'danger', handler: () => {} },
-                ]}
-              >
-                <div className="container-date">
-                  <label htmlFor="date">Datum</label>
-                  <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={formatDateToDisplay(inputEditLesson.date)}
-                    onChange={handlerInputEditLesson}
-                  />
-                </div>
-                <div className="container--edit-lesson">
-                  <textarea
-                    className="input"
-                    name="lessonContent"
-                    value={inputEditLesson.lessonContent}
-                    onChange={handlerInputEditLesson}
-                  />
-                  <textarea
-                    className="input"
-                    name="homework"
-                    value={inputEditLesson.homework}
-                    onChange={handlerInputEditLesson}
-                  />
-                </div>
-              </Modal>
+              <ModalEditLesson
+                toggleModalEdit={toggleModalEdit}
+                input={inputEditLesson}
+                setInput={setInputEditLesson}
+                setCurrentLessons={setCurrentLessons}
+                lessons={lessons}
+                setLessons={setLessons}
+              />
             )}
           </div>
 
