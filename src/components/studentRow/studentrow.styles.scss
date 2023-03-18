@@ -1,68 +1,10 @@
-.student-row {
-  padding: 0 0.8rem;
-  height: 4.2rem;
-  td {
-    padding-right: 1.2rem;
-  }
-  td:first-child {
-    padding-left: 0.8rem;
-  }
-  td input:focus-visible,
-  td select:focus-visible {
-    outline: none;
-  }
-  .input {
-    font-size: inherit;
-    color: var(--clr-text);
-    border: none;
-    padding: 0.4rem 0;
-    background-color: transparent;
-    line-height: 2;
+.container--button {
+  position: relative;
+  .button--edit {
+    color: var(--clr-primary);
   }
 
-  input[type='time'] {
-  }
-
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-    font-size: inherit;
-
-    &:focus {
-      box-shadow: inset 1px 1px 0 var(--clr-primary),
-        inset -1px -1px 0 var(--clr-primary);
-    }
-  }
-
-  .input--firstName,
-  .input--lastName {
-    width: 15ch;
-  }
-
-  .input--instrument {
-    width: 15ch;
-  }
-
-  .input--time {
-    width: 4ch;
-    font-family: inherit;
-    text-align: center;
-  }
-
-  .input--duration {
-    padding: 0;
-    width: 2ch;
-  }
-
-  .input--location {
-    width: 25ch;
-  }
-
-  .buttons {
-    height: 100%;
-    vertical-align: middle;
-    display: flex;
+  .dropdown--edit-student {
+    transform: translate(-1rem, -1rem);
   }
 }

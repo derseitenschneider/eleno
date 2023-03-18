@@ -3,7 +3,8 @@
   z-index: 30;
 
   background-color: var(--clr-bg-black-400);
-  min-width: 14rem;
+  border: 1px solid var(--clr-bg-black-600);
+  min-width: 20rem;
   padding: 0.8rem;
   // animation: grow 0.3s ease;
   // transform-origin: bottom left;
@@ -22,6 +23,7 @@
 
     &:hover {
       background-color: var(--clr-bg-black-600);
+      // color: var(--clr-primary);
     }
   }
 }

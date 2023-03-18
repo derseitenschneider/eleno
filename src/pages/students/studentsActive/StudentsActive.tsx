@@ -13,10 +13,7 @@ import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import {
-  postArchiveStudent,
-  postNewStudent,
-} from '../../../supabase/students/students.supabase'
+import { postNewStudent } from '../../../supabase/students/students.supabase'
 import { NavLink } from 'react-router-dom'
 import { sortStudents } from '../../../utils/sortStudents'
 
@@ -30,6 +27,7 @@ import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
 import { useUser } from '../../../contexts/UserContext'
 import NoActiveStudent from '../../../components/noActiveStudent/NoActiveStudent'
+import StudentList from '../../../components/studentlist/StudentList.component'
 
 export default function StudentsActive() {
   // STATE
@@ -59,16 +57,16 @@ export default function StudentsActive() {
     setSearchInput(e.target.value.toLowerCase())
   }
 
-  const handlerArchive = (e: React.MouseEvent) => {
-    const target = e.target as Element
-    const id = +target.closest('button').dataset.id
-    const newStudents = students.map((student) =>
-      student.id === id ? { ...student, archive: true } : student
-    )
-    setStudents(newStudents)
-    postArchiveStudent(id)
-    toast('Schüler:in archiviert')
-  }
+  // const handlerArchive = (e: React.MouseEvent) => {
+  //   const target = e.target as Element
+  //   const id = +target.closest('button').dataset.id
+  //   const newStudents = students.map((student) =>
+  //     student.id === id ? { ...student, archive: true } : student
+  //   )
+  //   setStudents(newStudents)
+  //   postArchiveStudent(id)
+  //   toast('Schüler:in archiviert')
+  // }
 
   const createNewStudent = (input: TStudent) => {
     const tempNewStudent = { ...input }
@@ -132,10 +130,13 @@ export default function StudentsActive() {
   return (
     <>
       <Loader loading={loading} />
-      <div className="student-list">
+      <div className="students-active">
         {!loading && activeStudents.length ? (
           <>
             <h1>Liste Schüler:innen</h1>
+            <span>
+              Anzahl Schüler:innen <span>{activeStudents.length}</span>
+            </span>
             <div className="container-list">
               <div className="heading">
                 <select
@@ -171,23 +172,21 @@ export default function StudentsActive() {
                   />
                 </div>
               </div>
-
-              <table className="student-list-table">
-                <thead>
-                  <tr>
-                    <th>
-                      <input type="checkbox" />
-                    </th>
-                    <th className="th--firstName">Vorname</th>
-                    <th className="th--lastName">Nachname</th>
-                    <th className="th--instrument">Instrument</th>
-                    <th className="th--day">Tag</th>
-                    <th className="th--time">Zeit</th>
-                    <th className="th--duration">Dauer</th>
-                    <th>Unterrichtsort</th>
-                    <th></th>
-                  </tr>
-                </thead>
+              <StudentList students={filteredStudents} />
+              {/* <div className="student-list">
+                <div className="student-list__head">
+                  <div>
+                    <input type="checkbox" />
+                  </div>
+                  <div className="th--firstName">Vorname</div>
+                  <div className="th--lastName">Nachname</div>
+                  <div className="th--instrument">Instrument</div>
+                  <div className="th--day">Tag</div>
+                  <div className="th--time">Zeit</div>
+                  <div className="th--duration">Dauer</div>
+                  <div>Unterrichtsort</div>
+                  <div></div>
+                </div>
 
                 <tbody>
                   {filteredStudents.map((student) => (
@@ -210,12 +209,7 @@ export default function StudentsActive() {
                     />
                   ))}
                 </tbody>
-              </table>
-            </div>
-            <div className="count-students">
-              <p>
-                Anzahl Schüler:innen <span>{activeStudents.length}</span>
-              </p>
+              </div> */}
             </div>
           </>
         ) : null}

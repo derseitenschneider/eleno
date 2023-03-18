@@ -1,194 +1,130 @@
 import './studentrow.styles.scss'
-import {
-  ChangeEvent,
-  FunctionComponent,
-  FunctionComponentElement,
-  ReactComponentElement,
-  useState,
-} from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { TStudent } from '../../types/types'
-import { IconType } from 'react-icons/lib'
+import { IoEllipsisVertical } from 'react-icons/io5'
+import DropDown from '../dropdown/Dropdown.component'
+import Button from '../button/Button.component'
 import { useStudents } from '../../contexts/StudentContext'
-import { postUpdateStudent } from '../../supabase/students/students.supabase'
+import { archivateStudentSupabase } from '../../supabase/students/students.supabase'
+import { toast } from 'react-toastify'
 
 interface StudentRowProps {
   student: TStudent
-  form: boolean
-  buttons?: {
-    label: string
-    icon: IconType
-    className?: string
-    handler: (e: React.MouseEvent) => void
-  }[]
 }
 
 const StudentRow: FunctionComponent<StudentRowProps> = ({
-  student,
-  form,
-  buttons,
+  student: currentStudent,
 }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const { students, setStudents } = useStudents()
-  const [inputCurrentStudent, setInputCurrentStudent] = useState(student)
 
-  const hanlderOnChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    const newInput = { ...inputCurrentStudent, [name]: value }
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const button = target.closest('.button--edit') as HTMLElement
+      if (!button) setDropdownOpen(false)
+      if (+button?.dataset.id !== currentStudent.id) setDropdownOpen(false)
+    }
+    if (dropdownOpen) {
+      window.addEventListener('click', closeDropdown)
+    }
+    return () => {
+      window.removeEventListener('click', closeDropdown)
+    }
+  }, [dropdownOpen])
 
-    setInputCurrentStudent(newInput)
-  }
-
-  const handlerOnBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    const name = e.target.name
-    const id = +e.target.dataset.id
+  const archivateStudent = () => {
     const newStudents = students.map((student) =>
-      student.id === id ? { ...student, [name]: value } : student
+      student.id === currentStudent.id ? { ...student, archive: true } : student
     )
     setStudents(newStudents)
-    postUpdateStudent(id, name, value)
-  }
-
-  const handlerOnSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value
-    const name = e.target.name
-    const id = +e.target.dataset.id
-    const newStudents = students.map((student) =>
-      student.id === id ? { ...student, [name]: value } : student
-    )
-    setStudents(newStudents)
-    postUpdateStudent(id, name, value)
+    archivateStudentSupabase(currentStudent.id)
+    toast('Schüler:in archiviert')
   }
 
   return (
-    <tr className="student-row">
-      <td>
-        <input type="checkbox" name="" id="" className="checkbox" />
-      </td>
-      <td>
-        {form && (
-          <input
-            className="input input--firstName"
-            data-id={inputCurrentStudent.id}
-            type="text"
-            value={inputCurrentStudent.firstName}
-            name="firstName"
-            onChange={hanlderOnChange}
-            onBlur={handlerOnBlur}
+    <>
+      <div
+        className="checkbox"
+        style={
+          dropdownOpen
+            ? {
+                // boxShadow: 'inset 1px 1px 0 var(--clr-primary)',
+                color: 'var(--clr-primary)',
+              }
+            : {}
+        }
+      >
+        <input type="checkbox" />
+      </div>
+      <div
+        style={
+          dropdownOpen
+            ? {
+                color: 'var(--clr-primary)',
+              }
+            : {}
+        }
+      >
+        {currentStudent.firstName}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.lastName}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.instrument}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.dayOfLesson}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.startOfLesson}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.endOfLesson}
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.durationMinutes} Minuten
+      </div>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+        {currentStudent.location}
+      </div>
+      <div className="container--button">
+        <button
+          className="button--edit"
+          data-id={currentStudent.id}
+          onClick={() => {
+            setDropdownOpen((prev) => !prev)
+          }}
+        >
+          <IoEllipsisVertical />
+        </button>
+        {dropdownOpen && (
+          <DropDown
+            className="dropdown--edit-student"
+            positionX="right"
+            positionY="top"
+            buttons={[
+              {
+                label: 'Bearbeiten',
+                handler: () => {},
+                type: 'normal',
+              },
+              {
+                label: 'Archivieren',
+                handler: archivateStudent,
+                type: 'normal',
+              },
+              {
+                label: '... zum Lektionsblatt',
+                handler: () => {},
+                type: 'normal',
+              },
+            ]}
           />
         )}
-        {!form && <span>{student.firstName}</span>}
-      </td>
-      <td>
-        {form && (
-          <input
-            className="input input--lastName"
-            data-id={inputCurrentStudent.id}
-            type="text"
-            value={inputCurrentStudent.lastName}
-            name="lastName"
-            onChange={hanlderOnChange}
-            onBlur={handlerOnBlur}
-          />
-        )}
-        {!form && <span>{student.lastName}</span>}
-      </td>
-      <td>
-        {form && (
-          <input
-            className="input input--instrument"
-            data-id={inputCurrentStudent.id}
-            type="text"
-            value={inputCurrentStudent.instrument}
-            name="instrument"
-            onChange={hanlderOnChange}
-            onBlur={handlerOnBlur}
-          />
-        )}
-        {!form && <span>{student.instrument}</span>}
-      </td>
-      {form && (
-        <>
-          <td>
-            <select
-              className="input input--dayOfLesson"
-              data-id={inputCurrentStudent.id}
-              name="dayOfLesson"
-              id=""
-              defaultValue={inputCurrentStudent.dayOfLesson}
-              onChange={handlerOnSelect}
-            >
-              <option value="Montag">Montag</option>
-              <option value="Dienstag">Dienstag</option>
-              <option value="Mittwoch">Mittwoch</option>
-              <option value="Donnerstag">Donnerstag</option>
-              <option value="Freitag">Freitag</option>
-            </select>
-          </td>
-          <td>
-            <input
-              data-id={inputCurrentStudent.id}
-              name="startOfLesson"
-              type="text"
-              value={inputCurrentStudent.startOfLesson}
-              onChange={hanlderOnChange}
-              onBlur={handlerOnBlur}
-              className="input input--time"
-            />
-            <span>-</span>
-            <input
-              data-id={inputCurrentStudent.id}
-              name="endOfLesson"
-              type="text"
-              value={inputCurrentStudent.endOfLesson}
-              onChange={hanlderOnChange}
-              onBlur={handlerOnBlur}
-              className="input input--time"
-            />
-          </td>
-          <td>
-            <input
-              name="durationMinutes"
-              data-id={inputCurrentStudent.id}
-              type="text"
-              value={inputCurrentStudent.durationMinutes}
-              onChange={hanlderOnChange}
-              onBlur={handlerOnBlur}
-              className="input input--duration"
-            />
-            <span>min</span>
-          </td>
-          <td>
-            <input
-              name="location"
-              data-id={inputCurrentStudent.id}
-              type="text"
-              value={inputCurrentStudent.location}
-              className="input input--location"
-              onChange={hanlderOnChange}
-              onBlur={handlerOnBlur}
-            />
-          </td>
-        </>
-      )}
-
-      <td className="buttons">
-        {buttons?.map((button) => (
-          <button
-            title={button.label}
-            onClick={button.handler}
-            className={`button button--${button.label.toLocaleLowerCase()}`}
-            data-id={student.id}
-          >
-            <button.icon
-              className={`icon icon--${button.label.toLocaleLowerCase()}`}
-            />
-          </button>
-        ))}
-      </td>
-    </tr>
+      </div>
+    </>
   )
 }
 

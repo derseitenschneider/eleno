@@ -13,7 +13,6 @@ export default function Students() {
   const { students, setStudents } = useStudents()
   const { loading, setLoading } = useLoading()
   const { user } = useUser()
-  console.log(loading)
   return (
     <div className="container">
       <Navbar navLinks={navLinks} />

@@ -47,7 +47,7 @@ export const postNewStudent = async function (
   return data
 }
 
-export const postArchiveStudent = async function (studentId: number) {
+export const archivateStudentSupabase = async function (studentId: number) {
   const { data, error } = await supabase
     .from('students')
     .update({ archive: true })

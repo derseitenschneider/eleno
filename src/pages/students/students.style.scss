@@ -1,4 +1,4 @@
-.student-list {
+.students-active {
   position: relative;
   // max-height: calc(100vh - 50rem);
   .heading {
@@ -72,71 +72,71 @@
   }
 }
 
-.student-list-table {
-  border-collapse: collapse;
-  border: none;
-  font-size: 1.6rem;
-  display: block;
-  max-height: 45vh;
-  overflow-y: scroll;
-  width: 100%;
-  white-space: nowrap;
+// .student-list-table {
+//   border-collapse: collapse;
+//   border: none;
+//   font-size: 1.6rem;
+//   display: block;
+//   max-height: 45vh;
+//   overflow-y: scroll;
+//   width: 100%;
+//   white-space: nowrap;
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
+//   &::-webkit-scrollbar {
+//     width: 5px;
+//   }
 
-  thead {
-    position: sticky;
-    top: 0;
-    background-color: var(--clr-bg-black-600);
-  }
+//   thead {
+//     position: sticky;
+//     top: 0;
+//     background-color: var(--clr-bg-black-600);
+//   }
 
-  th {
-    padding: 0.4rem 0;
-    font-weight: bold;
-    font-size: 1.8rem;
-    width: 100%;
+//   th {
+//     padding: 0.4rem 0;
+//     font-weight: bold;
+//     font-size: 1.8rem;
+//     width: 100%;
 
-    // background-color: var(--clr-white);
-    border-bottom: 1px solid var(--clr-bg-black-400);
-  }
+//     // background-color: var(--clr-white);
+//     border-bottom: 1px solid var(--clr-bg-black-400);
+//   }
 
-  th:first-child {
-    padding: 0.4rem 0.8rem;
-    width: 1rem;
-  }
+//   th:first-child {
+//     padding: 0.4rem 0.8rem;
+//     width: 1rem;
+//   }
 
-  th {
-    text-align: left;
-  }
+//   th {
+//     text-align: left;
+//   }
 
-  .th--firstName,
-  .th--lastName,
-  .th--instrument,
-  .th--day {
-    width: 10ch;
-  }
+//   .th--firstName,
+//   .th--lastName,
+//   .th--instrument,
+//   .th--day {
+//     width: 10ch;
+//   }
 
-  .th--duration {
-    padding-right: 10rem;
-  }
+//   .th--duration {
+//     padding-right: 10rem;
+//   }
 
-  tbody tr:nth-child(odd):not(.new-student-row) {
-    background-color: var(--clr-bg-black-400);
-  }
+//   tbody tr:nth-child(odd):not(.new-student-row) {
+//     background-color: var(--clr-bg-black-400);
+//   }
 
-  .icon {
-    height: 2rem;
-    width: 2rem;
-    color: var(--clr-primary);
-  }
+//   .icon {
+//     height: 2rem;
+//     width: 2rem;
+//     color: var(--clr-primary);
+//   }
 
-  .icon-add {
-    stroke: var(--clr-primary);
-  }
+//   .icon-add {
+//     stroke: var(--clr-primary);
+//   }
 
-  &.add-new {
-    margin-top: 4rem;
-  }
-}
+//   &.add-new {
+//     margin-top: 4rem;
+//   }
+// }

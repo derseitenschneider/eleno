@@ -6,15 +6,20 @@ interface DropDownProps {
   buttons: TDropdownButton[]
   positionX: 'left' | 'right'
   positionY: 'top' | 'bottom'
+  className?: string
 }
 
 const DropDown: FunctionComponent<DropDownProps> = ({
   buttons,
   positionX,
   positionY,
+  className,
 }) => {
   return (
-    <div className="dropdown" style={{ [positionX]: '0', [positionY]: '100%' }}>
+    <div
+      className={`dropdown ${className}`}
+      style={{ [positionX]: '0', [positionY]: '100%' }}
+    >
       {buttons.map((button, i) => (
         <button
           key={i}

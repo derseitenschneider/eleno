@@ -1,0 +1,26 @@
+.student-list {
+  display: grid;
+  width: 100%;
+  position: relative;
+  row-gap: 1px;
+
+  grid-template-columns: 4rem repeat(2, 16rem) 15rem 11rem repeat(2, 7rem) 13rem 1fr 4rem;
+  align-items: stretch;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    background-color: var(--clr-bg-black-600) !important;
+    font-weight: bold;
+    padding: 1rem 0;
+    z-index: 30;
+
+    font-size: 1.8rem;
+  }
+
+  &:not(.student-list__header) > div {
+    background-color: var(--clr-bg-black-400);
+
+    padding: 1rem 0;
+  }
+}
