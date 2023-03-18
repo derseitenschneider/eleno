@@ -85,7 +85,6 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
           btnStyle: 'primary',
           handler: updateLesson,
         },
-        { label: 'Löschen', btnStyle: 'danger', handler: deleteLesson },
       ]}
     >
       <div className="container-date">

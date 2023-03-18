@@ -132,29 +132,6 @@
       top: 0.8rem;
       right: 0.8rem;
     }
-    .note {
-      position: relative;
-      margin-top: 2.4rem;
-      min-height: 18rem;
-      line-height: 2;
-      background-color: var(--clr-bg-black-600);
-      padding: 1.6rem;
-      padding-bottom: 3.2rem;
-      white-space: pre-wrap;
-      box-shadow: 4px 4px 4px rgba(0 0 0 /0.2);
-
-      .heading-5 {
-        font-size: 1.8rem;
-        font-weight: 500;
-        margin-bottom: 0.8em;
-      }
-
-      .button--delete-note {
-        position: absolute;
-        top: 1.2rem;
-        right: 1.2rem;
-      }
-    }
   }
   .modal--notes {
     .note-title {

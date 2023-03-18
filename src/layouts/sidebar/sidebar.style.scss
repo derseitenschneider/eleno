@@ -11,7 +11,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding-block: 2rem;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   background-color: var(--clr-bg-black-400);
   transition: width 0.3s ease;
 

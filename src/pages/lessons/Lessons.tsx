@@ -28,6 +28,7 @@ import {
 } from 'react-icons/io5'
 
 import { HiPencilSquare } from 'react-icons/hi2'
+import Note from '../../components/note/Note.component'
 
 // Functions
 
@@ -41,19 +42,17 @@ import { toast } from 'react-toastify'
 import {
   postLesson,
   deleteLessonSupabase,
-  updateLessonSupabase,
 } from '../../supabase/lessons/lessons.supabase'
 
-import {
-  postNotes,
-  deleteNoteSupabase,
-} from '../../supabase/notes/notes.supabase'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import Loader from '../../components/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
 import NoActiveStudent from '../../components/noActiveStudent/NoActiveStudent'
 import { Navigate, useNavigate } from 'react-router-dom'
 import ModalEditLesson from '../../components/modals/modalEditLesson/ModalEditLesson.component'
+import ModalAddNote from '../../components/modals/modalAddNotes/ModalAddNote.component'
+import DropDown from '../../components/dropdown/Dropdown.component'
+import ModalEditNote from '../../components/modals/modalEditNote/ModalEditNote.component'
 
 const lessonData: TLesson = {
   date: '',
@@ -81,6 +80,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [currentStudent, setCurrentStudent] = useState<TStudent>(null)
   const [currentLessons, setCurrentLessons] = useState<TLesson[]>([])
   const [currentNotes, setCurrentNotes] = useState<TNotes[]>([])
+  const [currentNoteId, setCurrentNoteId] = useState<number | null>(null)
 
   const [previousLesson, setPreviousLesson] = useState<TLesson>()
   const [prePreviousLesson, setPrePreviousLesson] = useState<TLesson>()
@@ -90,10 +90,13 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
   const [inputEditLesson, setInputEditLesson] = useState<TLesson>(lessonData)
 
-  const [modalEditOpen, setModalEditOpen] = useState(false)
-  const [modalNotesOpen, setModalNotesOpen] = useState(false)
+  const [modalEditLessonOpen, setModalEditLessonOpen] = useState(false)
+  const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false)
+  const [modalEditNoteOpen, setModalEditNoteOpen] = useState(false)
 
   const [newNoteInput, setNewNoteInput] = useState(noteData)
+
+  const [dropdownEditLessonOpen, setDropdownEditLessonOpen] = useState(false)
 
   const { closestStudentIndex } = useClosestStudent()
   const [studentIndex, setStudentIndex] = useState(0)
@@ -149,6 +152,19 @@ const Lesson: FunctionComponent<LessonProps> = () => {
         notes.filter((note) => note.studentId === currentStudent.id)
       )
   }, [currentStudent, notes])
+
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      const target = e.target as Element
+      if (!target.closest('.button--edit')) setDropdownEditLessonOpen(false)
+    }
+    if (dropdownEditLessonOpen) {
+      window.addEventListener('click', closeDropdown)
+    }
+    return () => {
+      window.removeEventListener('click', closeDropdown)
+    }
+  }, [dropdownEditLessonOpen])
 
   // HANDLER
   // [ ] save input befor change if not empty
@@ -224,44 +240,53 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setNewNoteInput(tempNewNoteInput)
   }
 
-  const saveNote = () => {
-    const tempID = Math.floor(Math.random() * 10000000)
-    const newNote = { ...newNoteInput, studentId: currentStudent.id }
-    const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
-    setNotes(tempNotes)
-    setNewNoteInput(noteData)
-    setModalNotesOpen(false)
-    const postData = async () => {
-      const [data] = await postNotes(newNote, currentStudent.id, user.id)
-      setNotes((notes) =>
-        notes.map((note) =>
-          note.id === tempID ? { ...note, id: data.id } : note
-        )
-      )
-    }
-    postData()
-    toast('Notiz gespeichert')
+  // Delete Lesson
+  const deleteLesson = () => {
+    const lessonId = prevLessonsArr[tabIndex].id
+    const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
+    setLessons(newLessons)
+    deleteLessonSupabase(lessonId)
+    toast('Lektion gelöscht')
   }
+  // const saveNote = () => {
+  //   const tempID = Math.floor(Math.random() * 10000000)
+  //   const newNote = { ...newNoteInput, studentId: currentStudent.id }
+  //   const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
+  //   setNotes(tempNotes)
+  //   setNewNoteInput(noteData)
+  //   setModalAddNoteOpen(false)
+  //   const postData = async () => {
+  //     const [data] = await postNotes(newNote, currentStudent.id, user.id)
+  //     setNotes((notes) =>
+  //       notes.map((note) =>
+  //         note.id === tempID ? { ...note, id: data.id } : note
+  //       )
+  //     )
+  //   }
+  //   postData()
+  //   toast('Notiz gespeichert')
+  // }
 
-  const deleteNote = (e: React.MouseEvent) => {
-    const target = e.target as Element
-    const currNoteId = +target.closest('button').dataset.ref
-    setNotes((notes) => notes.filter((note) => note.id !== currNoteId))
-    deleteNoteSupabase(currNoteId)
-    toast('Notiz gelöscht')
-  }
+  // const deleteNote = (e: React.MouseEvent) => {
+  //   const target = e.target as Element
+  //   const currNoteId = +target.closest('button').dataset.ref
+  //   setNotes((notes) => notes.filter((note) => note.id !== currNoteId))
+  //   deleteNoteSupabase(currNoteId)
+  //   toast('Notiz gelöscht')
+  // }
 
   // [ ] add edit funcitonallity
   const toggleModalEdit = () => {
-    setModalEditOpen(!modalEditOpen)
+    setModalEditLessonOpen(!modalEditLessonOpen)
     setInputEditLesson(prevLessonsArr[tabIndex])
+    setDropdownEditLessonOpen(false)
   }
 
   // [ ] Focus on Title input field
-  const toggleModalNotes = () => {
-    setModalNotesOpen(!modalNotesOpen)
-    setNewNoteInput(noteData)
-  }
+  // const toggleModalNotes = () => {
+  //   setModalAddNoteOpen(!modalAddNoteOpen)
+  //   setNewNoteInput(noteData)
+  // }
 
   const navigateToStudents = () => {
     navigate('/students')
@@ -315,8 +340,26 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                     btnStyle="icon-only"
                     icon={<IoEllipsisHorizontal />}
                     className="button--edit"
-                    handler={toggleModalEdit}
+                    handler={() => setDropdownEditLessonOpen((prev) => !prev)}
                   />
+                  {dropdownEditLessonOpen ? (
+                    <DropDown
+                      positionX="right"
+                      positionY="bottom"
+                      buttons={[
+                        {
+                          label: 'Lektion bearbeiten',
+                          handler: toggleModalEdit,
+                          type: 'normal',
+                        },
+                        {
+                          label: 'Lektion löschen',
+                          handler: deleteLesson,
+                          type: 'warning',
+                        },
+                      ]}
+                    />
+                  ) : null}
                 </div>
                 <div className="container--tabs">
                   <button
@@ -396,7 +439,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                 handler={handlerSaveLesson}
               />
             </div>
-            {modalEditOpen && (
+            {modalEditLessonOpen && (
               <ModalEditLesson
                 toggleModalEdit={toggleModalEdit}
                 input={inputEditLesson}
@@ -414,53 +457,41 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               btnStyle="icon-only"
               className="button--add-note"
               icon={<IoAddOutline />}
-              handler={toggleModalNotes}
+              handler={() => setModalAddNoteOpen((prev) => !prev)}
             />
             <h4 className="heading-4">Notizen</h4>
             {currentNotes &&
               currentNotes.map((note) => (
-                <div className="note" key={note.id}>
-                  <Button
-                    type="button"
-                    btnStyle="icon-only"
-                    handler={deleteNote}
-                    icon={<IoClose />}
-                    className="button--delete-note"
-                    dataref={note.id}
-                  />
-                  <h5 className="heading-5">{note.title}</h5>
-                  <p>{note.text}</p>
-                </div>
+                <Note
+                  key={note.id}
+                  id={note.id}
+                  title={note.title}
+                  text={note.text}
+                  setNotes={setNotes}
+                  setModalEditOpen={setModalEditNoteOpen}
+                  setCurrentNoteId={setCurrentNoteId}
+                />
               ))}
           </div>
 
-          {modalNotesOpen && (
-            <Modal
-              className="modal--notes"
-              heading="Neue Notiz erstellen"
-              handlerClose={toggleModalNotes}
-              handlerOverlay={toggleModalNotes}
-              buttons={[
-                { label: 'Speichern', btnStyle: 'primary', handler: saveNote },
-              ]}
-            >
-              <input
-                type="text"
-                name="title"
-                placeholder="Titel"
-                className="note-title"
-                value={newNoteInput.title}
-                onChange={handlerInputNote}
-              />
-              <textarea
-                name="text"
-                placeholder="Inhalt"
-                className="note-content"
-                value={newNoteInput.text}
-                onChange={handlerInputNote}
-              />
-            </Modal>
-          )}
+          {modalAddNoteOpen ? (
+            <ModalAddNote
+              modalOpen={modalAddNoteOpen}
+              setModalOpen={setModalAddNoteOpen}
+              currentStudent={currentStudent}
+              notes={notes}
+              setNotes={setNotes}
+            />
+          ) : null}
+
+          {modalEditNoteOpen ? (
+            <ModalEditNote
+              setModalOpen={setModalEditNoteOpen}
+              currentNote={notes.find((note) => note.id === currentNoteId)}
+              setNotes={setNotes}
+              notes={notes}
+            />
+          ) : null}
         </div>
       ) : (
         <div className="container">

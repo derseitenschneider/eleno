@@ -8,7 +8,7 @@
   // --clr-primary-bright: hsl(195, 43%, 90%);
   --clr-text: #d5d6d7;
   // --clr-warning: rgb(234, 58, 58);
-  --clr-warning: #ae476d;
+  --clr-warning: #eb6898;
   --clr-darkgrey: #aaa;
   --clr-grey-400: #f0f0f0;
   --clr-grey-300: #f3f3f3;
@@ -22,6 +22,8 @@
   --toastify-text-color-dark: var(--clr-text) !important;
 
   --toastify-color-progress-dark: var(--clr-primary) !important;
+
+  --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
 }
 
 *,

@@ -11,9 +11,8 @@ export const fetchNotes = async function (uid: string) {
   return data
 }
 
-export const postNotes = async function (
+export const postNotesSupabase = async function (
   note: TNotes,
-  studentID: number,
   userId: string
 ): Promise<TNotes[]> {
   const { studentId, title, text } = note
@@ -29,4 +28,13 @@ export const postNotes = async function (
 
 export const deleteNoteSupabase = async function (noteId: number) {
   const { data, error } = await supabase.from('notes').delete().eq('id', noteId)
+}
+
+export const editNoteSupabase = async function (note: TNotes) {
+  const { error } = await supabase
+    .from('notes')
+    .update({ ...note })
+    .eq('id', note.id)
+
+  error && console.log(error)
 }

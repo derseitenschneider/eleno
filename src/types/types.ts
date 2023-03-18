@@ -70,3 +70,9 @@ export type TSorting =
   | 'instrument'
   | 'dayOfLesson'
   | 'location'
+
+export type TDropdownButton = {
+  label: string
+  handler: (e: React.MouseEvent) => void
+  type: 'normal' | 'warning'
+}

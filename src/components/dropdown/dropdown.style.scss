@@ -1,0 +1,46 @@
+.dropdown {
+  position: absolute;
+  z-index: 30;
+
+  background-color: var(--clr-bg-black-400);
+  min-width: 14rem;
+  padding: 0.8rem;
+  // animation: grow 0.3s ease;
+  // transform-origin: bottom left;
+
+  box-shadow: var(--box-shadow);
+
+  &__button {
+    padding: 0.6rem;
+    width: 100%;
+    text-align: left;
+    // animation: fadeIn 0.6s ease;
+
+    &.warning {
+      color: var(--clr-warning);
+    }
+
+    &:hover {
+      background-color: var(--clr-bg-black-600);
+    }
+  }
+}
+
+// @keyframes fadeIn {
+//   0% {
+//     opacity: 0;
+//   }
+
+//   100% {
+//     opacity: 1;
+//   }
+// }
+
+// @keyframes grow {
+//   0% {
+//     transform: scaleY(0);
+//   }
+//   100% {
+//     transform: scaleY(1);
+//   }
+// }
