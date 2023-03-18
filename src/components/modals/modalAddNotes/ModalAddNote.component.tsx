@@ -4,24 +4,22 @@ import { TNotes, TStudent } from '../../../types/types'
 import { postNotesSupabase } from '../../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
+import { useNotes } from '../../../contexts/NotesContext'
 
 interface ModalAddNoteProps {
   modalOpen: boolean
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentStudent: TStudent
-  notes: TNotes[]
-  setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
 }
 
 const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
   modalOpen,
   setModalOpen,
   currentStudent,
-  notes,
-  setNotes,
 }) => {
   const [input, setInput] = useState({ title: '', text: '' })
   const { user } = useUser()
+  const { notes, setNotes } = useNotes()
 
   // Toggle modal
   const toggleModal = () => {
@@ -42,6 +40,15 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
 
   // Save Note
   const saveNote = () => {
+    if (!input.title) {
+      toast('Titel fehlt', { type: 'error' })
+      return
+    }
+
+    if (!input.text) {
+      toast('Inhalt der Notiz fehlt', { type: 'error' })
+      return
+    }
     const tempID = Math.floor(Math.random() * 10000000)
     const newNote = { ...input, studentId: currentStudent.id }
     const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
@@ -68,6 +75,7 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
       buttons={[{ label: 'Speichern', btnStyle: 'primary', handler: saveNote }]}
     >
       <input
+        autoFocus={true}
         type="text"
         name="title"
         placeholder="Titel"

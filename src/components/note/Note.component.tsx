@@ -3,15 +3,14 @@ import { FunctionComponent, useState, useEffect } from 'react'
 import Button from '../button/Button.component'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
-import { TNotes } from '../../types/types'
 import { deleteNoteSupabase } from '../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
+import { useNotes } from '../../contexts/NotesContext'
 
 interface NoteProps {
   id: number
   title: string
   text: string
-  setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
   setModalEditOpen: React.Dispatch<React.SetStateAction<boolean>>
   setCurrentNoteId: React.Dispatch<React.SetStateAction<number | null>>
 }
@@ -20,10 +19,10 @@ const Note: FunctionComponent<NoteProps> = ({
   id,
   title,
   text,
-  setNotes,
   setModalEditOpen,
   setCurrentNoteId,
 }) => {
+  const { setNotes } = useNotes()
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const deleteNote = (e: React.MouseEvent) => {

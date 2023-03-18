@@ -16,18 +16,14 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 // Components
 import Button from '../../components/button/Button.component'
-import Modal from '../../components/modals/Modal.component'
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoPersonCircleOutline,
-  IoTrashOutline,
   IoAddOutline,
-  IoClose,
   IoEllipsisHorizontal,
 } from 'react-icons/io5'
 
-import { HiPencilSquare } from 'react-icons/hi2'
 import Note from '../../components/note/Note.component'
 
 // Functions
@@ -48,7 +44,7 @@ import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import Loader from '../../components/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
 import NoActiveStudent from '../../components/noActiveStudent/NoActiveStudent'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ModalEditLesson from '../../components/modals/modalEditLesson/ModalEditLesson.component'
 import ModalAddNote from '../../components/modals/modalAddNotes/ModalAddNote.component'
 import DropDown from '../../components/dropdown/Dropdown.component'
@@ -88,13 +84,10 @@ const Lesson: FunctionComponent<LessonProps> = () => {
   const [tabIndex, setTabIndex] = useState(0)
 
   const [inputNewLesson, setInputNewLesson] = useState<TLesson>(lessonData)
-  const [inputEditLesson, setInputEditLesson] = useState<TLesson>(lessonData)
 
   const [modalEditLessonOpen, setModalEditLessonOpen] = useState(false)
   const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false)
   const [modalEditNoteOpen, setModalEditNoteOpen] = useState(false)
-
-  const [newNoteInput, setNewNoteInput] = useState(noteData)
 
   const [dropdownEditLessonOpen, setDropdownEditLessonOpen] = useState(false)
 
@@ -125,8 +118,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     students.filter((student) => !student.archive)
   )
 
-  const prevLessonsArr = [previousLesson, prePreviousLesson, lastBut2Lesson]
-
   useEffect(() => {
     activeStudents && setCurrentStudent(activeStudents[studentIndex])
   }, [activeStudents, studentIndex])
@@ -145,7 +136,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       setLastBut2Lesson(currentLessons[currentLessons.length - 3])
     }
   }, [currentLessons, lessons])
-
+  // FIXME Deleting not last or pre last lesson gives error
+  const prevLessonsArr = [previousLesson, prePreviousLesson, lastBut2Lesson]
   useEffect(() => {
     currentStudent &&
       setCurrentNotes(
@@ -153,6 +145,7 @@ const Lesson: FunctionComponent<LessonProps> = () => {
       )
   }, [currentStudent, notes])
 
+  // Close dropdown on click anywhere else
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as Element
@@ -193,7 +186,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setDate(value)
   }
 
-  // [ ] no save when fields are empty
   const handlerSaveLesson = () => {
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
@@ -231,15 +223,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     toast('Lektion gespeichert')
   }
 
-  const handlerInputNote = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    const tempNewNoteInput = { ...newNoteInput, [name]: value }
-    setNewNoteInput(tempNewNoteInput)
-  }
-
   // Delete Lesson
   const deleteLesson = () => {
     const lessonId = prevLessonsArr[tabIndex].id
@@ -247,46 +230,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
     setLessons(newLessons)
     deleteLessonSupabase(lessonId)
     toast('Lektion gelöscht')
+    console.log('lektion gelöscht')
   }
-  // const saveNote = () => {
-  //   const tempID = Math.floor(Math.random() * 10000000)
-  //   const newNote = { ...newNoteInput, studentId: currentStudent.id }
-  //   const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
-  //   setNotes(tempNotes)
-  //   setNewNoteInput(noteData)
-  //   setModalAddNoteOpen(false)
-  //   const postData = async () => {
-  //     const [data] = await postNotes(newNote, currentStudent.id, user.id)
-  //     setNotes((notes) =>
-  //       notes.map((note) =>
-  //         note.id === tempID ? { ...note, id: data.id } : note
-  //       )
-  //     )
-  //   }
-  //   postData()
-  //   toast('Notiz gespeichert')
-  // }
-
-  // const deleteNote = (e: React.MouseEvent) => {
-  //   const target = e.target as Element
-  //   const currNoteId = +target.closest('button').dataset.ref
-  //   setNotes((notes) => notes.filter((note) => note.id !== currNoteId))
-  //   deleteNoteSupabase(currNoteId)
-  //   toast('Notiz gelöscht')
-  // }
-
-  // [ ] add edit funcitonallity
-  const toggleModalEdit = () => {
-    setModalEditLessonOpen(!modalEditLessonOpen)
-    setInputEditLesson(prevLessonsArr[tabIndex])
-    setDropdownEditLessonOpen(false)
-  }
-
-  // [ ] Focus on Title input field
-  // const toggleModalNotes = () => {
-  //   setModalAddNoteOpen(!modalAddNoteOpen)
-  //   setNewNoteInput(noteData)
-  // }
 
   const navigateToStudents = () => {
     navigate('/students')
@@ -349,7 +294,9 @@ const Lesson: FunctionComponent<LessonProps> = () => {
                       buttons={[
                         {
                           label: 'Lektion bearbeiten',
-                          handler: toggleModalEdit,
+                          handler: () => {
+                            setModalEditLessonOpen(true)
+                          },
                           type: 'normal',
                         },
                         {
@@ -441,12 +388,8 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             </div>
             {modalEditLessonOpen && (
               <ModalEditLesson
-                toggleModalEdit={toggleModalEdit}
-                input={inputEditLesson}
-                setInput={setInputEditLesson}
-                setCurrentLessons={setCurrentLessons}
-                lessons={lessons}
-                setLessons={setLessons}
+                setModalOpen={setModalEditLessonOpen}
+                lesson={prevLessonsArr[tabIndex]}
               />
             )}
           </div>
@@ -461,13 +404,12 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             />
             <h4 className="heading-4">Notizen</h4>
             {currentNotes &&
-              currentNotes.map((note) => (
+              currentNotes.map(({ id, title, text }) => (
                 <Note
-                  key={note.id}
-                  id={note.id}
-                  title={note.title}
-                  text={note.text}
-                  setNotes={setNotes}
+                  key={id}
+                  id={id}
+                  title={title}
+                  text={text}
                   setModalEditOpen={setModalEditNoteOpen}
                   setCurrentNoteId={setCurrentNoteId}
                 />
@@ -479,8 +421,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
               modalOpen={modalAddNoteOpen}
               setModalOpen={setModalAddNoteOpen}
               currentStudent={currentStudent}
-              notes={notes}
-              setNotes={setNotes}
             />
           ) : null}
 
@@ -488,8 +428,6 @@ const Lesson: FunctionComponent<LessonProps> = () => {
             <ModalEditNote
               setModalOpen={setModalEditNoteOpen}
               currentNote={notes.find((note) => note.id === currentNoteId)}
-              setNotes={setNotes}
-              notes={notes}
             />
           ) : null}
         </div>

@@ -2,19 +2,17 @@ import { FunctionComponent, useState } from 'react'
 import { editNoteSupabase } from '../../../supabase/notes/notes.supabase'
 import { TNotes } from '../../../types/types'
 import Modal from '../Modal.component'
+import { useNotes } from '../../../contexts/NotesContext'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentNote: TNotes
-  notes: TNotes[]
-  setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
 }
 
 const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
   setModalOpen,
   currentNote,
-  notes,
-  setNotes,
 }) => {
+  const { notes, setNotes } = useNotes()
   const [input, setInput] = useState(currentNote)
   const closeModal = () => {
     setModalOpen(false)

@@ -7,29 +7,21 @@ import {
   formatDateToDatabase,
 } from '../../../utils/formateDate'
 
-import {
-  updateLessonSupabase,
-  deleteLessonSupabase,
-} from '../../../supabase/lessons/lessons.supabase'
+import { updateLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { toast } from 'react-toastify'
+import { useLessons } from '../../../contexts/LessonsContext'
 
 interface ModalEditLessonProps {
-  toggleModalEdit: () => void
-  input: TLesson
-  setInput: React.Dispatch<React.SetStateAction<TLesson>>
-  setCurrentLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
-  lessons: TLesson[]
-  setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  lesson: TLesson
 }
 
 const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
-  toggleModalEdit,
-  input,
-  setInput,
-  setCurrentLessons,
-  lessons,
-  setLessons,
+  setModalOpen,
+  lesson,
 }) => {
+  const [input, setInput] = useState(lesson)
+  const { setLessons } = useLessons()
   // Handler input fields
   const handlerInput = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -40,13 +32,17 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
     setInput(newInput)
   }
 
+  const closeModal = () => {
+    setModalOpen(false)
+  }
+
   // Update Lesson
   const updateLesson = () => {
     const updateLesson = {
       ...input,
       date: formatDateToDatabase(input.date),
     }
-    setCurrentLessons((prev) =>
+    setLessons((prev) =>
       prev.map((lesson) =>
         lesson.id === updateLesson.id ? updateLesson : lesson
       )
@@ -59,25 +55,15 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
       }
     }
     updateData()
-    toggleModalEdit()
+    closeModal()
     toast('Anpassungen erfolgreich')
-  }
-
-  // Delete Lesson
-  const deleteLesson = () => {
-    const lessonId = input.id
-    const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
-    setLessons(newLessons)
-    deleteLessonSupabase(lessonId)
-    toggleModalEdit()
-    toast('Lektion gelöscht')
   }
 
   return (
     <Modal
       heading="Lektion bearbeiten"
-      handlerOverlay={toggleModalEdit}
-      handlerClose={toggleModalEdit}
+      handlerOverlay={closeModal}
+      handlerClose={closeModal}
       className="modal--edit-lesson"
       buttons={[
         {
