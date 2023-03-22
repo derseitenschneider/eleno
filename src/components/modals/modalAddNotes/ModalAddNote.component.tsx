@@ -9,13 +9,13 @@ import { useNotes } from '../../../contexts/NotesContext'
 interface ModalAddNoteProps {
   modalOpen: boolean
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  currentStudent: TStudent
+  currentStudentId: number
 }
 
 const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
   modalOpen,
   setModalOpen,
-  currentStudent,
+  currentStudentId,
 }) => {
   const [input, setInput] = useState({ title: '', text: '' })
   const { user } = useUser()
@@ -50,7 +50,7 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
       return
     }
     const tempID = Math.floor(Math.random() * 10000000)
-    const newNote = { ...input, studentId: currentStudent.id }
+    const newNote = { ...input, studentId: currentStudentId }
     const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
     setNotes(tempNotes)
     setInput({ title: '', text: '' })

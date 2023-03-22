@@ -13,15 +13,19 @@ import { useLessons } from '../../../contexts/LessonsContext'
 
 interface ModalEditLessonProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  lesson: TLesson
+  previousLessonsIds: number[]
+  tabIndex: number
 }
 
 const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
   setModalOpen,
-  lesson,
+  previousLessonsIds,
+  tabIndex,
 }) => {
-  const [input, setInput] = useState(lesson)
-  const { setLessons } = useLessons()
+  const { lessons, setLessons } = useLessons()
+  const [input, setInput] = useState(
+    lessons.find((lesson) => lesson.id === previousLessonsIds[tabIndex])
+  )
   // Handler input fields
   const handlerInput = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -56,7 +60,7 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
     }
     updateData()
     closeModal()
-    toast('Anpassungen erfolgreich')
+    toast('Änderungen gespeichert')
   }
 
   return (

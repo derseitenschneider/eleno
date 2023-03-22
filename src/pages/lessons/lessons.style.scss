@@ -1,43 +1,8 @@
 .lessons {
   display: grid;
   grid-template-columns: 1fr 40rem;
-  .container--header {
-    grid-column: 1/-1;
-    display: flex;
-    background-color: var(--clr-lightgrey);
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 0.1px solid var(--clr-bg-black-400);
 
-    .row-1 {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.8rem;
-
-      .student-name {
-        color: var(--clr-white);
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        font-weight: 500;
-        font-size: 2rem;
-
-        .icon {
-          color: var(--clr-primary);
-          width: 2.4rem;
-          height: 2.4rem;
-        }
-      }
-    }
-
-    .container--buttons {
-      display: flex;
-      gap: 2rem;
-    }
-  }
-
-  .container--content {
+  .main {
     flex-basis: 80%;
     textarea {
       background-color: var(--clr-bg-black-400);
@@ -64,34 +29,7 @@
     }
     .container--lessons {
       position: relative;
-      .container--edit-buttons {
-        position: absolute;
-        bottom: 1.2rem;
-        right: 2.4rem;
-        display: flex;
-      }
-      .button--edit {
-        // position: absolute;
-        // bottom: 1.2rem;
-        // right: 2.4rem;
-      }
 
-      .container--tabs {
-        display: flex;
-        gap: 2rem;
-        padding-bottom: 1.2rem;
-
-        .tab {
-          padding: 0.8rem;
-          padding-right: 1.1rem;
-          background-color: var(--clr-bg-black-600);
-          border-left: 3px solid transparent;
-          &--active {
-            background-color: var(--clr-bg-black-400);
-            border-left: 3px solid var(--clr-primary);
-          }
-        }
-      }
       .container--two-rows {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -103,35 +41,13 @@
         }
       }
     }
-
-    .container--previous-lesson {
-      border-bottom: 1px solid var(--clr-bg-black-400);
-      min-height: 20rem;
-
-      .content--previous-lesson {
-        white-space: pre-line;
-      }
-    }
-
-    .container--new-lesson {
-      & .btn--save {
-        margin-top: 3.2rem;
-        margin-left: auto;
-      }
-    }
   }
 
-  .container--aside {
+  .aside {
     position: relative;
     border-left: 1px solid var(--clr-bg-black-400);
     flex-grow: 1;
     padding: 1.6rem;
-
-    .button--add-note {
-      position: absolute;
-      top: 0.8rem;
-      right: 0.8rem;
-    }
   }
   .modal--notes {
     .note-title {

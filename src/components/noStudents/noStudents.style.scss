@@ -1,0 +1,21 @@
+.no-students {
+  height: 60vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  .content {
+    display: grid;
+    justify-items: center;
+
+    p {
+      width: 40%;
+      margin-top: 2rem;
+    }
+  }
+  .container--buttons {
+    margin-top: 3.2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+}

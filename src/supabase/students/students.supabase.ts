@@ -10,82 +10,79 @@ export const fetchStudents = async function (userId) {
   return students
 }
 
-export const postNewStudent = async function (
-  student: TStudent,
+export const createNewStudentSupabase = async function (
+  students: TStudent[],
   userId: string
 ): Promise<TStudent[]> {
-  const {
-    firstName,
-    lastName,
-    instrument,
-    durationMinutes,
-    startOfLesson,
-    endOfLesson,
-    dayOfLesson,
-    archive,
-    location,
-  } = student
+  const newStudents = students.map((student) => {
+    return { ...student, user_id: userId }
+  })
 
   const { data, error } = await supabase
     .from('students')
-    .insert([
-      {
-        firstName,
-        lastName,
-        instrument,
-        durationMinutes,
-        startOfLesson,
-        endOfLesson,
-        dayOfLesson,
-        archive,
-        location,
-        user_id: userId,
-      },
-    ])
+    .insert(newStudents)
     .select()
   error && console.log(error)
   return data
 }
 
-export const archivateStudentSupabase = async function (studentId: number) {
+export const archivateStudentSupabase = async function (studentId: number[]) {
   const { data, error } = await supabase
     .from('students')
     .update({ archive: true })
-    .eq('id', studentId)
+    .in('id', studentId)
+
+  if (error) throw new Error(error.message)
 }
 
-export const postRestoreStudent = async function (studentId: number) {
+export const reactivateStudentSupabase = async function (studentIds: number[]) {
   const { data, error } = await supabase
     .from('students')
     .update({ archive: false })
-    .eq('id', studentId)
+    .in('id', studentIds)
 }
 
-export const postDeleteStudents = async function (studentId: number) {
+export const deleteStudentSupabase = async function (studentIds: number[]) {
   const { data: data1, error: error1 } = await supabase
     .from('lessons')
     .delete()
-    .eq('studentId', studentId)
+    .in('studentId', studentIds)
 
   const { data: data2, error: error2 } = await supabase
     .from('notes')
     .delete()
-    .eq('studentId', studentId)
+    .in('studentId', studentIds)
 
   const { data, error } = await supabase
     .from('students')
     .delete()
-    .eq('id', studentId)
-  error && console.log(error)
+    .in('id', studentIds)
+
+  if (error) throw new Error(error.message)
+  if (error1) throw new Error(error1.message)
+  if (error2) throw new Error(error2.message)
 }
 
-export const postUpdateStudent = async function (
-  studentId: number,
-  row: string,
-  newValue: string | number
-) {
+export const updateStudentSupabase = async function (student: TStudent) {
   const { data, error } = await supabase
     .from('students')
-    .update({ [row]: newValue })
-    .eq('id', studentId)
+    .update({ ...student })
+    .eq('id', student.id)
+
+  if (error) throw new Error(error.message)
+}
+
+export const resetStudentSupabase = async (studentIds: number[]) => {
+  const { data, error } = await supabase
+    .from('students')
+    .update({
+      dayOfLesson: '',
+      startOfLesson: '',
+      endOfLesson: '',
+      durationMinutes: 0,
+      location: '',
+    })
+    .in('id', studentIds)
+
+  if (error) throw new Error(error.message)
 }

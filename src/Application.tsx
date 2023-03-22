@@ -27,9 +27,9 @@ import Loader from './components/loader/Loader'
 import { getClosestStudentIndex } from './utils/getClosestStudentIndex'
 
 export default function Application() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  // [ ] add closestCurrentStudent to context
+  // [ ] add closestcurrentStudentId to context
 
   const [user, setUser] = useState<TUser | null>(null)
   const [students, setStudents] = useState<TStudent[] | null>([])
@@ -55,21 +55,27 @@ export default function Application() {
       setSession(session)
       if (session) {
         getUserProfiles(session.user.id)
+      } else {
+        setLoading(false)
       }
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      setLoading(true)
       setSession(session)
       if (session) {
         getUserProfiles(session.user.id)
+      } else {
+        setLoading(false)
       }
     })
+    // setLoading(false)
   }, [])
 
   // [ ] fetch only previous 3 lesson
   useEffect(() => {
-    setLoading(true)
     if (user) {
+      // setLoading(true)
       Promise.all([
         fetchStudents(user.id),
         fetchLessons(user.id),
@@ -88,7 +94,6 @@ export default function Application() {
       setClosestStudentIndex(getClosestStudentIndex(students))
     }
   }, [students])
-
   return (
     <>
       <Loader loading={loading} />
@@ -122,6 +127,7 @@ export default function Application() {
                   loading,
                   setLoading,
                   closestStudentIndex,
+                  setClosestStudentIndex,
                 }}
               />
             </div>

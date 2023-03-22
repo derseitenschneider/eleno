@@ -1,26 +1,45 @@
 .student-list {
-  display: grid;
-  width: 100%;
-  position: relative;
-  row-gap: 1px;
+  .grid-row {
+    display: grid;
+    width: 100%;
+    position: relative;
 
-  grid-template-columns: 4rem repeat(2, 16rem) 15rem 11rem repeat(2, 7rem) 13rem 1fr 4rem;
-  align-items: stretch;
+    grid-template-columns: 4rem repeat(3, 1fr) 14rem repeat(2, 10rem) 13rem 1fr 4rem;
+    align-items: stretch;
+    &:not(:first-child) {
+      margin-bottom: 0.1rem;
+    }
+    &:not(.student-list__header) > div {
+      background-color: var(--clr-bg-black-400);
 
+      padding: 1rem 0;
+    }
+  }
   &__header {
     position: sticky;
     top: 0;
+    display: flex;
+    align-items: center;
     background-color: var(--clr-bg-black-600) !important;
     font-weight: bold;
     padding: 1rem 0;
     z-index: 30;
 
     font-size: 1.8rem;
-  }
 
-  &:not(.student-list__header) > div {
-    background-color: var(--clr-bg-black-400);
+    .button--sort {
+      padding: 0.8rem;
+      color: var(--clr-darkgrey);
+      transform: rotate(180deg);
 
-    padding: 1rem 0;
+      &.active {
+        color: var(--clr-primary);
+      }
+
+      & svg {
+        height: 0.8rem;
+        width: 0.8rem;
+      }
+    }
   }
 }

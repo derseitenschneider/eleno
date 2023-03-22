@@ -1,156 +1,158 @@
+import './studentsActive.style.scss'
+
 // Types
-import { TSorting } from '../../../types/types'
+import { TSorting, TSortingMethods } from '../../../types/types'
 
 // Icons
-import { IoArchiveOutline } from 'react-icons/io5'
-import { IoPersonAddOutline } from 'react-icons/io5'
-import { IoSearchOutline } from 'react-icons/io5'
-import { IoCloseOutline } from 'react-icons/io5'
-import { IoSchoolOutline } from 'react-icons/io5'
+import { IoSearchOutline, IoAddOutline } from 'react-icons/io5'
 
 // Hooks
 import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import { postNewStudent } from '../../../supabase/students/students.supabase'
 import { NavLink } from 'react-router-dom'
 import { sortStudents } from '../../../utils/sortStudents'
+import { toast } from 'react-toastify'
 
 // Components
-import StudentRow from '../../../components/studentRow/StudentRow'
-import NewStudentRow from '../../../components/newStudentRow/NewStudentRow'
-import { TStudent } from '../../../types/types'
 import Button from '../../../components/button/Button.component'
-import { toast } from 'react-toastify'
 import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
-import { useUser } from '../../../contexts/UserContext'
-import NoActiveStudent from '../../../components/noActiveStudent/NoActiveStudent'
+import NoStudents from '../../../components/noStudents/NoStudents'
 import StudentList from '../../../components/studentlist/StudentList.component'
+import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
+import {
+  archivateStudentSupabase,
+  resetStudentSupabase,
+  updateStudentSupabase,
+} from '../../../supabase/students/students.supabase'
+import Modal from '../../../components/modals/Modal.component'
+import { useNavigate } from 'react-router-dom'
 
 export default function StudentsActive() {
   // STATE
-  const { user } = useUser()
+  const navigate = useNavigate()
   const { students, setStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
-  const [newStudentRowOpen, setNewStudentRowOpen] = useState(false)
-  const [sorting, letSorting] = useState<TSorting>('lastName')
-  const { loading, setLoading } = useLoading()
+  const [modalAddOpen, setModalAddOpen] = useState(false)
+  const [modalResetOpen, setModalResetOpen] = useState(false)
+  const [sorting, setSorting] = useState<TSorting>({
+    method: 'lastName',
+    ascending: true,
+  })
+  const { loading } = useLoading()
+  const [isSelected, setIsSelected] = useState<number[]>([])
+  const [inputAction, setInputAction] = useState<number>(null)
 
-  const [activeStudents, setActiveStudents] = useState<TStudent[]>(students)
-  const [sortedStudents, setSortedStudents] =
-    useState<TStudent[]>(activeStudents)
-  const [filteredStudents, setFilteredStudents] =
-    useState<TStudent[]>(sortedStudents)
+  const activeStudents = students.filter((student) => !student.archive) || []
+
+  const filteredStudents = activeStudents?.filter(
+    (student) =>
+      student.firstName.toLowerCase().includes(searchInput) ||
+      student.lastName.toLocaleLowerCase().includes(searchInput) ||
+      student.instrument.toLocaleLowerCase().includes(searchInput) ||
+      student.location.toLocaleLowerCase().includes(searchInput) ||
+      student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
+  )
 
   // HANDLER-FUNCTIONS //
-  const toggleNewStudentOpen = () => {
-    setNewStudentRowOpen(!newStudentRowOpen)
+
+  const sortedStudents = sortStudents(filteredStudents, sorting)
+
+  const sort = (method: TSortingMethods) => {
+    sorting.method === method
+      ? setSorting((prev) => {
+          return { ...prev, ascending: !prev.ascending }
+        })
+      : setSorting({ method, ascending: true })
   }
 
-  const addStudentEventHandler = () => {
-    toggleNewStudentOpen()
+  const onChangeAction = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setInputAction(+e.target.value)
   }
 
-  const onChangeHandlerInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value.toLowerCase())
-  }
-
-  // const handlerArchive = (e: React.MouseEvent) => {
-  //   const target = e.target as Element
-  //   const id = +target.closest('button').dataset.id
-  //   const newStudents = students.map((student) =>
-  //     student.id === id ? { ...student, archive: true } : student
-  //   )
-  //   setStudents(newStudents)
-  //   postArchiveStudent(id)
-  //   toast('Schüler:in archiviert')
-  // }
-
-  const createNewStudent = (input: TStudent) => {
-    const tempNewStudent = { ...input }
-    const tempId = Math.floor(Math.random() * 10000000)
-    tempNewStudent.id = tempId
-    setStudents((students) => [...students, tempNewStudent])
-    const postAndFetchStudent = async () => {
-      const [data] = await postNewStudent(input, user.id)
-      const newId = data.id
-      setStudents((students) => {
-        const newStudents = students.map((student) =>
-          student.id === tempId ? { ...student, id: newId } : student
-        )
-        return newStudents
-      })
+  const handlerAction = async () => {
+    if (inputAction === 1) {
+      const newStudents = students.map((student) =>
+        isSelected.includes(student.id)
+          ? { ...student, archive: true }
+          : student
+      )
+      setStudents(newStudents)
+      setInputAction(null)
+      try {
+        await archivateStudentSupabase(isSelected)
+        setIsSelected([])
+        toast('Schüler:innen archiviert')
+      } catch (err) {
+        console.log(err)
+      }
     }
-    postAndFetchStudent()
-    setNewStudentRowOpen(false)
-    toast('Schüler:in erstellt')
+
+    if (inputAction === 2) {
+      setModalResetOpen(true)
+    }
   }
 
-  // [ ] implement sorting functionallity with buttons
-  // SORT & FILTER STUDENTS
-  // const activeStudents = students.filter((student) => !student.archive)
-
-  // [ ] get rid of effects -> change them to memo or none
-  useEffect(() => {
-    const activeStudents = students.filter((student) => !student.archive)
-    setActiveStudents(activeStudents)
-  }, [students])
-
-  useEffect(() => {
-    // const sortedStudents = sortStudents(activeStudents, sorting)
-    // setSortedStudents(activeStudents)
-  }, [activeStudents])
-
-  useEffect(() => {
-    const filteredStudents = activeStudents.filter(
-      (student) =>
-        student.firstName.toLowerCase().includes(searchInput) ||
-        student.lastName.toLocaleLowerCase().includes(searchInput) ||
-        student.instrument.toLocaleLowerCase().includes(searchInput) ||
-        student.location.toLocaleLowerCase().includes(searchInput) ||
-        student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
+  const resetLessonData = async () => {
+    const newStudents = students.map((student) =>
+      isSelected.includes(student.id)
+        ? {
+            ...student,
+            dayOfLesson: '',
+            startOfLesson: '',
+            endOfLesson: '',
+            durationMinutes: 0,
+            location: '',
+          }
+        : student
     )
-
-    setFilteredStudents(filteredStudents)
-  }, [searchInput, activeStudents])
-
-  // useEffect(() => {
-  //   const handleEvent = (e: KeyboardEvent) => {
-  //     e.key === 'n' && toggleNewStudentOpen()
-  //   }
-  //   window.addEventListener('keyup', handleEvent)
-
-  //   return () => {
-  //     window.removeEventListener('keyup', handleEvent)
-  //   }
-  // }, [])
+    setStudents(newStudents)
+    setModalResetOpen(false)
+    setIsSelected([])
+    setInputAction(null)
+    try {
+      await resetStudentSupabase(isSelected)
+      toast('Unterrichtsdaten zurückgesetzt')
+    } catch (error) {}
+  }
 
   return (
     <>
       <Loader loading={loading} />
-      <div className="students-active">
+      <div className="students">
         {!loading && activeStudents.length ? (
           <>
-            <h1>Liste Schüler:innen</h1>
-            <span>
-              Anzahl Schüler:innen <span>{activeStudents.length}</span>
-            </span>
-            <div className="container-list">
-              <div className="heading">
+            <div className="header">
+              <div className="container--heading">
+                <h1 className="heading-1">Aktive Schüler:innen</h1>
+                <span>Aktive Schüler:innen: {activeStudents.length}</span>
+              </div>
+
+              <div className="container--controls">
                 <select
                   name=""
                   id=""
                   defaultValue="Aktion"
+                  value={inputAction}
                   className="select-action"
+                  onChange={onChangeAction}
                 >
-                  <option disabled hidden>
+                  <option disabled hidden value={0}>
                     Aktion
                   </option>
-                  <option value="archive">Archivieren</option>
-                  <option value="delete">Löschen</option>
+                  <option value={1}>Archivieren</option>
+                  <option value={2}>Zurücksetzen</option>
                 </select>
+                {inputAction && (
+                  <Button
+                    label="Anwenden"
+                    btnStyle="primary"
+                    type="button"
+                    handler={handlerAction}
+                  />
+                )}
 
                 <div className="container-right">
                   <IoSearchOutline className="icon icon-search" />
@@ -159,72 +161,90 @@ export default function StudentsActive() {
                     type="search"
                     placeholder="suchen"
                     value={searchInput}
-                    onChange={onChangeHandlerInput}
+                    onChange={(e) =>
+                      setSearchInput(e.target.value.toLowerCase())
+                    }
                   />
 
                   <Button
-                    handler={addStudentEventHandler}
+                    handler={() => setModalAddOpen((prev) => !prev)}
                     btnStyle="primary"
                     type="button"
                     label="Neu"
-                    icon={<IoPersonAddOutline />}
-                    className={`${newStudentRowOpen && 'inactive'}  `}
+                    icon={<IoAddOutline />}
                   />
                 </div>
               </div>
-              <StudentList students={filteredStudents} />
-              {/* <div className="student-list">
-                <div className="student-list__head">
-                  <div>
-                    <input type="checkbox" />
-                  </div>
-                  <div className="th--firstName">Vorname</div>
-                  <div className="th--lastName">Nachname</div>
-                  <div className="th--instrument">Instrument</div>
-                  <div className="th--day">Tag</div>
-                  <div className="th--time">Zeit</div>
-                  <div className="th--duration">Dauer</div>
-                  <div>Unterrichtsort</div>
-                  <div></div>
-                </div>
-
-                <tbody>
-                  {filteredStudents.map((student) => (
-                    <StudentRow
-                      key={student.id}
-                      form={true}
-                      student={student}
-                      buttons={[
-                        {
-                          label: 'Unterrichtsblatt',
-                          icon: IoSchoolOutline,
-                          handler: () => {},
-                        },
-                        {
-                          label: 'Archivieren',
-                          icon: IoArchiveOutline,
-                          handler: handlerArchive,
-                        },
-                      ]}
-                    />
-                  ))}
-                </tbody>
-              </div> */}
             </div>
+            <StudentList
+              students={sortedStudents}
+              sort={sort}
+              sorting={sorting}
+              isSelected={isSelected}
+              setIsSelected={setIsSelected}
+              isArchive={false}
+            />
           </>
         ) : null}
 
-        {!loading && activeStudents.length <= 0 && !newStudentRowOpen && (
-          <NoActiveStudent handler={addStudentEventHandler} />
-        )}
-
-        {newStudentRowOpen && (
-          <NewStudentRow
-            handlerSubmit={createNewStudent}
-            handlerCloseButton={toggleNewStudentOpen}
-          />
+        {!loading && activeStudents.length === 0 && (
+          <NoStudents
+            heading="Keine Schüler:innen vorhanden"
+            buttons={[
+              {
+                label: 'Neue Schüler:in erfassen',
+                handler: () => setModalAddOpen((prev) => !prev),
+              },
+              {
+                label: 'Aus Archiv wiederherstellen',
+                handler: () => {
+                  navigate('archive/')
+                },
+              },
+            ]}
+          >
+            <p>
+              Aktuell sind keine aktiven Schüler:innen vorhanden. Erfasse neue
+              Schüler:innen oder geh ins Archiv und wähle welche aus, die du
+              wiederherstellen möchtest
+            </p>
+          </NoStudents>
         )}
       </div>
+      {modalAddOpen && (
+        <ModalAddStudent handlerClose={() => setModalAddOpen(false)} />
+      )}
+      {modalResetOpen && (
+        <Modal
+          handlerClose={() => {
+            setModalResetOpen((prev) => !prev)
+          }}
+          handlerOverlay={() => {
+            setModalResetOpen((prev) => !prev)
+          }}
+          heading="Unterrichtsdaten zurücksetzen"
+          buttons={[
+            {
+              label: 'Abbrechen',
+              btnStyle: 'primary',
+              handler: () => {
+                setModalResetOpen((prev) => !prev)
+              },
+            },
+            {
+              label: 'Zurücksetzen',
+              btnStyle: 'danger',
+              handler: resetLessonData,
+            },
+          ]}
+        >
+          <p>
+            Möchtest du die Unterrichtsdaten{' '}
+            <em>(Tag, Von, Bis, Dauer, Unterrichtsort)</em> der ausgewählten
+            Schüler:innen zurücksetzen?
+          </p>
+        </Modal>
+      )}
     </>
   )
 }

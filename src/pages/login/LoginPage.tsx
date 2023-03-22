@@ -9,6 +9,7 @@ import {
 } from '../../supabase/users/users.supabase'
 import { supabase } from '../../supabase/supabase'
 import Loader from '../../components/loader/Loader'
+import { useLoading } from '../../contexts/LoadingContext'
 
 const dataLogin = {
   email: '',
@@ -32,7 +33,7 @@ const LoginPage = () => {
   const SIGNUP = 2
   const FORGOT_PASSWORD = 3
 
-  const [loading, setLoading] = useState(false)
+  // const { loading, setLoading } = useLoading()
   const [displayForm, setDisplayForm] = useState(LOGIN)
   const [inputLogin, setInputLogin] = useState(dataLogin)
   const [inputSignup, setInputSignup] = useState(dataSignup)
@@ -41,9 +42,9 @@ const LoginPage = () => {
   const [recoverSuccess, setRecoverSuccess] = useState(false)
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
 
-  useEffect(() => {
-    setLoading(false)
-  }, [])
+  // useEffect(() => {
+  //   setLoading(false)
+  // }, [])
 
   const signUp = async (e: React.FormEvent) => {
     // [ ] error meassage for duplicate email-adress
@@ -68,23 +69,23 @@ const LoginPage = () => {
       setInputSignup({ ...inputSignup, password: '', password2: '' })
       return
     }
-    setLoading(true)
+    // setLoading(true)
     const user = await signUpSupabase(email, password, firstName, lastName)
     setConfirmEmailSent(true)
-    setLoading(false)
+    // setLoading(false)
   }
 
   const logIn = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
+    // setLoading(true)
     try {
       const error = await loginSupabase(inputLogin.email, inputLogin.password)
       if (error) throw error
     } catch (error) {
       toast('Email und/oder passwort inkorrekt!', { type: 'error' })
-      setLoading(false)
+      // setLoading(false)
     } finally {
-      setLoading(false)
+      // setLoading(false)
     }
   }
 
@@ -109,8 +110,8 @@ const LoginPage = () => {
   }
   return (
     <div className="login-page">
-      <Loader loading={loading} />
-      {displayForm === LOGIN && !loading && (
+      {/* <Loader loading={loading} /> */}
+      {displayForm === LOGIN && (
         <div className="card-login">
           <div className="wrapper wrapper--login">
             <h2 className="heading-2">Login</h2>
@@ -119,6 +120,7 @@ const LoginPage = () => {
                 <label htmlFor="email">Email</label>
                 <input
                   required
+                  autoFocus={true}
                   name="email"
                   type="text"
                   id="email"
@@ -156,7 +158,7 @@ const LoginPage = () => {
         </div>
       )}
       {/* // [ ] Add privacy policy checkbox */}
-      {displayForm === SIGNUP && !loading && (
+      {displayForm === SIGNUP && (
         <div className="card-login">
           <div className="wrapper wrapper--signup">
             {confirmEmailSent ? (
@@ -240,7 +242,7 @@ const LoginPage = () => {
           </div>
         </div>
       )}
-      {displayForm === FORGOT_PASSWORD && !loading && (
+      {displayForm === FORGOT_PASSWORD && (
         <div className="card-login">
           <div className="wrapper wrapper--forgot-pw">
             {!recoverSuccess ? (
@@ -267,7 +269,6 @@ const LoginPage = () => {
                     handler={resetPassword}
                   />
                   <button
-                    className="button"
                     onClick={() => {
                       setDisplayForm(LOGIN)
                     }}

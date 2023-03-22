@@ -1,9 +1,10 @@
 .container-modal {
+  --padding: 4.8rem;
   top: 50%;
   left: 50%;
-  position: absolute;
+  position: fixed;
   transform: translate(-50%, -50%);
-  min-width: 50vw;
+  // min-width: 50vw;
 
   z-index: 60;
 
@@ -12,14 +13,29 @@
     margin-top: 3.6rem;
     display: flex;
     gap: 2.4rem;
+    justify-content: flex-end;
   }
 }
 
 .modal {
   color: var(--clr-text);
   background-color: var(--clr-bg-black-500);
-  padding: 4.8rem;
+  padding: var(--padding);
   box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2);
+
+  max-height: 80vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--clr-bg-black-600);
+  }
 
   // display: grid;
   // place-content: center;
@@ -38,19 +54,19 @@
 
 .button--close-modal {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  right: calc(var(--padding) / 2);
+  top: calc(var(--padding) / 2);
   color: var(--clr-text);
 }
 
 .overlay {
+  z-index: -1;
   position: absolute;
   top: -200vh;
   left: -100vh;
   width: 500vw;
   height: 500vh;
   background-color: rgba(0 0 0/0.4);
-  z-index: -1;
 }
 
 body:has(.overlay) {

@@ -1,29 +1,60 @@
 import './studentrow.styles.scss'
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
 import { TStudent } from '../../types/types'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
 import Button from '../button/Button.component'
 import { useStudents } from '../../contexts/StudentContext'
-import { archivateStudentSupabase } from '../../supabase/students/students.supabase'
+import {
+  archivateStudentSupabase,
+  deleteStudentSupabase,
+  reactivateStudentSupabase,
+} from '../../supabase/students/students.supabase'
 import { toast } from 'react-toastify'
+import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.component'
+import Modal from '../modals/Modal.component'
+import { useNavigate } from 'react-router-dom'
+import { sortStudentsDateTime } from '../../utils/sortStudents'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 
 interface StudentRowProps {
-  student: TStudent
+  studentId: number
+  isSelected: number[]
+  setIsSelected: React.Dispatch<SetStateAction<number[]>>
+  isArchive: boolean
 }
 
 const StudentRow: FunctionComponent<StudentRowProps> = ({
-  student: currentStudent,
+  studentId,
+  setIsSelected,
+  isSelected,
+  isArchive,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { students, setStudents } = useStudents()
+  const [modalOpen, setModalOpen] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
+  const { setClosestStudentIndex } = useClosestStudent()
+  const navigate = useNavigate()
+
+  const {
+    firstName,
+    lastName,
+    instrument,
+    dayOfLesson,
+    startOfLesson,
+    endOfLesson,
+    durationMinutes,
+    location,
+  } = students.find((student) => student.id === studentId)
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const button = target.closest('.button--edit') as HTMLElement
       if (!button) setDropdownOpen(false)
-      if (+button?.dataset.id !== currentStudent.id) setDropdownOpen(false)
+      if (+button?.dataset.id !== studentId) setDropdownOpen(false)
     }
     if (dropdownOpen) {
       window.addEventListener('click', closeDropdown)
@@ -35,27 +66,87 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
 
   const archivateStudent = () => {
     const newStudents = students.map((student) =>
-      student.id === currentStudent.id ? { ...student, archive: true } : student
+      student.id === studentId ? { ...student, archive: true } : student
     )
     setStudents(newStudents)
-    archivateStudentSupabase(currentStudent.id)
+    archivateStudentSupabase([studentId])
     toast('Schüler:in archiviert')
   }
 
+  const reactivateStudent = async () => {
+    const newStudents = students.map((student) =>
+      student.id === studentId ? { ...student, archive: false } : student
+    )
+    setStudents(newStudents)
+    try {
+      await reactivateStudentSupabase([studentId])
+      toast('Schüler:in wiederhergestellt')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const deleteStudent = async () => {
+    const newStudents = students.filter((student) => student.id !== studentId)
+    setStudents(newStudents)
+    try {
+      await deleteStudentSupabase([studentId])
+      toast('Alle Daten erfolgreich gelöscht')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const onChangeCb = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked((prev) => {
+      return !prev
+    })
+    if (e.target.checked) {
+      const newArray = [...isSelected, studentId]
+      setIsSelected(newArray)
+    }
+    if (!e.target.checked) {
+      const index = isSelected.indexOf(studentId)
+      const newArray = [
+        ...isSelected.slice(0, index),
+        ...isSelected.slice(index + 1),
+      ]
+      setIsSelected(newArray)
+    }
+  }
+
+  const navigateToLesson = () => {
+    const filteredSortedStudents = sortStudentsDateTime(students).filter(
+      (student) => !student.archive
+    )
+    const index = filteredSortedStudents.findIndex(
+      (student) => student.id === studentId
+    )
+
+    setClosestStudentIndex(index)
+
+    navigate('/lessons')
+  }
+
   return (
-    <>
+    <div className="grid-row">
       <div
         className="checkbox"
         style={
           dropdownOpen
             ? {
-                // boxShadow: 'inset 1px 1px 0 var(--clr-primary)',
+                boxShadow: 'inset 3px 0 0 var(--clr-primary)',
                 color: 'var(--clr-primary)',
               }
             : {}
         }
       >
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          value={studentId}
+          checked={isSelected?.includes(studentId)}
+          onChange={onChangeCb}
+        />
       </div>
       <div
         style={
@@ -66,40 +157,51 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             : {}
         }
       >
-        {currentStudent.firstName}
+        {firstName}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.lastName}
+        {lastName}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.instrument}
+        {instrument}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.dayOfLesson}
+        {dayOfLesson}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.startOfLesson}
+        {startOfLesson}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.endOfLesson}
+        {endOfLesson}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.durationMinutes} Minuten
+        {durationMinutes ? `${durationMinutes} Minuten` : `-`}
+        {/* {durationMinutes} Minuten */}
       </div>
       <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
-        {currentStudent.location}
+        {location}
       </div>
-      <div className="container--button">
+      <div
+        className="container--button"
+        style={
+          dropdownOpen
+            ? {
+                boxShadow: 'inset -3px 0 0 var(--clr-primary)',
+              }
+            : {}
+        }
+      >
         <button
           className="button--edit"
-          data-id={currentStudent.id}
+          data-id={studentId}
           onClick={() => {
             setDropdownOpen((prev) => !prev)
           }}
         >
           <IoEllipsisVertical />
         </button>
-        {dropdownOpen && (
+
+        {dropdownOpen && !isArchive && (
           <DropDown
             className="dropdown--edit-student"
             positionX="right"
@@ -107,7 +209,9 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             buttons={[
               {
                 label: 'Bearbeiten',
-                handler: () => {},
+                handler: () => {
+                  setModalOpen(true)
+                },
                 type: 'normal',
               },
               {
@@ -117,14 +221,68 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               },
               {
                 label: '... zum Lektionsblatt',
-                handler: () => {},
+                handler: navigateToLesson,
                 type: 'normal',
               },
             ]}
           />
         )}
+
+        {dropdownOpen && isArchive && (
+          <DropDown
+            className="dropdown--edit-student"
+            positionX="right"
+            positionY="top"
+            buttons={[
+              {
+                label: 'Wiederherstellen',
+                handler: reactivateStudent,
+                type: 'normal',
+              },
+              {
+                label: 'Löschen',
+                handler: () => {
+                  setModalOpen((prev) => !prev)
+                },
+                type: 'warning',
+              },
+            ]}
+          />
+        )}
       </div>
-    </>
+      {modalOpen && !isArchive && (
+        <ModalEditStudent
+          handlerClose={() => setModalOpen(false)}
+          studentId={studentId}
+        />
+      )}
+
+      {modalOpen && isArchive && (
+        <Modal
+          handlerClose={() => setModalOpen((prev) => !prev)}
+          handlerOverlay={() => setModalOpen((prev) => !prev)}
+          heading="Schüler:in löschen?"
+          buttons={[
+            {
+              label: 'Abbrechen',
+              handler: () => {
+                setModalOpen((prev) => !prev)
+              },
+              btnStyle: 'primary',
+            },
+            { label: 'Löschen', handler: deleteStudent, btnStyle: 'danger' },
+          ]}
+        >
+          <p>
+            Möchtest du{' '}
+            <strong style={{ borderBottom: '1px solid var(--clr-primary)' }}>
+              {firstName} {lastName}
+            </strong>{' '}
+            und alle zugehörigen Daten endgültig löschen?{' '}
+          </p>
+        </Modal>
+      )}
+    </div>
   )
 }
 

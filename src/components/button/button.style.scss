@@ -7,6 +7,12 @@
   width: fit-content;
   align-items: center;
 
+  &:disabled {
+    color: grey;
+    border: 1px solid grey;
+    pointer-events: none;
+  }
+
   &--primary {
     // background-color: var(--clr-primary-bright);
     border: 1px solid var(--clr-primary-bright);

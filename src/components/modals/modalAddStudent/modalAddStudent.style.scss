@@ -1,0 +1,45 @@
+.modal--add-student {
+  width: 95vw;
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 12rem 1fr;
+    column-gap: 0.2rem;
+    margin-bottom: 1rem;
+
+    .label {
+      padding: 0.8rem;
+    }
+
+    .button--delete-row {
+      position: absolute;
+      border: none;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    &.row:hover .button--delete-row {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+  }
+  .container--buttons {
+    display: flex;
+    justify-content: space-between;
+
+    .add-rows {
+      display: flex;
+      align-items: center;
+      input {
+        width: 4rem;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -57,16 +57,73 @@ const compareTime = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
+const compareDurations = (a: TStudent, b: TStudent) => {
+  const durationA = a.durationMinutes
+  const durationB = b.durationMinutes
+
+  let comparison = 0
+  if (durationA > durationB) {
+    comparison = 1
+  } else if (durationA < durationB) {
+    comparison = -1
+  }
+  return comparison
+}
+
+const compareLocations = (a: TStudent, b: TStudent) => {
+  const locationA = a.location
+  const locationB = b.location
+
+  let comparison = 0
+  if (locationA > locationB) {
+    comparison = 1
+  } else if (locationA < locationB) {
+    comparison = -1
+  }
+  return comparison
+}
+
 export const sortStudents = (students: TStudent[], sorting: TSorting) => {
-  switch (sorting) {
+  switch (sorting.method) {
     case 'lastName':
-      return students.sort(compareLastName)
+      if (sorting.ascending) {
+        return students.sort(compareLastName)
+      }
+      if (!sorting.ascending) {
+        return students.sort(compareLastName).reverse()
+      }
       break
     case 'instrument':
-      return students.sort(compareInstrument)
+      if (sorting.ascending) {
+        return students.sort(compareInstrument)
+      }
+      if (!sorting.ascending) {
+        return students.sort(compareInstrument).reverse()
+      }
       break
     case 'dayOfLesson':
-      return students.sort(compareDays)
+      if (sorting.ascending) {
+        return students.sort(compareDays)
+      }
+      if (!sorting.ascending) {
+        return students.sort(compareDays).reverse()
+      }
+      break
+    case 'duration':
+      if (sorting.ascending) {
+        return students.sort(compareDurations)
+      }
+      if (!sorting.ascending) {
+        return students.sort(compareDurations).reverse()
+      }
+      break
+    case 'location':
+      if (sorting.ascending) {
+        return students.sort(compareLocations)
+      }
+      if (!sorting.ascending) {
+        return students.sort(compareLocations).reverse()
+      }
       break
     default:
       return students

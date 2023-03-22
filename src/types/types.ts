@@ -64,15 +64,26 @@ export type ContextTypeClosestStudent = {
   setClosestStudentIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
-export type TSorting =
+export type TSortingMethods =
   | 'firstName'
   | 'lastName'
   | 'instrument'
   | 'dayOfLesson'
   | 'location'
+  | 'duration'
+
+export type TSorting = {
+  method: TSortingMethods
+  ascending: boolean
+}
 
 export type TDropdownButton = {
   label: string
   handler: (e: React.MouseEvent) => void
   type: 'normal' | 'warning'
 }
+
+// export type TSelect = {
+//   studentId: number
+//   selected: boolean
+// }

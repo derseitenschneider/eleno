@@ -16,6 +16,7 @@ import ToDos from './pages/todos/ToDos'
 import Application from './Application'
 import Settings from './pages/settings/Settings'
 import ResetPW from './pages/settings/reset-pw/ResetPw'
+import StudentsActive from './pages/students/studentsActive/StudentsActive'
 
 const router = createBrowserRouter([
   {
@@ -29,11 +30,13 @@ const router = createBrowserRouter([
       },
       {
         path: 'students',
+
         element: <Students />,
         children: [
           {
             index: true,
-            element: <StudentList />,
+            path: '',
+            element: <StudentsActive />,
           },
           {
             path: 'archive',

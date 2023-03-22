@@ -1,63 +1,162 @@
 import './studentList.style.scss'
-import { FunctionComponent, useState } from 'react'
-import { TStudent } from '../../types/types'
-import { IoEllipsisVertical } from 'react-icons/io5'
-import DropDown from '../dropdown/Dropdown.component'
+import { FunctionComponent, SetStateAction, useState } from 'react'
+import { TSorting, TSortingMethods, TStudent } from '../../types/types'
+import { IoTriangle } from 'react-icons/io5'
 import StudentRow from '../studentRow/StudentRow'
 interface StudentListProps {
   students: TStudent[]
+  sorting?: TSorting
+  sort?: (method: TSortingMethods) => void
+  isSelected: number[]
+  setIsSelected?: React.Dispatch<SetStateAction<number[]>>
+  isArchive: boolean
 }
 
-const StudentList: FunctionComponent<StudentListProps> = ({ students }) => {
+const StudentList: FunctionComponent<StudentListProps> = ({
+  students,
+  sorting,
+  sort,
+  isArchive,
+  isSelected,
+  setIsSelected,
+}) => {
+  const [isChecked, setIsChecked] = useState(false)
+
+  const handlerCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked((prev) => !prev)
+    if (e.target.checked) {
+      const newArr = students.map((student) => student.id)
+      setIsSelected(newArr)
+    }
+
+    if (!e.target.checked) {
+      setIsSelected([])
+    }
+  }
+
   return (
     <div className="student-list">
       {/*Head row*/}
-      <div className="student-list__header">
-        <input type="checkbox" />
+      <div className="grid-row">
+        <div className="student-list__header">
+          <input type="checkbox" checked={isChecked} onChange={handlerCheck} />
+        </div>
+        <div className="student-list__header">
+          <span>Vorname</span>
+        </div>
+        <div className="student-list__header">
+          <span>Nachname</span>
+          {!isArchive && (
+            <button
+              style={
+                sorting?.method === 'lastName' && !sorting.ascending
+                  ? { transform: 'rotate(0)' }
+                  : {}
+              }
+              className={`button--sort ${
+                sorting?.method === 'lastName' ? 'active' : ''
+              }`}
+              onClick={() => {
+                sort('lastName')
+              }}
+            >
+              <IoTriangle />
+            </button>
+          )}
+        </div>
+        <div className="student-list__header">
+          <span>Instrument</span>
+          {!isArchive && (
+            <button
+              style={
+                sorting?.method === 'instrument' && !sorting.ascending
+                  ? { transform: 'rotate(0)' }
+                  : {}
+              }
+              className={`button--sort ${
+                sorting?.method === 'instrument' ? 'active' : ''
+              }`}
+              onClick={() => {
+                sort('instrument')
+              }}
+            >
+              <IoTriangle />
+            </button>
+          )}
+        </div>
+        <div className="student-list__header">
+          <span>Tag</span>
+          {!isArchive && (
+            <button
+              style={
+                sorting?.method === 'dayOfLesson' && !sorting.ascending
+                  ? { transform: 'rotate(0)' }
+                  : {}
+              }
+              className={`button--sort ${
+                sorting?.method === 'dayOfLesson' ? 'active' : ''
+              }`}
+              onClick={() => {
+                sort('dayOfLesson')
+              }}
+            >
+              <IoTriangle />
+            </button>
+          )}
+        </div>
+        <div className="student-list__header">Von</div>
+        <div className="student-list__header">Bis</div>
+        <div className="student-list__header">
+          <span>Dauer</span>
+          {!isArchive && (
+            <button
+              style={
+                sorting?.method === 'duration' && !sorting.ascending
+                  ? { transform: 'rotate(0)' }
+                  : {}
+              }
+              className={`button--sort ${
+                sorting?.method === 'duration' ? 'active' : ''
+              }`}
+              onClick={() => {
+                sort('duration')
+              }}
+            >
+              <IoTriangle />
+            </button>
+          )}
+        </div>
+        <div className="student-list__header">
+          <span>Unterrichtsort</span>
+          {!isArchive && (
+            <button
+              style={
+                sorting?.method === 'location' && !sorting.ascending
+                  ? { transform: 'rotate(0)' }
+                  : {}
+              }
+              className={`button--sort ${
+                sorting?.method === 'location' ? 'active' : ''
+              }`}
+              onClick={() => {
+                sort('location')
+              }}
+            >
+              <IoTriangle />
+            </button>
+          )}
+        </div>
+        <div className="student-list__header"></div>
       </div>
-      <div className="student-list__header">Nachname</div>
-      <div className="student-list__header">Vorname</div>
-      <div className="student-list__header">Instrument</div>
-      <div className="student-list__header">Tag</div>
-      <div className="student-list__header">Von</div>
-      <div className="student-list__header">Bis</div>
-      <div className="student-list__header">Dauer</div>
-      <div className="student-list__header">Unterrichtsort</div>
-      <div className="student-list__header"></div>
 
       {students.map((student) => (
-        <StudentRow student={student} key={student.id} />
-        // <>
-        //   <div className="checkbox">
-        //     <input type="checkbox" />
-        //   </div>
-        //   <div>{student.firstName}</div>
-        //   <div>{student.lastName}</div>
-        //   <div>{student.instrument}</div>
-        //   <div>{student.dayOfLesson}</div>
-        //   <div>{student.startOfLesson}</div>
-        //   <div>{student.endOfLesson}</div>
-        //   <div>{student.durationMinutes} Minuten</div>
-        //   <div>{student.location}</div>
-        //   <div>
-        //     <button className="button--edit" data-id={student.id}>
-        //       <IoEllipsisVertical />
-        //     </button>
-        //     {dropdownOpen && (
-        //       <DropDown
-        //         positionX="right"
-        //         positionY="bottom"
-        //         buttons={[
-        //           {
-        //             label: 'Schüler:in bearbeiten',
-        //             handler: () => {},
-        //             type: 'normal',
-        //           },
-        //         ]}
-        //       />
-        //     )}
-        //   </div>
-        // </>
+        <StudentRow
+          studentId={student.id}
+          key={student.id}
+          isSelected={isSelected}
+          setIsSelected={setIsSelected}
+          isArchive={isArchive}
+        />
       ))}
     </div>
   )

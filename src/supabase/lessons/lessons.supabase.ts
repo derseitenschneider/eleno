@@ -13,7 +13,7 @@ export const fetchLessons = async function (userId: string) {
   return lessons
 }
 
-export const postLesson = async function (
+export const postLessonSupabase = async function (
   lesson: TLesson,
   userId: string
 ): Promise<TLesson[]> {

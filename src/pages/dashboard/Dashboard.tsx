@@ -22,21 +22,24 @@ function Dashboard() {
     user && setLoading(false)
   }, [user])
 
-  const sortedStudents = (students && sortStudentsDateTime(students)) || null
+  const activeStudents =
+    students && students.filter((student) => !student.archive)
 
-  const filteredSortedStudents = sortedStudents?.filter(
-    (student) => !student.archive || null
-  )
+  const archiveStudents =
+    students && students.filter((student) => student.archive)
+
+  const sortedStudents =
+    (activeStudents && sortStudentsDateTime(students)) || null
+
   const closestStudent =
-    (filteredSortedStudents && filteredSortedStudents[closestStudentIndex]) ||
-    null
+    (sortedStudents && sortedStudents[closestStudentIndex]) || null
 
   return (
     <div className="dashboard">
+      {/* <Loader loading={loading} /> */}
       <header className="container container--header">
         <h1 className="heading-1">Dashboard</h1>
       </header>
-      <Loader loading={loading} />
       {!loading && user && (
         <>
           <div className="container container-message">
@@ -66,8 +69,8 @@ function Dashboard() {
               <IoPeopleCircleOutline className="icon" />
               <p className="card-title">Schüler:in hinzufügen</p>
               <hr />
-              <p>Aktuell {students.length} aktive Schüler:innen erfasst</p>
-              <p>0 Schüler:innen archiviert</p>
+              <p>Aktuell {activeStudents.length} aktive Schüler:innen</p>
+              <p>{archiveStudents.length} Schüler:innen archiviert</p>
             </NavLink>
             <NavLink to={'todos'} className="card">
               <IoList className="icon" />

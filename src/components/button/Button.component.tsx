@@ -5,7 +5,7 @@ import { NavLinkProps } from 'react-router-dom'
 
 import './button.style.scss'
 
-interface ButtonProps {
+export interface ButtonProps {
   type: 'button' | 'submit'
   label?: string
   icon?: ReactElement<IconType>
@@ -14,6 +14,8 @@ interface ButtonProps {
   className?: string
   children?: ReactNode
   dataref?: string | number
+  tabIndex?: number
+  disabled?: boolean
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -24,19 +26,23 @@ const Button: FunctionComponent<ButtonProps> = ({
   handler,
   className,
   children,
+  tabIndex,
   dataref,
+  disabled,
 }) => {
   return (
     <>
       <button
         type={type}
-        className={`button button--${btnStyle} ${className}`}
+        className={`button button--${btnStyle} ${className || ''}`}
         onClick={handler}
         data-ref={dataref}
+        tabIndex={tabIndex || 0}
+        disabled={disabled}
       >
         <>
-          <span>{label}</span>
           {icon && <span>{icon}</span>}
+          <span>{label}</span>
           {children}
         </>
       </button>

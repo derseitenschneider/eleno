@@ -42,7 +42,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   background-color: var(--clr-bg-black-500);
   color: var(--clr-text);
 }
@@ -87,21 +87,41 @@ p,
 a,
 strong,
 span {
-  font-size: 1.6rem;
+  // font-size: 1.6rem;
 }
 
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
   background-color: var(--clr-bg-black-400);
   border: none;
-  width: 100%;
+
   padding: 0.8rem;
 
   resize: none;
   outline: none;
+}
+
+input,
+textarea {
+  width: 100%;
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
 .App {
@@ -118,7 +138,7 @@ textarea {
 }
 
 .container {
-  padding: 1.2rem 2.4rem;
+  padding: 2rem 3.2rem;
 }
 
 .container--login {
@@ -133,4 +153,17 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.container--error {
+  padding-top: 1rem;
+  color: var(--clr-warning);
+}
+
+.container--infos {
+  // padding-block: 0.2rem;
+  p {
+    font-size: 1.5rem;
+    color: var(--clr-text);
+  }
 }

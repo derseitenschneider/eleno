@@ -5,7 +5,7 @@ import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  currentNote: TNotes
+  currentNote: number
 }
 
 const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
@@ -13,7 +13,9 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
   currentNote,
 }) => {
   const { notes, setNotes } = useNotes()
-  const [input, setInput] = useState(currentNote)
+  const [input, setInput] = useState(
+    notes.find((note) => note.id === currentNote)
+  )
   const closeModal = () => {
     setModalOpen(false)
   }
@@ -29,7 +31,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
   }
   const updateNote = () => {
     const newNotes = notes.map((note) =>
-      note.id === currentNote.id ? input : note
+      note.id === currentNote ? input : note
     )
     setNotes(newNotes)
     closeModal()
@@ -47,6 +49,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       ]}
     >
       <input
+        autoFocus={true}
         type="text"
         name="title"
         placeholder="Titel"
