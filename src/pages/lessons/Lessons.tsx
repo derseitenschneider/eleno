@@ -76,7 +76,8 @@ const Lesson: FunctionComponent = () => {
         </div>
       ) : (
         <div className="container">
-          <NoActiveStudent handler={navigateToStudents} />
+          {/* [ ] Handle empty students here */}
+          {/* <NoActiveStudent handler={navigateToStudents} /> */}
         </div>
       )}
     </>
