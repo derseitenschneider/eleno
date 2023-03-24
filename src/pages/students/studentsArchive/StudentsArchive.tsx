@@ -23,7 +23,7 @@ function StudentsArchive() {
   const { students, setStudents } = useStudents()
   const { loading } = useLoading()
   const [isSelected, setIsSelected] = useState<number[]>([])
-  const [inputAction, setInputAction] = useState<number>(null)
+  const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
 
   const [modalOpen, setModalOpen] = useState(false)

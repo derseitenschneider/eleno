@@ -46,11 +46,15 @@
         .form-item--email,
         .form-item--pw1,
         .form-item--pw2,
-        .button--signup,
-        .button--account-exists {
+        .button--signup {
           grid-column: 1/-1;
         }
       }
+    }
+    &--signup .button--account-exists,
+    .button--remembered {
+      display: block;
+      margin: 0 auto;
     }
 
     .container--links {

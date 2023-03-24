@@ -43,7 +43,7 @@ export default function StudentsActive() {
   })
   const { loading } = useLoading()
   const [isSelected, setIsSelected] = useState<number[]>([])
-  const [inputAction, setInputAction] = useState<number>(null)
+  const [inputAction, setInputAction] = useState<number>(0)
 
   const activeStudents = students.filter((student) => !student.archive) || []
 
@@ -118,8 +118,6 @@ export default function StudentsActive() {
       toast('Unterrichtsdaten zurückgesetzt')
     } catch (error) {}
   }
-
-  console.log(inputAction)
 
   return (
     <>

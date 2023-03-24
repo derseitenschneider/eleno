@@ -48,6 +48,7 @@ export default function Application() {
       lastName: data.last_name,
     }
     setUser(user)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -69,10 +70,8 @@ export default function Application() {
         setLoading(false)
       }
     })
-    // setLoading(false)
   }, [])
 
-  // [ ] fetch only previous 3 lesson
   useEffect(() => {
     if (user) {
       // setLoading(true)

@@ -228,15 +228,15 @@ const LoginPage = () => {
                     label="Erstellen"
                     className="button--signup"
                   />
-                  <button
-                    className="button button--account-exists"
-                    onClick={() => {
-                      setDisplayForm(LOGIN)
-                    }}
-                  >
-                    ☝️ Ich habe bereits ein Benutzerkonto
-                  </button>
                 </form>
+                <button
+                  className="button--account-exists"
+                  onClick={() => {
+                    setDisplayForm(LOGIN)
+                  }}
+                >
+                  ☝️ Ich habe bereits ein Benutzerkonto
+                </button>
               </>
             )}
           </div>
@@ -268,14 +268,15 @@ const LoginPage = () => {
                     label="Passwort zurücksetzen"
                     handler={resetPassword}
                   />
-                  <button
-                    onClick={() => {
-                      setDisplayForm(LOGIN)
-                    }}
-                  >
-                    ...jetzt ist's mir wieder eingefallen 🙈
-                  </button>
                 </form>
+                <button
+                  className="button--remembered"
+                  onClick={() => {
+                    setDisplayForm(LOGIN)
+                  }}
+                >
+                  ...jetzt ist's mir wieder eingefallen 🙈
+                </button>
               </>
             ) : (
               <p>
