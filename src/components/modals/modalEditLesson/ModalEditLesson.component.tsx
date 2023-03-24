@@ -1,7 +1,7 @@
 import './modalEditLesson.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { TLesson } from '../../../types/types'
-import Modal from '../Modal2.component'
+import Modal from '../Modal.component'
 import {
   formatDateToDisplay,
   formatDateToDatabase,

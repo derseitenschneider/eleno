@@ -27,7 +27,7 @@ import {
   resetStudentSupabase,
   updateStudentSupabase,
 } from '../../../supabase/students/students.supabase'
-import Modal from '../../../components/modals/Modal2.component'
+import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 
 export default function StudentsActive() {

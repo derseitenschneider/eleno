@@ -3,7 +3,7 @@ import { useUser } from '../../../contexts/UserContext'
 import { TNotes, TStudent } from '../../../types/types'
 import { postNotesSupabase } from '../../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
-import Modal from '../Modal2.component'
+import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 
 interface ModalAddNoteProps {

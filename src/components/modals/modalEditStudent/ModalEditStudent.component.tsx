@@ -1,7 +1,7 @@
 import './modalEditStudent.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
-import Modal from '../Modal2.component'
+import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
 import { TStudent } from '../../../types/types'
 import { updateLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
