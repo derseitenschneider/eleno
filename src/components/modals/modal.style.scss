@@ -21,9 +21,11 @@
   color: var(--clr-text);
   background-color: var(--clr-bg-black-500);
   padding: var(--padding);
-  box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2);
+  box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2),
+    inset 0.3rem 0 0 var(--clr-primary);
 
   max-height: 80vh;
+  min-width: 50vw;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -43,7 +45,7 @@
   z-index: 100;
 
   .heading-modal {
-    margin-bottom: 1.2rem;
+    margin-bottom: 2.4rem;
   }
 }
 

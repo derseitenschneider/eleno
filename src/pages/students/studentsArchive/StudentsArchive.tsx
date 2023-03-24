@@ -7,7 +7,6 @@ import Button from '../../../components/button/Button.component'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
-import MessageModal from '../../../components/modals/Modal.component'
 import { TStudent } from '../../../types/types'
 import { toast } from 'react-toastify'
 import { useLoading } from '../../../contexts/LoadingContext'
@@ -53,7 +52,7 @@ function StudentsArchive() {
           : student
       )
       setStudents(newStudents)
-      setInputAction(null)
+      setInputAction(0)
       try {
         await reactivateStudentSupabase(isSelected)
         setIsSelected([])
@@ -61,11 +60,12 @@ function StudentsArchive() {
       } catch (err) {
         console.log(err)
       }
-      setIsSelected(null)
+      setIsSelected([])
     }
 
     if (inputAction === 2) {
       setModalOpen(true)
+      setInputAction(0)
     }
   }
 
@@ -81,7 +81,7 @@ function StudentsArchive() {
     } catch (err) {
       console.log(err)
     }
-    setIsSelected(null)
+    setIsSelected([])
   }
 
   return (
@@ -97,26 +97,26 @@ function StudentsArchive() {
               </div>
               <div className="container--controls">
                 <select
-                  name=""
-                  id=""
                   defaultValue="Aktion"
                   className="select-action"
                   onChange={onChangeAction}
+                  value={inputAction}
+                  disabled={isSelected.length === 0}
                 >
-                  <option disabled hidden>
+                  <option disabled hidden value={0}>
                     Aktion
                   </option>
                   <option value={1}>Wiederherstellen</option>
                   <option value={2}>Löschen</option>
                 </select>
-                {inputAction && (
+                {inputAction && isSelected.length ? (
                   <Button
                     label="Anwenden"
                     btnStyle="primary"
                     type="button"
                     handler={handlerAction}
                   />
-                )}
+                ) : null}
 
                 <div className="container-right">
                   <IoSearchOutline className="icon icon-search" />

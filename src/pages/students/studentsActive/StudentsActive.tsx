@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import { NavLink } from 'react-router-dom'
+import { NavLink, useActionData } from 'react-router-dom'
 import { sortStudents } from '../../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
@@ -80,7 +80,7 @@ export default function StudentsActive() {
           : student
       )
       setStudents(newStudents)
-      setInputAction(null)
+      setInputAction(0)
       try {
         await archivateStudentSupabase(isSelected)
         setIsSelected([])
@@ -92,6 +92,7 @@ export default function StudentsActive() {
 
     if (inputAction === 2) {
       setModalResetOpen(true)
+      setInputAction(0)
     }
   }
 
@@ -118,6 +119,8 @@ export default function StudentsActive() {
     } catch (error) {}
   }
 
+  console.log(inputAction)
+
   return (
     <>
       <Loader loading={loading} />
@@ -132,12 +135,11 @@ export default function StudentsActive() {
 
               <div className="container--controls">
                 <select
-                  name=""
-                  id=""
                   defaultValue="Aktion"
-                  value={inputAction}
                   className="select-action"
                   onChange={onChangeAction}
+                  value={inputAction}
+                  disabled={isSelected.length === 0}
                 >
                   <option disabled hidden value={0}>
                     Aktion
@@ -145,14 +147,14 @@ export default function StudentsActive() {
                   <option value={1}>Archivieren</option>
                   <option value={2}>Zurücksetzen</option>
                 </select>
-                {inputAction && (
+                {inputAction && isSelected.length ? (
                   <Button
                     label="Anwenden"
                     btnStyle="primary"
                     type="button"
                     handler={handlerAction}
                   />
-                )}
+                ) : null}
 
                 <div className="container-right">
                   <IoSearchOutline className="icon icon-search" />

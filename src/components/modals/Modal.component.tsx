@@ -9,14 +9,12 @@ interface ModalProps {
   handlerOverlay: (e: React.MouseEvent) => void
   handlerClose: (e: React.MouseEvent) => void
   className?: string
-  buttons: {
+  buttons?: {
     label: string
     handler: (e: React.MouseEvent) => void
     btnStyle: 'primary' | 'secondary' | 'warning' | 'danger'
   }[]
 }
-
-console.log('test')
 
 const Modal: FunctionComponent<ModalProps> = ({
   heading,
@@ -32,10 +30,10 @@ const Modal: FunctionComponent<ModalProps> = ({
         <button onClick={handlerClose} className="button--close-modal">
           <IoCloseOutline />
         </button>
-        <h2 className="heading-modal">{heading}</h2>
+        <h2 className="heading-2 heading-modal">{heading}</h2>
         {children}
         <div className="container-buttons">
-          {buttons.map((button) => (
+          {buttons?.map((button) => (
             <Button
               handler={button.handler}
               label={button.label}

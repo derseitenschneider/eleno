@@ -5,7 +5,7 @@ import { Outlet, redirect } from 'react-router-dom'
 import { supabase } from './supabase/supabase'
 import { getProfiles } from './supabase/users/users.supabase'
 import { fetchStudents } from './supabase/students/students.supabase'
-import { fetchLessons } from './supabase/lessons/lessons.supabase'
+import { fetchLatestLessonsSupabase } from './supabase/lessons/lessons.supabase'
 import { fetchNotes } from './supabase/notes/notes.supabase'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
 
@@ -78,7 +78,7 @@ export default function Application() {
       // setLoading(true)
       Promise.all([
         fetchStudents(user.id),
-        fetchLessons(user.id),
+        fetchLatestLessonsSupabase(user.id),
         fetchNotes(user.id),
       ]).then(([students, lessons, notes]) => {
         setStudents([...students])
@@ -95,46 +95,43 @@ export default function Application() {
     }
   }, [students])
   return (
-    <>
+    <div className="App">
       <Loader loading={loading} />
-
-      <div className="App">
-        <ToastContainer
-          position="bottom-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable
-          pauseOnHover={false}
-          theme="dark"
-        />
-        {!loading && session ? (
-          <>
-            <Sidebar />
-            <div id="main">
-              <Outlet
-                context={{
-                  user,
-                  students,
-                  setStudents,
-                  lessons,
-                  setLessons,
-                  notes,
-                  setNotes,
-                  loading,
-                  setLoading,
-                  closestStudentIndex,
-                  setClosestStudentIndex,
-                }}
-              />
-            </div>
-          </>
-        ) : null}
-        {!loading && !session ? <LoginPage /> : null}
-      </div>
-    </>
+      {!loading && session ? (
+        <>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover={false}
+            theme="dark"
+          />
+          <Sidebar />
+          <div id="main">
+            <Outlet
+              context={{
+                user,
+                students,
+                setStudents,
+                lessons,
+                setLessons,
+                notes,
+                setNotes,
+                loading,
+                setLoading,
+                closestStudentIndex,
+                setClosestStudentIndex,
+              }}
+            />
+          </div>
+        </>
+      ) : null}
+      {!loading && !session ? <LoginPage /> : null}
+    </div>
   )
 }

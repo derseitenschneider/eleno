@@ -2,12 +2,14 @@ import { supabase } from '../supabase'
 import { TLesson } from '../../types/types'
 
 // [ ] try fetch only lessons from active students
-export const fetchLessons = async function (userId: string) {
+export const fetchAllLessonsSupabase = async function (
+  studentId: number
+): Promise<TLesson[]> {
   let { data: lessons, error } = await supabase
     .from('lessons')
     .select('*')
-    .eq('user_id', userId)
-    .order('date')
+    .eq('studentId', studentId)
+    .order('date', { ascending: false })
 
   if (error) throw new Error(`${error}`)
   return lessons
@@ -39,4 +41,12 @@ export const updateLessonSupabase = async (lesson: TLesson) => {
     .from('lessons')
     .update({ ...lesson })
     .eq('id', lesson.id)
+}
+
+export const fetchLatestLessonsSupabase = async (userId: string) => {
+  const { data: lessons, error } = await supabase
+    .from('latest_3_lessons')
+    .select('*')
+
+  return lessons
 }

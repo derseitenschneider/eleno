@@ -5,6 +5,7 @@ import { useLessons } from '../../../contexts/LessonsContext'
 
 // Components
 import { IoEllipsisHorizontal } from 'react-icons/io5'
+import { MdOutlineReadMore } from 'react-icons/md'
 import Button from '../../button/Button.component'
 import DropDown from '../../dropdown/Dropdown.component'
 import ModalEditLesson from '../../modals/modalEditLesson/ModalEditLesson.component'
@@ -16,6 +17,7 @@ import { TStudent } from '../../../types/types'
 import { formatDateToDisplay } from '../../../utils/formateDate'
 import { deleteLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { toast } from 'react-toastify'
+import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
 
 interface PreviousLessonsProps {
   currentStudentId: number
@@ -27,7 +29,8 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   const { lessons, setLessons } = useLessons()
 
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalEditLessonOpen, setModalEditLessonOpen] = useState(false)
+  const [modalViewAllOpen, setModalViewAllOpen] = useState(false)
   const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
@@ -62,35 +65,6 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     <>
       {previousLessonsIds.length ? (
         <div className="container container--lessons container--previous-lessons">
-          <div className="container--edit-buttons">
-            <Button
-              type="button"
-              btnStyle="icon-only"
-              icon={<IoEllipsisHorizontal />}
-              className="button--edit"
-              handler={() => setDropdownOpen((prev) => !prev)}
-            />
-            {dropdownOpen ? (
-              <DropDown
-                positionX="right"
-                positionY="top"
-                buttons={[
-                  {
-                    label: 'Lektion bearbeiten',
-                    handler: () => {
-                      setModalOpen(true)
-                    },
-                    type: 'normal',
-                  },
-                  {
-                    label: 'Lektion löschen',
-                    handler: deleteLesson,
-                    type: 'warning',
-                  },
-                ]}
-              />
-            ) : null}
-          </div>
           <div className="container--tabs">
             {previousLessonsIds.map((prev, index) => (
               <button
@@ -102,7 +76,11 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 )}
               </button>
             ))}
+            <button className="tab" onClick={() => setModalViewAllOpen(true)}>
+              ...
+            </button>
           </div>
+
           <div className="container--two-rows">
             <div className="row-left">
               <h4 className="heading-4">Lektion</h4>
@@ -125,11 +103,47 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               </div>
             </div>
           </div>
-          {modalOpen && (
+
+          <div className="container--edit-buttons">
+            <Button
+              type="button"
+              btnStyle="icon-only"
+              icon={<IoEllipsisHorizontal />}
+              className="button--edit"
+              handler={() => setDropdownOpen((prev) => !prev)}
+            />
+            {dropdownOpen ? (
+              <DropDown
+                positionX="right"
+                positionY="top"
+                buttons={[
+                  {
+                    label: 'Lektion bearbeiten',
+                    handler: () => {
+                      setModalEditLessonOpen(true)
+                    },
+                    type: 'normal',
+                  },
+                  {
+                    label: 'Lektion löschen',
+                    handler: deleteLesson,
+                    type: 'warning',
+                  },
+                ]}
+              />
+            ) : null}
+          </div>
+          {modalEditLessonOpen && (
             <ModalEditLesson
-              setModalOpen={setModalOpen}
+              setModalOpen={setModalEditLessonOpen}
               previousLessonsIds={previousLessonsIds}
               tabIndex={tabIndex}
+            />
+          )}
+          {modalViewAllOpen && (
+            <ModalViewLessons
+              handlerClose={() => setModalViewAllOpen(false)}
+              studentId={currentStudentId}
             />
           )}
         </div>

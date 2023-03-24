@@ -148,9 +148,9 @@ input[type='number'] {
 }
 
 .container--loader:not(:empty) {
-  height: 100vh;
+  // height: 100vh;
   width: 100%;
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
 }
