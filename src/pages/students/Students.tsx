@@ -2,7 +2,7 @@ import './students.style.scss'
 
 import { Outlet } from 'react-router-dom'
 import { useStudents } from '../../contexts/StudentContext'
-import Navbar from '../../layouts/navbar/Navbar.component'
+import Navbar from '../../layouts/navbar/Navbar2.component'
 import { useLoading } from '../../contexts/LoadingContext'
 import { useUser } from '../../contexts/UserContext'
 import Loader from '../../components/loader/Loader'
