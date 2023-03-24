@@ -7,7 +7,7 @@ import Button from '../../../components/button/Button.component'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
-import MessageModal from '../../../components/modals/Modal.component'
+import MessageModal from '../../../components/modals/Modal2.component'
 import { TStudent } from '../../../types/types'
 import { toast } from 'react-toastify'
 import { useLoading } from '../../../contexts/LoadingContext'
@@ -17,7 +17,7 @@ import {
   deleteStudentSupabase,
   reactivateStudentSupabase,
 } from '../../../supabase/students/students.supabase'
-import Modal from '../../../components/modals/Modal.component'
+import Modal from '../../../components/modals/Modal2.component'
 import NoStudents from '../../../components/noStudents/NoStudents'
 
 function StudentsArchive() {

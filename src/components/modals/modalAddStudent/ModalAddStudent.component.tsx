@@ -1,6 +1,6 @@
 import './modalAddStudent.style.scss'
 import { FunctionComponent, useState } from 'react'
-import Modal from '../Modal.component'
+import Modal from '../Modal2.component'
 import AddStudentRow from '../../addStudentRow/AddStudentRow'
 import Button from '../../button/Button.component'
 import { IoAddOutline } from 'react-icons/io5'

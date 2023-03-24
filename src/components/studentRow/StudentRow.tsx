@@ -12,7 +12,7 @@ import {
 } from '../../supabase/students/students.supabase'
 import { toast } from 'react-toastify'
 import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.component'
-import Modal from '../modals/Modal.component'
+import Modal from '../modals/Modal2.component'
 import { useNavigate } from 'react-router-dom'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
