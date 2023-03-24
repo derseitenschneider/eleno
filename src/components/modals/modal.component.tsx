@@ -16,6 +16,8 @@ interface ModalProps {
   }[]
 }
 
+console.log('test')
+
 const Modal: FunctionComponent<ModalProps> = ({
   heading,
   children,
