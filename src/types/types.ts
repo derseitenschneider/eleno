@@ -87,3 +87,9 @@ export type TDropdownButton = {
 //   studentId: number
 //   selected: boolean
 // }
+
+export type TTimetableDay = {
+  day: string
+  location: string
+  students: TStudent[]
+}

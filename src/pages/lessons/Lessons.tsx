@@ -25,8 +25,6 @@ import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
 
 const Lesson: FunctionComponent = () => {
   const { loading } = useLoading()
-  // const { user } = useUser()
-  // const { lessons, setLessons } = useLessons()
   const { students } = useStudents()
 
   const { closestStudentIndex } = useClosestStudent()

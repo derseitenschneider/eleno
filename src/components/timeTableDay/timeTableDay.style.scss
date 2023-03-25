@@ -1,0 +1,10 @@
+.timetable__day {
+  width: fit-content;
+  margin-bottom: 3.2rem;
+  border: 1px solid var(--clr-primary);
+  padding: 0.8rem 2.4rem;
+  .row {
+    display: grid;
+    grid-template-columns: 10rem 10rem auto;
+  }
+}
