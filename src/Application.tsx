@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 // Types
-import { TUser, TLesson, TStudent, TNotes } from './types/types'
+import { TUser, TLesson, TStudent, TNotes, TTodo } from './types/types'
 
 // Pages
 import LoginPage from './pages/login/LoginPage'
@@ -25,6 +25,7 @@ import Loader from './components/loader/Loader'
 
 // Functions
 import { getClosestStudentIndex } from './utils/getClosestStudentIndex'
+import { fetchTodosSupabase } from './supabase/todos/todos.supabase'
 
 export default function Application() {
   const [loading, setLoading] = useState(true)
@@ -35,6 +36,7 @@ export default function Application() {
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
+  const [todos, setTodos] = useState<TTodo[]>([])
   const [session, setSession] = useState<Session>()
 
   const [closestStudentIndex, setClosestStudentIndex] = useState(0)
@@ -79,10 +81,15 @@ export default function Application() {
         fetchStudents(user.id),
         fetchLatestLessonsSupabase(user.id),
         fetchNotes(user.id),
-      ]).then(([students, lessons, notes]) => {
+        fetchTodosSupabase(user.id),
+      ]).then(([students, lessons, notes, todos]) => {
         setStudents([...students])
         setLessons([...lessons])
         setNotes([...notes])
+        const camelTodo = todos.map((todo) => {
+          return { ...todo, studentId: todo.student_id }
+        })
+        setTodos([...camelTodo])
         setLoading(false)
       })
     }
@@ -125,6 +132,8 @@ export default function Application() {
                 setLoading,
                 closestStudentIndex,
                 setClosestStudentIndex,
+                todos,
+                setTodos,
               }}
             />
           </div>

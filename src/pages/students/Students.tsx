@@ -20,6 +20,7 @@ export default function Students() {
   const { setClosestStudentIndex } = useClosestStudent()
   return (
     <div className="container">
+      <h1 className="heading-1">Schüler:innen</h1>
       <Navbar navLinks={navLinks} />
       {!loading ? (
         <Outlet

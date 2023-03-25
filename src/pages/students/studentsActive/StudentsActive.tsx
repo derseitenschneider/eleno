@@ -19,7 +19,7 @@ import { toast } from 'react-toastify'
 import Button from '../../../components/button/Button.component'
 import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
-import NoStudents from '../../../components/noStudents/NoStudents'
+import NoStudents from '../../../components/noStudents/NoContent'
 import StudentList from '../../../components/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
 import {
@@ -29,6 +29,7 @@ import {
 } from '../../../supabase/students/students.supabase'
 import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
+import NoContent from '../../../components/noStudents/NoContent'
 
 export default function StudentsActive() {
   // STATE
@@ -127,7 +128,6 @@ export default function StudentsActive() {
           <>
             <div className="header">
               <div className="container--heading">
-                <h1 className="heading-1">Aktive Schüler:innen</h1>
                 <span>Aktive Schüler:innen: {activeStudents.length}</span>
               </div>
 
@@ -188,7 +188,7 @@ export default function StudentsActive() {
         ) : null}
 
         {!loading && activeStudents.length === 0 && (
-          <NoStudents
+          <NoContent
             heading="Keine Schüler:innen vorhanden"
             buttons={[
               {
@@ -208,7 +208,7 @@ export default function StudentsActive() {
               Schüler:innen oder geh ins Archiv und wähle welche aus, die du
               wiederherstellen möchtest
             </p>
-          </NoStudents>
+          </NoContent>
         )}
       </div>
       {modalAddOpen && (

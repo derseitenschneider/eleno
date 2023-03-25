@@ -1,0 +1,19 @@
+.todo-item {
+  padding: var(--padding-todos);
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: var(--columns-todos);
+  min-height: 8rem;
+
+  column-gap: var(--column-gap-todos);
+  align-items: center;
+
+  background-color: var(--clr-bg-black-400);
+  .wrapper-student {
+    .student {
+      padding: 0.6rem;
+      background-color: var(--clr-primary);
+      width: fit-content;
+    }
+  }
+}

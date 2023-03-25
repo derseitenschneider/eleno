@@ -1,0 +1,11 @@
+.todos {
+  --columns-todos: 1rem 1fr 15rem 20rem;
+  --column-gap-todos: 1.2rem;
+  --padding-todos: 1.2rem;
+  .description {
+    padding: var(--padding-todos);
+    display: grid;
+    grid-template-columns: var(--columns-todos);
+    column-gap: var(--column-gap-todos);
+  }
+}

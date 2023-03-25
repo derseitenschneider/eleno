@@ -17,7 +17,8 @@ import {
   reactivateStudentSupabase,
 } from '../../../supabase/students/students.supabase'
 import Modal from '../../../components/modals/Modal.component'
-import NoStudents from '../../../components/noStudents/NoStudents'
+import NoStudents from '../../../components/noStudents/NoContent'
+import NoContent from '../../../components/noStudents/NoContent'
 
 function StudentsArchive() {
   const { students, setStudents } = useStudents()
@@ -92,7 +93,6 @@ function StudentsArchive() {
           <>
             <div className="header">
               <div className="container--heading">
-                <h1 className="heading-1">Archiv</h1>
                 <span>Archivierte Schüler:innen: {archiveStudents.length}</span>
               </div>
               <div className="container--controls">
@@ -141,7 +141,7 @@ function StudentsArchive() {
             />
           </>
         ) : (
-          <NoStudents heading="Dein Archiv ist zurzeit leer"></NoStudents>
+          <NoContent heading="Dein Archiv ist zurzeit leer"></NoContent>
         )}
       </div>
       {modalOpen && (

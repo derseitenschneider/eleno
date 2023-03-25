@@ -12,11 +12,12 @@ import StudentList from './pages/students/studentsActive/StudentsActive'
 import StudentsArchive from './pages/students/studentsArchive/StudentsArchive'
 import Timetable from './pages/timetable/Timetable.component'
 import Lessons from './pages/lessons/Lessons'
-import ToDos from './pages/todos/ToDos'
 import Application from './Application'
 import Settings from './pages/settings/Settings'
 import ResetPW from './pages/settings/reset-pw/ResetPw'
 import StudentsActive from './pages/students/studentsActive/StudentsActive'
+import ToDos from './pages/todos/Todos.page'
+import TodosOpen from './pages/todos/TodosOpen.page'
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       {
         path: 'todos',
         element: <ToDos />,
+        children: [{ index: true, path: '', element: <TodosOpen /> }],
       },
       {
         path: 'settings',

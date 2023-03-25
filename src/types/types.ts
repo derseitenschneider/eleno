@@ -39,6 +39,11 @@ export type ContextTypeUser = {
   setUser: React.Dispatch<React.SetStateAction<TUser>>
 }
 
+export type ContextTypeTodos = {
+  todos: TTodo[] | null
+  setTodos: React.Dispatch<React.SetStateAction<TTodo[]>>
+}
+
 export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
@@ -83,13 +88,17 @@ export type TDropdownButton = {
   type: 'normal' | 'warning'
 }
 
-// export type TSelect = {
-//   studentId: number
-//   selected: boolean
-// }
-
 export type TTimetableDay = {
   day: string
   location: string
   students: TStudent[]
+}
+
+export type TTodo = {
+  id: number
+  title: string
+  details?: string
+  due?: string
+  studentId?: number
+  completed: boolean
 }

@@ -19,7 +19,7 @@ interface StudentRowProps {
   children?: React.ReactNode
 }
 
-const NoStudents: FunctionComponent<StudentRowProps> = ({
+const NoContent: FunctionComponent<StudentRowProps> = ({
   heading,
   buttons,
   children,
@@ -45,4 +45,4 @@ const NoStudents: FunctionComponent<StudentRowProps> = ({
   )
 }
 
-export default NoStudents
+export default NoContent
