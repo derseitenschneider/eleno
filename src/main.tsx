@@ -18,6 +18,7 @@ import ResetPW from './pages/settings/reset-pw/ResetPw'
 import StudentsActive from './pages/students/studentsActive/StudentsActive'
 import ToDos from './pages/todos/Todos.page'
 import TodosOpen from './pages/todos/TodosOpen.page'
+import TodosCompleted from './pages/todos/TodosCompleted.page'
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'todos',
         element: <ToDos />,
-        children: [{ index: true, path: '', element: <TodosOpen /> }],
+        children: [
+          { index: true, path: '', element: <TodosOpen /> },
+          { path: 'completed', element: <TodosCompleted /> },
+        ],
       },
       {
         path: 'settings',

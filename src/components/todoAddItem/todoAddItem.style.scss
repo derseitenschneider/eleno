@@ -1,20 +1,32 @@
 .container--add {
+  --grid-container-add: 2fr 3fr 12rem 25rem;
   margin-bottom: 4.2rem;
+
+  .labels {
+    display: grid;
+    grid-template-columns: var(--grid-container-add);
+    .label--due {
+      grid-column: 3/4;
+      padding: 0.8rem;
+    }
+  }
 
   .inputs {
     display: grid;
-    grid-template-columns: 2fr 3fr max-content 25rem;
+    grid-template-columns: var(--grid-container-add);
     margin-bottom: 2.4rem;
     input {
       font-size: 1.6rem;
     }
     .search-filter {
-      position: realtive;
+      position: relative;
       .search {
         height: 100%;
       }
       .searchlist {
         position: absolute;
+        top: 100%;
+        width: 100%;
         background-color: var(--clr-bg-600);
         max-height: 16rem;
         overflow-y: scroll;
@@ -25,9 +37,10 @@
           padding: 0.8rem;
           cursor: pointer;
 
-          margin-bottom: 0.8rem;
+          // margin-bottom: 0.8rem;
           &:hover {
             background-color: var(--clr-primary-600);
+            color: var(--clr-white);
           }
         }
       }

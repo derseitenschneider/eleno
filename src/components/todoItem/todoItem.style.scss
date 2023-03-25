@@ -8,12 +8,18 @@
   column-gap: var(--column-gap-todos);
   align-items: center;
 
+  .checkbox {
+    cursor: pointer;
+  }
+
   background-color: var(--clr-bg-400);
   .wrapper-student {
     .student {
       padding: 0.6rem;
-      background-color: var(--clr-primary-800);
+      background-color: var(--clr-primary-600);
+      color: var(--clr-white);
       width: fit-content;
+      cursor: pointer;
     }
   }
 }

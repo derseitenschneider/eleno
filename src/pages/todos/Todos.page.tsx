@@ -1,10 +1,14 @@
 import { Outlet } from 'react-router-dom'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useStudents } from '../../contexts/StudentContext'
 import { useTodos } from '../../contexts/TodosContext'
+import { useUser } from '../../contexts/UserContext'
 import Navbar from '../../layouts/navbar/Navbar.component'
 function TodosOpen() {
   const { todos, setTodos } = useTodos()
   const { students } = useStudents()
+  const { user } = useUser()
+  const { setClosestStudentIndex } = useClosestStudent()
 
   return (
     <div className="container">
@@ -16,7 +20,9 @@ function TodosOpen() {
           { path: 'completed', label: 'Erledigt', key: 1, end: true },
         ]}
       />
-      <Outlet context={{ todos, setTodos, students }} />
+      <Outlet
+        context={{ todos, setTodos, students, user, setClosestStudentIndex }}
+      />
     </div>
   )
 }

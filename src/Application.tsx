@@ -41,6 +41,8 @@ export default function Application() {
 
   const [closestStudentIndex, setClosestStudentIndex] = useState(0)
 
+  // [ ] change all setState props to handlers
+
   const getUserProfiles = async (userId: string) => {
     const [data] = await getProfiles(userId)
     const user: TUser = {

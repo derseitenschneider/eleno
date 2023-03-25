@@ -17,8 +17,8 @@ import {
   reactivateStudentSupabase,
 } from '../../../supabase/students/students.supabase'
 import Modal from '../../../components/modals/Modal.component'
-import NoStudents from '../../../components/noStudents/NoContent'
-import NoContent from '../../../components/noStudents/NoContent'
+import NoStudents from '../../../components/noContent/NoContent.component'
+import NoContent from '../../../components/noContent/NoContent.component'
 
 function StudentsArchive() {
   const { students, setStudents } = useStudents()

@@ -65,7 +65,7 @@ function Timetable() {
     sunday,
     noDayAssigned,
   ]
-
+  // [ ] take into account that there might be two or more locations on the same day
   return (
     <>
       <div className="container">

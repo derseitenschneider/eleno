@@ -43,9 +43,9 @@ function Dashboard() {
       {!loading && user && (
         <>
           <div className="container container-message">
-            <h4 className="heading-4">
+            <h3 className="heading-3">
               👋 Hey {user.firstName}, schön dich zu sehen!{' '}
-            </h4>
+            </h3>
           </div>
           <div className="grid-container container">
             <NavLink to={'lessons'} className="card">

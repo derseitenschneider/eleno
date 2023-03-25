@@ -4,14 +4,28 @@ import { FunctionComponent, useState } from 'react'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
-interface TodoAddItemProps {}
+import { TTodo } from '../../types/types'
+import { useUser } from '../../contexts/UserContext'
+interface TodoAddItemProps {
+  saveTodo: (todo: TTodo) => void
+}
 
-const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
+const todoData = {
+  title: '',
+  details: '',
+  due: null,
+  studentId: null,
+  completed: false,
+}
+
+const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
   const { students } = useStudents()
+  const { user } = useUser()
+  const [inputTodo, setInputTodo] = useState(todoData)
 
   const [searchInput, setSearchInput] = useState('')
   const [isSearchListOpen, setIsSearchListOpen] = useState(false)
-  const [studentId, setStudentId] = useState<number>(null)
+  const [currentStudentId, setCurrentStudentId] = useState<number>(null)
 
   const filteredStudents = sortStudents(
     students.filter((student) => {
@@ -24,21 +38,65 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
     { method: 'lastName', ascending: true }
   )
 
+  const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name
+    const value = e.target.value
+
+    setInputTodo((prev) => {
+      return { ...prev, [name]: value }
+    })
+  }
+
+  const onSaveHandler = () => {
+    const tempId = Math.floor(Math.random() * 1000000000)
+    const newTodo: TTodo = {
+      ...inputTodo,
+      studentId: currentStudentId,
+      id: tempId,
+      userId: user.id,
+    }
+    saveTodo(newTodo)
+    setInputTodo(todoData)
+    setSearchInput('')
+  }
+
   return (
     <div className="container--add">
+      <div className="labels">
+        <h5 className="heading-5 label--due">fällig</h5>
+      </div>
       <div className="inputs">
-        <input type="text" placeholder="Todo" />
-        <input type="text" placeholder="Details" />
-        <input type="date" />
+        <input
+          type="text"
+          placeholder="Todo"
+          name="title"
+          value={inputTodo.title}
+          required
+          onChange={onChangeInputs}
+          autoFocus={true}
+        />
+        <input
+          type="text"
+          placeholder="Details"
+          name="details"
+          value={inputTodo.details}
+          onChange={onChangeInputs}
+        />
+        <input
+          type="date"
+          name="due"
+          value={inputTodo.due}
+          onChange={onChangeInputs}
+        />
         <div className="search-filter">
           <input
             className="search"
+            placeholder="Schüler:in"
             type="text"
             value={searchInput}
             onFocus={() => setIsSearchListOpen(true)}
-            onBlur={() => setIsSearchListOpen(false)}
+            // onBlur={() => setIsSearchListOpen(false)}
             onChange={(e) => setSearchInput(e.target.value)}
-            autoComplete={'true'}
           />
           {isSearchListOpen && (
             <ul className="searchlist">
@@ -48,19 +106,22 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
                   onClick={() => {
                     setSearchInput(`${student.firstName} ${student.lastName}`)
                     setIsSearchListOpen(false)
-                    setStudentId(student.id)
+                    setCurrentStudentId(student.id)
                   }}
                 >
-                  <a>
-                    {student.firstName} {student.lastName}
-                  </a>
+                  {student.firstName} {student.lastName}
                 </li>
               ))}
             </ul>
           )}
         </div>
       </div>
-      <Button label="Speichern" type="button" btnStyle="primary" />
+      <Button
+        label="Speichern"
+        type="button"
+        btnStyle="primary"
+        handler={onSaveHandler}
+      />
     </div>
   )
 }

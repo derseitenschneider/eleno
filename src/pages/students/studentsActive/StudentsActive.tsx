@@ -19,7 +19,7 @@ import { toast } from 'react-toastify'
 import Button from '../../../components/button/Button.component'
 import Loader from '../../../components/loader/Loader'
 import { useLoading } from '../../../contexts/LoadingContext'
-import NoStudents from '../../../components/noStudents/NoContent'
+import NoStudents from '../../../components/noContent/NoContent.component'
 import StudentList from '../../../components/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
 import {
@@ -29,7 +29,7 @@ import {
 } from '../../../supabase/students/students.supabase'
 import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
-import NoContent from '../../../components/noStudents/NoContent'
+import NoContent from '../../../components/noContent/NoContent.component'
 
 export default function StudentsActive() {
   // STATE

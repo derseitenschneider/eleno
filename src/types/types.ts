@@ -101,4 +101,5 @@ export type TTodo = {
   due?: string
   studentId?: number
   completed: boolean
+  userId: string
 }

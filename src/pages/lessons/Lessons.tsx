@@ -16,7 +16,7 @@ import { useLoading } from '../../contexts/LoadingContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
-import NoActiveStudent from '../../components/noStudents/NoContent'
+import NoActiveStudent from '../../components/noContent/NoContent.component'
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'

@@ -1,11 +1,16 @@
-.no-students {
-  height: 60vh;
+.no-content {
+  height: 100%;
+  min-height: 20rem;
   display: grid;
   place-content: center;
   text-align: center;
   .content {
     display: grid;
     justify-items: center;
+
+    .heading-3 {
+      opacity: 0.5;
+    }
 
     p {
       width: 40%;
