@@ -2,8 +2,8 @@
   position: absolute;
   z-index: 30;
 
-  background-color: var(--clr-bg-black-400);
-  border: 1px solid var(--clr-bg-black-600);
+  background-color: var(--clr-bg-400);
+  border: 1px solid var(--clr-bg-600);
   min-width: 20rem;
   padding: 0.8rem;
   // animation: grow 0.3s ease;
@@ -22,8 +22,8 @@
     }
 
     &:hover {
-      background-color: var(--clr-bg-black-600);
-      // color: var(--clr-primary);
+      background-color: var(--clr-bg-600);
+      // color: var(--clr-primary-600);
     }
   }
 }

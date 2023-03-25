@@ -8,11 +8,11 @@
   column-gap: var(--column-gap-todos);
   align-items: center;
 
-  background-color: var(--clr-bg-black-400);
+  background-color: var(--clr-bg-400);
   .wrapper-student {
     .student {
       padding: 0.6rem;
-      background-color: var(--clr-primary);
+      background-color: var(--clr-primary-800);
       width: fit-content;
     }
   }

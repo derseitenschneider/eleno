@@ -1,10 +1,10 @@
 .container--header {
   grid-column: 1/-1;
   display: flex;
-  background-color: var(--clr-lightgrey);
+  // background-color: var(--clr-bg-500);
   align-items: center;
   justify-content: space-between;
-  border-bottom: 0.1px solid var(--clr-bg-black-400);
+  border-bottom: 0.1px solid var(--clr-bg-400);
 
   .row-1 {
     display: flex;
@@ -13,7 +13,7 @@
     margin-bottom: 1.8rem;
 
     .student-name {
-      color: var(--clr-white);
+      color: var(--clr-text-600);
       display: flex;
       align-items: center;
       gap: 1.2rem;
@@ -21,7 +21,7 @@
       font-size: 2rem;
 
       .icon {
-        color: var(--clr-primary);
+        color: var(--clr-primary-600);
         width: 2.4rem;
         height: 2.4rem;
       }

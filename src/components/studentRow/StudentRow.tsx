@@ -135,8 +135,8 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         style={
           dropdownOpen
             ? {
-                boxShadow: 'inset 3px 0 0 var(--clr-primary)',
-                color: 'var(--clr-primary)',
+                boxShadow: 'inset 3px 0 0 var(--clr-primary-600)',
+                color: 'var(--clr-primary-600)',
               }
             : {}
         }
@@ -152,33 +152,33 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         style={
           dropdownOpen
             ? {
-                color: 'var(--clr-primary)',
+                color: 'var(--clr-primary-600)',
               }
             : {}
         }
       >
         {firstName}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {lastName}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {instrument}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {dayOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {startOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {endOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {durationMinutes ? `${durationMinutes} Minuten` : `-`}
         {/* {durationMinutes} Minuten */}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary)' } : {}}>
+      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
         {location}
       </div>
       <div
@@ -186,7 +186,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         style={
           dropdownOpen
             ? {
-                boxShadow: 'inset -3px 0 0 var(--clr-primary)',
+                boxShadow: 'inset -3px 0 0 var(--clr-primary-600)',
               }
             : {}
         }
@@ -275,7 +275,9 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
         >
           <p>
             Möchtest du{' '}
-            <strong style={{ borderBottom: '1px solid var(--clr-primary)' }}>
+            <strong
+              style={{ borderBottom: '1px solid var(--clr-primary-600)' }}
+            >
               {firstName} {lastName}
             </strong>{' '}
             und alle zugehörigen Daten endgültig löschen?{' '}

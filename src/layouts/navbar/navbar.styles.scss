@@ -13,8 +13,8 @@
       overflow: hidden;
 
       &:has(.navlink.active) {
-        color: #fff;
-        box-shadow: 0 3px 0 var(--clr-primary);
+        color: var(--clr-text-600);
+        box-shadow: 0 3px 0 var(--clr-primary-600);
       }
     }
   }

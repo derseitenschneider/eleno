@@ -18,11 +18,11 @@
 }
 
 .modal {
-  color: var(--clr-text);
-  background-color: var(--clr-bg-black-500);
+  color: var(--clr-text-400);
+  background-color: var(--clr-bg-500);
   padding: var(--padding);
   box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2),
-    inset 0.3rem 0 0 var(--clr-primary);
+    inset 0.3rem 0 0 var(--clr-primary-600);
 
   max-height: 80vh;
   min-width: 50vw;
@@ -36,7 +36,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--clr-bg-black-600);
+    background-color: var(--clr-bg-600);
   }
 
   // display: grid;
@@ -58,7 +58,7 @@
   position: absolute;
   right: calc(var(--padding) / 2);
   top: calc(var(--padding) / 2);
-  color: var(--clr-text);
+  color: var(--clr-text-400);
 }
 
 .overlay {

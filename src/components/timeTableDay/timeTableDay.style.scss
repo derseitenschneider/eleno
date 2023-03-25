@@ -1,12 +1,12 @@
 .timetable__day {
   --padding: 1.2rem;
   width: 35rem;
-  border: 1px solid var(--clr-bg-black-600);
-  background-color: var(--clr-bg-black-400);
+  border: 1px solid var(--clr-bg-600);
+  background-color: var(--clr-bg-400);
   .header {
-    background-color: var(--clr-bg-black-600);
+    background-color: var(--clr-bg-600);
     // margin-bottom: 2rem;
-    box-shadow: inset 0.3rem 0 0 var(--clr-primary);
+    box-shadow: inset 0.3rem 0 0 var(--clr-primary-600);
     padding: var(--padding);
 
     .meta-info {
@@ -20,7 +20,7 @@
     grid-template-columns: 10rem 10rem auto;
 
     &:nth-child(odd) {
-      background-color: var(--clr-bg-black-500);
+      background-color: var(--clr-bg-500);
     }
   }
 }

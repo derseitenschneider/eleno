@@ -1,5 +1,5 @@
 .container--previous-lessons {
-  border-bottom: 1px solid var(--clr-bg-black-400);
+  border-bottom: 1px solid var(--clr-bg-400);
   min-height: 20rem;
 
   .content--previous-lesson {
@@ -20,11 +20,11 @@
     .tab {
       padding: 0.8rem;
       padding-right: 1.1rem;
-      background-color: var(--clr-bg-black-600);
+      background-color: var(--clr-bg-600);
       border-left: 3px solid transparent;
       &--active {
-        background-color: var(--clr-bg-black-400);
-        border-left: 3px solid var(--clr-primary);
+        background-color: var(--clr-bg-400);
+        border-left: 3px solid var(--clr-primary-600);
       }
     }
   }

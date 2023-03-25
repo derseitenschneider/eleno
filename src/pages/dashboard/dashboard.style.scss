@@ -12,7 +12,7 @@
     display: block;
     text-align: center;
 
-    background-color: var(--clr-bg-black-400);
+    background-color: var(--clr-bg-400);
     min-height: 10rem;
     padding: 2rem;
     width: 34rem;
@@ -21,12 +21,12 @@
     justify-content: space-between;
 
     border-radius: 8px;
-    border: 1px solid var(--clr-primary);
+    border: 1px solid var(--clr-primary-600);
 
     transition: color 0.4s ease;
 
     &:hover {
-      color: var(--clr-white);
+      color: var(--clr-text-600);
     }
     .icon {
       display: block;

@@ -15,8 +15,8 @@
     margin-bottom: 1.8rem;
 
     .select-action {
-      color: var(--clr-text);
-      background-color: var(--clr-bg-black-400);
+      color: var(--clr-text-400);
+      background-color: var(--clr-bg-400);
       font-size: 1.4rem;
 
       &:focus {
@@ -34,14 +34,14 @@
       .input--search {
         font-size: 1.6rem;
         padding: 0.4rem 0.8rem 0.4rem 3.5rem;
-        background-color: var(--clr-bg-black-400);
-        color: var(--clr-text);
+        background-color: var(--clr-bg-400);
+        color: var(--clr-text-400);
         border: none;
 
         &:focus {
           outline: none;
-          box-shadow: inset 1px 1px 0 var(--clr-primary),
-            inset -1px -1px 0 var(--clr-primary);
+          box-shadow: inset 1px 1px 0 var(--clr-primary-600),
+            inset -1px -1px 0 var(--clr-primary-600);
         }
       }
 
@@ -54,7 +54,7 @@
       .button-add-student {
         padding: 0.8rem;
         margin-left: 1.2rem;
-        background-color: var(--clr-primary);
+        background-color: var(--clr-primary-600);
         color: #fff;
         border-radius: 0.5rem;
         display: flex;

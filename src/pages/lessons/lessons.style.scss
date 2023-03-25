@@ -5,8 +5,8 @@
   .main {
     flex-basis: 80%;
     textarea {
-      background-color: var(--clr-bg-black-400);
-      color: var(--clr-white);
+      background-color: var(--clr-bg-400);
+      color: var(--clr-text-400);
       min-height: 15rem;
 
       &:focus {
@@ -14,8 +14,8 @@
       }
     }
     input {
-      background-color: var(--clr-bg-black-500);
-      color: var(--clr-white);
+      background-color: var(--clr-bg-500);
+      color: var(--clr-text-400);
       font-size: inherit;
       font-family: inherit;
       border: none;
@@ -23,7 +23,7 @@
       padding: 0.8rem;
       width: 10rem;
       &:focus {
-        background-color: var(--clr-bg-black-400);
+        background-color: var(--clr-bg-400);
         outline: none;
       }
     }
@@ -45,7 +45,7 @@
 
   .aside {
     position: relative;
-    border-left: 1px solid var(--clr-bg-black-400);
+    border-left: 1px solid var(--clr-bg-400);
     flex-grow: 1;
     padding: 1.6rem;
   }

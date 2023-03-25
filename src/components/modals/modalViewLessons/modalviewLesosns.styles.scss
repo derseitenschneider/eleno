@@ -5,11 +5,11 @@
     .lesson-row {
       &:first-child {
         font-weight: 600;
-        background-color: var(--clr-bg-black-600);
+        background-color: var(--clr-bg-600);
         margin-bottom: 0;
       }
       &:nth-child(even) {
-        background-color: var(--clr-bg-black-400);
+        background-color: var(--clr-bg-400);
       }
       display: grid;
       grid-template-columns: 12rem 1fr 1fr;
