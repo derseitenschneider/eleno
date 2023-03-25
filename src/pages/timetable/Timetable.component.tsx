@@ -66,7 +66,6 @@ function Timetable() {
     noDayAssigned,
   ]
 
-  console.log(days)
   return (
     <>
       <div className="container">

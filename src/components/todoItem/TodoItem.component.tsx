@@ -16,7 +16,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo }) => {
 
   return (
     <li className="todo-item">
-      <input type="radio" />
+      <input type="checkbox" />
       <div className="wrapper-text">
         <h4 className="heading-4">{todo.title}</h4>
         {todo.details && <p>{todo.details}</p>}

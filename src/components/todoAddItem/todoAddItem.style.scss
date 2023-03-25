@@ -1,0 +1,40 @@
+.container--add {
+  margin-bottom: 4.2rem;
+
+  .inputs {
+    display: grid;
+    grid-template-columns: 2fr 3fr max-content 25rem;
+    margin-bottom: 2.4rem;
+    input {
+      font-size: 1.6rem;
+    }
+    .search-filter {
+      position: realtive;
+      .search {
+        height: 100%;
+      }
+      .searchlist {
+        position: absolute;
+        background-color: var(--clr-bg-black-600);
+        max-height: 16rem;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        li {
+          padding: 0.8rem;
+          cursor: pointer;
+
+          margin-bottom: 0.8rem;
+          &:hover {
+            background-color: var(--clr-primary);
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    margin-left: auto;
+  }
+}

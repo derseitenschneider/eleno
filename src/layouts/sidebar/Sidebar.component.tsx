@@ -33,9 +33,15 @@ function Sidebar() {
           <IoChevronForwardOutline className="chevron" />
         </button>
         <div className="container-top">
-          <div className="sidebar__logo">
+          <NavLink
+            to="/"
+            className="sidebar__logo"
+            onClick={() => {
+              setSidebarOpen(false)
+            }}
+          >
             <Logo />
-          </div>
+          </NavLink>
           <nav className="sidebar__navigation">
             <ul className="sidebar__nav-list">
               <li className="sidebar__nav-el">
