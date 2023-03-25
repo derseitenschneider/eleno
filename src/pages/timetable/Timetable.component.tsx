@@ -6,7 +6,9 @@ import { sortStudentsDateTime } from '../../utils/sortStudents'
 function Timetable() {
   const { students, setStudents } = useStudents()
 
-  const sortedStudents = sortStudentsDateTime(students)
+  const sortedStudents = sortStudentsDateTime(
+    students.filter((student) => !student.archive)
+  )
 
   const monday = {
     day: 'Montag',
