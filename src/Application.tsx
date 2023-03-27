@@ -88,10 +88,7 @@ export default function Application() {
         setStudents([...students])
         setLessons([...lessons])
         setNotes([...notes])
-        const camelTodo = todos.map((todo) => {
-          return { ...todo, studentId: todo.student_id }
-        })
-        setTodos([...camelTodo])
+        setTodos([...todos])
         setLoading(false)
       })
     }

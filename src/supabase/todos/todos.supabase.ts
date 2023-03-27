@@ -11,7 +11,19 @@ export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
     console.log(error.message)
     throw new Error(error.message)
   }
-  return data
+
+  const toDos: TTodo[] = data.map((todo) => {
+    return {
+      completed: todo.completed,
+      details: todo.details,
+      due: todo.due,
+      id: todo.id,
+      studentId: todo.student_id,
+      title: todo.title,
+      userId: todo.user_id,
+    }
+  })
+  return toDos
 }
 
 export const saveTodoSupabase = async (todo: TTodo): Promise<TTodo[]> => {
