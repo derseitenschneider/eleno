@@ -61,6 +61,8 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     toast('Lektion gelöscht')
   }
 
+  // [ ] set tabindex to 0 when next lesson
+
   return (
     <>
       {previousLessonsIds.length ? (

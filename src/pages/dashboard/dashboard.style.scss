@@ -41,5 +41,9 @@
       font-size: 2rem;
       margin-bottom: 1.2rem;
     }
+
+    &__details--warning {
+      color: var(--clr-warning);
+    }
   }
 }

@@ -10,6 +10,9 @@ import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { useLessons } from '../../contexts/LessonsContext'
+import { useTodos } from '../../contexts/TodosContext'
+import { useDateToday } from '../../contexts/DateTodayContext'
+import { formatDateToDatabase } from '../../utils/formateDate'
 
 function Dashboard() {
   const { user } = useUser()
@@ -17,6 +20,8 @@ function Dashboard() {
   const { lessons } = useLessons()
   const { loading, setLoading } = useLoading()
   const { closestStudentIndex } = useClosestStudent()
+  const { todos } = useTodos()
+  const { dateToday } = useDateToday()
 
   useEffect(() => {
     user && setLoading(false)
@@ -33,6 +38,12 @@ function Dashboard() {
 
   const closestStudent =
     (sortedStudents && sortedStudents[closestStudentIndex]) || null
+
+  const todosOpen = todos.filter((todo) => !todo.completed)
+
+  const todosOverdue = todosOpen.filter(
+    (todo) => todo.due < formatDateToDatabase(dateToday)
+  )
 
   return (
     <div className="dashboard">
@@ -76,8 +87,12 @@ function Dashboard() {
               <IoList className="icon" />
               <p className="card-title">To Do erfassen</p>
               <hr />
-              <p>0 Todos offen</p>
-              <p style={{ color: 'red' }}>0 davon überfällig</p>
+              <p>{todosOpen.length} Todos offen</p>
+              {todosOverdue.length ? (
+                <p className="card__details--warning">
+                  {todosOverdue.length} davon überfällig
+                </p>
+              ) : null}
             </NavLink>
           </div>
         </>

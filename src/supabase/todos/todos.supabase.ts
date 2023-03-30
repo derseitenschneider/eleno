@@ -15,11 +15,10 @@ export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
   const toDos: TTodo[] = data.map((todo) => {
     return {
       completed: todo.completed,
-      details: todo.details,
       due: todo.due,
       id: todo.id,
       studentId: todo.student_id,
-      title: todo.title,
+      text: todo.text,
       userId: todo.user_id,
     }
   })
@@ -27,17 +26,10 @@ export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
 }
 
 export const saveTodoSupabase = async (todo: TTodo): Promise<TTodo[]> => {
-  const {
-    title,
-    details,
-    due,
-    studentId: student_id,
-    completed,
-    userId: user_id,
-  } = todo
+  const { text, due, studentId: student_id, completed, userId: user_id } = todo
   const { data, error } = await supabase
     .from('todos')
-    .insert({ title, details, due, student_id, completed, user_id })
+    .insert({ text, due, student_id, completed, user_id })
     .select()
   if (error) throw new Error(error.message)
   return data

@@ -1,18 +1,21 @@
 import './todoAddItem.style.scss'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import { TTodo } from '../../types/types'
 import { useUser } from '../../contexts/UserContext'
+import Select from 'react-select'
+import { IoPeopleCircleOutline } from 'react-icons/io5'
+import DropDown from '../dropdown/Dropdown.component'
+import { formatDateToDisplay } from '../../utils/formateDate'
 interface TodoAddItemProps {
   saveTodo: (todo: TTodo) => void
 }
 
 const todoData = {
-  title: '',
-  details: '',
+  text: '',
   due: null,
   studentId: null,
   completed: false,
@@ -22,9 +25,9 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
   const { students } = useStudents()
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const [searchInput, setSearchInput] = useState('')
-  const [isSearchListOpen, setIsSearchListOpen] = useState(false)
   const [currentStudentId, setCurrentStudentId] = useState<number>(null)
 
   const filteredStudents = sortStudents(
@@ -33,10 +36,25 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
       const lastName = student.lastName.toLowerCase()
       const search = searchInput.toLowerCase()
 
-      if (firstName.startsWith(search)) return student
+      if (firstName.startsWith(search) || lastName.startsWith(search))
+        return student
     }),
     { method: 'lastName', ascending: true }
   )
+
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const button = target.closest('.button--student') as HTMLElement
+      if (!button) setDropdownOpen(false)
+    }
+    if (dropdownOpen) {
+      window.addEventListener('click', closeDropdown)
+    }
+    return () => {
+      window.removeEventListener('click', closeDropdown)
+    }
+  }, [dropdownOpen])
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -45,6 +63,18 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
     setInputTodo((prev) => {
       return { ...prev, [name]: value }
     })
+  }
+
+  const onClickDate = () => {
+    setInputTodo((prev) => {
+      return { ...prev, due: null }
+    })
+  }
+
+  const onSelectDropdown = (studentId: number) => {
+    setCurrentStudentId(studentId)
+    setDropdownOpen((prev) => !prev)
+    setSearchInput('')
   }
 
   const onSaveHandler = () => {
@@ -58,70 +88,89 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
     saveTodo(newTodo)
     setInputTodo(todoData)
     setSearchInput('')
+    setCurrentStudentId(null)
   }
 
   return (
     <div className="container--add">
-      <div className="labels">
-        <h5 className="heading-5 label--due">fällig</h5>
-      </div>
       <div className="inputs">
         <input
           type="text"
           placeholder="Todo"
-          name="title"
-          value={inputTodo.title}
+          name="text"
+          value={inputTodo.text}
           required
           onChange={onChangeInputs}
           autoFocus={true}
         />
-        <input
-          type="text"
-          placeholder="Details"
-          name="details"
-          value={inputTodo.details}
-          onChange={onChangeInputs}
-        />
-        <input
-          type="date"
-          name="due"
-          value={inputTodo.due}
-          onChange={onChangeInputs}
-        />
-        <div className="search-filter">
-          <input
-            className="search"
-            placeholder="Schüler:in"
-            type="text"
-            value={searchInput}
-            onFocus={() => setIsSearchListOpen(true)}
-            // onBlur={() => setIsSearchListOpen(false)}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          {isSearchListOpen && (
-            <ul className="searchlist">
-              {filteredStudents.map((student) => (
-                <li
-                  key={student.id}
-                  onClick={() => {
-                    setSearchInput(`${student.firstName} ${student.lastName}`)
-                    setIsSearchListOpen(false)
-                    setCurrentStudentId(student.id)
-                  }}
-                >
-                  {student.firstName} {student.lastName}
-                </li>
-              ))}
-            </ul>
+        <div className="add-student">
+          <Button
+            className="button--student"
+            type="button"
+            btnStyle={currentStudentId ? 'secondary' : 'icon-only'}
+            label={
+              currentStudentId &&
+              `${
+                students.find((student) => student.id === currentStudentId)
+                  .firstName
+              } ${
+                students.find((student) => student.id === currentStudentId)
+                  .lastName
+              }`
+            }
+            icon={!currentStudentId ? <IoPeopleCircleOutline /> : null}
+            handler={() => setDropdownOpen((prev) => !prev)}
+          >
+            {currentStudentId && (
+              <button
+                className="button--remove-student"
+                onClick={() => setCurrentStudentId(null)}
+              >
+                x
+              </button>
+            )}
+          </Button>
+
+          {dropdownOpen && (
+            <DropDown
+              buttons={filteredStudents.map((student) => {
+                return {
+                  label: `${student.firstName}  ${student.lastName}`,
+                  type: 'normal',
+                  handler: () => {
+                    onSelectDropdown(student.id)
+                  },
+                }
+              })}
+              positionX="right"
+              positionY="top"
+              searchField={true}
+              valueSearchfield={searchInput}
+              onChangeSearchfield={(e) => setSearchInput(e.target.value)}
+            />
           )}
         </div>
+        {inputTodo.due ? (
+          <p className="date" onClick={onClickDate}>
+            {formatDateToDisplay(inputTodo.due).slice(0, 6)}
+          </p>
+        ) : (
+          <input
+            type="date"
+            name="due"
+            className="datepicker"
+            value={inputTodo.due}
+            onChange={onChangeInputs}
+          />
+        )}
+
+        <Button
+          label="Speichern"
+          type="button"
+          btnStyle="primary"
+          handler={onSaveHandler}
+        />
       </div>
-      <Button
-        label="Speichern"
-        type="button"
-        btnStyle="primary"
-        handler={onSaveHandler}
-      />
     </div>
   )
 }

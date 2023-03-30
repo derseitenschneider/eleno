@@ -51,10 +51,10 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
     <header className="container container--header">
       <div className="container--infos">
         <div className="row-1">
-          <div className="student-name">
+          <h2 className="student-name">
             <IoPersonCircleOutline className="icon" />
             {firstName} {lastName}
-          </div>
+          </h2>
 
           <span> {durationMinutes} Minuten</span>
         </div>

@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useDateToday } from '../../contexts/DateTodayContext'
 import { useStudents } from '../../contexts/StudentContext'
 import { useTodos } from '../../contexts/TodosContext'
 import { useUser } from '../../contexts/UserContext'
@@ -9,7 +10,9 @@ function TodosOpen() {
   const { students } = useStudents()
   const { user } = useUser()
   const { setClosestStudentIndex } = useClosestStudent()
+  const { dateToday } = useDateToday()
 
+  // [ ] don't save empty todos
   return (
     <div className="container">
       <h1 className="heading-1">ToDos</h1>
@@ -21,7 +24,14 @@ function TodosOpen() {
         ]}
       />
       <Outlet
-        context={{ todos, setTodos, students, user, setClosestStudentIndex }}
+        context={{
+          todos,
+          setTodos,
+          students,
+          user,
+          setClosestStudentIndex,
+          dateToday,
+        }}
       />
     </div>
   )

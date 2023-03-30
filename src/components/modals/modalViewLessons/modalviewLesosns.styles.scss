@@ -13,11 +13,14 @@
       }
       display: grid;
       grid-template-columns: 12rem 1fr 1fr;
+      overflow-wrap: anywhere;
       column-gap: 2rem;
       margin-bottom: 2rem;
 
-      & > * {
-        white-space: pre;
+      & > p {
+        white-space: pre-line;
+        line-break: strict;
+
         padding: 1.2rem;
       }
     }

@@ -3,6 +3,8 @@ import React from 'react'
 import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
+
+// [ ] add instrument, put first and last name in same cell
 function Timetable() {
   const { students, setStudents } = useStudents()
 

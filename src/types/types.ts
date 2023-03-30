@@ -69,6 +69,10 @@ export type ContextTypeClosestStudent = {
   setClosestStudentIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
+export type ContextTypeDateToday = {
+  dateToday: string
+}
+
 export type TSortingMethods =
   | 'firstName'
   | 'lastName'
@@ -96,8 +100,7 @@ export type TTimetableDay = {
 
 export type TTodo = {
   id: number
-  title: string
-  details?: string
+  text: string
   due?: string
   studentId?: number
   completed: boolean

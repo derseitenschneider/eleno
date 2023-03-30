@@ -1,11 +1,19 @@
 import './todoItem.style.scss'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { TTodo } from '../../types/types'
-import { formatDateToDisplay } from '../../utils/formateDate'
+import {
+  formatDateToDatabase,
+  formatDateToDisplay,
+} from '../../utils/formateDate'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useNavigate } from 'react-router-dom'
+import { useDateToday } from '../../contexts/DateTodayContext'
+import Button from '../button/Button.component'
+import { IoEllipsisVertical } from 'react-icons/io5'
+import DropDown from '../dropdown/Dropdown.component'
+import Modal from '../modals/Modal.component'
 
 interface TodoItemProps {
   todo: TTodo
@@ -18,7 +26,10 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
 }) => {
   const { students } = useStudents()
   const { setClosestStudentIndex } = useClosestStudent()
+  const { dateToday } = useDateToday()
   const navigate = useNavigate()
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const [attachedStudent] = students.filter(
     (student) => student.id === todo.studentId
@@ -40,15 +51,28 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
     handleComplete(todo.id)
   }
 
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const button = target.closest('.button--edit') as HTMLElement
+      if (!button) setDropdownOpen(false)
+      // if (+button?.dataset.id !== studentId) setDropdownOpen(false)
+    }
+    if (dropdownOpen) {
+      window.addEventListener('click', closeDropdown)
+    }
+    return () => {
+      window.removeEventListener('click', closeDropdown)
+    }
+  }, [dropdownOpen])
+
+  const overdue = todo.due < formatDateToDatabase(dateToday)
+  // [ ] make editable
   return (
-    <li className="todo-item">
+    <li className={`todo-item${overdue ? ' overdue' : ''}`}>
       <input type="checkbox" className="checkbox" onChange={onChangeComplete} />
       <div className="wrapper-text">
-        <h4 className="heading-4">{todo.title}</h4>
-        {todo.details && <p>{todo.details}</p>}
-      </div>
-      <div className="wrapper-due">
-        {todo.due && <p>{formatDateToDisplay(todo.due)}</p>}
+        <p className="">{todo.text}</p>
       </div>
       <div className="wrapper-student">
         {attachedStudent && (
@@ -57,6 +81,44 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
           </p>
         )}
       </div>
+      <div className="wrapper-due">
+        {todo.due && (
+          <p className={`${overdue ? 'overdue' : null}`}>
+            {formatDateToDisplay(todo.due)}
+          </p>
+        )}
+      </div>
+      <div className="container--button">
+        <Button
+          type="button"
+          btnStyle="icon-only"
+          icon={<IoEllipsisVertical />}
+          className="button--edit"
+          handler={() => setDropdownOpen(true)}
+        />
+        {dropdownOpen && (
+          <DropDown
+            positionX="right"
+            positionY="top"
+            buttons={[
+              {
+                label: 'Bearbeiten',
+                type: 'normal',
+                handler: () => {
+                  setShowModal((prev) => !prev)
+                },
+              },
+            ]}
+          />
+        )}
+      </div>
+      {showModal && (
+        <Modal
+          heading="Todo berabeiten"
+          handlerOverlay={() => setShowModal(false)}
+          handlerClose={() => setShowModal(false)}
+        />
+      )}
     </li>
   )
 }

@@ -3,10 +3,14 @@
   margin-bottom: 1rem;
   display: grid;
   grid-template-columns: var(--columns-todos);
-  min-height: 8rem;
+  min-height: 5rem;
 
   column-gap: var(--column-gap-todos);
   align-items: center;
+
+  &.overdue {
+    box-shadow: inset 3px 0 0 var(--clr-warning);
+  }
 
   .checkbox {
     cursor: pointer;
@@ -20,6 +24,12 @@
       color: var(--clr-white);
       width: fit-content;
       cursor: pointer;
+    }
+  }
+
+  .wrapper-due {
+    .overdue {
+      color: var(--clr-warning);
     }
   }
 }

@@ -10,6 +10,8 @@ import { useLessons } from '../../../contexts/LessonsContext'
 import { postLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { useUser } from '../../../contexts/UserContext'
 
+// [ ] on save open tab with most current/new lesson
+
 interface NewLessonProps {
   studentId: number
 }
@@ -75,6 +77,9 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     setInput(lessonData)
     toast('Lektion gespeichert')
   }
+
+  // [ ] create todo functionallity from here
+  // [ ] save state locally to preserve it on page refresh but delete it when student-index changes or page is left
 
   return (
     <div className="container container--lessons container--new-lesson">

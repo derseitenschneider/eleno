@@ -119,8 +119,10 @@
     background-color: var(--clr-primary-600);
     z-index: -1;
     transform: scale(0);
-    transition: transform 0.8s cubic-bezier(0.47, 1.64, 0.41, 0.8);
-    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.47, 1.64, 0.41, 0.8);
+    // border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
   }
 
   .active &__nav-icon::after {

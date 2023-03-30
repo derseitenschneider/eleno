@@ -14,6 +14,8 @@ import {
 
 import Logo from '../../components/logo/Logo.component'
 
+// [ ] close sidebar when clicked outside
+
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 

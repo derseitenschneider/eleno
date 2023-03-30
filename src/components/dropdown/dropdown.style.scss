@@ -5,6 +5,8 @@
   background-color: var(--clr-bg-400);
   border: 1px solid var(--clr-bg-600);
   min-width: 20rem;
+  max-height: 30rem;
+  overflow-y: auto;
   padding: 0.8rem;
   // animation: grow 0.3s ease;
   // transform-origin: bottom left;
@@ -27,22 +29,3 @@
     }
   }
 }
-
-// @keyframes fadeIn {
-//   0% {
-//     opacity: 0;
-//   }
-
-//   100% {
-//     opacity: 1;
-//   }
-// }
-
-// @keyframes grow {
-//   0% {
-//     transform: scaleY(0);
-//   }
-//   100% {
-//     transform: scaleY(1);
-//   }
-// }

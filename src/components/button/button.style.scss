@@ -21,17 +21,20 @@
   }
 
   &--secondary {
-    border: 3px solid var(--clr-primary-600);
-    color: var(--clr-primary-600);
+    background-color: var(--clr-primary-600);
+    color: var(--clr-white);
   }
 
   &--icon-only {
     color: var(--clr-primary-400);
-    padding: 0.4rem;
-    & span:empty + span svg {
-      height: 2rem !important;
-      width: 2rem !important;
+    padding: 0;
+    height: 2rem;
+    width: 2rem;
+    & span:has(+ span:empty) svg {
+      height: 1.4rem;
+      width: 1.4rem;
     }
+
     &.warning {
       color: var(--clr-warning);
     }
@@ -51,11 +54,6 @@
 
   & span:empty {
     display: none;
-  }
-
-  & span:empty + span svg {
-    height: 1.4rem;
-    width: 1.4rem;
   }
 
   & svg {

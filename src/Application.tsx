@@ -32,16 +32,24 @@ export default function Application() {
 
   // [ ] add closestcurrentStudentId to context
 
+  // [ ] check random page refreshs
+
   const [user, setUser] = useState<TUser | null>(null)
   const [students, setStudents] = useState<TStudent[] | null>([])
   const [lessons, setLessons] = useState<TLesson[] | null>([])
   const [notes, setNotes] = useState<TNotes[] | null>([])
   const [todos, setTodos] = useState<TTodo[]>([])
   const [session, setSession] = useState<Session>()
+  const [dateToday, setDateToday] = useState<string>()
 
   const [closestStudentIndex, setClosestStudentIndex] = useState(0)
 
   // [ ] change all setState props to handlers
+
+  useEffect(() => {
+    const today = new Date().toLocaleDateString()
+    setDateToday(today)
+  }, [])
 
   const getUserProfiles = async (userId: string) => {
     const [data] = await getProfiles(userId)
@@ -133,6 +141,7 @@ export default function Application() {
                 setClosestStudentIndex,
                 todos,
                 setTodos,
+                dateToday,
               }}
             />
           </div>

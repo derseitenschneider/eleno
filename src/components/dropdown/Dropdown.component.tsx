@@ -1,5 +1,5 @@
 import './dropdown.style.scss'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { TDropdownButton } from '../../types/types'
 
 interface DropDownProps {
@@ -7,6 +7,9 @@ interface DropDownProps {
   positionX: 'left' | 'right'
   positionY: 'top' | 'bottom'
   className?: string
+  searchField?: boolean
+  valueSearchfield?: string
+  onChangeSearchfield?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const DropDown: FunctionComponent<DropDownProps> = ({
@@ -14,12 +17,23 @@ const DropDown: FunctionComponent<DropDownProps> = ({
   positionX,
   positionY,
   className,
+  searchField,
+  valueSearchfield,
+  onChangeSearchfield,
 }) => {
   return (
     <div
       className={`dropdown ${className}`}
       style={{ [positionX]: '0', [positionY]: '100%' }}
     >
+      {searchField && (
+        <input
+          type="search"
+          value={valueSearchfield}
+          onChange={onChangeSearchfield}
+          autoFocus={true}
+        />
+      )}
       {buttons.map((button, i) => (
         <button
           key={i}

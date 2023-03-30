@@ -1,53 +1,62 @@
 .container--add {
-  --grid-container-add: 2fr 3fr 12rem 25rem;
+  --grid-container-add: 1fr auto auto auto;
   margin-bottom: 4.2rem;
 
-  .labels {
-    display: grid;
-    grid-template-columns: var(--grid-container-add);
-    .label--due {
-      grid-column: 3/4;
-      padding: 0.8rem;
-    }
-  }
-
   .inputs {
+    background-color: var(--clr-bg-400);
+    margin-bottom: 2.4rem;
+    padding: 0.8rem;
     display: grid;
     grid-template-columns: var(--grid-container-add);
-    margin-bottom: 2.4rem;
+    align-items: center;
+    justify-items: center;
+    column-gap: 1rem;
     input {
       font-size: 1.6rem;
+      &[type='date']::-webkit-calendar-picker-indicator {
+        /* display: none;
+    -webkit-appearance: none; */
+        margin: 0;
+      }
+      &[type='date']::-webkit-datetime-edit {
+        display: none;
+      }
     }
-    .search-filter {
+
+    .add-student {
       position: relative;
-      .search {
-        height: 100%;
-      }
-      .searchlist {
-        position: absolute;
-        top: 100%;
-        width: 100%;
-        background-color: var(--clr-bg-600);
-        max-height: 16rem;
-        overflow-y: scroll;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-        li {
-          padding: 0.8rem;
-          cursor: pointer;
+      display: flex;
+      gap: 1.2rem;
 
-          // margin-bottom: 0.8rem;
-          &:hover {
-            background-color: var(--clr-primary-600);
-            color: var(--clr-white);
-          }
-        }
+      svg {
+        height: 2rem !important;
+        width: 2rem !important;
+      }
+
+      .button--student {
+        position: relative;
+        padding: 0.8rem 2.4rem;
+      }
+      .button--remove-student {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-55%);
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+      }
+
+      &:hover .button--remove-student {
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible;
       }
     }
-  }
 
-  button {
-    margin-left: auto;
+    .date {
+      font-size: 1.4rem;
+      color: var(--clr-primary-400);
+    }
   }
 }
