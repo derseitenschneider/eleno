@@ -1,5 +1,5 @@
 import './login.style.scss'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import Button from '../../components/button/Button.component'
 import {
@@ -7,9 +7,6 @@ import {
   loginSupabase,
   recoverPasswordSupabase,
 } from '../../supabase/users/users.supabase'
-import { supabase } from '../../supabase/supabase'
-import Loader from '../../components/loader/Loader'
-import { useLoading } from '../../contexts/LoadingContext'
 
 const dataLogin = {
   email: '',

@@ -1,6 +1,5 @@
 import './modalEditTodo.style.scss'
 import { FunctionComponent, useState } from 'react'
-import { useStudents } from '../../../contexts/StudentContext'
 import { useTodos } from '../../../hooks/useTodos'
 import TodoAddStudent from '../../todoAddStudent/TodoAddStudent.component'
 import { formatDateToDisplay } from '../../../utils/formateDate'
