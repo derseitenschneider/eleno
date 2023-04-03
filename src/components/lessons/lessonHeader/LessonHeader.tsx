@@ -1,6 +1,6 @@
 import './lessonHeader.style.scss'
 import { FunctionComponent } from 'react'
-import { useStudents } from '../../../contexts/StudentContext'
+import { useStudents } from '../../../hooks/useStudents'
 
 import Button from '../../button/Button.component'
 import {

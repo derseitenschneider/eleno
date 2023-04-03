@@ -1,6 +1,6 @@
 import './modalEditStudent.style.scss'
 import { FunctionComponent, useState } from 'react'
-import { useStudents } from '../../../contexts/StudentContext'
+import { useStudents } from '../../../hooks/useStudents'
 import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
 import { TStudent } from '../../../types/types'

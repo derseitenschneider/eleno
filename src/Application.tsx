@@ -1,153 +1,35 @@
-import { useEffect, useState } from 'react'
-import { Outlet, redirect } from 'react-router-dom'
-
-// Supabase
-import { supabase } from './supabase/supabase'
-import { getProfiles } from './supabase/users/users.supabase'
-import { fetchStudents } from './supabase/students/students.supabase'
-import { fetchLatestLessonsSupabase } from './supabase/lessons/lessons.supabase'
-import { fetchNotes } from './supabase/notes/notes.supabase'
-import { Session } from '@supabase/gotrue-js/src/lib/types'
-
-// Toast
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-// Types
-import { TUser, TLesson, TStudent, TNotes, TTodo } from './types/types'
-
-// Pages
-import LoginPage from './pages/login/LoginPage'
+import { Outlet } from 'react-router-dom'
 
 // Components
 import Sidebar from './layouts/sidebar/Sidebar.component'
-import Loader from './components/loader/Loader'
+import Main from './components/main/Main.component'
+import Toast from './components/toast/Toast.component'
 
-// Functions
-import { getClosestStudentIndex } from './utils/getClosestStudentIndex'
-import { fetchTodosSupabase } from './supabase/todos/todos.supabase'
+// Context provider
+import MainContext from './contexts/MainContext'
+import { AuthProvider } from './contexts/UserContext'
+import { LoadingProvider } from './contexts/LoadingContext'
 
 export default function Application() {
-  const [loading, setLoading] = useState(true)
-
   // [ ] add closestcurrentStudentId to context
 
   // [ ] check random page refreshs
 
-  const [user, setUser] = useState<TUser | null>(null)
-  const [students, setStudents] = useState<TStudent[] | null>([])
-  const [lessons, setLessons] = useState<TLesson[] | null>([])
-  const [notes, setNotes] = useState<TNotes[] | null>([])
-  const [todos, setTodos] = useState<TTodo[]>([])
-  const [session, setSession] = useState<Session>()
-  const [dateToday, setDateToday] = useState<string>()
-
-  const [closestStudentIndex, setClosestStudentIndex] = useState(0)
-
   // [ ] change all setState props to handlers
 
-  useEffect(() => {
-    const today = new Date().toLocaleDateString()
-    setDateToday(today)
-  }, [])
-
-  const getUserProfiles = async (userId: string) => {
-    const [data] = await getProfiles(userId)
-    const user: TUser = {
-      email: data.email,
-      id: data.id,
-      firstName: data.first_name,
-      lastName: data.last_name,
-    }
-    setUser(user)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      if (session) {
-        getUserProfiles(session.user.id)
-      } else {
-        setLoading(false)
-      }
-    })
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setLoading(true)
-      setSession(session)
-      if (session) {
-        getUserProfiles(session.user.id)
-      } else {
-        setLoading(false)
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    if (user) {
-      // setLoading(true)
-      Promise.all([
-        fetchStudents(user.id),
-        fetchLatestLessonsSupabase(user.id),
-        fetchNotes(user.id),
-        fetchTodosSupabase(user.id),
-      ]).then(([students, lessons, notes, todos]) => {
-        setStudents([...students])
-        setLessons([...lessons])
-        setNotes([...notes])
-        setTodos([...todos])
-        setLoading(false)
-      })
-    }
-  }, [user])
-
-  useEffect(() => {
-    if (students) {
-      setClosestStudentIndex(getClosestStudentIndex(students))
-    }
-  }, [students])
   return (
     <div className="App">
-      <Loader loading={loading} />
-      {!loading && session ? (
-        <>
-          <ToastContainer
-            position="bottom-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable
-            pauseOnHover={false}
-            theme="dark"
-          />
+      <Toast />
+      <LoadingProvider>
+        <AuthProvider>
           <Sidebar />
-          <div id="main">
-            <Outlet
-              context={{
-                user,
-                students,
-                setStudents,
-                lessons,
-                setLessons,
-                notes,
-                setNotes,
-                loading,
-                setLoading,
-                closestStudentIndex,
-                setClosestStudentIndex,
-                todos,
-                setTodos,
-                dateToday,
-              }}
-            />
-          </div>
-        </>
-      ) : null}
-      {!loading && !session ? <LoginPage /> : null}
+          <MainContext>
+            <Main>
+              <Outlet />
+            </Main>
+          </MainContext>
+        </AuthProvider>
+      </LoadingProvider>
     </div>
   )
 }

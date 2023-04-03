@@ -1,15 +1,15 @@
-import './todoAddItem.style.scss'
 import { FunctionComponent, useState, useEffect } from 'react'
+import './todoAddItem.style.scss'
 
-import { useStudents } from '../../contexts/StudentContext'
 import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import { TTodo } from '../../types/types'
-import { useUser } from '../../contexts/UserContext'
+import { useUser } from '../../hooks/useUser'
 import Select from 'react-select'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
 import { formatDateToDisplay } from '../../utils/formateDate'
+import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 interface TodoAddItemProps {
   saveTodo: (todo: TTodo) => void
 }
@@ -22,39 +22,9 @@ const todoData = {
 }
 
 const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
-  const { students } = useStudents()
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-
-  const [searchInput, setSearchInput] = useState('')
-  const [currentStudentId, setCurrentStudentId] = useState<number>(null)
-
-  const filteredStudents = sortStudents(
-    students.filter((student) => {
-      const firstName = student.firstName.toLowerCase()
-      const lastName = student.lastName.toLowerCase()
-      const search = searchInput.toLowerCase()
-
-      if (firstName.startsWith(search) || lastName.startsWith(search))
-        return student
-    }),
-    { method: 'lastName', ascending: true }
-  )
-
-  useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const button = target.closest('.button--student') as HTMLElement
-      if (!button) setDropdownOpen(false)
-    }
-    if (dropdownOpen) {
-      window.addEventListener('click', closeDropdown)
-    }
-    return () => {
-      window.removeEventListener('click', closeDropdown)
-    }
-  }, [dropdownOpen])
+  const [currentStudentId, setCurrentStudentId] = useState(null)
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -71,12 +41,6 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
     })
   }
 
-  const onSelectDropdown = (studentId: number) => {
-    setCurrentStudentId(studentId)
-    setDropdownOpen((prev) => !prev)
-    setSearchInput('')
-  }
-
   const onSaveHandler = () => {
     const tempId = Math.floor(Math.random() * 1000000000)
     const newTodo: TTodo = {
@@ -87,7 +51,6 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
     }
     saveTodo(newTodo)
     setInputTodo(todoData)
-    setSearchInput('')
     setCurrentStudentId(null)
   }
 
@@ -103,53 +66,11 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
           onChange={onChangeInputs}
           autoFocus={true}
         />
-        <div className="add-student">
-          <Button
-            className="button--student"
-            type="button"
-            btnStyle={currentStudentId ? 'secondary' : 'icon-only'}
-            label={
-              currentStudentId &&
-              `${
-                students.find((student) => student.id === currentStudentId)
-                  .firstName
-              } ${
-                students.find((student) => student.id === currentStudentId)
-                  .lastName
-              }`
-            }
-            icon={!currentStudentId ? <IoPeopleCircleOutline /> : null}
-            handler={() => setDropdownOpen((prev) => !prev)}
-          >
-            {currentStudentId && (
-              <button
-                className="button--remove-student"
-                onClick={() => setCurrentStudentId(null)}
-              >
-                x
-              </button>
-            )}
-          </Button>
+        <TodoAddStudent
+          currentStudentId={currentStudentId}
+          setCurrentStudentId={setCurrentStudentId}
+        />
 
-          {dropdownOpen && (
-            <DropDown
-              buttons={filteredStudents.map((student) => {
-                return {
-                  label: `${student.firstName}  ${student.lastName}`,
-                  type: 'normal',
-                  handler: () => {
-                    onSelectDropdown(student.id)
-                  },
-                }
-              })}
-              positionX="right"
-              positionY="top"
-              searchField={true}
-              valueSearchfield={searchInput}
-              onChangeSearchfield={(e) => setSearchInput(e.target.value)}
-            />
-          )}
-        </div>
         {inputTodo.due ? (
           <p className="date" onClick={onClickDate}>
             {formatDateToDisplay(inputTodo.due).slice(0, 6)}

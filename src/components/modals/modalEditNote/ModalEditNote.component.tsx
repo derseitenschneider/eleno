@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import { editNoteSupabase } from '../../../supabase/notes/notes.supabase'
 import { TNotes } from '../../../types/types'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../contexts/NotesContext'
+import { useNotes } from '../../../hooks/useNotes'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentNote: number

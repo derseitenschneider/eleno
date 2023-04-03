@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import StudentList from '../../components/studentlist/StudentList.component'
 import TodoList from '../../components/todoList/TodoList.component'
-import { useTodos } from '../../contexts/TodosContext'
+import { useTodos } from '../../hooks/useTodos'
 interface TodosCompletedProps {}
 
 const TodosCompleted: FunctionComponent<TodosCompletedProps> = () => {

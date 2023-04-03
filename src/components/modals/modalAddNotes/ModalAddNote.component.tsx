@@ -1,10 +1,10 @@
 import { FunctionComponent, useState } from 'react'
-import { useUser } from '../../../contexts/UserContext'
+import { useUser } from '../../../hooks/useUser'
 import { TNotes, TStudent } from '../../../types/types'
 import { postNotesSupabase } from '../../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../contexts/NotesContext'
+import { useNotes } from '../../../hooks/useNotes'
 
 interface ModalAddNoteProps {
   modalOpen: boolean

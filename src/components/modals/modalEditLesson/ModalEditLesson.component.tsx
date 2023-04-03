@@ -9,7 +9,7 @@ import {
 
 import { updateLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { toast } from 'react-toastify'
-import { useLessons } from '../../../contexts/LessonsContext'
+import { useLessons } from '../../../hooks/useLessons'
 
 interface ModalEditLessonProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>

@@ -1,0 +1,9 @@
+## Features
+
+# Lessons
+- Metronome
+- Data store (pdf)
+- music player
+# Timetable
+- Print timetable
+- create new timetable

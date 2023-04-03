@@ -1,7 +1,7 @@
 import './previousLessons.style.scss'
 // React components
 import { FunctionComponent, useState, useEffect } from 'react'
-import { useLessons } from '../../../contexts/LessonsContext'
+import { useLessons } from '../../../hooks/useLessons'
 
 // Components
 import { IoEllipsisHorizontal } from 'react-icons/io5'

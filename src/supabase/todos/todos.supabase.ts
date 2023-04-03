@@ -42,3 +42,20 @@ export const completeTodoSupabase = async (todoId: number) => {
     .eq('id', todoId)
   if (error) throw new Error(error.message)
 }
+
+export const updateTodoSupabase = async (todo: TTodo) => {
+  const todoDb = {
+    completed: todo.completed,
+    due: todo.due,
+    id: todo.id,
+    student_id: todo.studentId,
+    text: todo.text,
+    user_id: todo.userId,
+  }
+  const { error } = await supabase
+    .from('todos')
+    .update({ ...todoDb })
+    .eq('id', todo.id)
+
+  if (error) throw new Error(error.message)
+}

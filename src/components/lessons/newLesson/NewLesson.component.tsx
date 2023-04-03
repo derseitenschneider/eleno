@@ -6,9 +6,9 @@ import { TLesson } from '../../../types/types'
 import { formatDateToDatabase } from '../../../utils/formateDate'
 
 import { toast } from 'react-toastify'
-import { useLessons } from '../../../contexts/LessonsContext'
+import { useLessons } from '../../../hooks/useLessons'
 import { postLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
-import { useUser } from '../../../contexts/UserContext'
+import { useUser } from '../../../hooks/useUser'
 
 // [ ] on save open tab with most current/new lesson
 

@@ -8,7 +8,7 @@ import { IoSearchOutline, IoAddOutline } from 'react-icons/io5'
 
 // Hooks
 import { useEffect, useState } from 'react'
-import { useStudents } from '../../../contexts/StudentContext'
+import { useStudents } from '../../../hooks/useStudents'
 
 // Functions
 import { NavLink, useActionData } from 'react-router-dom'
@@ -17,8 +17,6 @@ import { toast } from 'react-toastify'
 
 // Components
 import Button from '../../../components/button/Button.component'
-import Loader from '../../../components/loader/Loader'
-import { useLoading } from '../../../contexts/LoadingContext'
 import NoStudents from '../../../components/noContent/NoContent.component'
 import StudentList from '../../../components/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
@@ -42,7 +40,7 @@ export default function StudentsActive() {
     method: 'lastName',
     ascending: true,
   })
-  const { loading } = useLoading()
+  // const { loading } = useLoading()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
 
@@ -122,9 +120,8 @@ export default function StudentsActive() {
 
   return (
     <>
-      <Loader loading={loading} />
       <div className="students">
-        {!loading && activeStudents.length ? (
+        {activeStudents.length ? (
           <>
             <div className="header">
               <div className="container--heading">
@@ -187,7 +184,7 @@ export default function StudentsActive() {
           </>
         ) : null}
 
-        {!loading && activeStudents.length === 0 && (
+        {activeStudents.length === 0 && (
           <NoContent
             heading="Keine Schüler:innen vorhanden"
             buttons={[

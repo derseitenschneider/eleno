@@ -5,31 +5,34 @@ import {
   formatDateToDatabase,
   formatDateToDisplay,
 } from '../../utils/formateDate'
-import { useStudents } from '../../contexts/StudentContext'
+import { useStudents } from '../../hooks/useStudents'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useClosestStudent } from '../../hooks/useClosestStudent'
 import { useNavigate } from 'react-router-dom'
-import { useDateToday } from '../../contexts/DateTodayContext'
+import { useDateToday } from '../../hooks/useDateToday'
 import Button from '../button/Button.component'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
 import Modal from '../modals/Modal.component'
+import ModalEditTodo from '../modals/modalEditTodo/ModalEditTodo.component'
 
 interface TodoItemProps {
   todo: TTodo
   handleComplete: (todoId: number) => void
+  listType: 'open' | 'completed'
 }
 
 const TodoItem: FunctionComponent<TodoItemProps> = ({
   todo,
   handleComplete,
+  listType,
 }) => {
   const { students } = useStudents()
   const { setClosestStudentIndex } = useClosestStudent()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const [attachedStudent] = students.filter(
     (student) => student.id === todo.studentId
@@ -70,7 +73,15 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
   // [ ] make editable
   return (
     <li className={`todo-item${overdue ? ' overdue' : ''}`}>
-      <input type="checkbox" className="checkbox" onChange={onChangeComplete} />
+      {listType === 'open' ? (
+        <input
+          type="checkbox"
+          className="checkbox"
+          onChange={onChangeComplete}
+        />
+      ) : (
+        <div></div>
+      )}
       <div className="wrapper-text">
         <p className="">{todo.text}</p>
       </div>
@@ -96,7 +107,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
           className="button--edit"
           handler={() => setDropdownOpen(true)}
         />
-        {dropdownOpen && (
+        {dropdownOpen && listType === 'open' && (
           <DropDown
             positionX="right"
             positionY="top"
@@ -105,18 +116,17 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
                 label: 'Bearbeiten',
                 type: 'normal',
                 handler: () => {
-                  setShowModal((prev) => !prev)
+                  setModalOpen((prev) => !prev)
                 },
               },
             ]}
           />
         )}
       </div>
-      {showModal && (
-        <Modal
-          heading="Todo berabeiten"
-          handlerOverlay={() => setShowModal(false)}
-          handlerClose={() => setShowModal(false)}
+      {modalOpen && listType === 'open' && (
+        <ModalEditTodo
+          closeModal={() => setModalOpen(false)}
+          todoId={todo.id}
         />
       )}
     </li>

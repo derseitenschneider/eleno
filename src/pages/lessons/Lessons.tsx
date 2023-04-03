@@ -6,8 +6,8 @@ import { FunctionComponent, useEffect, useState } from 'react'
 // Types
 
 // Contexts
-import { useStudents } from '../../contexts/StudentContext'
-import { useLoading } from '../../contexts/LoadingContext'
+import { useStudents } from '../../hooks/useStudents'
+import { useLoading } from '../../hooks/useLoading'
 
 // Components
 
@@ -15,7 +15,7 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useClosestStudent } from '../../hooks/useClosestStudent'
 import NoActiveStudent from '../../components/noContent/NoContent.component'
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'

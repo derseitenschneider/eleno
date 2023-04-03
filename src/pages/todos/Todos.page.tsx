@@ -1,17 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
-import { useDateToday } from '../../contexts/DateTodayContext'
-import { useStudents } from '../../contexts/StudentContext'
-import { useTodos } from '../../contexts/TodosContext'
-import { useUser } from '../../contexts/UserContext'
-import Navbar from '../../layouts/navbar/Navbar.component'
-function TodosOpen() {
-  const { todos, setTodos } = useTodos()
-  const { students } = useStudents()
-  const { user } = useUser()
-  const { setClosestStudentIndex } = useClosestStudent()
-  const { dateToday } = useDateToday()
 
+import Navbar from '../../layouts/navbar/Navbar.component'
+function Todos() {
   // [ ] don't save empty todos
   return (
     <div className="container">
@@ -23,17 +13,8 @@ function TodosOpen() {
           { path: 'completed', label: 'Erledigt', key: 1, end: true },
         ]}
       />
-      <Outlet
-        context={{
-          todos,
-          setTodos,
-          students,
-          user,
-          setClosestStudentIndex,
-          dateToday,
-        }}
-      />
+      <Outlet />
     </div>
   )
 }
-export default TodosOpen
+export default Todos

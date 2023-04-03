@@ -6,7 +6,7 @@ import { useStudents } from '../../contexts/StudentContext'
 import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import TodoAddItem from '../todoAddItem/TodoAddItem.component'
-import { useTodos } from '../../contexts/TodosContext'
+import { useTodos } from '../../hooks/useTodos'
 import {
   completeTodoSupabase,
   saveTodoSupabase,
@@ -20,7 +20,7 @@ interface TodoListProps {
 
 const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
   const { setTodos } = useTodos()
-  const { students } = useStudents()
+  // const { students } = useStudents()
 
   // const openTodos = todos.filter((todo) => !todo.completed)
 
@@ -50,34 +50,49 @@ const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
   }
 
   return (
-    <div className="todos">
-      {listType === 'open' && <TodoAddItem saveTodo={saveTodo} />}
-
-      {todos?.length ? (
-        <>
-          {listType === 'open' && (
-            <div className="description">
-              <div></div>
-              <div></div>
-              <h5 className="heading-5">Schüler:in</h5>
-              <h5 className="heading-5">fällig</h5>
-            </div>
-          )}
-
-          <ul className="todo-list">
-            {todos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                handleComplete={handleComplete}
-              />
-            ))}
-          </ul>
-        </>
+    <>
+      {listType === 'completed' ? (
+        <div className="container--buttons">
+          <Button
+            label="Alle löschen"
+            type="button"
+            handler={() => {}}
+            btnStyle="danger"
+          />
+        </div>
       ) : (
-        <NoContent heading="Aktuell keine offenen Todos" />
+        <div></div>
       )}
-    </div>
+      <div className="todos">
+        {listType === 'open' && <TodoAddItem saveTodo={saveTodo} />}
+
+        {todos?.length ? (
+          <>
+            {listType === 'open' && (
+              <div className="description">
+                <div></div>
+                <div></div>
+                <h5 className="heading-5">Schüler:in</h5>
+                <h5 className="heading-5">fällig</h5>
+              </div>
+            )}
+
+            <ul className="todo-list">
+              {todos.map((todo) => (
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  handleComplete={handleComplete}
+                  listType={listType}
+                />
+              ))}
+            </ul>
+          </>
+        ) : (
+          <NoContent heading="Aktuell keine offenen Todos" />
+        )}
+      </div>
+    </>
   )
 }
 

@@ -2,14 +2,14 @@
 import { IoSearchOutline } from 'react-icons/io5'
 
 // Hooks
-import { useStudents } from '../../../contexts/StudentContext'
+import { useStudents } from '../../../hooks/useStudents'
 import Button from '../../../components/button/Button.component'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
 import { TStudent } from '../../../types/types'
 import { toast } from 'react-toastify'
-import { useLoading } from '../../../contexts/LoadingContext'
+import { useLoading } from '../../../hooks/useLoading'
 import Loader from '../../../components/loader/Loader'
 import StudentList from '../../../components/studentlist/StudentList.component'
 import {
@@ -87,9 +87,8 @@ function StudentsArchive() {
 
   return (
     <>
-      <Loader loading={loading} />
       <div className="students">
-        {!loading && archiveStudents.length ? (
+        {archiveStudents.length ? (
           <>
             <div className="header">
               <div className="container--heading">
