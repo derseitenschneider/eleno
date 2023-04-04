@@ -18,6 +18,8 @@ interface LessonHeaderProps {
   setStudentIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
+// [ ] change date font size to 1.4rem
+
 const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
   currentStudentId,
   activeStudentsIds,

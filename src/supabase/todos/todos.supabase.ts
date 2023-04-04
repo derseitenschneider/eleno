@@ -64,3 +64,17 @@ export const deleteCompletedTodosSupabase = async (userId: string) => {
   const { error } = await supabase.from('todos').delete().eq('user_id', userId)
   if (error) throw new Error(error.message)
 }
+
+export const reactivateTodoSupabase = async (id: number) => {
+  const { error } = await supabase
+    .from('todos')
+    .update([{ completed: false }])
+    .eq('id', id)
+
+  if (error) throw new Error(error.message)
+}
+
+export const deleteTodoSupabase = async (id: number) => {
+  const { error } = await supabase.from('todos').delete().eq('id', id)
+  if (error) throw new Error(error.message)
+}

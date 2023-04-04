@@ -1,18 +1,24 @@
-.container--buttons {
-  margin-bottom: 2.4rem;
-  margin-left: auto;
-  width: fit-content;
-}
+.todo-list {
+  position: relative;
+  .container--buttons.todo__delete-all-btn {
+    // margin-bottom: 2.4rem;
+    // margin-left: auto;
+    // width: fit-content;
+    position: absolute;
+    top: -100%;
+    right: 0;
+  }
 
-.todos {
-  --columns-todos: 1rem 1fr 15rem 20rem 4rem;
-  --column-gap-todos: 1.2rem;
-  --padding-todos: 1rem;
+  .todos {
+    --columns-todos: 1rem 1fr 15rem 8rem 4rem;
+    --column-gap-todos: 1.2rem;
+    --padding-todos: 1rem;
 
-  .description {
-    padding: var(--padding-todos);
-    display: grid;
-    grid-template-columns: var(--columns-todos);
-    column-gap: var(--column-gap-todos);
+    .description {
+      padding: var(--padding-todos);
+      display: grid;
+      grid-template-columns: var(--columns-todos);
+      column-gap: var(--column-gap-todos);
+    }
   }
 }

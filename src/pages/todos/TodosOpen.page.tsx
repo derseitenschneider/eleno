@@ -8,7 +8,7 @@ import { compareDateTodos } from '../../utils/sortTodos'
 interface TodosOpenProps {}
 
 const TodosOpen: FunctionComponent<TodosOpenProps> = () => {
-  const { todos, setTodos } = useTodos()
+  const { todos } = useTodos()
 
   // [ ] check sorting todos
   const sortedFilteredTodos = todos

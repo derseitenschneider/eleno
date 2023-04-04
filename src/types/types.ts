@@ -88,7 +88,7 @@ export type TSorting = {
 
 export type TDropdownButton = {
   label: string
-  handler: (e: React.MouseEvent) => void
+  handler: (arg0?: number | string) => void
   type: 'normal' | 'warning'
 }
 

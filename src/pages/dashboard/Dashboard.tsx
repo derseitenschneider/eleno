@@ -45,6 +45,7 @@ function Dashboard() {
     (todo) => todo.due < formatDateToDatabase(dateToday)
   )
 
+  // [ ] Einzahl/mehrzahl bei den cards berücksichtigen
   return (
     <div className="dashboard">
       {/* <Loader loading={loading} /> */}

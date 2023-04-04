@@ -15,24 +15,22 @@ import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
 import Modal from '../modals/Modal.component'
 import ModalEditTodo from '../modals/modalEditTodo/ModalEditTodo.component'
+import { useTodos } from '../../hooks/useTodos'
 
 interface TodoItemProps {
   todo: TTodo
-  handleComplete: (todoId: number) => void
   listType: 'open' | 'completed'
 }
 
-const TodoItem: FunctionComponent<TodoItemProps> = ({
-  todo,
-  handleComplete,
-  listType,
-}) => {
+const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
   const { students } = useStudents()
+  const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
   const { setClosestStudentIndex } = useClosestStudent()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalEditOpen, setModalEditOpen] = useState(false)
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
 
   const [attachedStudent] = students.filter(
     (student) => student.id === todo.studentId
@@ -48,10 +46,6 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
     setClosestStudentIndex(index)
 
     navigate('/lessons')
-  }
-
-  const onChangeComplete = () => {
-    handleComplete(todo.id)
   }
 
   useEffect(() => {
@@ -77,7 +71,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
         <input
           type="checkbox"
           className="checkbox"
-          onChange={onChangeComplete}
+          onChange={() => completeTodo(todo.id)}
         />
       ) : (
         <div></div>
@@ -116,18 +110,66 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
                 label: 'Bearbeiten',
                 type: 'normal',
                 handler: () => {
-                  setModalOpen((prev) => !prev)
+                  setModalEditOpen((prev) => !prev)
+                },
+              },
+            ]}
+          />
+        )}
+
+        {dropdownOpen && listType === 'completed' && (
+          <DropDown
+            positionX="right"
+            positionY="top"
+            buttons={[
+              {
+                label: 'Auf offen setzen',
+                type: 'normal',
+                handler: () => {
+                  reactivateTodo(todo.id)
+                },
+              },
+              {
+                label: 'Löschen',
+                type: 'warning',
+                handler: () => {
+                  setModalDeleteOpen(true)
                 },
               },
             ]}
           />
         )}
       </div>
-      {modalOpen && listType === 'open' && (
+      {modalEditOpen && (
         <ModalEditTodo
-          closeModal={() => setModalOpen(false)}
+          closeModal={() => setModalEditOpen(false)}
           todoId={todo.id}
         />
+      )}
+
+      {modalDeleteOpen && (
+        <Modal
+          heading="Todo löschen?"
+          handlerOverlay={() => setModalDeleteOpen(false)}
+          handlerClose={() => setModalDeleteOpen(false)}
+          buttons={[
+            {
+              label: 'Abbrechen',
+              btnStyle: 'primary',
+              handler: () => setModalDeleteOpen(false),
+            },
+            {
+              label: 'Löschen',
+              btnStyle: 'danger',
+              handler: () => {
+                deleteTodo(todo.id)
+                setModalDeleteOpen(false)
+              },
+            },
+          ]}
+        >
+          <p>Die Todo wird unwiederruflich gelöscht.</p>
+        </Modal>
       )}
     </li>
   )
