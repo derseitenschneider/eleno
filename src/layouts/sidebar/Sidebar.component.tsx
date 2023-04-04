@@ -63,6 +63,21 @@ function Sidebar() {
 
               <li className="sidebar__nav-el">
                 <NavLink
+                  to="lessons"
+                  className="sidebar__nav-link"
+                  onClick={() => {
+                    setSidebarOpen(false)
+                  }}
+                >
+                  <div className="sidebar__nav-icon">
+                    <IoSchoolOutline className="icon" />
+                  </div>
+                  <span className="sidebar__link-text">Unterrichten</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink
                   to="students"
                   className="sidebar__nav-link"
                   onClick={() => {
@@ -74,21 +89,6 @@ function Sidebar() {
                   </div>
 
                   <span className="sidebar__link-text">Schüler:innen</span>
-                </NavLink>
-              </li>
-
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="lessons"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoSchoolOutline className="icon" />
-                  </div>
-                  <span className="sidebar__link-text">Unterrichten</span>
                 </NavLink>
               </li>
 
