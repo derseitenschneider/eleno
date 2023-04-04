@@ -18,7 +18,8 @@ interface TodoListProps {
 }
 
 const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
-  const { setTodos } = useTodos()
+  const { setTodos, deleteAllCompleted } = useTodos()
+
   // const { students } = useStudents()
 
   // const openTodos = todos.filter((todo) => !todo.completed)
@@ -55,7 +56,7 @@ const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
           <Button
             label="Alle löschen"
             type="button"
-            handler={() => {}}
+            handler={deleteAllCompleted}
             btnStyle="danger"
           />
         </div>

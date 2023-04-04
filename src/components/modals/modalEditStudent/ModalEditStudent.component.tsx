@@ -125,7 +125,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
         />
         <input
           type="time"
-          name="endOflesson"
+          name="endOfLesson"
           value={endOfLesson}
           onChange={handlerOnChange}
         />
