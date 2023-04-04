@@ -39,9 +39,7 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
 }) => {
   const [rows, setRows] = useState([rowData])
   const [numAddRows, setNumAddRows] = useState(1)
-  const { setStudents } = useStudents()
-  const { user } = useUser()
-  const [isPending, setIsPending] = useState(false)
+  const { saveNewStudents, isPending } = useStudents()
   const [error, setError] = useState('')
   const disabled = rows.length === 0
 
@@ -54,7 +52,7 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
     setNumAddRows(1)
   }
 
-  const saveStudents = () => {
+  const handlerSaveStudent = async () => {
     setError('')
     const emptyFirstName = rows.filter((row) => !row.firstName)
     const emptyLastName = rows.filter((row) => !row.lastName)
@@ -74,15 +72,8 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
     })
     // [ ] inputvalidation
 
-    const postAndFetchStudent = async () => {
-      setIsPending(true)
-      const data = await createNewStudentSupabase(newStudents, user.id)
-      setStudents((prev) => [...prev, ...data])
-      setIsPending(false)
-      handlerClose()
-      toast('Schüler:in erstellt')
-    }
-    postAndFetchStudent()
+    await saveNewStudents(newStudents)
+    handlerClose()
   }
 
   return (
@@ -145,7 +136,7 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
                 type="button"
                 btnStyle="primary"
                 label={isPending ? '...wird gespeichert' : 'Speichern'}
-                handler={saveStudents}
+                handler={handlerSaveStudent}
                 disabled={disabled}
               />
             </div>

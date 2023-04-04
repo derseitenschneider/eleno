@@ -8,30 +8,23 @@ import Button from '../../../components/button/Button.component'
 import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
 import { TStudent } from '../../../types/types'
-import { toast } from 'react-toastify'
-import { useLoading } from '../../../hooks/useLoading'
 import Loader from '../../../components/loader/Loader'
 import StudentList from '../../../components/studentlist/StudentList.component'
-import {
-  deleteStudentSupabase,
-  reactivateStudentSupabase,
-} from '../../../supabase/students/students.supabase'
+
 import Modal from '../../../components/modals/Modal.component'
 import NoStudents from '../../../components/noContent/NoContent.component'
 import NoContent from '../../../components/noContent/NoContent.component'
 
 function StudentsArchive() {
-  const { students, setStudents } = useStudents()
-  const { loading } = useLoading()
+  const { students, reactivateStudents, deleteStudents } = useStudents()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
 
   const [modalOpen, setModalOpen] = useState(false)
-  const [currentStudentIdDelete, setcurrentStudentIdDelete] =
-    useState<TStudent | null>(null)
 
   const archiveStudents = students.filter((student) => student.archive)
+
   const filteredStudents = archiveStudents?.filter(
     (student) =>
       student.firstName.toLowerCase().includes(searchInput) ||
@@ -47,20 +40,8 @@ function StudentsArchive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      const newStudents = students.map((student) =>
-        isSelected.includes(student.id)
-          ? { ...student, archive: false }
-          : student
-      )
-      setStudents(newStudents)
+      reactivateStudents(...isSelected)
       setInputAction(0)
-      try {
-        await reactivateStudentSupabase(isSelected)
-        setIsSelected([])
-        toast('Schüler:innen wiederhergestellt')
-      } catch (err) {
-        console.log(err)
-      }
       setIsSelected([])
     }
 
@@ -70,18 +51,9 @@ function StudentsArchive() {
     }
   }
 
-  const deleteStudents = async () => {
-    const newStudents = students.filter(
-      (student) => !isSelected.includes(student.id)
-    )
-    setStudents(newStudents)
-    setModalOpen((prev) => !prev)
-    try {
-      await deleteStudentSupabase(isSelected)
-      toast('Schüler:innen gelöscht')
-    } catch (err) {
-      console.log(err)
-    }
+  const handlerDelete = async () => {
+    deleteStudents(...isSelected)
+    setModalOpen(false)
     setIsSelected([])
   }
 
@@ -159,7 +131,7 @@ function StudentsArchive() {
             {
               label: 'Löschen',
               btnStyle: 'danger',
-              handler: deleteStudents,
+              handler: handlerDelete,
             },
           ]}
         >

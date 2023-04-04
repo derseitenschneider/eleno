@@ -1,22 +1,14 @@
 import './studentrow.styles.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
-import { TStudent } from '../../types/types'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
-import Button from '../button/Button.component'
 import { useStudents } from '../../hooks/useStudents'
-import {
-  archivateStudentSupabase,
-  deleteStudentSupabase,
-  reactivateStudentSupabase,
-} from '../../supabase/students/students.supabase'
-import { toast } from 'react-toastify'
+
 import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.component'
 import Modal from '../modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { useClosestStudent } from '../../hooks/useClosestStudent'
-import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 
 interface StudentRowProps {
   studentId: number
@@ -32,7 +24,8 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   isArchive,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const { students, setStudents } = useStudents()
+  const { students, archivateStudents, reactivateStudents, deleteStudents } =
+    useStudents()
   const [modalOpen, setModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
@@ -63,39 +56,6 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       window.removeEventListener('click', closeDropdown)
     }
   }, [dropdownOpen])
-
-  const archivateStudent = () => {
-    const newStudents = students.map((student) =>
-      student.id === studentId ? { ...student, archive: true } : student
-    )
-    setStudents(newStudents)
-    archivateStudentSupabase([studentId])
-    toast('Schüler:in archiviert')
-  }
-
-  const reactivateStudent = async () => {
-    const newStudents = students.map((student) =>
-      student.id === studentId ? { ...student, archive: false } : student
-    )
-    setStudents(newStudents)
-    try {
-      await reactivateStudentSupabase([studentId])
-      toast('Schüler:in wiederhergestellt')
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const deleteStudent = async () => {
-    const newStudents = students.filter((student) => student.id !== studentId)
-    setStudents(newStudents)
-    try {
-      await deleteStudentSupabase([studentId])
-      toast('Alle Daten erfolgreich gelöscht')
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const onChangeCb = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked((prev) => {
@@ -216,7 +176,9 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               },
               {
                 label: 'Archivieren',
-                handler: archivateStudent,
+                handler: () => {
+                  archivateStudents(studentId)
+                },
                 type: 'normal',
               },
               {
@@ -236,7 +198,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             buttons={[
               {
                 label: 'Wiederherstellen',
-                handler: reactivateStudent,
+                handler: () => reactivateStudents(studentId),
                 type: 'normal',
               },
               {
@@ -270,7 +232,11 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               },
               btnStyle: 'primary',
             },
-            { label: 'Löschen', handler: deleteStudent, btnStyle: 'danger' },
+            {
+              label: 'Löschen',
+              handler: () => deleteStudents(studentId),
+              btnStyle: 'danger',
+            },
           ]}
         >
           <p>

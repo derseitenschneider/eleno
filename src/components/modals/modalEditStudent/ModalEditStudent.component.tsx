@@ -17,7 +17,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
   handlerClose,
   studentId,
 }) => {
-  const { students, setStudents } = useStudents()
+  const { students, updateStudent } = useStudents()
   const [inputStudent, setInputStudent] = useState(
     students.find((student) => student.id === studentId)
   )
@@ -34,7 +34,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
     location,
   } = inputStudent
 
-  const handlerOnChange = (
+  const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const name = e.target.name
@@ -45,7 +45,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
     })
   }
 
-  const saveEdit = async () => {
+  const updateHandler = async () => {
     setError('')
     if (
       !inputStudent.firstName ||
@@ -55,16 +55,9 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
       setError('Einige Pfilchtfelder sind leer')
       return
     }
-    setStudents((prev) =>
-      prev.map((student) => (student.id === studentId ? inputStudent : student))
-    )
-    try {
-      await updateStudentSupabase(inputStudent)
-    } catch (err) {
-      console.log({ err })
-    }
+    updateStudent(inputStudent)
+
     handlerClose()
-    toast('Änderungen gespeichert')
   }
 
   return (
@@ -90,24 +83,24 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
           type="text"
           name="firstName"
           value={firstName}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <input
           type="text"
           name="lastName"
           value={lastName}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <input
           type="text"
           name="instrument"
           value={instrument}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <select
           name="dayOfLesson"
           value={dayOfLesson}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         >
           <option value="Montag">Montag</option>
           <option value="Dienstag">Dienstag</option>
@@ -121,24 +114,24 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
           type="time"
           name="startOfLesson"
           value={startOfLesson}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <input
           type="time"
           name="endOfLesson"
           value={endOfLesson}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <input
           type="number"
           name="durationMinutes"
           value={durationMinutes}
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
         />
         <input
           type="text"
           name="location"
-          onChange={handlerOnChange}
+          onChange={onChangeHandler}
           value={location}
         />
       </form>
@@ -148,7 +141,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
           type="button"
           btnStyle="primary"
           label="Speichern"
-          handler={saveEdit}
+          handler={updateHandler}
         />
       </div>
     </Modal>

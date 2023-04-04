@@ -32,7 +32,7 @@ import NoContent from '../../../components/noContent/NoContent.component'
 export default function StudentsActive() {
   // STATE
   const navigate = useNavigate()
-  const { students, setStudents } = useStudents()
+  const { students, archivateStudents, resetLessonData } = useStudents()
   const [searchInput, setSearchInput] = useState('')
   const [modalAddOpen, setModalAddOpen] = useState(false)
   const [modalResetOpen, setModalResetOpen] = useState(false)
@@ -43,6 +43,8 @@ export default function StudentsActive() {
   // const { loading } = useLoading()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
+
+  // [ ] make better filter that also respects setting first and last name after each other
 
   const activeStudents = students.filter((student) => !student.archive) || []
 
@@ -73,20 +75,9 @@ export default function StudentsActive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      const newStudents = students.map((student) =>
-        isSelected.includes(student.id)
-          ? { ...student, archive: true }
-          : student
-      )
-      setStudents(newStudents)
+      archivateStudents(...isSelected)
       setInputAction(0)
-      try {
-        await archivateStudentSupabase(isSelected)
-        setIsSelected([])
-        toast('Schüler:innen archiviert')
-      } catch (err) {
-        console.log(err)
-      }
+      setIsSelected([])
     }
 
     if (inputAction === 2) {
@@ -95,27 +86,11 @@ export default function StudentsActive() {
     }
   }
 
-  const resetLessonData = async () => {
-    const newStudents = students.map((student) =>
-      isSelected.includes(student.id)
-        ? {
-            ...student,
-            dayOfLesson: '',
-            startOfLesson: '',
-            endOfLesson: '',
-            durationMinutes: 0,
-            location: '',
-          }
-        : student
-    )
-    setStudents(newStudents)
+  const handlerReset = async () => {
+    resetLessonData(isSelected)
     setModalResetOpen(false)
     setIsSelected([])
     setInputAction(null)
-    try {
-      await resetStudentSupabase(isSelected)
-      toast('Unterrichtsdaten zurückgesetzt')
-    } catch (error) {}
   }
 
   return (
@@ -231,7 +206,7 @@ export default function StudentsActive() {
             {
               label: 'Zurücksetzen',
               btnStyle: 'danger',
-              handler: resetLessonData,
+              handler: handlerReset,
             },
           ]}
         >
