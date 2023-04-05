@@ -21,13 +21,15 @@ export const postNotesSupabase = async function (
     .insert([{ studentId, title, text, user_id: userId }])
     .select()
 
-  error && console.log(error)
+  if (error) throw new Error(error.message)
 
   return data
 }
 
 export const deleteNoteSupabase = async function (noteId: number) {
-  const { data, error } = await supabase.from('notes').delete().eq('id', noteId)
+  const { error } = await supabase.from('notes').delete().eq('id', noteId)
+
+  if (error) throw new Error(error.message)
 }
 
 export const editNoteSupabase = async function (note: TNotes) {

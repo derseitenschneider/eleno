@@ -1,34 +1,28 @@
 import { FunctionComponent, useState } from 'react'
-import { useUser } from '../../../hooks/useUser'
-import { TNotes, TStudent } from '../../../types/types'
-import { postNotesSupabase } from '../../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../hooks/useNotes'
 
 interface ModalAddNoteProps {
-  modalOpen: boolean
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentStudentId: number
 }
 
 const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
-  modalOpen,
   setModalOpen,
   currentStudentId,
 }) => {
   const [input, setInput] = useState({ title: '', text: '' })
-  const { user } = useUser()
-  const { notes, setNotes } = useNotes()
+  const { saveNote } = useNotes()
 
   // Toggle modal
   const toggleModal = () => {
-    setModalOpen((prev) => !prev)
+    setModalOpen(false)
   }
 
   // Handler Input
 
-  const handlerInput = (
+  const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name = e.target.name
@@ -39,7 +33,7 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
   }
 
   // Save Note
-  const saveNote = () => {
+  const saveHandler = () => {
     if (!input.title) {
       toast('Titel fehlt', { type: 'error' })
       return
@@ -49,30 +43,21 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
       toast('Inhalt der Notiz fehlt', { type: 'error' })
       return
     }
-    const tempID = Math.floor(Math.random() * 10000000)
-    const newNote = { ...input, studentId: currentStudentId }
-    const tempNotes: TNotes[] = [...notes, { ...newNote, id: tempID }]
-    setNotes(tempNotes)
+
+    saveNote({ ...input, studentId: currentStudentId })
     setInput({ title: '', text: '' })
     toggleModal()
-    const postData = async () => {
-      const [data] = await postNotesSupabase(newNote, user.id)
-      setNotes((notes) =>
-        notes.map((note) =>
-          note.id === tempID ? { ...note, id: data.id } : note
-        )
-      )
-    }
-    postData()
-    toast('Notiz gespeichert')
   }
+
   return (
     <Modal
       className="modal--notes"
       heading="Neue Notiz erstellen"
       handlerClose={toggleModal}
       handlerOverlay={toggleModal}
-      buttons={[{ label: 'Speichern', btnStyle: 'primary', handler: saveNote }]}
+      buttons={[
+        { label: 'Speichern', btnStyle: 'primary', handler: saveHandler },
+      ]}
     >
       <input
         autoFocus={true}
@@ -81,14 +66,14 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
         placeholder="Titel"
         className="note-title"
         value={input.title}
-        onChange={handlerInput}
+        onChange={inputHandler}
       />
       <textarea
         name="text"
         placeholder="Inhalt"
         className="note-content"
         value={input.text}
-        onChange={handlerInput}
+        onChange={inputHandler}
       />
     </Modal>
   )

@@ -60,8 +60,9 @@ export const updateTodoSupabase = async (todo: TTodo) => {
   if (error) throw new Error(error.message)
 }
 
+// [ ]  only delete completed todos!
 export const deleteCompletedTodosSupabase = async (userId: string) => {
-  const { error } = await supabase.from('todos').delete().eq('user_id', userId)
+  const { error } = await supabase.from('todos').delete().eq('completed', true)
   if (error) throw new Error(error.message)
 }
 

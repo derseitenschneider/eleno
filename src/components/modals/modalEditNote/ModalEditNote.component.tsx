@@ -1,6 +1,4 @@
 import { FunctionComponent, useState } from 'react'
-import { editNoteSupabase } from '../../../supabase/notes/notes.supabase'
-import { TNotes } from '../../../types/types'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../hooks/useNotes'
 interface ModalEditNoteProps {
@@ -12,7 +10,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
   setModalOpen,
   currentNote,
 }) => {
-  const { notes, setNotes } = useNotes()
+  const { notes, updateNote } = useNotes()
   const [input, setInput] = useState(
     notes.find((note) => note.id === currentNote)
   )
@@ -20,7 +18,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
     setModalOpen(false)
   }
 
-  const handlerInput = (
+  const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name = e.target.name
@@ -29,13 +27,10 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       return { ...prev, [name]: value }
     })
   }
-  const updateNote = () => {
-    const newNotes = notes.map((note) =>
-      note.id === currentNote ? input : note
-    )
-    setNotes(newNotes)
+
+  const updateHandler = () => {
+    updateNote(input)
     closeModal()
-    editNoteSupabase(input)
   }
 
   return (
@@ -45,7 +40,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       handlerClose={closeModal}
       handlerOverlay={closeModal}
       buttons={[
-        { label: 'Speichern', btnStyle: 'primary', handler: updateNote },
+        { label: 'Speichern', btnStyle: 'primary', handler: updateHandler },
       ]}
     >
       <input
@@ -55,14 +50,14 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
         placeholder="Titel"
         className="note-title"
         value={input.title}
-        onChange={handlerInput}
+        onChange={inputHandler}
       />
       <textarea
         name="text"
         placeholder="Inhalt"
         className="note-content"
         value={input.text}
-        onChange={handlerInput}
+        onChange={inputHandler}
       />
     </Modal>
   )

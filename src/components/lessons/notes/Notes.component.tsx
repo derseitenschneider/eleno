@@ -14,7 +14,7 @@ interface NotesProps {
 // [ ] toast when edit saved
 
 const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
-  const { notes, setNotes } = useNotes()
+  const { notes } = useNotes()
   const [modalOpen, setModalOpen] = useState(false)
 
   const currentNotes = notes.filter(
@@ -37,7 +37,6 @@ const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
         ))}
       {modalOpen ? (
         <ModalAddNote
-          modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           currentStudentId={currentStudentId}
         />
