@@ -2,13 +2,13 @@ import './studentrow.styles.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
-import { useStudents } from '../../hooks/useStudents'
+import { useStudents } from '../../contexts/StudentContext'
 
 import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.component'
 import Modal from '../modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useClosestStudent } from '../../hooks/useClosestStudent'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 
 interface StudentRowProps {
   studentId: number

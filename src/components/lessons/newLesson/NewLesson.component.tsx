@@ -2,13 +2,9 @@ import './newLesson.style.scss'
 
 import { FunctionComponent, useState, useEffect } from 'react'
 import Button from '../../button/Button.component'
-import { TLesson } from '../../../types/types'
-import { formatDateToDatabase } from '../../../utils/formateDate'
 
 import { toast } from 'react-toastify'
-import { useLessons } from '../../../hooks/useLessons'
-import { postLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
-import { useUser } from '../../../hooks/useUser'
+import { useLessons } from '../../../contexts/LessonsContext'
 
 // [ ] on save open tab with most current/new lesson
 
@@ -21,8 +17,7 @@ const lessonData = { lessonContent: '', homework: '' }
 const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
   const [input, setInput] = useState(lessonData)
-  const { setLessons } = useLessons()
-  const { user } = useUser()
+  const { saveNewLesson } = useLessons()
 
   useEffect(() => {
     const today = new Date()
@@ -50,32 +45,9 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       toast('Die Lektion hat keinen Lektionsinhalt', { type: 'error' })
       return
     }
+    saveNewLesson(input, studentId, date)
 
-    const tempID = Math.floor(Math.random() * 10000000)
-    const newLesson: TLesson = {
-      ...input,
-      studentId,
-      date: formatDateToDatabase(date),
-      id: tempID,
-    }
-
-    // const tempNewLessons: TLesson[] = [...lessons, newLesson]
-    setLessons((lessons) => [...lessons, newLesson])
-
-    const postNewLesson = async () => {
-      const [data] = await postLessonSupabase(newLesson, user.id)
-      const newId = data.id
-
-      setLessons((lessons) => {
-        const newLessonsArray = lessons.map((lesson) =>
-          lesson.id === tempID ? { ...lesson, id: newId } : lesson
-        )
-        return newLessonsArray
-      })
-    }
-    postNewLesson()
     setInput(lessonData)
-    toast('Lektion gespeichert')
   }
 
   // [ ] create todo functionallity from here

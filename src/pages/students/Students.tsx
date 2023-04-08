@@ -2,8 +2,8 @@ import './students.style.scss'
 
 import { Outlet } from 'react-router-dom'
 import Navbar from '../../layouts/navbar/Navbar.component'
-import { useLoading } from '../../hooks/useLoading'
-import { useClosestStudent } from '../../hooks/useClosestStudent'
+import { useLoading } from '../../contexts/LoadingContext'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 
 const navLinks = [
   { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },

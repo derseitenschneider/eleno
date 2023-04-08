@@ -1,15 +1,17 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { ContextTypeUser, TUser } from '../types/types'
 import { getProfiles } from '../supabase/users/users.supabase'
 import { supabase } from '../supabase/supabase'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
 import LoginPage from '../pages/login/LoginPage'
 import Loader from '../components/loader/Loader'
-import { useLoading } from '../hooks/useLoading'
+import { useLoading } from '../contexts/LoadingContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
   setUser: () => {},
+  loading: false,
+  setLoading: () => {},
 })
 
 export const AuthProvider = ({ children }) => {
@@ -50,10 +52,14 @@ export const AuthProvider = ({ children }) => {
     })
   }, [])
 
+  const value = { user, setUser, loading, setLoading }
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={value}>
       {session && children}
       {!session && !loading && <LoginPage />}
     </UserContext.Provider>
   )
 }
+
+export const useUser = () => useContext(UserContext)

@@ -8,7 +8,7 @@ import { IoSearchOutline, IoAddOutline } from 'react-icons/io5'
 
 // Hooks
 import { useEffect, useState } from 'react'
-import { useStudents } from '../../../hooks/useStudents'
+import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
 import { NavLink, useActionData } from 'react-router-dom'
@@ -20,11 +20,7 @@ import Button from '../../../components/button/Button.component'
 import NoStudents from '../../../components/noContent/NoContent.component'
 import StudentList from '../../../components/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
-import {
-  archivateStudentSupabase,
-  resetStudentSupabase,
-  updateStudentSupabase,
-} from '../../../supabase/students/students.supabase'
+
 import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import NoContent from '../../../components/noContent/NoContent.component'
@@ -32,7 +28,7 @@ import NoContent from '../../../components/noContent/NoContent.component'
 export default function StudentsActive() {
   // STATE
   const navigate = useNavigate()
-  const { students, archivateStudents, resetLessonData } = useStudents()
+  const { archivateStudents, resetLessonData, activeStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
   const [modalAddOpen, setModalAddOpen] = useState(false)
   const [modalResetOpen, setModalResetOpen] = useState(false)
@@ -40,13 +36,10 @@ export default function StudentsActive() {
     method: 'lastName',
     ascending: true,
   })
-  // const { loading } = useLoading()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
 
   // [ ] make better filter that also respects setting first and last name after each other
-
-  const activeStudents = students.filter((student) => !student.archive) || []
 
   const filteredStudents = activeStudents?.filter(
     (student) =>
@@ -75,7 +68,7 @@ export default function StudentsActive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      archivateStudents(...isSelected)
+      archivateStudents(isSelected)
       setInputAction(0)
       setIsSelected([])
     }

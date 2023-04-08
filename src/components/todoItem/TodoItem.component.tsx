@@ -5,17 +5,17 @@ import {
   formatDateToDatabase,
   formatDateToDisplay,
 } from '../../utils/formateDate'
-import { useStudents } from '../../hooks/useStudents'
+import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useClosestStudent } from '../../hooks/useClosestStudent'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useNavigate } from 'react-router-dom'
-import { useDateToday } from '../../hooks/useDateToday'
+import { useDateToday } from '../../contexts/DateTodayContext'
 import Button from '../button/Button.component'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../dropdown/Dropdown.component'
 import Modal from '../modals/Modal.component'
 import ModalEditTodo from '../modals/modalEditTodo/ModalEditTodo.component'
-import { useTodos } from '../../hooks/useTodos'
+import { useTodos } from '../../contexts/TodosContext'
 
 interface TodoItemProps {
   todo: TTodo

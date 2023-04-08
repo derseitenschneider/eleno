@@ -6,8 +6,8 @@ import { FunctionComponent, useEffect, useState } from 'react'
 // Types
 
 // Contexts
-import { useStudents } from '../../hooks/useStudents'
-import { useLoading } from '../../hooks/useLoading'
+import { useStudents } from '../../contexts/StudentContext'
+import { useLoading } from '../../contexts/LoadingContext'
 
 // Components
 
@@ -15,7 +15,7 @@ import { useLoading } from '../../hooks/useLoading'
 
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 
-import { useClosestStudent } from '../../hooks/useClosestStudent'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import NoActiveStudent from '../../components/noContent/NoContent.component'
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
@@ -33,8 +33,6 @@ const Lesson: FunctionComponent = () => {
   const navigate = useNavigate()
 
   //EFFECTS
-
-  // [ ] No Closest Studet update when teaching
 
   // Close dropdown on click anywhere else
 

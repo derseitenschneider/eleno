@@ -2,7 +2,7 @@
 import { IoSearchOutline } from 'react-icons/io5'
 
 // Hooks
-import { useStudents } from '../../../hooks/useStudents'
+import { useStudents } from '../../../contexts/StudentContext'
 import Button from '../../../components/button/Button.component'
 // Components
 import StudentRow from '../../../components/studentRow/StudentRow'
@@ -16,16 +16,15 @@ import NoStudents from '../../../components/noContent/NoContent.component'
 import NoContent from '../../../components/noContent/NoContent.component'
 
 function StudentsArchive() {
-  const { students, reactivateStudents, deleteStudents } = useStudents()
+  const { students, reactivateStudents, deleteStudents, archivedStudents } =
+    useStudents()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  const archiveStudents = students.filter((student) => student.archive)
-
-  const filteredStudents = archiveStudents?.filter(
+  const filteredStudents = archivedStudents?.filter(
     (student) =>
       student.firstName.toLowerCase().includes(searchInput) ||
       student.lastName.toLocaleLowerCase().includes(searchInput) ||
@@ -40,7 +39,7 @@ function StudentsArchive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      reactivateStudents(...isSelected)
+      reactivateStudents(isSelected)
       setInputAction(0)
       setIsSelected([])
     }
@@ -52,7 +51,7 @@ function StudentsArchive() {
   }
 
   const handlerDelete = async () => {
-    deleteStudents(...isSelected)
+    deleteStudents(isSelected)
     setModalOpen(false)
     setIsSelected([])
   }
@@ -60,11 +59,13 @@ function StudentsArchive() {
   return (
     <>
       <div className="students">
-        {archiveStudents.length ? (
+        {archivedStudents.length ? (
           <>
             <div className="header">
               <div className="container--heading">
-                <span>Archivierte Schüler:innen: {archiveStudents.length}</span>
+                <span>
+                  Archivierte Schüler:innen: {archivedStudents.length}
+                </span>
               </div>
               <div className="container--controls">
                 <select

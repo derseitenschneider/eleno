@@ -5,7 +5,7 @@ import TodoItem from '../todoItem/TodoItem.component'
 import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import TodoAddItem from '../todoAddItem/TodoAddItem.component'
-import { useTodos } from '../../hooks/useTodos'
+import { useTodos } from '../../contexts/TodosContext'
 
 import NoContent from '../noContent/NoContent.component'
 import Modal from '../modals/Modal.component'

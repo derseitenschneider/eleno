@@ -1,6 +1,6 @@
 import './todoAddStudent.style.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
-import { useStudents } from '../../hooks/useStudents'
+import { useStudents } from '../../contexts/StudentContext'
 import { sortStudents } from '../../utils/sortStudents'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
 import Button from '../button/Button.component'

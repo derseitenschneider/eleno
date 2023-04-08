@@ -2,22 +2,20 @@ import { NavLink } from 'react-router-dom'
 import './dashboard.style.scss'
 import { IoSchoolSharp, IoPeopleCircleOutline, IoList } from 'react-icons/io5'
 
-import { useEffect, useMemo } from 'react'
-import { useUser } from '../../hooks/useUser'
-import { useLoading } from '../../hooks/useLoading'
-import Loader from '../../components/loader/Loader'
-import { useClosestStudent } from '../../hooks/useClosestStudent'
-import { useStudents } from '../../hooks/useStudents'
+import { useEffect } from 'react'
+import { useUser } from '../../contexts/UserContext'
+import { useLoading } from '../../contexts/LoadingContext'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useLessons } from '../../hooks/useLessons'
-import { useTodos } from '../../hooks/useTodos'
-import { useDateToday } from '../../hooks/useDateToday'
+import { useTodos } from '../../contexts/TodosContext'
+import { useDateToday } from '../../contexts/DateTodayContext'
 import { formatDateToDatabase } from '../../utils/formateDate'
 
 function Dashboard() {
   const { user } = useUser()
-  const { students } = useStudents()
-  const { lessons } = useLessons()
+  const { students, activeStudents, archivedStudents } = useStudents()
+
   const { loading, setLoading } = useLoading()
   const { closestStudentIndex } = useClosestStudent()
   const { todos } = useTodos()
@@ -26,12 +24,6 @@ function Dashboard() {
   useEffect(() => {
     user && setLoading(false)
   }, [user])
-
-  const activeStudents =
-    students && students.filter((student) => !student.archive)
-
-  const archiveStudents =
-    students && students.filter((student) => student.archive)
 
   const sortedStudents =
     (activeStudents && sortStudentsDateTime(students)) || null
@@ -82,7 +74,7 @@ function Dashboard() {
               <p className="card-title">Schüler:in hinzufügen</p>
               <hr />
               <p>Aktuell {activeStudents.length} aktive Schüler:innen</p>
-              <p>{archiveStudents.length} Schüler:innen archiviert</p>
+              <p>{archivedStudents.length} Schüler:innen archiviert</p>
             </NavLink>
             <NavLink to={'todos'} className="card">
               <IoList className="icon" />

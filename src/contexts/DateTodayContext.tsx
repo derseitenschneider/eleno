@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom'
 import { ContextTypeDateToday } from '../types/types'
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 
 export const DateTodayContext = createContext<ContextTypeDateToday>({
   dateToday: '',
@@ -19,3 +19,5 @@ export const DateTodayProvider = ({ children }) => {
     </DateTodayContext.Provider>
   )
 }
+
+export const useDateToday = () => useContext(DateTodayContext)

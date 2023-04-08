@@ -1,7 +1,7 @@
 import { useOutletContext } from 'react-router-dom'
 import { ContextTypeClosestStudent } from '../types/types'
-import { createContext, useState, useEffect } from 'react'
-import { useStudents } from '../hooks/useStudents'
+import { createContext, useState, useEffect, useContext } from 'react'
+import { useStudents } from '../contexts/StudentContext'
 import { getClosestStudentIndex } from '../utils/getClosestStudentIndex'
 
 export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({
@@ -19,6 +19,8 @@ export const ClosestStudentProvider = ({ children }) => {
     }
   }, [students])
 
+  const value = { closestStudentIndex, setClosestStudentIndex }
+
   return (
     <ClosestStudentContext.Provider
       value={{ closestStudentIndex, setClosestStudentIndex }}
@@ -27,3 +29,5 @@ export const ClosestStudentProvider = ({ children }) => {
     </ClosestStudentContext.Provider>
   )
 }
+
+export const useClosestStudent = () => useContext(ClosestStudentContext)

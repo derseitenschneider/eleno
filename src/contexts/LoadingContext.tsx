@@ -16,3 +16,5 @@ export const LoadingProvider = ({ children }) => {
     </LoadingContext.Provider>
   )
 }
+
+export const useLoading = () => useContext(LoadingContext)

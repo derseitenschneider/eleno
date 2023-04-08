@@ -5,7 +5,7 @@ import { IoEllipsisVertical } from 'react-icons/io5'
 import DropDown from '../../dropdown/Dropdown.component'
 import { deleteNoteSupabase } from '../../../supabase/notes/notes.supabase'
 import { toast } from 'react-toastify'
-import { useNotes } from '../../../hooks/useNotes'
+import { useNotes } from '../../../contexts/NotesContext'
 import ModalEditNote from '../../modals/modalEditNote/ModalEditNote.component'
 import Modal from '../../modals/Modal.component'
 

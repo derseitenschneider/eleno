@@ -1,18 +1,14 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import { fetchStudents } from '../../supabase/students/students.supabase'
-import { useStudents } from '../../hooks/useStudents'
-import {
-  fetchAllLessonsSupabase,
-  fetchLatestLessonsSupabase,
-} from '../../supabase/lessons/lessons.supabase'
-import { useLessons } from '../../hooks/useLessons'
+import { useStudents } from '../../contexts/StudentContext'
+import { fetchLatestLessonsSupabase } from '../../supabase/lessons/lessons.supabase'
+import { useLessons } from '../../contexts/LessonsContext'
 import { fetchNotes } from '../../supabase/notes/notes.supabase'
-import { useNotes } from '../../hooks/useNotes'
+import { useNotes } from '../../contexts/NotesContext'
 import { fetchTodosSupabase } from '../../supabase/todos/todos.supabase'
-import { useTodos } from '../../hooks/useTodos'
-import { useLoading } from '../../hooks/useLoading'
+import { useTodos } from '../../contexts/TodosContext'
 import Loader from '../loader/Loader'
-import { useUser } from '../../hooks/useUser'
+import { useUser } from '../../contexts/UserContext'
 
 interface MainProps {
   children: React.ReactNode

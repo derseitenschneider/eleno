@@ -1,7 +1,7 @@
 import './previousLessons.style.scss'
 // React components
 import { FunctionComponent, useState, useEffect } from 'react'
-import { useLessons } from '../../../hooks/useLessons'
+import { useLessons } from '../../../contexts/LessonsContext'
 
 // Components
 import { IoEllipsisHorizontal } from 'react-icons/io5'
@@ -18,6 +18,7 @@ import { formatDateToDisplay } from '../../../utils/formateDate'
 import { deleteLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { toast } from 'react-toastify'
 import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
+import Modal from '../../modals/Modal.component'
 
 interface PreviousLessonsProps {
   currentStudentId: number
@@ -26,11 +27,12 @@ interface PreviousLessonsProps {
 const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   currentStudentId,
 }) => {
-  const { lessons, setLessons } = useLessons()
+  const { lessons, deleteLesson } = useLessons()
 
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [modalEditLessonOpen, setModalEditLessonOpen] = useState(false)
   const [modalViewAllOpen, setModalViewAllOpen] = useState(false)
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
   const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
@@ -52,16 +54,14 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     .map((lesson) => lesson.id)
     .reverse()
 
-  const deleteLesson = () => {
-    const lessonId = previousLessonsIds[tabIndex]
-    const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
-    setLessons(newLessons)
+  const deleteHandler = () => {
+    deleteLesson(previousLessonsIds[tabIndex])
     setTabIndex(0)
-    deleteLessonSupabase(lessonId)
-    toast('Lektion gelöscht')
+    setModalDeleteOpen(false)
   }
 
   // [ ] set tabindex to 0 when next lesson
+  // [ ] show button 'viewalllessons' only when there are more there are already 3 lessons in previous lessons array
 
   return (
     <>
@@ -128,7 +128,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                   },
                   {
                     label: 'Lektion löschen',
-                    handler: deleteLesson,
+                    handler: () => setModalDeleteOpen(true),
                     type: 'warning',
                   },
                 ]}
@@ -147,6 +147,28 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               handlerClose={() => setModalViewAllOpen(false)}
               studentId={currentStudentId}
             />
+          )}
+
+          {modalDeleteOpen && (
+            <Modal
+              heading="Lektion löschen"
+              handlerClose={() => setModalDeleteOpen(false)}
+              handlerOverlay={() => setModalDeleteOpen(false)}
+              buttons={[
+                {
+                  label: 'Abbrechen',
+                  btnStyle: 'primary',
+                  handler: () => setModalDeleteOpen(false),
+                },
+                {
+                  label: 'Löschen',
+                  btnStyle: 'danger',
+                  handler: deleteHandler,
+                },
+              ]}
+            >
+              <p>Möchtest du die Lektion wirklich löschen?</p>
+            </Modal>
           )}
         </div>
       ) : null}

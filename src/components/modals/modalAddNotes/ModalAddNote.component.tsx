@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../hooks/useNotes'
+import { useNotes } from '../../../contexts/NotesContext'
 
 interface ModalAddNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>

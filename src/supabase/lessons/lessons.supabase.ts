@@ -15,7 +15,7 @@ export const fetchAllLessonsSupabase = async function (
   return lessons
 }
 
-export const postLessonSupabase = async function (
+export const saveNewLessonSupabase = async function (
   lesson: TLesson,
   userId: string
 ): Promise<TLesson[]> {

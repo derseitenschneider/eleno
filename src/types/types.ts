@@ -37,21 +37,41 @@ export type TNotes = {
 export type ContextTypeUser = {
   user: TUser | null
   setUser: React.Dispatch<React.SetStateAction<TUser>>
+  loading: boolean
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type ContextTypeTodos = {
   todos: TTodo[] | null
   setTodos: React.Dispatch<React.SetStateAction<TTodo[]>>
+  saveTodo: (newTodo: TTodo) => void
+  deleteTodo: (id: number) => void
+  completeTodo: (id: number) => void
+  reactivateTodo: (id: number) => void
+  deleteAllCompleted: () => void
 }
 
 export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
+  isPending: boolean
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>
+  activeStudents: TStudent[] | null
+  archivedStudents: TStudent[] | null
+  resetLessonData: (ids: number[]) => void
+  saveNewStudents: (students: TStudent[]) => void
+  archivateStudents: (ids: number | number[]) => void
+  reactivateStudents: (ids: number | number[]) => void
+  deleteStudents: (ids: number | number[]) => void
+  updateStudent: (student: TStudent) => void
 }
 
 export type ContextTypeLessons = {
   lessons: TLesson[] | null
   setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
+  saveNewLesson: (input: {}, studentId: number, date: string) => void
+  deleteLesson: (id: number) => void
+  updateLesson: (lesson: TLesson) => void
 }
 
 export type ContextTypeLoading = {
@@ -62,6 +82,9 @@ export type ContextTypeLoading = {
 export type ContextTypeNotes = {
   notes: TNotes[] | null
   setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
+  saveNote: (note: TNotes) => void
+  deleteNote: (id: number) => void
+  updateNote: (note: TNotes) => void
 }
 
 export type ContextTypeClosestStudent = {
