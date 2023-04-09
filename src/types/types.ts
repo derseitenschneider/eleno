@@ -120,7 +120,7 @@ export type TSorting = {
 
 export type TDropdownButton = {
   label: string
-  handler: (arg0?: number | string) => void
+  handler: () => void
   type: 'normal' | 'warning'
 }
 
