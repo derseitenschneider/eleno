@@ -1,7 +1,7 @@
 import './sidebar.style.scss'
 import { useState } from 'react'
 import { supabase } from '../../supabase/supabase'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   IoCompassOutline,
   IoPeopleCircleOutline,
@@ -19,14 +19,15 @@ import Logo from '../../components/logo/Logo.component'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const navigate = useNavigate()
 
   function toggleSidebar() {
     setSidebarOpen(!sidebarOpen)
   }
 
-  // [ ] redirect to homepage
   const logout = async () => {
     let { error } = await supabase.auth.signOut()
+    navigate('/')
   }
 
   return (

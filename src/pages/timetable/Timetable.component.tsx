@@ -73,8 +73,8 @@ function Timetable() {
       <div className="container">
         <h1 className="heading-1">Stundenplan</h1>
         <div className="container--timetable">
-          {days.map((day) =>
-            day.students.length ? <TimeTableDay day={day} /> : null
+          {days.map((day, index) =>
+            day.students.length ? <TimeTableDay day={day} key={index} /> : null
           )}
         </div>
       </div>

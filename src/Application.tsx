@@ -13,10 +13,6 @@ import { LoadingProvider } from './contexts/LoadingContext'
 export default function Application() {
   // [ ] add closestcurrentStudentId to context
 
-  // [ ] check random page refreshs
-
-  // [ ] change all setState props to handlers
-
   return (
     <div className="App">
       <Toast />

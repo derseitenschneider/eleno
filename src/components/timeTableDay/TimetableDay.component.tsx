@@ -16,13 +16,14 @@ const TimeTableDay: FunctionComponent<TimeTableDayProps> = ({ day }) => {
         </div>
       </div>
       {day.students.map((student) => (
-        <div className="row">
+        <div className="row" key={student.id}>
           <div>
             {student.startOfLesson} - {student.endOfLesson}
           </div>
 
-          <div>{student.firstName}</div>
-          <div>{student.lastName}</div>
+          <div>
+            {student.firstName} {student.lastName}
+          </div>
         </div>
       ))}
     </div>

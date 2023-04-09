@@ -64,7 +64,6 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
   }, [dropdownOpen])
 
   const overdue = todo.due < formatDateToDatabase(dateToday)
-  // [ ] make editable
   return (
     <li className={`todo-item${overdue ? ' overdue' : ''}`}>
       {listType === 'open' ? (
@@ -77,20 +76,20 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
         <div></div>
       )}
       <div className="wrapper-text">
-        <p className="">{todo.text}</p>
+        <span className="">{todo.text}</span>
       </div>
       <div className="wrapper-student">
         {attachedStudent && (
-          <p className="student" onClick={navigateToLesson}>
+          <span className="student" onClick={navigateToLesson}>
             {attachedStudent.firstName} {attachedStudent.lastName}
-          </p>
+          </span>
         )}
       </div>
       <div className="wrapper-due">
         {todo.due && (
-          <p className={`${overdue ? 'overdue' : null}`}>
+          <span className={`${overdue ? 'overdue' : null}`}>
             {formatDateToDisplay(todo.due)}
-          </p>
+          </span>
         )}
       </div>
       <div className="container--button">
@@ -168,7 +167,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
             },
           ]}
         >
-          <p>Die Todo wird unwiederruflich gelöscht.</p>
+          <span>Die Todo wird unwiederruflich gelöscht.</span>
         </Modal>
       )}
     </li>

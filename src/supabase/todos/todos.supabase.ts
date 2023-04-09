@@ -15,7 +15,7 @@ export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
   const toDos: TTodo[] = data.map((todo) => {
     return {
       completed: todo.completed,
-      due: todo.due,
+      due: todo.due || null,
       id: todo.id,
       studentId: todo.student_id,
       text: todo.text,
@@ -60,7 +60,6 @@ export const updateTodoSupabase = async (todo: TTodo) => {
   if (error) throw new Error(error.message)
 }
 
-// [ ]  only delete completed todos!
 export const deleteCompletedTodosSupabase = async (userId: string) => {
   const { error } = await supabase.from('todos').delete().eq('completed', true)
   if (error) throw new Error(error.message)

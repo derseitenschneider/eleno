@@ -31,7 +31,8 @@ export const loginSupabase = async (email: string, password: string) => {
 }
 
 export const recoverPasswordSupabase = async (email: string) => {
-  let { data, error } = await supabase.auth.resetPasswordForEmail(email)
+  let { error } = await supabase.auth.resetPasswordForEmail(email)
+  if (error) throw new Error(error.message)
 }
 
 export const getProfiles = async (uid: string) => {

@@ -18,8 +18,6 @@ interface LessonHeaderProps {
   setStudentIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
-// [ ] change date font size to 1.4rem
-
 const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
   currentStudentId,
   activeStudentsIds,
@@ -60,9 +58,9 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
 
           <span> {durationMinutes} Minuten</span>
         </div>
-        <p>
+        <span>
           {dayOfLesson}, {startOfLesson} - {endOfLesson}
-        </p>
+        </span>
       </div>
       <div className="container--buttons">
         {/* // [ ] search field for student */}

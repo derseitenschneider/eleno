@@ -17,7 +17,8 @@
   .row {
     display: grid;
     padding: var(--padding);
-    grid-template-columns: 10rem 10rem auto;
+    grid-template-columns: 10rem 1fr;
+    column-gap: 2.4rem;
 
     &:nth-child(odd) {
       background-color: var(--clr-bg-500);

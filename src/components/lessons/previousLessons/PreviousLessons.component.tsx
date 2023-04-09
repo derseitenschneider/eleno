@@ -72,6 +72,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               <button
                 className={`tab ${tabIndex === index && 'tab--active'}`}
                 onClick={() => setTabIndex(index)}
+                key={prev}
               >
                 {formatDateToDisplay(
                   lessons.find((lesson) => lesson.id === prev).date

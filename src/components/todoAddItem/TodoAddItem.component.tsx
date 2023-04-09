@@ -14,9 +14,11 @@ interface TodoAddItemProps {
   saveTodo: (todo: TTodo) => void
 }
 
+// [ ] fix date error
+
 const todoData = {
   text: '',
-  due: null,
+  due: '',
   studentId: null,
   completed: false,
 }
@@ -72,9 +74,9 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
         />
 
         {inputTodo.due ? (
-          <p className="date" onClick={onClickDate}>
+          <span className="date" onClick={onClickDate}>
             {formatDateToDisplay(inputTodo.due).slice(0, 6)}
-          </p>
+          </span>
         ) : (
           <input
             type="date"

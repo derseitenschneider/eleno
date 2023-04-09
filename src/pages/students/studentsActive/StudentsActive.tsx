@@ -98,7 +98,7 @@ export default function StudentsActive() {
 
               <div className="container--controls">
                 <select
-                  defaultValue="Aktion"
+                  // defaultValue="Aktion"
                   className="select-action"
                   onChange={onChangeAction}
                   value={inputAction}

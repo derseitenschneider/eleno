@@ -3,6 +3,8 @@ import Button from '../button/Button.component'
 import { signUpSupabase } from '../../supabase/users/users.supabase'
 import Loader from '../loader/Loader'
 import { TDisplayForm } from '../../types/types'
+import Modal from '../modals/Modal.component'
+import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
 interface SignupProps {
   setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
 }
@@ -20,6 +22,7 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const handlerinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
@@ -137,6 +140,24 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                       onChange={handlerinput}
                     />
                   </div>
+                  <div className="form-item form-item--privacy-policy">
+                    <input
+                      required
+                      name="privacy-policy"
+                      type="checkbox"
+                      id="privacy-policy"
+                      className={`password${
+                        error.length ? ' input--error' : ''
+                      }`}
+                    />{' '}
+                    <label htmlFor="privacy-policy">
+                      Ich bin mit den{' '}
+                      <strong onClick={() => setModalOpen(true)}>
+                        Datenschutzbestimmungen{' '}
+                      </strong>
+                      einverstanden
+                    </label>
+                  </div>
                   <Button
                     type="submit"
                     btnStyle="primary"
@@ -163,6 +184,16 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
             )}
           </div>
         </div>
+      )}
+      {modalOpen && (
+        <Modal
+          heading="Impressum & Datenschutz"
+          handlerClose={() => setModalOpen(false)}
+          handlerOverlay={() => setModalOpen(false)}
+          className="modal--privacy-policy"
+        >
+          <PrivacyPolicy />
+        </Modal>
       )}
     </>
   )
