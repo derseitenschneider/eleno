@@ -7,8 +7,6 @@ import {
   formatDateToDatabase,
 } from '../../../utils/formateDate'
 
-import { updateLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
-import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
 
 interface ModalEditLessonProps {

@@ -13,6 +13,8 @@ interface ModalProps {
     label: string
     handler: (e: React.MouseEvent) => void
     btnStyle: 'primary' | 'secondary' | 'warning' | 'danger'
+    className?: string
+    disabled?: boolean
   }[]
 }
 
@@ -35,12 +37,15 @@ const Modal: FunctionComponent<ModalProps> = ({
         <h2 className="heading-2 heading-modal">{heading}</h2>
         {children}
         <div className="container-buttons">
-          {buttons?.map((button) => (
+          {buttons?.map((button, index) => (
             <Button
               handler={button.handler}
               label={button.label}
               type="button"
               btnStyle={button.btnStyle}
+              key={index}
+              className={button.className}
+              disabled={button.disabled}
             />
           ))}
         </div>

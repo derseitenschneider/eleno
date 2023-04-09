@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+import { TProfile } from '../../types/types'
 import { supabase } from '../supabase'
 
 export const signUpSupabase = async (
@@ -16,10 +18,8 @@ export const signUpSupabase = async (
       },
     },
   })
-  error && console.log(error)
-  if (data) {
-    return data.user
-  }
+  if (error) throw new Error(error.message)
+  return data
 }
 
 export const loginSupabase = async (email: string, password: string) => {
@@ -27,7 +27,7 @@ export const loginSupabase = async (email: string, password: string) => {
     email,
     password,
   })
-  return error
+  if (error) throw new Error(error.message)
 }
 
 export const recoverPasswordSupabase = async (email: string) => {
@@ -40,4 +40,29 @@ export const getProfiles = async (uid: string) => {
     .select('*')
     .eq('id', uid)
   return profiles
+}
+
+export const updateProfileSupabase = async (data: TProfile, uid: string) => {
+  const { error } = await supabase.auth.updateUser({
+    data,
+  })
+
+  if (error) throw new Error(error.message)
+}
+
+export const updateEmailSupabase = async (email: string) => {
+  const { error } = await supabase.auth.updateUser({ email })
+  if (error) throw new Error(error.message)
+}
+export const updatePasswordSupabase = async (password: string) => {
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) throw new Error(error.message)
+}
+
+export const deleteAccountSupabase = async () => {
+  const { error } = await supabase.rpc('delete_user')
+
+  supabase.auth.signOut()
+
+  if (error) throw new Error(error.message)
 }

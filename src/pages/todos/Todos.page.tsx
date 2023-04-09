@@ -5,7 +5,7 @@ function Todos() {
   // [ ] don't save empty todos
   return (
     <div className="container">
-      <h1 className="heading-1">ToDos</h1>
+      <h1 className="heading-1">To Dos</h1>
 
       <Navbar
         navLinks={[

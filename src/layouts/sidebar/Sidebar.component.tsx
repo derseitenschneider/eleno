@@ -7,9 +7,10 @@ import {
   IoPeopleCircleOutline,
   IoCalendarClearOutline,
   IoSchoolOutline,
-  IoListOutline,
   IoChevronForwardOutline,
   IoLogOutOutline,
+  IoCheckboxOutline,
+  IoSettingsOutline,
 } from 'react-icons/io5'
 
 import Logo from '../../components/logo/Logo.component'
@@ -117,7 +118,7 @@ function Sidebar() {
                   }}
                 >
                   <div className="sidebar__nav-icon">
-                    <IoListOutline className="icon" />
+                    <IoCheckboxOutline className="icon" />
                   </div>
 
                   <span className="sidebar__link-text">To Dos</span>
@@ -127,6 +128,21 @@ function Sidebar() {
           </nav>
         </div>
         <div className="container-settings">
+          <li className="sidebar__nav-el">
+            <NavLink
+              to="settings"
+              className="sidebar__nav-link"
+              onClick={() => {
+                setSidebarOpen(false)
+              }}
+            >
+              <div className="sidebar__nav-icon">
+                <IoSettingsOutline className="icon" />
+              </div>
+
+              <span className="sidebar__link-text">Einstellungen</span>
+            </NavLink>
+          </li>
           <div className="sidebar__nav-el">
             <div className="sidebar__nav-link" onClick={logout}>
               <div className="sidebar__nav-icon">

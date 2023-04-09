@@ -5,6 +5,11 @@ export type TUser = {
   email: string
 }
 
+export type TProfile = {
+  firstName: string
+  lastName: string
+}
+
 export type TStudent = {
   id?: number
   firstName: string
@@ -39,6 +44,10 @@ export type ContextTypeUser = {
   setUser: React.Dispatch<React.SetStateAction<TUser>>
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  updateProfile: (data: TProfile) => void
+  updateEmail: (email: string) => void
+  updatePassword: (password: string) => void
+  deleteAccount: () => void
 }
 
 export type ContextTypeTodos = {
@@ -129,3 +138,5 @@ export type TTodo = {
   completed: boolean
   userId: string
 }
+
+export type TDisplayForm = 'login' | 'signup' | 'forgotPassword'

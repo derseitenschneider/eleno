@@ -9,13 +9,13 @@
   // --clr-primary-400: hsl(195, 43%, 90%);
   --clr-text-400: #d5d6d7;
   --clr-text-600: #f1f1f1;
-  // --clr-warning: rgb(234, 58, 58);
-  --clr-warning: #eb6898;
+  --clr-warning: rgb(193, 70, 70);
+  // --clr-warning: #eb6898;
   --clr-darkgrey: #aaa;
   --clr-grey-400: #f0f0f0;
   --clr-grey-300: #f3f3f3;
   --clr-grey-200: #f8f9fa;
-  --clr-white: #e9eaeb;
+  --clr-white: #ffffff;
   --clr-bg-600: #2f343a;
   --clr-bg-500: #343a40;
   --clr-bg-400: #484e53;
@@ -124,6 +124,11 @@ select {
 input,
 textarea {
   width: 100%;
+
+  &.input--error {
+    box-shadow: inset 1px 1px 0 var(--clr-warning),
+      inset -1px -1px 0 var(--clr-warning);
+  }
 }
 
 input[type='time']::-webkit-calendar-picker-indicator {
@@ -190,4 +195,11 @@ input[type='number'] {
     color: var(--clr-text-400);
     margin-bottom: 1.2rem;
   }
+}
+
+.error-message {
+  position: absolute;
+  bottom: -3rem;
+  color: var(--clr-warning);
+  font-size: 1.4rem;
 }

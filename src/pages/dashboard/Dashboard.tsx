@@ -1,6 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import './dashboard.style.scss'
-import { IoSchoolSharp, IoPeopleCircleOutline, IoList } from 'react-icons/io5'
+import {
+  IoSchoolSharp,
+  IoPeopleCircleOutline,
+  IoList,
+  IoCheckboxOutline,
+} from 'react-icons/io5'
 
 import { useEffect } from 'react'
 import { useUser } from '../../contexts/UserContext'
@@ -77,7 +82,7 @@ function Dashboard() {
               <p>{archivedStudents.length} Schüler:innen archiviert</p>
             </NavLink>
             <NavLink to={'todos'} className="card">
-              <IoList className="icon" />
+              <IoCheckboxOutline className="icon" />
               <p className="card-title">To Do erfassen</p>
               <hr />
               <p>{todosOpen.length} Todos offen</p>

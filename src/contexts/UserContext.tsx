@@ -1,17 +1,28 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { ContextTypeUser, TUser } from '../types/types'
-import { getProfiles } from '../supabase/users/users.supabase'
+import { ContextTypeUser, TProfile, TUser } from '../types/types'
+import {
+  deleteAccountSupabase,
+  getProfiles,
+  updateEmailSupabase,
+  updatePasswordSupabase,
+  updateProfileSupabase,
+} from '../supabase/users/users.supabase'
 import { supabase } from '../supabase/supabase'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
 import LoginPage from '../pages/login/LoginPage'
 import Loader from '../components/loader/Loader'
 import { useLoading } from '../contexts/LoadingContext'
+import { toast } from 'react-toastify'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
   setUser: () => {},
   loading: false,
   setLoading: () => {},
+  updateProfile: () => {},
+  updateEmail: () => {},
+  updatePassword: () => {},
+  deleteAccount: () => {},
 })
 
 export const AuthProvider = ({ children }) => {
@@ -52,7 +63,57 @@ export const AuthProvider = ({ children }) => {
     })
   }, [])
 
-  const value = { user, setUser, loading, setLoading }
+  const updateProfile = async (data: TProfile) => {
+    setUser((prev) => {
+      return { ...prev, firstName: data.firstName, lastName: data.lastName }
+    })
+    try {
+      await updateProfileSupabase(data, user.id)
+      toast('Profil angepasst')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const updateEmail = async (email: string) => {
+    setUser((prev) => {
+      return { ...prev, email }
+    })
+    try {
+      await updateEmailSupabase(email)
+      toast('Check dein Postfach')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const updatePassword = async (password: string) => {
+    try {
+      await updatePasswordSupabase(password)
+      toast('Passwort geändert')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const deleteAccount = async () => {
+    try {
+      await deleteAccountSupabase()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const value = {
+    user,
+    setUser,
+    loading,
+    setLoading,
+    updateProfile,
+    updateEmail,
+    updatePassword,
+    deleteAccount,
+  }
 
   return (
     <UserContext.Provider value={value}>
