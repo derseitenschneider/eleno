@@ -1,9 +1,21 @@
 ## Features
 
 # Lessons
-- Metronome
-- Data store (pdf)
-- music player
+- Header 
+  - Create Todo for chosen student
+  - Edit student direct via lesson header
+
+- Notes
+  - Drag & Drop notes
+  
+- Footer
+  - Metronome
+  - Data store (pdf)
+  - music player
+
 # Timetable
 - Print timetable
 - create new timetable
+
+## Overall
+- English and German translation

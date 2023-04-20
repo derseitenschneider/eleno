@@ -10,6 +10,20 @@
     margin-bottom: 3.2rem;
   }
 
+  .container--logo {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    svg {
+      height: 6rem;
+      rect {
+        fill: var(--clr-bg-500);
+      }
+    }
+  }
+
   .card-login {
     margin: 0 auto;
     padding: 3.2rem;
@@ -18,72 +32,72 @@
     column-gap: 4.8rem;
     background-color: var(--clr-bg-500);
     align-items: center;
-  }
 
-  .wrapper {
-    .heading-4 {
-      margin-bottom: 2rem;
-    }
-    .form {
-      display: grid;
-      row-gap: 2rem;
-      column-gap: 2rem;
-      margin-bottom: 4rem;
-
-      .form-item {
+    .wrapper {
+      .heading-4 {
+        margin-bottom: 2rem;
+      }
+      .form {
         display: grid;
-        row-gap: 0.8rem;
-      }
+        row-gap: 2rem;
+        column-gap: 2rem;
+        margin-bottom: 4rem;
 
-      .button {
+        .form-item {
+          display: grid;
+          row-gap: 0.8rem;
+        }
+
+        .button {
+          margin: 0 auto;
+          font-size: inherit;
+        }
+
+        &--signup {
+          grid-template-columns: 25rem 25rem;
+
+          .form-item--email,
+          .form-item--pw1,
+          .form-item--pw2,
+          .button--signup {
+            grid-column: 1/-1;
+          }
+
+          .form-item--privacy-policy {
+            grid-column: 1/-1;
+            display: flex;
+            justify-self: left;
+            gap: 1.2rem;
+            align-items: center;
+            input {
+              width: fit-content;
+            }
+            label {
+              font-size: 1.4rem;
+            }
+          }
+        }
+      }
+      &--signup .button--account-exists,
+      .button--remembered {
+        display: block;
         margin: 0 auto;
-        font-size: inherit;
       }
 
-      &--signup {
-        grid-template-columns: 25rem 25rem;
-
-        .form-item--email,
-        .form-item--pw1,
-        .form-item--pw2,
-        .button--signup {
-          grid-column: 1/-1;
-        }
-
-        .form-item--privacy-policy {
-          grid-column: 1/-1;
-          display: flex;
-          justify-self: left;
-          gap: 1.2rem;
-          align-items: center;
-          input {
-            width: fit-content;
-          }
-          label {
-            font-size: 1.4rem;
-          }
-        }
+      .container--links {
+        display: flex;
+        gap: 2rem;
+        justify-content: space-evenly;
       }
     }
-    &--signup .button--account-exists,
-    .button--remembered {
-      display: block;
-      margin: 0 auto;
-    }
 
-    .container--links {
-      display: flex;
-      gap: 2rem;
-      justify-content: space-evenly;
+    .error--message {
+      font-size: 1.4rem;
+      min-height: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--clr-warning);
     }
-  }
-
-  .error--message {
-    font-size: 1.4rem;
-    min-height: 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--clr-warning);
   }
 
   .modal--privacy-policy {

@@ -11,7 +11,6 @@ interface NotesProps {
 }
 
 // [ ] only considered "empty" if neither title nore text.
-// [ ] toast when edit saved
 
 const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
   const { notes } = useNotes()

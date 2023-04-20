@@ -17,6 +17,8 @@ interface StudentRowProps {
   isArchive: boolean
 }
 
+// [ ] indicate selected row with color -> like edit btn selected
+
 const StudentRow: FunctionComponent<StudentRowProps> = ({
   studentId,
   setIsSelected,

@@ -22,6 +22,7 @@ import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'
 import Notes from '../../components/lessons/notes/Notes.component'
 import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
+import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
 
 const Lesson: FunctionComponent = () => {
   const { loading } = useLoading()
@@ -69,6 +70,11 @@ const Lesson: FunctionComponent = () => {
           <aside className="aside">
             <Notes currentStudentId={currentStudentId} />
           </aside>
+          <LessonFooter
+            studentIndex={studentIndex}
+            setStudentIndex={setStudentIndex}
+            activeStudentsIds={activeStudentsIds}
+          />
         </div>
       ) : (
         <div className="container">

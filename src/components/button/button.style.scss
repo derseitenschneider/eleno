@@ -19,24 +19,24 @@
 
   &--primary {
     // background-color: var(--clr-primary-400);
-    background-color: var(--clr-primary-600);
+    background-color: var(--clr-primary-800);
     color: var(--clr-white);
   }
 
   &--secondary {
-    border: 1px solid var(--clr-primary-400);
-    color: var(--clr-primary-400);
+    border: 1px solid var(--clr-primary-600);
+    color: var(--clr-primary-600);
   }
 
   &--icon-only {
-    color: var(--clr-primary-400);
+    color: var(--clr-primary-600);
     padding: 0;
     height: 2rem;
     width: 2rem;
-    & span:has(+ span:empty) svg {
-      height: 1.4rem;
-      width: 1.4rem;
-    }
+    // & span:has(+ span:empty) svg {
+    //   height: 2rem;
+    //   width: 1.4rem;
+    // }
 
     &.warning {
       color: var(--clr-warning);

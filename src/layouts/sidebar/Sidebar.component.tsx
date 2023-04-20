@@ -1,5 +1,5 @@
 import './sidebar.style.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../../supabase/supabase'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
@@ -15,13 +15,13 @@ import {
 
 import Logo from '../../components/logo/Logo.component'
 
-// [ ] close sidebar when clicked outside
+// [ ] todos only for subscribed members
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
 
-  function toggleSidebar() {
+  const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen)
   }
 
@@ -30,6 +30,20 @@ function Sidebar() {
     navigate('/')
   }
 
+  const closeSidebarOnWindowClick = (e: MouseEvent) => {
+    const target = e.target as Element
+    if (
+      !target?.closest('button')?.classList.contains('sidebar__button--toggle')
+    )
+      toggleSidebar()
+  }
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      window.addEventListener('click', closeSidebarOnWindowClick)
+    }
+  }, [sidebarOpen])
+
   return (
     <div>
       <div className={`sidebar${sidebarOpen ? ' open' : ''}`}>
@@ -37,25 +51,13 @@ function Sidebar() {
           <IoChevronForwardOutline className="chevron" />
         </button>
         <div className="container-top">
-          <NavLink
-            to="/"
-            className="sidebar__logo"
-            onClick={() => {
-              setSidebarOpen(false)
-            }}
-          >
+          <NavLink to="/" className="sidebar__logo">
             <Logo />
           </NavLink>
           <nav className="sidebar__navigation">
             <ul className="sidebar__nav-list">
               <li className="sidebar__nav-el">
-                <NavLink
-                  to="/"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
+                <NavLink to="/" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoCompassOutline className="icon" />
                   </div>
@@ -64,13 +66,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink
-                  to="lessons"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
+                <NavLink to="lessons" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoSchoolOutline className="icon" />
                   </div>
@@ -79,13 +75,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink
-                  to="students"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
+                <NavLink to="students" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoPeopleCircleOutline className="icon" />
                   </div>
@@ -95,13 +85,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink
-                  to="timetable"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
+                <NavLink to="timetable" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoCalendarClearOutline className="icon" />
                   </div>
@@ -111,13 +95,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink
-                  to="todos"
-                  className="sidebar__nav-link"
-                  onClick={() => {
-                    setSidebarOpen(false)
-                  }}
-                >
+                <NavLink to="todos" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoCheckboxOutline className="icon" />
                   </div>
@@ -130,13 +108,7 @@ function Sidebar() {
         </div>
         <div className="container-settings">
           <li className="sidebar__nav-el">
-            <NavLink
-              to="settings"
-              className="sidebar__nav-link"
-              onClick={() => {
-                setSidebarOpen(false)
-              }}
-            >
+            <NavLink to="settings" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                 <IoSettingsOutline className="icon" />
               </div>

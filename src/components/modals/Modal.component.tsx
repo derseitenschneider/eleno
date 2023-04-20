@@ -18,8 +18,6 @@ interface ModalProps {
   }[]
 }
 
-// [ ] colors for modals (primary/warning)
-
 const Modal: FunctionComponent<ModalProps> = ({
   heading,
   children,

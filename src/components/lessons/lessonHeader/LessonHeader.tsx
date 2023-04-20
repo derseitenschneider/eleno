@@ -35,17 +35,17 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
     endOfLesson,
   } = students.find((student) => student.id === currentStudentId)
 
-  const handlerPreviousStudent = () => {
-    studentIndex > 0
-      ? setStudentIndex(studentIndex - 1)
-      : setStudentIndex(activeStudentsIds.length - 1)
-  }
+  // const handlerPreviousStudent = () => {
+  //   studentIndex > 0
+  //     ? setStudentIndex(studentIndex - 1)
+  //     : setStudentIndex(activeStudentsIds.length - 1)
+  // }
   // [ ] save input befor change if not empty
-  const handlerNextStudent = () => {
-    studentIndex < activeStudentsIds.length - 1
-      ? setStudentIndex(studentIndex + 1)
-      : setStudentIndex(0)
-  }
+  // const handlerNextStudent = () => {
+  //   studentIndex < activeStudentsIds.length - 1
+  //     ? setStudentIndex(studentIndex + 1)
+  //     : setStudentIndex(0)
+  // }
 
   return (
     <header className="container container--header">
@@ -62,8 +62,7 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           {dayOfLesson}, {startOfLesson} - {endOfLesson}
         </span>
       </div>
-      <div className="container--buttons">
-        {/* // [ ] search field for student */}
+      {/* <div className="container--buttons">
         <Button
           type="button"
           btnStyle="icon-only"
@@ -76,7 +75,7 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           handler={handlerNextStudent}
           icon={<IoArrowForwardOutline />}
         />
-      </div>
+      </div> */}
     </header>
   )
 }

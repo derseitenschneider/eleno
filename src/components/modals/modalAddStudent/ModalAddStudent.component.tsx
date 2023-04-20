@@ -32,8 +32,6 @@ const rowData: IRow = {
   tempId: 0,
 }
 
-/* [ ] Warning for closing modal when data exists*/
-
 const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
   handlerClose,
 }) => {

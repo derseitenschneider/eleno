@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: var(--columns-todos);
   min-height: 5rem;
+  box-shadow: var(--box-shadow-cards);
 
   column-gap: var(--column-gap-todos);
   align-items: center;

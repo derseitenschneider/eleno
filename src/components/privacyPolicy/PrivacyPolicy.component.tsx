@@ -2,6 +2,8 @@ import { FunctionComponent } from 'react'
 
 interface PrivacyPolicyProps {}
 
+// [ ] format this
+
 const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
   return (
     <>
@@ -86,7 +88,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">c)    Verarbeitung</h3>
+          <h3 className="heading-4">c) Verarbeitung</h3>
           <p>
             Verarbeitung ist jeder mit oder ohne Hilfe automatisierter Verfahren
             ausgeführte Vorgang oder jede solche Vorgangsreihe im Zusammenhang
@@ -99,7 +101,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">d)    Einschränkung der Verarbeitung</h3>
+          <h3 className="heading-4">d) Einschränkung der Verarbeitung</h3>
           <p>
             Einschränkung der Verarbeitung ist die Markierung gespeicherter
             personenbezogener Daten mit dem Ziel, ihre künftige Verarbeitung
@@ -107,7 +109,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">e)    Profiling</h3>
+          <h3 className="heading-4">e) Profiling</h3>
           <p>
             Profiling ist jede Art der automatisierten Verarbeitung
             personenbezogener Daten, die darin besteht, dass diese
@@ -120,7 +122,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">f)     Pseudonymisierung</h3>
+          <h3 className="heading-4">f) Pseudonymisierung</h3>
           <p>
             Pseudonymisierung ist die Verarbeitung personenbezogener Daten in
             einer Weise, auf welche die personenbezogenen Daten ohne
@@ -134,8 +136,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">
-            g)    Verantwortlicher oder für die Verarbeitung Verantwortlicher
+          <h3 className="heading-4">
+            g) Verantwortlicher oder für die Verarbeitung Verantwortlicher
           </h3>
           <p>
             Verantwortlicher oder für die Verarbeitung Verantwortlicher ist die
@@ -150,7 +152,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">h)    Auftragsverarbeiter</h3>
+          <h3 className="heading-4">h) Auftragsverarbeiter</h3>
           <p>
             Auftragsverarbeiter ist eine natürliche oder juristische Person,
             Behörde, Einrichtung oder andere Stelle, die personenbezogene Daten
@@ -158,7 +160,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">i)      Empfänger</h3>
+          <h3 className="heading-4">i) Empfänger</h3>
           <p>
             Empfänger ist eine natürliche oder juristische Person, Behörde,
             Einrichtung oder andere Stelle, der personenbezogene Daten
@@ -170,7 +172,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">j)      Dritter</h3>
+          <h3 className="heading-4">j) Dritter</h3>
           <p>
             Dritter ist eine natürliche oder juristische Person, Behörde,
             Einrichtung oder andere Stelle außer der betroffenen Person, dem
@@ -181,7 +183,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">k)    Einwilligung</h3>
+          <h3 className="heading-4">k) Einwilligung</h3>
           <p>
             Einwilligung ist jede von der betroffenen Person freiwillig für den
             bestimmten Fall in informierter Weise und unmissverständlich
@@ -202,13 +204,25 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
         und anderer Bestimmungen mit datenschutzrechtlichem Charakter ist die:
       </p>
 
-      <p>der seitenschneider</p>
-      <p>Tanneggweg 12</p>
-      <p>3604 Thun</p>
-      <p>Schweiz</p>
-      <p>Tel.: +41 77 257 88 71</p>
-      <p>E-Mail: info@derseitenschneider.ch</p>
-      <p>Website: www.derseitenschneider.ch</p>
+      <p>
+        Brian Boy <br />
+        Tanneggweg 12 <br />
+        3604 Thun <br />
+        Schweiz
+      </p>
+
+      <p>
+        Tel.: <a href="tel:+41 77 257 88 71">+41 77 257 88 71</a> <br />
+        E-Mail:{' '}
+        <a href="mailto:info@derseitenschneider.ch">
+          info@derseitenschneider.ch
+        </a>{' '}
+        <br />
+        Website:{' '}
+        <a href="https://derseitenschneider.ch" target="_blank">
+          www.derseitenschneider.ch
+        </a>
+      </p>
 
       <h3 className="heading-3">3. Cookies</h3>
       <p>
@@ -378,7 +392,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
       <h3 className="heading-3">7. Rechte der betroffenen Person</h3>
       <ul>
         <li>
-          <h3 className="heading-3">a)    Recht auf Bestätigung</h3>
+          <h3 className="heading-4">a)    Recht auf</h3>
           <p>
             Jede betroffene Person hat das vom Europäischen Richtlinien- und
             Verordnungsgeber eingeräumte Recht, von dem für die Verarbeitung
@@ -390,7 +404,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">b)    Recht auf Auskunft</h3>
+          <h3 className="heading-4">b)    Recht auf</h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
             hat das vom Europäischen Richtlinien- und Verordnungsgeber gewährte
@@ -456,7 +470,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">c) Recht auf Berichtigung</h3>
+          <h3 className="heading-4">c) Recht auf Be</h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
             hat das vom Europäischen Richtlinien- und Verordnungsgeber gewährte
@@ -475,8 +489,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">
-            d)    Recht auf Löschung (Recht auf Vergessen werden)
+          <h3 className="heading-4">
+            d) Recht auf Löschung (Recht auf Vergessen werden)
           </h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
@@ -547,8 +561,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">
-            e)    Recht auf Einschränkung der Verarbeitung
+          <h3 className="heading-4">
+            e) Recht auf Einschränkung der Verarbeitung
           </h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
@@ -592,7 +606,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">f)     Recht auf Datenübertragbarkeit</h3>
+          <h3 className="heading-4">f)     Recht au Datenübertragbarkeit</h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
             hat das vom Europäischen Richtlinien- und Verordnungsgeber gewährte
@@ -628,7 +642,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">g)    Recht auf Widerspruch</h3>
+          <h3 className="heading-4">g)    Recht auf</h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person
             hat das vom Europäischen Richtlinien- und Verordnungsgeber gewährte
@@ -682,8 +696,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">
-            h)    Automatisierte Entscheidungen im Einzelfall einschließlich
+          <h3 className="heading-4">
+            h) Automatisierte Entscheidungen im Einzelfall einschließlich
             Profiling
           </h3>
           <p>
@@ -723,8 +737,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
         </li>
         <li>
-          <h3 className="heading-3">
-            i)      Recht auf Widerruf einer datenschutzrechtlichen Einwilligung
+          <h3 className="heading-4">
+            i) Recht auf Widerruf einer datenschutzrechtlichen Einwilligung
           </h3>
           <p>
             Jede von der Verarbeitung personenbezogener Daten betroffene Person

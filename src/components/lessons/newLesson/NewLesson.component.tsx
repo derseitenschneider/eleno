@@ -50,7 +50,6 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     setInput(lessonData)
   }
 
-  // [ ] create todo functionallity from here
   // [ ] save state locally to preserve it on page refresh but delete it when student-index changes or page is left
 
   return (

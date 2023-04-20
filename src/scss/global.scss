@@ -26,13 +26,15 @@
   --toastify-color-progress-dark: var(--clr-primary-600) !important;
 
   --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-cards: 0 1px 5px rgba(0, 0, 0, 0.12),
+    0 2px 2px rgba(0, 0, 0, 0.14);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --clr-primary-400: #387589;
+    --clr-primary-800: #387589;
     --clr-primary-600: #4794ae;
-    --clr-primary-800: hsl(195, 42%, 70%);
+    --clr-primary-400: hsl(195, 42%, 70%);
 
     --clr-bg-400: #faf9f9;
     --clr-bg-500: #eeeeee;
@@ -80,6 +82,7 @@ ul {
 
 li {
   display: block;
+  font-size: 1.4rem;
 }
 
 hr {
@@ -87,9 +90,16 @@ hr {
   margin: 1.8rem 0;
 }
 
-a {
+a:link,
+a:visited {
   text-decoration: none;
   color: inherit;
+  font-weight: 500;
+}
+
+a:active,
+a:hover {
+  color: var(--clr-primary-800);
 }
 
 button {

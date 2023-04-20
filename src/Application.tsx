@@ -11,8 +11,6 @@ import { AuthProvider } from './contexts/UserContext'
 import { LoadingProvider } from './contexts/LoadingContext'
 
 export default function Application() {
-  // [ ] add closestcurrentStudentId to context
-
   return (
     <div className="App">
       <Toast />

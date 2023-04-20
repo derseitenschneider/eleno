@@ -41,3 +41,21 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Noto Serif Japanese';
+  src: url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.eot');
+  src: url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.woff2')
+      format('woff2'),
+    url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.woff')
+      format('woff'),
+    url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.ttf')
+      format('truetype'),
+    url('../assets/fonts/Noto_Serif_Japanese/NotoSerifJP-ExtraLight.svg#DMSans-Regular')
+      format('svg');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}

@@ -4,6 +4,7 @@
   left: 50%;
   position: fixed;
   transform: translate(-50%, -50%);
+  box-shadow: var(--box-shadow-cards);
   // min-width: 50vw;
 
   z-index: 60;

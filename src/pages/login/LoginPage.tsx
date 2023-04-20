@@ -10,6 +10,7 @@ import Login from '../../components/login/Login.component'
 import { TDisplayForm } from '../../types/types'
 import Signup from '../../components/singup/Signup.component'
 import ForgotPassword from '../../components/forgotPassword/ForgotPassword.component'
+import Logo from '../../components/logo/Logo.component'
 
 const dataRecover = {
   email: '',
@@ -18,13 +19,12 @@ const dataRecover = {
 const LoginPage = () => {
   const [displayForm, setDisplayForm] = useState<TDisplayForm>('login')
 
-  // useEffect(() => {
-  //   setLoading(false)
-  // }, [])
-
   return (
     <div className="login-page">
-      {/* <Loader loading={loading} /> */}
+      <div className="container--logo">
+        <Logo />
+        {/* <h1 className="heading-logo">eleno</h1> */}
+      </div>
       {displayForm === 'login' && <Login setDisplayForm={setDisplayForm} />}
       {displayForm === 'signup' && <Signup setDisplayForm={setDisplayForm} />}
       {displayForm === 'forgotPassword' && (

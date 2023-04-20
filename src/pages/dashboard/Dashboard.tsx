@@ -3,7 +3,7 @@ import './dashboard.style.scss'
 import {
   IoSchoolSharp,
   IoPeopleCircleOutline,
-  IoList,
+  IoSettingsOutline,
   IoCheckboxOutline,
 } from 'react-icons/io5'
 
@@ -46,7 +46,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       {/* <Loader loading={loading} /> */}
-      <header className="container container--header">
+      <header className="container header--dashboard">
         <h1 className="heading-1">Dashboard</h1>
       </header>
       {!loading && user && (
@@ -91,6 +91,18 @@ function Dashboard() {
                   {todosOverdue.length} davon überfällig
                 </p>
               ) : null}
+            </NavLink>
+
+            <NavLink to={'settings'} className="card">
+              <IoSettingsOutline className="icon" />
+              <p className="card-title">Einstellungen</p>
+              {/* <hr />
+              <p>{todosOpen.length} Todos offen</p>
+              {todosOverdue.length ? (
+                <p className="card__details--warning">
+                  {todosOverdue.length} davon überfällig
+                </p>
+              ) : null} */}
             </NavLink>
           </div>
         </>

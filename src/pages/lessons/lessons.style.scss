@@ -1,7 +1,8 @@
 .lessons {
   display: grid;
+  height: 100%;
   grid-template-columns: 1fr 40rem;
-
+  grid-template-rows: auto 1fr auto;
   .main {
     flex-basis: 80%;
     textarea {

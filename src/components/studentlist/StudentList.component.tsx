@@ -37,7 +37,7 @@ const StudentList: FunctionComponent<StudentListProps> = ({
   return (
     <div className="student-list">
       {/*Head row*/}
-      <div className="grid-row">
+      <div className="grid-row grid-row--header">
         <div className="student-list__header">
           <input type="checkbox" checked={isChecked} onChange={handlerCheck} />
         </div>

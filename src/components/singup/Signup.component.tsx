@@ -152,9 +152,9 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                     />{' '}
                     <label htmlFor="privacy-policy">
                       Ich bin mit den{' '}
-                      <strong onClick={() => setModalOpen(true)}>
+                      <a href="#" onClick={() => setModalOpen(true)}>
                         Datenschutzbestimmungen{' '}
-                      </strong>
+                      </a>
                       einverstanden
                     </label>
                   </div>
