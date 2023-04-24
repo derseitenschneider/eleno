@@ -111,7 +111,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
       />
       <Button
         type="button"
-        btnStyle="danger"
+        btnStyle="icon-only"
         icon={<IoCloseOutline />}
         className={'button--delete-row'}
         handler={deleteRow}

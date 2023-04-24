@@ -4,6 +4,7 @@
   place-content: center;
   background-color: var(--clr-bg-600);
   font-size: 1.8rem;
+  padding: 3rem 0;
 
   .heading-1 {
     text-align: center;
@@ -25,6 +26,7 @@
   }
 
   .card-login {
+    position: relative;
     margin: 0 auto;
     padding: 3.2rem;
     border-radius: 8px;
@@ -46,6 +48,10 @@
         .form-item {
           display: grid;
           row-gap: 0.8rem;
+
+          .password-details {
+            font-size: 1rem;
+          }
         }
 
         .button {

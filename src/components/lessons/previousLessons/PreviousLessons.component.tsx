@@ -22,10 +22,12 @@ import Modal from '../../modals/Modal.component'
 
 interface PreviousLessonsProps {
   currentStudentId: number
+  previousLessonsIds: number[]
 }
 
 const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   currentStudentId,
+  previousLessonsIds,
 }) => {
   const { lessons, deleteLesson } = useLessons()
 
@@ -48,11 +50,11 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     }
   }, [dropdownOpen])
 
-  const previousLessonsIds = lessons
-    .filter((lesson) => lesson.studentId === currentStudentId)
-    ?.slice(-3)
-    .map((lesson) => lesson.id)
-    .reverse()
+  // const previousLessonsIds = lessons
+  //   .filter((lesson) => lesson.studentId === currentStudentId)
+  //   ?.slice(-3)
+  //   .map((lesson) => lesson.id)
+  //   .reverse()
 
   const deleteHandler = () => {
     deleteLesson(previousLessonsIds[tabIndex])

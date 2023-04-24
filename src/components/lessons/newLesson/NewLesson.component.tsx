@@ -1,6 +1,6 @@
 import './newLesson.style.scss'
 
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useState, useEffect, useRef } from 'react'
 import Button from '../../button/Button.component'
 
 import { toast } from 'react-toastify'
@@ -18,6 +18,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
   const [input, setInput] = useState(lessonData)
   const { saveNewLesson } = useLessons()
+  const inputRef = useRef(null)
 
   useEffect(() => {
     const today = new Date()
@@ -27,6 +28,10 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       .join('.')
     setDate(today)
   }, [])
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [studentId])
 
   const handlerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const name = e.currentTarget.name
@@ -50,8 +55,6 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     setInput(lessonData)
   }
 
-  // [ ] save state locally to preserve it on page refresh but delete it when student-index changes or page is left
-
   return (
     <div className="container container--lessons container--new-lesson">
       <h3 className="heading-4">
@@ -67,12 +70,12 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       <div className="container--two-rows">
         <div className="row-left">
           <h4 className="heading-5">Lektion</h4>
-          {/* // [ ] focus on textarea when student changes */}
           <textarea
             name="lessonContent"
             autoFocus={true}
             value={input.lessonContent}
             onChange={handlerInput}
+            ref={inputRef}
           ></textarea>
         </div>
         <div className="row-right">

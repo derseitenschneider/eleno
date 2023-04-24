@@ -3,55 +3,77 @@ import React from 'react'
 import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
+import { TTimetableDay } from '../../types/types'
 
-// [ ] add instrument, put first and last name in same cell
 function Timetable() {
   const { students, setStudents } = useStudents()
 
   const sortedStudents = sortStudentsDateTime(
     students.filter((student) => !student.archive)
   )
-
-  const monday = {
+  const monday: TTimetableDay = {
     day: 'Montag',
-    location: 'Steffisburg, Bernstrasse',
     students: [],
   }
-  const tuesday = { day: 'Dienstag', location: 'Spiez, Dorfhuus', students: [] }
-  const wednesday = {
+  const tuesday: TTimetableDay = {
+    day: 'Dienstag',
+    students: [],
+  }
+  const wednesday: TTimetableDay = {
     day: 'Mittwoch',
-    location: 'Steffisburg, Bernstrasse',
     students: [],
   }
-  const thursday = { day: 'Donnerstag', location: '', students: [] }
-  const friday = { day: 'Freitag', location: '', students: [] }
-  const saturday = { day: 'Samstag', location: '', students: [] }
-  const sunday = { day: 'Sonntag', location: '', students: [] }
-  const noDayAssigned = { day: 'none', location: '', students: [] }
+  const thursday: TTimetableDay = {
+    day: 'Donnerstag',
+    students: [],
+  }
+  const friday: TTimetableDay = {
+    day: 'Freitag',
+    students: [],
+  }
+  const saturday: TTimetableDay = {
+    day: 'Samstag',
+    students: [],
+  }
+  const sunday: TTimetableDay = {
+    day: 'Sonntag',
+    students: [],
+  }
+  const noDayAssigned: TTimetableDay = {
+    day: 'Kein Tag angegeben',
+    students: [],
+  }
 
   sortedStudents.forEach((student) => {
     switch (student.dayOfLesson) {
       case 'Montag':
         monday.students.push(student)
         break
+
       case 'Dienstag':
         tuesday.students.push(student)
         break
+
       case 'Mittwoch':
         wednesday.students.push(student)
         break
+
       case 'Donnerstag':
         thursday.students.push(student)
         break
+
       case 'Freitag':
         friday.students.push(student)
         break
+
       case 'Samstag':
         saturday.students.push(student)
         break
+
       case 'Sonntag':
         sunday.students.push(student)
         break
+
       default:
         noDayAssigned.students.push(student)
     }
@@ -67,7 +89,7 @@ function Timetable() {
     sunday,
     noDayAssigned,
   ]
-  // [ ] take into account that there might be two or more locations on the same day
+
   return (
     <>
       <div className="container">

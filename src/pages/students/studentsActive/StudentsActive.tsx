@@ -126,6 +126,7 @@ export default function StudentsActive() {
                     type="search"
                     placeholder="suchen"
                     value={searchInput}
+                    autoFocus
                     onChange={(e) =>
                       setSearchInput(e.target.value.toLowerCase())
                     }

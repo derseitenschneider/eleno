@@ -22,8 +22,9 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const button = target.closest('.button--student') as HTMLElement
-      if (!button) setDropdownOpen(false)
+      const button = target.closest('.wrapper-student') as HTMLElement
+      const icon = target.closest('.button--student') as HTMLElement
+      if (!button && !icon) setDropdownOpen(false)
     }
     if (dropdownOpen) {
       window.addEventListener('click', closeDropdown)
@@ -53,7 +54,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
 
   return (
     <div className="add-student">
-      <Button
+      {/* <Button
         className="button--student"
         type="button"
         btnStyle={currentStudentId ? 'secondary' : 'icon-only'}
@@ -70,14 +71,41 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
         handler={() => setDropdownOpen((prev) => !prev)}
       >
         {currentStudentId && (
+       
+        )}
+      </Button> */}
+      {currentStudentId ? (
+        <div
+          className="wrapper-student"
+          onClick={() => {
+            setDropdownOpen((prev) => !prev)
+          }}
+        >
+          <span className="student">
+            {`${
+              students.find((student) => student.id === currentStudentId)
+                .firstName
+            } ${
+              students.find((student) => student.id === currentStudentId)
+                .lastName
+            }`}
+          </span>
           <button
             className="button--remove-student"
             onClick={() => setCurrentStudentId(null)}
           >
             x
           </button>
-        )}
-      </Button>
+        </div>
+      ) : (
+        <Button
+          icon={<IoPeopleCircleOutline />}
+          handler={() => setDropdownOpen((prev) => !prev)}
+          className="button--student"
+          type="button"
+          btnStyle={'icon-only'}
+        />
+      )}
 
       {dropdownOpen && (
         <DropDown

@@ -77,7 +77,7 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
         )}
         <div className="container--links">
           <button onClick={() => setDisplayForm('signup')}>
-            🤲 Noch kein Benutzerkonto?
+            🧐 Noch kein Benutzerkonto?
           </button>
           <button onClick={() => setDisplayForm('forgotPassword')}>
             😅 Passwort vergessen?

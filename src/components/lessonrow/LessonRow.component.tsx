@@ -5,7 +5,6 @@ interface LessonRowProps {
   lesson: TLesson
 }
 
-// [ ] check linebreak (f.e. Anina)
 const LessonRow: FunctionComponent<LessonRowProps> = ({ lesson }) => {
   return (
     <div className="lesson-row">

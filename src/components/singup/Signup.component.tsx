@@ -5,6 +5,8 @@ import Loader from '../loader/Loader'
 import { TDisplayForm } from '../../types/types'
 import Modal from '../modals/Modal.component'
 import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
+
+// [ ] AGBs
 interface SignupProps {
   setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
 }
@@ -113,7 +115,12 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                     />
                   </div>
                   <div className="form-item form-item--pw1">
-                    <label htmlFor="password">Passwort</label>
+                    <label htmlFor="password">
+                      Passwort{' '}
+                      <span className="password-details">
+                        (Mind. 6 Zeichen)
+                      </span>
+                    </label>
                     <input
                       required
                       name="password"

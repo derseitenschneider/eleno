@@ -10,20 +10,24 @@ const TimeTableDay: FunctionComponent<TimeTableDayProps> = ({ day }) => {
     <div className="timetable__day">
       <div className="header">
         <h3 className="heading-3">{day.day}</h3>
-        <div className="meta-info">
-          <span>{day.location}</span>
-          <span>Anz. Schüler:innen: {day.students.length}</span>
-        </div>
+
+        <span>Anz. Schüler:innen: {day.students.length}</span>
       </div>
       {day.students.map((student) => (
         <div className="row" key={student.id}>
           <div>
-            {student.startOfLesson} - {student.endOfLesson}
+            {student.startOfLesson && (
+              <>
+                {student.startOfLesson} - {student.endOfLesson}
+              </>
+            )}
           </div>
 
           <div>
             {student.firstName} {student.lastName}
           </div>
+          <div>{student.instrument}</div>
+          <div>{student.location}</div>
         </div>
       ))}
     </div>

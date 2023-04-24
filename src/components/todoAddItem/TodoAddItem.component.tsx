@@ -1,15 +1,12 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import './todoAddItem.style.scss'
 
-import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import { TTodo } from '../../types/types'
 import { useUser } from '../../contexts/UserContext'
-import Select from 'react-select'
-import { IoPeopleCircleOutline } from 'react-icons/io5'
-import DropDown from '../dropdown/Dropdown.component'
 import { formatDateToDisplay } from '../../utils/formateDate'
 import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
+import { toast } from 'react-toastify'
 interface TodoAddItemProps {
   saveTodo: (todo: TTodo) => void
 }
@@ -44,6 +41,10 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
   }
 
   const onSaveHandler = () => {
+    if (!inputTodo.text) {
+      toast('Leere Todo kann nicht gespeichert werden', { type: 'error' })
+      return
+    }
     const tempId = Math.floor(Math.random() * 1000000000)
     const newTodo: TTodo = {
       ...inputTodo,

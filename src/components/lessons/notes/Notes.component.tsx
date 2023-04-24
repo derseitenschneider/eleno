@@ -10,8 +10,6 @@ interface NotesProps {
   currentStudentId: number
 }
 
-// [ ] only considered "empty" if neither title nore text.
-
 const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
   const { notes } = useNotes()
   const [modalOpen, setModalOpen] = useState(false)

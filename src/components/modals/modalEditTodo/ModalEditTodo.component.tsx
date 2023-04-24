@@ -75,7 +75,7 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
           setCurrentStudentId={setStudent}
         />
         {currentTodo.due ? (
-          <p
+          <span
             className="date"
             onClick={() =>
               setCurrentTodo((prev) => {
@@ -84,7 +84,7 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
             }
           >
             {formatDateToDisplay(currentTodo.due).slice(0, 6)}
-          </p>
+          </span>
         ) : (
           <input
             type="date"

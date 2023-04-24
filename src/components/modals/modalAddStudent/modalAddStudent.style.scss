@@ -15,8 +15,9 @@
       position: absolute;
       border: none;
       top: 50%;
-      right: 0;
+      right: 0.8rem;
       transform: translateY(-50%);
+      color: var(--clr-warning);
 
       opacity: 0;
       pointer-events: none;

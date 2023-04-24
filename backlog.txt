@@ -16,6 +16,10 @@
 # Timetable
 - Print timetable
 - create new timetable
+- diverse Ansichtsoptionen (einzelne Tage, Instrument/Minutenzahl ein/ausblenden etc)
+
+# Dashboard
+- Membership anzeigen und allenfalls für pro werben
 
 ## Overall
 - English and German translation

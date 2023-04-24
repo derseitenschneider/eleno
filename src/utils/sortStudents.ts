@@ -156,6 +156,9 @@ export const sortStudentsDateTime = (students: TStudent[]) => {
   const wed: TStudent[] = []
   const thur: TStudent[] = []
   const fri: TStudent[] = []
+  const sat: TStudent[] = []
+  const sun: TStudent[] = []
+  const undef: TStudent[] = []
 
   students.forEach((student) => {
     switch (student.dayOfLesson.toLowerCase()) {
@@ -174,6 +177,15 @@ export const sortStudentsDateTime = (students: TStudent[]) => {
       case 'freitag':
         fri.push(student)
         break
+      case 'samstag':
+        sat.push(student)
+        break
+      case 'sonntag':
+        sun.push(student)
+        break
+      case '':
+        undef.push(student)
+        break
     }
   })
   const sortedArray = [
@@ -181,8 +193,10 @@ export const sortStudentsDateTime = (students: TStudent[]) => {
     ...tue.sort(compareTime),
     ...wed.sort(compareTime),
     ...thur.sort(compareTime),
-    ...thur.sort(compareTime),
     ...fri.sort(compareTime),
+    ...sat.sort(compareTime),
+    ...sun.sort(compareTime),
+    ...undef.sort(compareTime),
   ]
   return sortedArray
 }

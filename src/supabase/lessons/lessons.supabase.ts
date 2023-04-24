@@ -46,7 +46,7 @@ export const updateLessonSupabase = async (lesson: TLesson) => {
 export const fetchLatestLessonsSupabase = async (userId: string) => {
   const { data: lessons, error } = await supabase
     .from('latest_3_lessons')
-    .select('*')
-
+    .select()
+  if (error) throw new Error(error.message)
   return lessons
 }

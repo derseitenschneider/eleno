@@ -31,7 +31,7 @@ function Dashboard() {
   }, [user])
 
   const sortedStudents =
-    (activeStudents && sortStudentsDateTime(students)) || null
+    (activeStudents && sortStudentsDateTime(activeStudents)) || null
 
   const closestStudent =
     (sortedStudents && sortedStudents[closestStudentIndex]) || null

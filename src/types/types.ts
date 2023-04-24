@@ -126,7 +126,6 @@ export type TDropdownButton = {
 
 export type TTimetableDay = {
   day: string
-  location: string
   students: TStudent[]
 }
 

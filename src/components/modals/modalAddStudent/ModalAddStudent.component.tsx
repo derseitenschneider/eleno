@@ -68,9 +68,8 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
       const { tempId, ...newStudent } = row
       return newStudent
     })
-    // [ ] inputvalidation
 
-    await saveNewStudents(newStudents)
+    saveNewStudents(newStudents)
     handlerClose()
   }
 

@@ -34,13 +34,8 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
 
   // Save Note
   const saveHandler = () => {
-    if (!input.title) {
-      toast('Titel fehlt', { type: 'error' })
-      return
-    }
-
-    if (!input.text) {
-      toast('Inhalt der Notiz fehlt', { type: 'error' })
+    if (!input.title && !input.text) {
+      toast('Titel oder Inhalt fehlt.', { type: 'error' })
       return
     }
 

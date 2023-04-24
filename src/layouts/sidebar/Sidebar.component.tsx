@@ -15,8 +15,6 @@ import {
 
 import Logo from '../../components/logo/Logo.component'
 
-// [ ] todos only for subscribed members
-
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
@@ -41,6 +39,9 @@ function Sidebar() {
   useEffect(() => {
     if (sidebarOpen) {
       window.addEventListener('click', closeSidebarOnWindowClick)
+    }
+    return () => {
+      window.removeEventListener('click', closeSidebarOnWindowClick)
     }
   }, [sidebarOpen])
 
