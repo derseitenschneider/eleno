@@ -179,7 +179,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               {
                 label: 'Archivieren',
                 handler: () => {
-                  archivateStudents(studentId)
+                  archivateStudents([studentId])
                 },
                 type: 'normal',
               },
@@ -200,7 +200,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             buttons={[
               {
                 label: 'Wiederherstellen',
-                handler: () => reactivateStudents(studentId),
+                handler: () => reactivateStudents([studentId]),
                 type: 'normal',
               },
               {
@@ -236,7 +236,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             },
             {
               label: 'Löschen',
-              handler: () => deleteStudents(studentId),
+              handler: () => deleteStudents([studentId]),
               btnStyle: 'danger',
             },
           ]}

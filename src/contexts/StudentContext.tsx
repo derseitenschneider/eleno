@@ -66,7 +66,7 @@ export const StudentsProvider = ({ children }) => {
     toast('Schüler:in erstellt')
   }
 
-  const archivateStudents = async (...studentIds: number[]) => {
+  const archivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: true } : student
     )
@@ -79,7 +79,7 @@ export const StudentsProvider = ({ children }) => {
     }
   }
 
-  const reactivateStudents = async (...studentIds: number[]) => {
+  const reactivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: false } : student
     )
@@ -92,10 +92,11 @@ export const StudentsProvider = ({ children }) => {
     }
   }
 
-  const deleteStudents = async (...studentIds: number[]) => {
+  const deleteStudents = async (studentIds: number[]) => {
     const newStudents = students.filter(
       (student) => !studentIds.includes(student.id)
     )
+    console.log(studentIds)
     setStudents(newStudents)
     try {
       await deleteStudentSupabase(studentIds)

@@ -78,8 +78,9 @@ export type ContextTypeStudents = {
 export type ContextTypeLessons = {
   lessons: TLesson[] | null
   setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
-  saveNewLesson: (input: {}, studentId: number, date: string) => void
-  deleteLesson: (id: number) => void
+
+  saveNewLesson: (input: {}, studentId: number, date: string) => Promise<void>
+  deleteLesson: (id: number) => Promise<void>
   updateLesson: (lesson: TLesson) => void
 }
 

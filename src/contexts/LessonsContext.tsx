@@ -13,8 +13,8 @@ import { useUser } from './UserContext'
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
   setLessons: () => {},
-  saveNewLesson: () => {},
-  deleteLesson: () => {},
+  saveNewLesson: () => new Promise(() => {}),
+  deleteLesson: () => new Promise(() => {}),
   updateLesson: () => {},
 })
 
@@ -26,38 +26,29 @@ export const LessonsProvider = ({ children }) => {
     input: { lessonContent: string; homework: string },
     studentId: number,
     date: string
-  ) => {
+  ): Promise<void> => {
     const tempID = Math.floor(Math.random() * 10000000)
-    const newLesson: TLesson = {
+    const tempLesson: TLesson = {
       ...input,
       studentId,
       date: formatDateToDatabase(date),
       id: tempID,
     }
-    setLessons((lessons) => [...lessons, newLesson])
 
     try {
-      const [data] = await saveNewLessonSupabase(newLesson, user.id)
-      const newId = data.id
-      setLessons((lessons) => {
-        const newLessonsArray = lessons.map((lesson) =>
-          lesson.id === tempID ? { ...lesson, id: newId } : lesson
-        )
-        return newLessonsArray
-      })
-      toast('Lektion gespeichert')
-    } catch (err) {
-      console.log(err)
+      const [data] = await saveNewLessonSupabase(tempLesson, user.id)
+      setLessons((lessons) => [...lessons, data])
+    } catch (error) {
+      throw new Error(error)
     }
   }
 
   const deleteLesson = async (lessonId: number) => {
-    setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
     try {
       await deleteLessonSupabase(lessonId)
-      toast('Lektion gelöscht')
+      setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
     } catch (err) {
-      console.log(err)
+      throw new Error(err)
     }
   }
 
@@ -79,6 +70,7 @@ export const LessonsProvider = ({ children }) => {
 
   const value = {
     lessons,
+
     setLessons,
     saveNewLesson,
     deleteLesson,

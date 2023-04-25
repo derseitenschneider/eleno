@@ -5,14 +5,10 @@ import { IoSearchOutline } from 'react-icons/io5'
 import { useStudents } from '../../../contexts/StudentContext'
 import Button from '../../../components/button/Button.component'
 // Components
-import StudentRow from '../../../components/studentRow/StudentRow'
 import { useState } from 'react'
-import { TStudent } from '../../../types/types'
-import Loader from '../../../components/loader/Loader'
 import StudentList from '../../../components/studentlist/StudentList.component'
 
 import Modal from '../../../components/modals/Modal.component'
-import NoStudents from '../../../components/noContent/NoContent.component'
 import NoContent from '../../../components/noContent/NoContent.component'
 
 function StudentsArchive() {

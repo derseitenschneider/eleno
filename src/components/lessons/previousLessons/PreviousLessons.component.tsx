@@ -36,6 +36,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   const [modalViewAllOpen, setModalViewAllOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
   const [tabIndex, setTabIndex] = useState(0)
+  const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -56,10 +57,18 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   //   .map((lesson) => lesson.id)
   //   .reverse()
 
-  const deleteHandler = () => {
-    deleteLesson(previousLessonsIds[tabIndex])
-    setTabIndex(0)
+  const deleteHandler = async () => {
     setModalDeleteOpen(false)
+    try {
+      setIsPending(true)
+      await deleteLesson(previousLessonsIds[tabIndex])
+      setTabIndex(0)
+      toast('Lektion gelöscht')
+    } catch (err) {
+      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+    } finally {
+      setIsPending(false)
+    }
   }
 
   // [ ] set tabindex to 0 when next lesson
@@ -86,7 +95,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
             </button>
           </div>
 
-          <div className="container--two-rows">
+          <div className={`container--two-rows${isPending ? ' loading' : ''}`}>
             <div className="row-left">
               <h4 className="heading-4">Lektion</h4>
               <div className="content--previous-lesson">

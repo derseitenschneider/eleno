@@ -18,6 +18,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
   const [input, setInput] = useState(lessonData)
   const { saveNewLesson } = useLessons()
+  const [isPending, setIsPending] = useState(false)
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     })
   }
 
-  const handlerSaveLesson = () => {
+  const handlerSaveLesson = async () => {
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
@@ -50,9 +51,16 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       toast('Die Lektion hat keinen Lektionsinhalt', { type: 'error' })
       return
     }
-    saveNewLesson(input, studentId, date)
-
-    setInput(lessonData)
+    try {
+      setIsPending(true)
+      await saveNewLesson(input, studentId, date)
+      setInput(lessonData)
+      toast('Lektion gespeichert')
+    } catch (err) {
+      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -76,6 +84,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
             value={input.lessonContent}
             onChange={handlerInput}
             ref={inputRef}
+            className={`${isPending ? 'loading' : ''}`}
           ></textarea>
         </div>
         <div className="row-right">
@@ -84,6 +93,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
             name="homework"
             value={input.homework}
             onChange={handlerInput}
+            className={`${isPending ? 'loading' : ''}`}
           ></textarea>
         </div>
       </div>

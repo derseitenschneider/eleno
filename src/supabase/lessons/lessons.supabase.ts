@@ -20,6 +20,7 @@ export const saveNewLessonSupabase = async function (
   userId: string
 ): Promise<TLesson[]> {
   const { date, homework, lessonContent, studentId } = lesson
+
   const { data, error } = await supabase
     .from('lessons')
     .insert([{ date, homework, lessonContent, studentId, user_id: userId }])
@@ -33,7 +34,9 @@ export const deleteLessonSupabase = async (lessonId: number) => {
     .delete()
     .eq('id', lessonId)
 
-  error && console.log(error)
+  if (error) {
+    throw new Error(error.message)
+  }
 }
 
 export const updateLessonSupabase = async (lesson: TLesson) => {

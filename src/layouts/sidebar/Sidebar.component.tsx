@@ -14,9 +14,14 @@ import {
 } from 'react-icons/io5'
 
 import Logo from '../../components/logo/Logo.component'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
+import { useStudents } from '../../contexts/StudentContext'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { closestStudentIndex, setClosestStudentIndex } = useClosestStudent()
+  const { activeStudents } = useStudents()
   const navigate = useNavigate()
 
   const toggleSidebar = () => {
@@ -34,6 +39,11 @@ function Sidebar() {
       !target?.closest('button')?.classList.contains('sidebar__button--toggle')
     )
       toggleSidebar()
+  }
+
+  const resetClosestStudentIndex = () => {
+    setClosestStudentIndex(getClosestStudentIndex(activeStudents))
+    console.log(closestStudentIndex)
   }
 
   useEffect(() => {
@@ -58,7 +68,11 @@ function Sidebar() {
           <nav className="sidebar__navigation">
             <ul className="sidebar__nav-list">
               <li className="sidebar__nav-el">
-                <NavLink to="/" className="sidebar__nav-link">
+                <NavLink
+                  to="/"
+                  className="sidebar__nav-link"
+                  onClick={resetClosestStudentIndex}
+                >
                   <div className="sidebar__nav-icon">
                     <IoCompassOutline className="icon" />
                   </div>
