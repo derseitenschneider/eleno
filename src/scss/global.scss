@@ -81,8 +81,16 @@ ul {
 }
 
 li {
-  display: block;
   font-size: 1.4rem;
+}
+
+ol {
+  margin-bottom: 3.2rem;
+}
+
+ol li {
+  margin-left: 1em;
+  margin-bottom: 1em;
 }
 
 hr {
@@ -93,8 +101,10 @@ hr {
 a:link,
 a:visited {
   text-decoration: none;
+
   color: inherit;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--clr-primary-600);
 }
 
 a:active,

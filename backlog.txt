@@ -20,6 +20,10 @@
 
 # Dashboard
 - Membership anzeigen und allenfalls für pro werben
+- Toast bei überfälligen todos
+
+
 
 ## Overall
 - English and German translation
+- Animations

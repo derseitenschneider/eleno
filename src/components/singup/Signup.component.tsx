@@ -5,6 +5,7 @@ import Loader from '../loader/Loader'
 import { TDisplayForm } from '../../types/types'
 import Modal from '../modals/Modal.component'
 import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
+import TermsAndConditions from '../termsAndConditions/TermsAndConditions.component'
 
 // [ ] AGBs
 interface SignupProps {
@@ -24,7 +25,8 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalPrivacyOpen, setModalPrivacyOpen] = useState(false)
+  const [modalTermsOpen, setModalTermsOpen] = useState(false)
 
   const handlerinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
@@ -159,9 +161,13 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                     />{' '}
                     <label htmlFor="privacy-policy">
                       Ich bin mit den{' '}
-                      <a href="#" onClick={() => setModalOpen(true)}>
+                      <a href="#" onClick={() => setModalPrivacyOpen(true)}>
                         Datenschutzbestimmungen{' '}
-                      </a>
+                      </a>{' '}
+                      und den{' '}
+                      <a href="#" onClick={() => setModalTermsOpen(true)}>
+                        Allgemeinen Geschäftsbestimmungen
+                      </a>{' '}
                       einverstanden
                     </label>
                   </div>
@@ -192,14 +198,27 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
           </div>
         </div>
       )}
-      {modalOpen && (
+      {modalPrivacyOpen && (
         <Modal
           heading="Impressum & Datenschutz"
-          handlerClose={() => setModalOpen(false)}
-          handlerOverlay={() => setModalOpen(false)}
+          handlerClose={() => setModalPrivacyOpen(false)}
+          handlerOverlay={() => setModalPrivacyOpen(false)}
           className="modal--privacy-policy"
         >
           <PrivacyPolicy />
+        </Modal>
+      )}
+      {modalTermsOpen && (
+        <Modal
+          heading="Allgemeine Geschäftsbedingungen"
+          handlerClose={() => setModalTermsOpen(false)}
+          handlerOverlay={() => setModalTermsOpen(false)}
+          className="modal--terms"
+        >
+          <TermsAndConditions
+            setModalPrivacyOpen={setModalPrivacyOpen}
+            setModalTermsOpen={setModalTermsOpen}
+          />
         </Modal>
       )}
     </>
