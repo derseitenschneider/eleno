@@ -27,3 +27,4 @@
 ## Overall
 - English and German translation
 - Animations
+- PWA

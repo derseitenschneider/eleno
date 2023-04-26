@@ -15,14 +15,14 @@
       }
     }
     input {
-      background-color: var(--clr-bg-500);
+      background-color: var(--clr-bg-400);
       color: var(--clr-text-400);
       font-size: inherit;
       font-family: inherit;
       border: none;
       margin-left: 0.8rem;
       padding: 0.8rem;
-      width: 10rem;
+      width: 9.5ch;
       &:focus {
         background-color: var(--clr-bg-400);
         outline: none;
