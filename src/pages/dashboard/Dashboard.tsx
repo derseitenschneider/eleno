@@ -26,6 +26,8 @@ function Dashboard() {
   const { todos } = useTodos()
   const { dateToday } = useDateToday()
 
+  // [ ] restyle dashboard
+
   useEffect(() => {
     user && setLoading(false)
   }, [user])

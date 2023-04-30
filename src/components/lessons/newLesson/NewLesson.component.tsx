@@ -6,8 +6,6 @@ import Button from '../../button/Button.component'
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
 
-// [ ] on save open tab with most current/new lesson
-
 // [ ] find a way to store new lesson when navigate to other page
 
 interface NewLessonProps {

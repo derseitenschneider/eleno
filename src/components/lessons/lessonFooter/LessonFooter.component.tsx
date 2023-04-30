@@ -33,12 +33,14 @@ const LessonFooter: FunctionComponent<LessonFooterProps> = ({
           btnStyle="icon-only"
           handler={handlerPreviousStudent}
           icon={<IoArrowBackOutline />}
+          className="btn-arrow"
         />
         <Button
           type="button"
           btnStyle="icon-only"
           handler={handlerNextStudent}
           icon={<IoArrowForwardOutline />}
+          className="btn-arrow"
         />
       </div>
     </footer>

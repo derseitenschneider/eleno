@@ -121,14 +121,14 @@ function Sidebar() {
           </nav>
         </div>
         <div className="container-settings">
-          <li className="sidebar__nav-el">
+          <div className="sidebar__nav-el">
             <NavLink to="settings" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                 <IoSettingsOutline className="icon" />
               </div>
               <span className="sidebar__link-text">Einstellungen</span>
             </NavLink>
-          </li>
+          </div>
           <div className="sidebar__nav-el">
             <div className="sidebar__nav-link" onClick={logout}>
               <div className="sidebar__nav-icon">

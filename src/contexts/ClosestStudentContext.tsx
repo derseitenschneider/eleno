@@ -9,8 +9,6 @@ export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({
   setClosestStudentIndex: () => {},
 })
 
-// [ ] Fix modal design when deleting via button
-
 export const ClosestStudentProvider = ({ children }) => {
   const { students } = useStudents()
   const [closestStudentIndex, setClosestStudentIndex] = useState<number>(0)

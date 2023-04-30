@@ -10,7 +10,7 @@
     &:not(:first-child) {
       margin-bottom: 0.1rem;
     }
-    &:not(.student-list__header) > div {
+    &:not(.student-list__header) > div:not(.container-modal) {
       background-color: var(--clr-bg-400);
 
       padding: 1rem 0;

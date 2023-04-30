@@ -96,5 +96,10 @@
   a:link,
   a:visited {
     color: var(--clr-primary-600);
+    font-weight: 500;
+  }
+  a:active,
+  a:hover {
+    color: var(--clr-primary-800);
   }
 }

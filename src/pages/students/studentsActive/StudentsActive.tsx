@@ -39,18 +39,34 @@ export default function StudentsActive() {
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
 
-  // [ ] make better filter that also respects setting first and last name after each other
-
   const filteredStudents = activeStudents?.filter(
     (student) =>
-      student.firstName.toLowerCase().includes(searchInput) ||
-      student.lastName.toLocaleLowerCase().includes(searchInput) ||
-      student.instrument.toLocaleLowerCase().includes(searchInput) ||
-      student.location.toLocaleLowerCase().includes(searchInput) ||
-      student.dayOfLesson.toLocaleLowerCase().includes(searchInput)
+      student.firstName
+        .toLowerCase()
+        .includes(searchInput.toLowerCase().split(' ').join('')) ||
+      student.lastName
+        .toLowerCase()
+        .includes(searchInput.toLowerCase().split(' ').join('')) ||
+      `${student.firstName.toLowerCase()}${student.lastName.toLowerCase()}`.includes(
+        searchInput.toLowerCase().split(' ').join('')
+      ) ||
+      student.instrument
+        .toLowerCase()
+        .includes(searchInput.toLowerCase().split(' ').join('')) ||
+      student.location
+        .toLowerCase()
+        .includes(searchInput.toLowerCase().split(' ').join('')) ||
+      student.dayOfLesson
+        .toLowerCase()
+        .includes(searchInput.toLowerCase().split(' ').join(''))
   )
 
   // HANDLER-FUNCTIONS //
+
+  const handlerSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    setSearchInput(input)
+  }
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
@@ -127,9 +143,7 @@ export default function StudentsActive() {
                     placeholder="suchen"
                     value={searchInput}
                     autoFocus
-                    onChange={(e) =>
-                      setSearchInput(e.target.value.toLowerCase())
-                    }
+                    onChange={handlerSearchInput}
                   />
 
                   <Button

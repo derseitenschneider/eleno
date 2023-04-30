@@ -12,8 +12,7 @@ import Modal from '../../../components/modals/Modal.component'
 import NoContent from '../../../components/noContent/NoContent.component'
 
 function StudentsArchive() {
-  const { students, reactivateStudents, deleteStudents, archivedStudents } =
-    useStudents()
+  const { reactivateStudents, deleteStudents, archivedStudents } = useStudents()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
