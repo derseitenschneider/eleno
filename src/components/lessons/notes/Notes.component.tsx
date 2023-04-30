@@ -5,7 +5,7 @@ import Button from '../../button/Button.component'
 import Note from '../note/Note.component'
 import { IoAddOutline } from 'react-icons/io5'
 import ModalAddNote from '../../modals/modalAddNotes/ModalAddNote.component'
-
+// [ ] Check overflow (e.g. Ben)
 interface NotesProps {
   currentStudentId: number
 }

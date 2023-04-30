@@ -45,7 +45,7 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
             <p>Hausaufgaben</p>
           </div>
           {allLessons.map((lesson) => (
-            <LessonRow lesson={lesson} />
+            <LessonRow lesson={lesson} key={lesson.id} />
           ))}
         </div>
       )}

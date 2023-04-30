@@ -7,7 +7,6 @@ import Modal from '../modals/Modal.component'
 import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
 import TermsAndConditions from '../termsAndConditions/TermsAndConditions.component'
 
-// [ ] AGBs
 interface SignupProps {
   setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
 }

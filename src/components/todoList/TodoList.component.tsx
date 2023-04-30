@@ -2,11 +2,9 @@ import './todoList.style.scss'
 import { FunctionComponent, useRef, useState } from 'react'
 import { TTodo } from '../../types/types'
 import TodoItem from '../todoItem/TodoItem.component'
-import { sortStudents } from '../../utils/sortStudents'
 import Button from '../button/Button.component'
 import TodoAddItem from '../todoAddItem/TodoAddItem.component'
 import { useTodos } from '../../contexts/TodosContext'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import NoContent from '../noContent/NoContent.component'
 import Modal from '../modals/Modal.component'
@@ -17,7 +15,7 @@ interface TodoListProps {
 
 const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { deleteAllCompleted, saveTodo, completeTodo } = useTodos()
+  const { deleteAllCompleted } = useTodos()
 
   return (
     <div className="todo-list">
@@ -34,7 +32,7 @@ const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
         <div></div>
       )}
       <div className="todos">
-        {listType === 'open' && <TodoAddItem saveTodo={saveTodo} />}
+        {listType === 'open' && <TodoAddItem />}
 
         {todos?.length ? (
           <>

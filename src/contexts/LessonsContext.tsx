@@ -15,7 +15,7 @@ export const LessonsContext = createContext<ContextTypeLessons>({
   setLessons: () => {},
   saveNewLesson: () => new Promise(() => {}),
   deleteLesson: () => new Promise(() => {}),
-  updateLesson: () => {},
+  updateLesson: () => new Promise(() => {}),
 })
 
 export const LessonsProvider = ({ children }) => {
@@ -53,18 +53,20 @@ export const LessonsProvider = ({ children }) => {
   }
 
   const updateLesson = async (updatedLesson: TLesson) => {
-    setLessons((prev) =>
-      prev.map((lesson) =>
-        lesson.id === updatedLesson.id
-          ? { ...updatedLesson, date: formatDateToDatabase(updatedLesson.date) }
-          : lesson
-      )
-    )
     try {
       await updateLessonSupabase(updatedLesson)
-      toast('Änderungen gespeichert')
-    } catch (err) {
-      console.log('etwas ist schiefgelaufen')
+      setLessons((prev) =>
+        prev.map((lesson) =>
+          lesson.id === updatedLesson.id
+            ? {
+                ...updatedLesson,
+                date: formatDateToDatabase(updatedLesson.date),
+              }
+            : lesson
+        )
+      )
+    } catch (error) {
+      throw new Error(error)
     }
   }
 

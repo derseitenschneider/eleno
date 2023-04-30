@@ -11,7 +11,7 @@ export const fetchAllLessonsSupabase = async function (
     .eq('studentId', studentId)
     .order('date', { ascending: false })
 
-  if (error) throw new Error(`${error}`)
+  if (error) throw new Error(error.message)
   return lessons
 }
 
@@ -25,6 +25,7 @@ export const saveNewLessonSupabase = async function (
     .from('lessons')
     .insert([{ date, homework, lessonContent, studentId, user_id: userId }])
     .select()
+
   return data
 }
 
@@ -42,13 +43,15 @@ export const deleteLessonSupabase = async (lessonId: number) => {
 export const updateLessonSupabase = async (lesson: TLesson) => {
   const { error } = await supabase
     .from('lessons')
-    .update({ ...lesson })
+    .upsert({ ...lesson })
     .eq('id', lesson.id)
+
+  if (error) throw new Error(error.message)
 }
 
 export const fetchLatestLessonsSupabase = async (userId: string) => {
   const { data: lessons, error } = await supabase
-    .from('latest_3_lessons')
+    .from('last_3_lessons')
     .select()
   if (error) throw new Error(error.message)
   return lessons

@@ -7,6 +7,9 @@
   .container--edit-lesson {
     display: flex;
     gap: 2rem;
+    &.loading {
+      opacity: 0.3;
+    }
   }
 
   .container-buttons {

@@ -7,11 +7,10 @@ import { useUser } from '../../contexts/UserContext'
 import { formatDateToDisplay } from '../../utils/formateDate'
 import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 import { toast } from 'react-toastify'
-interface TodoAddItemProps {
-  saveTodo: (todo: TTodo) => void
-}
+import { useTodos } from '../../contexts/TodosContext'
+import DatePicker from 'react-datepicker'
 
-// [ ] fix date error
+interface TodoAddItemProps {}
 
 const todoData = {
   text: '',
@@ -20,10 +19,11 @@ const todoData = {
   completed: false,
 }
 
-const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
+const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
   const [currentStudentId, setCurrentStudentId] = useState(null)
+  const { saveTodo } = useTodos()
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -51,8 +51,9 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
       studentId: currentStudentId,
       id: tempId,
       userId: user.id,
+      // due: inputTodo.due && null,
     }
-    saveTodo(newTodo)
+    saveTodo({ ...newTodo, due: newTodo.due.length ? newTodo.due : null })
     setInputTodo(todoData)
     setCurrentStudentId(null)
   }
@@ -83,11 +84,10 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({ saveTodo }) => {
             type="date"
             name="due"
             className="datepicker"
-            value={inputTodo.due}
+            // value={inputTodo.due}
             onChange={onChangeInputs}
           />
         )}
-
         <Button
           label="Speichern"
           type="button"

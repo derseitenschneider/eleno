@@ -5,17 +5,12 @@ import { useLessons } from '../../../contexts/LessonsContext'
 
 // Components
 import { IoEllipsisHorizontal } from 'react-icons/io5'
-import { MdOutlineReadMore } from 'react-icons/md'
 import Button from '../../button/Button.component'
 import DropDown from '../../dropdown/Dropdown.component'
 import ModalEditLesson from '../../modals/modalEditLesson/ModalEditLesson.component'
 
-// Types
-import { TStudent } from '../../../types/types'
-
 // Functions
 import { formatDateToDisplay } from '../../../utils/formateDate'
-import { deleteLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
 import { toast } from 'react-toastify'
 import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
 import Modal from '../../modals/Modal.component'
@@ -51,12 +46,6 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     }
   }, [dropdownOpen])
 
-  // const previousLessonsIds = lessons
-  //   .filter((lesson) => lesson.studentId === currentStudentId)
-  //   ?.slice(-3)
-  //   .map((lesson) => lesson.id)
-  //   .reverse()
-
   const deleteHandler = async () => {
     setModalDeleteOpen(false)
     try {
@@ -73,6 +62,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
 
   // [ ] set tabindex to 0 when next lesson
   // [ ] show button 'viewalllessons' only when there are more there are already 3 lessons in previous lessons array
+  // [ ] Fix ordering by date
 
   return (
     <>

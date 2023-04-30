@@ -3,19 +3,22 @@ import TodoList from '../../components/todoList/TodoList.component'
 import { TTodo } from '../../types/types'
 import { useTodos } from '../../contexts/TodosContext'
 import NoContent from '../../components/noContent/NoContent.component'
-import { compareDateString } from '../../utils/sortStudents'
 import { compareDateTodos } from '../../utils/sortTodos'
 interface TodosOpenProps {}
 
 const TodosOpen: FunctionComponent<TodosOpenProps> = () => {
   const { todos } = useTodos()
 
-  // [ ] check sorting todos
-  const sortedFilteredTodos = todos
-    .filter((todo) => !todo.completed)
+  const openTodos = todos.filter((todo) => !todo.completed)
+
+  const todosWithDue = openTodos
+    .filter((todo) => todo.due)
     .sort(compareDateTodos)
 
-  const openTodos = todos.filter((todo) => !todo.completed)
+  const todosWithoutDue = openTodos.filter((todo) => !todo.due)
+
+  const sortedFilteredTodos = [...todosWithDue, ...todosWithoutDue]
+
   return <TodoList todos={sortedFilteredTodos} listType={'open'} />
 }
 
