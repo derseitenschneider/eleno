@@ -17,8 +17,6 @@ interface StudentRowProps {
   isArchive: boolean
 }
 
-// [ ] indicate selected row with color -> like edit btn selected
-
 const StudentRow: FunctionComponent<StudentRowProps> = ({
   studentId,
   setIsSelected,
@@ -43,6 +41,12 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     durationMinutes,
     location,
   } = students.find((student) => student.id === studentId)
+
+  useEffect(() => {
+    if (isSelected.includes(studentId)) {
+      setIsChecked(true)
+    } else setIsChecked(false)
+  }, [isSelected])
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -95,7 +99,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       <div
         className="checkbox"
         style={
-          dropdownOpen
+          dropdownOpen || isChecked
             ? {
                 boxShadow: 'inset 3px 0 0 var(--clr-primary-600)',
                 color: 'var(--clr-primary-600)',
@@ -112,7 +116,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       </div>
       <div
         style={
-          dropdownOpen
+          dropdownOpen || isChecked
             ? {
                 color: 'var(--clr-primary-600)',
               }
@@ -121,32 +125,59 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       >
         {firstName}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {lastName}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {instrument}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {dayOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {startOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {endOfLesson}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {durationMinutes ? `${durationMinutes} Minuten` : `-`}
-        {/* {durationMinutes} Minuten */}
       </div>
-      <div style={dropdownOpen ? { color: 'var(--clr-primary-600)' } : {}}>
+      <div
+        style={
+          dropdownOpen || isChecked ? { color: 'var(--clr-primary-600)' } : {}
+        }
+      >
         {location}
       </div>
       <div
         className="container--button"
         style={
-          dropdownOpen
+          dropdownOpen || isChecked
             ? {
                 boxShadow: 'inset -3px 0 0 var(--clr-primary-600)',
               }
