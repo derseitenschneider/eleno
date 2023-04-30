@@ -44,7 +44,6 @@ function Dashboard() {
     (todo) => todo.due < formatDateToDatabase(dateToday)
   )
 
-  // [ ] Einzahl/mehrzahl bei den cards berücksichtigen
   return (
     <div className="dashboard">
       {/* <Loader loading={loading} /> */}
@@ -80,14 +79,40 @@ function Dashboard() {
               <IoPeopleCircleOutline className="icon" />
               <p className="card-title">Schüler:in hinzufügen</p>
               <hr />
-              <p>Aktuell {activeStudents.length} aktive Schüler:innen</p>
-              <p>{archivedStudents.length} Schüler:innen archiviert</p>
+              {activeStudents.length ? (
+                <p>
+                  Aktuell {activeStudents.length}
+                  {activeStudents.length > 1
+                    ? ' aktive Schüler:innen'
+                    : ' aktive:r Schüler:in'}
+                </p>
+              ) : (
+                <p>Keine aktiven Schüler:innen erfasst</p>
+              )}
+              {archivedStudents.length ? (
+                <p>
+                  {archivedStudents.length}
+                  {archivedStudents.length > 1
+                    ? ' Schüler:innen archiviert'
+                    : ' Schüler:in archiviert'}
+                </p>
+              ) : (
+                <p>Keine archivierten Schüler:innen</p>
+              )}
             </NavLink>
             <NavLink to={'todos'} className="card">
               <IoCheckboxOutline className="icon" />
               <p className="card-title">To Do erfassen</p>
               <hr />
-              <p>{todosOpen.length} Todos offen</p>
+              {todosOpen.length ? (
+                <p>
+                  {todosOpen.length}
+                  {`${todosOpen.length > 1 ? ' Todos offen' : ' Todo offen'}`}
+                </p>
+              ) : (
+                <p>Keine offenen Todos</p>
+              )}
+
               {todosOverdue.length ? (
                 <p className="card__details--warning">
                   {todosOverdue.length} davon überfällig

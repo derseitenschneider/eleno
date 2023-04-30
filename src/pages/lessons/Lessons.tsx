@@ -23,6 +23,7 @@ import Notes from '../../components/lessons/notes/Notes.component'
 import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
 import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
 import { useLessons } from '../../contexts/LessonsContext'
+import NoContent from '../../components/noContent/NoContent.component'
 
 const Lesson: FunctionComponent = () => {
   const { loading } = useLoading()
@@ -31,6 +32,7 @@ const Lesson: FunctionComponent = () => {
 
   const { closestStudentIndex } = useClosestStudent()
   const [studentIndex, setStudentIndex] = useState(0)
+  const navigate = useNavigate()
 
   //EFFECTS
 
@@ -76,10 +78,29 @@ const Lesson: FunctionComponent = () => {
           />
         </div>
       ) : (
-        <div className="container">
-          {/* [ ] Handle empty students here */}
-          {/* <NoActiveStudent handler={navigateToStudents} /> */}
-        </div>
+        <NoContent
+          heading="Keine aktiven Schüler:innen"
+          buttons={[
+            {
+              label: 'Schüler:innen erfassen',
+              handler: () => {
+                navigate('/students')
+              },
+            },
+            {
+              label: 'Aus Archiv wiederherstellen',
+              handler: () => {
+                navigate('/students/archive')
+              },
+            },
+          ]}
+        >
+          <p>
+            Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
+            Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und
+            wähle welche aus, die du wiederherstellen möchtest
+          </p>
+        </NoContent>
       )}
     </>
   )

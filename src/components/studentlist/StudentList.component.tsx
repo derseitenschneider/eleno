@@ -1,5 +1,5 @@
 import './studentList.style.scss'
-import { FunctionComponent, SetStateAction, useState } from 'react'
+import { FunctionComponent, SetStateAction, useState, useEffect } from 'react'
 import { TSorting, TSortingMethods, TStudent } from '../../types/types'
 import { IoTriangle } from 'react-icons/io5'
 import StudentRow from '../studentRow/StudentRow'
@@ -21,6 +21,12 @@ const StudentList: FunctionComponent<StudentListProps> = ({
   setIsSelected,
 }) => {
   const [isChecked, setIsChecked] = useState(false)
+
+  useEffect(() => {
+    if (isSelected.length !== students.length) {
+      setIsChecked(false)
+    }
+  }, [isSelected])
 
   const handlerCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked((prev) => !prev)

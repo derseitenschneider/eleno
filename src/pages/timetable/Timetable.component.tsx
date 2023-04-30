@@ -4,9 +4,10 @@ import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { TTimetableDay } from '../../types/types'
+import NoContent from '../../components/noContent/NoContent.component'
 
 function Timetable() {
-  const { students, setStudents } = useStudents()
+  const { students } = useStudents()
 
   const sortedStudents = sortStudentsDateTime(
     students.filter((student) => !student.archive)
@@ -94,11 +95,23 @@ function Timetable() {
     <>
       <div className="container">
         <h1 className="heading-1">Stundenplan</h1>
-        <div className="container--timetable">
-          {days.map((day, index) =>
-            day.students.length ? <TimeTableDay day={day} key={index} /> : null
-          )}
-        </div>
+        {days.some((day) => day.students.length) ? (
+          <div className="container--timetable">
+            {days.map((day, index) =>
+              day.students.length ? (
+                <TimeTableDay day={day} key={index} />
+              ) : null
+            )}
+          </div>
+        ) : (
+          <NoContent heading="Keine Unterrichtsdaten">
+            <p>
+              Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag,
+              Unterrichtsort) deiner Schüler:innen, damit sie im Stundenplan
+              erscheinen.
+            </p>
+          </NoContent>
+        )}
       </div>
     </>
   )

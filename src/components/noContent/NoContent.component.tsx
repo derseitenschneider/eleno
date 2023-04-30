@@ -30,13 +30,14 @@ const NoContent: FunctionComponent<StudentRowProps> = ({
         <h3 className="heading-3">{heading}</h3>
         {children}
         <div className="container--buttons">
-          {buttons?.map(({ label, handler, icon }) => (
+          {buttons?.map(({ label, handler, icon }, index) => (
             <Button
               type="button"
               btnStyle="primary"
               label={label}
               handler={handler}
               icon={icon}
+              key={index}
             />
           ))}
         </div>

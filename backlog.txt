@@ -12,6 +12,8 @@
   - Metronome
   - Data store (pdf)
   - music player
+  - Tuner
+  - Timer
 
 # Timetable
 - Print timetable

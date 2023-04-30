@@ -172,7 +172,7 @@ export default function StudentsActive() {
             heading="Keine Schüler:innen vorhanden"
             buttons={[
               {
-                label: 'Neue Schüler:in erfassen',
+                label: 'Neue Schüler:innen erfassen',
                 handler: () => setModalAddOpen((prev) => !prev),
               },
               {
@@ -195,6 +195,7 @@ export default function StudentsActive() {
         <ModalAddStudent handlerClose={() => setModalAddOpen(false)} />
       )}
       {modalResetOpen && (
+        // [ ] UI does not update
         <Modal
           handlerClose={() => {
             setModalResetOpen((prev) => !prev)
