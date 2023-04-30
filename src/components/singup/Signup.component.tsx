@@ -1,3 +1,4 @@
+import './signup.style.scss'
 import { FunctionComponent, SetStateAction, useState } from 'react'
 import Button from '../button/Button.component'
 import { signUpSupabase } from '../../supabase/users/users.supabase'

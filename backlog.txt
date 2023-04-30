@@ -28,3 +28,4 @@
 - English and German translation
 - Animations
 - PWA
+- Tooltips

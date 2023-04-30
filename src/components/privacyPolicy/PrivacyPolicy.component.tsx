@@ -5,7 +5,7 @@ interface PrivacyPolicyProps {}
 
 const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
   return (
-    <>
+    <div className="privacy">
       <h3 className="heading-3">Datenschutzerklärung</h3>
 
       <p>
@@ -862,7 +862,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
         </a>{' '}
         erstellt und publiziert.
       </p>
-    </>
+    </div>
   )
 }
 

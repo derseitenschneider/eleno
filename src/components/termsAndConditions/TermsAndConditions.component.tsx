@@ -1,3 +1,4 @@
+import './termsAndConditions.style.scss'
 import { FunctionComponent } from 'react'
 interface TermsAndConditionsProps {
   setModalTermsOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -9,7 +10,7 @@ const TermsAndConditions: FunctionComponent<TermsAndConditionsProps> = ({
   setModalTermsOpen,
 }) => {
   return (
-    <>
+    <div className="terms">
       <p>
         <strong>
           Die vorliegenden allgemeinen Geschäftsbedingungen treten per 30. April
@@ -941,7 +942,7 @@ const TermsAndConditions: FunctionComponent<TermsAndConditionsProps> = ({
         Soweit eine übersetzte Version dieser Nutzungsbedingungen mit der
         deutschen Version in Konflikt steht, gilt die deutsche Version.
       </p>
-    </>
+    </div>
   )
 }
 

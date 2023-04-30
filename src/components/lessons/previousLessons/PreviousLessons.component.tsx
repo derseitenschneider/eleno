@@ -46,6 +46,10 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
     }
   }, [dropdownOpen])
 
+  useEffect(() => {
+    setTabIndex(0)
+  }, [lessons, currentStudentId])
+
   const deleteHandler = async () => {
     setModalDeleteOpen(false)
     try {
@@ -59,10 +63,6 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
       setIsPending(false)
     }
   }
-
-  // [ ] set tabindex to 0 when next lesson
-  // [ ] show button 'viewalllessons' only when there are more there are already 3 lessons in previous lessons array
-  // [ ] Fix ordering by date
 
   return (
     <>
@@ -80,9 +80,11 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 )}
               </button>
             ))}
-            <button className="tab" onClick={() => setModalViewAllOpen(true)}>
-              ...
-            </button>
+            {previousLessonsIds.length >= 3 && (
+              <button className="tab" onClick={() => setModalViewAllOpen(true)}>
+                ...
+              </button>
+            )}
           </div>
 
           <div className={`container--two-rows${isPending ? ' loading' : ''}`}>
@@ -92,7 +94,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 {
                   lessons.find(
                     (lesson) => lesson.id === previousLessonsIds[tabIndex]
-                  ).lessonContent
+                  )?.lessonContent
                 }
               </div>
             </div>
@@ -102,7 +104,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 {
                   lessons.find(
                     (lesson) => lesson.id === previousLessonsIds[tabIndex]
-                  ).homework
+                  )?.homework
                 }
               </div>
             </div>

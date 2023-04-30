@@ -29,7 +29,7 @@ function Sidebar() {
   }
 
   const logout = async () => {
-    let { error } = await supabase.auth.signOut()
+    await supabase.auth.signOut()
     navigate('/')
   }
 
@@ -43,7 +43,6 @@ function Sidebar() {
 
   const resetClosestStudentIndex = () => {
     setClosestStudentIndex(getClosestStudentIndex(activeStudents))
-    console.log(closestStudentIndex)
   }
 
   useEffect(() => {
@@ -127,7 +126,6 @@ function Sidebar() {
               <div className="sidebar__nav-icon">
                 <IoSettingsOutline className="icon" />
               </div>
-
               <span className="sidebar__link-text">Einstellungen</span>
             </NavLink>
           </li>
