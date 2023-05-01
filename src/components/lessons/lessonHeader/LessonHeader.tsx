@@ -32,13 +32,11 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           </h2>
           {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
         </div>
-        {dayOfLesson ||
-          startOfLesson ||
-          (endOfLesson && (
-            <span>
-              {dayOfLesson}, {startOfLesson} - {endOfLesson}
-            </span>
-          ))}
+        <span>
+          {dayOfLesson && `${dayOfLesson}`}
+          {startOfLesson && `, ${startOfLesson}`}
+          {endOfLesson && ` - ${endOfLesson}`}
+        </span>
       </div>
     </header>
   )
