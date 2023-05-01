@@ -25,8 +25,13 @@
 - Toast bei überfälligen todos
 
 
+# Students
+- Massenbearbeitung
+
 
 ## Overall
+- Fetch only lessons from active students
+- Fetch only todos from active students
 - English and German translation
 - Animations
 - PWA

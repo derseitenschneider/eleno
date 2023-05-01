@@ -51,6 +51,7 @@ export const StudentsProvider = ({ children }) => {
     )
     try {
       await resetStudentSupabase(studentIds)
+      setStudents(newStudents)
       toast('Unterrichtsdaten zurückgesetzt')
     } catch (error) {
       console.log(error)
@@ -79,6 +80,7 @@ export const StudentsProvider = ({ children }) => {
     }
   }
 
+  // [ ] fetch lessons and notes when student is reactivated
   const reactivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: false } : student

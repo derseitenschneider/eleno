@@ -2,14 +2,7 @@ import './lessonHeader.style.scss'
 import { FunctionComponent } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
-import Button from '../../button/Button.component'
-import {
-  IoPersonCircleOutline,
-  IoArrowBackOutline,
-  IoArrowForwardOutline,
-} from 'react-icons/io5'
-
-import { MdKeyboardArrowLeft } from 'react-icons/md'
+import { IoPersonCircleOutline } from 'react-icons/io5'
 
 interface LessonHeaderProps {
   currentStudentId: number
@@ -37,12 +30,15 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
             <IoPersonCircleOutline className="icon" />
             {firstName} {lastName}
           </h2>
-
-          <span> {durationMinutes} Minuten</span>
+          {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
         </div>
-        <span>
-          {dayOfLesson}, {startOfLesson} - {endOfLesson}
-        </span>
+        {dayOfLesson ||
+          startOfLesson ||
+          (endOfLesson && (
+            <span>
+              {dayOfLesson}, {startOfLesson} - {endOfLesson}
+            </span>
+          ))}
       </div>
     </header>
   )

@@ -195,7 +195,6 @@ export default function StudentsActive() {
         <ModalAddStudent handlerClose={() => setModalAddOpen(false)} />
       )}
       {modalResetOpen && (
-        // [ ] UI does not update
         <Modal
           handlerClose={() => {
             setModalResetOpen((prev) => !prev)

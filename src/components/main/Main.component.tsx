@@ -18,9 +18,9 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { user } = useUser()
   // const { loading, setLoading } = useLoading()
   const [isPending, setIsPending] = useState(true)
-  const { setStudents } = useStudents()
+  const { setStudents, students } = useStudents()
   const { setLessons } = useLessons()
-  const { setNotes } = useNotes()
+  const { setNotes, notes } = useNotes()
   const { setTodos } = useTodos()
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
       const allPromise = Promise.all([
         fetchStudents(user.id),
         fetchLatestLessonsSupabase(user.id),
-        fetchNotes(user.id),
+        fetchNotes(),
         fetchTodosSupabase(user.id),
       ])
       const fetchAll = async () => {

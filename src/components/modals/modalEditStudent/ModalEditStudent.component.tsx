@@ -23,6 +23,8 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
   )
   const [error, setError] = useState('')
 
+  // [ ] edit day not working
+
   const {
     firstName,
     lastName,
