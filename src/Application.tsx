@@ -11,8 +11,6 @@ import { AuthProvider } from './contexts/UserContext'
 import { LoadingProvider } from './contexts/LoadingContext'
 import OfflineBanner from './components/offlineBanner/OfflineBanner.component'
 
-// [ ] fix page refresh error
-
 export default function Application() {
   return (
     <div className="App">

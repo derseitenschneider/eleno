@@ -29,7 +29,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
     if (user) {
       const allPromise = Promise.all([
         fetchStudents(user.id),
-        fetchLatestLessonsSupabase(user.id),
+        fetchLatestLessonsSupabase(),
         fetchNotes(),
         fetchTodosSupabase(user.id),
       ])

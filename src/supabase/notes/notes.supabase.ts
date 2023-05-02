@@ -7,6 +7,16 @@ export const fetchNotes = async function () {
   return data
 }
 
+export const fetchNotesByStudent = async (studentIds: number[]) => {
+  const { data: notes, error } = await supabase
+    .from('notes')
+    .select('*')
+    .in('studentId', studentIds)
+
+  error && console.log(error)
+  return notes
+}
+
 export const postNotesSupabase = async function (
   note: TNotes,
   userId: string

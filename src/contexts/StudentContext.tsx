@@ -11,6 +11,13 @@ import {
 
 import { toast } from 'react-toastify'
 import { useUser } from './UserContext'
+import { useLessons } from './LessonsContext'
+import {
+  fetchLatestLessonsPerStudentSupabase,
+  fetchLatestLessonsSupabase,
+} from '../supabase/lessons/lessons.supabase'
+import { useNotes } from './NotesContext'
+import { fetchNotesByStudent } from '../supabase/notes/notes.supabase'
 
 export const StudentsContext = createContext<ContextTypeStudents>({
   students: [],
@@ -30,6 +37,8 @@ export const StudentsContext = createContext<ContextTypeStudents>({
 export const StudentsProvider = ({ children }) => {
   const { user } = useUser()
   const [students, setStudents] = useState([])
+  const { setLessons } = useLessons()
+  const { setNotes } = useNotes()
 
   const [isPending, setIsPending] = useState(false)
 
@@ -63,7 +72,7 @@ export const StudentsProvider = ({ children }) => {
     const data = await createNewStudentSupabase(students, user.id)
     setStudents((prev) => [...prev, ...data])
     setIsPending(false)
-    // handlerClose()
+
     toast('Schüler:in erstellt')
   }
 
@@ -74,13 +83,13 @@ export const StudentsProvider = ({ children }) => {
     setStudents(newStudents)
     try {
       await archivateStudentSupabase(studentIds)
+
       toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} archiviert`)
     } catch (err) {
       console.log(err)
     }
   }
 
-  // [ ] fetch lessons and notes when student is reactivated
   const reactivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: false } : student
@@ -88,6 +97,17 @@ export const StudentsProvider = ({ children }) => {
     setStudents(newStudents)
     try {
       await reactivateStudentSupabase(studentIds)
+
+      // Fetch latest lessons from reactivated student
+      const reactivatedLessons = await fetchLatestLessonsPerStudentSupabase(
+        studentIds
+      )
+      setLessons((prev) => [...prev, ...reactivatedLessons])
+
+      // Fetch notes from reactivated student
+      const reactivatedNotes = await fetchNotesByStudent(studentIds)
+      setNotes((prev) => [...prev, ...reactivatedNotes])
+
       toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} wiederhergestellt`)
     } catch (err) {
       console.log(err)

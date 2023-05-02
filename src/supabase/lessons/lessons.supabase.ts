@@ -48,10 +48,24 @@ export const updateLessonSupabase = async (lesson: TLesson) => {
   if (error) throw new Error(error.message)
 }
 
-export const fetchLatestLessonsSupabase = async (userId: string) => {
+export const fetchLatestLessonsSupabase = async () => {
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')
     .select()
   if (error) throw new Error(error.message)
   return lessons
+}
+
+export const fetchLatestLessonsPerStudentSupabase = async (
+  studentIds: number[]
+) => {
+  const { data: lessons, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .in('studentId', [...studentIds])
+    .order('date', { ascending: false })
+    .limit(3)
+
+  error && console.log(error)
+  return lessons.reverse()
 }

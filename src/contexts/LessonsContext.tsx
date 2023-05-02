@@ -72,7 +72,6 @@ export const LessonsProvider = ({ children }) => {
 
   const value = {
     lessons,
-
     setLessons,
     saveNewLesson,
     deleteLesson,

@@ -14,15 +14,15 @@ interface MainContextProps {
 const MainContext: FunctionComponent<MainContextProps> = ({ children }) => {
   return (
     <DateTodayProvider>
-      <StudentsProvider>
-        <LessonsProvider>
-          <NotesProvider>
+      <LessonsProvider>
+        <NotesProvider>
+          <StudentsProvider>
             <TodosProvider>
               <ClosestStudentProvider>{children}</ClosestStudentProvider>
             </TodosProvider>
-          </NotesProvider>
-        </LessonsProvider>
-      </StudentsProvider>
+          </StudentsProvider>
+        </NotesProvider>
+      </LessonsProvider>
     </DateTodayProvider>
   )
 }
