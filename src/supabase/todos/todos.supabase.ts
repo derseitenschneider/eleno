@@ -1,6 +1,8 @@
 import { TTodo } from '../../types/types'
 import { supabase } from '../supabase'
 
+// [ ] error handling for todos
+
 export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
   const { data, error } = await supabase
     .from('todos')

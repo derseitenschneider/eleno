@@ -1,9 +1,11 @@
 import { supabase } from '../supabase'
 import { TNotes } from '../../types/types'
 
+// [ ] error handling for notes
+
 export const fetchNotes = async function () {
   const { data, error } = await supabase.from('only_active_notes').select('*')
-
+  if (error) throw new Error(error.message)
   return data
 }
 
@@ -13,7 +15,7 @@ export const fetchNotesByStudent = async (studentIds: number[]) => {
     .select('*')
     .in('studentId', studentIds)
 
-  error && console.log(error)
+  if (error) throw new Error(error.message)
   return notes
 }
 

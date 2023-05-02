@@ -201,9 +201,11 @@ input[type='number'] {
   }
 }
 
-.error-message {
-  position: absolute;
-  bottom: -3rem;
-  color: var(--clr-warning);
+.error--message {
   font-size: 1.4rem;
+  min-height: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  color: var(--clr-warning);
 }

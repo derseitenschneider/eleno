@@ -12,10 +12,7 @@ import {
 import { toast } from 'react-toastify'
 import { useUser } from './UserContext'
 import { useLessons } from './LessonsContext'
-import {
-  fetchLatestLessonsPerStudentSupabase,
-  fetchLatestLessonsSupabase,
-} from '../supabase/lessons/lessons.supabase'
+import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons/lessons.supabase'
 import { useNotes } from './NotesContext'
 import { fetchNotesByStudent } from '../supabase/notes/notes.supabase'
 
@@ -110,7 +107,10 @@ export const StudentsProvider = ({ children }) => {
 
       toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} wiederhergestellt`)
     } catch (err) {
-      console.log(err)
+      toast(
+        'Etwas ist schiefgelaufen. Am besten lädtst du die Seite kurz neu...',
+        { type: 'warning', autoClose: 8000 }
+      )
     }
   }
 

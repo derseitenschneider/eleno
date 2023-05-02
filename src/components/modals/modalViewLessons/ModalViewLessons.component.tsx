@@ -5,6 +5,7 @@ import { TLesson } from '../../../types/types'
 import Loader from '../../loader/Loader'
 import Modal from '../Modal.component'
 import LessonRow from '../../lessonrow/LessonRow.component'
+import { toast } from 'react-toastify'
 interface ModalViewLessonsProps {
   handlerClose: () => void
   studentId: number
@@ -16,19 +17,23 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
 }) => {
   const [isPending, setIsPending] = useState(true)
   const [allLessons, setAllLessons] = useState<TLesson[]>()
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     const fetchAllLessons = async () => {
+      setErrorMessage('')
       try {
         const lessons = await fetchAllLessonsSupabase(studentId)
         setAllLessons(lessons)
-        setIsPending(false)
       } catch (error) {
-        console.log(error)
+        setErrorMessage('Etwas ist schiefgelaufen. Versuchs nochmal!')
+      } finally {
+        setIsPending(false)
       }
     }
     fetchAllLessons()
   }, [])
+
   return (
     <Modal
       heading="Komplette Lektionsliste"
@@ -44,7 +49,8 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
             <p>Lektion</p>
             <p>Hausaufgaben</p>
           </div>
-          {allLessons.map((lesson) => (
+          {errorMessage && <p className="error--message">{errorMessage}</p>}
+          {allLessons?.map((lesson) => (
             <LessonRow lesson={lesson} key={lesson.id} />
           ))}
         </div>

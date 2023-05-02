@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { TProfile } from '../../types/types'
 import { supabase } from '../supabase'
 
+// [ ] error handling for users
+
 export const signUpSupabase = async (
   email: string,
   password: string,

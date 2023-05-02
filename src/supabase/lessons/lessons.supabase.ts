@@ -25,6 +25,7 @@ export const saveNewLessonSupabase = async function (
     .insert([{ date, homework, lessonContent, studentId, user_id: userId }])
     .select()
 
+  if (error) throw new Error(error.message)
   return data
 }
 
@@ -66,6 +67,6 @@ export const fetchLatestLessonsPerStudentSupabase = async (
     .order('date', { ascending: false })
     .limit(3)
 
-  error && console.log(error)
+  if (error) throw new Error(error.message)
   return lessons.reverse()
 }

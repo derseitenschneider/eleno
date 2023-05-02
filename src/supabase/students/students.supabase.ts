@@ -1,6 +1,8 @@
 import { supabase } from '../supabase'
 import { TStudent } from '../../types/types'
 
+// [ ] error handling for students
+
 export const fetchStudents = async function (userId) {
   let { data: students, error } = await supabase
     .from('students')

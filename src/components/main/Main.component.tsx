@@ -10,6 +10,7 @@ import { useTodos } from '../../contexts/TodosContext'
 import Loader from '../loader/Loader'
 import { useUser } from '../../contexts/UserContext'
 import OfflineBanner from '../offlineBanner/OfflineBanner.component'
+import { toast } from 'react-toastify'
 
 interface MainProps {
   children: React.ReactNode
@@ -24,6 +25,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { setNotes, notes } = useNotes()
   const { setTodos } = useTodos()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     if (user) {
@@ -34,6 +36,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
         fetchTodosSupabase(user.id),
       ])
       const fetchAll = async () => {
+        setErrorMessage('')
         try {
           const [students, lessons, notes, todos] = await allPromise
           setStudents([...students])
@@ -43,13 +46,24 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
 
           setIsPending(false)
         } catch (err) {
-          console.log(err)
+          setErrorMessage(
+            'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.'
+          )
           setIsPending(false)
         }
       }
       fetchAll()
     }
   }, [user])
+
+  useEffect(() => {
+    if (errorMessage)
+      toast(errorMessage, {
+        position: 'top-center',
+        type: 'error',
+        autoClose: false,
+      })
+  }, [errorMessage])
 
   useEffect(() => {
     const handleStatusChange = () => {
@@ -67,11 +81,8 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
 
   return (
     <>
-      {isPending ? (
-        <Loader loading={isPending} />
-      ) : (
-        <div id="main">{children}</div>
-      )}
+      {isPending && <Loader loading={isPending} />}
+      {!isPending && !errorMessage && <div id="main">{children}</div>}
       {!isOnline && <OfflineBanner />}
     </>
   )

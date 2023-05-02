@@ -3,10 +3,6 @@ import { FunctionComponent, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
-import { TStudent } from '../../../types/types'
-import { updateLessonSupabase } from '../../../supabase/lessons/lessons.supabase'
-import { updateStudentSupabase } from '../../../supabase/students/students.supabase'
-import { toast } from 'react-toastify'
 
 interface ModalEditStudentProps {
   handlerClose: () => void
