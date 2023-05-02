@@ -54,26 +54,6 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
 
   return (
     <div className="add-student">
-      {/* <Button
-        className="button--student"
-        type="button"
-        btnStyle={currentStudentId ? 'secondary' : 'icon-only'}
-        label={
-          currentStudentId &&
-          `${
-            students.find((student) => student.id === currentStudentId)
-              .firstName
-          } ${
-            students.find((student) => student.id === currentStudentId).lastName
-          }`
-        }
-        icon={!currentStudentId ? <IoPeopleCircleOutline /> : null}
-        handler={() => setDropdownOpen((prev) => !prev)}
-      >
-        {currentStudentId && (
-       
-        )}
-      </Button> */}
       {currentStudentId ? (
         <div
           className="wrapper-student"

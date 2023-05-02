@@ -1,10 +1,13 @@
 .dashboard {
+  .container-message {
+    border-bottom: 1px solid var(--clr-bg-400);
+  }
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(34rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     // gap: 3rem;
     row-gap: 3rem;
-    justify-items: center;
+    justify-items: space-between;
   }
 
   .heading-3 {
@@ -16,12 +19,12 @@
 
     background-color: var(--clr-bg-400);
     color: var(--clr-text-400);
-    min-height: 10rem;
+    // min-height: 10rem;
     padding: 2rem;
-    width: 32rem;
-    display: flex;
+    width: 25rem;
+    // display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
 
     border-radius: 8px;
     // border: 1px solid var(--clr-primary-600);
@@ -29,9 +32,13 @@
 
     transition: color 0.4s ease;
 
+    p {
+      margin-bottom: 0.5em;
+    }
+
     hr {
-      border-top: 1px solid var(--clr-primary-600);
-      border-bottom: 1px solid var(--clr-primary-600);
+      border-top: 0.5px solid var(--clr-primary-600);
+      border-bottom: 0.5px solid var(--clr-primary-600);
     }
 
     &:hover {
@@ -40,14 +47,14 @@
     .icon {
       display: block;
       margin: 0 auto;
-      height: 3.6rem;
-      width: 3.6rem;
+      height: 2.4rem;
+      width: 2.4rem;
       text-align: center;
-      margin-bottom: 2.4rem;
+      margin-bottom: 2rem;
     }
 
     .card-title {
-      font-size: 2rem;
+      font-size: 1.8rem;
       margin-bottom: 1.2rem;
     }
 

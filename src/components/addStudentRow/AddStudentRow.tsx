@@ -70,8 +70,13 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
         value={instrument}
         onChange={handleInput}
       />
-      <select name="dayOfLesson" value={dayOfLesson} onChange={handleInput}>
-        <option style={{ display: 'none' }} selected></option>
+      <select
+        name="dayOfLesson"
+        value={dayOfLesson}
+        onChange={handleInput}
+        defaultValue={null}
+      >
+        <option style={{ display: 'none' }}></option>
         <option value="Montag">Montag</option>
         <option value="Dienstag">Dienstag</option>
         <option value="Mittwoch">Mittwoch</option>
@@ -79,6 +84,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
         <option value="Freitag">Freitag</option>
         <option value="Samstag">Samstag</option>
         <option value="Sonntag">Sonntag</option>
+        <option value={null}> - </option>
       </select>
       <input
         type="time"

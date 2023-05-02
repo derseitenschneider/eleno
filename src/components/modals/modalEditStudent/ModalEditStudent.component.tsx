@@ -23,8 +23,6 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
   )
   const [error, setError] = useState('')
 
-  // [ ] edit day not working
-
   const {
     firstName,
     lastName,
@@ -104,6 +102,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
           value={dayOfLesson}
           onChange={onChangeHandler}
         >
+          <option style={{ display: 'none' }}></option>
           <option value="Montag">Montag</option>
           <option value="Dienstag">Dienstag</option>
           <option value="Mittwoch">Mittwoch</option>
@@ -111,6 +110,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
           <option value="Freitag">Freitag</option>
           <option value="Samstag">Samstag</option>
           <option value="Sonntag">Sonntag</option>
+          <option value={null}> - </option>
         </select>
         <input
           type="time"

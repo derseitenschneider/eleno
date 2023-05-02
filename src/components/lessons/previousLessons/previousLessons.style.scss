@@ -1,6 +1,7 @@
 .container--previous-lessons {
   border-bottom: 1px solid var(--clr-bg-400);
-  min-height: 20rem;
+  // min-height: 20rem;
+  height: 40%;
 
   .content--previous-lesson {
     white-space: pre-line;
