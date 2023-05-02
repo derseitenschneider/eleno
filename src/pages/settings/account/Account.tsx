@@ -59,9 +59,9 @@ const Account: FunctionComponent<AccountProps> = () => {
       <div className="section section--delete-account">
         <h3 className="heading-3">Benutzerkonto löschen</h3>
         <p className="info">
-          Wenn du dein Benutzerkonto löschst, werden sämtliche deiner Daten
-          (Schüler:innen, Lektionen, Todos) unwiederruflich aus der Datenbank
-          gelöscht!
+          Wenn du dein Benutzerkonto löschst, werden auch alle deine Daten
+          (Schüler:innen, Lektionen, Todos etc.) unwiederruflich aus der
+          Datenbank gelöscht!
         </p>
         <Button
           type="button"

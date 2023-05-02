@@ -54,7 +54,7 @@ function Dashboard() {
         <>
           <div className="container container-message">
             <h3 className="heading-3">
-              Hi {user.firstName}, willkommen bei Eleno
+              Hi {user.firstName}, willkommen bei Eleno!
             </h3>
           </div>
           <div className="container container--quick-links">

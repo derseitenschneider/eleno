@@ -9,6 +9,7 @@ import { fetchTodosSupabase } from '../../supabase/todos/todos.supabase'
 import { useTodos } from '../../contexts/TodosContext'
 import Loader from '../loader/Loader'
 import { useUser } from '../../contexts/UserContext'
+import OfflineBanner from '../offlineBanner/OfflineBanner.component'
 
 interface MainProps {
   children: React.ReactNode
@@ -22,6 +23,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { setLessons } = useLessons()
   const { setNotes, notes } = useNotes()
   const { setTodos } = useTodos()
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
 
   useEffect(() => {
     if (user) {
@@ -49,6 +51,20 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
     }
   }, [user])
 
+  useEffect(() => {
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine)
+    }
+
+    window.addEventListener('online', handleStatusChange)
+    window.addEventListener('offline', handleStatusChange)
+
+    return () => {
+      window.removeEventListener('online', handleStatusChange)
+      window.removeEventListener('offline', handleStatusChange)
+    }
+  }, [isOnline])
+
   return (
     <>
       {isPending ? (
@@ -56,6 +72,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
       ) : (
         <div id="main">{children}</div>
       )}
+      {!isOnline && <OfflineBanner />}
     </>
   )
 }
