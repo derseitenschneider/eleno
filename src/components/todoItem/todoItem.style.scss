@@ -5,10 +5,15 @@
   grid-template-columns: var(--columns-todos);
   min-height: 5rem;
   box-shadow: var(--box-shadow-cards);
+  position: relative;
 
   column-gap: var(--column-gap-todos);
   align-items: center;
 
+  &.loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
   &.overdue {
     box-shadow: var(--box-shadow-cards), inset 3px 0 0 var(--clr-warning),
       inset -3px 0 0 var(--clr-warning);

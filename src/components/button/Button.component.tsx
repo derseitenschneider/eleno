@@ -1,9 +1,7 @@
-import { spawn } from 'child_process'
+import './button.style.scss'
+
 import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { IconType } from 'react-icons/lib'
-import { NavLinkProps } from 'react-router-dom'
-
-import './button.style.scss'
 
 export interface ButtonProps {
   type: 'button' | 'submit'

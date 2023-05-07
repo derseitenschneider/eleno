@@ -16,6 +16,8 @@ import DropDown from '../dropdown/Dropdown.component'
 import Modal from '../modals/Modal.component'
 import ModalEditTodo from '../modals/modalEditTodo/ModalEditTodo.component'
 import { useTodos } from '../../contexts/TodosContext'
+import { toast } from 'react-toastify'
+import fetchErrorToast from '../../hooks/fetchErrorToast'
 
 interface TodoItemProps {
   todo: TTodo
@@ -31,6 +33,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [modalEditOpen, setModalEditOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+  const [isPending, setIsPending] = useState(false)
 
   const [attachedStudent] = students.filter(
     (student) => student.id === todo.studentId
@@ -64,13 +67,55 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
   }, [dropdownOpen])
 
   const overdue = todo.due < formatDateToDatabase(dateToday)
+
+  const handlerComplete = async () => {
+    setIsPending(true)
+    try {
+      await completeTodo(todo.id)
+      toast('Todo erledigt.')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
+
+  const handlerReactivate = async () => {
+    setIsPending(true)
+    try {
+      await reactivateTodo(todo.id)
+      toast('Todo wiederhergestellt')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
+
+  const handlerDelete = async () => {
+    setIsPending(true)
+    try {
+      await deleteTodo(todo.id)
+      setModalDeleteOpen(false)
+      toast('Todo gelöscht.')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
   return (
-    <li className={`todo-item${overdue ? ' overdue' : ''}`}>
+    <li
+      className={`todo-item${overdue ? ' overdue' : ''} ${
+        isPending ? ' loading' : ''
+      } `}
+    >
       {listType === 'open' ? (
         <input
           type="checkbox"
           className="checkbox"
-          onChange={() => completeTodo(todo.id)}
+          onChange={handlerComplete}
+          checked={false}
         />
       ) : (
         <div></div>
@@ -98,7 +143,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
           btnStyle="icon-only"
           icon={<IoEllipsisVertical />}
           className="button--edit"
-          handler={() => setDropdownOpen(true)}
+          handler={() => setDropdownOpen((prev) => !prev)}
         />
         {dropdownOpen && listType === 'open' && (
           <DropDown
@@ -124,9 +169,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
               {
                 label: 'Auf offen setzen',
                 type: 'normal',
-                handler: () => {
-                  reactivateTodo(todo.id)
-                },
+                handler: handlerReactivate,
               },
               {
                 label: 'Löschen',
@@ -151,6 +194,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
           heading="Todo löschen?"
           handlerOverlay={() => setModalDeleteOpen(false)}
           handlerClose={() => setModalDeleteOpen(false)}
+          className={isPending ? 'loading' : ''}
           buttons={[
             {
               label: 'Abbrechen',
@@ -160,10 +204,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
             {
               label: 'Löschen',
               btnStyle: 'danger',
-              handler: () => {
-                deleteTodo(todo.id)
-                setModalDeleteOpen(false)
-              },
+              handler: handlerDelete,
             },
           ]}
         >

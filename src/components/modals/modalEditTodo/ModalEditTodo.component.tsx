@@ -5,8 +5,8 @@ import TodoAddStudent from '../../todoAddStudent/TodoAddStudent.component'
 import { formatDateToDisplay } from '../../../utils/formateDate'
 import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
-import { updateTodoSupabase } from '../../../supabase/todos/todos.supabase'
 import { toast } from 'react-toastify'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 interface ModalEditTodoProps {
   closeModal: () => void
   todoId: number
@@ -16,15 +16,10 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
   closeModal,
   todoId,
 }) => {
-  const { todos, setTodos } = useTodos()
+  const { todos, updateTodo } = useTodos()
   const todo = todos.find((todo) => todo.id === todoId)
-
   const [currentTodo, setCurrentTodo] = useState(todo)
-  // const currentTodo = todos.find((todo) => todo.id === todoId)
-  // const [currentStudentId, setCurrentStudentId] = useState(
-  //   currentTodo.studentId
-  // )
-  // const [due, setDue] = useState(currentTodo.due)
+  const [isPending, setIsPending] = useState(false)
 
   const setStudent = (studentId: number) => {
     setCurrentTodo((prev) => {
@@ -41,18 +36,16 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
     })
   }
 
-  const updateTodo = async () => {
-    setTodos((prev) => {
-      return prev.map((todo) =>
-        todo.id === currentTodo.id ? currentTodo : todo
-      )
-    })
-    closeModal()
+  const handlerEditTodo = async () => {
+    setIsPending(true)
     try {
-      await updateTodoSupabase(currentTodo)
-      toast('Änderungen gespeichert')
-    } catch (err) {
-      console.log(err)
+      await updateTodo(currentTodo)
+      closeModal()
+      toast('Änderungen gespeichert.')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
     }
   }
 
@@ -61,7 +54,7 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
       heading="Todo berabeiten"
       handlerOverlay={closeModal}
       handlerClose={closeModal}
-      className="modal--edit-todo"
+      className={`modal--edit-todo ${isPending ? 'loading' : ''}`}
     >
       <div className="inputs">
         <input
@@ -98,7 +91,7 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
       <div className="container--buttons">
         <Button
           label="Speichern"
-          handler={updateTodo}
+          handler={handlerEditTodo}
           type="button"
           btnStyle="primary"
         />

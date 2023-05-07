@@ -7,18 +7,19 @@ import {
   completeTodoSupabase,
   reactivateTodoSupabase,
   deleteTodoSupabase,
+  updateTodoSupabase,
 } from '../supabase/todos/todos.supabase'
-import { toast } from 'react-toastify'
 import { useUser } from './UserContext'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
   setTodos: () => {},
-  saveTodo: () => {},
-  deleteTodo: () => {},
-  completeTodo: () => {},
-  reactivateTodo: () => {},
-  deleteAllCompleted: () => {},
+  saveTodo: () => new Promise(() => {}),
+  deleteTodo: () => new Promise(() => {}),
+  completeTodo: () => new Promise(() => {}),
+  reactivateTodo: () => new Promise(() => {}),
+  deleteAllCompleted: () => new Promise(() => {}),
+  updateTodo: () => new Promise(() => {}),
 })
 
 export const TodosProvider = ({ children }) => {
@@ -26,63 +27,68 @@ export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState<TTodo[]>([])
 
   const saveTodo = async (newTodo: TTodo) => {
-    const tempId = newTodo.id
-    setTodos((prev) => [...prev, newTodo])
     try {
       const [data] = await saveTodoSupabase(newTodo)
-      const newId = data.id
-      setTodos((prev) =>
-        prev.map((todo) => (todo.id === tempId ? { ...todo, id: newId } : todo))
-      )
-      toast('Todo erstellt')
-    } catch (err) {
-      console.log(err)
+      setTodos((prev) => [...prev, data])
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const deleteTodo = async (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id))
-
     try {
       await deleteTodoSupabase(id)
-      toast('Todo gelöscht')
-    } catch (err) {
-      console.log(err)
+      setTodos((prev) => prev.filter((todo) => todo.id !== id))
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const completeTodo = async (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, completed: true } : todo))
-    )
     try {
       await completeTodoSupabase(id)
-      toast('Todo erledigt')
-    } catch (err) {}
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === id ? { ...todo, completed: true } : todo
+        )
+      )
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 
   const reactivateTodo = async (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, completed: false } : todo
-      )
-    )
-
     try {
       await reactivateTodoSupabase(id)
-      toast('Todo wiederhergestellt')
-    } catch (err) {
-      console.log(err)
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === id ? { ...todo, completed: false } : todo
+        )
+      )
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  const updateTodo = async (editedTodo: TTodo) => {
+    try {
+      await updateTodoSupabase(editedTodo)
+      setTodos((prev) => {
+        return prev.map((todo) =>
+          todo.id === editedTodo.id ? editedTodo : todo
+        )
+      })
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const deleteAllCompleted = async () => {
-    setTodos((prev) => prev.filter((todo) => !todo.completed))
     try {
       await deleteCompletedTodosSupabase(user.id)
-      toast('Todos wurden gelöscht')
-    } catch (err) {
-      console.log(err)
+      setTodos((prev) => prev.filter((todo) => !todo.completed))
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
@@ -94,6 +100,7 @@ export const TodosProvider = ({ children }) => {
     completeTodo,
     reactivateTodo,
     deleteAllCompleted,
+    updateTodo,
   }
 
   return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>

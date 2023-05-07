@@ -53,11 +53,12 @@ export type ContextTypeUser = {
 export type ContextTypeTodos = {
   todos: TTodo[] | null
   setTodos: React.Dispatch<React.SetStateAction<TTodo[]>>
-  saveTodo: (newTodo: TTodo) => void
-  deleteTodo: (id: number) => void
-  completeTodo: (id: number) => void
-  reactivateTodo: (id: number) => void
-  deleteAllCompleted: () => void
+  saveTodo: (newTodo: TTodo) => Promise<void>
+  deleteTodo: (id: number) => Promise<void>
+  completeTodo: (id: number) => Promise<void>
+  reactivateTodo: (id: number) => Promise<void>
+  deleteAllCompleted: () => Promise<void>
+  updateTodo: (editedTodo: TTodo) => Promise<void>
 }
 
 export type ContextTypeStudents = {
@@ -131,7 +132,7 @@ export type TTimetableDay = {
 }
 
 export type TTodo = {
-  id: number
+  id?: number
   text: string
   due?: string
   studentId?: number

@@ -13,7 +13,6 @@ export const ClosestStudentProvider = ({ children }) => {
   const { students } = useStudents()
   const [closestStudentIndex, setClosestStudentIndex] = useState<number>(0)
 
-  // FIXME: reset closest student index after changing it e.g. by clicking on student tag in todos
   useEffect(() => {
     if (students) {
       setClosestStudentIndex(getClosestStudentIndex(students))

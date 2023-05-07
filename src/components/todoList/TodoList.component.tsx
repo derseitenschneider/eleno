@@ -1,13 +1,16 @@
 import './todoList.style.scss'
+
 import { FunctionComponent, useRef, useState } from 'react'
 import { TTodo } from '../../types/types'
 import TodoItem from '../todoItem/TodoItem.component'
 import Button from '../button/Button.component'
 import TodoAddItem from '../todoAddItem/TodoAddItem.component'
 import { useTodos } from '../../contexts/TodosContext'
+import { toast } from 'react-toastify'
 
 import NoContent from '../noContent/NoContent.component'
 import Modal from '../modals/Modal.component'
+import fetchErrorToast from '../../hooks/fetchErrorToast'
 interface TodoListProps {
   todos: TTodo[]
   listType: 'open' | 'completed'
@@ -16,6 +19,20 @@ interface TodoListProps {
 const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { deleteAllCompleted } = useTodos()
+  const [isPending, setIsPending] = useState(false)
+
+  const handlerDeleteAll = async () => {
+    setIsPending(true)
+    try {
+      await deleteAllCompleted()
+      setIsModalOpen(false)
+      toast('Todos wurden gelöscht')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
 
   return (
     <div className="todo-list">
@@ -64,6 +81,7 @@ const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
           heading="Todos löschen?"
           handlerClose={() => setIsModalOpen(false)}
           handlerOverlay={() => setIsModalOpen(false)}
+          className={isPending ? 'loading' : ''}
           buttons={[
             {
               label: 'Abbrechen',
@@ -73,10 +91,7 @@ const TodoList: FunctionComponent<TodoListProps> = ({ todos, listType }) => {
             {
               label: 'Alle löschen',
               btnStyle: 'danger',
-              handler: () => {
-                deleteAllCompleted()
-                setIsModalOpen(false)
-              },
+              handler: handlerDeleteAll,
             },
           ]}
         >

@@ -9,6 +9,7 @@ import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../contexts/TodosContext'
 import DatePicker from 'react-datepicker'
+import fetchErrorToast from '../../hooks/fetchErrorToast'
 
 interface TodoAddItemProps {}
 
@@ -24,6 +25,7 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
   const [inputTodo, setInputTodo] = useState(todoData)
   const [currentStudentId, setCurrentStudentId] = useState(null)
   const { saveTodo } = useTodos()
+  const [isPending, setIsPending] = useState(false)
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -40,26 +42,34 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
     })
   }
 
-  const onSaveHandler = () => {
+  const onSaveHandler = async () => {
     if (!inputTodo.text) {
       toast('Leere Todo kann nicht gespeichert werden', { type: 'error' })
       return
     }
-    const tempId = Math.floor(Math.random() * 1000000000)
     const newTodo: TTodo = {
       ...inputTodo,
       studentId: currentStudentId,
-      id: tempId,
       userId: user.id,
-      // due: inputTodo.due && null,
     }
-    saveTodo({ ...newTodo, due: newTodo.due.length ? newTodo.due : null })
-    setInputTodo(todoData)
-    setCurrentStudentId(null)
+    setIsPending(true)
+    try {
+      await saveTodo({
+        ...newTodo,
+        due: newTodo.due.length ? newTodo.due : null,
+      })
+      toast('Todo erstellt')
+      setInputTodo(todoData)
+      setCurrentStudentId(null)
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
-    <div className="container--add">
+    <div className={`container--add ${isPending ? 'loading' : ''}`}>
       <div className="inputs">
         <input
           type="text"
