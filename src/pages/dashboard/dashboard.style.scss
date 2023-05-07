@@ -2,6 +2,7 @@
   .container-message {
     border-bottom: 1px solid var(--clr-bg-400);
   }
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
@@ -60,6 +61,27 @@
 
     &__details--warning {
       color: var(--clr-warning);
+    }
+  }
+
+  .footer--dashboard {
+    position: absolute;
+    bottom: 0;
+    right: 3.2rem;
+
+    color: var(--clr-darkgrey);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 3.2rem;
+
+    padding: 1.4rem 3.2rem;
+    .links {
+      display: flex;
+      gap: 1rem;
+    }
+    .copyright {
+      font-size: 1rem;
     }
   }
 }

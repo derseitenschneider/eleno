@@ -1,8 +1,8 @@
 import './termsAndConditions.style.scss'
 import { FunctionComponent } from 'react'
 interface TermsAndConditionsProps {
-  setModalTermsOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setModalPrivacyOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setModalTermsOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  setModalPrivacyOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const TermsAndConditions: FunctionComponent<TermsAndConditionsProps> = ({

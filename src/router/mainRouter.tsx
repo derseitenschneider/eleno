@@ -13,6 +13,8 @@ import ToDos from '../pages/todos/Todos.page'
 import TodosOpen from '../pages/todos/TodosOpen.page'
 import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import Account from '../pages/settings/account/Account'
+import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
+import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
 
 export const mainRouter = createBrowserRouter([
   {
@@ -66,6 +68,14 @@ export const mainRouter = createBrowserRouter([
             element: <Account />,
           },
         ],
+      },
+      {
+        path: 'terms',
+        element: <TermsAndConditionsPage />,
+      },
+      {
+        path: 'privacy',
+        element: <PrivacyPolicyPage />,
       },
     ],
   },

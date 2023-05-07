@@ -125,18 +125,30 @@ function Dashboard() {
               <NavLink to={'settings'} className="card">
                 <IoSettingsOutline className="icon" />
                 <p className="card-title">Einstellungen</p>
-                {/* <hr />
-              <p>{todosOpen.length} Todos offen</p>
-              {todosOverdue.length ? (
-                <p className="card__details--warning">
-                  {todosOverdue.length} davon überfällig
+                <hr />
+                <p>
+                  Benutzerdaten anpassen <br /> Email/Passwort ändern <br />{' '}
+                  Account löschen
                 </p>
-              ) : null} */}
               </NavLink>
             </div>
           </div>
         </>
       )}
+      <footer className="footer--dashboard">
+        <div className="links">
+          <NavLink to={'terms'}>Allgemeine Geschäftsbedingungen</NavLink>
+          <NavLink to={'privacy'}>Impressum & Datenschutz</NavLink>
+        </div>
+        <a href="mailto:info@eleno.net">Kontakt</a>
+        <span className="copyright">
+          Copyright © {dateToday.substring(4)} by{' '}
+          <a href="https://derseitenschneider.ch" target="_blank">
+            derseitenschneider
+          </a>
+          - all rights reserved
+        </span>
+      </footer>
     </div>
   )
 }
