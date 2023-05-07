@@ -10,12 +10,15 @@ import StudentList from '../../../components/studentlist/StudentList.component'
 
 import Modal from '../../../components/modals/Modal.component'
 import NoContent from '../../../components/noContent/NoContent.component'
+import { toast } from 'react-toastify'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 function StudentsArchive() {
   const { reactivateStudents, deleteStudents, archivedStudents } = useStudents()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
+  const [isPending, setIsPending] = useState(false)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -34,9 +37,16 @@ function StudentsArchive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      reactivateStudents(isSelected)
-      setInputAction(0)
-      setIsSelected([])
+      try {
+        await reactivateStudents(isSelected)
+        toast(
+          `Schüler:in${isSelected.length > 1 ? 'nen' : ''} wiederhergestellt`
+        )
+        setInputAction(0)
+        setIsSelected([])
+      } catch (error) {
+        fetchErrorToast()
+      }
     }
 
     if (inputAction === 2) {
@@ -46,9 +56,17 @@ function StudentsArchive() {
   }
 
   const handlerDelete = async () => {
-    deleteStudents(isSelected)
-    setModalOpen(false)
-    setIsSelected([])
+    setIsPending(true)
+    try {
+      await deleteStudents(isSelected)
+      toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} gelöscht`)
+      setModalOpen(false)
+      setIsSelected([])
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -64,7 +82,6 @@ function StudentsArchive() {
               </div>
               <div className="container--controls">
                 <select
-                  // defaultValue="Aktion"
                   className="select-action"
                   onChange={onChangeAction}
                   value={inputAction}
@@ -114,6 +131,7 @@ function StudentsArchive() {
       {modalOpen && (
         <Modal
           heading="Ausgewählte Schüler:innen löschen?"
+          className={isPending ? 'loading' : ''}
           handlerClose={() => setModalOpen((prev) => !prev)}
           handlerOverlay={() => setModalOpen((prev) => !prev)}
           buttons={[
@@ -131,8 +149,10 @@ function StudentsArchive() {
             },
           ]}
         >
-          Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten
-          endgültig löschen?
+          <span>
+            Möchtest du die ausgewählten Schüler:innen und alle zugehörigen
+            Daten endgültig löschen?
+          </span>
         </Modal>
       )}
     </>

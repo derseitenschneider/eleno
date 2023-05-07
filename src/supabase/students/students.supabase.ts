@@ -9,6 +9,7 @@ export const fetchStudents = async function (userId) {
     .select('*')
     .eq('user_id', userId)
     .order('dayOfLesson', { ascending: false })
+  if (error) throw new Error(error.message)
   return students
 }
 
@@ -21,15 +22,15 @@ export const createNewStudentSupabase = async function (
   })
 
   const { data, error } = await supabase
-    .from('students')
+    .from('student')
     .insert(newStudents)
     .select()
-  error && console.log(error)
+  if (error) throw new Error(error.message)
   return data
 }
 
 export const archivateStudentSupabase = async function (studentId: number[]) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('students')
     .update({ archive: true })
     .in('id', studentId)
@@ -38,35 +39,25 @@ export const archivateStudentSupabase = async function (studentId: number[]) {
 }
 
 export const reactivateStudentSupabase = async function (studentIds: number[]) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('students')
     .update({ archive: false })
     .in('id', studentIds)
+
+  if (error) throw new Error(error.message)
 }
 
 export const deleteStudentSupabase = async function (studentIds: number[]) {
-  const { data: data1, error: error1 } = await supabase
-    .from('lessons')
-    .delete()
-    .in('studentId', studentIds)
-
-  const { data: data2, error: error2 } = await supabase
-    .from('notes')
-    .delete()
-    .in('studentId', studentIds)
-
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('students')
     .delete()
     .in('id', studentIds)
 
   if (error) throw new Error(error.message)
-  if (error1) throw new Error(error1.message)
-  if (error2) throw new Error(error2.message)
 }
 
 export const updateStudentSupabase = async function (student: TStudent) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('students')
     .update({ ...student })
     .eq('id', student.id)
@@ -75,7 +66,7 @@ export const updateStudentSupabase = async function (student: TStudent) {
 }
 
 export const resetStudentSupabase = async (studentIds: number[]) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('students')
     .update({
       dayOfLesson: '',

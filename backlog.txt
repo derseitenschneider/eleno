@@ -35,3 +35,5 @@
 - Animations
 - PWA
 - Tooltips
+- lesson draft for persistance / clean up new lesson input when switching student
+

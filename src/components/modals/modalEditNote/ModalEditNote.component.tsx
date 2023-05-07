@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
+import { toast } from 'react-toastify'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentNote: number
@@ -11,6 +12,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
   currentNote,
 }) => {
   const { notes, updateNote } = useNotes()
+  const [isPending, setIsPending] = useState(false)
   const [input, setInput] = useState(
     notes.find((note) => note.id === currentNote)
   )
@@ -28,14 +30,22 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
     })
   }
 
-  const updateHandler = () => {
-    updateNote(input)
-    closeModal()
+  const updateHandler = async () => {
+    setIsPending(true)
+    try {
+      await updateNote(input)
+      toast('Anpassungen gespeichert')
+      closeModal()
+    } catch (error) {
+      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
     <Modal
-      className="modal--notes"
+      className={`modal--notes ${isPending ? 'loading' : ''}`}
       heading="Notiz bearbeiten"
       handlerClose={closeModal}
       handlerOverlay={closeModal}

@@ -9,7 +9,6 @@ export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({
   setClosestStudentIndex: () => {},
 })
 
-// [ ] closest student eine stunde verschoben
 export const ClosestStudentProvider = ({ children }) => {
   const { students } = useStudents()
   const [closestStudentIndex, setClosestStudentIndex] = useState<number>(0)

@@ -14,6 +14,7 @@ import { formatDateToDisplay } from '../../../utils/formateDate'
 import { toast } from 'react-toastify'
 import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
 import Modal from '../../modals/Modal.component'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface PreviousLessonsProps {
   currentStudentId: number
@@ -58,7 +59,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
       setTabIndex(0)
       toast('Lektion gelöscht')
     } catch (err) {
-      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+      fetchErrorToast()
     } finally {
       setIsPending(false)
     }

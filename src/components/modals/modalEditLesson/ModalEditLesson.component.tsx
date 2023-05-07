@@ -9,6 +9,7 @@ import {
 } from '../../../utils/formateDate'
 
 import { useLessons } from '../../../contexts/LessonsContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface ModalEditLessonProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -48,7 +49,7 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
       toast('Änderungen gespeichert')
       closeModal()
     } catch (error) {
-      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+      fetchErrorToast()
     } finally {
       setIsPending(false)
     }

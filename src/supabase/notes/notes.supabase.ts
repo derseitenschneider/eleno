@@ -1,8 +1,6 @@
 import { supabase } from '../supabase'
 import { TNotes } from '../../types/types'
 
-// [ ] error handling for notes
-
 export const fetchNotes = async function () {
   const { data, error } = await supabase.from('only_active_notes').select('*')
   if (error) throw new Error(error.message)
@@ -46,5 +44,5 @@ export const editNoteSupabase = async function (note: TNotes) {
     .update({ ...note })
     .eq('id', note.id)
 
-  error && console.log(error)
+  if (error) throw new Error(error.message)
 }

@@ -26,7 +26,9 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
         const lessons = await fetchAllLessonsSupabase(studentId)
         setAllLessons(lessons)
       } catch (error) {
-        setErrorMessage('Etwas ist schiefgelaufen. Versuchs nochmal!')
+        setErrorMessage(
+          'Etwas ist schiefgelaufen. Versuchs nochmal oder lade die Seite neu...'
+        )
       } finally {
         setIsPending(false)
       }

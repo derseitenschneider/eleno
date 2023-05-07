@@ -3,6 +3,8 @@ import { FunctionComponent, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
+import { toast } from 'react-toastify'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface ModalEditStudentProps {
   handlerClose: () => void
@@ -18,6 +20,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
     students.find((student) => student.id === studentId)
   )
   const [error, setError] = useState('')
+  const [isPending, setIsPending] = useState(false)
 
   const {
     firstName,
@@ -51,9 +54,16 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
       setError('Einige Pfilchtfelder sind leer')
       return
     }
-    updateStudent(inputStudent)
-
-    handlerClose()
+    setIsPending(true)
+    try {
+      await updateStudent(inputStudent)
+      toast('Änderungen gespeichert')
+      handlerClose()
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -62,7 +72,7 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
       handlerClose={handlerClose}
       handlerOverlay={handlerClose}
       buttons={[]}
-      className="modal--edit-student"
+      className={`modal--edit-student ${isPending ? 'loading' : ''}`}
     >
       <div className="labels grid">
         <span>Vorname*</span>

@@ -6,10 +6,9 @@ import Button from '../../button/Button.component'
 import { IoAddOutline } from 'react-icons/io5'
 import { TStudent } from '../../../types/types'
 import { useStudents } from '../../../contexts/StudentContext'
-import { createNewStudentSupabase } from '../../../supabase/students/students.supabase'
-import { useUser } from '../../../contexts/UserContext'
 import { toast } from 'react-toastify'
 import Loader from '../../loader/Loader'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface ModalAddStudentProps {
   handlerClose: () => void
@@ -68,9 +67,13 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
       const { tempId, ...newStudent } = row
       return newStudent
     })
-
-    saveNewStudents(newStudents)
-    handlerClose()
+    try {
+      await saveNewStudents(newStudents)
+      handlerClose()
+      toast('Schüler:in erstellt')
+    } catch {
+      fetchErrorToast()
+    }
   }
 
   return (

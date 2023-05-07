@@ -5,8 +5,7 @@ import Button from '../../button/Button.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
-
-// [ ] find a way to store new lesson when navigate to other page
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface NewLessonProps {
   studentId: number
@@ -57,7 +56,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       setInput(lessonData)
       toast('Lektion gespeichert')
     } catch (err) {
-      toast('Etwas ist schiefgelaufen. Versuchs nochmal!', { type: 'error' })
+      fetchErrorToast()
     } finally {
       setIsPending(false)
     }

@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface ModalAddNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -14,6 +15,7 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
 }) => {
   const [input, setInput] = useState({ title: '', text: '' })
   const { saveNote } = useNotes()
+  const [isPending, setIsPending] = useState(false)
 
   // Toggle modal
   const toggleModal = () => {
@@ -33,20 +35,27 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
   }
 
   // Save Note
-  const saveHandler = () => {
+  const saveHandler = async () => {
     if (!input.title && !input.text) {
       toast('Titel oder Inhalt fehlt.', { type: 'error' })
       return
     }
-
-    saveNote({ ...input, studentId: currentStudentId })
-    setInput({ title: '', text: '' })
-    toggleModal()
+    setIsPending(true)
+    try {
+      await saveNote({ ...input, studentId: currentStudentId })
+      setInput({ title: '', text: '' })
+      toggleModal()
+      toast('Notiz gespeichert')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
     <Modal
-      className="modal--notes"
+      className={`modal--notes ${isPending ? ' loading' : ''}`}
       heading="Neue Notiz erstellen"
       handlerClose={toggleModal}
       handlerOverlay={toggleModal}

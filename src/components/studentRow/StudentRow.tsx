@@ -9,6 +9,8 @@ import Modal from '../modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { toast } from 'react-toastify'
+import fetchErrorToast from '../../hooks/fetchErrorToast'
 
 interface StudentRowProps {
   studentId: number
@@ -29,6 +31,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   const [modalOpen, setModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
+  const [isPending, setIsPending] = useState(false)
   const navigate = useNavigate()
 
   const {
@@ -94,8 +97,41 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     navigate('/lessons')
   }
 
+  const handlerArchivate = async () => {
+    setIsPending(true)
+    try {
+      await archivateStudents([studentId])
+      toast('Schüler:in archiviert')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
+
+  const handlerReactivate = async () => {
+    setIsPending(true)
+    try {
+      await reactivateStudents([studentId])
+      toast('Schüler:in wiederhergestellt.')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
+
+  const handlerDelete = async () => {
+    try {
+      await deleteStudents([studentId])
+      toast('Schüler:in gelöscht.')
+    } catch (error) {
+      fetchErrorToast()
+    }
+  }
+
   return (
-    <div className="grid-row">
+    <div className={`grid-row ${isPending ? 'loading' : ''}`}>
       <div
         className="checkbox"
         style={
@@ -209,9 +245,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
               },
               {
                 label: 'Archivieren',
-                handler: () => {
-                  archivateStudents([studentId])
-                },
+                handler: handlerArchivate,
                 type: 'normal',
               },
               {
@@ -231,7 +265,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             buttons={[
               {
                 label: 'Wiederherstellen',
-                handler: () => reactivateStudents([studentId]),
+                handler: handlerReactivate,
                 type: 'normal',
               },
               {
@@ -267,7 +301,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
             },
             {
               label: 'Löschen',
-              handler: () => deleteStudents([studentId]),
+              handler: handlerDelete,
               btnStyle: 'danger',
             },
           ]}

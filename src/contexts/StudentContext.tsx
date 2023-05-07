@@ -23,12 +23,12 @@ export const StudentsContext = createContext<ContextTypeStudents>({
   setIsPending: () => {},
   activeStudents: [],
   archivedStudents: [],
-  resetLessonData: () => {},
-  saveNewStudents: () => {},
-  archivateStudents: () => {},
-  reactivateStudents: () => {},
-  deleteStudents: () => {},
-  updateStudent: () => {},
+  resetLessonData: () => new Promise(() => {}),
+  saveNewStudents: () => new Promise(() => {}),
+  archivateStudents: () => new Promise(() => {}),
+  reactivateStudents: () => new Promise(() => {}),
+  deleteStudents: () => new Promise(() => {}),
+  updateStudent: () => new Promise(() => {}),
 })
 
 export const StudentsProvider = ({ children }) => {
@@ -60,30 +60,31 @@ export const StudentsProvider = ({ children }) => {
       setStudents(newStudents)
       toast('Unterrichtsdaten zurückgesetzt')
     } catch (error) {
-      console.log(error)
+      throw new Error(error.message)
     }
   }
 
   const saveNewStudents = async (students: TStudent[]) => {
     setIsPending(true)
-    const data = await createNewStudentSupabase(students, user.id)
-    setStudents((prev) => [...prev, ...data])
-    setIsPending(false)
-
-    toast('Schüler:in erstellt')
+    try {
+      const data = await createNewStudentSupabase(students, user.id)
+      setStudents((prev) => [...prev, ...data])
+    } catch (error) {
+      throw new Error(error.message)
+    } finally {
+      setIsPending(false)
+    }
   }
 
   const archivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: true } : student
     )
-    setStudents(newStudents)
     try {
       await archivateStudentSupabase(studentIds)
-
-      toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} archiviert`)
-    } catch (err) {
-      console.log(err)
+      setStudents(newStudents)
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
@@ -91,9 +92,9 @@ export const StudentsProvider = ({ children }) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: false } : student
     )
-    setStudents(newStudents)
     try {
       await reactivateStudentSupabase(studentIds)
+      setStudents(newStudents)
 
       // Fetch latest lessons from reactivated student
       const reactivatedLessons = await fetchLatestLessonsPerStudentSupabase(
@@ -104,13 +105,8 @@ export const StudentsProvider = ({ children }) => {
       // Fetch notes from reactivated student
       const reactivatedNotes = await fetchNotesByStudent(studentIds)
       setNotes((prev) => [...prev, ...reactivatedNotes])
-
-      toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} wiederhergestellt`)
-    } catch (err) {
-      toast(
-        'Etwas ist schiefgelaufen. Am besten lädtst du die Seite kurz neu...',
-        { type: 'warning', autoClose: 8000 }
-      )
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
@@ -118,27 +114,24 @@ export const StudentsProvider = ({ children }) => {
     const newStudents = students.filter(
       (student) => !studentIds.includes(student.id)
     )
-    console.log(studentIds)
-    setStudents(newStudents)
     try {
       await deleteStudentSupabase(studentIds)
-      toast(`Schüler:in${studentIds.length > 1 ? 'nen' : ''} gelöscht`)
-    } catch (err) {
-      console.log(err)
+      setStudents(newStudents)
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const updateStudent = async (editStudent: TStudent) => {
-    setStudents((prev) =>
-      prev.map((student) =>
-        student.id === editStudent.id ? editStudent : student
-      )
-    )
     try {
       await updateStudentSupabase(editStudent)
-      toast('Änderungen gespeichert')
-    } catch (err) {
-      console.log({ err })
+      setStudents((prev) =>
+        prev.map((student) =>
+          student.id === editStudent.id ? editStudent : student
+        )
+      )
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 

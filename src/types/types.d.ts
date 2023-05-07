@@ -67,12 +67,12 @@ export type ContextTypeStudents = {
   setIsPending: React.Dispatch<React.SetStateAction<boolean>>
   activeStudents: TStudent[] | null
   archivedStudents: TStudent[] | null
-  resetLessonData: (ids: number[]) => void
-  saveNewStudents: (students: TStudent[]) => void
-  archivateStudents: (ids: number | number[]) => void
-  reactivateStudents: (ids: number | number[]) => void
-  deleteStudents: (ids: number | number[]) => void
-  updateStudent: (student: TStudent) => void
+  resetLessonData: (ids: number[]) => Promise<void>
+  saveNewStudents: (students: TStudent[]) => Promise<void>
+  archivateStudents: (ids: number | number[]) => Promise<void>
+  reactivateStudents: (ids: number | number[]) => Promise<void>
+  deleteStudents: (ids: number | number[]) => voiPromise<void>
+  updateStudent: (student: TStudent) => Promise<void>
 }
 
 export type ContextTypeLessons = {
@@ -92,9 +92,9 @@ export type ContextTypeLoading = {
 export type ContextTypeNotes = {
   notes: TNotes[] | null
   setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
-  saveNote: (note: TNotes) => void
-  deleteNote: (id: number) => void
-  updateNote: (note: TNotes) => void
+  saveNote: (note: TNotes) => Promise<void>
+  deleteNote: (id: number) => Promise<void>
+  updateNote: (note: TNotes) => Promise<void>
 }
 
 export type ContextTypeClosestStudent = {

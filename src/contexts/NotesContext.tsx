@@ -11,9 +11,9 @@ import { useUser } from './UserContext'
 export const NotesContext = createContext<ContextTypeNotes>({
   notes: [],
   setNotes: () => {},
-  saveNote: () => {},
-  deleteNote: () => {},
-  updateNote: () => {},
+  saveNote: () => new Promise(() => {}),
+  deleteNote: () => new Promise(() => {}),
+  updateNote: () => new Promise(() => {}),
 })
 
 export const NotesProvider = ({ children }) => {
@@ -21,42 +21,31 @@ export const NotesProvider = ({ children }) => {
   const [notes, setNotes] = useState<TNotes[]>([])
 
   const saveNote = async (note: TNotes) => {
-    const tempID = Math.floor(Math.random() * 10000000)
-    const newNote = { ...note, id: tempID }
-
-    setNotes((prev) => [...prev, newNote])
     try {
-      const [data] = await postNotesSupabase(newNote, user.id)
-      toast('Notiz gespeichert')
-      setNotes((notes) =>
-        notes.map((note) =>
-          note.id === tempID ? { ...note, id: data.id } : note
-        )
-      )
+      const [data] = await postNotesSupabase(note, user.id)
+      setNotes((notes) => [...notes, data])
     } catch (err) {
-      console.log(err)
+      throw new Error(err.message)
     }
   }
 
   const deleteNote = async (id: number) => {
-    setNotes((notes) => notes.filter((note) => note.id !== id))
     try {
       await deleteNoteSupabase(id)
-      toast('Notiz gelöscht')
-    } catch (err) {
-      console.log(err)
+      setNotes((notes) => notes.filter((note) => note.id !== id))
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const updateNote = async (currentNote: TNotes) => {
-    setNotes((prev) =>
-      prev.map((note) => (note.id === currentNote.id ? currentNote : note))
-    )
     try {
-      editNoteSupabase(currentNote)
-      toast('Anpassungen gespeichert')
-    } catch (err) {
-      console.log(err)
+      await editNoteSupabase(currentNote)
+      setNotes((prev) =>
+        prev.map((note) => (note.id === currentNote.id ? currentNote : note))
+      )
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { useNotes } from '../../../contexts/NotesContext'
 import ModalEditNote from '../../modals/modalEditNote/ModalEditNote.component'
 import Modal from '../../modals/Modal.component'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface NoteProps {
   id: number
@@ -20,6 +21,7 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [modalEditOpen, setModalEditOpen] = useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+  const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -34,6 +36,17 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
     }
   }, [dropdownOpen])
 
+  const handlerDeleteNote = async () => {
+    setIsPending(true)
+    try {
+      await deleteNote(id)
+      toast('Notitz gelöscht.')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
+  }
   return (
     <div className="note">
       <div className="container--edit-button">
@@ -75,6 +88,7 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
       {modalDeleteOpen && (
         <Modal
           heading="Notiz löschen"
+          className={`${isPending ? 'loading' : null}`}
           handlerClose={() => setModalDeleteOpen(false)}
           handlerOverlay={() => setModalDeleteOpen(false)}
           buttons={[
@@ -86,7 +100,7 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
             {
               label: 'Löschen',
               btnStyle: 'danger',
-              handler: () => deleteNote(id),
+              handler: handlerDeleteNote,
             },
           ]}
         >

@@ -24,6 +24,7 @@ import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAdd
 import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import NoContent from '../../../components/noContent/NoContent.component'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 export default function StudentsActive() {
   // STATE
@@ -38,6 +39,7 @@ export default function StudentsActive() {
   })
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
+  const [isPending, setIsPending] = useState(false)
 
   const filteredStudents = activeStudents?.filter(
     (student) =>
@@ -84,9 +86,14 @@ export default function StudentsActive() {
 
   const handlerAction = async () => {
     if (inputAction === 1) {
-      archivateStudents(isSelected)
-      setInputAction(0)
-      setIsSelected([])
+      try {
+        await archivateStudents(isSelected)
+        toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} archiviert`)
+        setInputAction(0)
+        setIsSelected([])
+      } catch (error) {
+        fetchErrorToast()
+      }
     }
 
     if (inputAction === 2) {
@@ -96,10 +103,17 @@ export default function StudentsActive() {
   }
 
   const handlerReset = async () => {
-    resetLessonData(isSelected)
-    setModalResetOpen(false)
-    setIsSelected([])
-    setInputAction(null)
+    setIsPending(true)
+    try {
+      await resetLessonData(isSelected)
+      setModalResetOpen(false)
+      setIsSelected([])
+      setInputAction(null)
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -114,7 +128,6 @@ export default function StudentsActive() {
 
               <div className="container--controls">
                 <select
-                  defaultValue="Aktion"
                   className="select-action"
                   onChange={onChangeAction}
                   value={inputAction}
@@ -203,6 +216,7 @@ export default function StudentsActive() {
             setModalResetOpen((prev) => !prev)
           }}
           heading="Unterrichtsdaten zurücksetzen"
+          className={isPending ? 'loading' : ''}
           buttons={[
             {
               label: 'Abbrechen',
