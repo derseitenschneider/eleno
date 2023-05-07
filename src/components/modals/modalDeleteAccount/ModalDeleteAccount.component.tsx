@@ -3,6 +3,7 @@ import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 import { useUser } from '../../../contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 interface ModalDeleteAccount {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -26,9 +27,13 @@ const ModalDeleteAccount: FunctionComponent<ModalDeleteAccount> = ({
     e.target.value === user.email ? setCheck(true) : setCheck(false)
   }
 
-  const updateHandler = () => {
-    deleteAccount()
-    navigate('/')
+  const handlerDelete = async () => {
+    try {
+      await deleteAccount()
+      navigate('/')
+    } catch (error) {
+      fetchErrorToast()
+    }
   }
 
   return (
@@ -42,7 +47,7 @@ const ModalDeleteAccount: FunctionComponent<ModalDeleteAccount> = ({
         {
           label: 'Benutzerkonto löschen',
           btnStyle: 'danger',
-          handler: updateHandler,
+          handler: handlerDelete,
           disabled: !check,
         },
       ]}

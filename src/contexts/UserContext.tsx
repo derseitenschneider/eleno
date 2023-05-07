@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { ContextTypeUser, TProfile, TUser } from '../types/types'
 import {
   deleteAccountSupabase,
-  getProfiles,
+  getProfilesSupabase,
   updateEmailSupabase,
   updatePasswordSupabase,
   updateProfileSupabase,
@@ -10,19 +10,18 @@ import {
 import { supabase } from '../supabase/supabase'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
 import LoginPage from '../pages/login/LoginPage'
-import Loader from '../components/loader/Loader'
 import { useLoading } from '../contexts/LoadingContext'
-import { toast } from 'react-toastify'
+import fetchErrorToast from '../hooks/fetchErrorToast'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
   setUser: () => {},
   loading: false,
   setLoading: () => {},
-  updateProfile: () => {},
-  updateEmail: () => {},
-  updatePassword: () => {},
-  deleteAccount: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
 })
 
 export const AuthProvider = ({ children }) => {
@@ -31,15 +30,20 @@ export const AuthProvider = ({ children }) => {
   const { loading, setLoading } = useLoading()
 
   const getUserProfiles = async (userId: string) => {
-    const [data] = await getProfiles(userId)
-    const user: TUser = {
-      email: data.email,
-      id: data.id,
-      firstName: data.first_name,
-      lastName: data.last_name,
+    try {
+      const [data] = await getProfilesSupabase(userId)
+      const user: TUser = {
+        email: data.email,
+        id: data.id,
+        firstName: data.first_name,
+        lastName: data.last_name,
+      }
+      setUser(user)
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setLoading(false)
     }
-    setUser(user)
-    setLoading(false)
   }
 
   useEffect(() => {
@@ -53,54 +57,49 @@ export const AuthProvider = ({ children }) => {
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      // setLoading(true)
       setSession(session)
       if (session) {
         getUserProfiles(session.user.id)
       } else {
-        // setLoading(false)
       }
     })
   }, [])
 
   const updateProfile = async (data: TProfile) => {
-    setUser((prev) => {
-      return { ...prev, firstName: data.firstName, lastName: data.lastName }
-    })
     try {
       await updateProfileSupabase(data, user.id)
-      toast('Profil angepasst')
-    } catch (err) {
-      console.log(err)
+      setUser((prev) => {
+        return { ...prev, firstName: data.firstName, lastName: data.lastName }
+      })
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const updateEmail = async (email: string) => {
-    setUser((prev) => {
-      return { ...prev, email }
-    })
     try {
       await updateEmailSupabase(email)
-      toast('Check dein Postfach')
-    } catch (err) {
-      console.log(err)
+      setUser((prev) => {
+        return { ...prev, email }
+      })
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const updatePassword = async (password: string) => {
     try {
       await updatePasswordSupabase(password)
-      toast('Passwort geändert')
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 
   const deleteAccount = async () => {
     try {
       await deleteAccountSupabase()
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 

@@ -1,7 +1,8 @@
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../contexts/NotesContext'
 import { useUser } from '../../../contexts/UserContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { toast } from 'react-toastify'
 interface ModalEditPassword {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -15,6 +16,7 @@ const ModalEditPassword: FunctionComponent<ModalEditPassword> = ({
     password2: '',
   })
   const [error, setError] = useState('')
+  const [isPending, setIsPending] = useState(false)
 
   const closeModal = () => {
     setModalOpen(false)
@@ -31,19 +33,27 @@ const ModalEditPassword: FunctionComponent<ModalEditPassword> = ({
     })
   }
 
-  const updateHandler = () => {
+  const updateHandler = async () => {
     if (input.password1 !== input.password2)
       return setError('Die Passwörter stimmen nicht überein!')
     if (input.password1.length < 6)
       return setError('Das Passwort muss aus mindestens 6 Zeichen bestehen!')
 
-    updatePassword(input.password1)
-    closeModal()
+    setIsPending(true)
+    try {
+      await updatePassword(input.password1)
+      closeModal()
+      toast('Passwort geändert')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
     <Modal
-      className="modal--edit-password"
+      className={`modal--edit-password ${isPending ? 'loading' : ''}`}
       heading="Passwort ändern"
       handlerClose={closeModal}
       handlerOverlay={closeModal}

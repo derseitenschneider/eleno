@@ -1,8 +1,9 @@
 import './modalEditProfile.style.scss'
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../contexts/NotesContext'
 import { useUser } from '../../../contexts/UserContext'
+import { toast } from 'react-toastify'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 interface ModalEditProfile {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -15,6 +16,7 @@ const ModalEditProfile: FunctionComponent<ModalEditProfile> = ({
     firstName: user.firstName,
     lastName: user.lastName,
   })
+  const [isPending, setIsPending] = useState(false)
 
   const closeModal = () => {
     setModalOpen(false)
@@ -30,14 +32,22 @@ const ModalEditProfile: FunctionComponent<ModalEditProfile> = ({
     })
   }
 
-  const updateHandler = () => {
-    updateProfile(input)
-    closeModal()
+  const updateHandler = async () => {
+    setIsPending(true)
+    try {
+      await updateProfile(input)
+      closeModal()
+      toast('Profil angepasst')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
     <Modal
-      className="modal--profile"
+      className={`modal--profile ${isPending ? 'loading' : ''}`}
       heading="Profil bearbeiten"
       handlerClose={closeModal}
       handlerOverlay={closeModal}
@@ -56,7 +66,6 @@ const ModalEditProfile: FunctionComponent<ModalEditProfile> = ({
           onChange={inputHandler}
         />
         <input
-          autoFocus={true}
           type="text"
           name="lastName"
           className="lastName"

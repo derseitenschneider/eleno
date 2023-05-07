@@ -1,8 +1,5 @@
-import { useNavigate } from 'react-router-dom'
 import { TProfile } from '../../types/types'
 import { supabase } from '../supabase'
-
-// [ ] error handling for users
 
 export const signUpSupabase = async (
   email: string,
@@ -37,11 +34,12 @@ export const recoverPasswordSupabase = async (email: string) => {
   if (error) throw new Error(error.message)
 }
 
-export const getProfiles = async (uid: string) => {
+export const getProfilesSupabase = async (uid: string) => {
   let { data: profiles, error } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', uid)
+  if (error) throw new Error(error.message)
   return profiles
 }
 

@@ -44,10 +44,10 @@ export type ContextTypeUser = {
   setUser: React.Dispatch<React.SetStateAction<TUser>>
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  updateProfile: (data: TProfile) => void
-  updateEmail: (email: string) => void
-  updatePassword: (password: string) => void
-  deleteAccount: () => void
+  updateProfile: (data: TProfile) => Promise<void>
+  updateEmail: (email: string) => Promise<void>
+  updatePassword: (password: string) => Promise<void>
+  deleteAccount: () => Promise<void>
 }
 
 export type ContextTypeTodos = {

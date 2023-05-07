@@ -9,6 +9,8 @@ import {
 import { useLessons } from '../../../contexts/LessonsContext'
 import { useUser } from '../../../contexts/UserContext'
 import { validateEmail } from '../../../utils/validateEmail'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { toast } from 'react-toastify'
 
 interface ModalEditEmailProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -22,6 +24,7 @@ const ModalEditEmail: FunctionComponent<ModalEditEmailProps> = ({
   const [input2, setInput2] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [isPending, setIsPending] = useState(false)
   // Handler input fields
   const input1Handler = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -47,8 +50,16 @@ const ModalEditEmail: FunctionComponent<ModalEditEmailProps> = ({
     if (!validateEmail(input1)) return setError('Email-Format nicht korrekt')
     if (input1 !== input2)
       return setError('Email-Adressen stimmen nicht überein')
-    updateEmail(input1)
-    setSuccess(true)
+    setIsPending(true)
+    try {
+      await updateEmail(input1)
+      setSuccess(true)
+      toast('Check dein Postfach')
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -58,7 +69,7 @@ const ModalEditEmail: FunctionComponent<ModalEditEmailProps> = ({
       }
       handlerOverlay={closeModal}
       handlerClose={closeModal}
-      className="modal--edit-email"
+      className={`modal--edit-email ${isPending ? 'loading' : ''}`}
       buttons={
         !success
           ? [
