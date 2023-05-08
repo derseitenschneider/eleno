@@ -39,7 +39,10 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
   const handlerEditTodo = async () => {
     setIsPending(true)
     try {
-      await updateTodo(currentTodo)
+      await updateTodo({
+        ...currentTodo,
+        due: currentTodo.due.length ? currentTodo.due : null,
+      })
       closeModal()
       toast('Änderungen gespeichert.')
     } catch (error) {

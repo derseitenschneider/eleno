@@ -55,7 +55,10 @@ export const updateTodoSupabase = async (todo: TTodo) => {
     .update({ ...todoDb })
     .eq('id', todo.id)
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    console.log(error.message)
+    throw new Error(error.message)
+  }
 }
 
 export const deleteCompletedTodosSupabase = async (userId: string) => {
