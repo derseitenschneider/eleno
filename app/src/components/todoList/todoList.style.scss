@@ -1,0 +1,55 @@
+.todo-list {
+  position: relative;
+  .container--buttons.todo__delete-all-btn {
+    margin-bottom: 2.4rem;
+    margin-left: auto;
+    width: fit-content;
+    // position: absolute;
+    // top: -100%;
+    // right: 0;
+  }
+
+  .todos {
+    --columns-todos: 1rem 1fr 24rem 10rem 4rem;
+    --column-gap-todos: 1.2rem;
+    --padding-todos: 1rem;
+
+    .description {
+      padding: var(--padding-todos);
+      display: grid;
+      grid-template-columns: var(--columns-todos);
+      column-gap: var(--column-gap-todos);
+    }
+  }
+
+  .wrapper-student {
+    position: relative;
+
+    .student {
+      padding: 0.6rem 1.2rem;
+      background-color: var(--clr-primary-600);
+      color: var(--clr-white);
+      width: fit-content;
+      cursor: pointer;
+    }
+  }
+  .container--button {
+    .button--edit {
+      margin: 0 auto;
+      svg {
+        height: 1.4rem;
+        width: 1.4rem;
+      }
+    }
+  }
+  .button--remove-student {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-55%);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    color: var(--clr-warning);
+  }
+}

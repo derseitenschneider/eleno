@@ -1,0 +1,40 @@
+## Features
+
+# Lessons
+- Keyboard navigation between students
+- Header 
+  - Create Todo for chosen student
+  - Edit student direct via lesson header
+
+- Notes
+  - Drag & Drop notes
+  
+- Footer
+  - Metronome
+  - Data store (pdf)
+  - music player
+  - Tuner
+  - Timer
+
+# Timetable
+- Print timetable
+- create new timetable
+- diverse Ansichtsoptionen (einzelne Tage, Instrument/Minutenzahl ein/ausblenden etc)
+
+# Dashboard
+- Membership anzeigen und allenfalls für pro werben
+- Toast bei überfälligen todos
+
+
+# Students
+- Massenbearbeitung
+
+
+## Overall
+- Option Benachrichtigung bei fetchErrorToast
+- English and German translation
+- Animations
+- PWA
+- Tooltips
+- lesson draft for persistance / clean up new lesson input when switching student
+

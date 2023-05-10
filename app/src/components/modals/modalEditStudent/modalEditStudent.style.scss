@@ -1,0 +1,19 @@
+.modal--edit-student {
+  width: 95vw;
+
+  .container--buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 12rem 1fr;
+    column-gap: 0.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .labels span {
+    padding-left: 0.8rem;
+  }
+}

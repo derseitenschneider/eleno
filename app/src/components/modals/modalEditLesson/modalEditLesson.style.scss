@@ -1,0 +1,19 @@
+.modal--edit-lesson {
+  width: 60vw;
+
+  .container-date {
+    margin-bottom: 2rem;
+  }
+  .container--edit-lesson {
+    display: flex;
+    gap: 2rem;
+    &.loading {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+
+  .container-buttons {
+    justify-content: end;
+  }
+}

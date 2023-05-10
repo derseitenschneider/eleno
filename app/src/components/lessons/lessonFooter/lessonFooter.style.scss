@@ -1,0 +1,30 @@
+.footer--lessons {
+  grid-column: 1/-1;
+  // min-height: 8rem;
+  border-top: 1px solid var(--clr-bg-400);
+  display: flex;
+  padding: 2rem 3.2rem;
+  .container--buttons {
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+    width: fit-content;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .btn-arrow {
+    background-color: var(--clr-bg-400);
+    height: 3.8rem;
+    width: 3.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1000px;
+
+    box-shadow: var(--box-shadow-cards);
+    svg {
+      color: var(--clr-primary-600);
+    }
+  }
+}

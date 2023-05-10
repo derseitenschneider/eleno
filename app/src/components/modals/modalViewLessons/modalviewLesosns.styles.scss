@@ -1,0 +1,28 @@
+.view-lessons {
+  width: 80vw;
+
+  .lesson-grid {
+    .lesson-row {
+      &:first-child {
+        font-weight: 600;
+        background-color: var(--clr-bg-600);
+        margin-bottom: 0;
+      }
+      &:nth-child(even) {
+        background-color: var(--clr-bg-400);
+      }
+      display: grid;
+      grid-template-columns: 12rem 1fr 1fr;
+      overflow-wrap: anywhere;
+      column-gap: 2rem;
+      margin-bottom: 2rem;
+
+      & > p {
+        white-space: pre-line;
+        line-break: strict;
+
+        padding: 1.2rem;
+      }
+    }
+  }
+}
