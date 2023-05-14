@@ -8,7 +8,6 @@ import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.compon
 import Modal from '../modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 
@@ -26,11 +25,15 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
   isArchive,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const { students, archivateStudents, reactivateStudents, deleteStudents } =
-    useStudents()
+  const {
+    students,
+    archivateStudents,
+    reactivateStudents,
+    deleteStudents,
+    setStudentIndex,
+  } = useStudents()
   const [modalOpen, setModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
-  const { setClosestStudentIndex } = useClosestStudent()
   const [isPending, setIsPending] = useState(false)
   const navigate = useNavigate()
 
@@ -91,8 +94,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     const index = filteredSortedStudents.findIndex(
       (student) => student.id === studentId
     )
-
-    setClosestStudentIndex(index)
+    setStudentIndex(index)
 
     navigate('/lessons')
   }
