@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite --open",
     "build": "tsc && vite build",
+    "netlify": "tsc && vite build --config netlify.ts",
     "preview": "vite preview"
   },
   "dependencies": {
