@@ -19,6 +19,8 @@ import { fetchNotesByStudent } from '../supabase/notes/notes.supabase'
 export const StudentsContext = createContext<ContextTypeStudents>({
   students: [],
   setStudents: () => {},
+  studentIndex: 0,
+  setStudentIndex: () => {},
   isPending: false,
   setIsPending: () => {},
   activeStudents: [],
@@ -34,6 +36,7 @@ export const StudentsContext = createContext<ContextTypeStudents>({
 export const StudentsProvider = ({ children }) => {
   const { user } = useUser()
   const [students, setStudents] = useState([])
+  const [studentIndex, setStudentIndex] = useState(0)
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
 
@@ -138,6 +141,8 @@ export const StudentsProvider = ({ children }) => {
   const value = {
     students,
     setStudents,
+    studentIndex,
+    setStudentIndex,
     isPending,
     setIsPending,
     activeStudents,

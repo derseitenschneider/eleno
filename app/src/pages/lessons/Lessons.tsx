@@ -27,20 +27,19 @@ import NoContent from '../../components/noContent/NoContent.component'
 
 const Lesson: FunctionComponent = () => {
   const { loading } = useLoading()
-  const { students } = useStudents()
+  const { students, studentIndex, setStudentIndex } = useStudents()
   const { lessons } = useLessons()
 
   const { closestStudentIndex } = useClosestStudent()
-  const [studentIndex, setStudentIndex] = useState(0)
   const navigate = useNavigate()
 
   //EFFECTS
 
   // Close dropdown on click anywhere else
 
-  useEffect(() => {
-    setStudentIndex(closestStudentIndex)
-  }, [closestStudentIndex])
+  // useEffect(() => {
+  //   setStudentIndex(closestStudentIndex)
+  // }, [closestStudentIndex])
 
   const activeStudentsIds: number[] = sortStudentsDateTime(
     students.filter((student) => !student.archive)

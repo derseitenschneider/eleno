@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://eleno.net/app",
+  "homepage": "https://eleno.net",
   "scripts": {
     "dev": "vite --open",
     "build": "tsc && vite build",

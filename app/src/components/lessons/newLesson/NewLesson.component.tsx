@@ -22,6 +22,8 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
 
   // [ ] take focus state from save button when saved
 
+  console.log(studentId)
+
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')
@@ -29,7 +31,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       .map((e) => e.padStart(2, '0'))
       .join('.')
     setDate(today)
-  }, [])
+  }, [studentId])
 
   useEffect(() => {
     inputRef.current.focus()

@@ -64,6 +64,8 @@ export type ContextTypeTodos = {
 export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
+  studentIndex: number
+  setStudentIndex: React.Dispatch<React.SetStateAction<number>>
   isPending: boolean
   setIsPending: React.Dispatch<React.SetStateAction<boolean>>
   activeStudents: TStudent[] | null

@@ -11,6 +11,7 @@ import Loader from '../loader/Loader'
 import { useUser } from '../../contexts/UserContext'
 import OfflineBanner from '../offlineBanner/OfflineBanner.component'
 import { toast } from 'react-toastify'
+import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 
 interface MainProps {
   children: React.ReactNode
@@ -19,6 +20,8 @@ interface MainProps {
 const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { user } = useUser()
   // const { loading, setLoading } = useLoading()
+  const { closestStudentIndex } = useClosestStudent()
+  const { setStudentIndex } = useStudents()
   const [isPending, setIsPending] = useState(true)
   const { setStudents, students } = useStudents()
   const { setLessons } = useLessons()
@@ -26,6 +29,10 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { setTodos } = useTodos()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    setStudentIndex(closestStudentIndex)
+  }, [])
 
   useEffect(() => {
     if (user) {
