@@ -8,22 +8,31 @@
   align-items: center;
 
   &:disabled {
-    color: grey;
-    border: 1px solid grey;
     pointer-events: none;
     opacity: 0.8;
-    background-color: transparent;
   }
 
   &--primary {
     // background-color: var(--clr-primary-400);
     background-color: var(--clr-primary-600);
     color: var(--clr-white);
+
+    &:disabled {
+      color: var(--clr-darkgrey);
+      background-color: var(--clr-bg-400);
+    }
   }
 
   &--secondary {
     border: 1px solid var(--clr-primary-600);
     color: var(--clr-primary-600);
+
+    &:disabled {
+      color: grey;
+      border: 1px solid grey;
+
+      background-color: transparent;
+    }
   }
 
   &--icon-only {

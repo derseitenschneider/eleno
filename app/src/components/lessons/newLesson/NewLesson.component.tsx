@@ -26,8 +26,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
   const inputRef = useRef(null)
-  // [ ] fix date input issue
-  // [ ] take focus state from save button when saved
+
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')
@@ -93,7 +92,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     })
   }
 
-  const handlerSaveLesson = async () => {
+  const handlerSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
@@ -111,6 +110,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       fetchErrorToast()
     } finally {
       setIsPending(false)
+      e.currentTarget.blur()
     }
   }
 
@@ -155,6 +155,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
         label="Speichern"
         className="btn--save"
         handler={handlerSaveLesson}
+        disabled={!input.lessonContent && !input.homework}
       />
     </div>
   )
