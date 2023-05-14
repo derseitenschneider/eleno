@@ -1,11 +1,18 @@
 import './newLesson.style.scss'
 
-import { FunctionComponent, useState, useEffect, useRef } from 'react'
+import {
+  FunctionComponent,
+  useState,
+  useEffect,
+  useRef,
+  HtmlHTMLAttributes,
+} from 'react'
 import Button from '../../button/Button.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { formatDateToDatabase } from '../../../utils/formateDate'
 
 interface NewLessonProps {
   studentId: number
@@ -29,7 +36,6 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       .join('.')
     if (drafts.some((draft) => draft.studentId === studentId)) {
       const currentDraft = drafts.find((draft) => draft.studentId === studentId)
-      console.log(currentDraft)
       setInput({
         lessonContent: currentDraft.lessonContent,
         homework: currentDraft.homework || '',
@@ -53,7 +59,6 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     const name = e.currentTarget.name
     const value = e.currentTarget.value
     setInput((prev) => {
-      console.log(prev)
       return { ...prev, [name]: value }
     })
     setDrafts((prev) => {
@@ -69,17 +74,21 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     })
   }
 
+  const handlerShowPicker = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.showPicker()
+  }
+
   const handlerInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(e.currentTarget.value)
+    setDate(e.target.value)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === studentId)) {
         return prev.map((draft) =>
           draft.studentId === studentId
-            ? { ...draft, date: e.currentTarget.value }
+            ? { ...draft, date: e.target.value }
             : draft
         )
       } else {
-        return [...prev, { studentId, date: e.currentTarget.value }]
+        return [...prev, { studentId, date: e.target.value }]
       }
     })
   }
@@ -110,7 +119,12 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       <h3 className="heading-4">
         Aktuelle Lektion
         <span>
-          <input type="text" value={date} onChange={handlerInputDate} />
+          <input
+            type="date"
+            value={formatDateToDatabase(date)}
+            onChange={handlerInputDate}
+            onFocus={handlerShowPicker}
+          />
         </span>
       </h3>
       <div className="container--two-rows">

@@ -28,7 +28,7 @@ export const TodosProvider = ({ children }) => {
 
   const saveTodo = async (newTodo: TTodo) => {
     try {
-      const [data] = await saveTodoSupabase(newTodo)
+      const data = await saveTodoSupabase(newTodo)
       setTodos((prev) => [...prev, data])
     } catch (error) {
       throw new Error(error.message)

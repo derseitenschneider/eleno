@@ -4,6 +4,12 @@
     margin-left: auto;
   }
 
+  input[type='date']::-webkit-inner-spin-button,
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+
   textarea.loading {
     opacity: 0.3;
     pointer-events: none;

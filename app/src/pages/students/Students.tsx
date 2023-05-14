@@ -9,7 +9,6 @@ const navLinks = [
   { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },
   { path: '/students/archive/', label: 'Archiv', key: 2 },
 ]
-// [ ] link to individual lesson sheet not working anymore
 export default function Students() {
   return (
     <div className="container">

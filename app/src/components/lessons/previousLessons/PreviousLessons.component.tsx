@@ -81,7 +81,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 )}
               </button>
             ))}
-            {previousLessonsIds.length >= 3 && (
+            {previousLessonsIds.length >= 1 && (
               <button className="tab" onClick={() => setModalViewAllOpen(true)}>
                 ...
               </button>
