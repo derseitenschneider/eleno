@@ -31,6 +31,13 @@ export type TLesson = {
   studentId: number
 }
 
+export type TDraft = {
+  lessonContent?: string
+  homework?: string
+  date?: string
+  studentId: number
+}
+
 export type TNotes = {
   id?: number
   studentId: number
@@ -81,6 +88,8 @@ export type ContextTypeStudents = {
 export type ContextTypeLessons = {
   lessons: TLesson[] | null
   setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
+  drafts: TDraft[]
+  setDrafts: React.Dispatch<React.SetStateAction<TDraft[]>>
 
   saveNewLesson: (input: {}, studentId: number, date: string) => Promise<void>
   deleteLesson: (id: number) => Promise<void>

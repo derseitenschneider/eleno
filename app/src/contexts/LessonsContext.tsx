@@ -1,4 +1,4 @@
-import { ContextTypeLessons } from '../types/types'
+import { ContextTypeLessons, TDraft } from '../types/types'
 import { createContext, useContext, useState } from 'react'
 import { TLesson } from '../types/types'
 import {
@@ -12,6 +12,8 @@ import { useUser } from './UserContext'
 
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
+  drafts: [],
+  setDrafts: () => {},
   setLessons: () => {},
   saveNewLesson: () => new Promise(() => {}),
   deleteLesson: () => new Promise(() => {}),
@@ -21,6 +23,7 @@ export const LessonsContext = createContext<ContextTypeLessons>({
 export const LessonsProvider = ({ children }) => {
   const { user } = useUser()
   const [lessons, setLessons] = useState<TLesson[]>([])
+  const [drafts, setDrafts] = useState<TDraft[]>([])
 
   const saveNewLesson = async (
     input: { lessonContent: string; homework: string },
@@ -73,6 +76,8 @@ export const LessonsProvider = ({ children }) => {
   const value = {
     lessons,
     setLessons,
+    drafts,
+    setDrafts,
     saveNewLesson,
     deleteLesson,
     updateLesson,

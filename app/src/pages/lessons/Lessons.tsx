@@ -1,7 +1,7 @@
 import './lessons.style.scss'
 
 // React
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
 // Types
 
@@ -15,7 +15,6 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'
@@ -30,16 +29,11 @@ const Lesson: FunctionComponent = () => {
   const { students, studentIndex, setStudentIndex } = useStudents()
   const { lessons } = useLessons()
 
-  const { closestStudentIndex } = useClosestStudent()
   const navigate = useNavigate()
 
   //EFFECTS
 
   // Close dropdown on click anywhere else
-
-  // useEffect(() => {
-  //   setStudentIndex(closestStudentIndex)
-  // }, [closestStudentIndex])
 
   const activeStudentsIds: number[] = sortStudentsDateTime(
     students.filter((student) => !student.archive)

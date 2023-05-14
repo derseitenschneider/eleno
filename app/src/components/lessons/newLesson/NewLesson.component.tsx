@@ -16,21 +16,33 @@ const lessonData = { lessonContent: '', homework: '' }
 const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
   const [input, setInput] = useState(lessonData)
-  const { saveNewLesson } = useLessons()
+  const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
   const inputRef = useRef(null)
-
+  // [ ] fix date input issue
   // [ ] take focus state from save button when saved
-
-  console.log(studentId)
-
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')
       .split('.')
       .map((e) => e.padStart(2, '0'))
       .join('.')
-    setDate(today)
+    if (drafts.some((draft) => draft.studentId === studentId)) {
+      const currentDraft = drafts.find((draft) => draft.studentId === studentId)
+      console.log(currentDraft)
+      setInput({
+        lessonContent: currentDraft.lessonContent,
+        homework: currentDraft.homework || '',
+      })
+      if (currentDraft.date) {
+        setDate(currentDraft.date)
+      } else {
+        setDate(today)
+      }
+    } else {
+      setInput(lessonData)
+      setDate(today)
+    }
   }, [studentId])
 
   useEffect(() => {
@@ -41,7 +53,34 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     const name = e.currentTarget.name
     const value = e.currentTarget.value
     setInput((prev) => {
+      console.log(prev)
       return { ...prev, [name]: value }
+    })
+    setDrafts((prev) => {
+      if (prev.some((draft) => draft.studentId === studentId)) {
+        return prev.map((draft) =>
+          draft.studentId === studentId
+            ? { ...draft, [name]: value, date }
+            : draft
+        )
+      } else {
+        return [...prev, { studentId, [name]: value, date }]
+      }
+    })
+  }
+
+  const handlerInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(e.currentTarget.value)
+    setDrafts((prev) => {
+      if (prev.some((draft) => draft.studentId === studentId)) {
+        return prev.map((draft) =>
+          draft.studentId === studentId
+            ? { ...draft, date: e.currentTarget.value }
+            : draft
+        )
+      } else {
+        return [...prev, { studentId, date: e.currentTarget.value }]
+      }
     })
   }
 
@@ -71,11 +110,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       <h3 className="heading-4">
         Aktuelle Lektion
         <span>
-          <input
-            type="text"
-            value={date}
-            onChange={(e) => setDate(e.currentTarget.value)}
-          />
+          <input type="text" value={date} onChange={handlerInputDate} />
         </span>
       </h3>
       <div className="container--two-rows">
