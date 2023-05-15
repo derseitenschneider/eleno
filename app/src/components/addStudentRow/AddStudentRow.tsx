@@ -1,5 +1,4 @@
 import { FunctionComponent, SetStateAction, useState } from 'react'
-import { TStudent } from '../../types/types'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../button/Button.component'
 import { IRow } from '../modals/modalAddStudent/ModalAddStudent.component'

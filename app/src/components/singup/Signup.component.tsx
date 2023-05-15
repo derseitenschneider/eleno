@@ -190,12 +190,14 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                 >
                   ☝️ Ich habe bereits ein Benutzerkonto
                 </button>
-                <p
-                  className="error--message"
-                  style={error.length ? { opacity: '1' } : { opacity: '0' }}
-                >
-                  {error}
-                </p>
+                {error && (
+                  <p
+                    className="error--message"
+                    style={error.length ? { opacity: '1' } : { opacity: '0' }}
+                  >
+                    {error}
+                  </p>
+                )}
               </>
             )}
           </div>

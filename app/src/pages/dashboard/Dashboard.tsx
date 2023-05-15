@@ -52,7 +52,7 @@ function Dashboard() {
         <>
           <div className="container container-message">
             <h3 className="heading-3">
-              Hi {user.firstName}, willkommen bei Eleno!
+              Hi <b>{user.firstName}</b>, willkommen bei Eleno!
             </h3>
           </div>
           <div className="container container--quick-links">
@@ -66,7 +66,10 @@ function Dashboard() {
                   <>
                     <p>Nächste Lektion:</p>
                     <p>
-                      {closestStudent?.firstName} {closestStudent?.lastName} -{' '}
+                      <b>
+                        {closestStudent?.firstName} {closestStudent?.lastName}
+                      </b>
+                      <br />
                       {closestStudent?.dayOfLesson},{' '}
                       {closestStudent?.startOfLesson} Uhr
                     </p>

@@ -40,10 +40,6 @@
     padding: 0;
     height: 2rem;
     width: 2rem;
-    // & span:has(+ span:empty) svg {
-    //   height: 2rem;
-    //   width: 1.4rem;
-    // }
 
     &.warning {
       color: var(--clr-warning);
@@ -53,6 +49,10 @@
   &--danger {
     background-color: var(--clr-warning);
     color: var(--clr-white);
+    &:disabled {
+      color: var(--clr-darkgrey);
+      background-color: var(--clr-bg-400);
+    }
   }
 
   &.inactive {

@@ -1,3 +1,5 @@
+import './forgotPassword.style.scss'
+
 import { SetStateAction, FunctionComponent, useState } from 'react'
 import { TDisplayForm } from '../../types/types'
 import { recoverPasswordSupabase } from '../../supabase/users/users.supabase'
@@ -64,10 +66,11 @@ const ForgotPassword: FunctionComponent<ForgotPasswordProps> = ({
                 </button>
               </>
             ) : (
-              <p>
-                Du hast eine Email fürs Zurücksetzen deines Passworts erhalten.
+              <span className="reset-message">
+                Du hast eine Email für's Zurücksetzen deines Passworts erhalten.
+                <br />
                 Überprüfe dein Postfach...
-              </p>
+              </span>
             )}
           </div>
         </div>

@@ -30,12 +30,15 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
             <IoPersonCircleOutline className="icon" />
             {firstName} {lastName}
           </h2>
-          {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
         </div>
         <span>
           {dayOfLesson && `${dayOfLesson}`}
           {startOfLesson && `, ${startOfLesson}`}
           {endOfLesson && ` - ${endOfLesson}`}
+        </span>
+        <span> | </span>
+        <span>
+          {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
         </span>
       </div>
     </header>
