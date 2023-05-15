@@ -308,7 +308,7 @@ const TermsAndConditions: FunctionComponent<TermsAndConditionsProps> = ({
       <ol>
         <li>
           <p>
-            <strong>Eigentum</strong> . Für die Zwecke dieser Bedingungen: (i)
+            <strong>Eigentum</strong> Für die Zwecke dieser Bedingungen: (i)
             "Inhalt" bedeutet alle Daten, Texte, Dateien, Informationen,
             Benutzernamen, Bilder, Grafiken, Fotos, Profile, Audio- und
             Videoclips, Sounds, Musikwerke, urheberrechtlich geschützte Werke,
