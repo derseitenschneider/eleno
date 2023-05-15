@@ -19,7 +19,8 @@ import { formatDateToDatabase } from '../../utils/formateDate'
 
 function Dashboard() {
   const { user } = useUser()
-  const { students, activeStudents, archivedStudents } = useStudents()
+  const { students, activeStudents, archivedStudents, setStudentIndex } =
+    useStudents()
 
   const { loading, setLoading } = useLoading()
   const { closestStudentIndex } = useClosestStudent()
@@ -42,23 +43,30 @@ function Dashboard() {
     (todo) => todo.due < formatDateToDatabase(dateToday)
   )
 
+  const navigateToClosestStudent = () => {
+    setStudentIndex(closestStudentIndex)
+  }
+
   return (
     <div className="dashboard">
-      {/* <Loader loading={loading} /> */}
       <header className="container header--dashboard">
         <h1 className="heading-1">Dashboard</h1>
       </header>
       {!loading && user && (
         <>
           <div className="container container-message">
-            <h3 className="heading-3">
+            <span className="welcome-message">
               Hi <b>{user.firstName}</b>, willkommen bei Eleno!
-            </h3>
+            </span>
           </div>
           <div className="container container--quick-links">
             <h2 className="heading-2">Quick-Links</h2>
             <div className="grid-container">
-              <NavLink to={'lessons'} className="card">
+              <NavLink
+                to={'lessons'}
+                className="card"
+                onClick={navigateToClosestStudent}
+              >
                 <IoSchoolSharp className="icon" />
                 <p className="card-title">Unterricht starten</p>
                 <hr />

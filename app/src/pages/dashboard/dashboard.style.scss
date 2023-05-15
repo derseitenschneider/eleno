@@ -1,4 +1,7 @@
 .dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
   .container-message {
     border-bottom: 1px solid var(--clr-bg-400);
   }
@@ -11,7 +14,7 @@
     justify-items: space-between;
   }
 
-  .heading-3 {
+  .welcome-message {
     font-size: 1.6rem;
   }
 
@@ -65,10 +68,6 @@
   }
 
   .footer--dashboard {
-    position: absolute;
-    bottom: 0;
-    right: 3.2rem;
-
     color: var(--clr-darkgrey);
     font-size: 1rem;
     display: flex;

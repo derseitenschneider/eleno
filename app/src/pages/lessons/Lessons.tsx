@@ -33,6 +33,8 @@ const Lesson: FunctionComponent = () => {
 
   //EFFECTS
 
+  //[ ] current student is not updated when coming from dashboard
+
   // Close dropdown on click anywhere else
 
   const activeStudentsIds: number[] = sortStudentsDateTime(

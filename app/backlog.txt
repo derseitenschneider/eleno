@@ -31,7 +31,8 @@
 
 
 ## Overall
-- Option Benachrichtigung bei fetchErrorToast
+- Option "Admin benachrichtigen" bei fetchErrorToast
+- Darkmode-Setting
 - English and German translation
 - Animations
 - PWA

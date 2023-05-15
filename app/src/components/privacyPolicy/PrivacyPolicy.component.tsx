@@ -10,35 +10,33 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
 
       <p>
         Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen.
-        Datenschutz hat einen besonders hohen Stellenwert für die
-        Geschäftsleitung der der seitenschneider. Eine Nutzung der
-        Internetseiten der der seitenschneider ist grundsätzlich ohne jede
-        Angabe personenbezogener Daten möglich. Sofern eine betroffene Person
-        besondere Services unseres Unternehmens über unsere Internetseite in
-        Anspruch nehmen möchte, könnte jedoch eine Verarbeitung
-        personenbezogener Daten erforderlich werden. Ist die Verarbeitung
-        personenbezogener Daten erforderlich und besteht für eine solche
-        Verarbeitung keine gesetzliche Grundlage, holen wir generell eine
-        Einwilligung der betroffenen Person ein.
+        Datenschutz hat einen besonders hohen Stellenwert für Eleno. Eine
+        Nutzung der Internetseiten Eleno ist grundsätzlich ohne jede Angabe
+        personenbezogener Daten möglich. Sofern eine betroffene Person besondere
+        Services unseres Unternehmens über unsere Internetseite in Anspruch
+        nehmen möchte, könnte jedoch eine Verarbeitung personenbezogener Daten
+        erforderlich werden. Ist die Verarbeitung personenbezogener Daten
+        erforderlich und besteht für eine solche Verarbeitung keine gesetzliche
+        Grundlage, holen wir generell eine Einwilligung der betroffenen Person
+        ein.
       </p>
 
       <p>
         Die Verarbeitung personenbezogener Daten, beispielsweise des Namens, der
         Anschrift, E-Mail-Adresse oder Telefonnummer einer betroffenen Person,
         erfolgt stets im Einklang mit der Datenschutz-Grundverordnung und in
-        Übereinstimmung mit den für die der seitenschneider geltenden
-        landesspezifischen Datenschutzbestimmungen. Mittels dieser
-        Datenschutzerklärung möchte unser Unternehmen die Öffentlichkeit über
-        Art, Umfang und Zweck der von uns erhobenen, genutzten und verarbeiteten
-        personenbezogenen Daten informieren. Ferner werden betroffene Personen
-        mittels dieser Datenschutzerklärung über die ihnen zustehenden Rechte
-        aufgeklärt.
+        Übereinstimmung mit den für Eleno geltenden landesspezifischen
+        Datenschutzbestimmungen. Mittels dieser Datenschutzerklärung möchte
+        unser Unternehmen die Öffentlichkeit über Art, Umfang und Zweck der von
+        uns erhobenen, genutzten und verarbeiteten personenbezogenen Daten
+        informieren. Ferner werden betroffene Personen mittels dieser
+        Datenschutzerklärung über die ihnen zustehenden Rechte aufgeklärt.
       </p>
 
       <p>
-        Die der seitenschneider hat als für die Verarbeitung Verantwortlicher
-        zahlreiche technische und organisatorische Maßnahmen umgesetzt, um einen
-        möglichst lückenlosen Schutz der über diese Internetseite verarbeiteten
+        Eleno hat als für die Verarbeitung Verantwortlicher zahlreiche
+        technische und organisatorische Maßnahmen umgesetzt, um einen möglichst
+        lückenlosen Schutz der über diese Internetseite verarbeiteten
         personenbezogenen Daten sicherzustellen. Dennoch können Internetbasierte
         Datenübertragungen grundsätzlich Sicherheitslücken aufweisen, sodass ein
         absoluter Schutz nicht gewährleistet werden kann. Aus diesem Grund steht
@@ -48,13 +46,13 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
 
       <h3 className="heading-3">1. Begriffsbestimmungen</h3>
       <p>
-        Die Datenschutzerklärung der der seitenschneider beruht auf den
-        Begrifflichkeiten, die durch den Europäischen Richtlinien- und
-        Verordnungsgeber beim Erlass der Datenschutz-Grundverordnung (DS-GVO)
-        verwendet wurden. Unsere Datenschutzerklärung soll sowohl für die
-        Öffentlichkeit als auch für unsere Kunden und Geschäftspartner einfach
-        lesbar und verständlich sein. Um dies zu gewährleisten, möchten wir
-        vorab die verwendeten Begrifflichkeiten erläutern.
+        Die Datenschutzerklärung von Eleno beruht auf den Begrifflichkeiten, die
+        durch den Europäischen Richtlinien- und Verordnungsgeber beim Erlass der
+        Datenschutz-Grundverordnung (DS-GVO) verwendet wurden. Unsere
+        Datenschutzerklärung soll sowohl für die Öffentlichkeit als auch für
+        unsere Kunden und Geschäftspartner einfach lesbar und verständlich sein.
+        Um dies zu gewährleisten, möchten wir vorab die verwendeten
+        Begrifflichkeiten erläutern.
       </p>
 
       <p>
@@ -212,22 +210,18 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
 
       <p>
         Tel.: <a href="tel:+41 77 257 88 71">+41 77 257 88 71</a> <br />
-        E-Mail:{' '}
-        <a href="mailto:info@derseitenschneider.ch">
-          info@derseitenschneider.ch
-        </a>{' '}
-        <br />
+        E-Mail: <a href="mailto:info@eleno.net">info@eleno.net</a> <br />
         Website:{' '}
-        <a href="https://derseitenschneider.ch" target="_blank">
-          www.derseitenschneider.ch
+        <a href="https://eleno.net" target="_blank">
+          www.eleno.net
         </a>
       </p>
 
       <h3 className="heading-3">3. Cookies</h3>
       <p>
-        Die Internetseiten der der seitenschneider verwenden Cookies. Cookies
-        sind Textdateien, welche über einen Internetbrowser auf einem
-        Computersystem abgelegt und gespeichert werden.
+        Die Internetseiten Eleno verwenden Cookies. Cookies sind Textdateien,
+        welche über einen Internetbrowser auf einem Computersystem abgelegt und
+        gespeichert werden.
       </p>
 
       <p>
@@ -243,9 +237,9 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
       </p>
 
       <p>
-        Durch den Einsatz von Cookies kann die der seitenschneider den Nutzern
-        dieser Internetseite nutzerfreundlichere Services bereitstellen, die
-        ohne die Cookie-Setzung nicht möglich wären.
+        Durch den Einsatz von Cookies kann Eleno den Nutzern dieser
+        Internetseite nutzerfreundlichere Services bereitstellen, die ohne die
+        Cookie-Setzung nicht möglich wären.
       </p>
 
       <p>
@@ -279,13 +273,13 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
         4. Erfassung von allgemeinen Daten und Informationen
       </h3>
       <p>
-        Die Internetseite der der seitenschneider erfasst mit jedem Aufruf der
-        Internetseite durch eine betroffene Person oder ein automatisiertes
-        System eine Reihe von allgemeinen Daten und Informationen. Diese
-        allgemeinen Daten und Informationen werden in den Logfiles des Servers
-        gespeichert. Erfasst werden können die (1) verwendeten Browsertypen und
-        Versionen, (2) das vom zugreifenden System verwendete Betriebssystem,
-        (3) die Internetseite, von welcher ein zugreifendes System auf unsere
+        Die Internetseite Eleno erfasst mit jedem Aufruf der Internetseite durch
+        eine betroffene Person oder ein automatisiertes System eine Reihe von
+        allgemeinen Daten und Informationen. Diese allgemeinen Daten und
+        Informationen werden in den Logfiles des Servers gespeichert. Erfasst
+        werden können die (1) verwendeten Browsertypen und Versionen, (2) das
+        vom zugreifenden System verwendete Betriebssystem, (3) die
+        Internetseite, von welcher ein zugreifendes System auf unsere
         Internetseite gelangt (sogenannte Referrer), (4) die Unterwebseiten,
         welche über ein zugreifendes System auf unserer Internetseite
         angesteuert werden, (5) das Datum und die Uhrzeit eines Zugriffs auf die
@@ -296,22 +290,21 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
       </p>
 
       <p>
-        Bei der Nutzung dieser allgemeinen Daten und Informationen zieht die der
-        seitenschneider keine Rückschlüsse auf die betroffene Person. Diese
-        Informationen werden vielmehr benötigt, um (1) die Inhalte unserer
-        Internetseite korrekt auszuliefern, (2) die Inhalte unserer
-        Internetseite sowie die Werbung für diese zu optimieren, (3) die
-        dauerhafte Funktionsfähigkeit unserer informationstechnologischen
-        Systeme und der Technik unserer Internetseite zu gewährleisten sowie (4)
-        um Strafverfolgungsbehörden im Falle eines Cyberangriffes die zur
-        Strafverfolgung notwendigen Informationen bereitzustellen. Diese anonym
-        erhobenen Daten und Informationen werden durch die der seitenschneider
-        daher einerseits statistisch und ferner mit dem Ziel ausgewertet, den
-        Datenschutz und die Datensicherheit in unserem Unternehmen zu erhöhen,
-        um letztlich ein optimales Schutzniveau für die von uns verarbeiteten
-        personenbezogenen Daten sicherzustellen. Die anonymen Daten der
-        Server-Logfiles werden getrennt von allen durch eine betroffene Person
-        angegebenen personenbezogenen Daten gespeichert.
+        Bei der Nutzung dieser allgemeinen Daten und Informationen zieht Eleno
+        keine Rückschlüsse auf die betroffene Person. Diese Informationen werden
+        vielmehr benötigt, um (1) die Inhalte unserer Internetseite korrekt
+        auszuliefern, (2) die Inhalte unserer Internetseite sowie die Werbung
+        für diese zu optimieren, (3) die dauerhafte Funktionsfähigkeit unserer
+        informationstechnologischen Systeme und der Technik unserer
+        Internetseite zu gewährleisten sowie (4) um Strafverfolgungsbehörden im
+        Falle eines Cyberangriffes die zur Strafverfolgung notwendigen
+        Informationen bereitzustellen. Diese anonym erhobenen Daten und
+        Informationen werden durch Eleno daher einerseits statistisch und ferner
+        mit dem Ziel ausgewertet, den Datenschutz und die Datensicherheit in
+        unserem Unternehmen zu erhöhen, um letztlich ein optimales Schutzniveau
+        für die von uns verarbeiteten personenbezogenen Daten sicherzustellen.
+        Die anonymen Daten der Server-Logfiles werden getrennt von allen durch
+        eine betroffene Person angegebenen personenbezogenen Daten gespeichert.
       </p>
 
       <h3 className="heading-3">5. Registrierung auf unserer Internetseite</h3>
@@ -534,29 +527,27 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </ul>
           <p>
             Sofern einer der oben genannten Gründe zutrifft und eine betroffene
-            Person die Löschung von personenbezogenen Daten, die bei der der
-            seitenschneider gespeichert sind, veranlassen möchte, kann sie sich
-            hierzu jederzeit an einen Mitarbeiter des für die Verarbeitung
-            Verantwortlichen wenden. Der Mitarbeiter der der seitenschneider
-            wird veranlassen, dass dem Löschverlangen unverzüglich nachgekommen
-            wird.
+            Person die Löschung von personenbezogenen Daten, die bei Eleno
+            gespeichert sind, veranlassen möchte, kann sie sich hierzu jederzeit
+            an einen Mitarbeiter des für die Verarbeitung Verantwortlichen
+            wenden. Der Mitarbeiter von Eleno wird veranlassen, dass dem
+            Löschverlangen unverzüglich nachgekommen wird.
           </p>
 
           <p>
-            Wurden die personenbezogenen Daten von der der seitenschneider
-            öffentlich gemacht und ist unser Unternehmen als Verantwortlicher
-            gemäß Art. 17 Abs. 1 DS-GVO zur Löschung der personenbezogenen Daten
-            verpflichtet, so trifft die der seitenschneider unter
-            Berücksichtigung der verfügbaren Technologie und der
-            Implementierungskosten angemessene Maßnahmen, auch technischer Art,
-            um andere für die Datenverarbeitung Verantwortliche, welche die
+            Wurden die personenbezogenen Daten von Eleno öffentlich gemacht und
+            ist unser Unternehmen als Verantwortlicher gemäß Art. 17 Abs. 1
+            DS-GVO zur Löschung der personenbezogenen Daten verpflichtet, so
+            trifft Eleno unter Berücksichtigung der verfügbaren Technologie und
+            der Implementierungskosten angemessene Maßnahmen, auch technischer
+            Art, um andere für die Datenverarbeitung Verantwortliche, welche die
             veröffentlichten personenbezogenen Daten verarbeiten, darüber in
             Kenntnis zu setzen, dass die betroffene Person von diesen anderen
             für die Datenverarbeitung Verantwortlichen die Löschung sämtlicher
             Links zu diesen personenbezogenen Daten oder von Kopien oder
             Replikationen dieser personenbezogenen Daten verlangt hat, soweit
-            die Verarbeitung nicht erforderlich ist. Der Mitarbeiter der der
-            seitenschneider wird im Einzelfall das Notwendige veranlassen.
+            die Verarbeitung nicht erforderlich ist. Der Mitarbeiter von Eleno
+            wird im Einzelfall das Notwendige veranlassen.
           </p>
         </li>
         <li>
@@ -598,10 +589,10 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           <p>
             Sofern eine der oben genannten Voraussetzungen gegeben ist und eine
             betroffene Person die Einschränkung von personenbezogenen Daten, die
-            bei der der seitenschneider gespeichert sind, verlangen möchte, kann
-            sie sich hierzu jederzeit an einen Mitarbeiter des für die
-            Verarbeitung Verantwortlichen wenden. Der Mitarbeiter der der
-            seitenschneider wird die Einschränkung der Verarbeitung veranlassen.
+            bei Eleno gespeichert sind, verlangen möchte, kann sie sich hierzu
+            jederzeit an einen Mitarbeiter des für die Verarbeitung
+            Verantwortlichen wenden. Der Mitarbeiter von Eleno wird die
+            Einschränkung der Verarbeitung veranlassen.
           </p>
         </li>
         <li>
@@ -636,8 +627,7 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
 
           <p>
             Zur Geltendmachung des Rechts auf Datenübertragbarkeit kann sich die
-            betroffene Person jederzeit an einen Mitarbeiter der der
-            seitenschneider wenden.
+            betroffene Person jederzeit an einen Mitarbeiter von Eleno wenden.
           </p>
         </li>
         <li>
@@ -653,8 +643,8 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
 
           <p>
-            Die der seitenschneider verarbeitet die personenbezogenen Daten im
-            Falle des Widerspruchs nicht mehr, es sei denn, wir können zwingende
+            Eleno verarbeitet die personenbezogenen Daten im Falle des
+            Widerspruchs nicht mehr, es sei denn, wir können zwingende
             schutzwürdige Gründe für die Verarbeitung nachweisen, die den
             Interessen, Rechten und Freiheiten der betroffenen Person
             überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung
@@ -662,33 +652,32 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
           </p>
 
           <p>
-            Verarbeitet die der seitenschneider personenbezogene Daten, um
-            Direktwerbung zu betreiben, so hat die betroffene Person das Recht,
-            jederzeit Widerspruch gegen die Verarbeitung der personenbezogenen
-            Daten zum Zwecke derartiger Werbung einzulegen. Dies gilt auch für
-            das Profiling, soweit es mit solcher Direktwerbung in Verbindung
-            steht. Widerspricht die betroffene Person gegenüber der der
-            seitenschneider der Verarbeitung für Zwecke der Direktwerbung, so
-            wird die der seitenschneider die personenbezogenen Daten nicht mehr
-            für diese Zwecke verarbeiten.
+            Verarbeitet Eleno personenbezogene Daten, um Direktwerbung zu
+            betreiben, so hat die betroffene Person das Recht, jederzeit
+            Widerspruch gegen die Verarbeitung der personenbezogenen Daten zum
+            Zwecke derartiger Werbung einzulegen. Dies gilt auch für das
+            Profiling, soweit es mit solcher Direktwerbung in Verbindung steht.
+            Widerspricht die betroffene Person gegenüber Eleno der Verarbeitung
+            für Zwecke der Direktwerbung, so wird Eleno die personenbezogenen
+            Daten nicht mehr für diese Zwecke verarbeiten.
           </p>
 
           <p>
             Zudem hat die betroffene Person das Recht, aus Gründen, die sich aus
             ihrer besonderen Situation ergeben, gegen die sie betreffende
-            Verarbeitung personenbezogener Daten, die bei der der
-            seitenschneider zu wissenschaftlichen oder historischen
-            Forschungszwecken oder zu statistischen Zwecken gemäß Art. 89 Abs. 1
-            DS-GVO erfolgen, Widerspruch einzulegen, es sei denn, eine solche
-            Verarbeitung ist zur Erfüllung einer im öffentlichen Interesse
-            liegenden Aufgabe erforderlich.
+            Verarbeitung personenbezogener Daten, die bei Eleno zu
+            wissenschaftlichen oder historischen Forschungszwecken oder zu
+            statistischen Zwecken gemäß Art. 89 Abs. 1 DS-GVO erfolgen,
+            Widerspruch einzulegen, es sei denn, eine solche Verarbeitung ist
+            zur Erfüllung einer im öffentlichen Interesse liegenden Aufgabe
+            erforderlich.
           </p>
 
           <p>
             Zur Ausübung des Rechts auf Widerspruch kann sich die betroffene
-            Person direkt an jeden Mitarbeiter der der seitenschneider oder
-            einen anderen Mitarbeiter wenden. Der betroffenen Person steht es
-            ferner frei, im Zusammenhang mit der Nutzung von Diensten der
+            Person direkt an jeden Mitarbeiter von Eleno oder einen anderen
+            Mitarbeiter wenden. Der betroffenen Person steht es ferner frei, im
+            Zusammenhang mit der Nutzung von Diensten der
             Informationsgesellschaft, ungeachtet der Richtlinie 2002/58/EG, ihr
             Widerspruchsrecht mittels automatisierter Verfahren auszuüben, bei
             denen technische Spezifikationen verwendet werden.
@@ -721,12 +710,12 @@ const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
             Ist die Entscheidung (1) für den Abschluss oder die Erfüllung eines
             Vertrags zwischen der betroffenen Person und dem Verantwortlichen
             erforderlich oder (2) erfolgt sie mit ausdrücklicher Einwilligung
-            der betroffenen Person, trifft die der seitenschneider angemessene
-            Maßnahmen, um die Rechte und Freiheiten sowie die berechtigten
-            Interessen der betroffenen Person zu wahren, wozu mindestens das
-            Recht auf Erwirkung des Eingreifens einer Person seitens des
-            Verantwortlichen, auf Darlegung des eigenen Standpunkts und auf
-            Anfechtung der Entscheidung gehört.
+            der betroffenen Person, trifft Eleno angemessene Maßnahmen, um die
+            Rechte und Freiheiten sowie die berechtigten Interessen der
+            betroffenen Person zu wahren, wozu mindestens das Recht auf
+            Erwirkung des Eingreifens einer Person seitens des Verantwortlichen,
+            auf Darlegung des eigenen Standpunkts und auf Anfechtung der
+            Entscheidung gehört.
           </p>
 
           <p>
