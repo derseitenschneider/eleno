@@ -20,7 +20,7 @@ export const createNewStudentSupabase = async function (
   })
 
   const { data, error } = await supabase
-    .from('student')
+    .from('students')
     .insert(newStudents)
     .select()
   if (error) throw new Error(error.message)

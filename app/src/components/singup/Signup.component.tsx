@@ -77,7 +77,10 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
         <div className="card-login">
           <div className="wrapper wrapper--signup">
             {confirmEmailSent ? (
-              <p>Der Aktivierungslink wurde an {input.email} gesendet</p>
+              <span className="confirmation-message">
+                Der Aktivierungslink wurde an <b>{input.email} </b>
+                gesendet.
+              </span>
             ) : (
               <>
                 <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>

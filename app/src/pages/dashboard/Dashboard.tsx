@@ -143,7 +143,7 @@ function Dashboard() {
           Copyright © {dateToday.substring(4)} by{' '}
           <a href="https://derseitenschneider.ch" target="_blank">
             derseitenschneider
-          </a>
+          </a>{' '}
           - all rights reserved
         </span>
       </footer>
