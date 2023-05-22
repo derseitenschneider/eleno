@@ -81,6 +81,6 @@ export const mainRouter = createBrowserRouter(
     },
   ],
   {
-    basename: '/app',
+    basename: '/',
   }
 )
