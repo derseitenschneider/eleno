@@ -93,6 +93,8 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   }
 
   const handlerSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // [ ] delete draft when lesson is saved
+
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return

@@ -46,7 +46,7 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
               required
               autoFocus={true}
               name="email"
-              type="text"
+              type="email"
               id="email"
               className={`email${error ? ' input--error' : ''}`}
               value={input.email}
