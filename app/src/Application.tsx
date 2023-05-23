@@ -9,7 +9,8 @@ import Toast from './components/toast/Toast.component'
 import MainContext from './contexts/MainContext'
 import { AuthProvider } from './contexts/UserContext'
 import { LoadingProvider } from './contexts/LoadingContext'
-import OfflineBanner from './components/offlineBanner/OfflineBanner.component'
+
+// [ ] no auto input focus on tablet!
 
 export default function Application() {
   return (

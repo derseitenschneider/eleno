@@ -150,3 +150,40 @@
     position: relative;
   }
 }
+
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    top: auto;
+
+    .container-top {
+      display: flex;
+      align-items: center;
+    }
+
+    &__logo {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    &__button--toggle {
+      display: none;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    &__nav-list {
+      display: flex;
+      width: 50%;
+    }
+
+    &__nav-el {
+      width: auto;
+      padding: 0;
+    }
+  }
+}

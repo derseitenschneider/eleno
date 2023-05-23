@@ -2,8 +2,9 @@
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 40rem;
-  grid-template-rows: 2fr 8fr 0.5fr;
+  grid-template-rows: minmax(auto, 12rem) minmax(auto, 80rem) 0.5fr;
   .main {
+    padding-bottom: 2rem;
     // flex-basis: 80%;
     textarea {
       background-color: var(--clr-bg-400);

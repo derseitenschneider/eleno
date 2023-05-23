@@ -31,3 +31,17 @@
     margin: 0 auto;
   }
 }
+
+@media (max-width: 480px) {
+  .wrapper--signup {
+    .form--signup {
+      grid-template-columns: 1fr;
+
+      .form-item--privacy-policy {
+        label {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
