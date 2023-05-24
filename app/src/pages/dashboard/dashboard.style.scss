@@ -23,15 +23,10 @@
 
     background-color: var(--clr-bg-400);
     color: var(--clr-text-400);
-    // min-height: 10rem;
     padding: 2rem;
     width: 25rem;
-    // display: flex;
-    flex-direction: column;
-    justify-content: center;
 
     border-radius: 8px;
-    // border: 1px solid var(--clr-primary-600);
     box-shadow: var(--box-shadow-cards);
 
     transition: color 0.4s ease;
@@ -81,6 +76,47 @@
     }
     .copyright {
       font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    .header--dashboard {
+      .heading-1 {
+        margin-bottom: 0;
+        line-height: 1;
+      }
+    }
+
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      width: 100%;
+
+      &--students {
+        display: none;
+      }
+    }
+
+    .footer--dashboard {
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: center;
+      text-align: center;
+
+      a {
+        display: block;
+      }
+      .links {
+        display: block;
+        a {
+          margin-bottom: 0.8rem;
+          display: block;
+        }
+      }
     }
   }
 }

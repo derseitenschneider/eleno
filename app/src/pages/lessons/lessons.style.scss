@@ -49,7 +49,7 @@
   .aside {
     position: relative;
     border-left: 1px solid var(--clr-bg-400);
-    flex-grow: 1;
+
     padding: 1.6rem;
     overflow-y: auto;
 
@@ -72,6 +72,78 @@
 
     .note-content {
       height: 16rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .lessons {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+
+    .main {
+      .container--previous-lessons {
+        height: unset;
+      }
+      .container--lessons {
+        .container--two-rows {
+          grid-template-columns: 1fr;
+          row-gap: 2rem;
+        }
+      }
+    }
+    .aside {
+      overflow-y: unset;
+      border-top: 1px solid var(--clr-bg-400);
+    }
+    .footer--lessons {
+      position: fixed;
+      bottom: 6rem;
+      right: 0;
+      border-top: unset;
+    }
+
+    .view-lessons {
+      .modal {
+        padding: 4rem 1rem;
+
+        .heading-2 {
+          margin-left: 1rem;
+        }
+      }
+      .lesson-grid {
+        .lesson-row {
+          grid-template-columns: auto 1fr 1fr;
+          column-gap: 1rem;
+          p {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            padding: 0.8rem;
+          }
+        }
+      }
+    }
+
+    .modal--edit-lesson {
+      width: 100vw;
+
+      .modal {
+        .container-date {
+          label {
+            display: none;
+          }
+          input {
+            margin-left: 0;
+            text-align: left;
+            padding: 0.8rem;
+            width: 8rem;
+          }
+        }
+        .container--edit-lesson {
+          flex-direction: column;
+        }
+      }
     }
   }
 }

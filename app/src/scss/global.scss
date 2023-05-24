@@ -164,6 +164,7 @@ input[type='number'] {
   display: flex;
   height: 100%;
   min-height: 100vh;
+  position: relative;
 }
 
 #main {
@@ -212,4 +213,20 @@ input[type='number'] {
   margin-top: 2rem;
   margin-bottom: 2rem;
   color: var(--clr-warning);
+}
+
+@media (max-width: 480px) {
+  .App {
+    display: block;
+    overflow: hidden;
+  }
+  #main {
+    margin-left: 0;
+    display: block;
+    margin-bottom: 6rem;
+  }
+
+  .container {
+    padding: 2rem 1.4rem;
+  }
 }

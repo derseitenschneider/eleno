@@ -53,3 +53,11 @@
     color: var(--clr-warning);
   }
 }
+
+@media (max-width: 480px) {
+  .todo-list {
+    .todos {
+      --columns-todos: 1rem 2fr 2fr 1fr 2rem;
+    }
+  }
+}

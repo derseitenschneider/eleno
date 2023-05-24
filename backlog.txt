@@ -42,3 +42,9 @@
 ## Payment
 - Rechnungen in Settings
 
+
+##
+- Kalender download
+- SuS Jahrgang, Spieldauer
+- Lektionsrating pro Sus/Lektionsrating
+- Absenzen-Checkbox und Liste

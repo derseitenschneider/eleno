@@ -86,7 +86,7 @@ function Dashboard() {
                   <p>Aktuell keine aktiven Schüler:innen erfasst</p>
                 )}
               </NavLink>
-              <NavLink to={'students'} className="card">
+              <NavLink to={'students'} className="card card--students">
                 <IoPeopleCircleOutline className="icon" />
                 <p className="card-title">Schüler:in hinzufügen</p>
                 <hr />
