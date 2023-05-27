@@ -1,8 +1,10 @@
 import './lessonHeader.style.scss'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
+import { HiOutlinePencilSquare } from 'react-icons/hi2'
 
 import { IoPersonCircleOutline } from 'react-icons/io5'
+import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
 
 interface LessonHeaderProps {
   currentStudentId: number
@@ -12,6 +14,7 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
   currentStudentId,
 }) => {
   const { students } = useStudents()
+  const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false)
 
   const {
     firstName,
@@ -30,6 +33,12 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
             <IoPersonCircleOutline className="icon" />
             {firstName} {lastName}
           </h2>
+          <button
+            className="button--edit-student"
+            onClick={() => setModalEditStudentOpen(true)}
+          >
+            <HiOutlinePencilSquare />
+          </button>
         </div>
         <span>
           {dayOfLesson && `${dayOfLesson}`}
@@ -41,6 +50,12 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
         </span>
       </div>
+      {modalEditStudentOpen && (
+        <ModalEditStudent
+          studentId={currentStudentId}
+          handlerClose={() => setModalEditStudentOpen(false)}
+        />
+      )}
     </header>
   )
 }

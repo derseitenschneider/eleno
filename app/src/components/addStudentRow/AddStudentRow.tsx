@@ -83,7 +83,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
       />
       <select
         name="dayOfLesson"
-        value={dayOfLesson}
+        // value={dayOfLesson}
         onChange={handleInput}
         defaultValue={null}
       >
