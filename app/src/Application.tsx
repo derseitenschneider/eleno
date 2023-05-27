@@ -11,6 +11,8 @@ import { AuthProvider } from './contexts/UserContext'
 import { LoadingProvider } from './contexts/LoadingContext'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
+console.log('test yml push')
+
 // [ ] no auto input focus on tablet!
 
 export default function Application() {
