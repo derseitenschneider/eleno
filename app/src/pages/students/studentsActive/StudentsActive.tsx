@@ -155,7 +155,7 @@ export default function StudentsActive() {
                     type="search"
                     placeholder="suchen"
                     value={searchInput}
-                    autoFocus
+                    autoFocus={window.screen.width > 1000 ? true : false}
                     onChange={handlerSearchInput}
                   />
 

@@ -53,7 +53,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   }, [studentId])
 
   useEffect(() => {
-    inputRef.current.focus()
+    if (window.screen.width > 1000) inputRef.current.focus()
   }, [studentId])
 
   const handlerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,8 +95,6 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   }
 
   const handlerSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // [ ] delete draft when lesson is saved
-
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
@@ -137,7 +135,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
           <h4 className="heading-5">Lektion</h4>
           <textarea
             name="lessonContent"
-            autoFocus={true}
+            autoFocus={window.screen.width > 1000 ? true : false}
             value={input.lessonContent}
             onChange={handlerInput}
             ref={inputRef}
