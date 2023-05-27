@@ -4,7 +4,6 @@
 - Keyboard navigation between students
 - Header 
   - Create Todo for chosen student
-  - Edit student direct via lesson header
 
 - Notes
   - Drag & Drop notes
@@ -37,7 +36,6 @@
 - Animations
 - PWA
 - Tooltips
-- lesson draft for persistance / clean up new lesson input when switching student
 
 ## Payment
 - Rechnungen in Settings
