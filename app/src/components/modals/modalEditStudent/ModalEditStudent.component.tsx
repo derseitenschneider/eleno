@@ -1,10 +1,11 @@
 import './modalEditStudent.style.scss'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import Modal from '../Modal.component'
 import Button from '../../button/Button.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { calcTimeDifference } from '../../../utils/calcTimeDifference'
 
 interface ModalEditStudentProps {
   handlerClose: () => void
@@ -32,6 +33,15 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
     durationMinutes,
     location,
   } = inputStudent
+
+  useEffect(() => {
+    if (startOfLesson && endOfLesson) {
+      const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
+      setInputStudent((prev) => {
+        return { ...prev, durationMinutes: diffInMinutes }
+      })
+    }
+  }, [startOfLesson, endOfLesson])
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

@@ -1,7 +1,8 @@
-import { FunctionComponent, SetStateAction, useState } from 'react'
+import { FunctionComponent, SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../button/Button.component'
 import { IRow } from '../modals/modalAddStudent/ModalAddStudent.component'
+import { calcTimeDifference } from '../../utils/calcTimeDifference'
 
 interface AddStudentRowProps {
   id: number
@@ -24,6 +25,17 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
     durationMinutes,
     location,
   } = rows.find((row) => row.tempId === id)
+
+  useEffect(() => {
+    if (startOfLesson && endOfLesson) {
+      const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
+      setRows((prev) =>
+        prev.map((row) =>
+          row.tempId === id ? { ...row, durationMinutes: diffInMinutes } : row
+        )
+      )
+    }
+  }, [startOfLesson, endOfLesson])
 
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
