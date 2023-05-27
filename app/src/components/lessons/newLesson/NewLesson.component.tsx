@@ -109,6 +109,7 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       setIsPending(true)
       await saveNewLesson(input, studentId, date)
       setInput(lessonData)
+      setDrafts((prev) => prev.filter((draft) => draft.studentId !== studentId))
       toast('Lektion gespeichert')
     } catch (err) {
       fetchErrorToast()
