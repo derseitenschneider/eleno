@@ -31,7 +31,7 @@ const DropDown: FunctionComponent<DropDownProps> = ({
           type="search"
           value={valueSearchfield}
           onChange={onChangeSearchfield}
-          autoFocus={true}
+          autoFocus={window.screen.width > 1000 ? true : false}
         />
       )}
       {buttons.map((button, i) => (

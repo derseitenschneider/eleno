@@ -31,6 +31,7 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
     } catch (error) {
       setError(true)
       setInput({ email: '', password: '' })
+
       inputRef.current.focus()
     }
   }
@@ -44,7 +45,7 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
             <input
               ref={inputRef}
               required
-              autoFocus={true}
+              autoFocus={window.screen.width > 1000 ? true : false}
               name="email"
               type="email"
               id="email"

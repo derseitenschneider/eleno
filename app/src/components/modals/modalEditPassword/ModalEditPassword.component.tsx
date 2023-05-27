@@ -70,7 +70,7 @@ const ModalEditPassword: FunctionComponent<ModalEditPassword> = ({
       <div className="input-el">
         <span>Neues Passwort</span>
         <input
-          autoFocus={true}
+          autoFocus={window.screen.width > 1000 ? true : false}
           type="password"
           name="password1"
           className={`password1${error ? ' input--error' : ''}`}

@@ -58,7 +58,7 @@ const ModalEditProfile: FunctionComponent<ModalEditProfile> = ({
     >
       <div className="inputs">
         <input
-          autoFocus={true}
+          autoFocus={window.screen.width > 1000 ? true : false}
           type="text"
           name="firstName"
           className="firstName"

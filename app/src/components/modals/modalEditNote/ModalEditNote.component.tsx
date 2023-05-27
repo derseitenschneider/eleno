@@ -54,7 +54,7 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       ]}
     >
       <input
-        autoFocus={true}
+        autoFocus={window.screen.width > 1000 ? true : false}
         type="text"
         name="title"
         placeholder="Titel"

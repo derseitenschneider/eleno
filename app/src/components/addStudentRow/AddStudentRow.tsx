@@ -46,7 +46,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
   return (
     <div className="row grid">
       <input
-        autoFocus
+        autoFocus={window.screen.width > 1000 ? true : false}
         type="text"
         autoComplete="off"
         placeholder="Vorname"
