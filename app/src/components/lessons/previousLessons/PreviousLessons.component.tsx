@@ -16,6 +16,8 @@ import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.com
 import Modal from '../../modals/Modal.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
+// [ ] sort with every new lesson/rerender
+// [ ] edit lesson date not working
 interface PreviousLessonsProps {
   currentStudentId: number
   previousLessonsIds: number[]

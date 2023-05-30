@@ -20,7 +20,7 @@ export default defineConfig({
         id: '?homescreen=1',
         orientation: 'landscape',
         background_color: '#484e53',
-        theme_color: '#4794ae',
+        theme_color: '#484e53',
         icons: [
           {
             src: './pwa/windows11/SmallTile.scale-100.png',

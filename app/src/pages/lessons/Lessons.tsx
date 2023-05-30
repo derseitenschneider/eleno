@@ -1,7 +1,7 @@
 import './lessons.style.scss'
 
 // React
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 // Types
 
@@ -31,9 +31,7 @@ const Lesson: FunctionComponent = () => {
 
   const navigate = useNavigate()
 
-  //EFFECTS
-
-  // Close dropdown on click anywhere else
+  useEffect(() => {})
 
   const activeStudentsIds: number[] = sortStudentsDateTime(
     students.filter((student) => !student.archive)
