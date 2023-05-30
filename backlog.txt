@@ -5,6 +5,8 @@
 - Header 
   - Create Todo for chosen student
 
+- Overview: Pagination by year/semester
+
 - Notes
   - Drag & Drop notes
   
