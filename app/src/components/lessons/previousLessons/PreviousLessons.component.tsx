@@ -36,6 +36,21 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   const [tabIndex, setTabIndex] = useState(0)
   const [isPending, setIsPending] = useState(false)
 
+  const prevLessonsSorted = previousLessonsIds
+    .map((prevLesson) => {
+      return {
+        id: prevLesson,
+        date: lessons.find((lesson) => lesson.id === prevLesson).date,
+      }
+    })
+    .sort((a, b) => {
+      return (
+        +b.date.split('-').reduce((acc, curr) => acc + curr) -
+        +a.date.split('-').reduce((acc, curr) => acc + curr)
+      )
+    })
+    .map((el) => el.id)
+
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as Element
@@ -69,10 +84,10 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
 
   return (
     <>
-      {previousLessonsIds.length ? (
+      {prevLessonsSorted.length ? (
         <div className="container container--lessons container--previous-lessons">
           <div className="container--tabs">
-            {previousLessonsIds.map((prev, index) => (
+            {prevLessonsSorted.map((prev, index) => (
               <button
                 className={`tab ${tabIndex === index && 'tab--active'}`}
                 onClick={() => setTabIndex(index)}
@@ -83,7 +98,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                 )}
               </button>
             ))}
-            {previousLessonsIds.length >= 1 && (
+            {prevLessonsSorted.length >= 1 && (
               <button className="tab" onClick={() => setModalViewAllOpen(true)}>
                 ...
               </button>
@@ -96,7 +111,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               <div className="content--previous-lesson">
                 {
                   lessons.find(
-                    (lesson) => lesson.id === previousLessonsIds[tabIndex]
+                    (lesson) => lesson.id === prevLessonsSorted[tabIndex]
                   )?.lessonContent
                 }
               </div>
@@ -106,7 +121,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               <div className="content--previous-lesson">
                 {
                   lessons.find(
-                    (lesson) => lesson.id === previousLessonsIds[tabIndex]
+                    (lesson) => lesson.id === prevLessonsSorted[tabIndex]
                   )?.homework
                 }
               </div>

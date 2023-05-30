@@ -3,10 +3,7 @@ import './modalEditLesson.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { TLesson } from '../../../types/types'
 import Modal from '../Modal.component'
-import {
-  formatDateToDisplay,
-  formatDateToDatabase,
-} from '../../../utils/formateDate'
+import { formatDateToDisplay } from '../../../utils/formateDate'
 
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
@@ -41,6 +38,10 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
     setModalOpen(false)
   }
 
+  const handlerShowPicker = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.showPicker()
+  }
+
   // Update Lesson
   const updateHandler = async () => {
     setIsPending(true)
@@ -72,11 +73,12 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
       <div className="container-date">
         <label htmlFor="date">Datum</label>
         <input
-          type="text"
+          type="date"
           id="date"
           name="date"
-          value={formatDateToDisplay(input.date)}
+          value={input.date}
           onChange={inputHandler}
+          onFocus={handlerShowPicker}
         />
       </div>
       <div className={`container--edit-lesson ${isPending ? 'loading' : ''}`}>
