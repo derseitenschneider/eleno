@@ -13,6 +13,8 @@ import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
 // [ ] no auto input focus on tablet!
 
+console.log('deploy test')
+
 export default function Application() {
   return (
     <div className="App">
