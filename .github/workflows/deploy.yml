@@ -31,7 +31,7 @@ jobs:
           npm run build
 
       - name: List output files
-        run: find app/build/ -print
+        run: find app/dist/ -print
 
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
@@ -39,4 +39,4 @@ jobs:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: build/
+          local-dir: app/dist/
