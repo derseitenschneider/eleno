@@ -10,9 +10,9 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     env:
-      VITE_SUPABASE_URL: https://brhpqxeowknyhrimssxw.supabase.co
-      VITE_SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyaHBxeGVvd2tueWhyaW1zc3h3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0MDgwMzUsImV4cCI6MTk5MTk4NDAzNX0.hIvCoJwGTLAZTXVhvYi8OCbbXT_EoUKFMF-j_ik-5Vk
-      VITE_STRIPE_PUBLISHABLE_KEY: pk_test_51N3GCuGqCC0x0XxszRopqIgQB9mcmJ9ayYLxjYSjAu0Oxk0hPcYboKEgUMsHPQVNdOJtUk8w68R1ok7aLlAa0OnP00opM2y7Kl
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
 
     strategy:
       matrix:
