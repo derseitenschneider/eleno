@@ -4,8 +4,12 @@
 - Keyboard navigation between students
 - Header 
   - Create Todo for chosen student
+  - Hide edit student button on mobile
+
+- Improve next student view -> at the end of the day checkout next day
 
 - Overview: Pagination by year/semester
+- Overview: Print/pdf lesson overview
 
 - Notes
   - Drag & Drop notes
