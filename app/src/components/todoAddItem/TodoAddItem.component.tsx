@@ -11,6 +11,8 @@ import fetchErrorToast from '../../hooks/fetchErrorToast'
 
 interface TodoAddItemProps {}
 
+// [ ] create same functionality with date like in new lesson component
+
 const todoData = {
   text: '',
   due: '',
@@ -91,7 +93,7 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
             type="date"
             name="due"
             className="datepicker"
-            // value={inputTodo.due}
+            value={inputTodo.due}
             onChange={onChangeInputs}
           />
         )}

@@ -14,8 +14,6 @@ import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 import { formatDateToDatabase } from '../../../utils/formateDate'
 
-// [ ] check save button overflow
-
 interface NewLessonProps {
   studentId: number
 }
