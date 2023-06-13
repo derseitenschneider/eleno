@@ -52,3 +52,5 @@
 - SuS Jahrgang, Spieldauer
 - Lektionsrating pro Sus/Lektionsrating
 - Absenzen-Checkbox und Liste
+- Gesamte Adresse erfassen
+- Lektionen als wisiwyg (mit möglichkeit, fett, liste etc)

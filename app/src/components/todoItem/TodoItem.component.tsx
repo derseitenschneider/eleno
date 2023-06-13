@@ -25,7 +25,7 @@ interface TodoItemProps {
 }
 
 const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
-  const { students } = useStudents()
+  const { students, setStudentIndex } = useStudents()
   const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
   const { setClosestStudentIndex } = useClosestStudent()
   const { dateToday } = useDateToday()
@@ -46,7 +46,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
       (student) => student.id === todo.studentId
     )
 
-    setClosestStudentIndex(index)
+    setStudentIndex(index)
 
     navigate('/lessons')
   }

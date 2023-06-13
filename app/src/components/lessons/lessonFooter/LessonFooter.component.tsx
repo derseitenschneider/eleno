@@ -8,6 +8,7 @@ interface LessonFooterProps {
   activeStudentsIds: number[]
 }
 
+// [ ] check arrows in ipad (landscape)
 const LessonFooter: FunctionComponent<LessonFooterProps> = ({
   studentIndex,
   setStudentIndex,
