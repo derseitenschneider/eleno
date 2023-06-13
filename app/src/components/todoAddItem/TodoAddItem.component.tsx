@@ -9,7 +9,10 @@ import { toast } from 'react-toastify'
 import { useTodos } from '../../contexts/TodosContext'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 
-interface TodoAddItemProps {}
+interface TodoAddItemProps {
+  studentId?: number
+  onSave?: () => void
+}
 
 // [ ] create same functionality with date like in new lesson component
 
@@ -20,12 +23,19 @@ const todoData = {
   completed: false,
 }
 
-const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
+const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({
+  studentId,
+  onSave,
+}) => {
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
   const [currentStudentId, setCurrentStudentId] = useState(null)
   const { saveTodo } = useTodos()
   const [isPending, setIsPending] = useState(false)
+
+  useEffect(() => {
+    if (studentId) setCurrentStudentId(studentId)
+  }, [])
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -64,6 +74,7 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = () => {
       fetchErrorToast()
     } finally {
       setIsPending(false)
+      if (onSave) onSave()
     }
   }
 

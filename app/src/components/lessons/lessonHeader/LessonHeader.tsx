@@ -1,10 +1,14 @@
 import './lessonHeader.style.scss'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import { HiOutlinePencilSquare } from 'react-icons/hi2'
+import { IoEllipsisVertical } from 'react-icons/io5'
 
-import { IoPersonCircleOutline } from 'react-icons/io5'
+import { IoPersonCircleOutline, IoCheckboxOutline } from 'react-icons/io5'
 import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
+import Modal from '../../modals/Modal.component'
+import TodoAddItem from '../../todoAddItem/TodoAddItem.component'
+import DropDown from '../../dropdown/Dropdown.component'
 
 interface LessonHeaderProps {
   currentStudentId: number
@@ -15,6 +19,8 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
 }) => {
   const { students } = useStudents()
   const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false)
+  const [modalAddTodoOpen, setModalAddTodoOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const {
     firstName,
@@ -25,6 +31,19 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
     endOfLesson,
   } = students.find((student) => student.id === currentStudentId)
 
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      const target = e.target as Element
+      if (!target.closest('.button--dropdown')) setDropdownOpen(false)
+    }
+    if (dropdownOpen) {
+      window.addEventListener('click', closeDropdown)
+    }
+    return () => {
+      window.removeEventListener('click', closeDropdown)
+    }
+  }, [dropdownOpen])
+
   return (
     <header className="container container--header">
       <div className="container--infos">
@@ -33,12 +52,32 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
             <IoPersonCircleOutline className="icon" />
             {firstName} {lastName}
           </h2>
-          <button
-            className="button--edit-student"
-            onClick={() => setModalEditStudentOpen(true)}
-          >
-            <HiOutlinePencilSquare />
-          </button>
+          <div className="container--buttons">
+            <button
+              className="button--dropdown"
+              onClick={() => setDropdownOpen((prev) => !prev)}
+            >
+              <IoEllipsisVertical />
+            </button>
+            {dropdownOpen && (
+              <DropDown
+                positionX="left"
+                positionY="top"
+                buttons={[
+                  {
+                    label: 'Schüler:in bearbeiten',
+                    handler: () => setModalEditStudentOpen(true),
+                    type: 'normal',
+                  },
+                  {
+                    label: 'To-Do erfassen',
+                    handler: () => setModalAddTodoOpen(true),
+                    type: 'normal',
+                  },
+                ]}
+              />
+            )}
+          </div>
         </div>
         <span>
           {dayOfLesson && `${dayOfLesson}`}
@@ -55,6 +94,20 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           studentId={currentStudentId}
           handlerClose={() => setModalEditStudentOpen(false)}
         />
+      )}
+
+      {modalAddTodoOpen && (
+        <Modal
+          heading="Neue To-Do erfassen"
+          handlerClose={() => setModalAddTodoOpen(false)}
+          handlerOverlay={() => setModalAddTodoOpen(false)}
+          className="modal--add-todo"
+        >
+          <TodoAddItem
+            studentId={currentStudentId}
+            onSave={() => setModalAddTodoOpen(false)}
+          />
+        </Modal>
       )}
     </header>
   )

@@ -7,19 +7,19 @@
   gap: 2.4rem;
   border-bottom: 0.1px solid var(--clr-bg-400);
 
-  .button--edit-student {
-    color: var(--clr-primary-600);
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    transition: opacity ease 0.45s;
-    svg {
-      height: 2rem;
-      width: 2rem;
+  .container--buttons {
+    position: relative;
+    display: flex;
+
+    .button--dropdown {
+      svg {
+        color: var(--clr-primary-600);
+      }
+      position: relative;
     }
   }
 
-  &:hover .button--edit-student {
+  &:hover .button {
     opacity: 1;
     pointer-events: all;
     visibility: visible;
@@ -46,6 +46,13 @@
         width: 2.4rem;
         height: 2.4rem;
       }
+    }
+  }
+
+  .modal--add-todo {
+    .modal {
+      overflow: visible;
+      width: 80vw;
     }
   }
 }

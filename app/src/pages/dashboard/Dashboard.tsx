@@ -113,7 +113,7 @@ function Dashboard() {
               </NavLink>
               <NavLink to={'todos'} className="card">
                 <IoCheckboxOutline className="icon" />
-                <p className="card-title">To Do erfassen</p>
+                <p className="card-title">To-do erfassen</p>
                 <hr />
                 {todosOpen.length ? (
                   <p>

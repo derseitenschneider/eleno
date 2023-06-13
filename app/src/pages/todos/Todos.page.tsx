@@ -4,7 +4,7 @@ import Navbar from '../../layouts/navbar/Navbar.component'
 function Todos() {
   return (
     <div className="container">
-      <h1 className="heading-1">To Dos</h1>
+      <h1 className="heading-1">To-dos</h1>
 
       <Navbar
         navLinks={[

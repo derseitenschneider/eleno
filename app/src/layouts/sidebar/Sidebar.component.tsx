@@ -114,7 +114,7 @@ function Sidebar() {
                     <IoCheckboxOutline className="icon" />
                   </div>
 
-                  <span className="sidebar__link-text">To Dos</span>
+                  <span className="sidebar__link-text">To-Dos</span>
                 </NavLink>
               </li>
             </ul>
