@@ -21,13 +21,17 @@ import fetchErrorToast from '../../hooks/fetchErrorToast'
 
 interface TodoItemProps {
   todo: TTodo
-  listType: 'open' | 'completed'
+  type: 'open' | 'completed'
+  children?: React.ReactNode
 }
 
-const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
+const TodoItem: FunctionComponent<TodoItemProps> = ({
+  todo,
+  type,
+  children,
+}) => {
   const { students, setStudentIndex } = useStudents()
   const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
-  const { setClosestStudentIndex } = useClosestStudent()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -110,7 +114,8 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
         isPending ? ' loading' : ''
       } `}
     >
-      {listType === 'open' ? (
+      {children}
+      {type === 'open' ? (
         <input
           type="checkbox"
           className="checkbox"
@@ -145,7 +150,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
           className="button--edit"
           handler={() => setDropdownOpen((prev) => !prev)}
         />
-        {dropdownOpen && listType === 'open' && (
+        {dropdownOpen && type === 'open' && (
           <DropDown
             positionX="right"
             positionY="top"
@@ -161,7 +166,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({ todo, listType }) => {
           />
         )}
 
-        {dropdownOpen && listType === 'completed' && (
+        {dropdownOpen && type === 'completed' && (
           <DropDown
             positionX="right"
             positionY="top"

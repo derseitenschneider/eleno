@@ -4,13 +4,13 @@ import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { IconType } from 'react-icons/lib'
 
 export interface ButtonProps {
-  type: 'button' | 'submit'
+  type?: 'button' | 'submit'
   label?: string
   icon?: ReactElement<IconType>
   btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warning' | 'danger'
   handler?: (e: React.MouseEvent) => void
   className?: string
-  children?: ReactNode
+  children?: React.ReactNode
   dataref?: string | number
   tabIndex?: number
   disabled?: boolean
@@ -31,7 +31,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <>
       <button
-        type={type}
+        type={type || 'button'}
         className={`button button--${btnStyle} ${className || ''}`}
         onClick={handler}
         data-ref={dataref}
