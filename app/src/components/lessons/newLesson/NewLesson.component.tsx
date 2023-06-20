@@ -1,13 +1,7 @@
 import './newLesson.style.scss'
 
-import {
-  FunctionComponent,
-  useState,
-  useEffect,
-  useRef,
-  HtmlHTMLAttributes,
-} from 'react'
-import Button from '../../button/Button.component'
+import { FunctionComponent, useState, useEffect, useRef } from 'react'
+import Button from '../../_reusables/button/Button.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'

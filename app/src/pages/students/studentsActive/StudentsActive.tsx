@@ -16,14 +16,14 @@ import { sortStudents } from '../../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
 // Components
-import Button from '../../../components/button/Button.component'
-import NoStudents from '../../../components/noContent/NoContent.component'
-import StudentList from '../../../components/studentlist/StudentList.component'
+import Button from '../../../components/_reusables/button/Button.component'
+import NoStudents from '../../../components/_reusables/noContent/NoContent.component'
+import StudentList from '../../../components/students/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
 
 import Modal from '../../../components/modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
-import NoContent from '../../../components/noContent/NoContent.component'
+import NoContent from '../../../components/_reusables/noContent/NoContent.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 export default function StudentsActive() {

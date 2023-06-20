@@ -1,6 +1,6 @@
 import './studentList.style.scss'
 import { FunctionComponent, SetStateAction, useState, useEffect } from 'react'
-import { TSorting, TSortingMethods, TStudent } from '../../types/types'
+import { TSorting, TSortingMethods, TStudent } from '../../../types/types'
 import { IoTriangle } from 'react-icons/io5'
 import StudentRow from '../studentRow/StudentRow'
 interface StudentListProps {

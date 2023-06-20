@@ -2,7 +2,7 @@ import './account.style.scss'
 
 import { FunctionComponent, useState } from 'react'
 import { useUser } from '../../../contexts/UserContext'
-import Button from '../../../components/button/Button.component'
+import Button from '../../../components/_reusables/button/Button.component'
 import ModalEditProfile from '../../../components/modals/modalEditProfile/ModalEditProfile.component'
 import ModalEditEmail from '../../../components/modals/modalEditEmail/ModalEditEmail.component'
 import ModalEditPassword from '../../../components/modals/modalEditPassword/ModalEditPassword.component'

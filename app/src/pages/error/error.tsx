@@ -1,16 +1,29 @@
-import { useRouteError } from "react-router-dom";
+import './error.style.scss'
+import { useRouteError } from 'react-router-dom'
+import Sidebar from '../../layouts/sidebar/Sidebar.component'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function ErrorPage() {
-  const error:any =  useRouteError();
-  console.error(error);
+  const error: any = useRouteError()
+  const navigate = useNavigate()
+  useEffect(() => {
+    setTimeout(() => {
+      navigate('/')
+    }, 3000)
+  }, [])
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
-    </div>
-  );
+    <>
+      <Sidebar />
+      <div id="main">
+        <div id="error-page">
+          <h1 className="heading-1">Ojeh!</h1>
+          <h3 className="heading-3">
+            Die von dir aufgerufene Seite existiert leider nicht...
+          </h3>
+        </div>
+      </div>
+    </>
+  )
 }

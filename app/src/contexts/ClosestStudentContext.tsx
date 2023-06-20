@@ -1,4 +1,3 @@
-import { useOutletContext } from 'react-router-dom'
 import { ContextTypeClosestStudent } from '../types/types'
 import { createContext, useState, useEffect, useContext } from 'react'
 import { useStudents } from './StudentContext'

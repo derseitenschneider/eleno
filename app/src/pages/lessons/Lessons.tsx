@@ -9,8 +9,6 @@ import { FunctionComponent, useEffect } from 'react'
 import { useStudents } from '../../contexts/StudentContext'
 import { useLoading } from '../../contexts/LoadingContext'
 
-// Components
-
 // Functions
 
 import { sortStudentsDateTime } from '../../utils/sortStudents'
@@ -22,7 +20,7 @@ import Notes from '../../components/lessons/notes/Notes.component'
 import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
 import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
 import { useLessons } from '../../contexts/LessonsContext'
-import NoContent from '../../components/noContent/NoContent.component'
+import NoContent from '../../components/_reusables/noContent/NoContent.component'
 
 const Lesson: FunctionComponent = () => {
   const { loading } = useLoading()

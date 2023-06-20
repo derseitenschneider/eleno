@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
-import { useNotes } from '../../../contexts/NotesContext'
 import { useUser } from '../../../contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'

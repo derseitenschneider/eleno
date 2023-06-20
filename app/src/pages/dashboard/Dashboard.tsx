@@ -151,7 +151,7 @@ function Dashboard() {
         </div>
         <a href="mailto:info@eleno.net">Kontakt</a>
         <span className="copyright">
-          Copyright © {dateToday.substring(4)} by{' '}
+          Copyright © {dateToday.substring(5)} by{' '}
           <a href="https://derseitenschneider.ch" target="_blank">
             derseitenschneider
           </a>{' '}

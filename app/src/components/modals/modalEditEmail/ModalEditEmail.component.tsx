@@ -1,12 +1,6 @@
 import { FunctionComponent, useState } from 'react'
-import { TLesson } from '../../../types/types'
 import Modal from '../Modal.component'
-import {
-  formatDateToDisplay,
-  formatDateToDatabase,
-} from '../../../utils/formateDate'
 
-import { useLessons } from '../../../contexts/LessonsContext'
 import { useUser } from '../../../contexts/UserContext'
 import { validateEmail } from '../../../utils/validateEmail'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'

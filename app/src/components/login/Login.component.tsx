@@ -1,7 +1,7 @@
 import './login.style.scss'
 
 import { FunctionComponent, SetStateAction, useRef, useState } from 'react'
-import Button from '../button/Button.component'
+import Button from '../_reusables/button/Button.component'
 import { loginSupabase } from '../../supabase/users/users.supabase'
 import { TDisplayForm } from '../../types/types'
 

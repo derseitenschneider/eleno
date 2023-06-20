@@ -1,13 +1,13 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import './todoAddItem.style.scss'
-import Button from '../button/Button.component'
-import { TTodo } from '../../types/types'
-import { useUser } from '../../contexts/UserContext'
-import { formatDateToDisplay } from '../../utils/formateDate'
+import Button from '../../_reusables/button/Button.component'
+import { TTodo } from '../../../types/types'
+import { useUser } from '../../../contexts/UserContext'
+import { formatDateToDisplay } from '../../../utils/formateDate'
 import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 import { toast } from 'react-toastify'
-import { useTodos } from '../../contexts/TodosContext'
-import fetchErrorToast from '../../hooks/fetchErrorToast'
+import { useTodos } from '../../../contexts/TodosContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface TodoAddItemProps {
   studentId?: number

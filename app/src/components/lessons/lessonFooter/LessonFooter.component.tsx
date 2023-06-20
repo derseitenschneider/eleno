@@ -1,6 +1,6 @@
 import './lessonFooter.style.scss'
-import { FunctionComponent, useEffect, useCallback, useMemo } from 'react'
-import Button from '../../button/Button.component'
+import { FunctionComponent } from 'react'
+import Button from '../../_reusables/button/Button.component'
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
 interface LessonFooterProps {
   studentIndex: number
@@ -19,11 +19,6 @@ const LessonFooter: FunctionComponent<LessonFooterProps> = ({
       handlerPreviousStudent()
     }
   }
-  // useEffect(() => {
-  //   window.addEventListener('keyup', handlerKeyUp)
-
-  //   return () => document.removeEventListener('keyup', handlerKeyUp)
-  // }, [studentIndex])
 
   const handlerPreviousStudent = () => {
     studentIndex > 0

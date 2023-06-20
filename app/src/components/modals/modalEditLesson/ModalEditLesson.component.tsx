@@ -1,9 +1,7 @@
 import { toast } from 'react-toastify'
 import './modalEditLesson.style.scss'
 import { FunctionComponent, useState } from 'react'
-import { TLesson } from '../../../types/types'
 import Modal from '../Modal.component'
-import { formatDateToDisplay } from '../../../utils/formateDate'
 
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'

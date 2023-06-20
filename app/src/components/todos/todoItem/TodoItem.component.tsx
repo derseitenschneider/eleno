@@ -1,23 +1,22 @@
 import './todoItem.style.scss'
 import { FunctionComponent, useState, useEffect } from 'react'
-import { TTodo } from '../../types/types'
+import { TTodo } from '../../../types/types'
 import {
   formatDateToDatabase,
   formatDateToDisplay,
-} from '../../utils/formateDate'
-import { useStudents } from '../../contexts/StudentContext'
-import { sortStudentsDateTime } from '../../utils/sortStudents'
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+} from '../../../utils/formateDate'
+import { useStudents } from '../../../contexts/StudentContext'
+import { sortStudentsDateTime } from '../../../utils/sortStudents'
 import { useNavigate } from 'react-router-dom'
-import { useDateToday } from '../../contexts/DateTodayContext'
-import Button from '../button/Button.component'
+import { useDateToday } from '../../../contexts/DateTodayContext'
+import Button from '../../_reusables/button/Button.component'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import DropDown from '../dropdown/Dropdown.component'
-import Modal from '../modals/Modal.component'
-import ModalEditTodo from '../modals/modalEditTodo/ModalEditTodo.component'
-import { useTodos } from '../../contexts/TodosContext'
+import DropDown from '../../_reusables/dropdown/Dropdown.component'
+import Modal from '../../modals/Modal.component'
+import ModalEditTodo from '../../modals/modalEditTodo/ModalEditTodo.component'
+import { useTodos } from '../../../contexts/TodosContext'
 import { toast } from 'react-toastify'
-import fetchErrorToast from '../../hooks/fetchErrorToast'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface TodoItemProps {
   todo: TTodo

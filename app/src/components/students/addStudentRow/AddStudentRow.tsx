@@ -1,8 +1,8 @@
 import { FunctionComponent, SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import Button from '../button/Button.component'
-import { IRow } from '../modals/modalAddStudent/ModalAddStudent.component'
-import { calcTimeDifference } from '../../utils/calcTimeDifference'
+import Button from '../../_reusables/button/Button.component'
+import { IRow } from '../../modals/modalAddStudent/ModalAddStudent.component'
+import { calcTimeDifference } from '../../../utils/calcTimeDifference'
 
 interface AddStudentRowProps {
   id: number

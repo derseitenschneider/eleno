@@ -3,8 +3,8 @@ import './forgotPassword.style.scss'
 import { SetStateAction, FunctionComponent, useState } from 'react'
 import { TDisplayForm } from '../../types/types'
 import { recoverPasswordSupabase } from '../../supabase/users/users.supabase'
-import Button from '../button/Button.component'
-import Loader from '../loader/Loader'
+import Button from '../_reusables/button/Button.component'
+import Loader from '../_reusables/loader/Loader'
 interface ForgotPasswordProps {
   setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
 }

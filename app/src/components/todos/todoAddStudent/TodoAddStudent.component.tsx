@@ -1,10 +1,10 @@
 import './todoAddStudent.style.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
-import { useStudents } from '../../contexts/StudentContext'
-import { sortStudents } from '../../utils/sortStudents'
+import { useStudents } from '../../../contexts/StudentContext'
+import { sortStudents } from '../../../utils/sortStudents'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
-import Button from '../button/Button.component'
-import DropDown from '../dropdown/Dropdown.component'
+import Button from '../../_reusables/button/Button.component'
+import DropDown from '../../_reusables/dropdown/Dropdown.component'
 
 interface TodoAddStudentProps {
   currentStudentId: number

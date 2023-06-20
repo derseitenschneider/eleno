@@ -1,7 +1,7 @@
 import './navbarMobile.style.scss'
 import { FunctionComponent } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import Logo from '../../components/logo/Logo.component'
+import Logo from '../../components/_reusables/logo/Logo.component'
 import {
   IoSchoolOutline,
   IoLogOutOutline,

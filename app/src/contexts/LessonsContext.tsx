@@ -6,7 +6,6 @@ import {
   saveNewLessonSupabase,
   updateLessonSupabase,
 } from '../supabase/lessons/lessons.supabase'
-import { toast } from 'react-toastify'
 import { formatDateToDatabase } from '../utils/formateDate'
 import { useUser } from './UserContext'
 

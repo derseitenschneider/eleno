@@ -1,13 +1,13 @@
 import './modalAddStudent.style.scss'
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
-import AddStudentRow from '../../addStudentRow/AddStudentRow'
-import Button from '../../button/Button.component'
+import AddStudentRow from '../../students/addStudentRow/AddStudentRow'
+import Button from '../../_reusables/button/Button.component'
 import { IoAddOutline } from 'react-icons/io5'
 import { TStudent } from '../../../types/types'
 import { useStudents } from '../../../contexts/StudentContext'
 import { toast } from 'react-toastify'
-import Loader from '../../loader/Loader'
+import Loader from '../../_reusables/loader/Loader'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface ModalAddStudentProps {

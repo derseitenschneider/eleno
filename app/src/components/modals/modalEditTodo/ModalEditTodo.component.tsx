@@ -1,10 +1,10 @@
 import './modalEditTodo.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { useTodos } from '../../../contexts/TodosContext'
-import TodoAddStudent from '../../todoAddStudent/TodoAddStudent.component'
+import TodoAddStudent from '../../todos/todoAddStudent/TodoAddStudent.component'
 import { formatDateToDisplay } from '../../../utils/formateDate'
 import Modal from '../Modal.component'
-import Button from '../../button/Button.component'
+import Button from '../../_reusables/button/Button.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 interface ModalEditTodoProps {

@@ -1,14 +1,13 @@
 import './lessonHeader.style.scss'
 import { FunctionComponent, useState, useEffect } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
-import { HiOutlinePencilSquare } from 'react-icons/hi2'
 import { IoEllipsisVertical } from 'react-icons/io5'
 
-import { IoPersonCircleOutline, IoCheckboxOutline } from 'react-icons/io5'
+import { IoPersonCircleOutline } from 'react-icons/io5'
 import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
 import Modal from '../../modals/Modal.component'
-import TodoAddItem from '../../todoAddItem/TodoAddItem.component'
-import DropDown from '../../dropdown/Dropdown.component'
+import TodoAddItem from '../../todos/todoAddItem/TodoAddItem.component'
+import DropDown from '../../_reusables/dropdown/Dropdown.component'
 
 interface LessonHeaderProps {
   currentStudentId: number

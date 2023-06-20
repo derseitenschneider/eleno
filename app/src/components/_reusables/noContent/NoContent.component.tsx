@@ -4,10 +4,7 @@ import { FunctionComponent } from 'react'
 import React from 'react'
 import { ReactElement } from 'react'
 import { IconType } from 'react-icons/lib'
-import { NavLink } from 'react-router-dom'
-import Button, { ButtonProps } from '../button/Button.component'
-import { IoPersonAddOutline } from 'react-icons/io5'
-import { IoArchiveOutline } from 'react-icons/io5'
+import Button from '../button/Button.component'
 
 interface StudentRowProps {
   heading: string

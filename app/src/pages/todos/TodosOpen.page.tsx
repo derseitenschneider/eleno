@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react'
-import TodoList from '../../components/todoList/TodoList.component'
+import TodoList from '../../components/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
-import NoContent from '../../components/noContent/NoContent.component'
+import NoContent from '../../components/_reusables/noContent/NoContent.component'
 import { compareDateTodos } from '../../utils/sortTodos'
-import TodoAddItem from '../../components/todoAddItem/TodoAddItem.component'
-import TodoDescription from '../../components/todoDescription/TodoDescription.component'
-import TodoItem from '../../components/todoItem/TodoItem.component'
+import TodoAddItem from '../../components/todos/todoAddItem/TodoAddItem.component'
+import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
+import TodoItem from '../../components/todos/todoItem/TodoItem.component'
 interface TodosOpenProps {}
 
 const TodosOpen: FunctionComponent<TodosOpenProps> = () => {

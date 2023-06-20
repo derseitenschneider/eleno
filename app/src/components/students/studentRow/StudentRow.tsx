@@ -1,15 +1,15 @@
 import './studentrow.styles.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import DropDown from '../dropdown/Dropdown.component'
-import { useStudents } from '../../contexts/StudentContext'
+import DropDown from '../../_reusables/dropdown/Dropdown.component'
+import { useStudents } from '../../../contexts/StudentContext'
 
-import ModalEditStudent from '../modals/modalEditStudent/ModalEditStudent.component'
-import Modal from '../modals/Modal.component'
+import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
+import Modal from '../../modals/Modal.component'
 import { useNavigate } from 'react-router-dom'
-import { sortStudentsDateTime } from '../../utils/sortStudents'
+import { sortStudentsDateTime } from '../../../utils/sortStudents'
 import { toast } from 'react-toastify'
-import fetchErrorToast from '../../hooks/fetchErrorToast'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
 interface StudentRowProps {
   studentId: number

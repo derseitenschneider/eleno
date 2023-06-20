@@ -5,7 +5,6 @@ import {
   deleteNoteSupabase,
   editNoteSupabase,
 } from '../supabase/notes/notes.supabase'
-import { toast } from 'react-toastify'
 import { useUser } from './UserContext'
 
 export const NotesContext = createContext<ContextTypeNotes>({

@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
-import { formatDateToDisplay } from '../../utils/formateDate'
-import { TLesson } from '../../types/types'
+import { formatDateToDisplay } from '../../../utils/formateDate'
+import { TLesson } from '../../../types/types'
 interface LessonRowProps {
   lesson: TLesson
 }

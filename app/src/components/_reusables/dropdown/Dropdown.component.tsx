@@ -1,6 +1,6 @@
 import './dropdown.style.scss'
-import { FunctionComponent, useEffect } from 'react'
-import { TDropdownButton } from '../../types/types'
+import { FunctionComponent } from 'react'
+import { TDropdownButton } from '../../../types/types'
 
 interface DropDownProps {
   buttons: TDropdownButton[]

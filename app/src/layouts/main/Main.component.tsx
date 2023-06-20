@@ -7,9 +7,9 @@ import { fetchNotes } from '../../supabase/notes/notes.supabase'
 import { useNotes } from '../../contexts/NotesContext'
 import { fetchTodosSupabase } from '../../supabase/todos/todos.supabase'
 import { useTodos } from '../../contexts/TodosContext'
-import Loader from '../loader/Loader'
+import Loader from '../../components/_reusables/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
-import OfflineBanner from '../offlineBanner/OfflineBanner.component'
+import OfflineBanner from '../../components/_reusables/offlineBanner/OfflineBanner.component'
 import { toast } from 'react-toastify'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 
@@ -19,7 +19,6 @@ interface MainProps {
 
 const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { user } = useUser()
-  // const { loading, setLoading } = useLoading()
   const { closestStudentIndex } = useClosestStudent()
   const { setStudentIndex } = useStudents()
   const [isPending, setIsPending] = useState(true)

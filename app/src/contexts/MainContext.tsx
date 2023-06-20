@@ -3,7 +3,6 @@ import { TodosProvider } from './TodosContext'
 import { NotesProvider } from './NotesContext'
 import { LessonsProvider } from './LessonsContext'
 import { StudentsProvider } from './StudentContext'
-import { LoadingProvider } from './LoadingContext'
 import { ClosestStudentProvider } from './ClosestStudentContext'
 import { DateTodayProvider } from './DateTodayContext'
 

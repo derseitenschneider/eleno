@@ -5,8 +5,8 @@ import { useLessons } from '../../../contexts/LessonsContext'
 
 // Components
 import { IoEllipsisHorizontal } from 'react-icons/io5'
-import Button from '../../button/Button.component'
-import DropDown from '../../dropdown/Dropdown.component'
+import Button from '../../_reusables/button/Button.component'
+import DropDown from '../../_reusables/dropdown/Dropdown.component'
 import ModalEditLesson from '../../modals/modalEditLesson/ModalEditLesson.component'
 
 // Functions
