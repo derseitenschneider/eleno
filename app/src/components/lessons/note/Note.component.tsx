@@ -8,6 +8,7 @@ import { useNotes } from '../../../contexts/NotesContext'
 import ModalEditNote from '../../modals/modalEditNote/ModalEditNote.component'
 import Modal from '../../modals/Modal.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import parse from 'html-react-parser'
 
 interface NoteProps {
   id: number
@@ -78,7 +79,7 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
         />
       </div>
       <h5 className="heading-5">{title}</h5>
-      <p>{text}</p>
+      <div>{parse(text)}</div>
 
       {modalEditOpen && (
         <ModalEditNote setModalOpen={setModalEditOpen} currentNote={id} />

@@ -91,7 +91,7 @@ export type ContextTypeLessons = {
   drafts: TDraft[]
   setDrafts: React.Dispatch<React.SetStateAction<TDraft[]>>
 
-  saveNewLesson: (input: {}, studentId: number, date: string) => Promise<void>
+  saveNewLesson: (lesson: TLesson) => Promise<void>
   deleteLesson: (id: number) => Promise<void>
   updateLesson: (lesson: TLesson) => Promise<void>
 }

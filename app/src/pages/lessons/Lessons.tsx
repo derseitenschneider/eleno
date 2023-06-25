@@ -29,7 +29,10 @@ const Lesson: FunctionComponent = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {})
+  useEffect(() => {
+    if (window.innerWidth > 480) return
+    window.scrollTo(0, 0)
+  }, [studentIndex])
 
   const activeStudentsIds: number[] = sortStudentsDateTime(
     students.filter((student) => !student.archive)

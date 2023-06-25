@@ -24,17 +24,10 @@ export const LessonsProvider = ({ children }) => {
   const [lessons, setLessons] = useState<TLesson[]>([])
   const [drafts, setDrafts] = useState<TDraft[]>([])
 
-  const saveNewLesson = async (
-    input: { lessonContent: string; homework: string },
-    studentId: number,
-    date: string
-  ): Promise<void> => {
-    const tempID = Math.floor(Math.random() * 10000000)
+  const saveNewLesson = async (lesson: TLesson): Promise<void> => {
     const tempLesson: TLesson = {
-      ...input,
-      studentId,
-      date: formatDateToDatabase(date),
-      id: tempID,
+      ...lesson,
+      date: formatDateToDatabase(lesson.date),
     }
 
     try {

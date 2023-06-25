@@ -6,7 +6,21 @@
   height: 40%;
 
   .content--previous-lesson {
+    height: 14rem;
+    overflow-y: scroll;
+
     white-space: pre-line;
+    ul {
+      list-style: initial;
+    }
+    ul,
+    ol {
+      margin-left: 1.6rem;
+    }
+
+    a {
+      text-decoration: underline;
+    }
   }
   .container--edit-buttons {
     position: absolute;
@@ -43,5 +57,13 @@
   .container--two-rows.loading {
     opacity: 0.4;
     pointer-events: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container--previous-lessons {
+    .content--previous-lesson {
+      height: unset;
+    }
   }
 }

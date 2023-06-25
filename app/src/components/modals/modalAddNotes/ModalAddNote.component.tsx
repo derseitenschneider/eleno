@@ -1,8 +1,11 @@
+import './modalAddNote.style.scss'
+
 import { FunctionComponent, useState } from 'react'
 import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
 
 interface ModalAddNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -14,6 +17,8 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
   currentStudentId,
 }) => {
   const [input, setInput] = useState({ title: '', text: '' })
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
   const { saveNote } = useNotes()
   const [isPending, setIsPending] = useState(false)
 
@@ -24,26 +29,24 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
 
   // Handler Input
 
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    setInput((prev) => {
-      return { ...prev, [name]: value }
-    })
+  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value)
+  }
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
   }
 
   // Save Note
   const saveHandler = async () => {
-    if (!input.title && !input.text) {
+    if (!title && !text) {
       toast('Titel oder Inhalt fehlt.', { type: 'error' })
       return
     }
     setIsPending(true)
     try {
-      await saveNote({ ...input, studentId: currentStudentId })
-      setInput({ title: '', text: '' })
+      await saveNote({ text, title, studentId: currentStudentId })
+      setText('')
+      setTitle('')
       toggleModal()
       toast('Notiz gespeichert')
     } catch (error) {
@@ -60,7 +63,12 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
       handlerClose={toggleModal}
       handlerOverlay={toggleModal}
       buttons={[
-        { label: 'Speichern', btnStyle: 'primary', handler: saveHandler },
+        {
+          label: 'Speichern',
+          btnStyle: 'primary',
+          handler: saveHandler,
+          disabled: !title && !text,
+        },
       ]}
     >
       <input
@@ -69,16 +77,19 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
         name="title"
         placeholder="Titel"
         className="note-title"
-        value={input.title}
-        onChange={inputHandler}
+        value={title}
+        onChange={handleTitle}
       />
-      <textarea
+      <div className="container--editor">
+        <CustomEditor value={text} onChange={handleText} />
+      </div>
+      {/* <textarea
         name="text"
         placeholder="Inhalt"
         className="note-content"
         value={input.text}
         onChange={inputHandler}
-      />
+      /> */}
     </Modal>
   )
 }

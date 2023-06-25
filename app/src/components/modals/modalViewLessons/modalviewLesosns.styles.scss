@@ -3,6 +3,16 @@
 
   .lesson-grid {
     .lesson-row {
+      a {
+        text-decoration: underline;
+      }
+      ul {
+        list-style: initial;
+      }
+      ul,
+      ol {
+        margin-left: 1.7rem;
+      }
       &:first-child {
         font-weight: 600;
         background-color: var(--clr-bg-600);
@@ -17,6 +27,7 @@
       column-gap: 2rem;
       margin-bottom: 2rem;
 
+      & > div,
       & > p {
         white-space: pre-line;
         line-break: strict;

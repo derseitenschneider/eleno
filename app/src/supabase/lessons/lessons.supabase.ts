@@ -43,7 +43,7 @@ export const deleteLessonSupabase = async (lessonId: number) => {
 export const updateLessonSupabase = async (lesson: TLesson) => {
   const { error } = await supabase
     .from('lessons')
-    .upsert({ ...lesson })
+    .update({ ...lesson })
     .eq('id', lesson.id)
 
   if (error) throw new Error(error.message)

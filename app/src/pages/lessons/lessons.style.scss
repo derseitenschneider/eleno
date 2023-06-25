@@ -1,15 +1,14 @@
 .lessons {
   display: grid;
-  height: 100vh;
+  align-items: start;
+  max-height: 100vh;
   grid-template-columns: 1fr 40rem;
-  grid-template-rows: minmax(auto, 12rem) minmax(auto, 80rem) 0.5fr;
+
   .main {
-    padding-bottom: 4rem;
-    // flex-basis: 80%;
     textarea {
       background-color: var(--clr-bg-400);
       color: var(--clr-text-400);
-      min-height: 15rem;
+      // min-height: 15rem;
 
       &:focus {
         outline: none;
@@ -67,7 +66,7 @@
   }
   .modal--notes {
     .note-title {
-      margin-bottom: 2.4rem;
+      margin-bottom: 2rem;
     }
 
     .note-content {
@@ -82,6 +81,7 @@
     height: auto;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr auto;
+    max-height: unset;
 
     .main {
       .container--previous-lessons {
@@ -101,17 +101,13 @@
     .aside {
       overflow-y: unset;
       border-top: 1px solid var(--clr-bg-400);
-    }
-    .footer--lessons {
-      position: fixed;
-      bottom: 6rem;
-      right: 0;
-      border-top: unset;
+      padding-bottom: 3.6rem;
     }
 
     .view-lessons {
       .modal {
         padding: 4rem 1rem;
+        height: 100%;
 
         .heading-2 {
           margin-left: 1rem;

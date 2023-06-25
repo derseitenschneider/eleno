@@ -10,6 +10,8 @@ interface AddStudentRowProps {
   setRows: React.Dispatch<SetStateAction<IRow[]>>
 }
 
+// [ ] check what happens in bulk add with empty rows
+
 const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
   id,
   rows,

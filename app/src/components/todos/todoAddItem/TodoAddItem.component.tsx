@@ -89,6 +89,7 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({
           required
           onChange={onChangeInputs}
           autoFocus={window.screen.width > 1000 ? true : false}
+          autoComplete="off"
         />
         <TodoAddStudent
           currentStudentId={currentStudentId}

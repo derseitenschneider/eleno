@@ -2,11 +2,13 @@ import './newLesson.style.scss'
 
 import { FunctionComponent, useState, useEffect, useRef } from 'react'
 import Button from '../../_reusables/button/Button.component'
+import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 import { formatDateToDatabase } from '../../../utils/formateDate'
+import { TLesson } from '../../../types/types'
 
 interface NewLessonProps {
   studentId: number
@@ -16,9 +18,11 @@ const lessonData = { lessonContent: '', homework: '' }
 
 const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
-  const [input, setInput] = useState(lessonData)
+  const [lessonContent, setLessonContent] = useState('')
+  const [homework, setHomework] = useState('')
   const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
+
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -29,40 +33,52 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       .join('.')
     if (drafts.some((draft) => draft.studentId === studentId)) {
       const currentDraft = drafts.find((draft) => draft.studentId === studentId)
-      setInput({
-        lessonContent: currentDraft.lessonContent,
-        homework: currentDraft.homework || '',
-      })
+      setLessonContent(currentDraft.lessonContent || '')
+      setHomework(currentDraft.homework || '')
+
       if (currentDraft.date) {
         setDate(currentDraft.date)
       } else {
         setDate(today)
       }
     } else {
-      setInput(lessonData)
+      setLessonContent('')
+      setHomework('')
       setDate(today)
     }
   }, [studentId])
 
   useEffect(() => {
-    if (window.screen.width > 1000) inputRef.current.focus()
+    // if (window.screen.width > 1000) inputRef.current.focus()
   }, [studentId])
 
-  const handlerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const name = e.currentTarget.name
-    const value = e.currentTarget.value
-    setInput((prev) => {
-      return { ...prev, [name]: value }
-    })
+  function handleLessonContent(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setLessonContent(e.target.value)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === studentId)) {
         return prev.map((draft) =>
           draft.studentId === studentId
-            ? { ...draft, [name]: value, date }
+            ? { ...draft, lessonContent: e.target.value, date }
             : draft
         )
       } else {
-        return [...prev, { studentId, [name]: value, date }]
+        return [...prev, { studentId, lessonContent: e.target.value, date }]
+      }
+    })
+  }
+
+  function handleHomework(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setHomework(e.target.value)
+
+    setDrafts((prev) => {
+      if (prev.some((draft) => draft.studentId === studentId)) {
+        return prev.map((draft) =>
+          draft.studentId === studentId
+            ? { ...draft, homework: e.target.value, date }
+            : draft
+        )
+      } else {
+        return [...prev, { studentId, homework: e.target.value, date }]
       }
     })
   }
@@ -86,26 +102,32 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     })
   }
 
-  const handlerSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
     }
-    if (!input.lessonContent) {
+    if (!lessonContent) {
       toast('Die Lektion hat keinen Lektionsinhalt', { type: 'error' })
       return
     }
     try {
       setIsPending(true)
-      await saveNewLesson(input, studentId, date)
-      setInput(lessonData)
+      const newLesson: TLesson = {
+        lessonContent,
+        homework,
+        date,
+        studentId,
+      }
+      await saveNewLesson(newLesson)
+      setLessonContent('')
+      setHomework('')
       setDrafts((prev) => prev.filter((draft) => draft.studentId !== studentId))
       toast('Lektion gespeichert')
     } catch (err) {
       fetchErrorToast()
     } finally {
       setIsPending(false)
-      e.currentTarget.blur()
     }
   }
 
@@ -124,24 +146,19 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       </h3>
       <div className="container--two-rows">
         <div className="row-left">
-          <h4 className="heading-5">Lektion</h4>
-          <textarea
-            name="lessonContent"
-            autoFocus={window.screen.width > 1000 ? true : false}
-            value={input.lessonContent}
-            onChange={handlerInput}
-            ref={inputRef}
-            className={`${isPending ? 'loading' : ''}`}
-          ></textarea>
+          <h5 className="heading-5">Lektion</h5>
+          <div className={`container--editor ${isPending ? 'loading' : ''}`}>
+            <CustomEditor
+              value={lessonContent}
+              onChange={handleLessonContent}
+            />
+          </div>
         </div>
         <div className="row-right">
-          <h4 className="heading-5">Hausaufgaben</h4>
-          <textarea
-            name="homework"
-            value={input.homework}
-            onChange={handlerInput}
-            className={`${isPending ? 'loading' : ''}`}
-          ></textarea>
+          <h5 className="heading-5">Hausaufgaben</h5>
+          <div className={`container--editor ${isPending ? 'loading' : ''}`}>
+            <CustomEditor value={homework} onChange={handleHomework} />
+          </div>
         </div>
       </div>
       <Button
@@ -149,8 +166,8 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
         btnStyle="primary"
         label="Speichern"
         className="btn--save"
-        handler={handlerSaveLesson}
-        disabled={!input.lessonContent && !input.homework}
+        handler={handleSaveLesson}
+        disabled={!lessonContent && !homework}
       />
     </div>
   )

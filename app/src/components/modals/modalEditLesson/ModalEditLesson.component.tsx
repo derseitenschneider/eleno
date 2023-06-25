@@ -5,6 +5,8 @@ import Modal from '../Modal.component'
 
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
+import { TLesson } from '../../../types/types'
 
 interface ModalEditLessonProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -18,18 +20,30 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
   tabIndex,
 }) => {
   const { lessons, updateLesson } = useLessons()
-  const [input, setInput] = useState(
-    lessons.find((lesson) => lesson.id === previousLessonsIds[tabIndex])
+  const currentLesson = lessons.find(
+    (lesson) => lesson.id === previousLessonsIds[tabIndex]
   )
+
+  const studentId = currentLesson.studentId
+  const id = currentLesson.id
+
+  const [lessonContent, setLessonContent] = useState(
+    currentLesson.lessonContent
+  )
+  const [homework, setHomework] = useState(currentLesson.homework)
+  const [date, setDate] = useState(currentLesson.date)
   const [isPending, setIsPending] = useState(false)
-  // Handler input fields
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    const newInput = { ...input, [name]: value }
-    setInput(newInput)
+
+  const handleLessonContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLessonContent(e.target.value)
+  }
+
+  const handleHomework = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setHomework(e.target.value)
+  }
+
+  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(e.target.value)
   }
 
   const closeModal = () => {
@@ -44,7 +58,14 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
   const updateHandler = async () => {
     setIsPending(true)
     try {
-      await updateLesson(input)
+      const newLesson: TLesson = {
+        lessonContent,
+        homework,
+        date,
+        studentId,
+        id,
+      }
+      await updateLesson(newLesson)
       toast('Änderungen gespeichert')
       closeModal()
     } catch (error) {
@@ -74,24 +95,44 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
           type="date"
           id="date"
           name="date"
-          value={input.date}
-          onChange={inputHandler}
+          value={date}
+          onChange={handleDate}
           onFocus={handlerShowPicker}
         />
       </div>
       <div className={`container--edit-lesson ${isPending ? 'loading' : ''}`}>
-        <textarea
+        <div className="container--left">
+          <h5 className="heading-5">Lektion</h5>
+
+          <div className="container--editor">
+            <CustomEditor
+              value={lessonContent}
+              onChange={handleLessonContent}
+            />
+          </div>
+        </div>
+
+        {/* <textarea
           className="input"
           name="lessonContent"
           value={input.lessonContent}
           onChange={inputHandler}
-        />
-        <textarea
+        /> */}
+
+        <div className="container--right">
+          <h5 className="heading-5">Hausaufgaben</h5>
+
+          <div className="container--editor">
+            <CustomEditor value={homework} onChange={handleHomework} />
+          </div>
+        </div>
+
+        {/* <textarea
           className="input"
           name="homework"
           value={input.homework}
           onChange={inputHandler}
-        />
+        /> */}
       </div>
     </Modal>
   )

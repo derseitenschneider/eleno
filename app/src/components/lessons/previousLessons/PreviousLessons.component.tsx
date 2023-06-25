@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
 import Modal from '../../modals/Modal.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import parse from 'html-react-parser'
 
 interface PreviousLessonsProps {
   currentStudentId: number
@@ -107,21 +108,21 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
             <div className="row-left">
               <h4 className="heading-4">Lektion</h4>
               <div className="content--previous-lesson">
-                {
+                {parse(
                   lessons.find(
                     (lesson) => lesson.id === prevLessonsSorted[tabIndex]
                   )?.lessonContent
-                }
+                )}
               </div>
             </div>
             <div className="row-right">
               <h4 className="heading-4">Hausaufgaben</h4>
               <div className="content--previous-lesson">
-                {
+                {parse(
                   lessons.find(
                     (lesson) => lesson.id === prevLessonsSorted[tabIndex]
                   )?.homework
-                }
+                )}
               </div>
             </div>
           </div>

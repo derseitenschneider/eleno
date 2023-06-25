@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 import { toast } from 'react-toastify'
+import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentNote: number
@@ -13,27 +14,42 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
 }) => {
   const { notes, updateNote } = useNotes()
   const [isPending, setIsPending] = useState(false)
-  const [input, setInput] = useState(
-    notes.find((note) => note.id === currentNote)
-  )
+  const note = notes.find((note) => note.id === currentNote)
+  const [text, setText] = useState(note.text)
+
+  const [title, setTitle] = useState(note.title)
+
   const closeModal = () => {
     setModalOpen(false)
   }
 
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.value
-    setInput((prev) => {
-      return { ...prev, [name]: value }
-    })
+  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value)
   }
 
-  const updateHandler = async () => {
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+  }
+
+  // const inputHandler = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const name = e.target.name
+  //   const value = e.target.value
+  //   setInput((prev) => {
+  //     return { ...prev, [name]: value }
+  //   })
+  // }
+
+  const handleSaveUpdate = async () => {
+    if (!title && !text) {
+      toast('Titel oder Inhalt fehlt.', { type: 'error' })
+      return
+    }
     setIsPending(true)
     try {
-      await updateNote(input)
+      const updatedNote = { ...note, text, title }
+      await updateNote(updatedNote)
       toast('Anpassungen gespeichert')
       closeModal()
     } catch (error) {
@@ -50,7 +66,12 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       handlerClose={closeModal}
       handlerOverlay={closeModal}
       buttons={[
-        { label: 'Speichern', btnStyle: 'primary', handler: updateHandler },
+        {
+          label: 'Speichern',
+          btnStyle: 'primary',
+          handler: handleSaveUpdate,
+          disabled: !title && !text,
+        },
       ]}
     >
       <input
@@ -59,16 +80,20 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
         name="title"
         placeholder="Titel"
         className="note-title"
-        value={input.title}
-        onChange={inputHandler}
+        value={title}
+        onChange={handleTitle}
       />
-      <textarea
+
+      <div className="container--editor">
+        <CustomEditor value={text} onChange={handleText} />
+      </div>
+      {/* <textarea
         name="text"
         placeholder="Inhalt"
         className="note-content"
         value={input.text}
         onChange={inputHandler}
-      />
+      /> */}
     </Modal>
   )
 }

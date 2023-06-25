@@ -56,3 +56,13 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .container--header {
+    .button--dropdown {
+      display: none;
+      pointer-events: none;
+      visibility: hidden;
+    }
+  }
+}

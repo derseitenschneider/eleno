@@ -1,0 +1,50 @@
+.rsw-editor {
+  border: none !important;
+  height: 100%;
+  overflow: hidden;
+  margin-top: 1rem;
+
+  .rsw-toolbar {
+    background-color: var(--clr-bg-600);
+    justify-content: space-between;
+    gap: 1rem;
+    border: none;
+
+    .container--right,
+    .container--left {
+      display: flex;
+    }
+
+    .rsw-btn {
+      color: var(--clr-text-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover,
+      &[data-active='true'] {
+        background-color: var(--clr-bg-400);
+      }
+    }
+  }
+  .rsw-ce {
+    padding: 0.8rem;
+    background-color: var(--clr-bg-400);
+    height: 100%;
+    overflow-y: auto;
+    white-space: pre-line;
+
+    ul {
+      list-style: initial;
+    }
+
+    ul,
+    ol {
+      margin-left: 1.6rem;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}

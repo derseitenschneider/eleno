@@ -31,7 +31,8 @@
   padding: var(--padding);
   border-radius: 5px;
   // box-shadow: 0.4rem 0.4rem 0.8rem rgba(0 0 0 /0.2);
-
+  height: 100%;
+  width: 100%;
   max-height: 80vh;
   min-width: 50vw;
   overflow-y: auto;
@@ -68,9 +69,10 @@
 
 .overlay {
   z-index: -1;
-  position: absolute;
-  top: -200vh;
-  left: -100vh;
+  position: fixed;
+  bottom: -100vh;
+  left: -100vw;
+
   width: 500vw;
   height: 500vh;
   background-color: rgba(0 0 0/0.4);

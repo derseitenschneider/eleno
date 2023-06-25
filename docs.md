@@ -81,12 +81,85 @@ Am unteren Rand des Dashboards findest du zudem die Links zu den Allgemeinen Ges
 ## 4. Unterrichten
 Sobald du Schüler:innen erfasst hast, kannst du die Lektionsseite vollumfänglich nutzen.
 ### Kopfleiste
-In der Kopfleiste findest du alle wichtigen angaben der:des aktuellen Schüler:in auf einen Blick. Name, Unterrichtstag und -dauer. Zudem hast du dort zwei Button. Mit dem Einen kannst du den:die Schüler:in direkt hier bearbeiten, falls sich beispielsweise die Unterrichtszeit geändert hat oder du dich beim Eingeben des Namens vertippt hast. Zudem kannst du hier direkt eine To-Do für den:die Schüler:in erfassen und musst dafür nicht extra das Lektionsblatt verlassen.
+In der Kopfleiste findest du alle wichtigen angaben der:des aktuellen Schülers:in auf einen Blick. Name, Unterrichtstag und -dauer. Zudem findest du dort einen Button mit folgenden Auswahlmöglichkeiten:
+
+#### "Schüler:in bearbeiten
+Hat sich der Unterrichtstag oder die Unterrichtszeit der:des Schüler:in geändert oder du hast dich beim Namen vertippt; hier kannst du schnell und einfach den:die jeweilige Schüler:in bearbeiten und speichern.
+
+#### "To-Do erfassen"
+Falls du während des Unterrichtens eine To-Do erfassen möchtest, musst du dafür die Lektionsseite nicht verlassen. Stattdessen kannst du sie hier schnell und einfach erfassen. Der:die aktuelle Schüler:in ist bereits vorerfasst. Du kannst aber auch eine:n andere:n Schüler:in zuweisen oder das Feld leeren.
 
 ### Vergangene Lektionen
-Im oberen mittleren Bereich findest du die vergangenen Lektionen. Sobald du die erste Lektion erfasst hast, erscheint sie hier. Darüber steht zudem das Datum, an dem die Lektion stattgefunden hat. Hier werden jeweils die drei letzten Lektionen angezeigt. Du kannst oben auf das Datum der gewünschten Lektion klicken und deren Inhalt erscheint. Falls du alle bisherigen Lektionen einsehen möchtest, klicke auf den Button rechts daneben mit den drei Punkten "...". Damit öffenst du die Lektionsübersicht des:der Schüler:in.
+Im oberen mittleren Bereich findest du die vergangenen Lektionen. Sobald du die erste Lektion erfasst hast, erscheint sie hier. Darüber steht zudem das Datum, an dem die Lektion stattgefunden hat. Hier werden jeweils die drei letzten Lektionen angezeigt. Du kannst oben auf das Datum der gewünschten Lektion klicken und deren Inhalt erscheint. Falls du alle bisherigen Lektionen einsehen möchtest, klicke auf den Button rechts daneben mit den drei Punkten "...". Damit öffenst du die Lektionsliste des:der Schüler:in mit allen bisher erfassten Lektionen.
+
+Im unteren rechten Rand dieses Bereichs hast du zudem ein Button mit folgenden Aktionen:
+
+#### Lektion bearbeiten
+Falls du dich vertippt hast oder noch etwas ergänzen möchtest, kannst du hier die ausgewählte Lektion bearbeiten. Nach dem Speichern siehst du deine Änderungen direkt in der Lektion.
+
+#### Lektion löschen
+Wenn du deine Lektion löschen möchtest, kannst du das mit diesem Befehl ausführen. Sei aber vorsichtig, die Lektion wird unwiederruflich gelöscht und kann nicht wiederhergestellt werden!
+
+### Neue Lektion erfassen
+Hier kannst du die aktuelle Lektion erfassen. Das Datum ist auf das jeweilig aktuelle Datum eingestellt, kann aber ohne weiteres abgeändert werden. Im linken Textfeld kannst du den Inhalt zur aktuellen Lektion notieren. Im rechten die Hausaufgaben des:der Schülers:in. Du musst mindestens Im Inhalts- oder Hausaufgaben Text erfasst haben, um die Lektion speichern zu können. Erst dann wird der Speichern-Button aktiv.
+
+Sobald du die neue Lektion gespeichert hast, erscheint sie in den Vergangenen Lektionen. Du kannst sie dann wie oben erwähnt bearbeiten oder, falls nötig, löschen.
+
+
+### Notizen
+In der rechten Seitenleiste der Lektionsseite befinden sich die Notizen. Sie sind dem:der jeweiligen Schüler:in zugeordnet und Lektionsunabhängig. Hier kannst du dir beispielsweise das Repertoire des:der Schülers:in notieren, Ziele fürs kommende Semester aufschreiben etc. Um eine neue Notiz zu erfassen, kannst du ganz einfach auf den '+'-Button klicken. Hier kannst du dann den Titel und den Inhalt der Notiz erfassen und speichern. Die Notiz benötigt mindestens einen Titel oder einen Inhalt, um gespeichert werden zu können. Nach dem Speichern erscheint die neue Notiz in der Seitenleiste.
+
+
+#### Notiz bearbeiten
+Falls du eine Notiz bearbeiten möchtest, klickst du auf die drei Punkte in der oberen rechten Ecke der Notiz. Dann auf "Notiz bearbeiten" und du bist im Bearbeitungsfenster. 
+
+#### Notiz löschen
+Zum Löschen einer Notiz klickst du auf die drei Punkte in der oberen rechten Ecke der Notiz und wählst "Notiz löschen". Sei aber vorsichtig, die Notiz wird unwiederruflich gelöscht und kann nicht wiederhergestellt werden!
+
+### Navigation
+In der unteren Rechten Ecke befinden sich zwei Pfeile zur Navigation. Standartmässig sind die Schüler:innen nach Wochentag und Unterrichtszeit geordnet. Du kannst also ganz einfach am Montag mit Schüler:in No. 1 beginnen und nach abgeschlossener Lektion den rechten Pfeil klicken. Hast du alle Schüler:innen-Daten richtig erfasst, sollte automatisch der:die nächste Schüler:in erscheinen und du kannst den Unterricht fortsetzen.
 
 ## 5. Schülerliste
+Deine Schüler:innen können auf zwei verschiedene Arten erfasst sein. Stadartmässig sind sie aktiv. Das heisst, sie erscheinen auf der Lektionsseite und im Stundenplan. Falls ein:e Schüler:in den Unterricht pausiert oder gar aufhört, kannst du ihn:sie archivieren. Es kann ja sein, dass der:die Schüler:in den Unterricht irgendwann wieder aufnimmt. Dann bist du unter Umständen froh, wenn du auf die bereits erfassten Daten und Lektionen zugreifen kannst.
+
+
+### Aktive Schüler:innen
+Wenn du nun die Schülerliste öffnest, erscheinen alle aktiven Schüler:innen. Sie sind standartmässig absteigend alphabetisch nach Nachnamen sortiert. Du kannst sie aber auch auf- und absteigend alphabetisch nach folgenden kriterien sortieren:
+- Instrument
+- Tag
+- Dauer
+- Unterrichtsort
+
+Am oberen rechten Rand findest du zudem ein Suchfeld, falls du ein:e bestimmte Schüler:in suchst. Daneben befindet sich der Button, um neue Schüler:innen zu erfassen:
+
+
+
+#### Neue Schüler:innen erfassen
+In die Eingabefelder kannst du alle erforderlichen Daten über den:die Schüler:in erfassen. Die mit Sternchen markierten Felder sind dabei Pflichtfelder und können nicht leergelassen werden. Du kannst auch mehrere Schüler:innen erfassen. Dafür klickst du unter den Eingabefeldern links auf das Plus-Zeichen. Und schon erscheint eine neue Zeile mit Eingabefeldern. Neben dem Plus-Zeichen befindet sich ein Zahleneingabefeld. Mit dieser kannst du steuern, wieviele zusätzliche Zeilen du benötigst. Wenn du also weisst, dass du insgesamt 12 Schüler:innen erfassen möchtest, kannst du hier die Zahl auf '11' setzen. Mit der bereits bestehenden Zeile erhälst du dann 12 Zeilen für deine 12 Schüler:innen. Falls du eine Zeile nicht benötigst, kannst du mit der Maus darüber fahren. Am rechten Rand der Zeile erscheint dann ein Button, mit dem du die Zeile löschen kannst. 
+
+Sobald du alle Daten erfasst und gespeichert hast, erscheinen die Schüler:innen in der Schülerliste.
+
+#### Schüler:in bearbeiten
+Möchtest du eine bestehende Schüler:in bearbeiten, klickst du dafür in der Zeile der jeweiligen Schüler:in auf den Button rechts mit den drei vertikalen Punkten und wählst bearbeiten aus. Vergiss dabei nicht, dass auch hier die Felder mit dem Sternchen Pflichtfelder sind und deshalb nicht leergelassen werden dürfe. Sobald du mit dem Bearbeiten fertig bist, klickst du auf "Speichern" und die Änderungen sind gespeichert.
+
+#### Schüler:in archivieren
+Pausiert der:die Schüler:in oder beendet den Unterricht, kannst du ihn:sie archivieren. Klicke dafür in der jeweiligen Zeile des:der Schüler:in auf den Button rechts mit den drei vertikalen Punkten und wähle "Archivieren". Der:die gewählte Schüler:in wird ins Archiv verschoben und erscheint nicht mehr auf der Lektions- oder Stundenplan-Seite.
+
+#### ...zum Lektionsblatt
+Du kannst direkt von der Schülerliste zum Unterrichtsblatt des:der jeweiligen Schülers:in gehen. Klicke dafür in der Zeile des:der jeweiligen Schülers:in auf den Button mit den drei vertikalen Punkten und wähle "...zum Lektionsblatt". 
+
+
+#### Archivieren (Massenbearbeitung)
+Es kann sein, dass du mehrere Schüler:innen gleichzeitig archivieren möchtest. Wähle dafür die gewünschten Schüler:innen mittels des Auswahlkästchens links in der Zeile. Falls du alle Schüler:innen auswählen möchtest, klickst du auf das Auswählkästchen links in der Kopfzeile der Schülerliste.
+
+ Links über der Schülerliste befindet sich ein Auswahlmenu mit "Aktion". Klicke nach Auswahl der Schüler:innen auf das Menu und wähle "Archivieren". Danach klickst du auf den Button "Anwenden" und die gewählten Schüler:innen werden ins Archiv verschoben. 
+
+#### Zurücksetzen (Massenbearbeitung)
+Wenn du beispielsweise deinen Studenplan neu einteilen musst, kannst du die Lektionsdaten (Tag, Von/Bis, Unterrichtsdauer, Unterrichtsort) von Schüler:innen zurücksetzen. Wähle dafür die gewünschten Schüler:innen mittels des Auswählkästchens links in der Zeile. Falls du alle Schüler:innen auswählen möchtest, klickst du auf das Auswählkästchen links in der Kopfzeile der Schülerliste.
+
+Links über der Schülerliste links befindet sich ein Auswahlmenu mit "Aktion". Klicke nach Auswahl der Schüler:innen auf das Menu und wähle "Zurücksetzen". Danach klickst du auf den Button "Zurücksetzen". Bestätige, dass du die Lektionsdaten der ausgewählten Schüler:innen zurücksetzten möchtest. Achtung, die Daten werden unwiederruflich aus der Datenbank gelöscht. Setze sie also nur zurück, wenn du dir sicher bist, dass alle Daten ändern. Falls du nur einzelne Daten einzelner Schüler:innen ändern möchtest, kannst du das auch ganz einfach über "Schüler:in bearbeiten". 
+
+Sobald die Lektionsdaten der ausgewählten Schüler:innen zurückgesetzt sind, erscheinen diese nicht mehr auf der Lektionsseite, bis du neue Lektionsdaten für sie erfasst hast.
 
 ## 6. Stundenplan
 

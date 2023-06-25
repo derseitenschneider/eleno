@@ -217,7 +217,9 @@ input[type='number'] {
 @media (max-width: 480px) {
   .App {
     display: block;
-    overflow: hidden;
+    overflow-x: hidden;
+    height: fit-content;
+    // background-color: red;
   }
   #main {
     margin-left: 0;
