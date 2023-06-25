@@ -1,5 +1,5 @@
 import './lessonFooter.style.scss'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import Button from '../../_reusables/button/Button.component'
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
 interface LessonFooterProps {
@@ -8,17 +8,28 @@ interface LessonFooterProps {
   activeStudentsIds: number[]
 }
 
-// [ ] check arrows in ipad (landscape)
 const LessonFooter: FunctionComponent<LessonFooterProps> = ({
   studentIndex,
   setStudentIndex,
   activeStudentsIds,
 }) => {
-  const handlerKeyUp = (e: KeyboardEvent) => {
-    if (e.code === 'ArrowLeft') {
-      handlerPreviousStudent()
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.code === 'ArrowLeft') {
+        handlerPreviousStudent()
+      }
+
+      if (e.code === 'ArrowRight') {
+        handlerNextStudent()
+      }
     }
-  }
+
+    window.addEventListener('keydown', handleKeydown)
+
+    return function () {
+      window.removeEventListener('keydown', handleKeydown)
+    }
+  }, [studentIndex])
 
   const handlerPreviousStudent = () => {
     studentIndex > 0

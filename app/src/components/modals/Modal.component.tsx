@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useEffect } from 'react'
 import './modal.style.scss'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../_reusables/button/Button.component'
@@ -7,7 +7,7 @@ interface ModalProps {
   heading: string
   children?: ReactNode
   handlerOverlay: (e: React.MouseEvent) => void
-  handlerClose: (e: React.MouseEvent) => void
+  handlerClose: () => void
   className?: string
   buttons?: {
     label: string
@@ -26,6 +26,21 @@ const Modal: FunctionComponent<ModalProps> = ({
   buttons,
   className,
 }) => {
+  useEffect(() => {
+    console.log('effect')
+    function closeOnEsc(e: KeyboardEvent) {
+      if (e.code === 'Escape') {
+        handlerClose()
+      }
+    }
+
+    window.addEventListener('keydown', closeOnEsc)
+
+    return function () {
+      window.removeEventListener('keydown', closeOnEsc)
+    }
+  }, [])
+
   return (
     <div className={`container-modal ${className}`}>
       <div className="modal">
