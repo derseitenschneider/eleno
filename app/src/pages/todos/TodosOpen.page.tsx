@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import TodoList from '../../components/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
 import NoContent from '../../components/_reusables/noContent/NoContent.component'
@@ -10,6 +10,10 @@ interface TodosOpenProps {}
 
 const TodosOpen: FunctionComponent<TodosOpenProps> = () => {
   const { todos } = useTodos()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const openTodos = todos.filter((todo) => !todo.completed)
 

@@ -30,7 +30,6 @@ const Lesson: FunctionComponent = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (window.innerWidth > 480) return
     window.scrollTo(0, 0)
   }, [studentIndex])
 

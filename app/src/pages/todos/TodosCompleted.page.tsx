@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Modal from '../../components/modals/Modal.component'
 import NoContent from '../../components/_reusables/noContent/NoContent.component'
@@ -16,6 +16,10 @@ const TodosCompleted: FunctionComponent<TodosCompletedProps> = () => {
 
   const { deleteAllCompleted } = useTodos()
   const [isPending, setIsPending] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const handlerDeleteAll = async () => {
     setIsPending(true)

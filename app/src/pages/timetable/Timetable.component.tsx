@@ -1,4 +1,5 @@
 import './timetable.style.scss'
+import { useEffect } from 'react'
 import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
@@ -7,6 +8,10 @@ import NoContent from '../../components/_reusables/noContent/NoContent.component
 
 function Timetable() {
   const { students } = useStudents()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const sortedStudents = sortStudentsDateTime(
     students.filter((student) => !student.archive)

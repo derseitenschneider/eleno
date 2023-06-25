@@ -1,6 +1,6 @@
 import './account.style.scss'
 
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import { useUser } from '../../../contexts/UserContext'
 import Button from '../../../components/_reusables/button/Button.component'
 import ModalEditProfile from '../../../components/modals/modalEditProfile/ModalEditProfile.component'
@@ -15,6 +15,10 @@ const Account: FunctionComponent<AccountProps> = () => {
   const [modalEditEmailOpen, setModalEditEmailOpen] = useState(false)
   const [modalEditPasswordOpen, setModalEditPasswordOpen] = useState(false)
   const [modalDeleteAccountOpen, setModalDeleteAccountOpen] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <div className="account">
       <div className="section section--profile">

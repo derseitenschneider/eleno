@@ -28,6 +28,10 @@ const StudentList: FunctionComponent<StudentListProps> = ({
     }
   }, [isSelected])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const handlerCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked((prev) => !prev)
     if (e.target.checked) {

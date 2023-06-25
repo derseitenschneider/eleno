@@ -31,6 +31,10 @@ function Dashboard() {
     user && setLoading(false)
   }, [user])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const sortedStudents =
     (activeStudents && sortStudentsDateTime(activeStudents)) || null
 
