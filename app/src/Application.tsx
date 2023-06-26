@@ -11,8 +11,6 @@ import { AuthProvider } from './contexts/UserContext'
 import { LoadingProvider } from './contexts/LoadingContext'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
-// [ ] add scroll up useEffect on all routes/pages
-
 export default function Application() {
   return (
     <div className="App">
