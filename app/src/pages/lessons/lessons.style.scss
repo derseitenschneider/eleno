@@ -1,7 +1,9 @@
 .lessons {
   display: grid;
-  align-items: start;
-  max-height: 100vh;
+  // align-items: start;
+  align-content: stretch;
+  min-height: 100vh;
+
   grid-template-columns: 1fr 40rem;
 
   .main {
@@ -51,6 +53,7 @@
 
     padding: 1.6rem;
     overflow-y: auto;
+    height: 100%;
 
     &::-webkit-scrollbar {
       width: 1rem;
