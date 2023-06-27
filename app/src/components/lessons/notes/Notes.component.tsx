@@ -27,10 +27,12 @@ const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
         handler={() => setModalOpen((prev) => !prev)}
       />
       <h4 className="heading-4">Notizen</h4>
-      {currentNotes &&
-        currentNotes.map(({ id, title, text }) => (
-          <Note key={id} id={id} title={title} text={text} />
-        ))}
+      <div className="notes-list">
+        {currentNotes &&
+          currentNotes.map(({ id, title, text }) => (
+            <Note key={id} id={id} title={title} text={text} />
+          ))}
+      </div>
       {modalOpen ? (
         <ModalAddNote
           setModalOpen={setModalOpen}

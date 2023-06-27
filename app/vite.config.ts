@@ -1,16 +1,19 @@
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react'
+import eslint from 'vite-plugin-eslint'
+
 // [ ] dynamically change theme color on light/dark mode
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
   plugins: [
     react(),
+    eslint(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true,
+        enabled: false,
       },
       manifest: {
         lang: 'de',

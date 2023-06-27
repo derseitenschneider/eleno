@@ -1,5 +1,5 @@
 import './lessonFooter.style.scss'
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent } from 'react'
 import Button from '../../_reusables/button/Button.component'
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
 interface LessonFooterProps {
@@ -13,24 +13,6 @@ const LessonFooter: FunctionComponent<LessonFooterProps> = ({
   setStudentIndex,
   activeStudentsIds,
 }) => {
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
-      if (e.code === 'ArrowLeft') {
-        handlerPreviousStudent()
-      }
-
-      if (e.code === 'ArrowRight') {
-        handlerNextStudent()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeydown)
-
-    return function () {
-      window.removeEventListener('keydown', handleKeydown)
-    }
-  }, [studentIndex])
-
   const handlerPreviousStudent = () => {
     studentIndex > 0
       ? setStudentIndex(studentIndex - 1)

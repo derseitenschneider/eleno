@@ -89,7 +89,9 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
             {prevLessonsSorted.map((prev, index) => (
               <button
                 className={`tab ${tabIndex === index && 'tab--active'}`}
-                onClick={() => setTabIndex(index)}
+                onClick={() => {
+                  setTabIndex(index)
+                }}
                 key={prev}
               >
                 {formatDateToDisplay(
@@ -98,7 +100,12 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               </button>
             ))}
             {prevLessonsSorted.length >= 1 && (
-              <button className="tab" onClick={() => setModalViewAllOpen(true)}>
+              <button
+                className="tab"
+                onClick={() => {
+                  setModalViewAllOpen(true)
+                }}
+              >
                 ...
               </button>
             )}
@@ -149,7 +156,9 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                   },
                   {
                     label: 'Lektion löschen',
-                    handler: () => setModalDeleteOpen(true),
+                    handler: () => {
+                      setModalDeleteOpen(true)
+                    },
                     type: 'warning',
                   },
                 ]}
@@ -158,14 +167,18 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
           </div>
           {modalEditLessonOpen && (
             <ModalEditLesson
-              setModalOpen={setModalEditLessonOpen}
+              handleClose={() => {
+                setModalEditLessonOpen(false)
+              }}
               previousLessonsIds={previousLessonsIds}
               tabIndex={tabIndex}
             />
           )}
           {modalViewAllOpen && (
             <ModalViewLessons
-              handlerClose={() => setModalViewAllOpen(false)}
+              handlerClose={() => {
+                setModalViewAllOpen(false)
+              }}
               studentId={currentStudentId}
             />
           )}
@@ -173,13 +186,19 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
           {modalDeleteOpen && (
             <Modal
               heading="Lektion löschen"
-              handlerClose={() => setModalDeleteOpen(false)}
-              handlerOverlay={() => setModalDeleteOpen(false)}
+              handlerClose={() => {
+                setModalDeleteOpen(false)
+              }}
+              handlerOverlay={() => {
+                setModalDeleteOpen(false)
+              }}
               buttons={[
                 {
                   label: 'Abbrechen',
                   btnStyle: 'primary',
-                  handler: () => setModalDeleteOpen(false),
+                  handler: () => {
+                    setModalDeleteOpen(false)
+                  },
                 },
                 {
                   label: 'Löschen',

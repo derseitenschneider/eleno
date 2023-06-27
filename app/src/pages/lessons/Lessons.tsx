@@ -1,7 +1,7 @@
 import './lessons.style.scss'
 
 // React
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 // Types
 
@@ -45,9 +45,9 @@ const Lesson: FunctionComponent = () => {
     .map((lesson) => lesson.id)
     .reverse()
 
-  return (
-    <>
-      {!loading && activeStudentsIds.length ? (
+  if (activeStudentsIds.length && !loading)
+    return (
+      <>
         <div className="lessons">
           <LessonHeader currentStudentId={currentStudentId} />
 
@@ -68,33 +68,35 @@ const Lesson: FunctionComponent = () => {
             activeStudentsIds={activeStudentsIds}
           />
         </div>
-      ) : (
-        <NoContent
-          heading="Keine aktiven Schüler:innen"
-          buttons={[
-            {
-              label: 'Schüler:innen erfassen',
-              handler: () => {
-                navigate('/students')
-              },
+      </>
+    )
+
+  if (!activeStudentsIds.length && !loading)
+    return (
+      <NoContent
+        heading="Keine aktiven Schüler:innen"
+        buttons={[
+          {
+            label: 'Schüler:innen erfassen',
+            handler: () => {
+              navigate('/students')
             },
-            {
-              label: 'Aus Archiv wiederherstellen',
-              handler: () => {
-                navigate('/students/archive')
-              },
+          },
+          {
+            label: 'Aus Archiv wiederherstellen',
+            handler: () => {
+              navigate('/students/archive')
             },
-          ]}
-        >
-          <p>
-            Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
-            Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und
-            wähle welche aus, die du wiederherstellen möchtest
-          </p>
-        </NoContent>
-      )}
-    </>
-  )
+          },
+        ]}
+      >
+        <p>
+          Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
+          Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und
+          wähle welche aus, die du wiederherstellen möchtest
+        </p>
+      </NoContent>
+    )
 }
 
 export default Lesson

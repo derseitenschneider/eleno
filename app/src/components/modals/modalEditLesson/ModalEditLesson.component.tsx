@@ -9,15 +9,15 @@ import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
 import { TLesson } from '../../../types/types'
 
 interface ModalEditLessonProps {
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   previousLessonsIds: number[]
   tabIndex: number
+  handleClose: () => void
 }
 
 const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
-  setModalOpen,
   previousLessonsIds,
   tabIndex,
+  handleClose,
 }) => {
   const { lessons, updateLesson } = useLessons()
   const currentLesson = lessons.find(
@@ -46,10 +46,6 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
     setDate(e.target.value)
   }
 
-  const closeModal = () => {
-    setModalOpen(false)
-  }
-
   const handlerShowPicker = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.showPicker()
   }
@@ -67,7 +63,7 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
       }
       await updateLesson(newLesson)
       toast('Änderungen gespeichert')
-      closeModal()
+      handleClose()
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -78,8 +74,8 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
   return (
     <Modal
       heading="Lektion bearbeiten"
-      handlerOverlay={closeModal}
-      handlerClose={closeModal}
+      handlerOverlay={handleClose}
+      handlerClose={handleClose}
       className="modal--edit-lesson"
       buttons={[
         {

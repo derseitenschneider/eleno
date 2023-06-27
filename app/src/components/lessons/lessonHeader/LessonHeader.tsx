@@ -33,7 +33,9 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as Element
-      if (!target.closest('.button--dropdown')) setDropdownOpen(false)
+      if (!target.closest('.button--dropdown')) {
+        setDropdownOpen(false)
+      }
     }
     if (dropdownOpen) {
       window.addEventListener('click', closeDropdown)
@@ -54,7 +56,9 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
           <div className="container--buttons">
             <button
               className="button--dropdown"
-              onClick={() => setDropdownOpen((prev) => !prev)}
+              onClick={() => {
+                setDropdownOpen((prev) => !prev)
+              }}
             >
               <IoEllipsisVertical />
             </button>
@@ -65,12 +69,17 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
                 buttons={[
                   {
                     label: 'Schüler:in bearbeiten',
-                    handler: () => setModalEditStudentOpen(true),
+                    handler: () => {
+                      setModalEditStudentOpen(true)
+                      console.log('students')
+                    },
                     type: 'normal',
                   },
                   {
                     label: 'To-Do erfassen',
-                    handler: () => setModalAddTodoOpen(true),
+                    handler: () => {
+                      setModalAddTodoOpen(true)
+                    },
                     type: 'normal',
                   },
                 ]}
@@ -91,20 +100,28 @@ const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
       {modalEditStudentOpen && (
         <ModalEditStudent
           studentId={currentStudentId}
-          handlerClose={() => setModalEditStudentOpen(false)}
+          handlerClose={() => {
+            setModalEditStudentOpen(false)
+          }}
         />
       )}
 
       {modalAddTodoOpen && (
         <Modal
           heading="Neue To-Do erfassen"
-          handlerClose={() => setModalAddTodoOpen(false)}
-          handlerOverlay={() => setModalAddTodoOpen(false)}
+          handlerClose={() => {
+            setModalAddTodoOpen(false)
+          }}
+          handlerOverlay={() => {
+            setModalAddTodoOpen(false)
+          }}
           className="modal--add-todo"
         >
           <TodoAddItem
             studentId={currentStudentId}
-            onSave={() => setModalAddTodoOpen(false)}
+            onSave={() => {
+              setModalAddTodoOpen(false)
+            }}
           />
         </Modal>
       )}

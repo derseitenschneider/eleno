@@ -27,7 +27,6 @@ const Modal: FunctionComponent<ModalProps> = ({
   className,
 }) => {
   useEffect(() => {
-    console.log('effect')
     function closeOnEsc(e: KeyboardEvent) {
       if (e.code === 'Escape') {
         handlerClose()

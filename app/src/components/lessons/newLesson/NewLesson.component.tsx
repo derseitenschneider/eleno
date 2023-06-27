@@ -1,6 +1,6 @@
 import './newLesson.style.scss'
 
-import { FunctionComponent, useState, useEffect, useRef } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import Button from '../../_reusables/button/Button.component'
 import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
 
@@ -14,16 +14,12 @@ interface NewLessonProps {
   studentId: number
 }
 
-const lessonData = { lessonContent: '', homework: '' }
-
 const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const [date, setDate] = useState('')
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
-
-  const inputRef = useRef(null)
 
   useEffect(() => {
     const today = new Date()
@@ -46,10 +42,12 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       setHomework('')
       setDate(today)
     }
-  }, [studentId])
+  }, [studentId, drafts])
 
   useEffect(() => {
-    // if (window.screen.width > 1000) inputRef.current.focus()
+    const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
+
+    input && input.focus()
   }, [studentId])
 
   function handleLessonContent(e: React.ChangeEvent<HTMLTextAreaElement>) {

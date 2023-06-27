@@ -27,6 +27,7 @@ dev-dist
 
 .env
 .prettierrc
+.eslintrc
 
 # build output
 dist/
