@@ -1,7 +1,7 @@
 import './lessons.style.scss'
 
 // React
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 // Types
 
