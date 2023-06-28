@@ -1,8 +1,7 @@
 import './offlineBanner.style.scss'
 import { FunctionComponent } from 'react'
-interface OfflineBannerProps {}
 
-const OfflineBanner: FunctionComponent<OfflineBannerProps> = () => {
+const OfflineBanner = () => {
   return (
     <div className="offline-banner">
       Du bist momentan offline. Damit die App richtig funktioniert, benötigst du

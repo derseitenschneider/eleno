@@ -4,7 +4,7 @@ import { useTodos } from '../../../contexts/TodosContext'
 import TodoAddStudent from '../../todos/todoAddStudent/TodoAddStudent.component'
 import { formatDateToDisplay } from '../../../utils/formateDate'
 import Modal from '../Modal.component'
-import Button from '../../_reusables/button/Button.component'
+import Button from '../../common/button/Button.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 interface ModalEditTodoProps {

@@ -1,6 +1,6 @@
 import { FunctionComponent, SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import Button from '../../_reusables/button/Button.component'
+import Button from '../../common/button/Button.component'
 import { IRow } from '../../modals/modalAddStudent/ModalAddStudent.component'
 import { calcTimeDifference } from '../../../utils/calcTimeDifference'
 

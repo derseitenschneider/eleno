@@ -3,13 +3,13 @@ import { IoSearchOutline } from 'react-icons/io5'
 
 // Hooks
 import { useStudents } from '../../../contexts/StudentContext'
-import Button from '../../../components/_reusables/button/Button.component'
+import Button from '../../../components/common/button/Button.component'
 // Components
 import { useState } from 'react'
 import StudentList from '../../../components/students/studentlist/StudentList.component'
 
 import Modal from '../../../components/modals/Modal.component'
-import NoContent from '../../../components/_reusables/noContent/NoContent.component'
+import NoContent from '../../../components/common/noContent/NoContent.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 

@@ -7,7 +7,7 @@ import { IoPersonCircleOutline } from 'react-icons/io5'
 import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
 import Modal from '../../modals/Modal.component'
 import TodoAddItem from '../../todos/todoAddItem/TodoAddItem.component'
-import DropDown from '../../_reusables/dropdown/Dropdown.component'
+import DropDown from '../../common/dropdown/Dropdown.component'
 
 interface LessonHeaderProps {
   currentStudentId: number

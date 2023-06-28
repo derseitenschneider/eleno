@@ -13,7 +13,7 @@ import {
   IoSettingsOutline,
 } from 'react-icons/io5'
 
-import Logo from '../../components/_reusables/logo/Logo.component'
+import Logo from '../../components/common/logo/Logo.component'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 import { useStudents } from '../../contexts/StudentContext'

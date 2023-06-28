@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode, useEffect } from 'react'
 import './modal.style.scss'
 import { IoCloseOutline } from 'react-icons/io5'
-import Button from '../_reusables/button/Button.component'
+import Button from '../common/button/Button.component'
 
 interface ModalProps {
   heading: string

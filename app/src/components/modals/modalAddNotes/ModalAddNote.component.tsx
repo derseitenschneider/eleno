@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
+import CustomEditor from '../../common/customEditor/CustomEditor.component'
 
 interface ModalAddNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>

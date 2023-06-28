@@ -1,6 +1,6 @@
 import './lessonFooter.style.scss'
 import { FunctionComponent } from 'react'
-import Button from '../../_reusables/button/Button.component'
+import Button from '../../common/button/Button.component'
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
 interface LessonFooterProps {
   studentIndex: number

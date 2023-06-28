@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'
 import { toast } from 'react-toastify'
-import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
+import CustomEditor from '../../common/customEditor/CustomEditor.component'
 interface ModalEditNoteProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   currentNote: number

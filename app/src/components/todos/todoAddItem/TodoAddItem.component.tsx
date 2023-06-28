@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import './todoAddItem.style.scss'
-import Button from '../../_reusables/button/Button.component'
+import Button from '../../common/button/Button.component'
 import { TTodo } from '../../../types/types'
 import { useUser } from '../../../contexts/UserContext'
 import { formatDateToDisplay } from '../../../utils/formateDate'

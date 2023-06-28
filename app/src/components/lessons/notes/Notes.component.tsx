@@ -1,7 +1,7 @@
 import './notes.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { useNotes } from '../../../contexts/NotesContext'
-import Button from '../../_reusables/button/Button.component'
+import Button from '../../common/button/Button.component'
 import Note from '../note/Note.component'
 import { IoAddOutline } from 'react-icons/io5'
 import ModalAddNote from '../../modals/modalAddNotes/ModalAddNote.component'

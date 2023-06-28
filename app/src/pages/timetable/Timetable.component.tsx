@@ -4,7 +4,7 @@ import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { TTimetableDay } from '../../types/types'
-import NoContent from '../../components/_reusables/noContent/NoContent.component'
+import NoContent from '../../components/common/noContent/NoContent.component'
 
 function Timetable() {
   const { students } = useStudents()

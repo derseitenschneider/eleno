@@ -5,7 +5,7 @@ import Login from '../../components/login/Login.component'
 import { TDisplayForm } from '../../types/types'
 import Signup from '../../components/singup/Signup.component'
 import ForgotPassword from '../../components/forgotPassword/ForgotPassword.component'
-import Logo from '../../components/_reusables/logo/Logo.component'
+import Logo from '../../components/common/logo/Logo.component'
 
 const LoginPage = () => {
   const [displayForm, setDisplayForm] = useState<TDisplayForm>('login')

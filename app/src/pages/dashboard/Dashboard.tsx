@@ -29,7 +29,7 @@ function Dashboard() {
 
   useEffect(() => {
     user && setLoading(false)
-  }, [user])
+  }, [user, setLoading])
 
   useEffect(() => {
     window.scrollTo(0, 0)

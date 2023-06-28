@@ -1,8 +1,8 @@
 import './newLesson.style.scss'
 
 import { FunctionComponent, useState, useEffect } from 'react'
-import Button from '../../_reusables/button/Button.component'
-import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
+import Button from '../../common/button/Button.component'
+import CustomEditor from '../../common/customEditor/CustomEditor.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'

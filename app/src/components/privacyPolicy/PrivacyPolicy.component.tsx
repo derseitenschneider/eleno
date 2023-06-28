@@ -1,9 +1,7 @@
 import './privacyPolicy.style.scss'
 import { FunctionComponent } from 'react'
 
-interface PrivacyPolicyProps {}
-
-const PrivacyPolicy: FunctionComponent<PrivacyPolicyProps> = () => {
+const PrivacyPolicy = () => {
   return (
     <div className="privacy">
       <h3 className="heading-3">Datenschutzerklärung</h3>

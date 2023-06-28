@@ -1,16 +1,15 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Modal from '../../components/modals/Modal.component'
-import NoContent from '../../components/_reusables/noContent/NoContent.component'
+import NoContent from '../../components/common/noContent/NoContent.component'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import TodoList from '../../components/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
-import Button from '../../components/_reusables/button/Button.component'
+import Button from '../../components/common/button/Button.component'
 import TodoItem from '../../components/todos/todoItem/TodoItem.component'
 import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
-interface TodosCompletedProps {}
 
-const TodosCompleted: FunctionComponent<TodosCompletedProps> = () => {
+const TodosCompleted = () => {
   const { todos } = useTodos()
   const [isModalOpen, setIsModalOpen] = useState(false)
 

@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 
 import Sidebar from './layouts/sidebar/Sidebar.component'
 import Main from './layouts/main/Main.component'
-import Toast from './components/_reusables/toast/Toast.component'
+import Toast from './components/common/toast/Toast.component'
 
 import MainContext from './contexts/MainContext'
 import { AuthProvider } from './contexts/UserContext'

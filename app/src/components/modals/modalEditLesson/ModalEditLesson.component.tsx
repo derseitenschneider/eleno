@@ -5,7 +5,7 @@ import Modal from '../Modal.component'
 
 import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import CustomEditor from '../../_reusables/customEditor/CustomEditor.component'
+import CustomEditor from '../../common/customEditor/CustomEditor.component'
 import { TLesson } from '../../../types/types'
 
 interface ModalEditLessonProps {

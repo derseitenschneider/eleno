@@ -1,7 +1,7 @@
 import './studentrow.styles.scss'
 import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import DropDown from '../../_reusables/dropdown/Dropdown.component'
+import DropDown from '../../common/dropdown/Dropdown.component'
 import { useStudents } from '../../../contexts/StudentContext'
 
 import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'

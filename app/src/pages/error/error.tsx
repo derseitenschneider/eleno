@@ -1,3 +1,4 @@
+import React from 'react'
 import './error.style.scss'
 import { useRouteError } from 'react-router-dom'
 import Sidebar from '../../layouts/sidebar/Sidebar.component'
@@ -5,7 +6,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function ErrorPage() {
-  const error: any = useRouteError()
   const navigate = useNavigate()
   useEffect(() => {
     setTimeout(() => {

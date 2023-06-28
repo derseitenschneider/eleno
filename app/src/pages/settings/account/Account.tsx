@@ -2,14 +2,13 @@ import './account.style.scss'
 
 import { FunctionComponent, useState, useEffect } from 'react'
 import { useUser } from '../../../contexts/UserContext'
-import Button from '../../../components/_reusables/button/Button.component'
+import Button from '../../../components/common/button/Button.component'
 import ModalEditProfile from '../../../components/modals/modalEditProfile/ModalEditProfile.component'
 import ModalEditEmail from '../../../components/modals/modalEditEmail/ModalEditEmail.component'
 import ModalEditPassword from '../../../components/modals/modalEditPassword/ModalEditPassword.component'
 import ModalDeleteAccount from '../../../components/modals/modalDeleteAccount/ModalDeleteAccount.component'
-interface AccountProps {}
 
-const Account: FunctionComponent<AccountProps> = () => {
+const Account: FunctionComponent = () => {
   const { user } = useUser()
   const [modalEditProfileOpen, setModalEditProfileOpen] = useState(false)
   const [modalEditEmailOpen, setModalEditEmailOpen] = useState(false)
