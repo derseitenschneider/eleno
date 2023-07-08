@@ -162,10 +162,75 @@ Links über der Schülerliste links befindet sich ein Auswahlmenu mit "Aktion". 
 Sobald die Lektionsdaten der ausgewählten Schüler:innen zurückgesetzt sind, erscheinen diese nicht mehr auf der Lektionsseite, bis du neue Lektionsdaten für sie erfasst hast.
 
 ## 6. Stundenplan
+Hast du Schüler:innen mit Lektionsdaten (Tag, Von/bis etc.) erscheinen sie hier als Tabelle. So hast du eine gute übersicht über deinen Stundenplan und siehst, wer wann wo unterrichted wird.
 
 ## 7. Todos
+Die Todos sind ein Kernbestandteil von Eleno. Hier kannst du deine Todos erfassen, die dir zuhause oder während dem Unterrichten in den Sinn kommen. Sei es, deiner Schülerin in der nächsten Lektion ein neues Lied mitzubringen, ein wichtiges Telefonat mit den Eltern eines Schülers zu führen oder eine Infomail an alle Schüler:innen zu verfassen.
+
+Die Todos sind in zwei Seiten unterteilt, die offenen und die erledigten. So hast du den perfekten Überblick und vergisst (hoffentlich) nichts.
+
+### Todos erfassen
+Auf der Seite "Offen" findest du zuoberst das Eingabefeld für eine neue Todo. Dort kannst du erfassen, was du noch zu erledigen hast.
+
+Wenn du rechts daneben auf das Schüler-Symbol klickst, öffnet sich eine Liste mit allen aktiven Schüler:innen. So kannst du die Todo einer:einem bestimmten Schüler:in zuweisen, wenn du möchtest. Beispielsweise kannst du eine Todo erfassen mit dem Text "Neues Lied mitbringen" und dann den Schüler "Maximilian Muster" auswählen. Das hilft dir auch, die Übersicht zu bewahren, welche Todos für gewisse Schüler:innen sind und welche allgemein sind.
+
+Muss die Todo bis zu einem bestimmten Zeitpunkt erledigt sein, kannst du dafür ein Fälligkeitsdatum erafssen. Dafür klickst du auf das Kalender-Symbol rechts vom Schüler-Symbol. 
+
+!Wichtig! Damit die Todo erfasst werden kann, benötigt sie mindestens den Text.
+
+Hast du die Todo fertig erfasst, klickst du auf "Speichern". Die neue Todo erscheint dann in der Liste darunter. Die offenen Todos werden nach Fälligkeitsdatum geordnet, diejenigen ohne Fälligkeit sind zuunterst.
+
+*Tipp
+Wenn du bei einer erfassten Todo auf den:die Schüler:in klickst, landest du automatisch auf seinem:ihrem Lektionsblatt.
+
+### Todos bearbeiten
+Möchtest du eine bereits erfasste Todo bearbeiten, klickst du auf die drei Punkte rechts in der Todo und wählst "Bearbeiten". Dann kannst du den Text anpassen, eine:n Schüler:in zuweisen oder entfernen und das Fälligkeitsdatum hinzufügen, anpassen oder entfernen. 
+
+Bist du mit deinen Anpassungen fertig, kannst du auf "Speichern" klicken und die Todo erscheint angepasst in der Todo-Liste.
+### Todos erledigen
+Hast du eine Todo erledigt, klickst du einfach auf das entsprechende Kästchen links in der Todo. Die Todo verschwindet dann aus der "Offen"-Liste landet in der "Erledigt"-Liste.
+
+### Todos wiederherstellen
+Hast du fälschlicherweise eine Todo erledigt, kannst du sie ganz einfach wiederherstellen. Gehe dazu auf die Seite "Erledigt". Klicke bei der entsprechenden Todo auf "Auf offen setzen" und sie wird wieder in die offenen Todos verschoben.
+
+### Todos löschen
+Hast du eine Todo erledigt und brauchst sie nicht mehr, kannst du sie löschen. Dazu gehst du auf die Seite "Erledigt" und klickst bei der entsprechenden Todo auf die drei Punkte. Dort wählst du "Löschen" aus. 
+
+!Wichtig!
+Ist die Todo einmal gelöscht, kann sie nicht wiederhergestellt werden. Überleg dir also vorher gut, ob du sie nicht mehr brauchst.
+
+
+### Alle löschen
+Du kannst auch alle erledigten Todos auf einmal löschen. Klicke dafür auf der Seite "Erledigt" auf den Button rechts oben "Alle Löschen". 
+
+!Wichtig!
+Die erledigten Todos werden damit unwiederruflich gelöscht. Bist du nicht sicher, ob wirklich alle in der Liste gelöscht werden sollen, kannst auch wie oben beschrieben die Todos einzeln löschen. 
 
 ## 8. Einstellungen
+Auf der Einstellungs-Seite kannst du dein Benutzerkonto bearbeiten. 
+
+### Profil
+Möchtest du deinen Vor- und oder Nachname bearbeiten, klickst du unter Profil auf "Bearbeiten". Hast du die Bearbeitung abgeschlossen, klickst du auf "Speichern" und deine Änderungen sind aktiv
+
+### Logindaten
+Zu deinen Logindaten gehören sowohl deine Email-Adresse wie auch dein passwort. Beides kannst du hier anpassen. Möchtest du deine Email-Adresse bearbeiten, klickst du auf "Email ändern" und gibst die neue Email-Adresse ein. 
+
+!Wichtig!
+Deine Änderung wird erst aktiv, wenn du den anschliessend per Mail gesendeten Aktivierungslink klickst. Machst du das nicht, bleibt deine alte Email-Adresse bestehen.
+
+Möchtest du dein Passwort ändern, klickst du auf "Passwort ändern". Hier musst dein neues Wunschpasswort zweimal eingeben, damit dir keine Schreibfehler unterlaufen. Klicke anschliessend auf "Speichern" und deine Änderung ist aktiv.
+
+!Wichtig!
+Dein neues Passwort muss mindestens sechs Zeichen lang sein, damit es aktezptiert wird. 
+
+### Benutzerkonto löschen
+Möchtest du Eleno nicht mehr benutzen, kannst du hier dein Benutzerkonto löschen. Damit werden alle deine erfassten Daten und dein Benutzerkonto aus der Datenbank gelöscht und du wirst automatisch ausgeloggt.
+
+!Wichtig!
+Die Löschung geschieht unmittelbar nach deiner Bestätigung. Die Daten werden nicht für eine gewisse Frist aufbewahrt sondern zum Zeitpunkt des Löschvorgangs unwiederruflich aus der Datenbank gelöscht.
+
+
+
 
 ## 9. FAQ
 ### Sind meine Daten bei Eleno sicher?

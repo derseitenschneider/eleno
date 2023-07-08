@@ -1,0 +1,38 @@
+.sidenav {
+  // position: fixed;
+  top: 0;
+  // width: 60rem;
+  padding: 3.2rem;
+  background-color: var(--clr-bg-800);
+  height: 100vh;
+
+  li:has(a:hover, a:active) {
+    color: var(--clr-primary-600);
+  }
+
+  ol {
+    li {
+      margin-bottom: 2.4rem;
+      font-size: 1.6rem;
+      a {
+        color: var(--clr-text-600);
+      }
+    }
+  }
+
+  ul {
+    font-size: 1.4rem;
+    li {
+      margin-block: 0.6rem;
+      a {
+        color: var(--clr-text-400);
+      }
+      ul {
+        margin-left: 1.6rem;
+        li {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}

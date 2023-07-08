@@ -11,6 +11,7 @@ import {
   IoLogOutOutline,
   IoCheckboxOutline,
   IoSettingsOutline,
+  IoBookOutline,
 } from 'react-icons/io5'
 
 import Logo from '../../components/common/logo/Logo.component'
@@ -121,6 +122,14 @@ function Sidebar() {
           </nav>
         </div>
         <div className="container-settings">
+          <div className="sidebar__nav-el">
+            <NavLink to="manual" className="sidebar__nav-link">
+              <div className="sidebar__nav-icon">
+                <IoBookOutline className="icon" />
+              </div>
+              <span className="sidebar__link-text">Anleitung</span>
+            </NavLink>
+          </div>
           <div className="sidebar__nav-el">
             <NavLink to="settings" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">

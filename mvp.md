@@ -7,7 +7,8 @@
 - Feedback-Link
 - Support-Link
 - FAQ Section
-- Rich text editor für Lektionseingabe und Notes
+- Loading Screen
+- Darkmode switch
 
 ##Landingpage
 - Demo

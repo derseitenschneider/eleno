@@ -17,6 +17,7 @@ import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import Account from '../pages/settings/account/Account'
 import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
 import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
+import Manual from '../pages/manual/Manual'
 
 export const mainRouter = createBrowserRouter(
   [
@@ -59,6 +60,10 @@ export const mainRouter = createBrowserRouter(
             { index: true, path: '', element: <TodosOpen /> },
             { path: 'completed', element: <TodosCompleted /> },
           ],
+        },
+        {
+          path: 'manual',
+          element: <Manual />,
         },
         {
           path: `settings`,

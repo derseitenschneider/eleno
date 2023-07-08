@@ -1,6 +1,6 @@
-## Features
+# Features
 
-# Lessons
+## Lessons
 - Keyboard navigation between students
 - Header 
   - Create Todo for chosen student
@@ -21,27 +21,26 @@
   - Tuner
   - Timer
 
-# Timetable
+## Timetable
 - Print timetable
 - create new timetable
 - diverse Ansichtsoptionen (einzelne Tage, Instrument/Minutenzahl ein/ausblenden etc)
 
-# Dashboard
+## Dashboard
 - Membership anzeigen und allenfalls für pro werben
 - Toast bei überfälligen todos
 
 
-# Students
+## Students
 - Massenbearbeitung
 
 
-## Overall
+# Overall
 - Option "Admin benachrichtigen" bei fetchErrorToast
-- Darkmode-Setting
 - English and German translation
 - Animations
-- PWA
 - Tooltips
+- Notify mobile users to better use tablet/desktop
 
 ## Payment
 - Rechnungen in Settings
@@ -49,8 +48,13 @@
 
 ##
 - Kalender download
+- Student import (intern oder via Datei zb. .csv o.ä.)
+- Student export (intern oder via .csv)
 - SuS Jahrgang, Spieldauer
 - Lektionsrating pro Sus/Lektionsrating
 - Absenzen-Checkbox und Liste
 - Gesamte Adresse erfassen
-- Lektionen als wisiwyg (mit möglichkeit, fett, liste etc)
+
+
+# Architecture/Dev
+- EsLint
