@@ -1,0 +1,65 @@
+---
+import Feature from '../ui/Feature.astro';
+import ScreenshotLesson from '../../assets/screenshots/screenshot-lesson.png';
+import ScreenshotStudent from '../../assets/screenshots/screenshot-students.png';
+import ScreenshotTodos from '../../assets/screenshots/screenshot-todo.png';
+
+interface IFeatures {
+  title: string;
+  text: string;
+  imgUrl: string;
+  bgGraphicUrl: string;
+  underlineUrl: string;
+  direction: 'text-left' | 'text-right';
+}
+
+const features: IFeatures[] = [
+  {
+    title: 'Übersichtliches Lektions-Tagebuch',
+    text: 'Mit Eleno hast du den perfekten Überblick über deine Lektionen. Auf einen Blick siehst du, was du in der letzen Lektion gemacht bzw. besprochen hast und was die Hausaufgaben waren. Gleichzeitig kannst du ganz einfach die laufende Lektion dokumentieren und siehst zudem alle Notizen, die du dir zu der:dem entsprechenden Schüler:in gemacht hast.',
+    imgUrl: ScreenshotLesson,
+    bgGraphicUrl: '',
+    underlineUrl: '',
+    direction: 'text-left',
+  },
+  {
+    title: 'Einfache Schülerverwaltung',
+    text: 'Dank einfacher Verwaltung deiner Schülerdaten kannst du dich voll und ganz auf das Unterrichten konzentrieren. Deine Schüler:innen werden in der richtigen Reihenfolge dargestellt und wenn sich mal was ändert - oder auch gleich alles - hast du das in wenigen Handgriffen angepasst.',
+    imgUrl: ScreenshotStudent,
+    bgGraphicUrl: '',
+    underlineUrl: '',
+    direction: 'text-right',
+  },
+  {
+    title: 'Nie wieder schlecht vorbereitet',
+    text: 'Deine Schülerin möchte unbedingt das neue Lied von Metallica lernen, und du hast ihr versprochen, es auf nächstes mal mitzubringen. Der nächste Schüler braucht ein neues Lehrmittel, das du erst noch bestellen musst. All das kannst du ganz einfach in deiner Todo-Liste erfassen und später erledigen.',
+    imgUrl: ScreenshotTodos,
+    bgGraphicUrl: '',
+    underlineUrl: '',
+    direction: 'text-left',
+  },
+];
+---
+
+<section class="section section--features">
+  {
+    features.map((feature) => (
+      <Feature
+        title={feature.title}
+        text={feature.text}
+        imgUrl={feature.imgUrl}
+        bgGraphicUrl={feature.bgGraphicUrl}
+        underlineUrl={feature.underlineUrl}
+        direction={feature.direction}
+      />
+    ))
+  }
+</section>
+
+<style lang="scss">
+  .section--features {
+    background-color: #484e53;
+    color: var(--clr-bg-600);
+    padding-block: 10rem;
+  }
+</style>

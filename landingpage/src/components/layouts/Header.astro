@@ -1,0 +1,107 @@
+---
+import Button from '../ui/Button.astro';
+import LogoHeader from '../../assets/logos/logo-header.astro';
+---
+
+<header class="header">
+  <nav>
+    <ul class="nav-left">
+      <li class="nav-link nav-link--logo">
+        <LogoHeader />
+      </li>
+      <li class="nav-link">
+        <a href="#">Demo</a>
+      </li>
+      <li class="nav-link">
+        <a href="#">Docs</a>
+      </li>
+      <li class="nav-link">
+        <a href="#">Blog</a>
+      </li>
+    </ul>
+    <div class="nav-right">
+      <Button type="primary" link="https://app.eleno.net/signup">
+        Sign Up
+      </Button>
+      <Button type="secondary" link="https://app.eleno.net/login">
+        Log In
+      </Button>
+    </div>
+  </nav>
+</header>
+
+<style lang="scss">
+  .header {
+    position: sticky;
+    top: 0;
+    background-color: var(--clr-bg-400);
+    transition: all 0.45s ease;
+
+    &.scrolled {
+      box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+      nav {
+        padding: 1.4rem 4rem;
+        .nav-left {
+          font-size: 1.6rem;
+          gap: 2.4rem;
+
+          .nav-link {
+            &--logo {
+              width: 10rem;
+            }
+          }
+        }
+      }
+    }
+    nav {
+      padding: 1.8rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        gap: 3.2rem;
+        transition: all 0.45s ease;
+
+        .nav-link {
+          &--logo {
+            width: 12rem;
+            margin-right: 1.6rem;
+            transition: all 0.45s ease;
+          }
+        }
+      }
+
+      .nav-right {
+        display: flex;
+        gap: 3.2rem;
+      }
+    }
+  }
+</style>
+
+<script>
+  const header: HTMLElement | null = document.querySelector('.header');
+  const buttonsHeader: NodeListOf<HTMLElement> | undefined =
+    header?.querySelectorAll('.button');
+
+  console.log(buttonsHeader);
+
+  document.addEventListener('scroll', () => {
+    if (header === null || !buttonsHeader) return;
+    if (header.offsetTop >= 100) {
+      header.classList.add('scrolled');
+      buttonsHeader.forEach((btn) => {
+        btn.style.fontSize = '14px';
+        btn.style.fontWeight = '400';
+        btn.style.transition = 'all 0.45s ease';
+      });
+    } else {
+      header.classList.remove('scrolled');
+      buttonsHeader.forEach((btn) => (btn.style.fontSize = 'initial'));
+    }
+  });
+</script>

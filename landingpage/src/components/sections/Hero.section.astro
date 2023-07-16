@@ -1,0 +1,62 @@
+---
+import Logo from '../../assets/logos/logo.astro';
+import Button from '../ui/Button.astro';
+---
+
+<section class="section section--hero">
+  <div class="logo">
+    <Logo />
+  </div>
+  <h1 class="heading--hero">
+    <span class="text-emphasized">Smart</span>
+    unterrichten - <br /> mit dem Fokus auf's wesentliche
+  </h1>
+  <p class="subheading--hero">
+    <span class="text-emphasized">Eleno</span> - die Unterrichts-App, auf die wir
+    gewartet haben. Lektions-Tagebuch, Schülerverwaltung, Todos etc. Mit Eleno hast
+    du alles in einem Tool vereint.
+  </p>
+  <div class="container--buttons">
+    <Button type="primary" link="https://app.eleno.net">Jetzt loslegen!</Button>
+    <Button type="secondary" link="/demo">Demo ausprobieren</Button>
+  </div>
+</section>
+
+<style lang="scss">
+  .section--hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 15rem;
+    .logo {
+      width: 12rem;
+      margin-bottom: 3.2rem;
+    }
+
+    .heading--hero {
+      font-size: 7.2rem;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -4.5px;
+      text-align: center;
+      margin-bottom: 4.8rem;
+    }
+
+    .subheading--hero {
+      font-size: 2.8rem;
+      text-align: center;
+      max-width: 40ch;
+      margin-bottom: 3.2rem;
+    }
+
+    .text-emphasized {
+      font-size: inherit;
+      color: var(--clr-primary-600);
+    }
+
+    .container--buttons {
+      display: flex;
+      gap: 3.2rem;
+    }
+  }
+</style>

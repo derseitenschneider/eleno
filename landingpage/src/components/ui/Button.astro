@@ -1,0 +1,38 @@
+---
+interface Props {
+  type: 'primary' | 'secondary';
+  link: string;
+}
+
+const { type, link } = Astro.props;
+---
+
+<a href={link} class={`button button--${type}`}>
+  <slot />
+</a>
+
+<style lang="scss">
+  .button {
+    display: block;
+    width: fit-content;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.8rem;
+
+    &--primary:link,
+    &--primary:visited,
+    &--primary:active {
+      background-color: var(--clr-primary-600);
+      border: 2px solid var(--clr-primary-600);
+      color: #fff;
+    }
+
+    &--secondary:link,
+    &--secondary:visited,
+    &--secondary:active {
+      border: 2px solid var(--clr-primary-600);
+      color: var(--clr-primary-600);
+    }
+  }
+</style>

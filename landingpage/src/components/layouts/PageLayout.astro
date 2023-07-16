@@ -1,0 +1,30 @@
+---
+import '../../../../app/src/scss/fonts.scss';
+import '../../../../app/src/scss/global.scss';
+import '../../../../app/src/scss/typography.scss';
+import '../../styles/global-landingpage.scss';
+
+import Header from './Header.astro';
+---
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>Eleno - smart unterrichten</title>
+  </head>
+  <body>
+    <Header />
+    <slot />
+  </body>
+</html>
+
+<style>
+  body {
+    background-color: var(--clr-bg-400);
+    color: var(--clr-text-400);
+  }
+</style>

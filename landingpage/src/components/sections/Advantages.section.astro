@@ -1,0 +1,51 @@
+---
+import Card from '../ui/Card.astro';
+import IconLocation from '../../assets/logos/location-outline.astro';
+import IconCube from '../../assets/logos/cube-outline.astro';
+import IconFlash from '../../assets/logos/flash-outline.astro';
+const advantages = [
+  {
+    logo: IconLocation,
+    title: 'Überall & jederzeit verfügbar',
+    text: 'Du kannst von überall aus und jederzeit Geräteunabhängig auf deine Daten in Eleno zugreifen',
+  },
+  {
+    logo: IconCube,
+    title: 'Alles an einem Ort',
+    text: 'Nie mehr ein Durcheinander mit Exel-Sheets. Mit Eleno hast du all deine Lektionsnotizen, Todos und Unterrichtsdaten zentral an einem Ort.',
+  },
+  {
+    logo: IconFlash,
+    title: 'Schnell und effizient',
+    text: 'Mit Eleno hast du die komplette Übersicht. Mit wenigen Klicks bist du bei deinen Lektionsnotizen und kannst dich so komplett auf’s Unterrichten konzentrieren.',
+  },
+];
+---
+
+<section class="section section--advantages">
+  <h2 class="heading-secondary">Mach das Beste aus deinem Unterricht</h2>
+  <div class="container--cards">
+    {
+      advantages.map((adv) => (
+        <Card title={adv.title} text={adv.text}>
+          <adv.logo />
+        </Card>
+      ))
+    }
+  </div>
+</section>
+
+<style lang="scss">
+  .section--advantages {
+    padding-block: 14rem;
+    .heading-secondary {
+      text-align: center;
+      margin-bottom: 4.8rem;
+    }
+    .container--cards {
+      display: flex;
+      justify-content: center;
+      gap: 10rem;
+    }
+  }
+</style>
