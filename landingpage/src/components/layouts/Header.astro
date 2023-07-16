@@ -67,6 +67,9 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
         transition: all 0.45s ease;
 
         .nav-link {
+          &:hover {
+            color: var(--clr-primary-600);
+          }
           &--logo {
             width: 12rem;
             margin-right: 1.6rem;
@@ -85,11 +88,11 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
 
 <script>
   const header: HTMLElement | null = document.querySelector('.header');
+  const sectionFeatures = document.querySelector('.section--features');
   const buttonsHeader: NodeListOf<HTMLElement> | undefined =
     header?.querySelectorAll('.button');
 
-  console.log(buttonsHeader);
-
+  // Make header smaller on scroll
   document.addEventListener('scroll', () => {
     if (header === null || !buttonsHeader) return;
     if (header.offsetTop >= 100) {
@@ -101,7 +104,32 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
       });
     } else {
       header.classList.remove('scrolled');
-      buttonsHeader.forEach((btn) => (btn.style.fontSize = 'initial'));
+      buttonsHeader.forEach((btn) => {
+        btn.style.fontSize = 'initial';
+        btn.style.fontWeight = '600';
+      });
+    }
+  });
+
+  // Intersection observer
+  window.addEventListener('load', function () {
+    const margin = `${-window.innerHeight + header?.clientHeight}px`;
+    console.log(margin);
+    let options = {
+      root: null,
+      rootMargin: `826px 10px 826px 10px`,
+      threshold: 0,
+    };
+    let target = sectionFeatures;
+
+    let callback = (entries) => {
+      entries.forEach((entry) => {
+        console.log(entry);
+      });
+    };
+    let observer = new IntersectionObserver(callback, options);
+    if (target) {
+      observer.observe(target);
     }
   });
 </script>
