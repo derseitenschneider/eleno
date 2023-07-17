@@ -3,8 +3,10 @@
   top: 0;
   // width: 60rem;
   padding: 3.2rem;
-  background-color: var(--clr-bg-800);
+  background-color: var(--clr-bg-500);
+  width: fit-content;
   height: 100vh;
+  overflow-y: auto;
 
   li:has(a:hover, a:active) {
     color: var(--clr-primary-600);

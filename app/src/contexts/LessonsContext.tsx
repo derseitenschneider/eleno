@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from 'react'
 import { TLesson } from '../types/types'
 import {
   deleteLessonSupabase,
+  fetchAllLessonsSupabase,
   saveNewLessonSupabase,
   updateLessonSupabase,
 } from '../supabase/lessons/lessons.supabase'
@@ -17,6 +18,7 @@ export const LessonsContext = createContext<ContextTypeLessons>({
   saveNewLesson: () => new Promise(() => {}),
   deleteLesson: () => new Promise(() => {}),
   updateLesson: () => new Promise(() => {}),
+  getAllLessons: () => new Promise(() => []),
 })
 
 export const LessonsProvider = ({ children }) => {
@@ -65,6 +67,15 @@ export const LessonsProvider = ({ children }) => {
     }
   }
 
+  const getAllLessons = async (studentId: number) => {
+    try {
+      const allLessons = await fetchAllLessonsSupabase(studentId)
+      return allLessons
+    } catch (error) {
+      throw new Error(error.mesage)
+    }
+  }
+
   const value = {
     lessons,
     setLessons,
@@ -73,6 +84,7 @@ export const LessonsProvider = ({ children }) => {
     saveNewLesson,
     deleteLesson,
     updateLesson,
+    getAllLessons,
   }
 
   return (

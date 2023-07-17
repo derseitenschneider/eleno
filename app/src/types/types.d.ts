@@ -94,6 +94,7 @@ export type ContextTypeLessons = {
   saveNewLesson: (lesson: TLesson) => Promise<void>
   deleteLesson: (id: number) => Promise<void>
   updateLesson: (lesson: TLesson) => Promise<void>
+  getAllLessons: (studentId: number) => Promise<TLesson[]>
 }
 
 export type ContextTypeLoading = {

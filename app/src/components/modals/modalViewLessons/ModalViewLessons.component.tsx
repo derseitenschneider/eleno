@@ -1,12 +1,13 @@
 import './modalviewLesosns.styles.scss'
 import { useEffect, FunctionComponent, useState } from 'react'
-import { fetchAllLessonsSupabase } from '../../../supabase/lessons/lessons.supabase'
+
 import { TLesson } from '../../../types/types'
 import Loader from '../../common/loader/Loader'
 import Modal from '../Modal.component'
 import LessonRow from '../../lessons/lessonrow/LessonRow.component'
 import { toast } from 'react-toastify'
 import { useStudents } from '../../../contexts/StudentContext'
+import { useLessons } from '../../../contexts/LessonsContext'
 interface ModalViewLessonsProps {
   handlerClose: () => void
   studentId: number
@@ -18,6 +19,7 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
 }) => {
   const { students } = useStudents()
   const [isPending, setIsPending] = useState(true)
+  const { getAllLessons } = useLessons()
   const [allLessons, setAllLessons] = useState<TLesson[]>()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -30,7 +32,7 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
     const fetchAllLessons = async () => {
       setErrorMessage('')
       try {
-        const lessons = await fetchAllLessonsSupabase(studentId)
+        const lessons = await getAllLessons(studentId)
         setAllLessons(lessons)
       } catch (error) {
         setErrorMessage(
@@ -41,7 +43,7 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
       }
     }
     fetchAllLessons()
-  }, [])
+  }, [studentId])
 
   return (
     <Modal

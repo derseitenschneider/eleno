@@ -7,13 +7,15 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
   <nav>
     <ul class="nav-left">
       <li class="nav-link nav-link--logo">
-        <LogoHeader />
+        <a href="/">
+          <LogoHeader />
+        </a>
       </li>
       <li class="nav-link">
         <a href="#">Demo</a>
       </li>
       <li class="nav-link">
-        <a href="#">Docs</a>
+        <a href="/docs">Docs</a>
       </li>
       <li class="nav-link">
         <a href="#">Blog</a>
@@ -113,6 +115,7 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
 
   // Intersection observer
   window.addEventListener('load', function () {
+    if (!header) return;
     const margin = `${-window.innerHeight + header?.clientHeight}px`;
     console.log(margin);
     let options = {
@@ -122,14 +125,14 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
     };
     let target = sectionFeatures;
 
-    let callback = (entries) => {
-      entries.forEach((entry) => {
-        console.log(entry);
-      });
-    };
-    let observer = new IntersectionObserver(callback, options);
-    if (target) {
-      observer.observe(target);
-    }
+    // let callback = (entries) => {
+    //   entries.forEach((entry) => {
+    //     console.log(entry);
+    //   });
+    // };
+    // let observer = new IntersectionObserver(callback, options);
+    // if (target) {
+    //   observer.observe(target);
+    // }
   });
 </script>
