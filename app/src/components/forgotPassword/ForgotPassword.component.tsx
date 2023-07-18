@@ -5,6 +5,7 @@ import { TDisplayForm } from '../../types/types'
 import { recoverPasswordSupabase } from '../../supabase/users/users.supabase'
 import Button from '../common/button/Button.component'
 import Loader from '../common/loader/Loader'
+import { useUser } from '../../contexts/UserContext'
 interface ForgotPasswordProps {
   setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
 }
@@ -15,13 +16,14 @@ const ForgotPassword: FunctionComponent<ForgotPasswordProps> = ({
   const [recoverSuccess, setRecoverSuccess] = useState(false)
   const [input, setInput] = useState('')
   const [isPending, setIsPending] = useState(false)
+  const { recoverPassword } = useUser()
 
   const resetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
       setIsPending(true)
-      await recoverPasswordSupabase(input)
+      await recoverPassword(input)
       setRecoverSuccess(true)
       setInput('')
       setIsPending(false)

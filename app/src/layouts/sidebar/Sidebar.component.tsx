@@ -1,6 +1,6 @@
 import './sidebar.style.scss'
 import { useEffect, useState } from 'react'
-import { supabase } from '../../supabase/supabase'
+
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   IoCompassOutline,
@@ -18,20 +18,16 @@ import Logo from '../../components/common/logo/Logo.component'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 import { useStudents } from '../../contexts/StudentContext'
+import { useUser } from '../../contexts/UserContext'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { closestStudentIndex, setClosestStudentIndex } = useClosestStudent()
+  const { setClosestStudentIndex } = useClosestStudent()
   const { activeStudents } = useStudents()
-  const navigate = useNavigate()
+  const { logout } = useUser()
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen)
-  }
-
-  const logout = async () => {
-    await supabase.auth.signOut()
-    navigate('/')
   }
 
   const closeSidebarOnWindowClick = (e: MouseEvent) => {

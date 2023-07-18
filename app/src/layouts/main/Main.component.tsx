@@ -31,7 +31,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
 
   useEffect(() => {
     setStudentIndex(closestStudentIndex)
-  }, [])
+  }, [closestStudentIndex])
 
   useEffect(() => {
     if (user) {

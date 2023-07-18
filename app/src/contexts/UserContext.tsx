@@ -3,6 +3,7 @@ import { ContextTypeUser, TProfile, TUser } from '../types/types'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
+  recoverPasswordSupabase,
   updateEmailSupabase,
   updatePasswordSupabase,
   updateProfileSupabase,
@@ -12,6 +13,7 @@ import { Session } from '@supabase/gotrue-js/src/lib/types'
 import LoginPage from '../pages/login/LoginPage'
 import { useLoading } from './LoadingContext'
 import fetchErrorToast from '../hooks/fetchErrorToast'
+import { useNavigate } from 'react-router-dom'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
@@ -22,12 +24,15 @@ export const UserContext = createContext<ContextTypeUser>({
   updateEmail: () => new Promise(() => {}),
   updatePassword: () => new Promise(() => {}),
   deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState<Session>()
   const [user, setUser] = useState<TUser | null>(null)
   const { loading, setLoading } = useLoading()
+  const navigate = useNavigate()
 
   const getUserProfiles = async (userId: string) => {
     try {
@@ -103,6 +108,15 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const logout = async () => {
+    await supabase.auth.signOut()
+    navigate('/')
+  }
+
+  const recoverPassword = async (email: string) => {
+    await recoverPasswordSupabase(email)
+  }
+
   const value = {
     user,
     setUser,
@@ -112,6 +126,8 @@ export const AuthProvider = ({ children }) => {
     updateEmail,
     updatePassword,
     deleteAccount,
+    logout,
+    recoverPassword,
   }
 
   return (

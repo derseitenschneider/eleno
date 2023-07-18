@@ -1,6 +1,6 @@
 import './navbarMobile.style.scss'
-import { FunctionComponent } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+
+import { NavLink } from 'react-router-dom'
 import Logo from '../../components/common/logo/Logo.component'
 import {
   IoSchoolOutline,
@@ -8,14 +8,11 @@ import {
   IoSettingsOutline,
   IoCheckboxOutline,
 } from 'react-icons/io5'
-import { supabase } from '../../supabase/supabase'
+
+import { useUser } from '../../contexts/UserContext'
 
 const NavbarMobile = () => {
-  const navigate = useNavigate()
-  const logout = async () => {
-    await supabase.auth.signOut()
-    navigate('/')
-  }
+  const { logout } = useUser()
 
   return (
     <nav className="navbar--mobile">

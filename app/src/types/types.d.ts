@@ -55,6 +55,8 @@ export type ContextTypeUser = {
   updateEmail: (email: string) => Promise<void>
   updatePassword: (password: string) => Promise<void>
   deleteAccount: () => Promise<void>
+  logout: () => Promise<void>
+  recoverPassword: (email: string) => Promise<void>
 }
 
 export type ContextTypeTodos = {
