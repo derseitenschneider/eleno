@@ -1,4 +1,9 @@
 .container--new-lesson {
+  .wrapper-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.8rem;
+  }
   .container--editor {
     height: 20rem;
   }

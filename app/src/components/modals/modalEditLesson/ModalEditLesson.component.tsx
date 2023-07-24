@@ -108,13 +108,6 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
           </div>
         </div>
 
-        {/* <textarea
-          className="input"
-          name="lessonContent"
-          value={input.lessonContent}
-          onChange={inputHandler}
-        /> */}
-
         <div className="container--right">
           <h5 className="heading-5">Hausaufgaben</h5>
 
@@ -122,13 +115,6 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
             <CustomEditor value={homework} onChange={handleHomework} />
           </div>
         </div>
-
-        {/* <textarea
-          className="input"
-          name="homework"
-          value={input.homework}
-          onChange={inputHandler}
-        /> */}
       </div>
     </Modal>
   )

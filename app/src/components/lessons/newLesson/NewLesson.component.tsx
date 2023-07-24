@@ -131,17 +131,15 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
 
   return (
     <div className="container container--lessons container--new-lesson">
-      <h3 className="heading-4">
-        Aktuelle Lektion
-        <span>
-          <input
-            type="date"
-            value={formatDateToDatabase(date)}
-            onChange={handlerInputDate}
-            onFocus={handlerShowPicker}
-          />
-        </span>
-      </h3>
+      <div className="wrapper-date">
+        <h3 className="heading-4">Aktuelle Lektion</h3>
+        <input
+          type="date"
+          value={formatDateToDatabase(date)}
+          onChange={handlerInputDate}
+          onFocus={handlerShowPicker}
+        />
+      </div>
       <div className="container--two-rows">
         <div className="row-left">
           <h5 className="heading-5">Lektion</h5>

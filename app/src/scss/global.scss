@@ -118,6 +118,8 @@ select:not([disabled]) {
 input,
 textarea,
 select {
+  width: 100%;
+  display: block;
   font-family: inherit;
   font-size: inherit;
   color: inherit;
@@ -130,10 +132,21 @@ select {
   outline: none;
 }
 
+select {
+  appearance: none;
+  border-radius: 0;
+  position: relative;
+
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' height='10px' width='15px'%3E%3Ctext x='0' y='10' fill='gray'%3E%E2%96%BE%3C/text%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-clip: border-box;
+  -moz-background-clip: border-box;
+  -webkit-background-clip: border-box;
+}
+
 input,
 textarea {
-  width: 100%;
-
   &.input--error {
     outline: 1px solid var(--clr-warning);
   }
@@ -216,6 +229,11 @@ input[type='number'] {
 }
 
 @media (max-width: 480px) {
+  *::-webkit-scrollbar *::-webkit-scrollbar-track,
+  *::-webkit-scrollbar-thumb {
+    width: 0 !important;
+    color: transparent;
+  }
   .App {
     display: block;
     overflow-x: hidden;

@@ -57,6 +57,16 @@
   }
 }
 
+@media (max-width: 1084px) {
+  .container--header {
+    .modal--add-todo {
+      .modal {
+        width: 100%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 480px) {
   .container--header {
     .button--dropdown {

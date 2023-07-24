@@ -1,3 +1,5 @@
+import './modalEditNote.style.scss'
+
 import { FunctionComponent, useState } from 'react'
 import Modal from '../Modal.component'
 import { useNotes } from '../../../contexts/NotesContext'

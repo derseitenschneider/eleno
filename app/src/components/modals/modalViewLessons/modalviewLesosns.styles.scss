@@ -38,9 +38,43 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1084px) {
   .view-lessons {
     width: 100vw;
     height: 100vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .view-lessons {
+    .modal {
+      padding: 4rem 0;
+
+      .heading-modal {
+        margin-left: 1.2rem;
+      }
+      .lesson-grid {
+        .lesson-row {
+          grid-template-columns: 1fr 1fr;
+
+          p {
+            margin-bottom: 0;
+          }
+
+          &:first-child > :first-child {
+            display: none;
+          }
+
+          & > :nth-child(2) {
+            grid-column: 1;
+          }
+
+          .date {
+            font-weight: 600;
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
   }
 }

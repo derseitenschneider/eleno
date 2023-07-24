@@ -61,9 +61,15 @@
 }
 
 @media (max-width: 480px) {
-  .container--previous-lessons {
-    .content--previous-lesson {
-      height: unset;
+  .lessons {
+    .main {
+      .container--previous-lessons {
+        padding-block: 3.2rem;
+
+        .content--previous-lesson {
+          height: unset;
+        }
+      }
     }
   }
 }
