@@ -46,8 +46,9 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
 
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
-
-    input && input.focus()
+    if (input && window.innerWidth > 1084) {
+      input && input.focus()
+    }
   }, [studentId])
 
   function handleLessonContent(e: React.ChangeEvent<HTMLTextAreaElement>) {
