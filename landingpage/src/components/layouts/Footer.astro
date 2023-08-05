@@ -3,21 +3,6 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
 ---
 
 <footer class="footer">
-  <div class="container-left">
-    <p class="copyright">
-      Copyright © <span id="year"></span> by <a
-        href="https://derseitenschneider.ch">der seitenschneider</a
-      >
-    </p>
-    <p>All rights reserved</p>
-  </div>
-  <div class="container-middle">
-    <div class="container-logo">
-      <a href="/">
-        <LogoHeader />
-      </a>
-    </div>
-  </div>
   <div class="container-right">
     <ul class="nav-footer--col">
       <li>
@@ -42,6 +27,22 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
       </li>
     </ul>
   </div>
+
+  <div class="container-middle">
+    <div class="container-logo">
+      <a href="/">
+        <LogoHeader />
+      </a>
+    </div>
+  </div>
+  <div class="container-left">
+    <p class="copyright">
+      Copyright © <span id="year"></span> by <a
+        href="https://derseitenschneider.ch">der seitenschneider</a
+      >
+    </p>
+    <p>All rights reserved</p>
+  </div>
 </footer>
 
 <style lang="scss">
@@ -51,6 +52,7 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
     justify-content: space-between;
     align-items: center;
     font-size: 1.6rem;
+    background-color: var(--clr-bg-500);
     .container-left {
       p,
       span {
@@ -75,6 +77,21 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
           color: var(--clr-primary-600);
         }
       }
+    }
+  }
+
+  @media (max-width: 960px) {
+    .footer {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .footer {
+      flex-direction: column;
+      gap: 3.2rem;
+
+      align-items: first baseline;
     }
   }
 </style>

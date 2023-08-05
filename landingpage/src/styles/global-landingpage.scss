@@ -1,5 +1,19 @@
+.section {
+  padding-inline: 2rem;
+}
+
 .heading-secondary {
   font-size: 4.8rem;
   letter-spacing: -2px;
   font-weight: 400;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 680px) {
+  .heading-secondary {
+    font-size: 3.2rem;
+  }
 }

@@ -1,0 +1,33 @@
+.wrapper-image {
+  margin-bottom: 6.4rem;
+
+  img {
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-cards);
+    width: 100%;
+    height: auto;
+  }
+
+  .modal--lightbox {
+    width: fit-content;
+
+    .modal {
+      padding: 0;
+
+      max-height: unset;
+      height: 98vh;
+
+      .button--close-modal {
+        color: var(--clr-primary-800);
+      }
+      picture {
+        height: 100%;
+        width: fit-content;
+      }
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}

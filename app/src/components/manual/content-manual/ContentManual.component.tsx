@@ -1,6 +1,10 @@
 import './contentManual.style.scss'
 
 const ContentManual = () => {
+  // const { id } = useParams()
+
+  // console.log(id)
+
   return (
     <div className="container content-manual">
       <h1 className="heading-1">Anleitung</h1>

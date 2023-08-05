@@ -1,24 +1,2 @@
 .content-manual {
-  background-color: var(--clr-bg-400);
-  width: 100%;
-  height: 100%;
-  padding-inline: 5.2rem;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-
-  // display: grid;
-  place-content: center;
-  // margin-left: 20rem;
-  p {
-    font-size: 1.5rem;
-    max-width: 75ch;
-    line-height: 1.6;
-  }
-
-  .list {
-    list-style: initial;
-    li {
-      font-size: 1.5rem;
-    }
-  }
 }

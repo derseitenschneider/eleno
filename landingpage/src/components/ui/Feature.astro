@@ -32,8 +32,11 @@ const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
 <style lang="scss">
   .wrapper--feature {
     margin: 0 auto;
-    padding: 15rem;
+    padding-block: 15rem;
+    padding-inline: 4.2rem;
+    // max-width: 80rem;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6.2rem;
     max-width: 170rem;
@@ -58,6 +61,23 @@ const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
       img {
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
+      }
+    }
+  }
+
+  @media (max-width: 1084px) {
+    .wrapper--feature {
+      flex-direction: column;
+      gap: 0;
+      padding-block: 4rem;
+      .container--text {
+        .heading-secondary {
+          margin-bottom: 2rem;
+        }
+      }
+
+      &.text-right {
+        flex-direction: column;
       }
     }
   }

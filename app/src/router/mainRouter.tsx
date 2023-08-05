@@ -17,7 +17,17 @@ import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import Account from '../pages/settings/account/Account'
 import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
 import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
-import Manual from '../pages/manual/Manual'
+import Manual from '../pages/manual/manual.component'
+import Welcome from '../components/manual/content-manual/welcome/Welcome.component'
+import CreateAccount from '../components/manual/content-manual/create-account/CreateAccount.component'
+import QuickStart from '../components/manual/content-manual/quick-start/QuickStart.component'
+import DashboardManual from '../components/manual/content-manual/dashboard/Dashboard.component'
+import Teaching from '../components/manual/content-manual/teaching/Teaching.component'
+import StudentsManual from '../components/manual/content-manual/students/StudentsManual.component'
+import ScheduleManual from '../components/manual/content-manual/schedule/ScheduleManual.component'
+import TodosManual from '../components/manual/content-manual/todos/TodosManual.component'
+import SettingsManual from '../components/manual/content-manual/settings/SettingsManual.component'
+import ScrollToTop from '../hooks/ScrollToTop'
 
 export const mainRouter = createBrowserRouter(
   [
@@ -62,10 +72,6 @@ export const mainRouter = createBrowserRouter(
           ],
         },
         {
-          path: 'manual',
-          element: <Manual />,
-        },
-        {
           path: `settings`,
           element: <Settings />,
           children: [
@@ -84,6 +90,21 @@ export const mainRouter = createBrowserRouter(
           path: `privacy`,
           element: <PrivacyPolicyPage />,
         },
+      ],
+    },
+    {
+      path: '/manual',
+      element: <Manual />,
+      children: [
+        { index: true, element: <Welcome /> },
+        { path: 'create-account', element: <CreateAccount /> },
+        { path: 'quick-start', element: <QuickStart /> },
+        { path: 'dashboard', element: <DashboardManual /> },
+        { path: 'teaching', element: <Teaching /> },
+        { path: 'students', element: <StudentsManual /> },
+        { path: 'schedule', element: <ScheduleManual /> },
+        { path: 'todos', element: <TodosManual /> },
+        { path: 'settings', element: <SettingsManual /> },
       ],
     },
   ],

@@ -33,6 +33,8 @@
 
 ## Students
 - Massenbearbeitung
+- Partial resets (checkboxes) for lesson Data
+- Auto Focus on edit student input
 
 
 # Overall

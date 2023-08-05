@@ -4,7 +4,7 @@ import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../common/button/Button.component'
 
 interface ModalProps {
-  heading: string
+  heading?: string
   children?: ReactNode
   handlerOverlay: (e: React.MouseEvent) => void
   handlerClose: () => void
@@ -46,21 +46,23 @@ const Modal: FunctionComponent<ModalProps> = ({
         <button onClick={handlerClose} className="button--close-modal">
           <IoCloseOutline />
         </button>
-        <h2 className="heading-2 heading-modal">{heading}</h2>
+        {heading && <h2 className="heading-2 heading-modal">{heading}</h2>}
         {children}
-        <div className="container-buttons">
-          {buttons?.map((button, index) => (
-            <Button
-              handler={button.handler}
-              label={button.label}
-              type="button"
-              btnStyle={button.btnStyle}
-              key={index}
-              className={button.className}
-              disabled={button.disabled}
-            />
-          ))}
-        </div>
+        {buttons?.length > 0 ? (
+          <div className="container-buttons">
+            {buttons?.map((button, index) => (
+              <Button
+                handler={button.handler}
+                label={button.label}
+                type="button"
+                btnStyle={button.btnStyle}
+                key={index}
+                className={button.className}
+                disabled={button.disabled}
+              />
+            ))}
+          </div>
+        ) : null}
         <div onClick={handlerOverlay} className="overlay"></div>
       </div>
     </div>

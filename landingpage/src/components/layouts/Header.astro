@@ -1,10 +1,11 @@
 ---
 import Button from '../ui/Button.astro';
 import LogoHeader from '../../assets/logos/logo-header.astro';
+import Logo from '../../assets/logos/logo.astro';
 ---
 
 <header class="header">
-  <nav>
+  <nav class="desktop">
     <ul class="nav-left">
       <li class="nav-link nav-link--logo">
         <a href="/">
@@ -30,6 +31,30 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
       </Button>
     </div>
   </nav>
+  <nav class="mobile">
+    <a href="/">
+      <Logo />
+    </a>
+
+    <button class="nav-toggle">x</button>
+    <ul class="navlist">
+      <li class="nav-link--mobile"><a href="#">Demo</a></li>
+      <li class="nav-link--mobile"><a href="#">Docs</a></li>
+      <li class="nav-link--mobile"><a href="#">Blog</a></li>
+      <li class="nav-link--mobile">
+        <Button type="primary" link="https://app.eleno.net/signup">
+          Sign Up
+        </Button>
+      </li>
+      <li class="nav-link--mobile">
+        <a href="#">
+          <Button type="secondary" link="https://app.eleno.net/login">
+            Log In
+          </Button></a
+        >
+      </li>
+    </ul>
+  </nav>
 </header>
 
 <style lang="scss">
@@ -38,10 +63,12 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
     top: 0;
     background-color: var(--clr-bg-400);
     transition: all 0.45s ease;
-
+    .mobile {
+      display: none;
+    }
     &.scrolled {
       box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
-      nav {
+      .desktop {
         padding: 1.4rem 4rem;
         .nav-left {
           font-size: 1.6rem;
@@ -55,7 +82,7 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
         }
       }
     }
-    nav {
+    .desktop {
       padding: 1.8rem 4rem;
       display: flex;
       align-items: center;
@@ -86,6 +113,32 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
       }
     }
   }
+
+  @media (max-width: 1084px) {
+    .header {
+      position: relative;
+      .desktop {
+        display: none;
+      }
+      .mobile {
+        display: none;
+
+        .nav-toggle {
+          position: fixed;
+          top: 0;
+          right: 0;
+        }
+        .navlist {
+          position: fixed;
+          top: 0;
+          rigth: 0;
+          height: 100vh;
+          width: 100vw;
+          background-color: var(--clr-primary-600);
+        }
+      }
+    }
+  }
 </style>
 
 <script>
@@ -96,6 +149,7 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
 
   // Make header smaller on scroll
   document.addEventListener('scroll', () => {
+    if (window.innerWidth < 1084) return;
     if (header === null || !buttonsHeader) return;
     if (header.offsetTop >= 100) {
       header.classList.add('scrolled');
@@ -103,12 +157,14 @@ import LogoHeader from '../../assets/logos/logo-header.astro';
         btn.style.fontSize = '14px';
         btn.style.fontWeight = '400';
         btn.style.transition = 'all 0.45s ease';
+        // btn.style.border = '1px solid var(--clr-primary-600)';
       });
     } else {
       header.classList.remove('scrolled');
       buttonsHeader.forEach((btn) => {
         btn.style.fontSize = 'initial';
         btn.style.fontWeight = '600';
+        // btn.style.border = '2px solid var(--clr-primary-600)';
       });
     }
   });

@@ -1,11 +1,11 @@
 import './sidebar.style.scss'
 import { useEffect, useState } from 'react'
 
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   IoCompassOutline,
   IoPeopleCircleOutline,
-  IoCalendarClearOutline,
+  IoCalendarOutline,
   IoSchoolOutline,
   IoChevronForwardOutline,
   IoLogOutOutline,
@@ -98,7 +98,7 @@ function Sidebar() {
               <li className="sidebar__nav-el">
                 <NavLink to="timetable" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
-                    <IoCalendarClearOutline className="icon" />
+                    <IoCalendarOutline className="icon" />
                   </div>
 
                   <span className="sidebar__link-text">Stundenplan</span>
@@ -119,12 +119,12 @@ function Sidebar() {
         </div>
         <div className="container-settings">
           <div className="sidebar__nav-el">
-            <NavLink to="manual" className="sidebar__nav-link">
+            <Link to="/manual" className="sidebar__nav-link">
               <div className="sidebar__nav-icon">
                 <IoBookOutline className="icon" />
               </div>
               <span className="sidebar__link-text">Anleitung</span>
-            </NavLink>
+            </Link>
           </div>
           <div className="sidebar__nav-el">
             <NavLink to="settings" className="sidebar__nav-link">
