@@ -17,7 +17,6 @@ import ManualFooter from '../../../common/manual-footer/ManualFooter.component'
 import { useEffect } from 'react'
 
 const QuickStart = () => {
-  console.log('rendered')
   useEffect(() => {
     setTimeout(() => window.scrollTo(0, 0), 1000)
   }, [])

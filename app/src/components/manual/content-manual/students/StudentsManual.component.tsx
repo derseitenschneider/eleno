@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const StudentsManual = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
-  })
+  }, [])
   return (
     <div className="container">
       <h1 className="heading-1" id="students">

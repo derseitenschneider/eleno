@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const Teaching = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
-  })
+  }, [])
   return (
     <div className="container">
       <h1 className="heading-1" id="teaching">

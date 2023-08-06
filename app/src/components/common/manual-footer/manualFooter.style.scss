@@ -1,4 +1,7 @@
 .manual-footer {
+  margin-top: 5.6rem;
+  border-top: 1px solid var(--clr-bg-500);
+  padding-top: 3.2rem;
   display: flex;
   justify-content: space-between;
 
@@ -17,5 +20,17 @@
   a:hover,
   a:active {
     color: var(--clr-primary-600);
+  }
+}
+
+@media (max-width: 800px) {
+  .manual-footer {
+    a:link,
+    a:visited {
+      font-size: 1.6rem;
+      span {
+        font-size: 1.6rem;
+      }
+    }
   }
 }

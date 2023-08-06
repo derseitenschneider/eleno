@@ -4,6 +4,9 @@ import { useEffect } from 'react'
 import ScrollToTop from '../../../../hooks/ScrollToTop'
 
 const TodosManual = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
   return (
     <div className="container">
       <h1 className="heading-1" id="todos">
