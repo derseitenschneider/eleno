@@ -1,22 +1,19 @@
 import './forgotPassword.style.scss'
 
-import { SetStateAction, FunctionComponent, useState } from 'react'
-import { TDisplayForm } from '../../types/types'
-import { recoverPasswordSupabase } from '../../supabase/users/users.supabase'
+import { useState } from 'react'
+
 import Button from '../common/button/Button.component'
 import Loader from '../common/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
-interface ForgotPasswordProps {
-  setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
-}
+import { useSearchParams } from 'react-router-dom'
 
-const ForgotPassword: FunctionComponent<ForgotPasswordProps> = ({
-  setDisplayForm,
-}) => {
+const ForgotPassword = () => {
   const [recoverSuccess, setRecoverSuccess] = useState(false)
   const [input, setInput] = useState('')
   const [isPending, setIsPending] = useState(false)
   const { recoverPassword } = useUser()
+
+  const [_, setSearchParams] = useSearchParams()
 
   const resetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,7 +58,7 @@ const ForgotPassword: FunctionComponent<ForgotPasswordProps> = ({
                 <button
                   className="button--remembered"
                   onClick={() => {
-                    setDisplayForm('login')
+                    setSearchParams({ page: 'login' })
                   }}
                 >
                   ...jetzt ist's mir wieder eingefallen 🙈

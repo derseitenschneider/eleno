@@ -1,25 +1,26 @@
 import './loginPage.style.scss'
-import { useState } from 'react'
 
 import Login from '../../components/login/Login.component'
-import { TDisplayForm } from '../../types/types'
+
 import Signup from '../../components/singup/Signup.component'
 import ForgotPassword from '../../components/forgotPassword/ForgotPassword.component'
 import Logo from '../../components/common/logo/Logo.component'
+import { useSearchParams } from 'react-router-dom'
 
 const LoginPage = () => {
-  const [displayForm, setDisplayForm] = useState<TDisplayForm>('login')
+  const [searchParams] = useSearchParams()
+
+  const page = searchParams.get('page')
 
   return (
     <div className="login-page">
       <div className="container--logo">
         <Logo />
       </div>
-      {displayForm === 'login' && <Login setDisplayForm={setDisplayForm} />}
-      {displayForm === 'signup' && <Signup setDisplayForm={setDisplayForm} />}
-      {displayForm === 'forgotPassword' && (
-        <ForgotPassword setDisplayForm={setDisplayForm} />
-      )}
+      {page === null && <Login />}
+      {page === 'login' && <Login />}
+      {page === 'signup' && <Signup />}
+      {page === 'reset-password' && <ForgotPassword />}
     </div>
   )
 }

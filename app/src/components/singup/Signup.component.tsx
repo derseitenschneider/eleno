@@ -1,16 +1,13 @@
 import './signup.style.scss'
-import { FunctionComponent, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import Button from '../common/button/Button.component'
 import { signUpSupabase } from '../../supabase/users/users.supabase'
 import Loader from '../common/loader/Loader'
-import { TDisplayForm } from '../../types/types'
+
 import Modal from '../modals/Modal.component'
 import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
 import TermsAndConditions from '../termsAndConditions/TermsAndConditions.component'
-
-interface SignupProps {
-  setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
-}
+import { useSearchParams } from 'react-router-dom'
 
 const dataSignup = {
   firstName: '',
@@ -20,13 +17,15 @@ const dataSignup = {
   password2: '',
 }
 
-const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
+const Signup = () => {
   const [input, setInput] = useState(dataSignup)
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
   const [modalPrivacyOpen, setModalPrivacyOpen] = useState(false)
   const [modalTermsOpen, setModalTermsOpen] = useState(false)
+
+  const [_, setSearchParams] = useSearchParams()
 
   const handlerinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
@@ -185,7 +184,7 @@ const Signup: FunctionComponent<SignupProps> = ({ setDisplayForm }) => {
                 <button
                   className="button--account-exists"
                   onClick={() => {
-                    setDisplayForm('login')
+                    setSearchParams({ page: 'login' })
                   }}
                 >
                   ☝️ Ich habe bereits ein Benutzerkonto

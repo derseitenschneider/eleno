@@ -1,17 +1,15 @@
 import './login.style.scss'
 
-import { FunctionComponent, SetStateAction, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Button from '../common/button/Button.component'
 import { loginSupabase } from '../../supabase/users/users.supabase'
-import { TDisplayForm } from '../../types/types'
 
-interface LoginProps {
-  setDisplayForm: React.Dispatch<SetStateAction<TDisplayForm>>
-}
+import { useSearchParams } from 'react-router-dom'
 
-const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
+const Login = () => {
   const [input, setInput] = useState({ email: '', password: '' })
   const [error, setError] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const inputRef = useRef(null)
 
@@ -28,6 +26,9 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
     e.preventDefault()
     try {
       await loginSupabase(input.email, input.password)
+
+      searchParams.delete('page')
+      setSearchParams(searchParams)
     } catch (error) {
       setError(true)
       setInput({ email: '', password: '' })
@@ -77,10 +78,10 @@ const Login: FunctionComponent<LoginProps> = ({ setDisplayForm }) => {
           <p className="error--message">Email/Passwort stimmen nicht überein</p>
         )}
         <div className="container--links">
-          <button onClick={() => setDisplayForm('signup')}>
+          <button onClick={() => setSearchParams({ page: 'signup' })}>
             🧐 Noch kein Benutzerkonto?
           </button>
-          <button onClick={() => setDisplayForm('forgotPassword')}>
+          <button onClick={() => setSearchParams({ page: 'reset-password' })}>
             😅 Passwort vergessen?
           </button>
         </div>

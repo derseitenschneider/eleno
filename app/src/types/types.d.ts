@@ -153,5 +153,3 @@ export type TTodo = {
   completed: boolean
   userId: string
 }
-
-export type TDisplayForm = 'login' | 'signup' | 'forgotPassword'
