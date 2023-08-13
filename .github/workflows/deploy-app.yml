@@ -1,4 +1,4 @@
-name: 🚀 Deploy on push main
+name: 🚀 Deploy app on push main
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Deploy App
     runs-on: ubuntu-latest
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}

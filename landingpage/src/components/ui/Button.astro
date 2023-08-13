@@ -2,12 +2,13 @@
 interface Props {
   type: 'primary' | 'secondary';
   link: string;
+  target?: string;
 }
 
-const { type, link } = Astro.props;
+const { type, link, target } = Astro.props;
 ---
 
-<a href={link} class={`button button--${type}`}>
+<a href={link} class={`button button--${type}`} target={target}>
   <slot />
 </a>
 
@@ -32,6 +33,8 @@ const { type, link } = Astro.props;
     &--primary:hover {
       background-color: var(--clr-primary-800);
       border: 1px solid var(--clr-primary-800);
+      box-shadow: var(--box-shadow);
+      transform: translateY(-2px);
     }
 
     &--secondary:link,
@@ -44,6 +47,8 @@ const { type, link } = Astro.props;
     &--secondary:hover {
       border: 1px solid var(--clr-primary-800);
       color: var(--clr-primary-800);
+      box-shadow: var(--box-shadow);
+      transform: translateY(-2px);
     }
   }
 </style>
