@@ -12,9 +12,8 @@ import Button from '../ui/Button.astro';
     unterrichten - <br /> mit dem Fokus auf's wesentliche
   </h1>
   <p class="subheading--hero">
-    <span class="text-emphasized">Eleno</span> - die Unterrichts-App, auf die wir
-    gewartet haben. Lektions-Tagebuch, Schülerverwaltung, Todos etc. Mit Eleno hast
-    du alles in einem Tool vereint.
+    <span class="text-emphasized">Eleno</span> - Lektions-Tagebuch, Schülerverwaltung,
+    Todos etc. Mit Eleno hast du alles in einem Tool vereint.
   </p>
   <div class="container--buttons">
     <Button
@@ -35,15 +34,20 @@ import Button from '../ui/Button.astro';
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding-block: 15rem;
+    min-height: calc(100dvh - 7.9rem);
 
     .logo {
-      width: 12rem;
+      width: clamp(8rem, 8vw, 12rem);
       margin-bottom: 3.2rem;
+      svg {
+        width: 100%;
+      }
     }
 
     .heading--hero {
-      font-size: 7.2rem;
+      font-size: clamp(4.8rem, 5vw, 8rem);
       font-weight: 400;
       line-height: 1.1;
       letter-spacing: -4.5px;
@@ -65,14 +69,17 @@ import Button from '../ui/Button.astro';
 
     .container--buttons {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 3.2rem;
     }
   }
 
   @media (max-width: 680px) {
     .section--hero {
+      padding-block: 10rem;
       .heading--hero {
-        font-size: 5.2rem;
+        // font-size: 5.2rem;
         letter-spacing: -2px;
       }
       .subheading--hero {

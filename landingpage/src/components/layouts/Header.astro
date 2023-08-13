@@ -2,9 +2,13 @@
 import Button from '../ui/Button.astro';
 import LogoHeader from '../../assets/logos/logo-header.astro';
 import Logo from '../../assets/logos/logo.astro';
+import { Icon } from 'astro-icon';
 ---
 
 <header class="header">
+  <button class="nav-toggle nav-open">
+    <Icon name="ri:align-right" />
+  </button>
   <nav class="desktop">
     <ul class="nav-left">
       <li class="nav-link nav-link--logo">
@@ -18,9 +22,9 @@ import Logo from '../../assets/logos/logo.astro';
       <li class="nav-link">
         <a href="https://app.eleno.net/manual" target="_blank">Docs</a>
       </li>
-      <li class="nav-link">
+      <!-- <li class="nav-link">
         <a href="#">Blog</a>
-      </li>
+      </li> -->
     </ul>
     <div class="nav-right">
       <Button
@@ -35,27 +39,40 @@ import Logo from '../../assets/logos/logo.astro';
       </Button>
     </div>
   </nav>
-  <nav class="mobile">
-    <a href="/">
-      <Logo />
-    </a>
 
-    <button class="nav-toggle">x</button>
-    <ul class="navlist">
-      <li class="nav-link--mobile"><a href="#">Demo</a></li>
-      <li class="nav-link--mobile"><a href="#">Docs</a></li>
-      <li class="nav-link--mobile"><a href="#">Blog</a></li>
-      <li class="nav-link--mobile">
-        <Button type="primary" link="https://app.eleno.net/signup">
+  <nav class="mobile">
+    <button class="nav-toggle nav-close">
+      <Icon name="ri:close-line" />
+    </button>
+    <ul class="nav-list">
+      <li class="nav-link">
+        <a href="https://demo.eleno.net" target="_blank">Demo</a>
+      </li>
+      <li class="nav-link">
+        <a href="https://app.eleno.net/manual" target="_blank">Docs</a>
+      </li>
+      <li>
+        <a href="/impressum">Impressum & Datenschutz</a>
+      </li>
+      <li>
+        <a href="/terms">AGB</a>
+      </li>
+      <li>
+        <a href="mailto:info@eleno.com">Kontakt</a>
+      </li>
+      <li class="nav-link btn-signup">
+        <Button
+          type="primary"
+          link="https://app.eleno.net/?page=signup"
+          target="_blank"
+        >
           Sign Up
         </Button>
       </li>
-      <li class="nav-link--mobile">
-        <a href="#">
-          <Button type="secondary" link="https://app.eleno.net/login">
-            Log In
-          </Button></a
-        >
+      <li class="nav-link">
+        <Button type="secondary" link="https://app.eleno.net/" target="_blank">
+          Log In
+        </Button>
       </li>
     </ul>
   </nav>
@@ -67,8 +84,35 @@ import Logo from '../../assets/logos/logo.astro';
     top: 0;
     background-color: var(--clr-bg-400);
     transition: all 0.45s ease;
+    z-index: 1000;
+
+    .nav-toggle {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      height: 4rem;
+      width: 4rem;
+      padding: 0.4rem;
+
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .nav-open {
+      background-color: var(--clr-bg-400);
+    }
     .mobile {
       display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: var(--clr-text-400);
+      color: var(--clr-bg-600);
+      transform: translateX(100%);
+
+      transition: transform 0.65s ease;
     }
     &.scrolled {
       box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
@@ -121,24 +165,43 @@ import Logo from '../../assets/logos/logo.astro';
   @media (max-width: 1084px) {
     .header {
       position: relative;
+
+      .nav-toggle {
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible;
+      }
+
       .desktop {
         display: none;
       }
-      .mobile {
-        display: none;
 
-        .nav-toggle {
-          position: fixed;
-          top: 0;
-          right: 0;
+      .mobile {
+        display: grid;
+        place-content: center;
+
+        .nav-list {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          align-items: center;
+          max-width: 20ch;
+          li {
+            font-size: 2rem;
+            text-align: center;
+          }
+
+          .btn-signup {
+            margin-top: 3rem;
+          }
         }
-        .navlist {
-          position: fixed;
-          top: 0;
-          rigth: 0;
-          height: 100vh;
-          width: 100vw;
-          background-color: var(--clr-primary-600);
+
+        .nav-close {
+          color: var(--clr-white);
+        }
+
+        &.open {
+          transform: translateX(0);
         }
       }
     }
@@ -147,9 +210,13 @@ import Logo from '../../assets/logos/logo.astro';
 
 <script>
   const header: HTMLElement | null = document.querySelector('.header');
-  const sectionFeatures = document.querySelector('.section--features');
+
   const buttonsHeader: NodeListOf<HTMLElement> | undefined =
     header?.querySelectorAll('.button');
+
+  const buttonOpenNav = document.querySelector('.nav-open');
+  const buttonCloseNav = document.querySelector('.nav-close');
+  const mobileNav = document.querySelector('.mobile');
 
   // Make header smaller on scroll
   document.addEventListener('scroll', () => {
@@ -173,26 +240,13 @@ import Logo from '../../assets/logos/logo.astro';
     }
   });
 
-  // Intersection observer
-  window.addEventListener('load', function () {
-    if (!header) return;
-    const margin = `${-window.innerHeight + header?.clientHeight}px`;
-    console.log(margin);
-    let options = {
-      root: null,
-      rootMargin: `826px 10px 826px 10px`,
-      threshold: 0,
-    };
-    let target = sectionFeatures;
+  // Nav toggle funcitonallity
 
-    // let callback = (entries) => {
-    //   entries.forEach((entry) => {
-    //     console.log(entry);
-    //   });
-    // };
-    // let observer = new IntersectionObserver(callback, options);
-    // if (target) {
-    //   observer.observe(target);
-    // }
+  buttonOpenNav?.addEventListener('click', function () {
+    mobileNav?.classList.add('open');
+  });
+
+  buttonCloseNav?.addEventListener('click', function () {
+    mobileNav?.classList.remove('open');
   });
 </script>

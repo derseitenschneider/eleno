@@ -5,17 +5,22 @@ interface Props {
   text: string;
   imgUrl: string;
   bgGraphicUrl: string;
-  underlineUrl: string;
+  Underline: any;
   direction: 'text-left' | 'text-right';
 }
 
-const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
-  Astro.props;
+const { title, text, imgUrl, bgGraphicUrl, Underline, direction } = Astro.props;
 ---
 
 <div class={`wrapper--feature ${direction}`}>
   <div class="container--text">
-    <h2 class="heading-secondary">{title}</h2>
+    <div class="heading-feature">
+      <h2 set:html={title} class="heading-secondary" />
+      <div class="container-underline">
+        <Underline />
+      </div>
+    </div>
+
     <p>{text}</p>
   </div>
   <div class="container--img">
@@ -47,10 +52,24 @@ const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
 
     .container--text {
       flex: 1;
-      .heading-secondary {
-        font-weight: 400;
-        line-height: 1;
-        margin-bottom: 4.8rem;
+
+      .heading-feature {
+        position: relative;
+        margin-bottom: 3.2rem;
+        width: fit-content;
+        .container-underline {
+          position: absolute;
+          width: 100%;
+          svg {
+            color: red;
+          }
+        }
+        .heading-secondary {
+          font-weight: 400;
+          margin-bottom: 0;
+          line-height: 1;
+          width: fit-content;
+        }
       }
       p {
         font-size: 1.8rem;
@@ -61,6 +80,7 @@ const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
       img {
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
+        width: 100%;
       }
     }
   }
@@ -79,6 +99,13 @@ const { title, text, imgUrl, bgGraphicUrl, underlineUrl, direction } =
       &.text-right {
         flex-direction: column;
       }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .wrapper--feature {
+      padding-inline: 0;
+      padding-block: 5.6rem;
     }
   }
 </style>

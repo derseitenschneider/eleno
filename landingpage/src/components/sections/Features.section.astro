@@ -4,38 +4,42 @@ import ScreenshotLesson from '../../assets/screenshots/screenshot-lesson.png';
 import ScreenshotStudent from '../../assets/screenshots/screenshot-students.png';
 import ScreenshotTodos from '../../assets/screenshots/screenshot-todo.png';
 
+import TagebuchUnderline from '../../assets/graphics/UnderlineTagebuch.astro';
+import UnderlineSchulerverwaltung from '../../assets/graphics/UnderlineSchulerverwaltung.astro';
+import UnderlineTodos from '../../assets/graphics/UnderlineTodos.astro';
+
 interface IFeatures {
   title: string;
   text: string;
   imgUrl: string;
   bgGraphicUrl: string;
-  underlineUrl: string;
+  underline: any;
   direction: 'text-left' | 'text-right';
 }
 
 const features: IFeatures[] = [
   {
-    title: 'Übersichtliches Lektions-Tagebuch',
+    title: 'Übersichtliches </br> Lektions-Tagebuch',
     text: 'Mit Eleno hast du den perfekten Überblick über deine Lektionen. Auf einen Blick siehst du, was du in der letzen Lektion gemacht bzw. besprochen hast und was die Hausaufgaben waren. Gleichzeitig kannst du ganz einfach die laufende Lektion dokumentieren und siehst zudem alle Notizen, die du dir zu der:dem entsprechenden Schüler:in gemacht hast.',
     imgUrl: ScreenshotLesson,
     bgGraphicUrl: '',
-    underlineUrl: '',
+    underline: TagebuchUnderline,
     direction: 'text-left',
   },
   {
-    title: 'Einfache Schülerverwaltung',
+    title: 'Einfache </br> Schülerverwaltung',
     text: 'Dank einfacher Verwaltung deiner Schülerdaten kannst du dich voll und ganz auf das Unterrichten konzentrieren. Deine Schüler:innen werden in der richtigen Reihenfolge dargestellt und wenn sich mal was ändert - oder auch gleich alles - hast du das in wenigen Handgriffen angepasst.',
     imgUrl: ScreenshotStudent,
     bgGraphicUrl: '',
-    underlineUrl: '',
+    underline: UnderlineSchulerverwaltung,
     direction: 'text-right',
   },
   {
-    title: 'Nie wieder schlecht vorbereitet',
+    title: 'Jederzeit </br> top vorbereitet',
     text: 'Deine Schülerin möchte unbedingt das neue Lied von Metallica lernen, und du hast ihr versprochen, es auf nächstes mal mitzubringen. Der nächste Schüler braucht ein neues Lehrmittel, das du erst noch bestellen musst. All das kannst du ganz einfach in deiner Todo-Liste erfassen und später erledigen.',
     imgUrl: ScreenshotTodos,
     bgGraphicUrl: '',
-    underlineUrl: '',
+    underline: UnderlineTodos,
     direction: 'text-left',
   },
 ];
@@ -49,7 +53,7 @@ const features: IFeatures[] = [
         text={feature.text}
         imgUrl={feature.imgUrl}
         bgGraphicUrl={feature.bgGraphicUrl}
-        underlineUrl={feature.underlineUrl}
+        Underline={feature.underline}
         direction={feature.direction}
       />
     ))
@@ -60,6 +64,6 @@ const features: IFeatures[] = [
   .section--features {
     background-color: var(--clr-bg-500);
     color: var(--clr-text-600);
-    padding-block: 10rem;
+    padding-block: 7.4rem;
   }
 </style>

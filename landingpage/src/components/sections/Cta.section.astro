@@ -6,7 +6,7 @@ import Check from '../../assets/logos/check.astro';
 <section class="section section--cta">
   <div class="wrapper-cta">
     <div class="container-left">
-      <h2 class="heading-secondary">Jetzt loslegen!</h2>
+      <h2 class="heading-tertiary">Jetzt loslegen!</h2>
       <p>
         Account anlegen, Schüler:innen erfassen - und los geht’s! <br />Alles,
         was du dafür brauchst, ist eine gültige Email-Adresse.
@@ -17,15 +17,21 @@ import Check from '../../assets/logos/check.astro';
     </div>
     <div class="container-right">
       <div class="row">
-        <Check />
+        <div class="container-check">
+          <Check />
+        </div>
         <span>Kostenlose Anmeldung</span>
       </div>
       <div class="row">
-        <Check />
+        <div class="container-check">
+          <Check />
+        </div>
         <span>Keine Downloads</span>
       </div>
       <div class="row">
-        <Check />
+        <div class="container-check">
+          <Check />
+        </div>
         <span>Sofort starten</span>
       </div>
     </div>
@@ -48,7 +54,7 @@ import Check from '../../assets/logos/check.astro';
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
       .container-left {
-        .heading-secondary {
+        .heading-tertiary {
           margin-bottom: 1.8rem;
         }
         p {
@@ -70,6 +76,15 @@ import Check from '../../assets/logos/check.astro';
             font-size: 2rem;
           }
         }
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .section--cta {
+      .wrapper-cta {
+        padding: 3.6rem 2rem;
+        gap: 4.2rem;
       }
     }
   }
