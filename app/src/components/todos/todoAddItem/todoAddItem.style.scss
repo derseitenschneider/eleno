@@ -34,3 +34,17 @@
     }
   }
 }
+
+@media (max-width: 680px) {
+  .container--add {
+    .inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+
+      .add-student {
+        padding: 0.8rem;
+      }
+    }
+  }
+}

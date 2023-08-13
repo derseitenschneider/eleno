@@ -19,6 +19,8 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [searchInput, setSearchInput] = useState('')
 
+  const width = window.innerWidth
+
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
       const target = e.target as HTMLElement
@@ -98,7 +100,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
               },
             }
           })}
-          positionX="right"
+          positionX={width > 680 ? 'right' : 'left'}
           positionY="top"
           searchField={true}
           valueSearchfield={searchInput}
