@@ -1,0 +1,122 @@
+---
+import Button from './Button.astro';
+---
+
+<div class="cookie-banner hidden">
+  <p class="cookie-banner__text">
+    Diese Website verwendet Cookies - nähere Informationen dazu und zu Ihren
+    Rechten finden Sie in meiner <a href="/impressum">Datenschutzerklärung</a>.
+    Klicken Sie auf "Akzeptieren", um Cookies zu akzeptieren oder "Ablehnen"
+    wenn Sie möchten, dass keine Cookies verwendet werden.
+  </p>
+
+  <div class="cookie-banner__buttons">
+    <button class="cookie-banner__btn cookie-banner__btn--primary"
+      >Akzeptieren</button
+    >
+    <button class="cookie-banner__btn cookie-banner__btn--secondary"
+      >Ablehnen</button
+    >
+  </div>
+</div>
+
+<style lang="scss">
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    // gap: 20%;
+    justify-content: space-between;
+
+    background-color: rgb(239 242 243);
+    width: 100%;
+    padding: 3.2rem;
+
+    transition: transform 0.85s ease;
+
+    box-shadow: -4px 0 6px rgba(0, 0, 0, 0.25);
+    &.hidden {
+      transform: translateY(100%);
+    }
+
+    &__text {
+      font-size: 1.6rem;
+      margin-bottom: 0;
+      padding-bottom: 2.4rem;
+      max-width: 90ch;
+      a:link,
+      a:visited {
+        color: var(--clr-primary-600);
+      }
+
+      a:hover,
+      a:active {
+        text-decoration: underline;
+      }
+    }
+    &__buttons {
+      display: flex;
+      gap: 1.2rem;
+      width: fit-content;
+
+      // margin: 0 auto;
+      // margin-left: auto;
+      align-self: center;
+    }
+
+    &__btn {
+      padding: 1.2rem;
+      border-radius: 8px;
+      &--primary {
+        background-color: var(--clr-primary-600);
+        color: #fff;
+      }
+
+      &--secondary {
+        color: var(--clr-primary-600);
+        border: 1px solid currentColor;
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .cookie-banner {
+      &__text {
+        // margin-bottom: 2.4rem;
+      }
+
+      &__buttons {
+        margin-left: 0;
+      }
+    }
+  }
+</style>
+
+<script>
+  const banner = document.querySelector('.cookie-banner');
+  const buttonAccept = document.querySelector('.cookie-banner__btn--primary');
+  const buttonDecline = document.querySelector(
+    '.cookie-banner__btn--secondary'
+  );
+
+  const showBanner = !localStorage.getItem('accept-cookies');
+
+  if (showBanner) {
+    setTimeout(function () {
+      banner?.classList.remove('hidden');
+    }, 1000);
+  }
+  buttonAccept?.addEventListener('click', function () {
+    localStorage.setItem('accept-cookies', 'yes');
+    banner?.classList.add('hidden');
+  });
+
+  buttonDecline?.addEventListener('click', function () {
+    localStorage.setItem('accept-cookies', 'no');
+    banner?.classList.add('hidden');
+  });
+</script>
