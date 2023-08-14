@@ -7,6 +7,7 @@ import TermsAndConditions from '../../../app/src/components/termsAndConditions/T
 <PageLayout>
   <main>
     <div class="section">
+      <h1 class="heading-primary">Allgemeine Geschäftsbestimmungen</h1>
       <TermsAndConditions />
     </div>
   </main>
@@ -15,5 +16,19 @@ import TermsAndConditions from '../../../app/src/components/termsAndConditions/T
 <style>
   .section {
     padding: 4rem 2rem;
+    margin: 0 auto;
+    max-width: 95rem;
+
+    .heading-primary {
+      margin-bottom: 3.2rem;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .section {
+      .heading-primary {
+        max-width: 66%;
+      }
+    }
   }
 </style>
