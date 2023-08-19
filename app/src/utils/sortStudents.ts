@@ -102,8 +102,9 @@ export const sortStudents = (students: TStudent[], sorting: TSorting) => {
       }
       break
     case 'dayOfLesson':
+      const sortedbyTime = students.sort(compareTime)
       if (sorting.ascending) {
-        return students.sort(compareDays)
+        return sortedbyTime.sort(compareDays)
       }
       if (!sorting.ascending) {
         return students.sort(compareDays).reverse()
