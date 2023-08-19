@@ -42,4 +42,12 @@ const { title, text } = Astro.props;
       font-size: 1.8rem;
     }
   }
+
+  @media screen and (max-width: 680px) {
+    .card {
+      &__title {
+        font-size: 2.4rem;
+      }
+    }
+  }
 </style>

@@ -57,9 +57,12 @@ const { title, text, imgUrl, bgGraphicUrl, Underline, direction } = Astro.props;
         position: relative;
         margin-bottom: 3.2rem;
         width: fit-content;
+        isolation: isolate;
         .container-underline {
           position: absolute;
+          bottom: -8px;
           width: 100%;
+          z-index: -1;
           svg {
             color: red;
           }
