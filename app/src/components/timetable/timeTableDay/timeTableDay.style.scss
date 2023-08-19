@@ -14,14 +14,15 @@
     .heading-3 {
       color: var(--clr-text-600);
     }
-    .meta-info {
-    }
   }
   .row {
     display: grid;
     padding: var(--padding);
-    grid-template-columns: 10rem 15rem 10rem 1fr;
+    grid-template-columns: 10rem 15rem 10rem 1fr 2rem;
     column-gap: 2.4rem;
+    .btn-go-to {
+      color: var(--clr-primary-400);
+    }
 
     &:nth-child(odd) {
       background-color: var(--clr-bg-500);

@@ -28,11 +28,12 @@ import Button from './Button.astro';
 
     display: flex;
     flex-wrap: wrap;
+    gap: 2.4rem;
 
     // gap: 20%;
     justify-content: space-between;
 
-    background-color: rgb(239 242 243);
+    background-color: var(--clr-bg-600);
     width: 100%;
     padding: 3.2rem;
 
@@ -46,7 +47,7 @@ import Button from './Button.astro';
     &__text {
       font-size: 1.6rem;
       margin-bottom: 0;
-      padding-bottom: 2.4rem;
+      // padding-bottom: 2.4rem;
       max-width: 90ch;
       a:link,
       a:visited {

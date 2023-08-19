@@ -11,11 +11,11 @@ const Welcome = () => {
       <p>
         Herzlich willkommen bei Eleno. Schön, dass du dich entschieden hast,
         smart zu unterrichten. Ziel von Eleno ist es, die administrative Seite
-        des instrumentalen Unterrichts zu erleichter. Du wirst dadurch natürlich
-        nicht automatisch eine bessere Geigenlehrerin oder ein besserer
-        Schlagzeuglehrer. Aber du kannst dich während des Unterrichtens
+        des instrumentalen Unterrichts zu erleichtern. Du wirst dadurch
+        natürlich nicht automatisch eine bessere Geigenlehrerin oder ein
+        besserer Schlagzeuglehrer. Aber du kannst dich während des Unterrichtens
         vollumfänglich auf die Hauptsache konzentrieren - deinen Schüler:innen
-        ablenkungsfrei den bestmöglichen Unterricht gewährleisten.
+        ablenkungsfrei den bestmöglichen Unterricht zu gewährleisten.
       </p>
 
       <Image

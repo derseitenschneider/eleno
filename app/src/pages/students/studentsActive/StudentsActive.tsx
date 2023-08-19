@@ -7,17 +7,17 @@ import { TSorting, TSortingMethods } from '../../../types/types'
 import { IoSearchOutline, IoAddOutline } from 'react-icons/io5'
 
 // Hooks
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
-import { NavLink, useActionData } from 'react-router-dom'
+
 import { sortStudents } from '../../../utils/sortStudents'
 import { toast } from 'react-toastify'
 
 // Components
 import Button from '../../../components/common/button/Button.component'
-import NoStudents from '../../../components/common/noContent/NoContent.component'
+
 import StudentList from '../../../components/students/studentlist/StudentList.component'
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
 
@@ -69,6 +69,8 @@ export default function StudentsActive() {
     const input = e.target.value
     setSearchInput(input)
   }
+
+  // [ ] sort students by time
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 

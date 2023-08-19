@@ -1,6 +1,6 @@
 import './timetable.style.scss'
 import { useEffect } from 'react'
-import TimeTableDay from '../../components/timeTableDay/TimetableDay.component'
+import TimeTableDay from '../../components/timetable/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { TTimetableDay } from '../../types/types'

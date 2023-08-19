@@ -1,6 +1,8 @@
 import { FunctionComponent } from 'react'
-import { TTimetableDay } from '../../types/types'
+import { TTimetableDay } from '../../../types/types'
+
 import './timeTableDay.style.scss'
+import TimeTableRow from '../timetableRow/TimetableRow.component'
 interface TimeTableDayProps {
   day: TTimetableDay
 }
@@ -14,21 +16,7 @@ const TimeTableDay: FunctionComponent<TimeTableDayProps> = ({ day }) => {
         <span>Anz. Schüler:innen: {day.students.length}</span>
       </div>
       {day.students.map((student) => (
-        <div className="row" key={student.id}>
-          <div>
-            {student.startOfLesson && (
-              <>
-                {student.startOfLesson} - {student.endOfLesson}
-              </>
-            )}
-          </div>
-
-          <div>
-            {student.firstName} {student.lastName}
-          </div>
-          <div>{student.instrument}</div>
-          <div>{student.location}</div>
-        </div>
+        <TimeTableRow currentStudent={student} key={student.id} />
       ))}
     </div>
   )
