@@ -1,6 +1,6 @@
 import './newLesson.style.scss'
 
-import { FunctionComponent, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../../common/button/Button.component'
 import CustomEditor from '../../common/customEditor/CustomEditor.component'
 
@@ -9,14 +9,12 @@ import { useLessons } from '../../../contexts/LessonsContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 import { formatDateToDatabase } from '../../../utils/formateDate'
 import { TLesson } from '../../../types/types'
+import { useStudents } from '../../../contexts/StudentContext'
 
-interface NewLessonProps {
-  studentId: number
-}
-
-const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
+const NewLesson = () => {
   const [date, setDate] = useState('')
   const [lessonContent, setLessonContent] = useState('')
+  const { currentStudentId } = useStudents()
   const [homework, setHomework] = useState('')
   const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
@@ -27,8 +25,10 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       .split('.')
       .map((e) => e.padStart(2, '0'))
       .join('.')
-    if (drafts.some((draft) => draft.studentId === studentId)) {
-      const currentDraft = drafts.find((draft) => draft.studentId === studentId)
+    if (drafts.some((draft) => draft.studentId === currentStudentId)) {
+      const currentDraft = drafts.find(
+        (draft) => draft.studentId === currentStudentId
+      )
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
 
@@ -42,26 +42,29 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
       setHomework('')
       setDate(today)
     }
-  }, [studentId, drafts])
+  }, [currentStudentId, drafts])
 
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
     if (input && window.innerWidth > 1084) {
       input && input.focus()
     }
-  }, [studentId])
+  }, [currentStudentId])
 
   function handleLessonContent(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setLessonContent(e.target.value)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === studentId)) {
+      if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
-          draft.studentId === studentId
+          draft.studentId === currentStudentId
             ? { ...draft, lessonContent: e.target.value, date }
             : draft
         )
       } else {
-        return [...prev, { studentId, lessonContent: e.target.value, date }]
+        return [
+          ...prev,
+          { studentId: currentStudentId, lessonContent: e.target.value, date },
+        ]
       }
     })
   }
@@ -70,14 +73,17 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
     setHomework(e.target.value)
 
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === studentId)) {
+      if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
-          draft.studentId === studentId
+          draft.studentId === currentStudentId
             ? { ...draft, homework: e.target.value, date }
             : draft
         )
       } else {
-        return [...prev, { studentId, homework: e.target.value, date }]
+        return [
+          ...prev,
+          { studentId: currentStudentId, homework: e.target.value, date },
+        ]
       }
     })
   }
@@ -89,14 +95,14 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
   const handlerInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === studentId)) {
+      if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
-          draft.studentId === studentId
+          draft.studentId === currentStudentId
             ? { ...draft, date: e.target.value }
             : draft
         )
       } else {
-        return [...prev, { studentId, date: e.target.value }]
+        return [...prev, { studentId: currentStudentId, date: e.target.value }]
       }
     })
   }
@@ -116,12 +122,14 @@ const NewLesson: FunctionComponent<NewLessonProps> = ({ studentId }) => {
         lessonContent,
         homework,
         date,
-        studentId,
+        studentId: currentStudentId,
       }
       await saveNewLesson(newLesson)
       setLessonContent('')
       setHomework('')
-      setDrafts((prev) => prev.filter((draft) => draft.studentId !== studentId))
+      setDrafts((prev) =>
+        prev.filter((draft) => draft.studentId !== currentStudentId)
+      )
       toast('Lektion gespeichert')
     } catch (err) {
       fetchErrorToast()

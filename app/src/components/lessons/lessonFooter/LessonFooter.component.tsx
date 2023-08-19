@@ -2,27 +2,24 @@ import './lessonFooter.style.scss'
 import { FunctionComponent } from 'react'
 import Button from '../../common/button/Button.component'
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
-interface LessonFooterProps {
-  studentIndex: number
-  setStudentIndex: React.Dispatch<React.SetStateAction<number>>
-  activeStudentsIds: number[]
-}
+import { useStudents } from '../../../contexts/StudentContext'
 
-const LessonFooter: FunctionComponent<LessonFooterProps> = ({
-  studentIndex,
-  setStudentIndex,
-  activeStudentsIds,
-}) => {
+const LessonFooter = ({}) => {
+  const {
+    activeSortedStudentIds,
+    currentStudentIndex,
+    setCurrentStudentIndex,
+  } = useStudents()
   const handlerPreviousStudent = () => {
-    studentIndex > 0
-      ? setStudentIndex(studentIndex - 1)
-      : setStudentIndex(activeStudentsIds.length - 1)
+    currentStudentIndex > 0
+      ? setCurrentStudentIndex(currentStudentIndex - 1)
+      : setCurrentStudentIndex(activeSortedStudentIds.length - 1)
   }
 
   const handlerNextStudent = () => {
-    studentIndex < activeStudentsIds.length - 1
-      ? setStudentIndex(studentIndex + 1)
-      : setStudentIndex(0)
+    currentStudentIndex < activeSortedStudentIds.length - 1
+      ? setCurrentStudentIndex(currentStudentIndex + 1)
+      : setCurrentStudentIndex(0)
   }
   return (
     <footer className="footer--lessons">

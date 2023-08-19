@@ -29,7 +29,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
   type,
   children,
 }) => {
-  const { students, setStudentIndex } = useStudents()
+  const { students, setCurrentStudentIndex } = useStudents()
   const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
@@ -49,7 +49,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
       (student) => student.id === todo.studentId
     )
 
-    setStudentIndex(index)
+    setCurrentStudentIndex(index)
 
     navigate('/lessons')
   }

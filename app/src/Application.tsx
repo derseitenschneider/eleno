@@ -15,9 +15,9 @@ export default function Application() {
       <Toast />
       <LoadingProvider>
         <AuthProvider>
-          <Sidebar />
           <NavbarMobile />
           <MainContext>
+            <Sidebar />
             <Main>
               <Outlet />
             </Main>

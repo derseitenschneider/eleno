@@ -30,7 +30,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     archivateStudents,
     reactivateStudents,
     deleteStudents,
-    setStudentIndex,
+    setCurrentStudentIndex,
   } = useStudents()
   const [modalOpen, setModalOpen] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
@@ -94,7 +94,7 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
     const index = filteredSortedStudents.findIndex(
       (student) => student.id === studentId
     )
-    setStudentIndex(index)
+    setCurrentStudentIndex(index)
 
     navigate('/lessons')
   }

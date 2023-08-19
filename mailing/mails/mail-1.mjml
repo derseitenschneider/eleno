@@ -1,0 +1,62 @@
+
+<mjml >
+  <mj-head>
+   <mj-font name="DM Sans" href="https://fonts.googleapis.com/css2?family=DM+Sans" />
+  </mj-head>
+   <mj-style inline="inline">
+      .link-nostyle { color: inherit; text-decoration: none }
+    </mj-style>
+  <mj-body background-color="#3F4045"  >
+    <mj-section  background-color="#Fff">
+      <mj-column>
+        <mj-image href="https://eleno.net" target="_blank" width="150px" align="left" src="https://eleno.net/og-img.png"></mj-image>
+
+
+        
+        <mj-text font-size="32px" color="#484E53" align="left"  font-weight="200" font-family="DM Sans" padding-bottom="40px">
+          Smart unterrichten - </br> mit dem Fokus auf’s wesentliche</mj-text>
+      
+      <mj-text font-size="16px" color="#484E53" font-family="DM Sans">
+        Liebe Instrumentallehrpersonen      
+      </mj-text>
+
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px">
+       Pünktlich zum Schulstart (jedenfalls im Kanton Bern) möchte ich euch heute meine neue Unterrichts-App vorstellen: 
+       <a 
+        href="https://eleno.net" 
+        target="_blank"
+        style="color: #4794AE; text-decoration: none;" 
+        >Eleno</a>.    
+      </mj-text>
+      <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
+      Mit Eleno kannst du ganz einfach dein Unterrichts-Tagebuch führen, deine Schüler:innen verwalten, Notizen und Todos erstellen etc. Und das alles online.
+       </mj-text>
+       <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+       Alles an einem Ort
+      </mj-text>
+
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
+       Nie mehr ein Durcheinander mit Excel-Sheets oder Google-Docs. Mit Eleno hast du deine Lektionsnotizen, Todos und Unterrichtsdaten zentral an einem Ort.
+       </mj-text>
+
+           <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+       Überall & jederzeit verfügbar
+
+      </mj-text>
+
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
+   Du kannst von überall aus und jederzeit geräteunabhängig auf deine Daten in Eleno zugreifen
+       </mj-text>
+
+              <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+       Schnell & effizient </mj-text>
+
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
+  Mit Eleno hast du die komplette Übersicht. Mit wenigen Klicks bist du bei deinen Lektionsnotizen und kannst dich so komplett auf’s Unterrichten konzentrieren.
+       </mj-text>
+
+       
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

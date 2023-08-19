@@ -15,15 +15,18 @@ import { useLessons } from './LessonsContext'
 import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons/lessons.supabase'
 import { useNotes } from './NotesContext'
 import { fetchNotesByStudent } from '../supabase/notes/notes.supabase'
+import { sortStudentsDateTime } from '../utils/sortStudents'
 
 export const StudentsContext = createContext<ContextTypeStudents>({
   students: [],
   setStudents: () => {},
-  studentIndex: 0,
-  setStudentIndex: () => {},
+  currentStudentIndex: 0,
+  setCurrentStudentIndex: () => {},
+  currentStudentId: 0,
   isPending: false,
   setIsPending: () => {},
   activeStudents: [],
+  activeSortedStudentIds: [],
   archivedStudents: [],
   resetLessonData: () => new Promise(() => {}),
   saveNewStudents: () => new Promise(() => {}),
@@ -36,7 +39,7 @@ export const StudentsContext = createContext<ContextTypeStudents>({
 export const StudentsProvider = ({ children }) => {
   const { user } = useUser()
   const [students, setStudents] = useState([])
-  const [studentIndex, setStudentIndex] = useState(0)
+  const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
 
@@ -44,6 +47,12 @@ export const StudentsProvider = ({ children }) => {
 
   const activeStudents = students.filter((student) => !student.archive)
   const archivedStudents = students.filter((student) => student.archive)
+
+  const activeSortedStudentIds: number[] = sortStudentsDateTime(
+    students.filter((student) => !student.archive)
+  ).map((student) => student.id)
+
+  const currentStudentId = activeSortedStudentIds[currentStudentIndex]
 
   const resetLessonData = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
@@ -141,12 +150,14 @@ export const StudentsProvider = ({ children }) => {
   const value = {
     students,
     setStudents,
-    studentIndex,
-    setStudentIndex,
+    currentStudentIndex,
+    setCurrentStudentIndex,
+    currentStudentId,
     isPending,
     setIsPending,
     activeStudents,
     archivedStudents,
+    activeSortedStudentIds,
     resetLessonData,
     saveNewStudents,
     archivateStudents,

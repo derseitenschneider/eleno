@@ -1,5 +1,5 @@
 import './lessonHeader.style.scss'
-import { FunctionComponent, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import { IoEllipsisVertical } from 'react-icons/io5'
 
@@ -9,14 +9,8 @@ import Modal from '../../modals/Modal.component'
 import TodoAddItem from '../../todos/todoAddItem/TodoAddItem.component'
 import DropDown from '../../common/dropdown/Dropdown.component'
 
-interface LessonHeaderProps {
-  currentStudentId: number
-}
-
-const LessonHeader: FunctionComponent<LessonHeaderProps> = ({
-  currentStudentId,
-}) => {
-  const { students } = useStudents()
+const LessonHeader = () => {
+  const { students, currentStudentId } = useStudents()
   const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false)
   const [modalAddTodoOpen, setModalAddTodoOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)

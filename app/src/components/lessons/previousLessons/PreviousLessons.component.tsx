@@ -16,24 +16,26 @@ import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.com
 import Modal from '../../modals/Modal.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 import parse from 'html-react-parser'
+import { useSearchParams } from 'react-router-dom'
+import { useStudents } from '../../../contexts/StudentContext'
 
-interface PreviousLessonsProps {
-  currentStudentId: number
-  previousLessonsIds: number[]
-}
+type TModals = 'edit-lesson' | 'view-all' | 'delete-lesson' | ''
 
-const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
-  currentStudentId,
-  previousLessonsIds,
-}) => {
+const PreviousLessons = ({}) => {
   const { lessons, deleteLesson } = useLessons()
+  const { currentStudentId } = useStudents()
 
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
-  const [modalEditLessonOpen, setModalEditLessonOpen] = useState(false)
-  const [modalViewAllOpen, setModalViewAllOpen] = useState(false)
-  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+
+  const [modalOpen, setModalOpen] = useState<TModals>('')
   const [tabIndex, setTabIndex] = useState(0)
   const [isPending, setIsPending] = useState(false)
+
+  const previousLessonsIds = lessons
+    .filter((lesson) => lesson.studentId === currentStudentId)
+    ?.slice(-3)
+    .map((lesson) => lesson.id)
+    .reverse()
 
   const prevLessonsSorted = previousLessonsIds
     .map((prevLesson) => {
@@ -68,7 +70,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
   }, [lessons, currentStudentId])
 
   const deleteHandler = async () => {
-    setModalDeleteOpen(false)
+    setModalOpen('')
     try {
       setIsPending(true)
       await deleteLesson(previousLessonsIds[tabIndex])
@@ -103,7 +105,7 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               <button
                 className="tab"
                 onClick={() => {
-                  setModalViewAllOpen(true)
+                  setModalOpen('view-all')
                 }}
               >
                 ...
@@ -150,14 +152,14 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
                   {
                     label: 'Lektion bearbeiten',
                     handler: () => {
-                      setModalEditLessonOpen(true)
+                      setModalOpen('edit-lesson')
                     },
                     type: 'normal',
                   },
                   {
                     label: 'Lektion löschen',
                     handler: () => {
-                      setModalDeleteOpen(true)
+                      setModalOpen('delete-lesson')
                     },
                     type: 'warning',
                   },
@@ -165,39 +167,39 @@ const PreviousLessons: FunctionComponent<PreviousLessonsProps> = ({
               />
             ) : null}
           </div>
-          {modalEditLessonOpen && (
+          {modalOpen === 'edit-lesson' && (
             <ModalEditLesson
               handleClose={() => {
-                setModalEditLessonOpen(false)
+                setModalOpen('')
               }}
               previousLessonsIds={previousLessonsIds}
               tabIndex={tabIndex}
             />
           )}
-          {modalViewAllOpen && (
+          {modalOpen === 'view-all' && (
             <ModalViewLessons
               handlerClose={() => {
-                setModalViewAllOpen(false)
+                setModalOpen('')
               }}
               studentId={currentStudentId}
             />
           )}
 
-          {modalDeleteOpen && (
+          {modalOpen === 'delete-lesson' && (
             <Modal
               heading="Lektion löschen"
               handlerClose={() => {
-                setModalDeleteOpen(false)
+                setModalOpen('')
               }}
               handlerOverlay={() => {
-                setModalDeleteOpen(false)
+                setModalOpen('')
               }}
               buttons={[
                 {
                   label: 'Abbrechen',
                   btnStyle: 'primary',
                   handler: () => {
-                    setModalDeleteOpen(false)
+                    setModalOpen('')
                   },
                 },
                 {

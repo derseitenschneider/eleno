@@ -41,7 +41,7 @@ export const mainRouter = createBrowserRouter(
           element: <Dashboard />,
         },
         {
-          path: `students`,
+          path: 'students',
           element: <Students />,
           children: [
             {
@@ -60,7 +60,7 @@ export const mainRouter = createBrowserRouter(
           element: <Timetable />,
         },
         {
-          path: `lessons`,
+          path: 'lessons',
           element: <Lessons />,
         },
         {

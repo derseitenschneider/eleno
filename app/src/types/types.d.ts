@@ -73,12 +73,14 @@ export type ContextTypeTodos = {
 export type ContextTypeStudents = {
   students: TStudent[] | null
   setStudents: React.Dispatch<React.SetStateAction<TStudent[]>>
-  studentIndex: number
-  setStudentIndex: React.Dispatch<React.SetStateAction<number>>
+  currentStudentIndex: number
+  setCurrentStudentIndex: React.Dispatch<React.SetStateAction<number>>
+  currentStudentId: number
   isPending: boolean
   setIsPending: React.Dispatch<React.SetStateAction<boolean>>
   activeStudents: TStudent[] | null
   archivedStudents: TStudent[] | null
+  activeSortedStudentIds: number[]
   resetLessonData: (ids: number[]) => Promise<void>
   saveNewStudents: (students: TStudent[]) => Promise<void>
   archivateStudents: (ids: number | number[]) => Promise<void>

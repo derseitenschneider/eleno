@@ -1,0 +1,14 @@
+{
+  "name": "mailing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "mjml mails/mail-1.mjml --config.minify true -o mail-1.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mjml": "^4.14.1"
+  }
+}

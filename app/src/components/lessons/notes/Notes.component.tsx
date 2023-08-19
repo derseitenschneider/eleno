@@ -1,15 +1,14 @@
 import './notes.style.scss'
-import { FunctionComponent, useState } from 'react'
+import { useState } from 'react'
 import { useNotes } from '../../../contexts/NotesContext'
 import Button from '../../common/button/Button.component'
 import Note from '../note/Note.component'
 import { IoAddOutline } from 'react-icons/io5'
 import ModalAddNote from '../../modals/modalAddNotes/ModalAddNote.component'
-interface NotesProps {
-  currentStudentId: number
-}
+import { useStudents } from '../../../contexts/StudentContext'
 
-const Notes: FunctionComponent<NotesProps> = ({ currentStudentId }) => {
+const Notes = () => {
+  const { currentStudentId } = useStudents()
   const { notes } = useNotes()
   const [modalOpen, setModalOpen] = useState(false)
 

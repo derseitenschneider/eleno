@@ -20,7 +20,7 @@ interface MainProps {
 const Main: FunctionComponent<MainProps> = ({ children }) => {
   const { user } = useUser()
   const { closestStudentIndex } = useClosestStudent()
-  const { setStudentIndex } = useStudents()
+  const { setCurrentStudentIndex } = useStudents()
   const [isPending, setIsPending] = useState(true)
   const { setStudents, students } = useStudents()
   const { setLessons } = useLessons()
@@ -30,7 +30,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    setStudentIndex(closestStudentIndex)
+    setCurrentStudentIndex(closestStudentIndex)
   }, [closestStudentIndex])
 
   useEffect(() => {

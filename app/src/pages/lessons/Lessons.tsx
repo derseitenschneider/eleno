@@ -1,7 +1,7 @@
 import './lessons.style.scss'
 
 // React
-import { FunctionComponent, useEffect } from 'react'
+import { useEffect } from 'react'
 
 // Types
 
@@ -11,67 +11,43 @@ import { useLoading } from '../../contexts/LoadingContext'
 
 // Functions
 
-import { sortStudentsDateTime } from '../../utils/sortStudents'
-
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'
 import Notes from '../../components/lessons/notes/Notes.component'
 import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
 import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
-import { useLessons } from '../../contexts/LessonsContext'
+
 import NoContent from '../../components/common/noContent/NoContent.component'
 
 const Lesson = () => {
   const { loading } = useLoading()
-  const { students, studentIndex, setStudentIndex } = useStudents()
-  const { lessons } = useLessons()
+  const { currentStudentIndex, activeSortedStudentIds } = useStudents()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [studentIndex])
+  }, [currentStudentIndex])
 
-  const activeStudentsIds: number[] = sortStudentsDateTime(
-    students.filter((student) => !student.archive)
-  ).map((student) => student.id)
-
-  const currentStudentId = activeStudentsIds[studentIndex]
-
-  const previousLessonsIds = lessons
-    .filter((lesson) => lesson.studentId === currentStudentId)
-    ?.slice(-3)
-    .map((lesson) => lesson.id)
-    .reverse()
-
-  if (activeStudentsIds.length && !loading)
+  if (activeSortedStudentIds.length && !loading)
     return (
-      <>
-        <div className="lessons">
-          <LessonHeader currentStudentId={currentStudentId} />
+      <div className="lessons">
+        <LessonHeader />
 
-          <main className="main">
-            <PreviousLessons
-              currentStudentId={currentStudentId}
-              previousLessonsIds={previousLessonsIds}
-            />
-            <NewLesson studentId={currentStudentId} />
-          </main>
+        <main className="main">
+          <PreviousLessons />
+          <NewLesson />
+        </main>
 
-          <aside className="aside">
-            <Notes currentStudentId={currentStudentId} />
-          </aside>
-          <LessonFooter
-            studentIndex={studentIndex}
-            setStudentIndex={setStudentIndex}
-            activeStudentsIds={activeStudentsIds}
-          />
-        </div>
-      </>
+        <aside className="aside">
+          <Notes />
+        </aside>
+        <LessonFooter />
+      </div>
     )
 
-  if (!activeStudentsIds.length && !loading)
+  if (!activeSortedStudentIds.length && !loading)
     return (
       <NoContent
         heading="Keine aktiven Schüler:innen"

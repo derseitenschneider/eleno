@@ -19,7 +19,7 @@ import { formatDateToDatabase } from '../../utils/formateDate'
 
 function Dashboard() {
   const { user } = useUser()
-  const { students, activeStudents, archivedStudents, setStudentIndex } =
+  const { students, activeStudents, archivedStudents, setCurrentStudentIndex } =
     useStudents()
 
   const { loading, setLoading } = useLoading()
@@ -48,7 +48,7 @@ function Dashboard() {
   )
 
   const navigateToClosestStudent = () => {
-    setStudentIndex(closestStudentIndex)
+    setCurrentStudentIndex(closestStudentIndex)
   }
 
   return (

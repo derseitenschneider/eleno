@@ -19,12 +19,19 @@ import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 import { useStudents } from '../../contexts/StudentContext'
 import { useUser } from '../../contexts/UserContext'
+import { sortStudentsDateTime } from '../../utils/sortStudents'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
-  const { activeStudents } = useStudents()
+  const { students, currentStudentIndex, activeStudents } = useStudents()
   const { logout } = useUser()
+
+  const activeStudentsIds: number[] = sortStudentsDateTime(
+    students.filter((student) => !student.archive)
+  ).map((student) => student.id)
+
+  const currentStudentId = activeStudentsIds[currentStudentIndex]
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen)
@@ -77,7 +84,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="lessons" className="sidebar__nav-link">
+                <NavLink to={`lessons`} className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoSchoolOutline className="icon" />
                   </div>
