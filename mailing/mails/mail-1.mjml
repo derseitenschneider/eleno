@@ -13,7 +13,7 @@
 
 
         
-        <mj-text font-size="32px" color="#484E53" align="left"  font-weight="200" font-family="DM Sans" padding-bottom="40px">
+        <mj-text font-size="32px" color="#484E53" align="left"  font-weight="200" font-family="DM Sans" padding-bottom="32px">
           Smart unterrichten - </br> mit dem Fokus auf’s wesentliche</mj-text>
       
       <mj-text font-size="16px" color="#484E53" font-family="DM Sans">
@@ -21,7 +21,7 @@
       </mj-text>
 
        <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px">
-       Pünktlich zum Schulstart (jedenfalls im Kanton Bern) möchte ich euch heute meine neue Unterrichts-App vorstellen: 
+       Vor knapp einer Woche habe ich pünktlich zum Schulstart (jedenfalls im Kanton Bern) meine neue Unterrichts-App veröffentlicht: 
        <a 
         href="https://eleno.net" 
         target="_blank"
@@ -31,7 +31,7 @@
       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
       Mit Eleno kannst du ganz einfach dein Unterrichts-Tagebuch führen, deine Schüler:innen verwalten, Notizen und Todos erstellen etc. Und das alles online.
        </mj-text>
-       <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+       <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" padding-bottom='0px' padding-top="0px">
        Alles an einem Ort
       </mj-text>
 
@@ -39,7 +39,7 @@
        Nie mehr ein Durcheinander mit Excel-Sheets oder Google-Docs. Mit Eleno hast du deine Lektionsnotizen, Todos und Unterrichtsdaten zentral an einem Ort.
        </mj-text>
 
-           <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+           <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" padding-bottom='0px' padding-top="0px">
        Überall & jederzeit verfügbar
 
       </mj-text>
@@ -48,14 +48,35 @@
    Du kannst von überall aus und jederzeit geräteunabhängig auf deine Daten in Eleno zugreifen
        </mj-text>
 
-              <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" >
+              <mj-text font-size="18px" color="#484E53" font-family="DM Sans" line-height="0px" padding-bottom='0px' padding-top="0px" >
        Schnell & effizient </mj-text>
 
        <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px">
   Mit Eleno hast du die komplette Übersicht. Mit wenigen Klicks bist du bei deinen Lektionsnotizen und kannst dich so komplett auf’s Unterrichten konzentrieren.
        </mj-text>
 
-       
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px" padding-top="0px" >
+       Eleno ist gratis und für alle verfügbar. Ich würde mich sehr darüber freuen, wenn du's in deinem Unterricht einsetzt und mir Rückmeldungen gibst. Und du darfst es sehr gerne weiterempfehlen!
+       </mj-text>
+
+        
+
+       <mj-button font-size="16px" background-color="#4794AE" href="https://app.eleno.net/?page=signup">
+        Account anlegen
+       </mj-button>
+
+         <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px" padding-top="40px" >
+       Falls du Fragen oder Verbesserungsvorschläge hast, darfst du mich jederzeit Kontaktieren.
+       </mj-text>
+        <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="20px" padding-top="0px" >
+     Liebe Grüsse
+       </mj-text>
+          <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="40px" padding-top="0px" >
+          Brian
+       </mj-text>
+       <mj-text font-size="16px" color="#484E53" font-family="DM Sans" line-height="24px" padding-bottom="20px" padding-top="0px" >
+      Ps. Falls du jemanden kennst, den diese App interessieren könnte, darfst du diese Email sehr gerne weiterleiten!
+       </mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

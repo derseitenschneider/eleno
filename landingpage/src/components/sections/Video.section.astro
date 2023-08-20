@@ -1,0 +1,51 @@
+---
+---
+
+<div class="section section--video">
+  <h2 class="heading-secondary">Eleno in Action</h2>
+  <div class="container--video">
+    <div class="wrapper--video">
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/1m73XK3rp74?si=uO7w4FJgfEtJ6QV4"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  .section--video {
+    padding-block: 14rem;
+    padding-inline: 6.2rem;
+    text-align: center;
+
+    .container--video {
+      max-width: 90rem;
+      margin: 0 auto;
+    }
+    .wrapper--video {
+      position: relative;
+      padding-top: 56.25%;
+    }
+    iframe {
+      border-radius: 8px;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0%;
+      top: 0%;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .section--video {
+      padding-inline: 2rem;
+      padding-top: 10rem;
+      padding-bottom: 5rem;
+    }
+  }
+</style>

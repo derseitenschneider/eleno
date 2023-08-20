@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "mjml mails/mail-1.mjml --config.minify true -o mail-1.html"
+    "build": "mjml mails/mail-2.mjml --config.minify true -o mail-1.html"
   },
   "author": "",
   "license": "ISC",
