@@ -19,6 +19,8 @@ import parse from 'html-react-parser'
 import { useSearchParams } from 'react-router-dom'
 import { useStudents } from '../../../contexts/StudentContext'
 
+// [ ] padding bottom (s. Benjamin Häusler 23.08.)
+
 type TModals = 'edit-lesson' | 'view-all' | 'delete-lesson' | ''
 
 const PreviousLessons = ({}) => {

@@ -24,6 +24,16 @@
     [type='date']::-webkit-calendar-picker-indicator {
       margin: 0;
     }
+
+    &:hover {
+      .wrapper-student {
+        .button--remove-student {
+          opacity: 1;
+          pointer-events: all;
+          visibility: visible;
+        }
+      }
+    }
   }
 
   .container--buttons {

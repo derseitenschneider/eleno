@@ -3,6 +3,7 @@ import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 import { sortStudents } from '../../../utils/sortStudents'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
+import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../common/button/Button.component'
 import DropDown from '../../common/dropdown/Dropdown.component'
 
@@ -76,7 +77,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
             className="button--remove-student"
             onClick={() => setCurrentStudentId(null)}
           >
-            x
+            <IoCloseOutline />
           </button>
         </div>
       ) : (

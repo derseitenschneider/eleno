@@ -7,6 +7,7 @@ import Modal from '../Modal.component'
 import Button from '../../common/button/Button.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+
 interface ModalEditTodoProps {
   closeModal: () => void
   todoId: number
@@ -41,7 +42,7 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
     try {
       await updateTodo({
         ...currentTodo,
-        due: currentTodo.due.length ? currentTodo.due : null,
+        due: currentTodo.due || null,
       })
       closeModal()
       toast('Änderungen gespeichert.')

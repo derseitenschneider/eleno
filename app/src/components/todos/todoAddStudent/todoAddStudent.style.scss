@@ -4,35 +4,7 @@
   gap: 1.2rem;
 
   svg {
-    height: 2rem !important;
-    width: 2rem !important;
-  }
-
-  &:hover .button--remove-student {
-    opacity: 1;
-    pointer-events: all;
-    visibility: visible;
-  }
-
-  .wrapper-student {
-    position: relative;
-
-    .student {
-      padding: 0.6rem 2.4rem 0.6rem 1.2rem;
-      background-color: var(--clr-primary-600);
-      color: var(--clr-white);
-      width: fit-content;
-      cursor: pointer;
-    }
-  }
-  .button--remove-student {
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-55%);
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    color: var(--clr-warning);
+    height: 2rem;
+    width: 2rem;
   }
 }
