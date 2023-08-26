@@ -1,61 +1,31 @@
 # Features
 
 ## Lessons
-- Keyboard navigation between students
+
 - Header 
-  - Create Todo for chosen student
-  - Hide edit student button on mobile
 
-- Improve next student view -> at the end of the day checkout next day
 
-- Overview: Pagination by year/semester
-- Overview: Print/pdf lesson overview
 
-- Notes
-  - Drag & Drop notes
+
+
+
+
   
-- Footer
-  - Metronome
-  - Data store (pdf)
-  - music player
-  - Tuner
-  - Timer
 
 ## Timetable
-- Print timetable
-- create new timetable
-- diverse Ansichtsoptionen (einzelne Tage, Instrument/Minutenzahl ein/ausblenden etc)
 
 ## Dashboard
-- Membership anzeigen und allenfalls für pro werben
-- Toast bei überfälligen todos
 
 
 ## Students
-- Massenbearbeitung
-- Partial resets (checkboxes) for lesson Data
-- Auto Focus on edit student input
 
 
 # Overall
-- Option "Admin benachrichtigen" bei fetchErrorToast
-- English and German translation
-- Animations
-- Tooltips
-- Notify mobile users to better use tablet/desktop
 
 ## Payment
-- Rechnungen in Settings
 
 
 ##
-- Kalender download
-- Student import (intern oder via Datei zb. .csv o.ä.)
-- Student export (intern oder via .csv)
-- SuS Jahrgang, Spieldauer
-- Lektionsrating pro Sus/Lektionsrating
-- Absenzen-Checkbox und Liste
-- Gesamte Adresse erfassen
 
 
 # Architecture/Dev
