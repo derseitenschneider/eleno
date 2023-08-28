@@ -1,13 +1,17 @@
 import './studentsActive.style.scss'
 
 // Types
-import { TSorting, TSortingMethods } from '../../../types/types'
+import {
+  TModalsActiveStudents,
+  TSorting,
+  TSortingMethods,
+} from '../../../types/types'
 
 // Icons
 import { IoSearchOutline, IoAddOutline } from 'react-icons/io5'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
@@ -22,7 +26,7 @@ import StudentList from '../../../components/students/studentlist/StudentList.co
 import ModalAddStudent from '../../../components/modals/modalAddStudent/ModalAddStudent.component'
 
 import Modal from '../../../components/modals/Modal.component'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import NoContent from '../../../components/common/noContent/NoContent.component'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
 
@@ -31,8 +35,8 @@ export default function StudentsActive() {
   const navigate = useNavigate()
   const { archivateStudents, resetLessonData, activeStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
-  const [modalAddOpen, setModalAddOpen] = useState(false)
-  const [modalResetOpen, setModalResetOpen] = useState(false)
+
+  const [modalOpen, setModalOpen] = useState<TModalsActiveStudents>()
   const [sorting, setSorting] = useState<TSorting>({
     method: 'lastName',
     ascending: true,
@@ -40,6 +44,16 @@ export default function StudentsActive() {
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [isPending, setIsPending] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    const modal = searchParams.get('modal') as TModalsActiveStudents
+    if (modal) {
+      setModalOpen(modal)
+    }
+  }, [])
+
+  console.log(modalOpen)
 
   const filteredStudents = activeStudents?.filter(
     (student) =>
@@ -65,12 +79,15 @@ export default function StudentsActive() {
 
   // HANDLER-FUNCTIONS //
 
+  const closeModal = () => {
+    setModalOpen(null)
+    setSearchParams('')
+  }
+
   const handlerSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value
     setSearchInput(input)
   }
-
-  // [ ] sort students by time
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
@@ -99,7 +116,7 @@ export default function StudentsActive() {
     }
 
     if (inputAction === 2) {
-      setModalResetOpen(true)
+      setModalOpen('reset')
       setInputAction(0)
     }
   }
@@ -108,7 +125,7 @@ export default function StudentsActive() {
     setIsPending(true)
     try {
       await resetLessonData(isSelected)
-      setModalResetOpen(false)
+      closeModal()
       setIsSelected([])
       setInputAction(null)
     } catch (error) {
@@ -162,7 +179,7 @@ export default function StudentsActive() {
                   />
 
                   <Button
-                    handler={() => setModalAddOpen((prev) => !prev)}
+                    handler={() => setModalOpen('add-student')}
                     btnStyle="primary"
                     type="button"
                     label="Neu"
@@ -188,7 +205,7 @@ export default function StudentsActive() {
             buttons={[
               {
                 label: 'Neue Schüler:innen erfassen',
-                handler: () => setModalAddOpen((prev) => !prev),
+                handler: () => setModalOpen('add-student'),
               },
               {
                 label: 'Aus Archiv wiederherstellen',
@@ -206,26 +223,19 @@ export default function StudentsActive() {
           </NoContent>
         )}
       </div>
-      {modalAddOpen && (
-        <ModalAddStudent handlerClose={() => setModalAddOpen(false)} />
+      {modalOpen === 'add-student' && (
+        <ModalAddStudent handlerClose={closeModal} />
       )}
-      {modalResetOpen && (
+      {modalOpen === 'reset' && (
         <Modal
-          handlerClose={() => {
-            setModalResetOpen((prev) => !prev)
-          }}
-          handlerOverlay={() => {
-            setModalResetOpen((prev) => !prev)
-          }}
+          handlerClose={closeModal}
           heading="Unterrichtsdaten zurücksetzen"
           className={isPending ? 'loading' : ''}
           buttons={[
             {
               label: 'Abbrechen',
               btnStyle: 'primary',
-              handler: () => {
-                setModalResetOpen((prev) => !prev)
-              },
+              handler: closeModal,
             },
             {
               label: 'Zurücksetzen',

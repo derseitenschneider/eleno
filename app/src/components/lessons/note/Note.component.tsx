@@ -90,7 +90,6 @@ const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
           heading="Notiz löschen"
           className={`${isPending ? 'loading' : null}`}
           handlerClose={() => setModalDeleteOpen(false)}
-          handlerOverlay={() => setModalDeleteOpen(false)}
           buttons={[
             {
               label: 'Abbrechen',

@@ -56,7 +56,6 @@ const ModalEditPassword: FunctionComponent<ModalEditPassword> = ({
       className={`modal--edit-password ${isPending ? 'loading' : ''}`}
       heading="Passwort ändern"
       handlerClose={closeModal}
-      handlerOverlay={closeModal}
       buttons={[
         { label: 'Abbrechen', btnStyle: 'secondary', handler: closeModal },
         {

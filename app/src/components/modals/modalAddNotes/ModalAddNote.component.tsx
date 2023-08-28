@@ -61,7 +61,6 @@ const ModalAddNote: FunctionComponent<ModalAddNoteProps> = ({
       className={`modal--notes ${isPending ? ' loading' : ''}`}
       heading="Neue Notiz erstellen"
       handlerClose={toggleModal}
-      handlerOverlay={toggleModal}
       buttons={[
         {
           label: 'Speichern',

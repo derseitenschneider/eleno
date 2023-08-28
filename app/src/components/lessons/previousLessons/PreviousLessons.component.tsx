@@ -193,9 +193,6 @@ const PreviousLessons = ({}) => {
               handlerClose={() => {
                 setModalOpen('')
               }}
-              handlerOverlay={() => {
-                setModalOpen('')
-              }}
               buttons={[
                 {
                   label: 'Abbrechen',

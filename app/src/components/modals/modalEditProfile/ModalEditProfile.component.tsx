@@ -50,7 +50,6 @@ const ModalEditProfile: FunctionComponent<ModalEditProfile> = ({
       className={`modal--profile ${isPending ? 'loading' : ''}`}
       heading="Profil bearbeiten"
       handlerClose={closeModal}
-      handlerOverlay={closeModal}
       buttons={[
         { label: 'Abbrechen', btnStyle: 'secondary', handler: closeModal },
         { label: 'Speichern', btnStyle: 'primary', handler: updateHandler },

@@ -7,6 +7,7 @@
   --clr-primary-600: #4794ae;
   --clr-primary-400: hsl(195, 42%, 70%);
   // --clr-primary-400: hsl(195, 43%, 90%);
+  --clr-text-200: #b7b8b8;
   --clr-text-400: #d5d6d7;
   --clr-text-600: #f1f1f1;
   --clr-warning: rgb(193, 70, 70);
@@ -39,6 +40,7 @@
     --clr-bg-400: #faf9f9;
     --clr-bg-500: #eeeeee;
     --clr-bg-600: #e7e7e7;
+    --clr-text-200: #6f6f6f;
     --clr-text-400: #454545;
     --clr-text-600: #202020;
   }
@@ -71,12 +73,6 @@ svg,
 picture {
   display: block;
 }
-
-// img,
-// picture {
-//   height: 100%;
-//   width: 100%;
-// }
 
 ul {
   list-style: none;
@@ -197,6 +193,7 @@ input[type='number'] {
 
 .container {
   padding: 2rem 3.2rem;
+  // background-color: var(--clr-bg-400);
 }
 
 .container--login {
@@ -237,7 +234,8 @@ input[type='number'] {
 }
 
 @media (max-width: 480px) {
-  *::-webkit-scrollbar *::-webkit-scrollbar-track,
+  *::-webkit-scrollbar,
+  *::-webkit-scrollbar-track,
   *::-webkit-scrollbar-thumb {
     width: 0 !important;
     color: transparent;

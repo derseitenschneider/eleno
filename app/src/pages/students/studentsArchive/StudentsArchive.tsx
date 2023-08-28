@@ -133,7 +133,6 @@ function StudentsArchive() {
           heading="Ausgewählte Schüler:innen löschen?"
           className={isPending ? 'loading' : ''}
           handlerClose={() => setModalOpen((prev) => !prev)}
-          handlerOverlay={() => setModalOpen((prev) => !prev)}
           buttons={[
             {
               label: 'Abbrechen',

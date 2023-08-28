@@ -1,0 +1,30 @@
+.quick-links {
+  grid-area: quick-links;
+
+  &__content {
+    display: flex;
+    gap: 3.2rem;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.35s ease;
+
+    .icon {
+      height: 1.8rem;
+      width: 1.8rem;
+    }
+
+    &:hover {
+      color: var(--clr-primary-600);
+    }
+
+    p {
+      margin-bottom: 0;
+      font-size: 1.6rem;
+    }
+  }
+}

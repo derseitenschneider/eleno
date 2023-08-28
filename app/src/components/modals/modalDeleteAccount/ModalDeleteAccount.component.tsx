@@ -40,7 +40,6 @@ const ModalDeleteAccount: FunctionComponent<ModalDeleteAccount> = ({
       className="modal--delete-account"
       heading="Benutzerkonto löschen"
       handlerClose={closeModal}
-      handlerOverlay={closeModal}
       buttons={[
         { label: 'Abbrechen', btnStyle: 'secondary', handler: closeModal },
         {

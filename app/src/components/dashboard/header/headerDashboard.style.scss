@@ -1,0 +1,13 @@
+.header-dashboard {
+  grid-area: header;
+  .heading-1 {
+    margin-bottom: 0;
+  }
+  .container-message {
+    padding-top: 2rem;
+
+    .welcome-message {
+      font-size: 1.6rem;
+    }
+  }
+}

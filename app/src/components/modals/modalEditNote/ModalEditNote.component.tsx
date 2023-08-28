@@ -66,7 +66,6 @@ const ModalEditNote: FunctionComponent<ModalEditNoteProps> = ({
       className={`modal--notes ${isPending ? 'loading' : ''}`}
       heading="Notiz bearbeiten"
       handlerClose={closeModal}
-      handlerOverlay={closeModal}
       buttons={[
         {
           label: 'Speichern',

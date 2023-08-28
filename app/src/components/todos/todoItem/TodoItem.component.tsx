@@ -196,7 +196,6 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
       {modalDeleteOpen && (
         <Modal
           heading="Todo löschen?"
-          handlerOverlay={() => setModalDeleteOpen(false)}
           handlerClose={() => setModalDeleteOpen(false)}
           className={isPending ? 'loading' : ''}
           buttons={[

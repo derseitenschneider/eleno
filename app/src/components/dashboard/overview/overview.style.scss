@@ -1,0 +1,41 @@
+.overview {
+  grid-area: overview;
+  // border-top: 1px solid var(--clr-bg-400);
+  // height: 100%;
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: stretch;
+  }
+
+  .card {
+    // background-color: var(--clr-bg-400);
+    // border: 1px solid var(--clr-bg-600);
+    color: var(--clr-text-400);
+    padding: 2rem 3.2rem;
+    flex: 1;
+
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-cards);
+
+    transition: color 0.4s ease;
+
+    p {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  &__students {
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__todos {
+    .todos-overdue {
+      color: var(--clr-warning);
+    }
+  }
+}

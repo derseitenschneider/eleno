@@ -1,83 +1,33 @@
 .dashboard {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 70rem;
+  padding: 0.6rem;
+
   display: grid;
+  grid-template-columns: 3fr 1fr;
   grid-template-rows: auto auto 1fr auto;
-  .container-message {
-    border-bottom: 1px solid var(--clr-bg-400);
-  }
+  gap: 0.6rem;
 
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    // gap: 3rem;
-    row-gap: 3rem;
-    justify-items: space-between;
-  }
+  grid-template-areas:
+    'header header'
+    'quick-links aside'
+    'overview aside'
+    'footer footer';
 
-  .welcome-message {
-    font-size: 1.6rem;
-  }
+  background-color: var(--clr-bg-600);
 
-  .card {
-    text-align: center;
-
-    background-color: var(--clr-bg-400);
-    color: var(--clr-text-400);
-    padding: 2rem;
-    width: 25rem;
-
+  & > *:not(.footer--dashboard) {
+    background-color: var(--clr-bg-500);
+    padding: 2.8rem;
     border-radius: 8px;
-    box-shadow: var(--box-shadow-cards);
-
-    transition: color 0.4s ease;
-
-    p {
-      margin-bottom: 0.5em;
-    }
-
-    hr {
-      border-top: 0.5px solid var(--clr-primary-600);
-      border-bottom: 0.5px solid var(--clr-primary-600);
-    }
-
-    &:hover {
-      color: var(--clr-text-600);
-    }
-    .icon {
-      display: block;
-      margin: 0 auto;
-      height: 2.4rem;
-      width: 2.4rem;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .card-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.2rem;
-    }
-
-    &__details--warning {
-      color: var(--clr-warning);
-    }
+    box-shadow: var(--box-shadow);
   }
+}
 
-  .footer--dashboard {
-    color: var(--clr-darkgrey);
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3.2rem;
-
-    padding: 1.4rem 3.2rem;
-    .links {
-      display: flex;
-      gap: 1rem;
-    }
-    .copyright {
-      font-size: 1rem;
-    }
+@media (max-width: 1000px) {
+  .dashboard {
+    height: auto;
+    min-height: 100vh;
   }
 }
 
@@ -87,36 +37,6 @@
       .heading-1 {
         margin-bottom: 0;
         line-height: 1;
-      }
-    }
-
-    .grid-container {
-      grid-template-columns: 1fr;
-    }
-
-    .card {
-      width: 100%;
-
-      &--students {
-        display: none;
-      }
-    }
-
-    .footer--dashboard {
-      flex-direction: column;
-      gap: 1.2rem;
-      align-items: center;
-      text-align: center;
-
-      a {
-        display: block;
-      }
-      .links {
-        display: block;
-        a {
-          margin-bottom: 0.8rem;
-          display: block;
-        }
       }
     }
   }

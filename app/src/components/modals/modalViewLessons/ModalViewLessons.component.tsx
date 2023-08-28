@@ -49,7 +49,6 @@ const ModalViewLessons: FunctionComponent<ModalViewLessonsProps> = ({
     <Modal
       heading={`Lektionsliste ${studentName}`}
       handlerClose={handlerClose}
-      handlerOverlay={handlerClose}
       className="view-lessons"
     >
       {isPending && <Loader loading={isPending} />}

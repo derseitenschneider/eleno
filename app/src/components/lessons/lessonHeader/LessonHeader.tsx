@@ -106,9 +106,6 @@ const LessonHeader = () => {
           handlerClose={() => {
             setModalAddTodoOpen(false)
           }}
-          handlerOverlay={() => {
-            setModalAddTodoOpen(false)
-          }}
           className="modal--add-todo"
         >
           <TodoAddItem

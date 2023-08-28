@@ -56,7 +56,6 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
   return (
     <Modal
       heading="Todo berabeiten"
-      handlerOverlay={closeModal}
       handlerClose={closeModal}
       className={`modal--edit-todo ${isPending ? 'loading' : ''}`}
     >

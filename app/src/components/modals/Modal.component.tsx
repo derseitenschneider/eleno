@@ -6,7 +6,7 @@ import Button from '../common/button/Button.component'
 interface ModalProps {
   heading?: string
   children?: ReactNode
-  handlerOverlay: (e: React.MouseEvent) => void
+
   handlerClose: () => void
   className?: string
   buttons?: {
@@ -21,7 +21,7 @@ interface ModalProps {
 const Modal: FunctionComponent<ModalProps> = ({
   heading,
   children,
-  handlerOverlay,
+
   handlerClose,
   buttons,
   className,
@@ -63,7 +63,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             ))}
           </div>
         ) : null}
-        <div onClick={handlerOverlay} className="overlay"></div>
+        <div onClick={handlerClose} className="overlay"></div>
       </div>
     </div>
   )

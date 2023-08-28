@@ -74,7 +74,6 @@ const ModalEditLesson: FunctionComponent<ModalEditLessonProps> = ({
   return (
     <Modal
       heading="Lektion bearbeiten"
-      handlerOverlay={handleClose}
       handlerClose={handleClose}
       className="modal--edit-lesson"
       buttons={[

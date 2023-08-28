@@ -291,7 +291,6 @@ const StudentRow: FunctionComponent<StudentRowProps> = ({
       {modalOpen && isArchive && (
         <Modal
           handlerClose={() => setModalOpen((prev) => !prev)}
-          handlerOverlay={() => setModalOpen((prev) => !prev)}
           heading="Schüler:in löschen?"
           buttons={[
             {

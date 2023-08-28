@@ -206,7 +206,6 @@ const Signup = () => {
         <Modal
           heading="Impressum & Datenschutz"
           handlerClose={() => setModalPrivacyOpen(false)}
-          handlerOverlay={() => setModalPrivacyOpen(false)}
           className="modal--privacy-policy"
         >
           <PrivacyPolicy />
@@ -216,7 +215,6 @@ const Signup = () => {
         <Modal
           heading="Allgemeine Geschäftsbedingungen"
           handlerClose={() => setModalTermsOpen(false)}
-          handlerOverlay={() => setModalTermsOpen(false)}
           className="modal--terms"
         >
           <TermsAndConditions

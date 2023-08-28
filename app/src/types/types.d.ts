@@ -155,3 +155,11 @@ export type TTodo = {
   completed: boolean
   userId: string
 }
+
+export type TNews = {
+  date: string
+  title: string
+  text: string
+}
+
+export type TModalsActiveStudents = 'add-student' | 'reset'

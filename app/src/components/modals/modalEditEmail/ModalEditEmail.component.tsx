@@ -61,7 +61,6 @@ const ModalEditEmail: FunctionComponent<ModalEditEmailProps> = ({
       heading={
         !success ? 'Email-Adresse ändern' : 'Bestätige deine Email-Adresse'
       }
-      handlerOverlay={closeModal}
       handlerClose={closeModal}
       className={`modal--edit-email ${isPending ? 'loading' : ''}`}
       buttons={

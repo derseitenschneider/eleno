@@ -80,7 +80,6 @@ const ModalEditStudent: FunctionComponent<ModalEditStudentProps> = ({
     <Modal
       heading="Schüler:in berabeiten"
       handlerClose={handlerClose}
-      handlerOverlay={handlerClose}
       buttons={[]}
       className={`modal--edit-student ${isPending ? 'loading' : ''}`}
     >

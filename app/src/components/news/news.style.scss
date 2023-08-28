@@ -1,0 +1,36 @@
+.news {
+  grid-area: aside;
+  align-self: stretch;
+
+  // border-left: 1px solid var(--clr-bg-400);
+
+  overflow: hidden;
+
+  .wrapper-news {
+    height: 100%;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+  .news-item {
+    .date {
+      color: var(--clr-text-200);
+    }
+
+    .heading-4 {
+      margin-bottom: 0.8rem;
+    }
+
+    .news-text {
+      margin-bottom: 0;
+      max-width: 60ch;
+    }
+
+    &:not(:last-child) {
+      padding-bottom: 2.8rem;
+      margin-bottom: 2.8rem;
+      border-bottom: 1px solid var(--clr-bg-400);
+    }
+  }
+}

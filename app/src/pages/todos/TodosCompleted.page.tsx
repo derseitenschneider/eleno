@@ -63,7 +63,6 @@ const TodosCompleted = () => {
         <Modal
           heading="Todos löschen?"
           handlerClose={() => setIsModalOpen(false)}
-          handlerOverlay={() => setIsModalOpen(false)}
           className={isPending ? 'loading' : ''}
           buttons={[
             {

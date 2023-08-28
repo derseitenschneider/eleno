@@ -80,7 +80,6 @@ const ModalAddStudent: FunctionComponent<ModalAddStudentProps> = ({
     <Modal
       heading="Neue Schüler:in erfassen"
       handlerClose={handlerClose}
-      handlerOverlay={handlerClose}
       buttons={[]}
       className={'modal--add-student'}
     >
