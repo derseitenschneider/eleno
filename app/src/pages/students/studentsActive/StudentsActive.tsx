@@ -53,8 +53,6 @@ export default function StudentsActive() {
     }
   }, [])
 
-  console.log(modalOpen)
-
   const filteredStudents = activeStudents?.filter(
     (student) =>
       student.firstName

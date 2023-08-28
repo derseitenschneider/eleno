@@ -7,12 +7,14 @@ import { version } from '../../../../package.json'
 const FooterDashboard = () => {
   const { dateToday } = useDateToday()
   return (
-    <footer className="footer--dashboard">
+    <footer className="footer-dashboard">
       <div className="links">
         <Link to={'terms'}>Allgemeine Geschäftsbedingungen</Link>
         <Link to={'privacy'}>Impressum & Datenschutz</Link>
       </div>
-      <a href="mailto:info@eleno.net">Kontakt</a>
+      <div className="contact">
+        <a href="mailto:info@eleno.net">Kontakt</a>
+      </div>
       <span className="copyright">
         Copyright © {dateToday.substring(5)} by{' '}
         <a href="https://derseitenschneider.ch" target="_blank">

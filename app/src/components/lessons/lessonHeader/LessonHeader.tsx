@@ -65,7 +65,6 @@ const LessonHeader = () => {
                     label: 'Schüler:in bearbeiten',
                     handler: () => {
                       setModalEditStudentOpen(true)
-                      console.log('students')
                     },
                     type: 'normal',
                   },

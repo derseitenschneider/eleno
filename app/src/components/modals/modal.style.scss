@@ -83,6 +83,12 @@
 
 body:has(.overlay) {
   overflow: hidden;
+  overflow-y: scroll;
+}
+
+body:has(.overlay) #root {
+  overflow-y: hidden;
+  max-height: 100vh;
 }
 
 @media (max-width: 1084px) {

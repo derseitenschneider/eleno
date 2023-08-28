@@ -38,4 +38,16 @@
       color: var(--clr-warning);
     }
   }
+
+  @media screen and (max-width: 62.5em) {
+    &__content {
+      flex-direction: column;
+    }
+  }
+
+  @media screen and (max-width: 30em) {
+    .card {
+      padding: 1.8rem;
+    }
+  }
 }

@@ -25,7 +25,7 @@ const Overview = () => {
   )
 
   return (
-    <div className="container overview">
+    <div className="overview">
       <h2 className="heading-2">Übersicht</h2>
       <div className="overview__content">
         <div className="card overview__students">

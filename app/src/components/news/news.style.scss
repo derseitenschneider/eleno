@@ -1,14 +1,23 @@
 .news {
   grid-area: aside;
-  align-self: stretch;
-
-  // border-left: 1px solid var(--clr-bg-400);
-
+  position: relative;
   overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.8rem;
+    background-color: inherit;
+  }
 
   .wrapper-news {
     height: 100%;
     overflow-y: auto;
+    padding-bottom: 8rem;
+    margin-bottom: 18rem;
     &::-webkit-scrollbar {
       width: 0;
     }
@@ -30,7 +39,17 @@
     &:not(:last-child) {
       padding-bottom: 2.8rem;
       margin-bottom: 2.8rem;
-      border-bottom: 1px solid var(--clr-bg-400);
+      border-bottom: 1px solid var(--clr-bg-600);
+    }
+  }
+
+  @media screen and (max-width: 56.25em) {
+    height: max-content;
+
+    .wrapper-news {
+      padding-bottom: 0;
+      margin-bottom: 0;
+      max-height: 50rem;
     }
   }
 }

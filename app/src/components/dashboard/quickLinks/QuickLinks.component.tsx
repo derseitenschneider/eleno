@@ -20,7 +20,7 @@ const QuickLinks = () => {
   }
 
   return (
-    <div className="container quick-links">
+    <div className="quick-links">
       <h2 className="heading-2">Quick-Links</h2>
       <div className="quick-links__content">
         <Link

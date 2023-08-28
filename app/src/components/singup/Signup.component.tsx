@@ -64,9 +64,7 @@ const Signup = () => {
         )
       }
       setIsPending(false)
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
   return (
     <>

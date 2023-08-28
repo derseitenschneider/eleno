@@ -5,14 +5,14 @@ import NewsItem from './newsItem/NewsItem.component'
 import news from './news'
 
 interface NewsProps {}
-console.log(news)
+
 const News: FunctionComponent<NewsProps> = () => {
   const sortedNews = news.sort(
     (a, b) => Date.parse(b.date) - Date.parse(a.date)
   )
 
   return (
-    <aside className="container news">
+    <aside className="news">
       <h2 className="heading-2">News</h2>
       <div className="wrapper-news">
         {sortedNews

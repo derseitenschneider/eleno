@@ -4,7 +4,7 @@ import { useUser } from '../../../contexts/UserContext'
 const HeaderDashboard = () => {
   const { user } = useUser()
   return (
-    <header className="container header-dashboard">
+    <header className="header-dashboard">
       <h1 className="heading-1">Dashboard</h1>
 
       <div className="container-message">

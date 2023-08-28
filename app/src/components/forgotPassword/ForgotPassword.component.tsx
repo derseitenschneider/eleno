@@ -24,9 +24,7 @@ const ForgotPassword = () => {
       setRecoverSuccess(true)
       setInput('')
       setIsPending(false)
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
   return (
     <>
