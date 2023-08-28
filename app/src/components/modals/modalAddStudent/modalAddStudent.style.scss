@@ -7,8 +7,12 @@
     column-gap: 0.2rem;
     margin-bottom: 1rem;
 
+    &.labels {
+      margin-bottom: 0;
+    }
     .label {
       padding: 0.8rem;
+      padding-bottom: 0.2rem;
     }
 
     .button--delete-row {
