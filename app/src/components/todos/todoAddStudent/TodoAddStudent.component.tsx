@@ -59,12 +59,12 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
     <div className="add-student">
       {currentStudentId ? (
         <div
-          className="wrapper-student"
+          className="add-student__wrapper"
           onClick={() => {
             setDropdownOpen((prev) => !prev)
           }}
         >
-          <span className="student">
+          <span className="add-student__student">
             {`${
               students.find((student) => student.id === currentStudentId)
                 .firstName
@@ -74,10 +74,10 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
             }`}
           </span>
           <button
-            className="button--remove-student"
+            className="add-student__btn-remove"
             onClick={() => setCurrentStudentId(null)}
           >
-            <IoCloseOutline />
+            <IoCloseOutline className="add-student__icon" />
           </button>
         </div>
       ) : (

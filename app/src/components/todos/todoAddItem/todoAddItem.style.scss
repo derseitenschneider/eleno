@@ -34,12 +34,10 @@
     }
 
     &:hover {
-      .wrapper-student {
-        .button--remove-student {
-          opacity: 1;
-          pointer-events: all;
-          visibility: visible;
-        }
+      .add-student__btn-remove {
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible;
       }
     }
   }
