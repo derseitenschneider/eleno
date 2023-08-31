@@ -59,37 +59,39 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
       handlerClose={closeModal}
       className={`modal--edit-todo ${isPending ? 'loading' : ''}`}
     >
-      <div className="inputs">
-        <input
-          type="text"
-          name="text"
-          value={currentTodo.text}
-          onChange={onChangeHandler}
-        />
-        <TodoAddStudent
-          currentStudentId={currentTodo.studentId}
-          setCurrentStudentId={setStudent}
-        />
-        {currentTodo.due ? (
-          <span
-            className="date"
-            onClick={() =>
-              setCurrentTodo((prev) => {
-                return { ...prev, due: '' }
-              })
-            }
-          >
-            {formatDateToDisplay(currentTodo.due).slice(0, 6)}
-          </span>
-        ) : (
+      <div className="container--add">
+        <div className="inputs">
           <input
-            type="date"
-            name="due"
-            className="datepicker"
-            value={currentTodo.due}
+            type="text"
+            name="text"
+            value={currentTodo.text}
             onChange={onChangeHandler}
           />
-        )}
+          <TodoAddStudent
+            currentStudentId={currentTodo.studentId}
+            setCurrentStudentId={setStudent}
+          />
+          {currentTodo.due ? (
+            <span
+              className="date"
+              onClick={() =>
+                setCurrentTodo((prev) => {
+                  return { ...prev, due: '' }
+                })
+              }
+            >
+              {formatDateToDisplay(currentTodo.due).slice(0, 6)}
+            </span>
+          ) : (
+            <input
+              type="date"
+              name="due"
+              className="datepicker"
+              value={currentTodo.due}
+              onChange={onChangeHandler}
+            />
+          )}
+        </div>
       </div>
       <div className="container--buttons">
         <Button
