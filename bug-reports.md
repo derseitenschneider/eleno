@@ -1,0 +1,3 @@
+- [ ] Datepicker not visible on IOS
+- [ ] Freitag wird übersprungen
+- [ ] Zoom on Textfields on mobile devices

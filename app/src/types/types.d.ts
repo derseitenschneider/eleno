@@ -163,3 +163,12 @@ export type TNews = {
 }
 
 export type TModalsActiveStudents = 'add-student' | 'reset'
+
+export type TWeekday =
+  | 'Montag'
+  | 'Dienstag'
+  | 'Mittwoch'
+  | 'Donnerstag'
+  | 'Freitag'
+  | 'Samstag'
+  | 'Sonntag'

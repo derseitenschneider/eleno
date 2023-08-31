@@ -47,6 +47,8 @@
 
 - [ ] Drag & Drop Notes
 
+- [ ] User can choose dashboard layout (tiles or list)
+
 - [ ] Export timetable as calendar-data
 
 - [ ] Import/Export students & lessons
@@ -56,3 +58,5 @@
 - [ ] Admin message option on fetchError
 
 - [ ] Calendar for events to link to students (like todos)
+
+- [ ] Breaks in student-list
