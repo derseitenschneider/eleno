@@ -74,7 +74,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
             }`}
           </span>
           <button
-            className="add-student__btn-remove"
+            className="add-student__btn-remove btn-remove"
             onClick={() => setCurrentStudentId(null)}
           >
             <IoCloseOutline className="add-student__icon" />

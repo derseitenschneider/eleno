@@ -3,11 +3,15 @@ import './todoAddItem.style.scss'
 import Button from '../../common/button/Button.component'
 import { TTodo } from '../../../types/types'
 import { useUser } from '../../../contexts/UserContext'
-import { formatDateToDisplay } from '../../../utils/formateDate'
+import {
+  formatDateToDatabase,
+  formatDateToDisplay,
+} from '../../../utils/formateDate'
 import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../../contexts/TodosContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import DatePicker from '../../common/datePicker/DatePicker.component'
 
 interface TodoAddItemProps {
   studentId?: number
@@ -33,6 +37,8 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({
   const { saveTodo } = useTodos()
   const [isPending, setIsPending] = useState(false)
 
+  const windowWidth = window.innerWidth
+
   useEffect(() => {
     if (studentId) setCurrentStudentId(studentId)
   }, [])
@@ -45,10 +51,11 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({
       return { ...prev, [name]: value }
     })
   }
-  const onClickDate = () => {
-    setInputTodo((prev) => {
-      return { ...prev, due: null }
-    })
+  const setDate = (date: string) => {
+    setInputTodo((prev) => ({
+      ...prev,
+      due: date,
+    }))
   }
 
   const onSaveHandler = async () => {
@@ -96,24 +103,20 @@ const TodoAddItem: FunctionComponent<TodoAddItemProps> = ({
           setCurrentStudentId={setCurrentStudentId}
         />
 
-        {inputTodo.due ? (
-          <span className="date" onClick={onClickDate}>
-            {formatDateToDisplay(inputTodo.due).slice(0, 6)}
-          </span>
-        ) : (
-          <input
-            type="date"
-            name="due"
-            className="datepicker"
-            value={inputTodo.due}
-            onChange={onChangeInputs}
-          />
-        )}
+        <DatePicker
+          selectedDate={
+            inputTodo.due ? new Date(formatDateToDatabase(inputTodo.due)) : null
+          }
+          setDate={setDate}
+          display={innerWidth > 480 ? 'left' : 'right'}
+        />
+
         <Button
           label="Speichern"
           type="button"
           btnStyle="primary"
           handler={onSaveHandler}
+          className="btn-save"
         />
       </div>
     </div>

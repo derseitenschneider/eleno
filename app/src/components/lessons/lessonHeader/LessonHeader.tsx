@@ -69,7 +69,7 @@ const LessonHeader = () => {
                     type: 'normal',
                   },
                   {
-                    label: 'To-Do erfassen',
+                    label: 'Todo erfassen',
                     handler: () => {
                       setModalAddTodoOpen(true)
                     },

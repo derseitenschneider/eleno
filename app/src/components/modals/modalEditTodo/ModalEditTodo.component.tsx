@@ -2,11 +2,15 @@ import './modalEditTodo.style.scss'
 import { FunctionComponent, useState } from 'react'
 import { useTodos } from '../../../contexts/TodosContext'
 import TodoAddStudent from '../../todos/todoAddStudent/TodoAddStudent.component'
-import { formatDateToDisplay } from '../../../utils/formateDate'
+import {
+  formatDateToDatabase,
+  formatDateToDisplay,
+} from '../../../utils/formateDate'
 import Modal from '../Modal.component'
 import Button from '../../common/button/Button.component'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import DatePicker from '../../common/datePicker/DatePicker.component'
 
 interface ModalEditTodoProps {
   closeModal: () => void
@@ -35,6 +39,10 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
     setCurrentTodo((prev) => {
       return { ...prev, [name]: value }
     })
+  }
+
+  const setDate = (date: string) => {
+    setCurrentTodo((prev) => ({ ...prev, due: date }))
   }
 
   const handlerEditTodo = async () => {
@@ -71,26 +79,14 @@ const ModalEditTodo: FunctionComponent<ModalEditTodoProps> = ({
             currentStudentId={currentTodo.studentId}
             setCurrentStudentId={setStudent}
           />
-          {currentTodo.due ? (
-            <span
-              className="date"
-              onClick={() =>
-                setCurrentTodo((prev) => {
-                  return { ...prev, due: '' }
-                })
-              }
-            >
-              {formatDateToDisplay(currentTodo.due).slice(0, 6)}
-            </span>
-          ) : (
-            <input
-              type="date"
-              name="due"
-              className="datepicker"
-              value={currentTodo.due}
-              onChange={onChangeHandler}
-            />
-          )}
+          <DatePicker
+            selectedDate={
+              currentTodo.due
+                ? new Date(formatDateToDatabase(currentTodo.due))
+                : null
+            }
+            setDate={setDate}
+          />
         </div>
       </div>
       <div className="container--buttons">

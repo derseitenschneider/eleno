@@ -1,2 +1,1 @@
-- [ ] Datepicker not visible on IOS
 - [ ] Zoom on Textfields on mobile devices
