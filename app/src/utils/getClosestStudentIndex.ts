@@ -16,6 +16,15 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
   let in5Days: TWeekday
   let in6Days: TWeekday
   switch (day) {
+    case 0:
+      today = 'Sonntag'
+      in1Day = 'Montag'
+      in2Days = 'Dienstag'
+      in3Days = 'Mittwoch'
+      in4Days = 'Donnerstag'
+      in5Days = 'Freitag'
+      in6Days = 'Samstag'
+      break
     case 1:
       today = 'Montag'
       in1Day = 'Dienstag'
@@ -70,15 +79,14 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
       in5Days = 'Donnerstag'
       in6Days = 'Freitag'
       break
-    case 7:
-      today = 'Sonntag'
-      in1Day = 'Montag'
-      in2Days = 'Dienstag'
-      in3Days = 'Mittwoch'
-      in4Days = 'Donnerstag'
-      in5Days = 'Freitag'
-      in6Days = 'Samstag'
-      break
+    default:
+      today = 'Montag'
+      in1Day = 'Dienstag'
+      in2Days = 'Mittwoch'
+      in3Days = 'Donnerstag'
+      in4Days = 'Freitag'
+      in5Days = 'Samstag'
+      in6Days = 'Sonntag'
   }
 
   const studentsAfterToday = [

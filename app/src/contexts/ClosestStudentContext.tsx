@@ -18,8 +18,6 @@ export const ClosestStudentProvider = ({ children }) => {
     }
   }, [students])
 
-  const value = { closestStudentIndex, setClosestStudentIndex }
-
   return (
     <ClosestStudentContext.Provider
       value={{ closestStudentIndex, setClosestStudentIndex }}

@@ -24,7 +24,6 @@ const DatePicker: FC<DatePickerProps> = ({
   const ref = useOutsideClick(() => setCalendarOpen(false))
 
   const handleSelect = (e: Date) => {
-    console.log(e)
     const dateString = e
       .toLocaleDateString()
       .split('.')
