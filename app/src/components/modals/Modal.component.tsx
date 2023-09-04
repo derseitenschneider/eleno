@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useEffect } from 'react'
+import { FC, ReactNode, useEffect } from 'react'
 import './modal.style.scss'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../common/button/Button.component'
@@ -18,7 +18,7 @@ interface ModalProps {
   }[]
 }
 
-const Modal: FunctionComponent<ModalProps> = ({
+const Modal: FC<ModalProps> = ({
   heading,
   children,
 
