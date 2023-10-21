@@ -8,7 +8,13 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://eleno.net',
   compressHTML: true,
+
   vite: {
+    build: {
+      rollupOptions: {
+        external: ['framer-motion'],
+      },
+    },
     server: {
       fs: {
         allow: ['../app', '../landingpage'],
