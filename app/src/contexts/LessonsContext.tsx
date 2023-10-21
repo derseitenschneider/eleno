@@ -6,7 +6,7 @@ import {
   fetchAllLessonsSupabase,
   saveNewLessonSupabase,
   updateLessonSupabase,
-} from '../supabase/lessons/lessons.supabase'
+} from '../supabase/lessons.supabase'
 import { formatDateToDatabase } from '../utils/formateDate'
 import { useUser } from './UserContext'
 

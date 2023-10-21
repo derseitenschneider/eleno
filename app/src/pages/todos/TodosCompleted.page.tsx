@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import Modal from '../../components/modals/Modal.component'
+
 import NoContent from '../../components/common/noContent/NoContent.component'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import TodoList from '../../components/todos/todoList/TodoList.component'
@@ -8,6 +8,8 @@ import { useTodos } from '../../contexts/TodosContext'
 import Button from '../../components/common/button/Button.component'
 import TodoItem from '../../components/todos/todoItem/TodoItem.component'
 import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
+import Modal from '../../components/common/modal/Modal.component'
+import DeleteTodos from '../../components/todos/deleteTodos/DeleteTodos.component'
 
 const TodosCompleted = () => {
   const { todos } = useTodos()
@@ -40,11 +42,14 @@ const TodosCompleted = () => {
       {completedTodos.length > 0 ? (
         <>
           <div className="container--buttons todo__delete-all-btn">
-            <Button
-              label="Alle löschen"
-              handler={() => setIsModalOpen(true)}
-              btnStyle="danger"
-            />
+            <Modal>
+              <Modal.Open opens="delete-all-todos">
+                <Button label="Alle löschen" btnStyle="danger" />
+              </Modal.Open>
+              <Modal.Window name="delete-all-todos">
+                <DeleteTodos />
+              </Modal.Window>
+            </Modal>
           </div>
 
           <TodoDescription />
@@ -59,7 +64,7 @@ const TodosCompleted = () => {
         <NoContent heading="Aktuell keine erledigten Todos" />
       )}
 
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal
           heading="Todos löschen?"
           handlerClose={() => setIsModalOpen(false)}
@@ -79,7 +84,7 @@ const TodosCompleted = () => {
         >
           <p>Alle erledigten Todos werden unwiederruflich gelöscht.</p>
         </Modal>
-      )}
+      )} */}
     </TodoList>
   )
 }

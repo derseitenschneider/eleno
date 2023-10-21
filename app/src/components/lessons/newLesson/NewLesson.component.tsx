@@ -1,15 +1,16 @@
 import './newLesson.style.scss'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../../common/button/Button.component'
 import CustomEditor from '../../common/customEditor/CustomEditor.component'
 
 import { toast } from 'react-toastify'
 import { useLessons } from '../../../contexts/LessonsContext'
-import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import { formatDateToDatabase } from '../../../utils/formateDate'
-import { TLesson } from '../../../types/types'
 import { useStudents } from '../../../contexts/StudentContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { TLesson } from '../../../types/types'
+import { formatDateToDatabase } from '../../../utils/formateDate'
+import DatePicker from '../../common/datePicker/DatePicker.component'
 
 const NewLesson = () => {
   const [date, setDate] = useState('')
@@ -19,6 +20,7 @@ const NewLesson = () => {
   const { saveNewLesson, drafts, setDrafts } = useLessons()
   const [isPending, setIsPending] = useState(false)
 
+  // Handle drafts
   useEffect(() => {
     const today = new Date()
       .toLocaleDateString('de-CH')
@@ -44,70 +46,67 @@ const NewLesson = () => {
     }
   }, [currentStudentId, drafts])
 
+  // Put Focus on input when desktop
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
-    if (input && window.innerWidth > 1084) {
+    if (input && window.innerWidth > 1366) {
       input && input.focus()
     }
   }, [currentStudentId])
 
-  function handleLessonContent(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setLessonContent(e.target.value)
+  function handleLessonContent(content: string) {
+    setLessonContent(content)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
           draft.studentId === currentStudentId
-            ? { ...draft, lessonContent: e.target.value, date }
+            ? { ...draft, lessonContent: content, date }
             : draft
         )
       } else {
         return [
           ...prev,
-          { studentId: currentStudentId, lessonContent: e.target.value, date },
+          { studentId: currentStudentId, lessonContent: content, date },
         ]
       }
     })
   }
 
-  function handleHomework(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setHomework(e.target.value)
+  function handleHomework(content: string) {
+    setHomework(content)
 
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
           draft.studentId === currentStudentId
-            ? { ...draft, homework: e.target.value, date }
+            ? { ...draft, homework: content, date }
             : draft
         )
       } else {
         return [
           ...prev,
-          { studentId: currentStudentId, homework: e.target.value, date },
+          { studentId: currentStudentId, homework: content, date },
         ]
       }
     })
   }
 
-  const handlerShowPicker = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.showPicker()
-  }
-
-  const handlerInputDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value)
+  const handlerInputDate = (date: string) => {
+    setDate(date)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === currentStudentId)) {
         return prev.map((draft) =>
           draft.studentId === currentStudentId
-            ? { ...draft, date: e.target.value }
+            ? { ...draft, date: date }
             : draft
         )
       } else {
-        return [...prev, { studentId: currentStudentId, date: e.target.value }]
+        return [...prev, { studentId: currentStudentId, date: date }]
       }
     })
   }
 
-  const handleSaveLesson = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSaveLesson = async () => {
     if (!date) {
       toast('Die Lektion hat kein Datum', { type: 'error' })
       return
@@ -142,12 +141,14 @@ const NewLesson = () => {
     <div className="container container--lessons container--new-lesson">
       <div className="wrapper-date">
         <h3 className="heading-4">Aktuelle Lektion</h3>
-        <input
-          type="date"
-          value={formatDateToDatabase(date)}
-          onChange={handlerInputDate}
-          onFocus={handlerShowPicker}
-        />
+        <div className="wrapper-picker">
+          <DatePicker
+            setDate={handlerInputDate}
+            id="new-lesson"
+            selectedDate={new Date(formatDateToDatabase(date))}
+            hideRemoveBtn={true}
+          />
+        </div>
       </div>
       <div className="container--two-rows">
         <div className="row-left">

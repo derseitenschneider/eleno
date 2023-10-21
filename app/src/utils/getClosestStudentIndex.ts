@@ -122,5 +122,7 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
     (student) => student.id === upcomingStudent?.id
   )
 
+  if (closestStudentIndex === -1) return 0
+
   return closestStudentIndex
 }

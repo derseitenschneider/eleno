@@ -18,7 +18,7 @@
   .row {
     display: grid;
     padding: var(--padding);
-    grid-template-columns: 10rem 15rem 10rem 1fr 2rem;
+    grid-template-columns: 10rem 15rem 8rem 1fr 2rem;
     column-gap: 2.4rem;
     .btn-go-to {
       color: var(--clr-primary-400);

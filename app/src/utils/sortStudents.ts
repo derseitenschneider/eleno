@@ -84,48 +84,34 @@ const compareLocations = (a: TStudent, b: TStudent) => {
 }
 
 export const sortStudents = (students: TStudent[], sorting: TSorting) => {
-  switch (sorting.method) {
+  switch (sorting.sort) {
     case 'lastName':
-      if (sorting.ascending) {
-        return students.sort(compareLastName)
-      }
-      if (!sorting.ascending) {
+      if (sorting.ascending === 'false') {
         return students.sort(compareLastName).reverse()
-      }
-      break
+      } else return students.sort(compareLastName)
+
     case 'instrument':
-      if (sorting.ascending) {
-        return students.sort(compareInstrument)
-      }
-      if (!sorting.ascending) {
+      if (sorting.ascending === 'false') {
         return students.sort(compareInstrument).reverse()
-      }
-      break
+      } else return students.sort(compareInstrument)
+
     case 'dayOfLesson':
       const sortedbyTime = students.sort(compareTime)
-      if (sorting.ascending) {
-        return sortedbyTime.sort(compareDays)
-      }
-      if (!sorting.ascending) {
-        return students.sort(compareDays).reverse()
-      }
-      break
-    case 'duration':
-      if (sorting.ascending) {
-        return students.sort(compareDurations)
-      }
-      if (!sorting.ascending) {
+
+      if (sorting.ascending === 'false') {
+        return sortedbyTime.sort(compareDays).reverse()
+      } else return sortedbyTime.sort(compareDays)
+
+    case 'durationMinutes':
+      if (sorting.ascending === 'false') {
         return students.sort(compareDurations).reverse()
-      }
-      break
+      } else return students.sort(compareDurations)
+
     case 'location':
-      if (sorting.ascending) {
-        return students.sort(compareLocations)
-      }
-      if (!sorting.ascending) {
+      if (sorting.ascending === 'false') {
         return students.sort(compareLocations).reverse()
-      }
-      break
+      } else return students.sort(compareLocations)
+
     default:
       return students
   }

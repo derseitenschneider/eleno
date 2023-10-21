@@ -8,7 +8,7 @@ import { formatDateToDatabase } from '../../../utils/formateDate'
 import { sortStudentsDateTime } from '../../../utils/sortStudents'
 
 const Overview = () => {
-  const { activeStudents, archivedStudents } = useStudents()
+  const { activeStudents, inactiveStudents } = useStudents()
   const { todos } = useTodos()
   const { closestStudentIndex } = useClosestStudent()
   const { dateToday } = useDateToday()
@@ -45,9 +45,9 @@ const Overview = () => {
           ) : (
             <p>Keine aktiven Schüler:innen erfasst</p>
           )}
-          {archivedStudents.length ? (
+          {inactiveStudents.length ? (
             <p>
-              Archivierte Schüler:innen: <b>{archivedStudents.length}</b>
+              Archivierte Schüler:innen: <b>{inactiveStudents.length}</b>
             </p>
           ) : (
             <p>Keine archivierten Schüler:innen</p>

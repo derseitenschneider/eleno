@@ -6,12 +6,12 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function ErrorPage() {
-  const navigate = useNavigate()
-  useEffect(() => {
-    setTimeout(() => {
-      navigate('/')
-    }, 3000)
-  }, [])
+  // const navigate = useNavigate()
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     navigate('/')
+  //   }, 3000)
+  // }, [])
 
   return (
     <>

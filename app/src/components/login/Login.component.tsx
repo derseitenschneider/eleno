@@ -2,7 +2,7 @@ import './login.style.scss'
 
 import { useRef, useState } from 'react'
 import Button from '../common/button/Button.component'
-import { loginSupabase } from '../../supabase/users/users.supabase'
+import { loginSupabase } from '../../supabase/users.supabase'
 
 import { useSearchParams } from 'react-router-dom'
 
@@ -75,7 +75,7 @@ const Login = () => {
           />
         </form>
         {error && (
-          <p className="error--message">Email/Passwort stimmen nicht überein</p>
+          <p className="error-message">Email/Passwort stimmen nicht überein</p>
         )}
         <div className="container--links">
           <button onClick={() => setSearchParams({ page: 'signup' })}>

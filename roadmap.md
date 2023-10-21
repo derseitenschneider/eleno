@@ -2,9 +2,7 @@
 
 ## Features coming up next
 
-- [ ] News section in dashboard
-
-- [ ] Repertoire list
+- [ ] searchfield in allLessons view
 
 - [ ] Absenzen-Funktion
 
@@ -16,8 +14,6 @@
 - [ ] Export timetable as pdf/csv
 
 - [ ] Darkmode switch
-
-- [ ] Animations
 
 - [ ] Toolbox
 
@@ -41,7 +37,7 @@
 
 ## Fixes
 
-- [ ] End of day next student bug
+- [ ] dynamically change theme color on light/dark mode
 
 ## Future features
 

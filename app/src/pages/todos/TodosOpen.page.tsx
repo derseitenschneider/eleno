@@ -3,7 +3,7 @@ import TodoList from '../../components/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
 import NoContent from '../../components/common/noContent/NoContent.component'
 import { compareDateTodos } from '../../utils/sortTodos'
-import TodoAddItem from '../../components/todos/todoAddItem/TodoAddItem.component'
+import AddTodo from '../../components/todos/addTodo/AddTodo.component'
 import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
 import TodoItem from '../../components/todos/todoItem/TodoItem.component'
 
@@ -26,7 +26,7 @@ const TodosOpen = () => {
 
   return (
     <TodoList>
-      <TodoAddItem />
+      <AddTodo />
       {openTodos.length > 0 ? (
         <>
           <TodoDescription />

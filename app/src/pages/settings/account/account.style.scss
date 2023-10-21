@@ -28,24 +28,6 @@
       color: var(--clr-warning);
     }
   }
-
-  .modal--edit-email,
-  .modal--edit-password,
-  .modal--delete-account {
-    .input-el {
-      margin-bottom: 2rem;
-      position: relative;
-      span {
-        display: block;
-        margin-bottom: 0.8rem;
-      }
-    }
-
-    p {
-      font-size: 1.4rem;
-      line-height: 1.5;
-    }
-  }
 }
 
 @media (max-width: 480px) {
@@ -55,14 +37,6 @@
 
       .container-info {
         margin-bottom: 1rem;
-      }
-    }
-
-    .modal--profile {
-      .modal {
-        .inputs {
-          flex-direction: column;
-        }
       }
     }
   }

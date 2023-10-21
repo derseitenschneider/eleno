@@ -1,16 +1,17 @@
 import { FunctionComponent, SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../common/button/Button.component'
-import { IRow } from '../../modals/modalAddStudent/ModalAddStudent.component'
-import { calcTimeDifference } from '../../../utils/calcTimeDifference'
 
+import { calcTimeDifference } from '../../../utils/calcTimeDifference'
+import { TStudent } from '../../../types/types'
+export interface IRow extends TStudent {
+  tempId: number
+}
 interface AddStudentRowProps {
   id: number
   rows: IRow[]
   setRows: React.Dispatch<SetStateAction<IRow[]>>
 }
-
-// [ ] check what happens in bulk add with empty rows
 
 const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
   id,
@@ -58,7 +59,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
   }
 
   return (
-    <div className="row grid">
+    <div className="add-students__grid row">
       <input
         autoFocus={window.screen.width > 1000 ? true : false}
         type="text"

@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 
-export function useOutsideClick(handler, listenCapturing = true) {
-  const ref: React.MutableRefObject<HTMLObjectElement> = useRef()
+export function useOutsideClick(handler: () => void, listenCapturing = true) {
+  const ref: RefObject<any> = useRef(null)
+
+  //RefObject<HTMLUListElement>
 
   useEffect(
     function () {

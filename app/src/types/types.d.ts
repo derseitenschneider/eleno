@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type TUser = {
   id: string
   firstName: string
@@ -79,11 +81,11 @@ export type ContextTypeStudents = {
   isPending: boolean
   setIsPending: React.Dispatch<React.SetStateAction<boolean>>
   activeStudents: TStudent[] | null
-  archivedStudents: TStudent[] | null
+  inactiveStudents: TStudent[] | null
   activeSortedStudentIds: number[]
   resetLessonData: (ids: number[]) => Promise<void>
   saveNewStudents: (students: TStudent[]) => Promise<void>
-  archivateStudents: (ids: number | number[]) => Promise<void>
+  deactivateStudents: (ids: number | number[]) => Promise<void>
   reactivateStudents: (ids: number | number[]) => Promise<void>
   deleteStudents: (ids: number | number[]) => voiPromise<void>
   updateStudent: (student: TStudent) => Promise<void>
@@ -132,11 +134,11 @@ export type TSortingMethods =
   | 'duration'
 
 export type TSorting = {
-  method: TSortingMethods
-  ascending: boolean
+  sort: string
+  ascending: string
 }
 
-export type TDropdownButton = {
+export type TDropdownSearchButton = {
   label: string
   handler: () => void
   type: 'normal' | 'warning'
@@ -172,3 +174,21 @@ export type TWeekday =
   | 'Freitag'
   | 'Samstag'
   | 'Sonntag'
+
+export type TRepertoireItem = {
+  id?: number
+  title: string
+  startDate?: string
+  endDate?: string
+  studentId: number
+  user_id?: string
+}
+
+export type ContextTypeRepertoire = {
+  repertoire: TRepertoireItem[]
+  isLoading: boolean
+  getRepertoire: (studentId: number) => Proimse<TRepertoireItem[]>
+  addRepertoireItem: (item: TRepertoireItem) => Promise<void>
+  updateRepertoireItem: (item: TRepertoireItem) => Proimse<void>
+  deleteRepertoireItem: (id: number) => Proimse<void>
+}

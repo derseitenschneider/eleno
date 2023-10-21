@@ -1,26 +1,28 @@
 .date-picker {
   position: relative;
+  display: flex;
+  justify-content: center;
 
   &__btn-open {
     color: var(--clr-primary-600);
     svg {
-      height: 2.4rem;
-      width: 2.4rem;
+      height: 2rem;
+      width: 2rem;
     }
   }
 
   &__date {
     font-size: 1.4rem;
-    color: var(--clr-primary-600);
+
     cursor: pointer;
   }
   &__calendar {
-    position: absolute;
-    top: 3rem;
+    position: fixed;
+    top: 95%;
 
-    background-color: var(--clr-bg-400);
+    background-color: var(--clr-bg-500);
     z-index: 1000;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow-cards);
 
     .rdp-day_selected {
       background-color: var(--clr-primary-600);

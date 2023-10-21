@@ -16,7 +16,7 @@ const FooterDashboard = () => {
         <a href="mailto:info@eleno.net">Kontakt</a>
       </div>
       <span className="copyright">
-        Copyright © {dateToday.substring(5)} by{' '}
+        Copyright © {dateToday.substring(6)} by{' '}
         <a href="https://derseitenschneider.ch" target="_blank">
           derseitenschneider
         </a>{' '}

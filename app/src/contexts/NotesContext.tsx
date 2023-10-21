@@ -4,7 +4,7 @@ import {
   postNotesSupabase,
   deleteNoteSupabase,
   editNoteSupabase,
-} from '../supabase/notes/notes.supabase'
+} from '../supabase/notes.supabase'
 import { useUser } from './UserContext'
 
 export const NotesContext = createContext<ContextTypeNotes>({

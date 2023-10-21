@@ -9,14 +9,17 @@ import { useStudents } from '../../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../../utils/sortStudents'
 import { useNavigate } from 'react-router-dom'
 import { useDateToday } from '../../../contexts/DateTodayContext'
-import Button from '../../common/button/Button.component'
-import { IoEllipsisVertical } from 'react-icons/io5'
-import DropDown from '../../common/dropdown/Dropdown.component'
-import Modal from '../../modals/Modal.component'
-import ModalEditTodo from '../../modals/modalEditTodo/ModalEditTodo.component'
+
+import { IoReturnDownBackOutline } from 'react-icons/io5'
+
 import { useTodos } from '../../../contexts/TodosContext'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import Menus from '../../common/menu/Menus.component'
+import { HiPencil, HiTrash } from 'react-icons/hi'
+import Modal from '../../common/modal/Modal.component'
+import EditTodo from '../editTodo/EditTodo.component'
+import DeleteTodos from '../deleteTodos/DeleteTodos.component'
 
 interface TodoItemProps {
   todo: TTodo
@@ -33,9 +36,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
   const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [modalEditOpen, setModalEditOpen] = useState(false)
-  const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+
   const [isPending, setIsPending] = useState(false)
 
   const [attachedStudent] = students.filter(
@@ -54,21 +55,6 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
     navigate('/lessons')
   }
 
-  useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const button = target.closest('.button--edit') as HTMLElement
-      if (!button) setDropdownOpen(false)
-      // if (+button?.dataset.id !== studentId) setDropdownOpen(false)
-    }
-    if (dropdownOpen) {
-      window.addEventListener('click', closeDropdown)
-    }
-    return () => {
-      window.removeEventListener('click', closeDropdown)
-    }
-  }, [dropdownOpen])
-
   const overdue = todo.due < formatDateToDatabase(dateToday)
 
   const handlerComplete = async () => {
@@ -83,7 +69,7 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
     }
   }
 
-  const handlerReactivate = async () => {
+  const handleReactivate = async () => {
     setIsPending(true)
     try {
       await reactivateTodo(todo.id)
@@ -95,18 +81,6 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
     }
   }
 
-  const handlerDelete = async () => {
-    setIsPending(true)
-    try {
-      await deleteTodo(todo.id)
-      setModalDeleteOpen(false)
-      toast('Todo gelöscht.')
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
-  }
   return (
     <li
       className={`todo-item${overdue ? ' overdue' : ''} ${
@@ -142,78 +116,54 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
         )}
       </div>
       <div className="container--button">
-        <Button
-          type="button"
-          btnStyle="icon-only"
-          icon={<IoEllipsisVertical />}
-          className="button--edit"
-          handler={() => setDropdownOpen((prev) => !prev)}
-        />
-        {dropdownOpen && type === 'open' && (
-          <DropDown
-            positionX="right"
-            positionY="top"
-            buttons={[
-              {
-                label: 'Bearbeiten',
-                type: 'normal',
-                handler: () => {
-                  setModalEditOpen((prev) => !prev)
-                },
-              },
-            ]}
-          />
-        )}
+        {type === 'open' && (
+          <Modal>
+            <Menus>
+              <Menus.Toggle id={todo.id} />
+              <Menus.Menu>
+                <Menus.List id={todo.id}>
+                  <Modal.Open opens="edit-todo">
+                    <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
+                  </Modal.Open>
+                </Menus.List>
+              </Menus.Menu>
+            </Menus>
 
-        {dropdownOpen && type === 'completed' && (
-          <DropDown
-            positionX="right"
-            positionY="top"
-            buttons={[
-              {
-                label: 'Auf offen setzen',
-                type: 'normal',
-                handler: handlerReactivate,
-              },
-              {
-                label: 'Löschen',
-                type: 'warning',
-                handler: () => {
-                  setModalDeleteOpen(true)
-                },
-              },
-            ]}
-          />
+            <Modal.Window name="edit-todo" styles={{ overflowY: 'visible' }}>
+              <EditTodo todoId={todo.id} />
+            </Modal.Window>
+          </Modal>
+        )}
+        {type === 'completed' && (
+          <Modal>
+            <Menus>
+              <Menus.Toggle id={todo.id} />
+              <Menus.Menu>
+                <Menus.List id={todo.id}>
+                  <Menus.Button
+                    icon={<IoReturnDownBackOutline />}
+                    onClick={handleReactivate}
+                  >
+                    Wiederherstellen
+                  </Menus.Button>
+                  <Modal.Open opens="delete-todo">
+                    <Menus.Button
+                      iconColor="var(--clr-warning)"
+                      icon={<HiTrash />}
+                    >
+                      Löschen
+                    </Menus.Button>
+                  </Modal.Open>
+                </Menus.List>
+              </Menus.Menu>
+            </Menus>
+
+            <Modal.Window name="delete-todo">
+              <DeleteTodos todoId={todo.id} />
+            </Modal.Window>
+          </Modal>
         )}
       </div>
-      {modalEditOpen && (
-        <ModalEditTodo
-          closeModal={() => setModalEditOpen(false)}
-          todoId={todo.id}
-        />
-      )}
-
-      {modalDeleteOpen && (
-        <Modal
-          heading="Todo löschen?"
-          handlerClose={() => setModalDeleteOpen(false)}
-          className={isPending ? 'loading' : ''}
-          buttons={[
-            {
-              label: 'Abbrechen',
-              btnStyle: 'primary',
-              handler: () => setModalDeleteOpen(false),
-            },
-            {
-              label: 'Löschen',
-              btnStyle: 'danger',
-              handler: handlerDelete,
-            },
-          ]}
-        >
-          <span>Die Todo wird unwiederruflich gelöscht.</span>
-        </Modal>
-      )}
     </li>
   )
 }

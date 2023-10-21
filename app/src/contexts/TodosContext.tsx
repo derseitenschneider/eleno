@@ -8,7 +8,7 @@ import {
   reactivateTodoSupabase,
   deleteTodoSupabase,
   updateTodoSupabase,
-} from '../supabase/todos/todos.supabase'
+} from '../supabase/todos.supabase'
 import { useUser } from './UserContext'
 
 export const TodosContext = createContext<ContextTypeTodos>({

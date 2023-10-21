@@ -14,11 +14,13 @@ import { useLoading } from '../../contexts/LoadingContext'
 import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'
-import Notes from '../../components/lessons/notes/Notes.component'
+
 import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
 import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
+import { motion } from 'framer-motion'
 
 import NoContent from '../../components/common/noContent/NoContent.component'
+import NoteList from '../../components/lessons/notes/noteList/NoteList.component'
 
 const Lesson = () => {
   const { loading } = useLoading()
@@ -32,7 +34,11 @@ const Lesson = () => {
 
   if (activeSortedStudentIds.length && !loading)
     return (
-      <div className="lessons">
+      <motion.div
+        className="lessons"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <LessonHeader />
 
         <main className="main">
@@ -41,10 +47,10 @@ const Lesson = () => {
         </main>
 
         <aside className="aside">
-          <Notes />
+          <NoteList />
         </aside>
         <LessonFooter />
-      </div>
+      </motion.div>
     )
 
   if (!activeSortedStudentIds.length && !loading)

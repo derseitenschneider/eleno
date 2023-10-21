@@ -3,18 +3,17 @@ import { createContext, useContext, useState } from 'react'
 import {
   resetStudentSupabase,
   createNewStudentSupabase,
-  archivateStudentSupabase,
+  deactivateStudentsupabase,
   reactivateStudentSupabase,
   deleteStudentSupabase,
   updateStudentSupabase,
-} from '../supabase/students/students.supabase'
+} from '../supabase/students.supabase'
 
-import { toast } from 'react-toastify'
 import { useUser } from './UserContext'
 import { useLessons } from './LessonsContext'
-import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons/lessons.supabase'
+import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons.supabase'
 import { useNotes } from './NotesContext'
-import { fetchNotesByStudent } from '../supabase/notes/notes.supabase'
+import { fetchNotesByStudent } from '../supabase/notes.supabase'
 import { sortStudentsDateTime } from '../utils/sortStudents'
 
 export const StudentsContext = createContext<ContextTypeStudents>({
@@ -27,10 +26,10 @@ export const StudentsContext = createContext<ContextTypeStudents>({
   setIsPending: () => {},
   activeStudents: [],
   activeSortedStudentIds: [],
-  archivedStudents: [],
+  inactiveStudents: [],
   resetLessonData: () => new Promise(() => {}),
   saveNewStudents: () => new Promise(() => {}),
-  archivateStudents: () => new Promise(() => {}),
+  deactivateStudents: () => new Promise(() => {}),
   reactivateStudents: () => new Promise(() => {}),
   deleteStudents: () => new Promise(() => {}),
   updateStudent: () => new Promise(() => {}),
@@ -46,7 +45,7 @@ export const StudentsProvider = ({ children }) => {
   const [isPending, setIsPending] = useState(false)
 
   const activeStudents = students.filter((student) => !student.archive)
-  const archivedStudents = students.filter((student) => student.archive)
+  const inactiveStudents = students.filter((student) => student.archive)
 
   const activeSortedStudentIds: number[] = sortStudentsDateTime(
     students.filter((student) => !student.archive)
@@ -70,7 +69,6 @@ export const StudentsProvider = ({ children }) => {
     try {
       await resetStudentSupabase(studentIds)
       setStudents(newStudents)
-      toast('Unterrichtsdaten zurückgesetzt')
     } catch (error) {
       throw new Error(error.message)
     }
@@ -88,12 +86,12 @@ export const StudentsProvider = ({ children }) => {
     }
   }
 
-  const archivateStudents = async (studentIds: number[]) => {
+  const deactivateStudents = async (studentIds: number[]) => {
     const newStudents = students.map((student) =>
       studentIds.includes(student.id) ? { ...student, archive: true } : student
     )
     try {
-      await archivateStudentSupabase(studentIds)
+      await deactivateStudentsupabase(studentIds)
       setStudents(newStudents)
     } catch (error) {
       throw new Error(error.message)
@@ -156,11 +154,11 @@ export const StudentsProvider = ({ children }) => {
     isPending,
     setIsPending,
     activeStudents,
-    archivedStudents,
+    inactiveStudents,
     activeSortedStudentIds,
     resetLessonData,
     saveNewStudents,
-    archivateStudents,
+    deactivateStudents,
     reactivateStudents,
     deleteStudents,
     updateStudent,

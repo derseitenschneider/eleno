@@ -1,0 +1,41 @@
+.add-todo {
+  --grid-container-add: 1fr repeat(3, auto);
+  margin-block: 2rem;
+
+  &.loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .inputs {
+    background-color: var(--clr-bg-400);
+
+    padding: 0.8rem;
+    display: grid;
+    grid-template-columns: var(--grid-container-add);
+    align-items: center;
+    justify-items: center;
+    column-gap: 3.6rem;
+    input {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .container--add {
+    .inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+
+      .add-student {
+        padding: 0.8rem;
+      }
+
+      .btn-save {
+        margin-left: auto;
+      }
+    }
+  }
+}

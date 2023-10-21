@@ -15,6 +15,7 @@ export interface ButtonProps {
   tabIndex?: number
   disabled?: boolean
   size?: 'md' | 'sm'
+  onClick?: () => void
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -28,6 +29,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   tabIndex,
   dataref,
   disabled,
+  onClick,
   size = 'md',
 }) => {
   return (
@@ -37,7 +39,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         className={`button button--${btnStyle} button--${size} ${
           className || ''
         }`}
-        onClick={handler}
+        onClick={handler || onClick}
         data-ref={dataref}
         tabIndex={tabIndex || 0}
         disabled={disabled}

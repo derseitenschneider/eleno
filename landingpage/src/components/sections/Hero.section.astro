@@ -1,11 +1,13 @@
 ---
-import Logo from '../../assets/logos/logo.astro';
+// import Logo from '../../assets/logos/logo.astro';
+import LogoAnimated from '../../../../app/src/components/common/logo/AnimatedLogo.component';
 import Button from '../ui/Button.astro';
 ---
 
 <section class="section section--hero">
   <div class="logo">
-    <Logo />
+    <LogoAnimated client:load />
+    <!-- <Logo /> -->
   </div>
   <h1 class="heading--hero">
     <span class="text-emphasized">Smart</span>

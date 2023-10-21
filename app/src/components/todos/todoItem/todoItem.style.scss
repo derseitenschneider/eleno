@@ -25,6 +25,10 @@
 
   background-color: var(--clr-bg-400);
 
+  .container--button {
+    justify-self: center;
+  }
+
   .wrapper-due {
     .overdue {
       color: var(--clr-warning);

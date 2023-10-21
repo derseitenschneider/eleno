@@ -4,8 +4,8 @@ import Login from '../../components/login/Login.component'
 
 import Signup from '../../components/singup/Signup.component'
 import ForgotPassword from '../../components/forgotPassword/ForgotPassword.component'
-import Logo from '../../components/common/logo/Logo.component'
 import { useSearchParams } from 'react-router-dom'
+import AnimatedLogo from '../../components/common/logo/AnimatedLogo.component'
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams()
@@ -15,7 +15,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <div className="container--logo">
-        <Logo />
+        <AnimatedLogo />
       </div>
       {page === null && <Login />}
       {page === 'login' && <Login />}

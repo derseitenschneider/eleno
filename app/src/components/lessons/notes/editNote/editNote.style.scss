@@ -1,0 +1,26 @@
+.edit-note {
+  padding: 4.8rem;
+  width: 50vw;
+
+  &.loading {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &__title {
+    margin-bottom: 2rem;
+  }
+
+  .container--editor {
+    height: 20rem;
+    margin-bottom: 2.4rem;
+  }
+
+  &__buttons {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    justify-content: flex-end;
+  }
+}

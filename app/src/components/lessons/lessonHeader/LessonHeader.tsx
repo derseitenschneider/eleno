@@ -1,19 +1,20 @@
 import './lessonHeader.style.scss'
-import { useState, useEffect } from 'react'
-import { useStudents } from '../../../contexts/StudentContext'
-import { IoEllipsisVertical } from 'react-icons/io5'
 
-import { IoPersonCircleOutline } from 'react-icons/io5'
-import ModalEditStudent from '../../modals/modalEditStudent/ModalEditStudent.component'
-import Modal from '../../modals/Modal.component'
-import TodoAddItem from '../../todos/todoAddItem/TodoAddItem.component'
-import DropDown from '../../common/dropdown/Dropdown.component'
+import { useStudents } from '../../../contexts/StudentContext'
+
+import { IoPersonCircleOutline, IoCheckboxOutline } from 'react-icons/io5'
+
+import Modal from '../../common/modal/Modal.component'
+import AddTodo from '../../todos/addTodo/AddTodo.component'
+import Menus from '../../common/menu/Menus.component'
+import { HiPencil } from 'react-icons/hi'
+
+import EditStudent from '../../students/editStudents/EditStudent.component'
+import { HiOutlineListBullet } from 'react-icons/hi2'
+import Repertoire from '../repertoire/Repertoire.component'
 
 const LessonHeader = () => {
   const { students, currentStudentId } = useStudents()
-  const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false)
-  const [modalAddTodoOpen, setModalAddTodoOpen] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const {
     firstName,
@@ -22,99 +23,72 @@ const LessonHeader = () => {
     dayOfLesson,
     startOfLesson,
     endOfLesson,
+    instrument,
   } = students.find((student) => student.id === currentStudentId)
-
-  useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      const target = e.target as Element
-      if (!target.closest('.button--dropdown')) {
-        setDropdownOpen(false)
-      }
-    }
-    if (dropdownOpen) {
-      window.addEventListener('click', closeDropdown)
-    }
-    return () => {
-      window.removeEventListener('click', closeDropdown)
-    }
-  }, [dropdownOpen])
 
   return (
     <header className="container container--header">
-      <div className="container--infos">
-        <div className="row-1">
-          <h2 className="student-name">
-            <IoPersonCircleOutline className="icon" />
-            {firstName} {lastName}
-          </h2>
-          <div className="container--buttons">
-            <button
-              className="button--dropdown"
-              onClick={() => {
-                setDropdownOpen((prev) => !prev)
-              }}
-            >
-              <IoEllipsisVertical />
-            </button>
-            {dropdownOpen && (
-              <DropDown
-                positionX="left"
-                positionY="top"
-                buttons={[
-                  {
-                    label: 'Schüler:in bearbeiten',
-                    handler: () => {
-                      setModalEditStudentOpen(true)
-                    },
-                    type: 'normal',
-                  },
-                  {
-                    label: 'Todo erfassen',
-                    handler: () => {
-                      setModalAddTodoOpen(true)
-                    },
-                    type: 'normal',
-                  },
-                ]}
-              />
-            )}
-          </div>
-        </div>
-        <span>
-          {dayOfLesson && `${dayOfLesson}`}
-          {startOfLesson && `, ${startOfLesson}`}
-          {endOfLesson && ` - ${endOfLesson}`}
-        </span>
-        <span> | </span>
-        <span>
-          {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
-        </span>
-      </div>
-      {modalEditStudentOpen && (
-        <ModalEditStudent
-          studentId={currentStudentId}
-          handlerClose={() => {
-            setModalEditStudentOpen(false)
-          }}
-        />
-      )}
+      <div className="wrapper-center">
+        <div className="container--infos">
+          <div className="row-1">
+            <h2 className="student-name">
+              <IoPersonCircleOutline className="icon" />
+              {firstName} {lastName}
+            </h2>
+            <div className="container--buttons">
+              <Modal>
+                <Menus>
+                  <Menus.Toggle id="header-menu" />
+                  <Menus.Menu>
+                    <Menus.List id="header-menu">
+                      <Modal.Open opens="edit-student">
+                        <Menus.Button icon={<HiPencil />}>
+                          Schüler:in bearbeiten
+                        </Menus.Button>
+                      </Modal.Open>
 
-      {modalAddTodoOpen && (
-        <Modal
-          heading="Neue To-Do erfassen"
-          handlerClose={() => {
-            setModalAddTodoOpen(false)
-          }}
-          className="modal--add-todo"
-        >
-          <TodoAddItem
-            studentId={currentStudentId}
-            onSave={() => {
-              setModalAddTodoOpen(false)
-            }}
-          />
+                      <Modal.Open opens="add-todo">
+                        <Menus.Button icon={<IoCheckboxOutline />}>
+                          Todo erfassen
+                        </Menus.Button>
+                      </Modal.Open>
+                    </Menus.List>
+                  </Menus.Menu>
+                </Menus>
+
+                <Modal.Window name="edit-student">
+                  <EditStudent studentId={currentStudentId} />
+                </Modal.Window>
+
+                <Modal.Window name="add-todo" styles={{ overflowY: 'visible' }}>
+                  <AddTodo studentId={currentStudentId} />
+                </Modal.Window>
+              </Modal>
+            </div>
+          </div>
+          <span>
+            {dayOfLesson && `${dayOfLesson}`}
+            {startOfLesson && `, ${startOfLesson}`}
+            {endOfLesson && ` - ${endOfLesson}`}
+          </span>
+          {dayOfLesson && durationMinutes && <span> | </span>}
+
+          <span>
+            {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
+          </span>
+        </div>
+        <Modal>
+          <Modal.Open opens="repertoire">
+            <button className="button-repertoire">
+              <HiOutlineListBullet />
+              <span>Repertoire</span>
+            </button>
+          </Modal.Open>
+          <Modal.Window name="repertoire">
+            <Repertoire studentId={currentStudentId} />
+          </Modal.Window>
         </Modal>
-      )}
+      </div>
     </header>
   )
 }

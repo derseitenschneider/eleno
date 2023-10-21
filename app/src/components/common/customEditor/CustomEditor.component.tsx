@@ -3,23 +3,25 @@ import './customEditor.style.scss'
 import { FunctionComponent } from 'react'
 
 import {
-  Editor,
-  EditorProvider,
   BtnBold,
-  BtnItalic,
-  Toolbar,
   BtnBulletList,
-  BtnNumberedList,
   BtnClearFormatting,
-  BtnUnderline,
-  BtnUndo,
+  BtnItalic,
+  BtnLink,
+  BtnNumberedList,
   BtnRedo,
   BtnStrikeThrough,
+  BtnUnderline,
+  BtnUndo,
+  ContentEditableEvent,
+  Editor,
+  EditorProvider,
+  Toolbar,
 } from 'react-simple-wysiwyg'
 
 interface CustomEditorProps {
   value: string
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+  onChange: (content: string) => void
   onFocus?: (action: 'pause' | 'unpause') => void
 }
 
@@ -27,9 +29,15 @@ const CustomEditor: FunctionComponent<CustomEditorProps> = ({
   value,
   onChange,
 }) => {
+  const onChangeEditor = (e: ContentEditableEvent) => {
+    const inputText = e.target.value
+    const inputWithoutColorTag = inputText.split('background-color:').join('')
+
+    onChange(inputWithoutColorTag)
+  }
   return (
     <EditorProvider>
-      <Editor value={value} onChange={onChange}>
+      <Editor value={value} onChange={onChangeEditor}>
         <Toolbar>
           <div className="container--left">
             <BtnBold tabIndex={-1} />
@@ -38,6 +46,7 @@ const CustomEditor: FunctionComponent<CustomEditorProps> = ({
             <BtnStrikeThrough tabIndex={-1} />
             <BtnBulletList tabIndex={-1} />
             <BtnNumberedList tabIndex={-1} />
+            <BtnLink tabIndex={-1} />
           </div>
           <div className="container--right">
             <BtnClearFormatting tabIndex={-1} />

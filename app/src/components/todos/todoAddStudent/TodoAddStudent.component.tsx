@@ -5,7 +5,8 @@ import { sortStudents } from '../../../utils/sortStudents'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../common/button/Button.component'
-import DropDown from '../../common/dropdown/Dropdown.component'
+import DropdownSearch from '../../common/dropdownSearch/DropdownSearch.component'
+import ButtonRemove from '../../common/buttonRemove/ButtonRemove'
 
 interface TodoAddStudentProps {
   currentStudentId: number
@@ -17,25 +18,26 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
   setCurrentStudentId,
 }) => {
   const { students } = useStudents()
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownSearchOpen, setDropdownSearchOpen] = useState(false)
   const [searchInput, setSearchInput] = useState('')
 
   const width = window.innerWidth
 
   useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
+    const closeDropdownSearch = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const button = target.closest('.wrapper-student') as HTMLElement
-      const icon = target.closest('.button--student') as HTMLElement
-      if (!button && !icon) setDropdownOpen(false)
+      const button = target.closest('.add-student__student') as HTMLElement
+      const icon = target.closest('.button--icon-only')
+
+      if (!button && !icon) setDropdownSearchOpen(false)
     }
-    if (dropdownOpen) {
-      window.addEventListener('click', closeDropdown)
+    if (dropdownSearchOpen) {
+      window.addEventListener('click', closeDropdownSearch)
     }
     return () => {
-      window.removeEventListener('click', closeDropdown)
+      window.removeEventListener('click', closeDropdownSearch)
     }
-  }, [dropdownOpen])
+  }, [dropdownSearchOpen])
 
   const filteredStudents = sortStudents(
     students.filter((student) => {
@@ -46,25 +48,25 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
       if (firstName.startsWith(search) || lastName.startsWith(search))
         return student
     }),
-    { method: 'lastName', ascending: true }
+    { sort: 'lastName', ascending: 'true' }
   )
 
-  const onSelectDropdown = (studentId: number) => {
+  const onSelectDropdownSearch = (studentId: number) => {
     setCurrentStudentId(studentId)
-    setDropdownOpen((prev) => !prev)
+    setDropdownSearchOpen((prev) => !prev)
     setSearchInput('')
   }
 
   return (
     <div className="add-student">
       {currentStudentId ? (
-        <div
-          className="add-student__wrapper"
-          onClick={() => {
-            setDropdownOpen((prev) => !prev)
-          }}
-        >
-          <span className="add-student__student">
+        <div className="add-student__wrapper">
+          <span
+            className="add-student__student"
+            onClick={() => {
+              setDropdownSearchOpen((prev) => !prev)
+            }}
+          >
             {`${
               students.find((student) => student.id === currentStudentId)
                 .firstName
@@ -73,31 +75,26 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
                 .lastName
             }`}
           </span>
-          <button
-            className="add-student__btn-remove btn-remove"
-            onClick={() => setCurrentStudentId(null)}
-          >
-            <IoCloseOutline className="add-student__icon" />
-          </button>
+          <ButtonRemove onRemove={() => setCurrentStudentId(null)} />
         </div>
       ) : (
         <Button
           icon={<IoPeopleCircleOutline />}
-          handler={() => setDropdownOpen((prev) => !prev)}
+          handler={() => setDropdownSearchOpen((prev) => !prev)}
           className="button--student"
           type="button"
           btnStyle={'icon-only'}
         />
       )}
 
-      {dropdownOpen && (
-        <DropDown
+      {dropdownSearchOpen && (
+        <DropdownSearch
           buttons={filteredStudents.map((student) => {
             return {
               label: `${student.firstName}  ${student.lastName}`,
               type: 'normal',
               handler: () => {
-                onSelectDropdown(student.id)
+                onSelectDropdownSearch(student.id)
               },
             }
           })}

@@ -60,7 +60,7 @@ function Sidebar() {
 
   return (
     <div>
-      <div className={`sidebar${sidebarOpen ? ' open' : ''}`}>
+      <div className={`sidebar${sidebarOpen ? ' sidebar--open' : ''}`}>
         <button className="sidebar__button--toggle" onClick={toggleSidebar}>
           <IoChevronForwardOutline className="chevron" />
         </button>
@@ -118,7 +118,7 @@ function Sidebar() {
                     <IoCheckboxOutline className="icon" />
                   </div>
 
-                  <span className="sidebar__link-text">To-Dos</span>
+                  <span className="sidebar__link-text">Todos</span>
                 </NavLink>
               </li>
             </ul>
@@ -126,7 +126,11 @@ function Sidebar() {
         </div>
         <div className="container-settings">
           <div className="sidebar__nav-el">
-            <Link to="/manual" className="sidebar__nav-link">
+            <Link
+              to="https://manual.eleno.net/"
+              target="_blank"
+              className="sidebar__nav-link"
+            >
               <div className="sidebar__nav-icon">
                 <IoBookOutline className="icon" />
               </div>

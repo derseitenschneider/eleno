@@ -1,0 +1,14 @@
+.button--sort {
+  padding: 0.8rem;
+  color: var(--clr-darkgrey);
+  transform: 0;
+
+  &.active {
+    color: var(--clr-primary-600);
+  }
+
+  & svg {
+    height: 0.8rem;
+    width: 0.8rem;
+  }
+}

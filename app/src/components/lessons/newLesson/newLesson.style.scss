@@ -4,8 +4,17 @@
     align-items: center;
     margin-bottom: 1.8rem;
   }
+
+  .wrapper-picker {
+    margin-left: 1rem;
+    padding: 0.6rem;
+    background-color: var(--clr-bg-400);
+  }
+
+  .heading-5 {
+    color: var(--clr-text-200);
+  }
   .container--editor {
-    height: 20rem;
   }
   & .btn--save {
     margin-top: 3.2rem;

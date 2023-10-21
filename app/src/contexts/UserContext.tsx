@@ -7,7 +7,7 @@ import {
   updateEmailSupabase,
   updatePasswordSupabase,
   updateProfileSupabase,
-} from '../supabase/users/users.supabase'
+} from '../supabase/users.supabase'
 import { supabase } from '../supabase/supabase'
 import { Session } from '@supabase/gotrue-js/src/lib/types'
 import LoginPage from '../pages/login/LoginPage'

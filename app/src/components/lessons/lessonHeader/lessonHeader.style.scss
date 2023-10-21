@@ -1,34 +1,37 @@
 .container--header {
   grid-column: 1/-1;
   display: flex;
-  // background-color: var(--clr-bg-500);
-  // align-items: start;
-  // justify-content: space-between;
+  padding-right: 1.6rem;
+
   gap: 2.4rem;
   border-bottom: 0.1px solid var(--clr-bg-400);
-
-  .container--buttons {
-    position: relative;
+  .wrapper-center {
     display: flex;
-
-    .button--dropdown {
-      svg {
-        color: var(--clr-primary-600);
-      }
-      position: relative;
-    }
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
   }
 
-  &:hover .button {
-    opacity: 1;
-    pointer-events: all;
-    visibility: visible;
+  .button-repertoire {
+    padding: 0.8rem;
+    background-color: var(--clr-bg-400);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    svg {
+      height: 2rem;
+      width: 2rem;
+      color: var(--clr-primary-600);
+    }
+    span {
+      line-height: unset;
+    }
   }
 
   .row-1 {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
     margin-bottom: 1.8rem;
 
     .student-name {
@@ -39,7 +42,6 @@
       font-weight: 500;
       font-size: 2rem;
       letter-spacing: -1px;
-      margin-right: 1.8rem;
 
       .icon {
         color: var(--clr-primary-600);
@@ -48,31 +50,30 @@
       }
     }
   }
+}
 
-  .modal--add-todo {
-    .modal {
-      overflow: visible;
-      width: 80vw;
+// 1084px
+@media screen and (max-width: 67.75em) {
+  .container--header {
+    .wrapper-center {
+      width: 100%;
     }
   }
 }
 
-@media (max-width: 1084px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .container--header {
-    .modal--add-todo {
-      .modal {
-        width: 100%;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .container--header {
-    .button--dropdown {
+    .container--buttons {
       display: none;
       pointer-events: none;
       visibility: hidden;
     }
+  }
+
+  .button-repertoire {
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
   }
 }

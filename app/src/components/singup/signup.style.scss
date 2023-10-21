@@ -30,6 +30,13 @@
     display: block;
     margin: 0 auto;
   }
+
+  .container--buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-column: 1/-1;
+  }
 }
 
 @media (max-width: 480px) {

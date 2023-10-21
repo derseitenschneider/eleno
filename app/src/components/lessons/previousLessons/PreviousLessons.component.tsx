@@ -1,35 +1,31 @@
 import './previousLessons.style.scss'
-// React components
-import { FunctionComponent, useState, useEffect } from 'react'
-import { useLessons } from '../../../contexts/LessonsContext'
+// Types
+import { TLesson } from '../../../types/types'
 
-// Components
-import { IoEllipsisHorizontal } from 'react-icons/io5'
-import Button from '../../common/button/Button.component'
-import DropDown from '../../common/dropdown/Dropdown.component'
-import ModalEditLesson from '../../modals/modalEditLesson/ModalEditLesson.component'
+// Hooks
+import { useState, useEffect } from 'react'
+import { useLessons } from '../../../contexts/LessonsContext'
+import { useStudents } from '../../../contexts/StudentContext'
 
 // Functions
 import { formatDateToDisplay } from '../../../utils/formateDate'
-import { toast } from 'react-toastify'
-import ModalViewLessons from '../../modals/modalViewLessons/ModalViewLessons.component'
-import Modal from '../../modals/Modal.component'
-import fetchErrorToast from '../../../hooks/fetchErrorToast'
 import parse from 'html-react-parser'
-import { useSearchParams } from 'react-router-dom'
-import { useStudents } from '../../../contexts/StudentContext'
 
-// [ ] padding bottom (s. Benjamin Häusler 23.08.)
+// Components
+import Modal from '../../common/modal/Modal.component'
 
-type TModals = 'edit-lesson' | 'view-all' | 'delete-lesson' | ''
+import Emtpy from '../../common/emtpy/Empty.component'
+import Menus from '../../common/menu/Menus.component'
+import AllLessons from '../allLessons/AllLessons.component'
+import DeleteLesson from '../deleteLesson/DeleteLesson.component'
+import EditLesson from '../editLesson/EditLesson.component'
+
+import { HiPencil, HiTrash } from 'react-icons/hi'
 
 const PreviousLessons = ({}) => {
-  const { lessons, deleteLesson } = useLessons()
+  const { lessons } = useLessons()
   const { currentStudentId } = useStudents()
 
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
-
-  const [modalOpen, setModalOpen] = useState<TModals>('')
   const [tabIndex, setTabIndex] = useState(0)
   const [isPending, setIsPending] = useState(false)
 
@@ -54,42 +50,19 @@ const PreviousLessons = ({}) => {
     })
     .map((el) => el.id)
 
-  useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      const target = e.target as Element
-      if (!target.closest('.button--edit')) setDropdownOpen(false)
-    }
-    if (dropdownOpen) {
-      window.addEventListener('click', closeDropdown)
-    }
-    return () => {
-      window.removeEventListener('click', closeDropdown)
-    }
-  }, [dropdownOpen])
+  const currentLesson: TLesson = lessons.find(
+    (lesson) => lesson.id === prevLessonsSorted[tabIndex]
+  )
 
   useEffect(() => {
     setTabIndex(0)
   }, [lessons, currentStudentId])
 
-  const deleteHandler = async () => {
-    setModalOpen('')
-    try {
-      setIsPending(true)
-      await deleteLesson(previousLessonsIds[tabIndex])
-      setTabIndex(0)
-      toast('Lektion gelöscht')
-    } catch (err) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
-  }
-
   return (
-    <>
-      {prevLessonsSorted.length ? (
-        <div className="container container--lessons container--previous-lessons">
-          <div className="container--tabs">
+    <div className="container--lessons container--previous-lessons">
+      <div className="container--tabs">
+        {prevLessonsSorted.length > 0 ? (
+          <>
             {prevLessonsSorted.map((prev, index) => (
               <button
                 className={`tab ${tabIndex === index && 'tab--active'}`}
@@ -103,27 +76,24 @@ const PreviousLessons = ({}) => {
                 )}
               </button>
             ))}
-            {prevLessonsSorted.length >= 1 && (
-              <button
-                className="tab"
-                onClick={() => {
-                  setModalOpen('view-all')
-                }}
-              >
-                ...
-              </button>
-            )}
-          </div>
-
+            <Modal>
+              <Modal.Open opens="all-lessons">
+                <button className="tab"> ... </button>
+              </Modal.Open>
+              <Modal.Window name="all-lessons">
+                <AllLessons studentId={currentStudentId} />
+              </Modal.Window>
+            </Modal>
+          </>
+        ) : null}
+      </div>
+      {prevLessonsSorted.length > 0 ? (
+        <>
           <div className={`container--two-rows${isPending ? ' loading' : ''}`}>
             <div className="row-left">
               <h4 className="heading-4">Lektion</h4>
               <div className="content--previous-lesson">
-                {parse(
-                  lessons.find(
-                    (lesson) => lesson.id === prevLessonsSorted[tabIndex]
-                  )?.lessonContent
-                )}
+                {parse(currentLesson.lessonContent)}
               </div>
             </div>
             <div className="row-right">
@@ -139,81 +109,43 @@ const PreviousLessons = ({}) => {
           </div>
 
           <div className="container--edit-buttons">
-            <Button
-              type="button"
-              btnStyle="icon-only"
-              icon={<IoEllipsisHorizontal />}
-              className="button--edit"
-              handler={() => setDropdownOpen((prev) => !prev)}
-            />
-            {dropdownOpen ? (
-              <DropDown
-                positionX="right"
-                positionY="top"
-                buttons={[
-                  {
-                    label: 'Lektion bearbeiten',
-                    handler: () => {
-                      setModalOpen('edit-lesson')
-                    },
-                    type: 'normal',
-                  },
-                  {
-                    label: 'Lektion löschen',
-                    handler: () => {
-                      setModalOpen('delete-lesson')
-                    },
-                    type: 'warning',
-                  },
-                ]}
-              />
-            ) : null}
-          </div>
-          {modalOpen === 'edit-lesson' && (
-            <ModalEditLesson
-              handleClose={() => {
-                setModalOpen('')
-              }}
-              previousLessonsIds={previousLessonsIds}
-              tabIndex={tabIndex}
-            />
-          )}
-          {modalOpen === 'view-all' && (
-            <ModalViewLessons
-              handlerClose={() => {
-                setModalOpen('')
-              }}
-              studentId={currentStudentId}
-            />
-          )}
+            <Modal>
+              <Menus>
+                <Menus.Toggle id="edit-lesson" />
+                <Menus.Menu>
+                  <Menus.List id="edit-lesson">
+                    <Modal.Open opens="edit-lesson">
+                      <Menus.Button icon={<HiPencil />}>
+                        Lektion bearbeiten
+                      </Menus.Button>
+                    </Modal.Open>
 
-          {modalOpen === 'delete-lesson' && (
-            <Modal
-              heading="Lektion löschen"
-              handlerClose={() => {
-                setModalOpen('')
-              }}
-              buttons={[
-                {
-                  label: 'Abbrechen',
-                  btnStyle: 'primary',
-                  handler: () => {
-                    setModalOpen('')
-                  },
-                },
-                {
-                  label: 'Löschen',
-                  btnStyle: 'danger',
-                  handler: deleteHandler,
-                },
-              ]}
-            >
-              <p>Möchtest du die Lektion wirklich löschen?</p>
+                    <Modal.Open opens="delete-lesson">
+                      <Menus.Button
+                        icon={<HiTrash />}
+                        iconColor="var(--clr-warning)"
+                      >
+                        Lektion löschen
+                      </Menus.Button>
+                    </Modal.Open>
+                  </Menus.List>
+                </Menus.Menu>
+              </Menus>
+
+              <Modal.Window name="edit-lesson">
+                <EditLesson lesson={currentLesson} />
+              </Modal.Window>
+
+              <Modal.Window name="delete-lesson">
+                <DeleteLesson lessonId={currentLesson.id} />
+              </Modal.Window>
             </Modal>
-          )}
-        </div>
-      ) : null}
-    </>
+          </div>
+        </>
+      ) : (
+        <Emtpy emptyMessage="Noch keine Lektion erfasst" />
+      )}
+    </div>
   )
 }
 

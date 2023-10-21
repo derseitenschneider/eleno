@@ -1,2 +1,1 @@
-- [ ] Calendar central on mobile
-- [ ] Zoom on Textfields on mobile devices
+

@@ -8,7 +8,7 @@ interface LessonRowProps {
 
 const LessonRow: FunctionComponent<LessonRowProps> = ({ lesson }) => {
   return (
-    <div className="lesson-row">
+    <div className="all-lessons__row">
       <div className="date">{formatDateToDisplay(lesson.date)}</div>
       <div className="content">{parse(lesson.lessonContent)}</div>
       <div className="content">{parse(lesson.homework)}</div>

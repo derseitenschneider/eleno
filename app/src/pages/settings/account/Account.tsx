@@ -3,21 +3,20 @@ import './account.style.scss'
 import { FunctionComponent, useState, useEffect } from 'react'
 import { useUser } from '../../../contexts/UserContext'
 import Button from '../../../components/common/button/Button.component'
-import ModalEditProfile from '../../../components/modals/modalEditProfile/ModalEditProfile.component'
-import ModalEditEmail from '../../../components/modals/modalEditEmail/ModalEditEmail.component'
-import ModalEditPassword from '../../../components/modals/modalEditPassword/ModalEditPassword.component'
-import ModalDeleteAccount from '../../../components/modals/modalDeleteAccount/ModalDeleteAccount.component'
+
+import Modal from '../../../components/common/modal/Modal.component'
+import EditProfile from '../../../components/account/profile/editProfile/EditProfile.component'
+import EditEmail from '../../../components/account/profile/editLogin/editEmail/EditEmail.component'
+import EditPassword from '../../../components/account/profile/editLogin/editPassword/EditPassword.component'
+import DeleteAccount from '../../../components/account/profile/deleteAccount/DeleteAccount.component'
 
 const Account: FunctionComponent = () => {
   const { user } = useUser()
-  const [modalEditProfileOpen, setModalEditProfileOpen] = useState(false)
-  const [modalEditEmailOpen, setModalEditEmailOpen] = useState(false)
-  const [modalEditPasswordOpen, setModalEditPasswordOpen] = useState(false)
-  const [modalDeleteAccountOpen, setModalDeleteAccountOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
   return (
     <div className="account">
       <div className="section section--profile">
@@ -28,15 +27,16 @@ const Account: FunctionComponent = () => {
           <p>Nachname:</p>
           <p>{user.lastName}</p>
         </div>
-        <Button
-          type="button"
-          btnStyle="primary"
-          label="Bearbeiten"
-          handler={() => {
-            setModalEditProfileOpen(true)
-          }}
-        />
+        <Modal>
+          <Modal.Open opens="edit-profile">
+            <Button type="button" btnStyle="primary" label="Bearbeiten" />
+          </Modal.Open>
+          <Modal.Window name="edit-profile">
+            <EditProfile />
+          </Modal.Window>
+        </Modal>
       </div>
+
       <div className="section section--login">
         <h3 className="heading-3">Logindaten</h3>
         <div className="container-info container-info--logindata">
@@ -44,18 +44,28 @@ const Account: FunctionComponent = () => {
           <p>{user.email}</p>
         </div>
         <div className="container--buttons">
-          <Button
-            type="button"
-            btnStyle="primary"
-            label="Email ändern"
-            handler={() => setModalEditEmailOpen(true)}
-          />
-          <Button
-            type="button"
-            btnStyle="primary"
-            label="Passwort ändern"
-            handler={() => setModalEditPasswordOpen(true)}
-          />
+          <Modal>
+            <Modal.Open opens="edit-email">
+              <Button type="button" btnStyle="primary" label="Email ändern" />
+            </Modal.Open>
+
+            <Modal.Window name="edit-email">
+              <EditEmail />
+            </Modal.Window>
+          </Modal>
+
+          <Modal>
+            <Modal.Open opens="edit-password">
+              <Button
+                type="button"
+                btnStyle="primary"
+                label="Passwort ändern"
+              />
+            </Modal.Open>
+            <Modal.Window name="edit-password">
+              <EditPassword />
+            </Modal.Window>
+          </Modal>
         </div>
       </div>
 
@@ -66,27 +76,19 @@ const Account: FunctionComponent = () => {
           (Schüler:innen, Lektionen, Todos etc.) unwiederruflich aus der
           Datenbank gelöscht!
         </p>
-        <Button
-          type="button"
-          btnStyle="danger"
-          label="Benutzerkonto löschen"
-          handler={() => {
-            setModalDeleteAccountOpen(true)
-          }}
-        />
+        <Modal>
+          <Modal.Open opens="delete-account">
+            <Button
+              type="button"
+              btnStyle="danger"
+              label="Benutzerkonto löschen"
+            />
+          </Modal.Open>
+          <Modal.Window name="delete-account">
+            <DeleteAccount />
+          </Modal.Window>
+        </Modal>
       </div>
-      {modalEditProfileOpen && (
-        <ModalEditProfile setModalOpen={setModalEditProfileOpen} />
-      )}
-      {modalEditEmailOpen && (
-        <ModalEditEmail setModalOpen={setModalEditEmailOpen} />
-      )}
-      {modalEditPasswordOpen && (
-        <ModalEditPassword setModalOpen={setModalEditPasswordOpen} />
-      )}
-      {modalDeleteAccountOpen && (
-        <ModalDeleteAccount setModalOpen={setModalDeleteAccountOpen} />
-      )}
     </div>
   )
 }

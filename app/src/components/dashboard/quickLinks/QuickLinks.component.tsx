@@ -25,22 +25,31 @@ const QuickLinks = () => {
       <div className="quick-links__content">
         <Link
           to={'lessons'}
-          className="quick-links__item"
+          className="quick-links__item quick-links__item--lessons"
           onClick={navigateToClosestStudent}
         >
           <IoSchoolSharp className="icon" />
           <p className="card-title">Unterricht starten</p>
         </Link>
-        <Link to={'students?modal=add-student'} className="quick-links__item">
+        <Link
+          to={'students?modal=add-students'}
+          className="quick-links__item quick-links__item--add-student"
+        >
           <IoPeopleCircleOutline className="icon" />
           <p className="card-title">Schüler:in hinzufügen</p>
         </Link>
-        <Link to={'todos'} className="quick-links__item">
+        <Link
+          to={'todos'}
+          className="quick-links__item quick-links__item--todos"
+        >
           <IoCheckboxOutline className="icon" />
           <p className="card-title">Todo erfassen</p>
         </Link>
 
-        <Link to={'settings'} className="quick-links__item">
+        <Link
+          to={'settings'}
+          className="quick-links__item quick-links__item--settings"
+        >
           <IoSettingsOutline className="icon" />
           <p className="card-title">Einstellungen</p>
         </Link>

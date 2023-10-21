@@ -1,12 +1,9 @@
 import './signup.style.scss'
 import { useState } from 'react'
 import Button from '../common/button/Button.component'
-import { signUpSupabase } from '../../supabase/users/users.supabase'
+import { signUpSupabase } from '../../supabase/users.supabase'
 import Loader from '../common/loader/Loader'
 
-import Modal from '../modals/Modal.component'
-import PrivacyPolicy from '../privacyPolicy/PrivacyPolicy.component'
-import TermsAndConditions from '../termsAndConditions/TermsAndConditions.component'
 import { useSearchParams } from 'react-router-dom'
 
 const dataSignup = {
@@ -22,8 +19,6 @@ const Signup = () => {
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
-  const [modalPrivacyOpen, setModalPrivacyOpen] = useState(false)
-  const [modalTermsOpen, setModalTermsOpen] = useState(false)
 
   const [_, setSearchParams] = useSearchParams()
 
@@ -37,14 +32,13 @@ const Signup = () => {
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault()
     const { email, password, firstName, lastName } = input
-    // Check if both passwords are identical
+
     if (password !== input.password2) {
       setError('Deine Passwörter stimmen nicht überein')
       setInput({ ...input, password: '', password2: '' })
       return
     }
 
-    // Check if password is at least 6ch long
     if (password.length < 6) {
       setError('Dein Passwort muss mindestens 6 Zeichen beinhalten')
 
@@ -66,162 +60,137 @@ const Signup = () => {
       setIsPending(false)
     } catch (err) {}
   }
-  return (
-    <>
-      {isPending ? (
-        <Loader loading={isPending} />
-      ) : (
-        <div className="card-login">
-          <div className="wrapper wrapper--signup">
-            {confirmEmailSent ? (
-              <span className="confirmation-message">
-                Der Aktivierungslink wurde an <b>{input.email} </b>
-                gesendet.
-              </span>
-            ) : (
-              <>
-                <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>
-                <form className="form form--signup" onSubmit={signUp}>
-                  <div className="form-item form-item--firstName">
-                    <label htmlFor="firstName">Vorname</label>
-                    <input
-                      required
-                      name="firstName"
-                      type="text"
-                      id="firstName"
-                      value={input.firstName}
-                      onChange={handlerinput}
-                    />
-                  </div>
-                  <div className="form-item form-item--lastName">
-                    <label htmlFor="lastName">Nachname</label>
-                    <input
-                      required
-                      name="lastName"
-                      type="text"
-                      id="lastName"
-                      value={input.lastName}
-                      onChange={handlerinput}
-                    />
-                  </div>
-                  <div className="form-item form-item--email">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      required
-                      name="email"
-                      type="email"
-                      id="email"
-                      className={`email${error.length ? ' input--error' : ''}`}
-                      value={input.email}
-                      onChange={handlerinput}
-                    />
-                  </div>
-                  <div className="form-item form-item--pw1">
-                    <label htmlFor="password">
-                      Passwort{' '}
-                      <span className="password-details">
-                        (Mind. 6 Zeichen)
-                      </span>
-                    </label>
-                    <input
-                      required
-                      name="password"
-                      type="password"
-                      id="password"
-                      className={`password${
-                        error.length ? ' input--error' : ''
-                      }`}
-                      value={input.password}
-                      onChange={handlerinput}
-                    />
-                  </div>
-                  <div className="form-item form-item--pw2">
-                    <label htmlFor="password2">Passwort-Wiederholung</label>
-                    <input
-                      required
-                      name="password2"
-                      type="password"
-                      id="password2"
-                      className={`password${
-                        error.length ? ' input--error' : ''
-                      }`}
-                      value={input.password2}
-                      onChange={handlerinput}
-                    />
-                  </div>
-                  <div className="form-item form-item--privacy-policy">
-                    <input
-                      required
-                      name="privacy-policy"
-                      type="checkbox"
-                      id="privacy-policy"
-                      className={`password${
-                        error.length ? ' input--error' : ''
-                      }`}
-                    />{' '}
-                    <label htmlFor="privacy-policy">
-                      Ich bin mit den{' '}
-                      <a href="#" onClick={() => setModalPrivacyOpen(true)}>
-                        Datenschutzbestimmungen{' '}
-                      </a>{' '}
-                      und den{' '}
-                      <a href="#" onClick={() => setModalTermsOpen(true)}>
-                        Allgemeinen Geschäftsbestimmungen
-                      </a>{' '}
-                      einverstanden
-                    </label>
-                  </div>
-                  <Button
-                    type="submit"
-                    btnStyle="primary"
-                    label="Erstellen"
-                    className="button--signup"
-                    disabled={error.length ? true : false}
-                  />
-                </form>
-                <button
-                  className="button--account-exists"
-                  onClick={() => {
-                    setSearchParams({ page: 'login' })
-                  }}
-                >
-                  ☝️ Ich habe bereits ein Benutzerkonto
-                </button>
-                {error && (
-                  <p
-                    className="error--message"
-                    style={error.length ? { opacity: '1' } : { opacity: '0' }}
-                  >
-                    {error}
-                  </p>
-                )}
-              </>
-            )}
-          </div>
+
+  if (isPending) return <Loader loading={isPending} />
+
+  if (confirmEmailSent)
+    return (
+      <div className="card-login">
+        <div className="wrapper wrapper--signup">
+          <span className="confirmation-message">
+            Der Aktivierungslink wurde an <b>{input.email} </b>
+            gesendet.
+          </span>
         </div>
-      )}
-      {modalPrivacyOpen && (
-        <Modal
-          heading="Impressum & Datenschutz"
-          handlerClose={() => setModalPrivacyOpen(false)}
-          className="modal--privacy-policy"
+      </div>
+    )
+
+  return (
+    <div className="card-login">
+      <div className="wrapper wrapper--signup">
+        <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>
+        <form className="form form--signup" onSubmit={signUp}>
+          <div className="form-item form-item--firstName">
+            <label htmlFor="firstName">Vorname</label>
+            <input
+              required
+              name="firstName"
+              type="text"
+              id="firstName"
+              value={input.firstName}
+              onChange={handlerinput}
+            />
+          </div>
+          <div className="form-item form-item--lastName">
+            <label htmlFor="lastName">Nachname</label>
+            <input
+              required
+              name="lastName"
+              type="text"
+              id="lastName"
+              value={input.lastName}
+              onChange={handlerinput}
+            />
+          </div>
+          <div className="form-item form-item--email">
+            <label htmlFor="email">Email</label>
+            <input
+              required
+              name="email"
+              type="email"
+              id="email"
+              className={`email${error.length ? ' input--error' : ''}`}
+              value={input.email}
+              onChange={handlerinput}
+            />
+          </div>
+          <div className="form-item form-item--pw1">
+            <label htmlFor="password">
+              Passwort{' '}
+              <span className="password-details">(Mind. 6 Zeichen)</span>
+            </label>
+            <input
+              required
+              name="password"
+              type="password"
+              id="password"
+              className={`password${error.length ? ' input--error' : ''}`}
+              value={input.password}
+              onChange={handlerinput}
+            />
+          </div>
+          <div className="form-item form-item--pw2">
+            <label htmlFor="password2">Passwort-Wiederholung</label>
+            <input
+              required
+              name="password2"
+              type="password"
+              id="password2"
+              className={`password${error.length ? ' input--error' : ''}`}
+              value={input.password2}
+              onChange={handlerinput}
+            />
+          </div>
+          <div className="form-item form-item--privacy-policy">
+            <input
+              required
+              name="privacy-policy"
+              type="checkbox"
+              id="privacy-policy"
+              className={`password${error.length ? ' input--error' : ''}`}
+            />{' '}
+            <label htmlFor="privacy-policy">
+              Ich bin mit den{' '}
+              <a href="https://eleno.net/impressum/" target="_blank">
+                Datenschutzbestimmungen{' '}
+              </a>{' '}
+              und den{' '}
+              <a href="https://eleno.net/terms/" target="_blank">
+                Allgemeinen Geschäftsbestimmungen
+              </a>{' '}
+              einverstanden
+            </label>
+          </div>
+          <div className="container--buttons">
+            <p
+              className="error-message"
+              style={{
+                opacity: error.length > 0 ? 1 : 0,
+                textAlign: 'center',
+              }}
+            >
+              {error}
+            </p>
+            <Button
+              type="submit"
+              btnStyle="primary"
+              label="Erstellen"
+              className="button--signup"
+              disabled={error.length > 0}
+            />
+          </div>
+        </form>
+
+        <button
+          className="button--account-exists"
+          onClick={() => {
+            setSearchParams({ page: 'login' })
+          }}
         >
-          <PrivacyPolicy />
-        </Modal>
-      )}
-      {modalTermsOpen && (
-        <Modal
-          heading="Allgemeine Geschäftsbedingungen"
-          handlerClose={() => setModalTermsOpen(false)}
-          className="modal--terms"
-        >
-          <TermsAndConditions
-            setModalPrivacyOpen={setModalPrivacyOpen}
-            setModalTermsOpen={setModalTermsOpen}
-          />
-        </Modal>
-      )}
-    </>
+          ☝️ Ich habe bereits ein Benutzerkonto
+        </button>
+      </div>
+    </div>
   )
 }
 

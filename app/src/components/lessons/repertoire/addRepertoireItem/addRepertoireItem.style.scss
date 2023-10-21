@@ -1,0 +1,35 @@
+.repertoire-list {
+  &__add {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 4.8rem;
+  }
+  &__inputs {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, auto);
+    flex: 1;
+
+    &.editing {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    // grid-template-columns: 1fr repeat(2, 12ch) 2rem;
+
+    &.loading {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    & > * {
+      padding: 1rem;
+    }
+    .date-picker {
+      background-color: var(--clr-bg-400);
+    }
+  }
+
+  .btn-add {
+    margin-bottom: 0.5rem;
+  }
+}

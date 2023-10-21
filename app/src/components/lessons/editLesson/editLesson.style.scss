@@ -1,0 +1,53 @@
+.edit-lesson {
+  width: 75vw;
+  padding: 4.8rem;
+
+  &__date {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  &__inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    &.loading {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    &__Lesson {
+      .container--editor {
+        height: 20rem;
+      }
+    }
+  }
+
+  &__buttons {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 1084px) {
+  .edit-lesson {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 42.5em) {
+  .edit-lesson {
+    padding: 4.8rem 2rem;
+    min-height: 100vh;
+    &__inputs {
+      grid-template-columns: 1fr;
+      gap: 6.8rem;
+    }
+  }
+}
