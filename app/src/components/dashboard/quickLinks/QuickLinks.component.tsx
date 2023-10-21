@@ -53,7 +53,11 @@ const QuickLinks = () => {
           <IoSettingsOutline className="icon" />
           <p className="card-title">Einstellungen</p>
         </Link>
-        <Link to={'manual'} className="quick-links__item">
+        <Link
+          to={'https://manual.eleno.net'}
+          target="_blank"
+          className="quick-links__item"
+        >
           <IoBookOutline className="icon" />
           <p className="card-title">Anleitung</p>
         </Link>
