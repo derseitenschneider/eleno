@@ -1,17 +1,14 @@
-import { FunctionComponent, useState, useEffect } from 'react'
-import './addTodo.style.scss'
-import Button from '../../common/button/Button.component'
-import { TTodo } from '../../../types/types'
-import { useUser } from '../../../contexts/UserContext'
-import {
-  formatDateToDatabase,
-  formatDateToDisplay,
-} from '../../../utils/formateDate'
-import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../../contexts/TodosContext'
+import { useUser } from '../../../contexts/UserContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import { TTodo } from '../../../types/types'
+import { formatDateToDatabase } from '../../../utils/formateDate'
+import Button from '../../common/button/Button.component'
 import DatePicker from '../../common/datePicker/DatePicker.component'
+import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
+import './addTodo.style.scss'
 
 interface AddTodoProps {
   studentId?: number
