@@ -10,11 +10,6 @@ export default defineConfig({
   compressHTML: true,
 
   vite: {
-    build: {
-      rollupOptions: {
-        external: ['framer-motion'],
-      },
-    },
     server: {
       fs: {
         allow: ['../app', '../landingpage'],

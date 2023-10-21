@@ -36,6 +36,15 @@
       max-width: 60ch;
     }
 
+    p {
+      margin-bottom: 1em;
+    }
+
+    a {
+      text-decoration: underline;
+      color: var(--clr-primary-600);
+    }
+
     &:not(:last-child) {
       padding-bottom: 2.8rem;
       margin-bottom: 2.8rem;
