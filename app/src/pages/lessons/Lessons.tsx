@@ -1,11 +1,11 @@
 import './lessons.style.scss'
 
 // React
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 // Types
 
-// Contexts
+// Context
 import { useStudents } from '../../contexts/StudentContext'
 import { useLoading } from '../../contexts/LoadingContext'
 
