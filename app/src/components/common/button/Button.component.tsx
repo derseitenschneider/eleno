@@ -1,10 +1,10 @@
 import './button.style.scss'
 
-import { FunctionComponent, ReactElement, ReactNode } from 'react'
+import { ReactElement } from 'react'
 import { IconType } from 'react-icons/lib'
 
 export interface ButtonProps {
-  type?: 'button' | 'submit'
+  type: 'button' | 'submit'
   label?: string
   icon?: ReactElement<IconType>
   btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warning' | 'danger'
@@ -18,7 +18,7 @@ export interface ButtonProps {
   onClick?: () => void
 }
 
-const Button: FunctionComponent<ButtonProps> = ({
+function Button({
   label,
   icon,
   type,
@@ -31,26 +31,22 @@ const Button: FunctionComponent<ButtonProps> = ({
   disabled,
   onClick,
   size = 'md',
-}) => {
+}: ButtonProps) {
   return (
-    <>
-      <button
-        type={type || 'button'}
-        className={`button button--${btnStyle} button--${size} ${
-          className || ''
-        }`}
-        onClick={handler || onClick}
-        data-ref={dataref}
-        tabIndex={tabIndex || 0}
-        disabled={disabled}
-      >
-        <>
-          {icon && <span>{icon}</span>}
-          <span>{label}</span>
-          {children}
-        </>
-      </button>
-    </>
+    <button
+      type={type === 'button' ? 'button' : 'submit'}
+      className={`button button--${btnStyle} button--${size} ${
+        className || ''
+      }`}
+      onClick={handler || onClick}
+      data-ref={dataref}
+      tabIndex={tabIndex || 0}
+      disabled={disabled}
+    >
+      {icon && <span>{icon}</span>}
+      <span>{label}</span>
+      {children}
+    </button>
   )
 }
 

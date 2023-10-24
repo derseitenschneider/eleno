@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 
-const AnimatedLogo = () => {
+function AnimatedLogo() {
   return (
     <motion.svg
       width="128"

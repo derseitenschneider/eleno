@@ -1,7 +1,5 @@
 import './customEditor.style.scss'
 
-import { FunctionComponent } from 'react'
-
 import {
   BtnBold,
   BtnBulletList,
@@ -22,13 +20,9 @@ import {
 interface CustomEditorProps {
   value: string
   onChange: (content: string) => void
-  onFocus?: (action: 'pause' | 'unpause') => void
 }
 
-const CustomEditor: FunctionComponent<CustomEditorProps> = ({
-  value,
-  onChange,
-}) => {
+function CustomEditor({ value, onChange }: CustomEditorProps) {
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
     const inputWithoutColorTag = inputText.split('background-color:').join('')

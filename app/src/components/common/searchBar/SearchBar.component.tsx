@@ -1,17 +1,16 @@
-import './searchBar.style.scss'
-import { FunctionComponent } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
+import './searchBar.style.scss'
 
 interface SearchBarProps {
   searchInput: string
   handlerSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void
   disabled?: boolean
 }
-const SearchBar: FunctionComponent<SearchBarProps> = ({
+function SearchBar({
   searchInput,
   handlerSearchInput,
   disabled,
-}) => {
+}: SearchBarProps) {
   return (
     <div className="search-bar">
       <IoSearchOutline className="icon icon-search" />
@@ -20,7 +19,7 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({
         type="search"
         placeholder="suchen"
         value={searchInput}
-        autoFocus={window.screen.width > 1366 ? true : false}
+        autoFocus={window.screen.width > 1366}
         onChange={handlerSearchInput}
         disabled={disabled}
       />

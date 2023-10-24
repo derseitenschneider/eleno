@@ -2,6 +2,7 @@
 
 ## Features coming up next
 
+- [ ] more fields in repertoire-list (Werk, Komponist, Lehrmittel(Quelle), Dauer, etc.)
 - [ ] searchfield in allLessons view
 
 - [ ] Absenzen-Funktion

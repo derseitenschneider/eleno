@@ -1,6 +1,5 @@
 import './buttonSort.style.scss'
 
-import { FC } from 'react'
 import { IoTriangle } from 'react-icons/io5'
 import { useSearchParams } from 'react-router-dom'
 
@@ -8,7 +7,7 @@ interface IButtonSort {
   name: string
 }
 
-const ButtonSort: FC<IButtonSort> = ({ name }) => {
+function ButtonSort({ name }: IButtonSort) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const sortBy = searchParams.get('sort')
@@ -27,6 +26,7 @@ const ButtonSort: FC<IButtonSort> = ({ name }) => {
 
   return (
     <button
+      type="button"
       style={
         active && ascending === 'false' ? { transform: 'rotate(180deg)' } : {}
       }

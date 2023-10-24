@@ -1,18 +1,20 @@
-import { IoEllipsisVertical } from 'react-icons/io5'
-import './menus.style.scss'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   FC,
   ReactNode,
   cloneElement,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
+import { IoEllipsisVertical } from 'react-icons/io5'
 import { useOutsideClick } from '../../../hooks/useOutsideClick'
-import { AnimatePresence, motion } from 'framer-motion'
+import './menus.style.scss'
 
 interface MenusProps {
   children: ReactNode
@@ -39,13 +41,6 @@ interface ButtonProps {
   iconColor?: string
 }
 
-interface MenuComp {
-  Toggle: FC<ToggleProbs>
-  Menu: FC<MenuProps>
-  List: FC<ListProps>
-  Button: FC<ButtonProps>
-}
-
 type TPosition = {
   x: number
   y: number
@@ -53,40 +48,28 @@ type TPosition = {
 
 const MenusContext = createContext(null)
 
-const Menus: FC<MenusProps> & MenuComp = ({
-  children,
-  icon = <IoEllipsisVertical />,
-}) => {
+function Menus({ children, icon = <IoEllipsisVertical /> }: MenusProps) {
   const [openId, setOpenId] = useState('')
   const [position, setPosition] = useState<TPosition>(null)
 
   const open = setOpenId
-  const close = () => setOpenId(null)
+  const close = useCallback(() => setOpenId(null), [])
+
   const MAX_HEIGHT = 200
 
-  return (
-    <MenusContext.Provider
-      value={{
-        open,
-        close,
-        openId,
-        position,
-        setPosition,
-        icon,
-        MAX_HEIGHT,
-      }}
-    >
-      {children}
-    </MenusContext.Provider>
+  const value = useMemo(
+    () => ({ open, close, openId, position, setPosition, icon, MAX_HEIGHT }),
+    [open, close, openId, position, setPosition, icon, MAX_HEIGHT],
   )
+  return <MenusContext.Provider value={value}>{children}</MenusContext.Provider>
 }
 
-const Menu: FC<MenuProps> = ({ children }) => {
+function Menu({ children }: MenuProps) {
   const { openId } = useContext(MenusContext)
   return cloneElement(children, { openId })
 }
 
-const Toggle: FC<ToggleProbs> = ({ id }) => {
+function Toggle({ id }: ToggleProbs) {
   const { open, openId, close, setPosition, icon, MAX_HEIGHT } =
     useContext(MenusContext)
   const toggleRef = useRef(null)
@@ -133,17 +116,25 @@ const Toggle: FC<ToggleProbs> = ({ id }) => {
       window.addEventListener('scroll', handleScroll, true)
     }
     return () => window.removeEventListener('scroll', handleScroll, true)
-  }, [openId])
+  }, [close, id, openId])
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-
-    openId === '' || id !== openId ? open(id) : close()
+    if (openId === '' || id !== openId) {
+      open(id)
+    } else {
+      close()
+    }
     getPosition()
   }
 
   return (
-    <button className="menu__toggle" onClick={handleClick} ref={toggleRef}>
+    <button
+      type="button"
+      className="menu__toggle"
+      onClick={handleClick}
+      ref={toggleRef}
+    >
       {icon}
     </button>
   )
@@ -175,16 +166,16 @@ const List: FC<ListProps> = ({ children, id }) => {
         </motion.ul>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   )
 }
 
-const Button: FC<ButtonProps> = ({
+function Button({
   icon,
   iconColor = 'var(--clr-primary-600)',
   children,
   onClick,
-}) => {
+}: ButtonProps) {
   const { close } = useContext(MenusContext)
 
   const handleClick = () => {
@@ -193,10 +184,10 @@ const Button: FC<ButtonProps> = ({
   }
 
   return (
-    <li className="menu__button" onClick={handleClick}>
+    <button type="button" className="menu__button" onClick={handleClick}>
       <span style={{ color: iconColor }}>{icon}</span>
       <span>{children}</span>
-    </li>
+    </button>
   )
 }
 
