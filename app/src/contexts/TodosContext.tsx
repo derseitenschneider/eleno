@@ -12,7 +12,7 @@ import {
   reactivateTodoSupabase,
   saveTodoSupabase,
   updateTodoSupabase,
-} from '../supabase/todos.supabase'
+} from '../services/todos.api'
 import { ContextTypeTodos, TTodo } from '../types/types'
 import { useUser } from './UserContext'
 

@@ -1,6 +1,6 @@
 import './timetable.style.scss'
 import { useEffect } from 'react'
-import TimeTableDay from '../../components/timetable/timeTableDay/TimetableDay.component'
+import TimeTableDay from '../../components/features/timetable/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { TTimetableDay } from '../../types/types'
@@ -14,7 +14,7 @@ function Timetable() {
   }, [])
 
   const sortedStudents = sortStudentsDateTime(
-    students.filter((student) => !student.archive)
+    students.filter((student) => !student.archive),
   )
   const monday: TTimetableDay = {
     day: 'Montag',
@@ -104,7 +104,7 @@ function Timetable() {
             {days.map((day, index) =>
               day.students.length ? (
                 <TimeTableDay day={day} key={index} />
-              ) : null
+              ) : null,
             )}
           </div>
         ) : (

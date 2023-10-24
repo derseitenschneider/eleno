@@ -13,7 +13,7 @@ import {
   deleteRepertoireItemSupabase,
   getRepertoireByStudentSupabase,
   udpateRepertoireItemSupabase,
-} from '../supabase/repertoire.supabase'
+} from '../services/repertoire.api'
 
 export const RepertoireContext = createContext<ContextTypeRepertoire>({
   repertoire: [],

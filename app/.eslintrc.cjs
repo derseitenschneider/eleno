@@ -26,5 +26,6 @@ module.exports = {
     'react/react-in-jsx-scope': [0],
     'jsx-a11y/no-autofocus': 0,
     'import/no-cycle': 0,
+    'react/jsx-no-bind': 0,
   },
 }

@@ -1,11 +1,11 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import { fetchStudents } from '../../supabase/students.supabase'
+import { fetchStudents } from '../../services/students.api'
 import { useStudents } from '../../contexts/StudentContext'
-import { fetchLatestLessonsSupabase } from '../../supabase/lessons.supabase'
+import { fetchLatestLessonsSupabase } from '../../services/lessons.api'
 import { useLessons } from '../../contexts/LessonsContext'
-import { fetchNotes } from '../../supabase/notes.supabase'
+import { fetchNotes } from '../../services/notes.api'
 import { useNotes } from '../../contexts/NotesContext'
-import { fetchTodosSupabase } from '../../supabase/todos.supabase'
+import { fetchTodosSupabase } from '../../services/todos.api'
 import { useTodos } from '../../contexts/TodosContext'
 import Loader from '../../components/common/loader/Loader'
 import { useUser } from '../../contexts/UserContext'
@@ -53,7 +53,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
           setIsPending(false)
         } catch (err) {
           setErrorMessage(
-            'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.'
+            'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.',
           )
           setIsPending(false)
         }

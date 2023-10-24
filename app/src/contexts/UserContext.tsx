@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import fetchErrorToast from '../hooks/fetchErrorToast'
 import LoginPage from '../pages/login/LoginPage'
-import { supabase } from '../supabase/supabase'
+import { supabase } from '../services/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
@@ -18,7 +18,7 @@ import {
   updateEmailSupabase,
   updatePasswordSupabase,
   updateProfileSupabase,
-} from '../supabase/users.supabase'
+} from '../services/user.api'
 import { ContextTypeUser, TProfile, TUser } from '../types/types'
 import { useLoading } from './LoadingContext'
 

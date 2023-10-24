@@ -12,11 +12,11 @@ import {
   reactivateStudentSupabase,
   resetStudentSupabase,
   updateStudentSupabase,
-} from '../supabase/students.supabase'
+} from '../services/students.api'
 import { ContextTypeStudents, TStudent } from '../types/types'
 
-import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons.supabase'
-import { fetchNotesByStudent } from '../supabase/notes.supabase'
+import { fetchLatestLessonsPerStudentSupabase } from '../services/lessons.api'
+import { fetchNotesByStudent } from '../services/notes.api'
 import { sortStudentsDateTime } from '../utils/sortStudents'
 import { useLessons } from './LessonsContext'
 import { useNotes } from './NotesContext'

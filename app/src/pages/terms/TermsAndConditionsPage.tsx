@@ -1,4 +1,4 @@
-import TermsAndConditions from '../../components/termsAndConditions/TermsAndConditions.component'
+import TermsAndConditions from '../../components/features/user/termsAndConditions/TermsAndConditions.component'
 
 const TermsAndConditionsPage = () => {
   return (

@@ -1,9 +1,9 @@
 import './loginPage.style.scss'
 
-import Login from '../../components/login/Login.component'
+import Login from '../../components/features/user/login/Login.component'
 
-import Signup from '../../components/singup/Signup.component'
-import ForgotPassword from '../../components/forgotPassword/ForgotPassword.component'
+import Signup from '../../components/features/user/singup/Signup.component'
+import ForgotPassword from '../../components/features/user/forgotPassword/ForgotPassword.component'
 import { useSearchParams } from 'react-router-dom'
 import AnimatedLogo from '../../components/common/logo/AnimatedLogo.component'
 

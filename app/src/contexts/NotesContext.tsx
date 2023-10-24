@@ -3,7 +3,7 @@ import {
   deleteNoteSupabase,
   editNoteSupabase,
   postNotesSupabase,
-} from '../supabase/notes.supabase'
+} from '../services/notes.api'
 import { ContextTypeNotes, TNotes } from '../types/types'
 import { useUser } from './UserContext'
 

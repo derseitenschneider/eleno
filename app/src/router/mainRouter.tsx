@@ -16,8 +16,8 @@ import Account from '../pages/settings/account/Account'
 import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
 import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
 
-import ActiveStudents from '../components/students/activeStudents/ActiveStudents.component'
-import ArchivatedStudents from '../components/students/inActiveStudents/InactiveStudents.component'
+import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
+import ArchivatedStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 
 export const mainRouter = createBrowserRouter(
   [
@@ -85,5 +85,5 @@ export const mainRouter = createBrowserRouter(
   ],
   {
     basename: '/',
-  }
+  },
 )

@@ -3,13 +3,13 @@ import { toast } from 'react-toastify'
 
 import NoContent from '../../components/common/noContent/NoContent.component'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
-import TodoList from '../../components/todos/todoList/TodoList.component'
+import TodoList from '../../components/features/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
 import Button from '../../components/common/button/Button.component'
-import TodoItem from '../../components/todos/todoItem/TodoItem.component'
-import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
+import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
+import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
 import Modal from '../../components/common/modal/Modal.component'
-import DeleteTodos from '../../components/todos/deleteTodos/DeleteTodos.component'
+import DeleteTodos from '../../components/features/todos/deleteTodos/DeleteTodos.component'
 
 const TodosCompleted = () => {
   const { todos } = useTodos()

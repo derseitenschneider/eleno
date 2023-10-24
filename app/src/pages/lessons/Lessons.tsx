@@ -12,15 +12,15 @@ import { useLoading } from '../../contexts/LoadingContext'
 // Functions
 
 import { useNavigate } from 'react-router-dom'
-import LessonHeader from '../../components/lessons/lessonHeader/LessonHeader'
-import PreviousLessons from '../../components/lessons/previousLessons/PreviousLessons.component'
+import LessonHeader from '../../components/features/lessons/lessonHeader/LessonHeader'
+import PreviousLessons from '../../components/features/lessons/previousLessons/PreviousLessons.component'
 
-import NewLesson from '../../components/lessons/newLesson/NewLesson.component'
-import LessonFooter from '../../components/lessons/lessonFooter/LessonFooter.component'
+import NewLesson from '../../components/features/lessons/newLesson/NewLesson.component'
+import LessonFooter from '../../components/features/lessons/lessonFooter/LessonFooter.component'
 import { motion } from 'framer-motion'
 
 import NoContent from '../../components/common/noContent/NoContent.component'
-import NoteList from '../../components/lessons/notes/noteList/NoteList.component'
+import NoteList from '../../components/features/notes/noteList/NoteList.component'
 
 const Lesson = () => {
   const { loading } = useLoading()

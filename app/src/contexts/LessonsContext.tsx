@@ -10,7 +10,7 @@ import {
   fetchAllLessonsSupabase,
   saveNewLessonSupabase,
   updateLessonSupabase,
-} from '../supabase/lessons.supabase'
+} from '../services/lessons.api'
 import { ContextTypeLessons, TDraft, TLesson } from '../types/types'
 import { formatDateToDatabase } from '../utils/formateDate'
 import { useUser } from './UserContext'

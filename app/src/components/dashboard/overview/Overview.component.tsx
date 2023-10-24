@@ -21,7 +21,7 @@ const Overview = () => {
   const todosOpen = todos.filter((todo) => !todo.completed)
 
   const todosOverdue = todosOpen.filter(
-    (todo) => todo.due < formatDateToDatabase(dateToday)
+    (todo) => todo.due < formatDateToDatabase(dateToday),
   )
 
   return (

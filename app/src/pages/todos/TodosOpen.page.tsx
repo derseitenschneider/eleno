@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import TodoList from '../../components/todos/todoList/TodoList.component'
+import TodoList from '../../components/features/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
 import NoContent from '../../components/common/noContent/NoContent.component'
 import { compareDateTodos } from '../../utils/sortTodos'
-import AddTodo from '../../components/todos/addTodo/AddTodo.component'
-import TodoDescription from '../../components/todos/todoDescription/TodoDescription.component'
-import TodoItem from '../../components/todos/todoItem/TodoItem.component'
+import AddTodo from '../../components/features/todos/addTodo/AddTodo.component'
+import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
+import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
 
 const TodosOpen = () => {
   const { todos } = useTodos()

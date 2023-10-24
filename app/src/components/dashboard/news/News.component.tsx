@@ -8,7 +8,7 @@ interface NewsProps {}
 
 const News: FunctionComponent<NewsProps> = () => {
   const sortedNews = news.sort(
-    (a, b) => Date.parse(b.date) - Date.parse(a.date)
+    (a, b) => Date.parse(b.date) - Date.parse(a.date),
   )
 
   return (
