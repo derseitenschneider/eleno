@@ -1,25 +1,25 @@
 import './addNote.style.scss'
 
-import { FC, useState } from 'react'
-import { useNotes } from '../../../../contexts/NotesContext'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useNotes } from '../../../../contexts/NotesContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import CustomEditor from '../../../common/customEditor/CustomEditor.component'
 import Button from '../../../common/button/Button.component'
+import CustomEditor from '../../../common/customEditor/CustomEditor.component'
 
 interface AddNoteProps {
   onCloseModal?: () => void
   currentStudentId: number
 }
 
-const AddNote: FC<AddNoteProps> = ({ onCloseModal, currentStudentId }) => {
+function AddNote({ onCloseModal, currentStudentId }: AddNoteProps) {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const { saveNote } = useNotes()
   const [isPending, setIsPending] = useState(false)
 
-  const handleText = (text: string) => {
-    setText(text)
+  const handleText = (inputText: string) => {
+    setText(inputText)
   }
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
@@ -48,7 +48,7 @@ const AddNote: FC<AddNoteProps> = ({ onCloseModal, currentStudentId }) => {
     <div className={`add-note ${isPending ? 'loading' : ''}`}>
       <h2 className="heading-2">Neue Notiz erstellen</h2>
       <input
-        autoFocus={window.screen.width > 1000 ? true : false}
+        autoFocus={window.screen.width > 1000}
         type="text"
         name="title"
         placeholder="Titel"
@@ -60,8 +60,18 @@ const AddNote: FC<AddNoteProps> = ({ onCloseModal, currentStudentId }) => {
         <CustomEditor value={text} onChange={handleText} />
       </div>
       <div className="add-note__buttons">
-        <Button btnStyle="secondary" handler={onCloseModal} label="Abbrechen" />
-        <Button btnStyle="primary" handler={handleSave} label="Speichern" />
+        <Button
+          type="button"
+          btnStyle="secondary"
+          handler={onCloseModal}
+          label="Abbrechen"
+        />
+        <Button
+          type="button"
+          btnStyle="primary"
+          handler={handleSave}
+          label="Speichern"
+        />
       </div>
     </div>
   )

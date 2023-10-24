@@ -1,12 +1,11 @@
 import './note.style.scss'
-import { FunctionComponent } from 'react'
 
 import parse from 'html-react-parser'
-import Menus from '../../../common/menu/Menus.component'
 import { HiPencil, HiTrash } from 'react-icons/hi'
+import Menus from '../../../common/menu/Menus.component'
 import Modal from '../../../common/modal/Modal.component'
-import EditNote from '../editNote/EditNote.component'
 import DeleteNote from '../deleteNote/DeleteNote.component'
+import EditNote from '../editNote/EditNote.component'
 
 interface NoteProps {
   id: number
@@ -14,7 +13,7 @@ interface NoteProps {
   text: string
 }
 
-const Note: FunctionComponent<NoteProps> = ({ id, title, text }) => {
+function Note({ id, title, text }: NoteProps) {
   return (
     <div className="note">
       <div className="container--edit-button">

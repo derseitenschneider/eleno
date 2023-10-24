@@ -1,14 +1,14 @@
-import './noteList.style.scss'
-import { useNotes } from '../../../../contexts/NotesContext'
-import Button from '../../../common/button/Button.component'
-import Note from '../note/Note.component'
 import { IoAddOutline } from 'react-icons/io5'
+import { useNotes } from '../../../../contexts/NotesContext'
 import { useStudents } from '../../../../contexts/StudentContext'
+import Button from '../../../common/button/Button.component'
+import Menus from '../../../common/menu/Menus.component'
 import Modal from '../../../common/modal/Modal.component'
 import AddNote from '../addNote/AddNote.component'
-import Menus from '../../../common/menu/Menus.component'
+import Note from '../note/Note.component'
+import './noteList.style.scss'
 
-const NoteList = () => {
+function NoteList() {
   const { currentStudentId } = useStudents()
   const { notes } = useNotes()
 
@@ -22,7 +22,11 @@ const NoteList = () => {
         <h4 className="heading-4">Notizen</h4>
         <Modal>
           <Modal.Open opens="add-note">
-            <Button btnStyle="icon-only" icon={<IoAddOutline />} />
+            <Button
+              type="button"
+              btnStyle="icon-only"
+              icon={<IoAddOutline />}
+            />
           </Modal.Open>
 
           <Modal.Window name="add-note">

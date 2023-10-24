@@ -1,16 +1,16 @@
-import './deleteNote.style.scss'
-import { FC, useState } from 'react'
-import Button from '../../../common/button/Button.component'
-import { useNotes } from '../../../../contexts/NotesContext'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useNotes } from '../../../../contexts/NotesContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import Button from '../../../common/button/Button.component'
+import './deleteNote.style.scss'
 
 interface DeleteNoteProps {
-  onCloseModal?: () => {}
+  onCloseModal?: () => void
   noteId: number
 }
 
-const DeleteNote: FC<DeleteNoteProps> = ({ onCloseModal, noteId }) => {
+function DeleteNote({ onCloseModal, noteId }: DeleteNoteProps) {
   const [isPending, setIsPending] = useState(false)
   const { deleteNote } = useNotes()
 
@@ -32,8 +32,18 @@ const DeleteNote: FC<DeleteNoteProps> = ({ onCloseModal, noteId }) => {
       <h2 className="heading-2">Notiz löschen</h2>
       <p>Möchtest du diese Notiz wirklich löschen?</p>
       <div className="delete-note__buttons">
-        <Button btnStyle="secondary" handler={onCloseModal} label="Abbrechen" />
-        <Button btnStyle="danger" handler={handleDelete} label="Löschen" />
+        <Button
+          type="button"
+          btnStyle="secondary"
+          handler={onCloseModal}
+          label="Abbrechen"
+        />
+        <Button
+          type="button"
+          btnStyle="danger"
+          handler={handleDelete}
+          label="Löschen"
+        />
       </div>
     </div>
   )
