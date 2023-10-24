@@ -1,5 +1,5 @@
 import { de } from 'date-fns/locale'
-import { FC, MutableRefObject, useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 import { createPortal } from 'react-dom'
@@ -13,12 +13,12 @@ interface DatePickerProps {
   hideRemoveBtn?: boolean
 }
 
-const DatePicker: FC<DatePickerProps> = ({
+function DatePicker({
   setDate,
   selectedDate,
   id = '',
   hideRemoveBtn,
-}) => {
+}: DatePickerProps) {
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const calendarRef: MutableRefObject<HTMLDivElement> = useRef()
@@ -34,7 +34,8 @@ const DatePicker: FC<DatePickerProps> = ({
       const calendarWidth = 308
       const calendarHeight = 308
 
-      let posX: number, posY: number
+      let posX: number
+      let posY: number
       const distanceToLeft = rect.x
       const distanceToBottom = window.innerHeight - rect.y
 
@@ -88,7 +89,7 @@ const DatePicker: FC<DatePickerProps> = ({
       window.addEventListener('click', handleClick, true)
     }
     return () => window.addEventListener('click', handleClick, true)
-  }, [calendarRef, calendarOpen])
+  }, [calendarRef, calendarOpen, id])
 
   const toggleCalendar = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation()
@@ -116,17 +117,22 @@ const DatePicker: FC<DatePickerProps> = ({
     <div className="date-picker">
       {selectedDate ? (
         <div className="date-picker__wrapper-date" ref={toggleRef}>
-          <span className="date-picker__date" onClick={toggleCalendar}>
+          <button
+            type="button"
+            className="date-picker__date"
+            onClick={toggleCalendar}
+          >
             {selectedDate
               .toLocaleDateString()
               .split('.')
               .map((el, i) =>
-                i === 0 || i === 1 ? el.padStart(2, '0') : el.slice(2)
+                i === 0 || i === 1 ? el.padStart(2, '0') : el.slice(2),
               )
               .join('.')}
-          </span>
+          </button>
           {!hideRemoveBtn && (
             <button
+              type="button"
               className="date-picker__btn-remove btn-remove"
               onClick={resetDate}
             >
@@ -136,6 +142,7 @@ const DatePicker: FC<DatePickerProps> = ({
         </div>
       ) : (
         <button
+          type="button"
           className="date-picker__btn-open"
           onClick={toggleCalendar}
           ref={toggleRef}
@@ -146,29 +153,27 @@ const DatePicker: FC<DatePickerProps> = ({
       )}
       {calendarOpen &&
         createPortal(
-          <>
-            <div
-              id={id}
-              ref={calendarRef}
-              className="date-picker__calendar"
-              style={{
-                left: position.x,
-                top: position.y,
-              }}
-            >
-              <DayPicker
-                mode="single"
-                selected={selectedDate}
-                onSelect={handleSelect}
-                defaultMonth={selectedDate ? selectedDate : new Date()}
-                locale={de}
-                captionLayout="dropdown-buttons"
-                fromYear={thisYear - 10}
-                toYear={thisYear + 2}
-              />
-            </div>
-          </>,
-          document.body
+          <div
+            id={id}
+            ref={calendarRef}
+            className="date-picker__calendar"
+            style={{
+              left: position.x,
+              top: position.y,
+            }}
+          >
+            <DayPicker
+              mode="single"
+              selected={selectedDate}
+              onSelect={handleSelect}
+              defaultMonth={selectedDate}
+              locale={de}
+              captionLayout="dropdown-buttons"
+              fromYear={thisYear - 10}
+              toYear={thisYear + 2}
+            />
+          </div>,
+          document.body,
         )}
     </div>
   )

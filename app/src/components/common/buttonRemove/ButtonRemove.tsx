@@ -1,14 +1,13 @@
-import './buttonRemove.style.scss'
-import { FC } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
+import './buttonRemove.style.scss'
 
 interface ButtonRemoveProps {
   onRemove: () => void
 }
 
-const ButtonRemove: FC<ButtonRemoveProps> = ({ onRemove }) => {
+function ButtonRemove({ onRemove }: ButtonRemoveProps) {
   return (
-    <button className="btn-remove" onClick={onRemove}>
+    <button className="btn-remove" onClick={onRemove} type="button">
       <IoCloseOutline />
     </button>
   )
