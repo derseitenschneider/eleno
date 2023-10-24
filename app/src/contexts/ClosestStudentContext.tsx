@@ -1,14 +1,18 @@
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { ContextTypeClosestStudent } from '../types/types'
-import { createContext, useState, useEffect, useContext } from 'react'
-import { useStudents } from './StudentContext'
 import { getClosestStudentIndex } from '../utils/getClosestStudentIndex'
+import { useStudents } from './StudentContext'
 
 export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({
   closestStudentIndex: 0,
   setClosestStudentIndex: () => {},
 })
 
-export const ClosestStudentProvider = ({ children }) => {
+export function ClosestStudentProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const { students } = useStudents()
   const [closestStudentIndex, setClosestStudentIndex] = useState<number>(0)
 
@@ -17,11 +21,12 @@ export const ClosestStudentProvider = ({ children }) => {
       setClosestStudentIndex(getClosestStudentIndex(students))
     }
   }, [students])
-
+  const value = useMemo(
+    () => ({ closestStudentIndex, setClosestStudentIndex }),
+    [closestStudentIndex, setClosestStudentIndex],
+  )
   return (
-    <ClosestStudentContext.Provider
-      value={{ closestStudentIndex, setClosestStudentIndex }}
-    >
+    <ClosestStudentContext.Provider value={value}>
       {children}
     </ClosestStudentContext.Provider>
   )

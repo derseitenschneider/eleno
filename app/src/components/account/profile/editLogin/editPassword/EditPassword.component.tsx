@@ -1,15 +1,15 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useUser } from '../../../../../contexts/UserContext'
-import './editPassword.style.scss'
-import { FC, useState } from 'react'
 import fetchErrorToast from '../../../../../hooks/fetchErrorToast'
 import Button from '../../../../common/button/Button.component'
+import './editPassword.style.scss'
 
 interface EditPasswordProps {
   onCloseModal?: () => void
 }
 
-const EditPassword: FC<EditPasswordProps> = ({ onCloseModal }) => {
+function EditPassword({ onCloseModal }: EditPasswordProps) {
   const { updatePassword } = useUser()
   const [input, setInput] = useState({
     password1: '',
@@ -19,11 +19,10 @@ const EditPassword: FC<EditPasswordProps> = ({ onCloseModal }) => {
   const [isPending, setIsPending] = useState(false)
 
   const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setError('')
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     setInput((prev) => {
       return { ...prev, [name]: value }
     })
@@ -40,8 +39,10 @@ const EditPassword: FC<EditPasswordProps> = ({ onCloseModal }) => {
       await updatePassword(input.password1)
       onCloseModal?.()
       toast('Passwort geändert')
-    } catch (error) {
+      return null
+    } catch (err) {
       fetchErrorToast()
+      return null
     } finally {
       setIsPending(false)
     }
@@ -54,7 +55,7 @@ const EditPassword: FC<EditPasswordProps> = ({ onCloseModal }) => {
         <div className="input-el">
           <span>Neues Passwort</span>
           <input
-            autoFocus={window.screen.width > 1000 ? true : false}
+            autoFocus={window.screen.width > 1000}
             type="password"
             name="password1"
             className={`password1${error ? ' input--error' : ''}`}

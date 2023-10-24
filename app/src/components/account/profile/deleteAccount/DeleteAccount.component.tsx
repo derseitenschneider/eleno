@@ -1,8 +1,8 @@
 import './deleteAccount.style.scss'
 
-import { FC, useState } from 'react'
-import { useUser } from '../../../../contexts/UserContext'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '../../../../contexts/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Button from '../../../common/button/Button.component'
 
@@ -10,17 +10,17 @@ interface DeleteAccountProps {
   onCloseModal?: () => void
 }
 
-const DeleteAccount: FC<DeleteAccountProps> = ({ onCloseModal }) => {
+function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   const { user, deleteAccount } = useUser()
   const [input, setInput] = useState('')
   const [check, setCheck] = useState(input === user.email)
   const navigate = useNavigate()
 
   const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setInput(e.target.value)
-    e.target.value === user.email ? setCheck(true) : setCheck(false)
+    setCheck(e.target.value === user.email)
   }
 
   const handleDelete = async () => {
@@ -33,12 +33,12 @@ const DeleteAccount: FC<DeleteAccountProps> = ({ onCloseModal }) => {
   }
 
   return (
-    <div className={`delete-account`}>
+    <div className="delete-account">
       <h2 className="heading-2">Benutzerkonto löschen</h2>
       <div className="delete-account__input">
         <span>Email-Adresse zur Bestätigung</span>
         <input
-          autoFocus={true}
+          autoFocus
           type="text"
           name="email"
           className={`email${!check ? ' input--error' : ''}`}

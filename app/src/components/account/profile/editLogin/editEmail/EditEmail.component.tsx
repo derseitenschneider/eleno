@@ -1,16 +1,16 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useUser } from '../../../../../contexts/UserContext'
-import { validateEmail } from '../../../../../utils/validateEmail'
-import './editEmail.style.scss'
-import { FC, useState } from 'react'
 import fetchErrorToast from '../../../../../hooks/fetchErrorToast'
+import { validateEmail } from '../../../../../utils/validateEmail'
 import Button from '../../../../common/button/Button.component'
+import './editEmail.style.scss'
 
 interface EditEmailProps {
   onCloseModal?: () => void
 }
 
-const EditEmail: FC<EditEmailProps> = ({ onCloseModal }) => {
+function EditEmail({ onCloseModal }: EditEmailProps) {
   const { updateEmail } = useUser()
   const [input, setInput] = useState({ email1: '', email2: '' })
 
@@ -20,8 +20,7 @@ const EditEmail: FC<EditEmailProps> = ({ onCloseModal }) => {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     setInput((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -35,8 +34,10 @@ const EditEmail: FC<EditEmailProps> = ({ onCloseModal }) => {
       await updateEmail(input.email1)
       setSuccess(true)
       toast('Check dein Postfach')
-    } catch (error) {
+      return null
+    } catch (err) {
       fetchErrorToast()
+      return null
     } finally {
       setIsPending(false)
     }

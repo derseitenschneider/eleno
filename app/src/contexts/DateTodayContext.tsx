@@ -1,19 +1,19 @@
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { ContextTypeDateToday } from '../types/types'
-import { createContext, useState, useEffect, useContext } from 'react'
 
 export const DateTodayContext = createContext<ContextTypeDateToday>({
   dateToday: '',
 })
 
-export const DateTodayProvider = ({ children }) => {
+export function DateTodayProvider({ children }: { children: React.ReactNode }) {
   const [dateToday, setDateToday] = useState('')
   useEffect(() => {
     const today = new Date().toLocaleDateString()
     setDateToday(today)
   }, [])
-
+  const value = useMemo(() => ({ dateToday }), [dateToday])
   return (
-    <DateTodayContext.Provider value={{ dateToday }}>
+    <DateTodayContext.Provider value={value}>
       {children}
     </DateTodayContext.Provider>
   )

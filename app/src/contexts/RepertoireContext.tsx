@@ -1,13 +1,19 @@
-import { createContext, useContext, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { ContextTypeRepertoire, TRepertoireItem } from '../types/types'
 
+import fetchErrorToast from '../hooks/fetchErrorToast'
 import {
-  getRepertoireByStudentSupabase,
   createRepertoireItemSupabase,
   deleteRepertoireItemSupabase,
+  getRepertoireByStudentSupabase,
   udpateRepertoireItemSupabase,
 } from '../supabase/repertoire.supabase'
-import fetchErrorToast from '../hooks/fetchErrorToast'
 
 export const RepertoireContext = createContext<ContextTypeRepertoire>({
   repertoire: [],
@@ -18,11 +24,15 @@ export const RepertoireContext = createContext<ContextTypeRepertoire>({
   deleteRepertoireItem: () => new Promise(() => {}),
 })
 
-export const RepertoireProvider = ({ children }) => {
+export function RepertoireProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [isLoading, setIsLoading] = useState(true)
   const [repertoire, setRepertoire] = useState<TRepertoireItem[]>([])
 
-  const getRepertoire = async (studentId: number) => {
+  const getRepertoire = useCallback(async (studentId: number) => {
     try {
       const rep = await getRepertoireByStudentSupabase(studentId)
       setRepertoire(rep)
@@ -31,9 +41,9 @@ export const RepertoireProvider = ({ children }) => {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [])
 
-  const addRepertoireItem = async (item: TRepertoireItem) => {
+  const addRepertoireItem = useCallback(async (item: TRepertoireItem) => {
     try {
       const [newItem] = await createRepertoireItemSupabase(item)
 
@@ -41,39 +51,48 @@ export const RepertoireProvider = ({ children }) => {
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const updateRepertoireItem = async (newItem: TRepertoireItem) => {
+  const updateRepertoireItem = useCallback(async (newItem: TRepertoireItem) => {
     try {
       await udpateRepertoireItemSupabase(newItem)
       setRepertoire((prev) =>
-        prev.map((item) => (item.id === newItem.id ? newItem : item))
+        prev.map((item) => (item.id === newItem.id ? newItem : item)),
       )
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const deleteRepertoireItem = async (id: number) => {
+  const deleteRepertoireItem = useCallback(async (id: number) => {
     try {
       await deleteRepertoireItemSupabase(id)
       setRepertoire((prev) => prev.filter((item) => item.id !== id))
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
+  const value = useMemo(
+    () => ({
+      repertoire,
+      getRepertoire,
+      addRepertoireItem,
+      isLoading,
+      updateRepertoireItem,
+      deleteRepertoireItem,
+    }),
+    [
+      repertoire,
+      getRepertoire,
+      addRepertoireItem,
+      isLoading,
+      updateRepertoireItem,
+      deleteRepertoireItem,
+    ],
+  )
   return (
-    <RepertoireContext.Provider
-      value={{
-        repertoire,
-        getRepertoire,
-        addRepertoireItem,
-        isLoading,
-        updateRepertoireItem,
-        deleteRepertoireItem,
-      }}
-    >
+    <RepertoireContext.Provider value={value}>
       {children}
     </RepertoireContext.Provider>
   )

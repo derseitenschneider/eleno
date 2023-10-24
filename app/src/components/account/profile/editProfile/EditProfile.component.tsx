@@ -1,15 +1,15 @@
-import './editProfile.style.scss'
-import { FC, useState } from 'react'
-import { useUser } from '../../../../contexts/UserContext'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useUser } from '../../../../contexts/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Button from '../../../common/button/Button.component'
+import './editProfile.style.scss'
 
 interface EditProfileProps {
   onCloseModal?: () => void
 }
 
-const EditProfile: FC<EditProfileProps> = ({ onCloseModal }) => {
+function EditProfile({ onCloseModal }: EditProfileProps) {
   const { user, updateProfile } = useUser()
   const [input, setInput] = useState({
     firstName: user.firstName,
@@ -18,10 +18,9 @@ const EditProfile: FC<EditProfileProps> = ({ onCloseModal }) => {
   const [isPending, setIsPending] = useState(false)
 
   const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     setInput((prev) => {
       return { ...prev, [name]: value }
     })
@@ -47,7 +46,7 @@ const EditProfile: FC<EditProfileProps> = ({ onCloseModal }) => {
         <div className="input-el">
           <span className="label">Vorname</span>
           <input
-            autoFocus={window.screen.width > 1000 ? true : false}
+            autoFocus={window.screen.width > 1000}
             type="text"
             name="firstName"
             className="firstName"

@@ -1,5 +1,16 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-import { ContextTypeUser, TProfile, TUser } from '../types/types'
+import { Session } from '@supabase/gotrue-js/src/lib/types'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { useNavigate } from 'react-router-dom'
+import fetchErrorToast from '../hooks/fetchErrorToast'
+import LoginPage from '../pages/login/LoginPage'
+import { supabase } from '../supabase/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
@@ -8,12 +19,8 @@ import {
   updatePasswordSupabase,
   updateProfileSupabase,
 } from '../supabase/users.supabase'
-import { supabase } from '../supabase/supabase'
-import { Session } from '@supabase/gotrue-js/src/lib/types'
-import LoginPage from '../pages/login/LoginPage'
+import { ContextTypeUser, TProfile, TUser } from '../types/types'
 import { useLoading } from './LoadingContext'
-import fetchErrorToast from '../hooks/fetchErrorToast'
-import { useNavigate } from 'react-router-dom'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
@@ -28,8 +35,8 @@ export const UserContext = createContext<ContextTypeUser>({
   recoverPassword: () => new Promise(() => {}),
 })
 
-export const AuthProvider = ({ children }) => {
-  const [session, setSession] = useState<Session>()
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [currentSession, setCurrentSession] = useState<Session>()
   const [user, setUser] = useState<TUser | null>(null)
   const { loading, setLoading } = useLoading()
   const navigate = useNavigate()
@@ -37,13 +44,13 @@ export const AuthProvider = ({ children }) => {
   const getUserProfiles = async (userId: string) => {
     try {
       const [data] = await getProfilesSupabase(userId)
-      const user: TUser = {
+      const currentUser: TUser = {
         email: data.email,
         id: data.id,
         firstName: data.first_name,
         lastName: data.last_name,
       }
-      setUser(user)
+      setUser(currentUser)
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -53,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+      setCurrentSession(session)
       if (session) {
         getUserProfiles(session.user.id)
       } else {
@@ -62,26 +69,31 @@ export const AuthProvider = ({ children }) => {
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
+      setCurrentSession(session)
       if (session) {
         getUserProfiles(session.user.id)
-      } else {
       }
+
+      return null
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const updateProfile = async (data: TProfile) => {
-    try {
-      await updateProfileSupabase(data, user.id)
-      setUser((prev) => {
-        return { ...prev, firstName: data.firstName, lastName: data.lastName }
-      })
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
+  const updateProfile = useCallback(
+    async (data: TProfile) => {
+      try {
+        await updateProfileSupabase(data, user.id)
+        setUser((prev) => {
+          return { ...prev, firstName: data.firstName, lastName: data.lastName }
+        })
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [user?.id],
+  )
 
-  const updateEmail = async (email: string) => {
+  const updateEmail = useCallback(async (email: string) => {
     try {
       await updateEmailSupabase(email)
       setUser((prev) => {
@@ -90,50 +102,62 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const updatePassword = async (password: string) => {
+  const updatePassword = useCallback(async (password: string) => {
     try {
       await updatePasswordSupabase(password)
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const deleteAccount = async () => {
+  const deleteAccount = useCallback(async () => {
     try {
       await deleteAccountSupabase()
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await supabase.auth.signOut()
     navigate('/')
-  }
+  }, [navigate])
 
   const recoverPassword = async (email: string) => {
     await recoverPasswordSupabase(email)
   }
 
-  const value = {
-    user,
-    setUser,
-    loading,
-    setLoading,
-    updateProfile,
-    updateEmail,
-    updatePassword,
-    deleteAccount,
-    logout,
-    recoverPassword,
-  }
+  const value = useMemo(
+    () => ({
+      user,
+      setUser,
+      loading,
+      setLoading,
+      updateProfile,
+      updateEmail,
+      updatePassword,
+      deleteAccount,
+      logout,
+      recoverPassword,
+    }),
+    [
+      deleteAccount,
+      loading,
+      logout,
+      setLoading,
+      updateEmail,
+      updatePassword,
+      updateProfile,
+      user,
+    ],
+  )
 
   return (
     <UserContext.Provider value={value}>
-      {session && children}
-      {!session && !loading && <LoginPage />}
+      {currentSession && children}
+      {!currentSession && !loading && <LoginPage />}
     </UserContext.Provider>
   )
 }

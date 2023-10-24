@@ -1,16 +1,15 @@
-import { FunctionComponent } from 'react'
-import { TodosProvider } from './TodosContext'
-import { NotesProvider } from './NotesContext'
-import { LessonsProvider } from './LessonsContext'
-import { StudentsProvider } from './StudentContext'
 import { ClosestStudentProvider } from './ClosestStudentContext'
 import { DateTodayProvider } from './DateTodayContext'
+import { LessonsProvider } from './LessonsContext'
+import { NotesProvider } from './NotesContext'
+import { StudentsProvider } from './StudentContext'
+import { TodosProvider } from './TodosContext'
 
 interface MainContextProps {
   children: React.ReactNode
 }
 
-const MainContext: FunctionComponent<MainContextProps> = ({ children }) => {
+function MainContext({ children }: MainContextProps) {
   return (
     <DateTodayProvider>
       <LessonsProvider>

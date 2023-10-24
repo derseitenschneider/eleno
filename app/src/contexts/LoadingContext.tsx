@@ -1,20 +1,22 @@
+import { createContext, useContext, useMemo, useState } from 'react'
 import { ContextTypeLoading } from '../types/types'
-import { createContext, useContext, useState, FunctionComponent } from 'react'
 
 export const LoadingContext = createContext<ContextTypeLoading>({
   loading: true,
   setLoading: () => {},
 })
 
-export const LoadingProvider: FunctionComponent<{
-  children: React.ReactNode
-}> = ({ children }) => {
+export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
-
+  const value = useMemo(
+    () => ({
+      loading,
+      setLoading,
+    }),
+    [loading, setLoading],
+  )
   return (
-    <LoadingContext.Provider value={{ loading, setLoading }}>
-      {children}
-    </LoadingContext.Provider>
+    <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>
   )
 }
 

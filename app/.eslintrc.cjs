@@ -20,5 +20,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint', 'react', 'prettier'],
-  rules: { semi: 0 },
-};
+  rules: {
+    semi: 0,
+    'react/require-default-props': [0],
+    'react/react-in-jsx-scope': [0],
+    'jsx-a11y/no-autofocus': 0,
+    'import/no-cycle': 0,
+  },
+}

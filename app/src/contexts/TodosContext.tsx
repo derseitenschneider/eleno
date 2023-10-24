@@ -1,14 +1,19 @@
-import { ContextTypeTodos } from '../types/types'
-import { createContext, useContext, useState } from 'react'
-import { TTodo } from '../types/types'
 import {
-  deleteCompletedTodosSupabase,
-  saveTodoSupabase,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
+import {
   completeTodoSupabase,
-  reactivateTodoSupabase,
+  deleteCompletedTodosSupabase,
   deleteTodoSupabase,
+  reactivateTodoSupabase,
+  saveTodoSupabase,
   updateTodoSupabase,
 } from '../supabase/todos.supabase'
+import { ContextTypeTodos, TTodo } from '../types/types'
 import { useUser } from './UserContext'
 
 export const TodosContext = createContext<ContextTypeTodos>({
@@ -22,86 +27,98 @@ export const TodosContext = createContext<ContextTypeTodos>({
   updateTodo: () => new Promise(() => {}),
 })
 
-export const TodosProvider = ({ children }) => {
+export function TodosProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [todos, setTodos] = useState<TTodo[]>([])
 
-  const saveTodo = async (newTodo: TTodo) => {
+  const saveTodo = useCallback(async (newTodo: TTodo) => {
     try {
       const data = await saveTodoSupabase(newTodo)
       setTodos((prev) => [...prev, data])
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const deleteTodo = async (id: number) => {
+  const deleteTodo = useCallback(async (id: number) => {
     try {
       await deleteTodoSupabase(id)
       setTodos((prev) => prev.filter((todo) => todo.id !== id))
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const completeTodo = async (id: number) => {
+  const completeTodo = useCallback(async (id: number) => {
     try {
       await completeTodoSupabase(id)
       setTodos((prev) =>
         prev.map((todo) =>
-          todo.id === id ? { ...todo, completed: true } : todo
-        )
+          todo.id === id ? { ...todo, completed: true } : todo,
+        ),
       )
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const reactivateTodo = async (id: number) => {
+  const reactivateTodo = useCallback(async (id: number) => {
     try {
       await reactivateTodoSupabase(id)
       setTodos((prev) =>
         prev.map((todo) =>
-          todo.id === id ? { ...todo, completed: false } : todo
-        )
+          todo.id === id ? { ...todo, completed: false } : todo,
+        ),
       )
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const updateTodo = async (editedTodo: TTodo) => {
+  const updateTodo = useCallback(async (editedTodo: TTodo) => {
     try {
       await updateTodoSupabase(editedTodo)
       setTodos((prev) => {
         return prev.map((todo) =>
-          todo.id === editedTodo.id ? editedTodo : todo
+          todo.id === editedTodo.id ? editedTodo : todo,
         )
       })
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const deleteAllCompleted = async () => {
+  const deleteAllCompleted = useCallback(async () => {
     try {
       await deleteCompletedTodosSupabase(user.id)
       setTodos((prev) => prev.filter((todo) => !todo.completed))
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [user?.id])
 
-  const value = {
-    todos,
-    setTodos,
-    saveTodo,
-    deleteTodo,
-    completeTodo,
-    reactivateTodo,
-    deleteAllCompleted,
-    updateTodo,
-  }
+  const value = useMemo(
+    () => ({
+      todos,
+      setTodos,
+      saveTodo,
+      deleteTodo,
+      completeTodo,
+      reactivateTodo,
+      deleteAllCompleted,
+      updateTodo,
+    }),
+    [
+      todos,
+      setTodos,
+      saveTodo,
+      deleteTodo,
+      completeTodo,
+      reactivateTodo,
+      deleteAllCompleted,
+      updateTodo,
+    ],
+  )
 
   return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>
 }
