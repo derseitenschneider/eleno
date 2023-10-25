@@ -1,28 +1,29 @@
-import { FC, useState } from 'react'
+/* eslint-disable @typescript-eslint/naming-convention */
+import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import './addRepertoireItem.style.scss'
-import { TRepertoireItem } from '../../../../types/types'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
-import { formatDateToDatabase } from '../../../../utils/formateDate'
-import Button from '../../../common/button/Button.component'
 import { useRepertoire } from '../../../../contexts/RepertoireContext'
 import { useUser } from '../../../../contexts/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { TRepertoireItem } from '../../../../types/types'
+import { formatDateToDatabase } from '../../../../utils/formateDate'
+import Button from '../../../common/button/Button.component'
+import DatePicker from '../../../common/datePicker/DatePicker.component'
+import './addRepertoireItem.style.scss'
 
 interface AddRepertoireItemProps {
   studentId: number
 }
 
-const AddRepertoireItem: FC<AddRepertoireItemProps> = ({ studentId }) => {
+function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   const { addRepertoireItem } = useRepertoire()
   const {
     user: { id: user_id },
   } = useUser()
 
-  const [searchParams, _] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
-  const isEditing = searchParams.get('edit') ? true : false
+  const isEditing = !!searchParams.get('edit')
 
   const defaultItem: TRepertoireItem = {
     studentId,
@@ -75,7 +76,7 @@ const AddRepertoireItem: FC<AddRepertoireItemProps> = ({ studentId }) => {
           name="title"
           onChange={handleChangeTitle}
           value={item.title}
-          autoFocus={true}
+          autoFocus
         />
         <DatePicker
           selectedDate={
@@ -95,6 +96,7 @@ const AddRepertoireItem: FC<AddRepertoireItemProps> = ({ studentId }) => {
         />
       </div>
       <Button
+        type="button"
         btnStyle="primary"
         className="btn-add"
         handler={handleSave}

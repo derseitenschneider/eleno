@@ -1,22 +1,21 @@
-import { toast } from 'react-toastify'
+import { useState } from 'react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useSearchParams } from 'react-router-dom'
-import { FC, useState } from 'react'
-import { TRepertoireItem } from '../../../../types/types'
-import Table from '../../../common/table/Table.component'
-import Menus from '../../../common/menu/Menus.component'
-import { formatDateToDisplay } from '../../../../utils/formateDate'
-import { TMode } from '../RepertoireItem.component'
+import { toast } from 'react-toastify'
 import { useRepertoire } from '../../../../contexts/RepertoireContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { TRepertoireItem } from '../../../../types/types'
+import { formatDateToDisplay } from '../../../../utils/formateDate'
+import Menus from '../../../common/menu/Menus.component'
+import Table from '../../../common/table/Table.component'
+import { TMode } from '../RepertoireItem.component'
 
 interface ReadRowProps {
   item: TRepertoireItem
-  mode: TMode
   setMode: React.Dispatch<React.SetStateAction<TMode>>
 }
 
-const ReadRow: FC<ReadRowProps> = ({ item, setMode, mode }) => {
+function ReadRow({ item, setMode }: ReadRowProps) {
   const { title, startDate, endDate } = item
   const [isPending, setIsPending] = useState(false)
   const { deleteRepertoireItem } = useRepertoire()

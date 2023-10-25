@@ -31,10 +31,10 @@ const compareStartDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
 
   let comparison = 0
   if (startDateA > startDateB) {
-    comparison = 1
+    comparison = -1
   }
   if (startDateA < startDateB) {
-    comparison = -1
+    comparison = 1
   }
   return comparison
 }
@@ -55,36 +55,37 @@ const compareEndDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
 
   let comparison = 0
   if (endDateA > endDateB) {
-    comparison = 1
+    comparison = -1
   }
   if (endDateA < endDateB) {
-    comparison = -1
+    comparison = 1
   }
   return comparison
 }
 
-export const sortRepertoire = (
-  repertoire: TRepertoireItem[],
-  sorting: TSorting
-) => {
+const sortRepertoire = (repertoire: TRepertoireItem[], sorting: TSorting) => {
   switch (sorting.sort) {
     case 'title': {
       if (sorting.ascending === 'false') {
         return repertoire.sort(compareTitle).reverse()
-      } else return repertoire.sort(compareTitle)
+      }
+      return repertoire.sort(compareTitle)
     }
     case 'startDate': {
       if (sorting.ascending === 'false') {
         return repertoire.sort(compareStartDate).reverse()
-      } else return repertoire.sort(compareStartDate)
+      }
+      return repertoire.sort(compareStartDate)
     }
     case 'endDate': {
       if (sorting.ascending === 'false') {
         return repertoire.sort(compareEndDate).reverse()
-      } else return repertoire.sort(compareEndDate)
+      }
+      return repertoire.sort(compareEndDate)
     }
 
     default:
       return repertoire
   }
 }
+export default sortRepertoire
