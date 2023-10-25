@@ -1,35 +1,27 @@
+import { useState } from 'react'
 import { IoCloseOutline, IoSave } from 'react-icons/io5'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FC, useEffect, useState } from 'react'
-import Table from '../../../common/table/Table.component'
-import { TRepertoireItem } from '../../../../types/types'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
-import { TMode } from '../RepertoireItem.component'
-import { formatDateToDatabase } from '../../../../utils/formateDate'
-import Button from '../../../common/button/Button.component'
 import { useRepertoire } from '../../../../contexts/RepertoireContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { TRepertoireItem } from '../../../../types/types'
+import { formatDateToDatabase } from '../../../../utils/formateDate'
+import Button from '../../../common/button/Button.component'
+import DatePicker from '../../../common/datePicker/DatePicker.component'
+import Table from '../../../common/table/Table.component'
+import { TMode } from '../RepertoireItem.component'
 
 interface WriteRowProps {
   item: TRepertoireItem
-  mode: TMode
   setMode: React.Dispatch<React.SetStateAction<TMode>>
 }
 
-const WriteRow: FC<WriteRowProps> = ({ item, mode, setMode }) => {
+function WriteRow({ item, setMode }: WriteRowProps) {
   const { updateRepertoireItem } = useRepertoire()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [input, setInput] = useState(item)
   const [isPending, setIsPending] = useState(false)
-
-  useEffect(() => {
-    if (mode === 'write') {
-      searchParams.set('edit', String(item.id))
-      setSearchParams(searchParams)
-    }
-  }, [mode])
 
   const handleAbort = () => {
     setMode('read')
@@ -58,7 +50,6 @@ const WriteRow: FC<WriteRowProps> = ({ item, mode, setMode }) => {
       searchParams.delete('edit')
       setSearchParams(searchParams)
     } catch (error) {
-      console.log(error)
       fetchErrorToast()
     } finally {
       setIsPending(false)
@@ -91,12 +82,13 @@ const WriteRow: FC<WriteRowProps> = ({ item, mode, setMode }) => {
       />
       <div className="buttons">
         <Button
+          type="button"
           btnStyle="primary"
           icon={<IoSave />}
           handler={handleSaveChanges}
           disabled={!input.title}
         />
-        <Button btnStyle="secondary" handler={handleAbort}>
+        <Button type="button" btnStyle="secondary" handler={handleAbort}>
           <IoCloseOutline />
         </Button>
       </div>

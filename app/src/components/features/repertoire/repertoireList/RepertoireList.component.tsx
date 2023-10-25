@@ -35,6 +35,7 @@ function RepertoireList({ studentId }: TRepertoireProps) {
 
   useEffect(() => {
     return () => setSearchParams({})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -44,13 +45,6 @@ function RepertoireList({ studentId }: TRepertoireProps) {
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value)
   }
-  // const sortBy = searchParams.get('sort')
-  // const ascending = searchParams.get('asc')
-  // const sorting: TSorting = {
-  //   sort: sortBy || 'startDate',
-  //   ascending: ascending,
-  // }
-  // console.log(sortBy)
 
   useEffect(() => {
     const sortBy = searchParams.get('sort')
@@ -68,7 +62,6 @@ function RepertoireList({ studentId }: TRepertoireProps) {
       })
     }
   }, [searchParams])
-  console.log(sorting)
 
   const isEditing = !!searchParams.get('edit')
   const filteredRepertoire = repertoire.filter((song) =>
@@ -117,7 +110,7 @@ function RepertoireList({ studentId }: TRepertoireProps) {
             <span>Ende</span>
             <ButtonSort name="endDate" direction="desc" />
           </div>
-          <div></div>
+          <div />
         </Table.Header>
         {isLoading ? (
           <Loader loading={isLoading} />

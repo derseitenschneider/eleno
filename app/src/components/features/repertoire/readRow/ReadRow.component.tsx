@@ -38,6 +38,12 @@ function ReadRow({ item, setMode }: ReadRowProps) {
     }
   }
 
+  const handleEditClick = () => {
+    searchParams.set('edit', String(item.id))
+    setSearchParams(searchParams)
+    setMode('write')
+  }
+
   return (
     <Table.Row
       className={`${editing ? 'inactive' : ''} ${isPending ? 'loading' : ''}`}
@@ -53,7 +59,7 @@ function ReadRow({ item, setMode }: ReadRowProps) {
       <Menus.Toggle id={item.id} />
       <Menus.Menu>
         <Menus.List id={item.id}>
-          <Menus.Button onClick={() => setMode('write')} icon={<HiPencil />}>
+          <Menus.Button onClick={handleEditClick} icon={<HiPencil />}>
             Bearbeiten
           </Menus.Button>
 
