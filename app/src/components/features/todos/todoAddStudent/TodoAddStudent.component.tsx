@@ -1,22 +1,21 @@
-import './todoAddStudent.style.scss'
-import { FunctionComponent, useState, useEffect, SetStateAction } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
+import { IoPeopleCircleOutline } from 'react-icons/io5'
 import { useStudents } from '../../../../contexts/StudentContext'
 import { sortStudents } from '../../../../utils/sortStudents'
-import { IoPeopleCircleOutline } from 'react-icons/io5'
-import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../../common/button/Button.component'
-import DropdownSearch from '../../../common/dropdownSearch/DropdownSearch.component'
 import ButtonRemove from '../../../common/buttonRemove/ButtonRemove'
+import DropdownSearch from '../../../common/dropdownSearch/DropdownSearch.component'
+import './todoAddStudent.style.scss'
 
 interface TodoAddStudentProps {
   currentStudentId: number
   setCurrentStudentId: React.Dispatch<SetStateAction<number>>
 }
 
-const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
+function TodoAddStudent({
   currentStudentId,
   setCurrentStudentId,
-}) => {
+}: TodoAddStudentProps) {
   const { students } = useStudents()
   const [dropdownSearchOpen, setDropdownSearchOpen] = useState(false)
   const [searchInput, setSearchInput] = useState('')
@@ -47,6 +46,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
 
       if (firstName.startsWith(search) || lastName.startsWith(search))
         return student
+      return false
     }),
     { sort: 'lastName', ascending: 'true' },
   )
@@ -61,7 +61,8 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
     <div className="add-student">
       {currentStudentId ? (
         <div className="add-student__wrapper">
-          <span
+          <button
+            type="button"
             className="add-student__student"
             onClick={() => {
               setDropdownSearchOpen((prev) => !prev)
@@ -74,7 +75,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
               students.find((student) => student.id === currentStudentId)
                 .lastName
             }`}
-          </span>
+          </button>
           <ButtonRemove onRemove={() => setCurrentStudentId(null)} />
         </div>
       ) : (
@@ -83,7 +84,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
           handler={() => setDropdownSearchOpen((prev) => !prev)}
           className="button--student"
           type="button"
-          btnStyle={'icon-only'}
+          btnStyle="icon-only"
         />
       )}
 
@@ -100,7 +101,7 @@ const TodoAddStudent: FunctionComponent<TodoAddStudentProps> = ({
           })}
           positionX={width > 680 ? 'right' : 'left'}
           positionY="top"
-          searchField={true}
+          searchField
           valueSearchfield={searchInput}
           onChangeSearchfield={(e) => setSearchInput(e.target.value)}
         />

@@ -1,25 +1,24 @@
-import './todoItem.style.scss'
-import { FunctionComponent, useState, useEffect } from 'react'
+import { useState } from 'react'
+import { HiPencil, HiTrash } from 'react-icons/hi'
+import { IoReturnDownBackOutline } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useDateToday } from '../../../../contexts/DateTodayContext'
+import { useStudents } from '../../../../contexts/StudentContext'
 import { TTodo } from '../../../../types/types'
 import {
   formatDateToDatabase,
   formatDateToDisplay,
 } from '../../../../utils/formateDate'
-import { useStudents } from '../../../../contexts/StudentContext'
 import { sortStudentsDateTime } from '../../../../utils/sortStudents'
-import { useNavigate } from 'react-router-dom'
-import { useDateToday } from '../../../../contexts/DateTodayContext'
-
-import { IoReturnDownBackOutline } from 'react-icons/io5'
+import './todoItem.style.scss'
 
 import { useTodos } from '../../../../contexts/TodosContext'
-import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Menus from '../../../common/menu/Menus.component'
-import { HiPencil, HiTrash } from 'react-icons/hi'
 import Modal from '../../../common/modal/Modal.component'
-import EditTodo from '../editTodo/EditTodo.component'
 import DeleteTodos from '../deleteTodos/DeleteTodos.component'
+import EditTodo from '../editTodo/EditTodo.component'
 
 interface TodoItemProps {
   todo: TTodo
@@ -27,13 +26,9 @@ interface TodoItemProps {
   children?: React.ReactNode
 }
 
-const TodoItem: FunctionComponent<TodoItemProps> = ({
-  todo,
-  type,
-  children,
-}) => {
+function TodoItem({ todo, type, children }: TodoItemProps) {
   const { students, setCurrentStudentIndex } = useStudents()
-  const { completeTodo, reactivateTodo, deleteTodo } = useTodos()
+  const { completeTodo, reactivateTodo } = useTodos()
   const { dateToday } = useDateToday()
   const navigate = useNavigate()
 
@@ -96,16 +91,16 @@ const TodoItem: FunctionComponent<TodoItemProps> = ({
           checked={false}
         />
       ) : (
-        <div></div>
+        <div />
       )}
       <div className="wrapper-text">
         <span className="">{todo.text}</span>
       </div>
       <div className="wrapper-student">
         {attachedStudent && (
-          <span className="student" onClick={navigateToLesson}>
+          <button type="button" className="student" onClick={navigateToLesson}>
             {attachedStudent.firstName} {attachedStudent.lastName}
-          </span>
+          </button>
         )}
       </div>
       <div className="wrapper-due">

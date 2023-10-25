@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../../../contexts/TodosContext'
 import { useUser } from '../../../../contexts/UserContext'
@@ -22,10 +22,7 @@ const todoData = {
   completed: false,
 }
 
-const AddTodo: FunctionComponent<AddTodoProps> = ({
-  studentId,
-  onCloseModal,
-}) => {
+function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
   const [currentStudentId, setCurrentStudentId] = useState(null)
@@ -34,11 +31,10 @@ const AddTodo: FunctionComponent<AddTodoProps> = ({
 
   useEffect(() => {
     if (studentId) setCurrentStudentId(studentId)
-  }, [])
+  }, [studentId])
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
 
     setInputTodo((prev) => {
       return { ...prev, [name]: value }
@@ -75,7 +71,7 @@ const AddTodo: FunctionComponent<AddTodoProps> = ({
       fetchErrorToast()
     } finally {
       setIsPending(false)
-      if (onCloseModal) onCloseModal
+      onCloseModal?.()
     }
   }
 
@@ -101,7 +97,7 @@ const AddTodo: FunctionComponent<AddTodoProps> = ({
           value={inputTodo.text}
           required
           onChange={onChangeInputs}
-          autoFocus={window.screen.width > 1000 ? true : false}
+          autoFocus={window.screen.width > 1000}
           autoComplete="off"
         />
         <TodoAddStudent

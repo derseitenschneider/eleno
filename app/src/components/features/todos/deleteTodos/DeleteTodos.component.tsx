@@ -1,16 +1,16 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../../../contexts/TodosContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Button from '../../../common/button/Button.component'
 import './deleteTodos.style.scss'
-import { FC, useState } from 'react'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 
 interface DeleteTodosProps {
   todoId?: number
   onCloseModal?: () => void
 }
 
-const DeleteTodos: FC<DeleteTodosProps> = ({ todoId, onCloseModal }) => {
+function DeleteTodos({ todoId, onCloseModal }: DeleteTodosProps) {
   const { todos } = useTodos()
   const [isPending, setIsPending] = useState(false)
   const { deleteTodo, deleteAllCompleted } = useTodos()
@@ -28,7 +28,7 @@ const DeleteTodos: FC<DeleteTodosProps> = ({ todoId, onCloseModal }) => {
       } else {
         await deleteAllCompleted()
       }
-      onCloseModal
+      onCloseModal?.()
       toast(`Todo${todoId ? '' : 's'} gelöscht.`)
     } catch (error) {
       fetchErrorToast()
@@ -50,10 +50,10 @@ const DeleteTodos: FC<DeleteTodosProps> = ({ todoId, onCloseModal }) => {
       )}
 
       <div className="delete-todos__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="danger" onClick={handlerDelete}>
+        <Button type="button" btnStyle="danger" onClick={handlerDelete}>
           Löschen
         </Button>
       </div>

@@ -1,21 +1,21 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useTodos } from '../../../../contexts/TodosContext'
-import './editTodo.style.scss'
-import { FC, useState } from 'react'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
 import { formatDateToDatabase } from '../../../../utils/formateDate'
 import Button from '../../../common/button/Button.component'
+import DatePicker from '../../../common/datePicker/DatePicker.component'
+import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
+import './editTodo.style.scss'
 
 interface EditTodoProps {
   todoId: number
   onCloseModal?: () => void
 }
 
-const EditTodo: FC<EditTodoProps> = ({ onCloseModal, todoId }) => {
+function EditTodo({ onCloseModal, todoId }: EditTodoProps) {
   const { todos, updateTodo } = useTodos()
-  const todo = todos.find((todo) => todo.id === todoId)
+  const todo = todos.find((currentTodo) => currentTodo.id === todoId)
   const [currentTodo, setCurrentTodo] = useState(todo)
   const [isPending, setIsPending] = useState(false)
 
@@ -26,9 +26,7 @@ const EditTodo: FC<EditTodoProps> = ({ onCloseModal, todoId }) => {
   }
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name
-    const value = e.target.value
-
+    const { name, value } = e.target
     setCurrentTodo((prev) => {
       return { ...prev, [name]: value }
     })
@@ -78,10 +76,10 @@ const EditTodo: FC<EditTodoProps> = ({ onCloseModal, todoId }) => {
         />
       </div>
       <div className="edit-todo__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="primary" onClick={handleSave}>
+        <Button type="button" btnStyle="primary" onClick={handleSave}>
           Speichern
         </Button>
       </div>
