@@ -1,9 +1,10 @@
-import { FunctionComponent, SetStateAction, useEffect } from 'react'
+import { SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../../common/button/Button.component'
 
-import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
 import { TStudent } from '../../../../types/types'
+import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
+
 export interface IRow extends TStudent {
   tempId: number
 }
@@ -13,11 +14,7 @@ interface AddStudentRowProps {
   setRows: React.Dispatch<SetStateAction<IRow[]>>
 }
 
-const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
-  id,
-  rows,
-  setRows,
-}) => {
+function AddStudentRow({ id, rows, setRows }: AddStudentRowProps) {
   const {
     firstName,
     lastName,
@@ -38,13 +35,12 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
         ),
       )
     }
-  }, [startOfLesson, endOfLesson])
+  }, [startOfLesson, endOfLesson, setRows, id])
 
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
 
     setRows((prevRows) => {
       const newRows = prevRows.map((row) =>
@@ -61,7 +57,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
   return (
     <div className="add-students__grid row">
       <input
-        autoFocus={window.screen.width > 1000 ? true : false}
+        autoFocus={window.screen.width > 1000}
         type="text"
         autoComplete="off"
         placeholder="Vorname"
@@ -86,11 +82,11 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
       />
       <select
         name="dayOfLesson"
-        // value={dayOfLesson}
+        value={dayOfLesson}
         onChange={handleInput}
         defaultValue={null}
       >
-        <option style={{ display: 'none' }}></option>
+        <option style={{ display: 'none' }}>Wochentag</option>
         <option value="Montag">Montag</option>
         <option value="Dienstag">Dienstag</option>
         <option value="Mittwoch">Mittwoch</option>
@@ -133,7 +129,7 @@ const AddStudentRow: FunctionComponent<AddStudentRowProps> = ({
         type="button"
         btnStyle="icon-only"
         icon={<IoCloseOutline />}
-        className={'button--delete-row'}
+        className="button--delete-row"
         handler={deleteRow}
         tabIndex={-1}
       />

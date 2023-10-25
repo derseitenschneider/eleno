@@ -66,10 +66,10 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
         </div>
       </div>
       <div className="edit-profile__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="primary" onClick={handleSave}>
+        <Button type="button" btnStyle="primary" onClick={handleSave}>
           Speichern
         </Button>
       </div>

@@ -1,28 +1,25 @@
-import { FC, useState } from 'react'
-import { TStudent } from '../../../../types/types'
-import Table from '../../../common/table/Table.component'
-import Menus from '../../../common/menu/Menus.component'
+import { useState } from 'react'
 import { HiTrash } from 'react-icons/hi'
-
+import { toast } from 'react-toastify'
 import { IoReturnDownBackOutline } from 'react-icons/io5'
+import { TStudent } from '../../../../types/types'
+import Menus from '../../../common/menu/Menus.component'
+import Table from '../../../common/table/Table.component'
+
 import Modal from '../../../common/modal/Modal.component'
 
 import { useStudents } from '../../../../contexts/StudentContext'
-import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 
-import { useInactiveStudents } from './InactiveStudents.component'
 import DeleteStudents from '../deleteStudents/DeleteStudents.component'
+import { useInactiveStudents } from './InactiveStudents.component'
 
 interface InactiveStudentRowProps {
   student: TStudent
   openId?: number
 }
 
-const InachtiveStudentRow: FC<InactiveStudentRowProps> = ({
-  student,
-  openId,
-}) => {
+function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
   const { reactivateStudents } = useStudents()
   const [isPending, setIsPending] = useState(false)
   const { isSelected, setIsSelected } = useInactiveStudents()

@@ -1,12 +1,12 @@
-import './addStudents.style.scss'
-import { FC, useState } from 'react'
-import { TStudent } from '../../../../types/types'
-import { toast } from 'react-toastify'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import AddStudentRow from '../addStudentRow/AddStudentRow'
-import Button from '../../../common/button/Button.component'
+import { useState } from 'react'
 import { IoAddOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
 import { useStudents } from '../../../../contexts/StudentContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { TStudent } from '../../../../types/types'
+import Button from '../../../common/button/Button.component'
+import AddStudentRow from '../addStudentRow/AddStudentRow'
+import './addStudents.style.scss'
 
 interface AddStudentsProps {
   onCloseModal?: () => void
@@ -29,7 +29,7 @@ const rowData: IRow = {
   tempId: 0,
 }
 
-const AddStudents: FC<AddStudentsProps> = ({ onCloseModal }) => {
+function AddStudents({ onCloseModal }: AddStudentsProps) {
   const [rows, setRows] = useState([rowData])
   const [numAddRows, setNumAddRows] = useState(1)
   const { saveNewStudents, isPending } = useStudents()
@@ -38,7 +38,7 @@ const AddStudents: FC<AddStudentsProps> = ({ onCloseModal }) => {
 
   const addRows = () => {
     const newRows = []
-    for (let i = 0; i < numAddRows; i++) {
+    for (let i = 0; i < numAddRows; i += i) {
       newRows.push({ ...rowData, tempId: Math.floor(Math.random() * 1000000) })
     }
     setRows((prev) => [...prev, ...newRows])
@@ -86,7 +86,7 @@ const AddStudents: FC<AddStudentsProps> = ({ onCloseModal }) => {
         <span className="label">Unterrichtsort</span>
       </div>
       <form action="" className="add-students__form">
-        {rows.map((row, index) => (
+        {rows.map((row) => (
           <AddStudentRow
             key={row.tempId}
             id={row.tempId}
@@ -108,7 +108,7 @@ const AddStudents: FC<AddStudentsProps> = ({ onCloseModal }) => {
               setNumAddRows(e.target.valueAsNumber)
             }}
             onKeyUp={(e) => {
-              e.key === 'Enter' && addRows()
+              if (e.key === 'Enter') addRows()
             }}
           />
           <Button

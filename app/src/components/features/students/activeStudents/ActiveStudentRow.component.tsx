@@ -1,13 +1,13 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { HiArchive, HiPencil } from 'react-icons/hi'
-import { TStudent } from '../../../../types/types'
-import Menus from '../../../common/menu/Menus.component'
-import Table from '../../../common/table/Table.component'
-
 import { HiOutlineListBullet } from 'react-icons/hi2'
 import { IoCheckboxOutline, IoSchool } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { TStudent } from '../../../../types/types'
+import Menus from '../../../common/menu/Menus.component'
+import Table from '../../../common/table/Table.component'
+
 import { useStudents } from '../../../../contexts/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Modal from '../../../common/modal/Modal.component'
@@ -21,7 +21,7 @@ interface ActiveStudentRowProps {
   openId?: number
 }
 
-const ActiveStudentRow: FC<ActiveStudentRowProps> = ({ student, openId }) => {
+function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
   const { deactivateStudents, setCurrentStudentIndex, activeSortedStudentIds } =
     useStudents()
   const [isPending, setIsPending] = useState(false)

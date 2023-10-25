@@ -1,24 +1,16 @@
 import './studentsActive.style.scss'
 
-// Types
-import { TSorting } from '../../../../types/types'
-
-// Icons
 import { IoAddOutline } from 'react-icons/io5'
 
-// Hooks
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { useStudents } from '../../../../contexts/StudentContext'
 
-// Functions
-
-import { toast } from 'react-toastify'
+import { TSorting } from '../../../../types/types'
 import { sortStudents } from '../../../../utils/sortStudents'
 
-// Components
 import Button from '../../../common/button/Button.component'
-
-import { useSearchParams } from 'react-router-dom'
 
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import SearchBar from '../../../common/searchBar/SearchBar.component'
@@ -102,9 +94,9 @@ export default function ActiveStudents() {
       setInputAction(0)
     }
   }
-
+  const value = useMemo(() => ({ isSelected, setIsSelected }), [isSelected])
   return (
-    <ActiveStudentsContext.Provider value={{ isSelected, setIsSelected }}>
+    <ActiveStudentsContext.Provider value={value}>
       <div className="students">
         <div className="header">
           <div className="container--heading">
@@ -134,7 +126,7 @@ export default function ActiveStudents() {
             ) : null}
 
             <Modal>
-              <Modal.Open opens="reset-students"></Modal.Open>
+              <Modal.Open opens="reset-students" />
               <Modal.Window name="reset-students">
                 <ResetStudents />
               </Modal.Window>

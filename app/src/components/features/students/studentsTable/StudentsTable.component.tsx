@@ -1,7 +1,6 @@
-import { FC } from 'react'
+import { TStudent } from '../../../../types/types'
 import ButtonSort from '../../../common/buttonSort/ButtonSort.component'
 import Table from '../../../common/table/Table.component'
-import { TStudent } from '../../../../types/types'
 
 interface StudentsTableProps {
   children: React.ReactNode
@@ -10,12 +9,12 @@ interface StudentsTableProps {
   students: TStudent[]
 }
 
-const StudentsTable: FC<StudentsTableProps> = ({
+function StudentsTable({
   children,
   isSelected,
   setIsSelected,
   students,
-}) => {
+}: StudentsTableProps) {
   const selectedString = isSelected.sort((a, b) => a - b).join('-')
   const studentsString = students
     .map((student) => student.id)
@@ -24,7 +23,7 @@ const StudentsTable: FC<StudentsTableProps> = ({
 
   const allChecked = selectedString === studentsString && isSelected.length > 0
 
-  let columns = '4rem repeat(3, 1fr) 14rem repeat(2, 8rem) 10rem  1fr 4rem'
+  const columns = '4rem repeat(3, 1fr) 14rem repeat(2, 8rem) 10rem  1fr 4rem'
 
   const handleAllCheckboxes = () => {
     if (allChecked) {
@@ -74,7 +73,7 @@ const StudentsTable: FC<StudentsTableProps> = ({
           <span>Unterrichtsort</span>
           <ButtonSort name="location" />
         </div>
-        <div></div>
+        <div />
       </Table.Header>
       {children}
       {/* <Menus>

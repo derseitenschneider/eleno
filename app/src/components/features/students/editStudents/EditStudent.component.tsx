@@ -1,17 +1,17 @@
-import './editStudent.style.scss'
-import { FC, useEffect, useState } from 'react'
-import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { useStudents } from '../../../../contexts/StudentContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
 import Button from '../../../common/button/Button.component'
+import './editStudent.style.scss'
 
 interface EditStudentProps {
   studentId: number
   onCloseModal?: () => void
 }
 
-const EditStudent: FC<EditStudentProps> = ({ studentId, onCloseModal }) => {
+function EditStudent({ studentId, onCloseModal }: EditStudentProps) {
   const { students, updateStudent } = useStudents()
   const [inputStudent, setInputStudent] = useState(
     students.find((student) => student.id === studentId),
@@ -42,8 +42,7 @@ const EditStudent: FC<EditStudentProps> = ({ studentId, onCloseModal }) => {
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
 
     setInputStudent((prev) => {
       return { ...prev, [name]: value }
@@ -65,7 +64,7 @@ const EditStudent: FC<EditStudentProps> = ({ studentId, onCloseModal }) => {
       await updateStudent(inputStudent)
       toast('Änderungen gespeichert')
       onCloseModal?.()
-    } catch (error) {
+    } catch (err) {
       fetchErrorToast()
     } finally {
       setIsPending(false)
@@ -77,96 +76,113 @@ const EditStudent: FC<EditStudentProps> = ({ studentId, onCloseModal }) => {
       <h2 className="heading-2">Schüler:in bearbeiten</h2>
       <form className={`grid ${isPending ? 'loading' : ''}`}>
         <div className="item">
-          <label htmlFor="firstName">Vorname*</label>
-          <input
-            id="firstName"
-            type="text"
-            name="firstName"
-            value={firstName}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="firstName">
+            Vorname*
+            <input
+              id="firstName"
+              type="text"
+              name="firstName"
+              value={firstName}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
 
         <div className="item">
-          <label htmlFor="lastName">Nachname*</label>
-          <input
-            id="lastName"
-            type="text"
-            name="lastName"
-            value={lastName}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="lastName">
+            Nachname*
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              value={lastName}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
         <div className="item">
-          <label htmlFor="instrument">Instrument*</label>
-          <input
-            id="instrument"
-            type="text"
-            name="instrument"
-            value={instrument}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="instrument">
+            Instrument*
+            <input
+              id="instrument"
+              type="text"
+              name="instrument"
+              value={instrument}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
         <div className="item">
-          <label htmlFor="dayOfLesson">Tag</label>
+          <label htmlFor="dayOfLesson">
+            Tag
+            <select
+              id="dayOfLesson"
+              name="dayOfLesson"
+              value={dayOfLesson}
+              onChange={onChangeHandler}
+            >
+              <option style={{ display: 'none' }} value="">
+                Wochentag
+              </option>
+              <option value="Montag">Montag</option>
+              <option value="Dienstag">Dienstag</option>
+              <option value="Mittwoch">Mittwoch</option>
+              <option value="Donnerstag">Donnerstag</option>
+              <option value="Freitag">Freitag</option>
+              <option value="Samstag">Samstag</option>
+              <option value="Sonntag">Sonntag</option>
+              <option value=""> - </option>
+            </select>
+          </label>
+        </div>
 
-          <select
-            id="dayOfLesson"
-            name="dayOfLesson"
-            value={dayOfLesson}
-            onChange={onChangeHandler}
-          >
-            <option style={{ display: 'none' }}></option>
-            <option value="Montag">Montag</option>
-            <option value="Dienstag">Dienstag</option>
-            <option value="Mittwoch">Mittwoch</option>
-            <option value="Donnerstag">Donnerstag</option>
-            <option value="Freitag">Freitag</option>
-            <option value="Samstag">Samstag</option>
-            <option value="Sonntag">Sonntag</option>
-            <option value={''}> - </option>
-          </select>
-        </div>
-
         <div className="item">
-          <label htmlFor="startOfLesson">Von</label>
-          <input
-            id="startOfLesson"
-            type="time"
-            name="startOfLesson"
-            value={startOfLesson}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="startOfLesson">
+            Von
+            <input
+              id="startOfLesson"
+              type="time"
+              name="startOfLesson"
+              value={startOfLesson}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
         <div className="item">
-          <label htmlFor="endOfLesson">Bis</label>
-          <input
-            id="endOfLesson"
-            type="time"
-            name="endOfLesson"
-            value={endOfLesson}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="endOfLesson">
+            Bis
+            <input
+              id="endOfLesson"
+              type="time"
+              name="endOfLesson"
+              value={endOfLesson}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
         <div className="item">
-          <label htmlFor="durationMinutes">Dauer</label>
-          <input
-            id="durationMinutes"
-            type="number"
-            name="durationMinutes"
-            value={durationMinutes}
-            onChange={onChangeHandler}
-          />
+          <label htmlFor="durationMinutes">
+            Dauer
+            <input
+              id="durationMinutes"
+              type="number"
+              name="durationMinutes"
+              value={durationMinutes}
+              onChange={onChangeHandler}
+            />
+          </label>
         </div>
         <div className="item">
-          <label htmlFor="location">Unterrichtsort</label>
-          <input
-            id="location"
-            type="text"
-            name="location"
-            onChange={onChangeHandler}
-            value={location}
-          />
+          <label htmlFor="location">
+            Unterrichtsort
+            <input
+              id="location"
+              type="text"
+              name="location"
+              onChange={onChangeHandler}
+              value={location}
+            />
+          </label>
         </div>
       </form>
       <div className="edit-student__buttons">

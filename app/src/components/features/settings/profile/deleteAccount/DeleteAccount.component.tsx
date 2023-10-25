@@ -47,10 +47,15 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
         />
       </div>
       <div className="delete-account__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="danger" onClick={handleDelete} disabled={!check}>
+        <Button
+          type="button"
+          btnStyle="danger"
+          onClick={handleDelete}
+          disabled={!check}
+        >
           Benutzerkonto löschen
         </Button>
       </div>

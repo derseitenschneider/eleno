@@ -83,10 +83,10 @@ function EditEmail({ onCloseModal }: EditEmailProps) {
       </div>
       <div className="edit-email__buttons">
         <p className="error-message">{error}</p>
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="primary" onClick={handleSave}>
+        <Button type="button" btnStyle="primary" onClick={handleSave}>
           Speichern
         </Button>
       </div>

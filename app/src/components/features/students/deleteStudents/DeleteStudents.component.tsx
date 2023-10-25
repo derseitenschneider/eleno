@@ -1,20 +1,17 @@
-import { FC, useState } from 'react'
-import './deleteStudents.style.scss'
-import { useStudents } from '../../../../contexts/StudentContext'
-import Button from '../../../common/button/Button.component'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useStudents } from '../../../../contexts/StudentContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import Button from '../../../common/button/Button.component'
 import { useInactiveStudents } from '../inActiveStudents/InactiveStudents.component'
+import './deleteStudents.style.scss'
 
 interface DeleteStudentsProps {
   onCloseModal?: () => void
   studentIds?: number[]
 }
 
-const DeleteStudents: FC<DeleteStudentsProps> = ({
-  onCloseModal,
-  studentIds,
-}) => {
+function DeleteStudents({ onCloseModal, studentIds }: DeleteStudentsProps) {
   const [isPending, setIsPending] = useState(false)
   const { inactiveStudents, deleteStudents } = useStudents()
   const { isSelected, setIsSelected } = useInactiveStudents()
@@ -33,7 +30,7 @@ const DeleteStudents: FC<DeleteStudentsProps> = ({
       toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} gelöscht`)
       setIsSelected([])
     } catch (error) {
-      fetchErrorToast
+      fetchErrorToast()
     } finally {
       setIsPending(false)
     }
@@ -61,10 +58,10 @@ const DeleteStudents: FC<DeleteStudentsProps> = ({
       )}
 
       <div className="delete-students__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="danger" onClick={handleDeleteStudents}>
+        <Button type="button" btnStyle="danger" onClick={handleDeleteStudents}>
           Löschen
         </Button>
       </div>

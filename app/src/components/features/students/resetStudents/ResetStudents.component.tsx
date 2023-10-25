@@ -1,18 +1,17 @@
 import './resetStudents.style.scss'
 
-import { FC, useState } from 'react'
-import { TStudent } from '../../../../types/types'
-import Button from '../../../common/button/Button.component'
-import { useStudents } from '../../../../contexts/StudentContext'
-import { useActiveStudents } from '../activeStudents/ActiveStudents.component'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useStudents } from '../../../../contexts/StudentContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import Button from '../../../common/button/Button.component'
+import { useActiveStudents } from '../activeStudents/ActiveStudents.component'
 
 interface ResetStudentsProps {
   onCloseModal?: () => void
 }
 
-const ResetStudents: FC<ResetStudentsProps> = ({ onCloseModal }) => {
+function ResetStudents({ onCloseModal }: ResetStudentsProps) {
   const [isPending, setIsPending] = useState(false)
   const { resetLessonData } = useStudents()
   const { isSelected, setIsSelected } = useActiveStudents()
@@ -40,10 +39,10 @@ const ResetStudents: FC<ResetStudentsProps> = ({ onCloseModal }) => {
         der ausgewählten Schüler:innen zurücksetzen?
       </p>
       <div className="reset-students__buttons">
-        <Button btnStyle="secondary" onClick={onCloseModal}>
+        <Button type="button" btnStyle="secondary" onClick={onCloseModal}>
           Abbrechen
         </Button>
-        <Button btnStyle="danger" onClick={handleReset}>
+        <Button type="button" btnStyle="danger" onClick={handleReset}>
           Zurücksetzen
         </Button>
       </div>
