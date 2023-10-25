@@ -1,13 +1,13 @@
-import { FunctionComponent } from 'react'
 import { TTimetableDay } from '../../../../types/types'
 
-import './timeTableDay.style.scss'
 import TimeTableRow from '../timetableRow/TimetableRow.component'
+import './timeTableDay.style.scss'
+
 interface TimeTableDayProps {
   day: TTimetableDay
 }
 
-const TimeTableDay: FunctionComponent<TimeTableDayProps> = ({ day }) => {
+function TimeTableDay({ day }: TimeTableDayProps) {
   return (
     <div className="timetable__day">
       <div className="header">

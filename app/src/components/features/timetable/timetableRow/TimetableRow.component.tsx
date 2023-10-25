@@ -1,17 +1,14 @@
-import { FunctionComponent } from 'react'
-import { TStudent } from '../../../../types/types'
 import { IoArrowForwardOutline } from 'react-icons/io5'
-import { useStudents } from '../../../../contexts/StudentContext'
-import { sortStudentsDateTime } from '../../../../utils/sortStudents'
 import { useNavigate } from 'react-router-dom'
+import { useStudents } from '../../../../contexts/StudentContext'
+import { TStudent } from '../../../../types/types'
+import { sortStudentsDateTime } from '../../../../utils/sortStudents'
 
 interface TimeTableRowProps {
   currentStudent: TStudent
 }
 
-const TimeTableRow: FunctionComponent<TimeTableRowProps> = ({
-  currentStudent,
-}) => {
+function TimeTableRow({ currentStudent }: TimeTableRowProps) {
   const { students, setCurrentStudentIndex } = useStudents()
   const navigate = useNavigate()
 
@@ -41,7 +38,7 @@ const TimeTableRow: FunctionComponent<TimeTableRowProps> = ({
       </div>
       <div>{currentStudent.instrument}</div>
       <div>{currentStudent.location}</div>
-      <button onClick={navigateTolesson} className="btn-go-to">
+      <button type="button" onClick={navigateTolesson} className="btn-go-to">
         <IoArrowForwardOutline />
       </button>
     </div>
