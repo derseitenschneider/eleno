@@ -1,10 +1,10 @@
-import './signup.style.scss'
+/* eslint-disable react/jsx-no-target-blank */
 import { useState } from 'react'
-import Button from '../../../common/button/Button.component'
-import { signUpSupabase } from '../../../../services/user.api'
-import Loader from '../../../common/loader/Loader'
-
 import { useSearchParams } from 'react-router-dom'
+import { signUpSupabase } from '../../../../services/user.api'
+import Button from '../../../common/button/Button.component'
+import Loader from '../../../common/loader/Loader'
+import './signup.style.scss'
 
 const dataSignup = {
   firstName: '',
@@ -14,18 +14,17 @@ const dataSignup = {
   password2: '',
 }
 
-const Signup = () => {
+function Signup() {
   const [input, setInput] = useState(dataSignup)
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
 
-  const [_, setSearchParams] = useSearchParams()
+  const [, setSearchParams] = useSearchParams()
 
   const handlerinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
-    const value = e.target.value
-    const name = e.target.name
+    const { value, name } = e.target
     setInput({ ...input, [name]: value })
   }
 
@@ -58,7 +57,9 @@ const Signup = () => {
         )
       }
       setIsPending(false)
-    } catch (err) {}
+    } catch (err) {
+      throw new Error(err.message)
+    }
   }
 
   if (isPending) return <Loader loading={isPending} />
@@ -81,38 +82,44 @@ const Signup = () => {
         <h2 className="heading-2">Neues Benutzerkonto erstellen</h2>
         <form className="form form--signup" onSubmit={signUp}>
           <div className="form-item form-item--firstName">
-            <label htmlFor="firstName">Vorname</label>
-            <input
-              required
-              name="firstName"
-              type="text"
-              id="firstName"
-              value={input.firstName}
-              onChange={handlerinput}
-            />
+            <label htmlFor="firstName">
+              Vorname
+              <input
+                required
+                name="firstName"
+                type="text"
+                id="firstName"
+                value={input.firstName}
+                onChange={handlerinput}
+              />
+            </label>
           </div>
           <div className="form-item form-item--lastName">
-            <label htmlFor="lastName">Nachname</label>
-            <input
-              required
-              name="lastName"
-              type="text"
-              id="lastName"
-              value={input.lastName}
-              onChange={handlerinput}
-            />
+            <label htmlFor="lastName">
+              Nachname
+              <input
+                required
+                name="lastName"
+                type="text"
+                id="lastName"
+                value={input.lastName}
+                onChange={handlerinput}
+              />
+            </label>
           </div>
           <div className="form-item form-item--email">
-            <label htmlFor="email">Email</label>
-            <input
-              required
-              name="email"
-              type="email"
-              id="email"
-              className={`email${error.length ? ' input--error' : ''}`}
-              value={input.email}
-              onChange={handlerinput}
-            />
+            <label htmlFor="email">
+              Email
+              <input
+                required
+                name="email"
+                type="email"
+                id="email"
+                className={`email${error.length ? ' input--error' : ''}`}
+                value={input.email}
+                onChange={handlerinput}
+              />
+            </label>
           </div>
           <div className="form-item form-item--pw1">
             <label htmlFor="password">
@@ -130,16 +137,18 @@ const Signup = () => {
             />
           </div>
           <div className="form-item form-item--pw2">
-            <label htmlFor="password2">Passwort-Wiederholung</label>
-            <input
-              required
-              name="password2"
-              type="password"
-              id="password2"
-              className={`password${error.length ? ' input--error' : ''}`}
-              value={input.password2}
-              onChange={handlerinput}
-            />
+            <label htmlFor="password2">
+              Passwort-Wiederholung
+              <input
+                required
+                name="password2"
+                type="password"
+                id="password2"
+                className={`password${error.length ? ' input--error' : ''}`}
+                value={input.password2}
+                onChange={handlerinput}
+              />
+            </label>
           </div>
           <div className="form-item form-item--privacy-policy">
             <input
@@ -182,6 +191,7 @@ const Signup = () => {
         </form>
 
         <button
+          type="button"
           className="button--account-exists"
           onClick={() => {
             setSearchParams({ page: 'login' })

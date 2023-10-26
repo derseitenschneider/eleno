@@ -1,12 +1,11 @@
 import './login.style.scss'
 
-import { useRef, useState } from 'react'
-import Button from '../../../common/button/Button.component'
-import { loginSupabase } from '../../../../services/user.api'
-
 import { useSearchParams } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { loginSupabase } from '../../../../services/user.api'
+import Button from '../../../common/button/Button.component'
 
-const Login = () => {
+function Login() {
   const [input, setInput] = useState({ email: '', password: '' })
   const [error, setError] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -15,8 +14,7 @@ const Login = () => {
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     setInput((prev) => {
       return { ...prev, [name]: value }
     })
@@ -29,7 +27,7 @@ const Login = () => {
 
       searchParams.delete('page')
       setSearchParams(searchParams)
-    } catch (error) {
+    } catch (err) {
       setError(true)
       setInput({ email: '', password: '' })
 
@@ -42,30 +40,34 @@ const Login = () => {
         <h2 className="heading-2">Login</h2>
         <form action="" className="form form--login" onSubmit={logIn}>
           <div className="form-item">
-            <label htmlFor="email">Email</label>
-            <input
-              ref={inputRef}
-              required
-              autoFocus={window.screen.width > 1000 ? true : false}
-              name="email"
-              type="email"
-              id="email"
-              className={`email${error ? ' input--error' : ''}`}
-              value={input.email}
-              onChange={inputHandler}
-            />
+            <label htmlFor="email">
+              Email
+              <input
+                ref={inputRef}
+                required
+                autoFocus={window.screen.width > 1000}
+                name="email"
+                type="email"
+                id="email"
+                className={`email${error ? ' input--error' : ''}`}
+                value={input.email}
+                onChange={inputHandler}
+              />
+            </label>
           </div>
           <div className="form-item">
-            <label htmlFor="password">Passwort</label>
-            <input
-              required
-              type="password"
-              id="password"
-              name="password"
-              className={`password${error ? ' input--error' : ''}`}
-              value={input.password}
-              onChange={inputHandler}
-            />
+            <label htmlFor="password">
+              Passwort
+              <input
+                required
+                type="password"
+                id="password"
+                name="password"
+                className={`password${error ? ' input--error' : ''}`}
+                value={input.password}
+                onChange={inputHandler}
+              />
+            </label>
           </div>
           <Button
             type="submit"
@@ -78,10 +80,16 @@ const Login = () => {
           <p className="error-message">Email/Passwort stimmen nicht überein</p>
         )}
         <div className="container--links">
-          <button onClick={() => setSearchParams({ page: 'signup' })}>
+          <button
+            type="button"
+            onClick={() => setSearchParams({ page: 'signup' })}
+          >
             🧐 Noch kein Benutzerkonto?
           </button>
-          <button onClick={() => setSearchParams({ page: 'reset-password' })}>
+          <button
+            type="button"
+            onClick={() => setSearchParams({ page: 'reset-password' })}
+          >
             😅 Passwort vergessen?
           </button>
         </div>

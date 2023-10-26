@@ -190,6 +190,10 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+label input {
+  margin-top: 0.8rem;
+}
+
 .App {
   display: flex;
   height: 100%;

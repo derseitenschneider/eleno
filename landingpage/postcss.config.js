@@ -1,4 +1,4 @@
-/ @ts-nocheck
+// @ts-nocheck
 
 import autoprefixer from 'autoprefixer';
 import cssnanoPlugin from 'cssnano';

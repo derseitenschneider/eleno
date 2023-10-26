@@ -13,13 +13,11 @@ import ToDos from '../pages/todos/Todos.page'
 import TodosOpen from '../pages/todos/TodosOpen.page'
 import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import Account from '../pages/settings/account/Account'
-import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
-import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
 
 import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
 import ArchivatedStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 
-export const mainRouter = createBrowserRouter(
+const mainRouter = createBrowserRouter(
   [
     {
       path: `/`,
@@ -72,14 +70,6 @@ export const mainRouter = createBrowserRouter(
             },
           ],
         },
-        {
-          path: `terms`,
-          element: <TermsAndConditionsPage />,
-        },
-        {
-          path: `privacy`,
-          element: <PrivacyPolicyPage />,
-        },
       ],
     },
   ],
@@ -87,3 +77,4 @@ export const mainRouter = createBrowserRouter(
     basename: '/',
   },
 )
+export default mainRouter
