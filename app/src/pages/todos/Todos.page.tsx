@@ -1,6 +1,6 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
+import Navbar from '../../layouts/navbar/Navbar.component'
 
-import Navbar from '../../layouts/navbar/Navbar.component';
 function Todos() {
   return (
     <div className="container">
@@ -14,6 +14,6 @@ function Todos() {
       />
       <Outlet />
     </div>
-  );
+  )
 }
-export default Todos;
+export default Todos
