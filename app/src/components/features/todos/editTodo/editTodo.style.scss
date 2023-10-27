@@ -2,7 +2,7 @@
   padding: 4.8rem;
   width: 80vw;
   overflow: visible;
-
+  // 680px
   @media screen and (max-width: 42.5em) {
     width: 100vw;
     padding: 2.4rem 1.2rem;
@@ -21,6 +21,15 @@
     column-gap: 3.2rem;
     padding: 0.8rem 3.2rem 0.8rem 1.2rem;
     margin-bottom: 1.8rem;
+    // 680px
+    @media screen and (max-width: 42.5em) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+      input {
+        flex: 1 0 100%;
+      }
+    }
 
     .date {
       font-size: 1.4rem;
