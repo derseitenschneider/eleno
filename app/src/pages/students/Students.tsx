@@ -1,5 +1,3 @@
-import './students.style.scss'
-
 import { Outlet } from 'react-router-dom'
 import Navbar from '../../layouts/navbar/Navbar.component'
 

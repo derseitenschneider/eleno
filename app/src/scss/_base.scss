@@ -125,6 +125,8 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-label input {
+label input,
+label select,
+label textarea {
   margin-top: 0.8rem;
 }

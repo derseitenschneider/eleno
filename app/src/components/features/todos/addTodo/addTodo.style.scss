@@ -16,13 +16,25 @@
     align-items: center;
     justify-items: center;
     column-gap: 3.6rem;
+
     input {
       font-size: 1.6rem;
     }
+    @media screen and (max-width: 42.5em) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      input {
+        flex: 1 0 100%;
+      }
+      .btn-save {
+        margin-left: auto;
+      }
+    }
   }
 }
-
-@media (max-width: 680px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .container--add {
     .inputs {
       display: flex;
