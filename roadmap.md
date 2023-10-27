@@ -1,8 +1,11 @@
-# Roadmap
+# Roadmap (next)
 
-## Features coming up next
-
+- [ ] Anleitung für PWA-Installation
+- [ ] Bulk edit students
 - [ ] more fields in repertoire-list (Werk, Komponist, Lehrmittel(Quelle), Dauer, etc.)
+
+## Features V2
+
 - [ ] searchfield in allLessons view
 
 - [ ] Absenzen-Funktion
@@ -24,8 +27,6 @@
 
 - [ ] Notification for unfinished todos
 
-- [ ] Bulk edit students
-
 - [ ] Partial reset of studentdata (checkboxes)
 
 - [ ] Finish payment process & create payment plans
@@ -40,7 +41,7 @@
 
 - [ ] dynamically change theme color on light/dark mode
 
-## Future features
+## Backlog
 
 - [ ] Drag & Drop Notes
 

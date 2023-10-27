@@ -13,7 +13,7 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import { useOutsideClick } from '../../../hooks/useOutsideClick'
+import useOutsideClick from '../../../hooks/useOutsideClick'
 import './menus.style.scss'
 
 interface MenusProps {
@@ -142,7 +142,7 @@ function Toggle({ id }: ToggleProbs) {
 
 const List: FC<ListProps> = ({ children, id }) => {
   const { openId, position, close, MAX_HEIGHT } = useContext(MenusContext)
-  const menuRef = useOutsideClick(close, false)
+  const menuRef = useOutsideClick<HTMLUListElement>(close, false)
   const isVisible = openId === id
   // if (!isVisible) return null
 
