@@ -1,8 +1,8 @@
-import { supabase } from './supabase'
 import { TStudent } from '../types/types'
+import supabase from './supabase'
 
-export const fetchStudents = async function (userId) {
-  let { data: students, error } = await supabase
+export const fetchStudents = async (userId) => {
+  const { data: students, error } = await supabase
     .from('students')
     .select('*')
     .eq('user_id', userId)
@@ -11,10 +11,10 @@ export const fetchStudents = async function (userId) {
   return students
 }
 
-export const createNewStudentSupabase = async function (
+export const createNewStudentSupabase = async (
   students: TStudent[],
-  userId: string
-): Promise<TStudent[]> {
+  userId: string,
+): Promise<TStudent[]> => {
   const newStudents = students.map((student) => {
     return { ...student, user_id: userId }
   })
@@ -27,7 +27,7 @@ export const createNewStudentSupabase = async function (
   return data
 }
 
-export const deactivateStudentsupabase = async function (studentId: number[]) {
+export const deactivateStudentsupabase = async (studentId: number[]) => {
   const { error } = await supabase
     .from('students')
     .update({ archive: true })
@@ -36,7 +36,7 @@ export const deactivateStudentsupabase = async function (studentId: number[]) {
   if (error) throw new Error(error.message)
 }
 
-export const reactivateStudentSupabase = async function (studentIds: number[]) {
+export const reactivateStudentSupabase = async (studentIds: number[]) => {
   const { error } = await supabase
     .from('students')
     .update({ archive: false })
@@ -45,7 +45,7 @@ export const reactivateStudentSupabase = async function (studentIds: number[]) {
   if (error) throw new Error(error.message)
 }
 
-export const deleteStudentSupabase = async function (studentIds: number[]) {
+export const deleteStudentSupabase = async (studentIds: number[]) => {
   const { error } = await supabase
     .from('students')
     .delete()
@@ -54,7 +54,7 @@ export const deleteStudentSupabase = async function (studentIds: number[]) {
   if (error) throw new Error(error.message)
 }
 
-export const updateStudentSupabase = async function (student: TStudent) {
+export const updateStudentSupabase = async (student: TStudent) => {
   const { error } = await supabase
     .from('students')
     .update({ ...student })
