@@ -1,28 +1,28 @@
 import './lessons.style.scss'
 
 // React
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 // Types
 
 // Context
-import { useStudents } from '../../contexts/StudentContext'
 import { useLoading } from '../../contexts/LoadingContext'
+import { useStudents } from '../../contexts/StudentContext'
 
 // Functions
 
-import { useNavigate } from 'react-router-dom'
 import LessonHeader from '../../components/features/lessons/lessonHeader/LessonHeader'
 import PreviousLessons from '../../components/features/lessons/previousLessons/PreviousLessons.component'
 
-import NewLesson from '../../components/features/lessons/newLesson/NewLesson.component'
 import LessonFooter from '../../components/features/lessons/lessonFooter/LessonFooter.component'
-import { motion } from 'framer-motion'
+import NewLesson from '../../components/features/lessons/newLesson/NewLesson.component'
 
 import NoContent from '../../components/common/noContent/NoContent.component'
 import NoteList from '../../components/features/notes/noteList/NoteList.component'
 
-const Lesson = () => {
+function Lesson() {
   const { loading } = useLoading()
   const { currentStudentIndex, activeSortedStudentIds } = useStudents()
 

@@ -1,10 +1,10 @@
-import './timetable.style.scss'
 import { useEffect } from 'react'
+import NoContent from '../../components/common/noContent/NoContent.component'
 import TimeTableDay from '../../components/features/timetable/timeTableDay/TimetableDay.component'
 import { useStudents } from '../../contexts/StudentContext'
-import { sortStudentsDateTime } from '../../utils/sortStudents'
 import { TTimetableDay } from '../../types/types'
-import NoContent from '../../components/common/noContent/NoContent.component'
+import { sortStudentsDateTime } from '../../utils/sortStudents'
+import './timetable.style.scss'
 
 function Timetable() {
   const { students } = useStudents()
@@ -96,28 +96,25 @@ function Timetable() {
   ]
 
   return (
-    <>
-      <div className="container">
-        <h1 className="heading-1">Stundenplan</h1>
-        {days.some((day) => day.students.length) ? (
-          <div className="container--timetable">
-            {days.map((day, index) =>
-              day.students.length ? (
-                <TimeTableDay day={day} key={index} />
-              ) : null,
-            )}
-          </div>
-        ) : (
-          <NoContent heading="Keine Unterrichtsdaten">
-            <p>
-              Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag,
-              Unterrichtsort) deiner Schüler:innen, damit sie im Stundenplan
-              erscheinen.
-            </p>
-          </NoContent>
-        )}
-      </div>
-    </>
+    <div className="container">
+      <h1 className="heading-1">Stundenplan</h1>
+      {days.some((day) => day.students.length) ? (
+        <div className="container--timetable">
+          {days.map((day) =>
+            day.students.length ? (
+              <TimeTableDay day={day} key={day.day} />
+            ) : null,
+          )}
+        </div>
+      ) : (
+        <NoContent heading="Keine Unterrichtsdaten">
+          <p>
+            Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag, Unterrichtsort)
+            deiner Schüler:innen, damit sie im Stundenplan erscheinen.
+          </p>
+        </NoContent>
+      )}
+    </div>
   )
 }
 

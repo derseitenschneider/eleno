@@ -38,7 +38,7 @@ function AddStudents({ onCloseModal }: AddStudentsProps) {
 
   const addRows = () => {
     const newRows = []
-    for (let i = 0; i < numAddRows; i += i) {
+    for (let i = 0; i < numAddRows; i += 1) {
       newRows.push({ ...rowData, tempId: Math.floor(Math.random() * 1000000) })
     }
     setRows((prev) => [...prev, ...newRows])

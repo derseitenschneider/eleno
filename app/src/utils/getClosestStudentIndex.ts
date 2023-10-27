@@ -110,7 +110,7 @@ const getClosestStudentIndex = (students: TStudent[]) => {
   if (todaysNextStudent) {
     upcomingStudent = todaysNextStudent
   } else {
-    for (let i = 0; i < studentsAfterToday.length; i += i) {
+    for (let i = 0; i < studentsAfterToday.length; i += 1) {
       if (studentsAfterToday[i].length) {
         ;[upcomingStudent] = studentsAfterToday[i]
         break
