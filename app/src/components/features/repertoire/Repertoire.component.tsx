@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { RepertoireProvider } from '../../../contexts/RepertoireContext'
 import RepertoireList from './repertoireList/RepertoireList.component'
 
@@ -6,7 +5,7 @@ interface RepertoireProps {
   studentId: number
 }
 
-const Repertoire: FC<RepertoireProps> = ({ studentId }) => {
+function Repertoire({ studentId }: RepertoireProps) {
   return (
     <RepertoireProvider>
       <RepertoireList studentId={studentId} />

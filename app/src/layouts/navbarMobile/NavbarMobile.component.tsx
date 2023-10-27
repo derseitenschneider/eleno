@@ -1,17 +1,17 @@
 import './navbarMobile.style.scss'
 
+import {
+  IoCheckboxOutline,
+  IoLogOutOutline,
+  IoSchoolOutline,
+  IoSettingsOutline,
+} from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import Logo from '../../components/common/logo/Logo.component'
-import {
-  IoSchoolOutline,
-  IoLogOutOutline,
-  IoSettingsOutline,
-  IoCheckboxOutline,
-} from 'react-icons/io5'
 
 import { useUser } from '../../contexts/UserContext'
 
-const NavbarMobile = () => {
+function NavbarMobile() {
   const { logout } = useUser()
 
   return (
@@ -45,7 +45,11 @@ const NavbarMobile = () => {
           </NavLink>
         </li>
         <li>
-          <button className="navlist--mobile__navlink" onClick={logout}>
+          <button
+            type="button"
+            className="navlist--mobile__navlink"
+            onClick={logout}
+          >
             <IoLogOutOutline className="icon" />
           </button>
         </li>

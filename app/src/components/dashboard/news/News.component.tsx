@@ -1,12 +1,8 @@
-import { TNews } from '../../../types/types'
-import './news.style.scss'
-import { FunctionComponent } from 'react'
-import NewsItem from './newsItem/NewsItem.component'
 import news from './news'
+import './news.style.scss'
+import NewsItem from './newsItem/NewsItem.component'
 
-interface NewsProps {}
-
-const News: FunctionComponent<NewsProps> = () => {
+function News() {
   const sortedNews = news.sort(
     (a, b) => Date.parse(b.date) - Date.parse(a.date),
   )
@@ -17,8 +13,8 @@ const News: FunctionComponent<NewsProps> = () => {
       <div className="wrapper-news">
         {sortedNews
           .sort((newsA, newsB) => +newsA.date - +newsB.date)
-          .map((news, index) => (
-            <NewsItem news={news} key={index} />
+          .map((currentNews) => (
+            <NewsItem news={currentNews} key={currentNews.date} />
           ))}
       </div>
     </aside>

@@ -7,7 +7,7 @@ import { useTodos } from '../../../contexts/TodosContext'
 import { formatDateToDatabase } from '../../../utils/formateDate'
 import { sortStudentsDateTime } from '../../../utils/sortStudents'
 
-const Overview = () => {
+function Overview() {
   const { activeStudents, inactiveStudents } = useStudents()
   const { todos } = useTodos()
   const { closestStudentIndex } = useClosestStudent()

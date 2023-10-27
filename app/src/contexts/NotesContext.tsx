@@ -1,4 +1,10 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import {
   deleteNoteSupabase,
   editNoteSupabase,
@@ -19,25 +25,28 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [notes, setNotes] = useState<TNotes[]>([])
 
-  const saveNote = async (note: TNotes) => {
-    try {
-      const [data] = await postNotesSupabase(note, user.id)
-      setNotes((prev) => [...prev, data])
-    } catch (err) {
-      throw new Error(err.message)
-    }
-  }
+  const saveNote = useCallback(
+    async (note: TNotes) => {
+      try {
+        const [data] = await postNotesSupabase(note, user.id)
+        setNotes((prev) => [...prev, data])
+      } catch (err) {
+        throw new Error(err.message)
+      }
+    },
+    [user?.id],
+  )
 
-  const deleteNote = async (id: number) => {
+  const deleteNote = useCallback(async (id: number) => {
     try {
       await deleteNoteSupabase(id)
       setNotes((prev) => prev.filter((note) => note.id !== id))
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const updateNote = async (currentNote: TNotes) => {
+  const updateNote = useCallback(async (currentNote: TNotes) => {
     try {
       await editNoteSupabase(currentNote)
       setNotes((prev) =>
@@ -46,7 +55,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
   const value = useMemo(
     () => ({

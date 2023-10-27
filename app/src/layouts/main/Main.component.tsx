@@ -1,37 +1,37 @@
-import { FunctionComponent, useEffect, useState } from 'react'
-import { fetchStudents } from '../../services/students.api'
-import { useStudents } from '../../contexts/StudentContext'
-import { fetchLatestLessonsSupabase } from '../../services/lessons.api'
-import { useLessons } from '../../contexts/LessonsContext'
-import { fetchNotes } from '../../services/notes.api'
-import { useNotes } from '../../contexts/NotesContext'
-import { fetchTodosSupabase } from '../../services/todos.api'
-import { useTodos } from '../../contexts/TodosContext'
-import Loader from '../../components/common/loader/Loader'
-import { useUser } from '../../contexts/UserContext'
-import OfflineBanner from '../../components/common/offlineBanner/OfflineBanner.component'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import Loader from '../../components/common/loader/Loader'
+import OfflineBanner from '../../components/common/offlineBanner/OfflineBanner.component'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
+import { useLessons } from '../../contexts/LessonsContext'
+import { useNotes } from '../../contexts/NotesContext'
+import { useStudents } from '../../contexts/StudentContext'
+import { useTodos } from '../../contexts/TodosContext'
+import { useUser } from '../../contexts/UserContext'
+import { fetchLatestLessonsSupabase } from '../../services/lessons.api'
+import { fetchNotes } from '../../services/notes.api'
+import { fetchStudents } from '../../services/students.api'
+import { fetchTodosSupabase } from '../../services/todos.api'
 
 interface MainProps {
   children: React.ReactNode
 }
 
-const Main: FunctionComponent<MainProps> = ({ children }) => {
+function Main({ children }: MainProps) {
   const { user } = useUser()
   const { closestStudentIndex } = useClosestStudent()
   const { setCurrentStudentIndex } = useStudents()
   const [isPending, setIsPending] = useState(true)
-  const { setStudents, students } = useStudents()
+  const { setStudents } = useStudents()
   const { setLessons } = useLessons()
-  const { setNotes, notes } = useNotes()
+  const { setNotes } = useNotes()
   const { setTodos } = useTodos()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     setCurrentStudentIndex(closestStudentIndex)
-  }, [closestStudentIndex])
+  }, [closestStudentIndex, setCurrentStudentIndex])
 
   useEffect(() => {
     if (user) {
@@ -60,7 +60,7 @@ const Main: FunctionComponent<MainProps> = ({ children }) => {
       }
       fetchAll()
     }
-  }, [user])
+  }, [setLessons, setNotes, setStudents, setTodos, user])
 
   useEffect(() => {
     if (errorMessage)

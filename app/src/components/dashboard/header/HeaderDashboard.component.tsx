@@ -1,7 +1,7 @@
 import './headerDashboard.style.scss'
 import { useUser } from '../../../contexts/UserContext'
 
-const HeaderDashboard = () => {
+function HeaderDashboard() {
   const { user } = useUser()
   return (
     <header className="header-dashboard">

@@ -1,16 +1,17 @@
 import './previousLessons.style.scss'
 // Types
-import { TLesson } from '../../../../types/types'
 
 // Hooks
-import { useState, useEffect } from 'react'
+import parse from 'html-react-parser'
+import { useEffect, useState } from 'react'
+import { HiPencil, HiTrash } from 'react-icons/hi'
 import { useLessons } from '../../../../contexts/LessonsContext'
 import { useStudents } from '../../../../contexts/StudentContext'
 
 // Functions
 import { formatDateToDisplay } from '../../../../utils/formateDate'
-import parse from 'html-react-parser'
 
+import { TLesson } from '../../../../types/types'
 // Components
 import Modal from '../../../common/modal/Modal.component'
 
@@ -20,14 +21,12 @@ import AllLessons from '../allLessons/AllLessons.component'
 import DeleteLesson from '../deleteLesson/DeleteLesson.component'
 import EditLesson from '../editLesson/EditLesson.component'
 
-import { HiPencil, HiTrash } from 'react-icons/hi'
-
-const PreviousLessons = ({}) => {
+function PreviousLessons() {
   const { lessons } = useLessons()
   const { currentStudentId } = useStudents()
 
   const [tabIndex, setTabIndex] = useState(0)
-  const [isPending, setIsPending] = useState(false)
+  const [isPending] = useState(false)
 
   const previousLessonsIds = lessons
     .filter((lesson) => lesson.studentId === currentStudentId)
@@ -65,6 +64,7 @@ const PreviousLessons = ({}) => {
           <>
             {prevLessonsSorted.map((prev, index) => (
               <button
+                type="button"
                 className={`tab ${tabIndex === index && 'tab--active'}`}
                 onClick={() => {
                   setTabIndex(index)
@@ -78,7 +78,10 @@ const PreviousLessons = ({}) => {
             ))}
             <Modal>
               <Modal.Open opens="all-lessons">
-                <button className="tab"> ... </button>
+                <button type="button" className="tab">
+                  {' '}
+                  ...{' '}
+                </button>
               </Modal.Open>
               <Modal.Window name="all-lessons">
                 <AllLessons studentId={currentStudentId} />

@@ -1,12 +1,12 @@
-import { FunctionComponent } from 'react'
+import parse from 'html-react-parser'
 import { TNews } from '../../../../types/types'
 import { formatDateToDisplay } from '../../../../utils/formateDate'
-import parse from 'html-react-parser'
+
 interface NewsItemProps {
   news: TNews
 }
 
-const NewsItem: FunctionComponent<NewsItemProps> = ({ news }) => {
+function NewsItem({ news }: NewsItemProps) {
   return (
     <div className="news-item">
       <span className="date">{formatDateToDisplay(news.date)}</span>

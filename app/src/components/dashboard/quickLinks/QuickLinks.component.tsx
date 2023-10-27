@@ -8,10 +8,10 @@ import {
   IoSettingsOutline,
 } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import { useStudents } from '../../../contexts/StudentContext'
 import { useClosestStudent } from '../../../contexts/ClosestStudentContext'
+import { useStudents } from '../../../contexts/StudentContext'
 
-const QuickLinks = () => {
+function QuickLinks() {
   const { setCurrentStudentIndex } = useStudents()
 
   const { closestStudentIndex } = useClosestStudent()
@@ -24,7 +24,7 @@ const QuickLinks = () => {
       <h2 className="heading-2">Quick-Links</h2>
       <div className="quick-links__content">
         <Link
-          to={'lessons'}
+          to="lessons"
           className="quick-links__item quick-links__item--lessons"
           onClick={navigateToClosestStudent}
         >
@@ -32,29 +32,26 @@ const QuickLinks = () => {
           <p className="card-title">Unterricht starten</p>
         </Link>
         <Link
-          to={'students?modal=add-students'}
+          to="students?modal=add-students"
           className="quick-links__item quick-links__item--add-student"
         >
           <IoPeopleCircleOutline className="icon" />
           <p className="card-title">Schüler:in hinzufügen</p>
         </Link>
-        <Link
-          to={'todos'}
-          className="quick-links__item quick-links__item--todos"
-        >
+        <Link to="todos" className="quick-links__item quick-links__item--todos">
           <IoCheckboxOutline className="icon" />
           <p className="card-title">Todo erfassen</p>
         </Link>
 
         <Link
-          to={'settings'}
+          to="settings"
           className="quick-links__item quick-links__item--settings"
         >
           <IoSettingsOutline className="icon" />
           <p className="card-title">Einstellungen</p>
         </Link>
         <Link
-          to={'https://manual.eleno.net'}
+          to="https://manual.eleno.net"
           target="_blank"
           className="quick-links__item"
         >

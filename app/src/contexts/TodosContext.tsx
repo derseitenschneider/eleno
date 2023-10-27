@@ -14,7 +14,6 @@ import {
   updateTodoSupabase,
 } from '../services/todos.api'
 import { ContextTypeTodos, TTodo } from '../types/types'
-import { useUser } from './UserContext'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
@@ -28,7 +27,6 @@ export const TodosContext = createContext<ContextTypeTodos>({
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useUser()
   const [todos, setTodos] = useState<TTodo[]>([])
 
   const saveTodo = useCallback(async (newTodo: TTodo) => {
@@ -90,12 +88,12 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
 
   const deleteAllCompleted = useCallback(async () => {
     try {
-      await deleteCompletedTodosSupabase(user.id)
+      await deleteCompletedTodosSupabase()
       setTodos((prev) => prev.filter((todo) => !todo.completed))
     } catch (error) {
       throw new Error(error.message)
     }
-  }, [user?.id])
+  }, [])
 
   const value = useMemo(
     () => ({

@@ -1,22 +1,22 @@
 // Hooks
-import { useStudents } from '../../../../contexts/StudentContext'
-import Button from '../../../common/button/Button.component'
 // Components
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 
+import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import StudentsTable from '../studentsTable/StudentsTable.component'
+import { TSorting } from '../../../../types/types'
+import { sortStudents } from '../../../../utils/sortStudents'
 import Menus from '../../../common/menu/Menus.component'
 import Table from '../../../common/table/Table.component'
-import { TSorting } from '../../../../types/types'
-import { useSearchParams } from 'react-router-dom'
-import { sortStudents } from '../../../../utils/sortStudents'
+import StudentsTable from '../studentsTable/StudentsTable.component'
 
-import SearchBar from '../../../common/searchBar/SearchBar.component'
-import InachtiveStudentRow from './InactiveStudentRow.component'
+import Button from '../../../common/button/Button.component'
+import { useStudents } from '../../../../contexts/StudentContext'
 import Modal from '../../../common/modal/Modal.component'
+import SearchBar from '../../../common/searchBar/SearchBar.component'
 import DeleteStudents from '../deleteStudents/DeleteStudents.component'
+import InachtiveStudentRow from './InactiveStudentRow.component'
 
 type ContextTypeInactiveStudents = {
   isSelected: number[]
@@ -26,7 +26,7 @@ type ContextTypeInactiveStudents = {
 const InactiveStudentsContext = createContext<ContextTypeInactiveStudents>(null)
 
 function InactiveStudents() {
-  const { reactivateStudents, deleteStudents, inactiveStudents } = useStudents()
+  const { reactivateStudents, inactiveStudents } = useStudents()
   const [isSelected, setIsSelected] = useState<number[]>([])
   const [inputAction, setInputAction] = useState<number>(0)
   const [searchInput, setSearchInput] = useState('')
@@ -74,9 +74,16 @@ function InactiveStudents() {
       setInputAction(0)
     }
   }
+  const value = useMemo(
+    () => ({
+      isSelected,
+      setIsSelected,
+    }),
+    [isSelected],
+  )
 
   return (
-    <InactiveStudentsContext.Provider value={{ isSelected, setIsSelected }}>
+    <InactiveStudentsContext.Provider value={value}>
       <div className="students">
         <div className="header">
           <div className="container--heading">
@@ -104,7 +111,7 @@ function InactiveStudents() {
               />
             ) : null}
             <Modal>
-              <Modal.Open opens="multi-delete-students"></Modal.Open>
+              <Modal.Open opens="multi-delete-students" />
               <Modal.Window name="multi-delete-students">
                 <DeleteStudents />
               </Modal.Window>
