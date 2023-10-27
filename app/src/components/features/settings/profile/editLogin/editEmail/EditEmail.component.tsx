@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useUser } from '../../../../../../contexts/UserContext'
 import fetchErrorToast from '../../../../../../hooks/fetchErrorToast'
-import { validateEmail } from '../../../../../../utils/validateEmail'
+import validateEmail from '../../../../../../utils/validateEmail'
 import Button from '../../../../../common/button/Button.component'
 import './editEmail.style.scss'
 

@@ -5,7 +5,7 @@ import TodoDescription from '../../components/features/todos/todoDescription/Tod
 import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
 import TodoList from '../../components/features/todos/todoList/TodoList.component'
 import { useTodos } from '../../contexts/TodosContext'
-import { compareDateTodos } from '../../utils/sortTodos'
+import compareDateTodos from '../../utils/sortTodos'
 
 function TodosOpen() {
   const { todos } = useTodos()

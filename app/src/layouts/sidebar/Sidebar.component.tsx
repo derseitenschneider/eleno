@@ -19,19 +19,12 @@ import { useClosestStudent } from '../../contexts/ClosestStudentContext'
 import { useStudents } from '../../contexts/StudentContext'
 import { useUser } from '../../contexts/UserContext'
 import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
-import { sortStudentsDateTime } from '../../utils/sortStudents'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
-  const { students, currentStudentIndex, activeStudents } = useStudents()
+  const { activeStudents } = useStudents()
   const { logout } = useUser()
-
-  const activeStudentsIds: number[] = sortStudentsDateTime(
-    students.filter((student) => !student.archive),
-  ).map((student) => student.id)
-
-  const currentStudentId = activeStudentsIds[currentStudentIndex]
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
