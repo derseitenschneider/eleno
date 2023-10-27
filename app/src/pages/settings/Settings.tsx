@@ -3,7 +3,7 @@ import Navbar from '../../layouts/navbar/Navbar.component'
 
 const navLinks = [{ path: '', label: 'Benutzerkonto', key: 1, end: true }]
 
-function Settings() {
+const Settings = () => {
   return (
     <div className="container container--settings">
       <h1 className="heading-1">Einstellungen</h1>

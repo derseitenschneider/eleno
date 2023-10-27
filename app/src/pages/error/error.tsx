@@ -1,7 +1,18 @@
-import Sidebar from '../../layouts/sidebar/Sidebar.component'
+import React from 'react'
 import './error.style.scss'
+import { useRouteError } from 'react-router-dom'
+import Sidebar from '../../layouts/sidebar/Sidebar.component'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function ErrorPage() {
+  // const navigate = useNavigate()
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     navigate('/')
+  //   }, 3000)
+  // }, [])
+
   return (
     <>
       <Sidebar />

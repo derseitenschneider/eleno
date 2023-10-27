@@ -1,14 +1,14 @@
 import './dashboard.style.scss'
 
-import { motion } from 'framer-motion'
 import { useEffect } from 'react'
-import FooterDashboard from '../../components/dashboard/footer/FooterDashboard.component'
-import HeaderDashboard from '../../components/dashboard/header/HeaderDashboard.component'
-import News from '../../components/dashboard/news/News.component'
-import Overview from '../../components/dashboard/overview/Overview.component'
-import QuickLinks from '../../components/dashboard/quickLinks/QuickLinks.component'
-import { useLoading } from '../../contexts/LoadingContext'
 import { useUser } from '../../contexts/UserContext'
+import { useLoading } from '../../contexts/LoadingContext'
+import News from '../../components/dashboard/news/News.component'
+import FooterDashboard from '../../components/dashboard/footer/FooterDashboard.component'
+import QuickLinks from '../../components/dashboard/quickLinks/QuickLinks.component'
+import Overview from '../../components/dashboard/overview/Overview.component'
+import HeaderDashboard from '../../components/dashboard/header/HeaderDashboard.component'
+import { motion } from 'framer-motion'
 
 function Dashboard() {
   const { user } = useUser()
@@ -16,7 +16,7 @@ function Dashboard() {
   const { setLoading } = useLoading()
 
   useEffect(() => {
-    if (user) setLoading(false)
+    user && setLoading(false)
   }, [user, setLoading])
 
   useEffect(() => {

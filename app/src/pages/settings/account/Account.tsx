@@ -1,15 +1,16 @@
 import './account.style.scss'
 
-import { useEffect } from 'react'
+import { FunctionComponent, useEffect } from 'react'
+// import Button from '@components/common/button/Button.component'
 import Button from '../../../components/common/button/Button.component'
+import { useUser } from '../../../contexts/UserContext'
 import Modal from '../../../components/common/modal/Modal.component'
 import DeleteAccount from '../../../components/features/settings/profile/deleteAccount/DeleteAccount.component'
 import EditEmail from '../../../components/features/settings/profile/editLogin/editEmail/EditEmail.component'
 import EditPassword from '../../../components/features/settings/profile/editLogin/editPassword/EditPassword.component'
 import EditProfile from '../../../components/features/settings/profile/editProfile/EditProfile.component'
-import { useUser } from '../../../contexts/UserContext'
 
-function Account() {
+const Account: FunctionComponent = () => {
   const { user } = useUser()
 
   useEffect(() => {

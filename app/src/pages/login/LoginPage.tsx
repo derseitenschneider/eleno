@@ -1,13 +1,13 @@
 import './loginPage.style.scss'
-import { useSearchParams } from 'react-router-dom'
 
 import Login from '../../components/features/user/login/Login.component'
 
-import AnimatedLogo from '../../components/common/logo/AnimatedLogo.component'
-import ForgotPassword from '../../components/features/user/forgotPassword/ForgotPassword.component'
 import Signup from '../../components/features/user/singup/Signup.component'
+import ForgotPassword from '../../components/features/user/forgotPassword/ForgotPassword.component'
+import { useSearchParams } from 'react-router-dom'
+import AnimatedLogo from '../../components/common/logo/AnimatedLogo.component'
 
-function LoginPage() {
+const LoginPage = () => {
   const [searchParams] = useSearchParams()
 
   const page = searchParams.get('page')
