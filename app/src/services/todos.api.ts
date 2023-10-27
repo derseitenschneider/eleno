@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { TTodo } from '../types/types'
-import { supabase } from './supabase'
+import supabase from './supabase'
 
 export const fetchTodosSupabase = async (userId: string): Promise<TTodo[]> => {
   const { data, error } = await supabase
@@ -67,7 +68,7 @@ export const updateTodoSupabase = async (todo: TTodo) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteCompletedTodosSupabase = async (userId: string) => {
+export const deleteCompletedTodosSupabase = async () => {
   const { error } = await supabase.from('todos').delete().eq('completed', true)
   if (error) throw new Error(error.message)
 }

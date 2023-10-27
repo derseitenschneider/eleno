@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import fetchErrorToast from '../hooks/fetchErrorToast'
 import LoginPage from '../pages/login/LoginPage'
-import { supabase } from '../services/supabase'
+import supabase from '../services/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
@@ -79,19 +79,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const updateProfile = useCallback(
-    async (data: TProfile) => {
-      try {
-        await updateProfileSupabase(data, user.id)
-        setUser((prev) => {
-          return { ...prev, firstName: data.firstName, lastName: data.lastName }
-        })
-      } catch (error) {
-        throw new Error(error.message)
-      }
-    },
-    [user?.id],
-  )
+  const updateProfile = useCallback(async (data: TProfile) => {
+    try {
+      await updateProfileSupabase(data)
+      setUser((prev) => {
+        return { ...prev, firstName: data.firstName, lastName: data.lastName }
+      })
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }, [])
 
   const updateEmail = useCallback(async (email: string) => {
     try {

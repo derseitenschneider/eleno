@@ -1,11 +1,11 @@
 import { TProfile } from '../types/types'
-import { supabase } from './supabase'
+import supabase from './supabase'
 
 export const signUpSupabase = async (
   email: string,
   password: string,
   firstName: string,
-  lastName: string
+  lastName: string,
 ) => {
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -22,7 +22,7 @@ export const signUpSupabase = async (
 }
 
 export const loginSupabase = async (email: string, password: string) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
@@ -30,12 +30,12 @@ export const loginSupabase = async (email: string, password: string) => {
 }
 
 export const recoverPasswordSupabase = async (email: string) => {
-  let { error } = await supabase.auth.resetPasswordForEmail(email)
+  const { error } = await supabase.auth.resetPasswordForEmail(email)
   if (error) throw new Error(error.message)
 }
 
 export const getProfilesSupabase = async (uid: string) => {
-  let { data: profiles, error } = await supabase
+  const { data: profiles, error } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', uid)
@@ -43,7 +43,7 @@ export const getProfilesSupabase = async (uid: string) => {
   return profiles
 }
 
-export const updateProfileSupabase = async (data: TProfile, uid: string) => {
+export const updateProfileSupabase = async (data: TProfile) => {
   const { error } = await supabase.auth.updateUser({
     data,
   })
