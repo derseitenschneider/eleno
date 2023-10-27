@@ -3,7 +3,7 @@ import { IoCloseOutline } from 'react-icons/io5'
 import Button from '../../../common/button/Button.component'
 
 import { TStudent } from '../../../../types/types'
-import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
+import calcTimeDifference from '../../../../utils/calcTimeDifference'
 
 export interface IRow extends TStudent {
   tempId: number

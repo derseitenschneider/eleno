@@ -1,8 +1,8 @@
+import { supabase } from './supabase'
 import { TRepertoireItem } from '../types/types'
-import supabase from './supabase'
 
 export const getRepertoireByStudentSupabase = async (
-  studentId: number,
+  studentId: number
 ): Promise<TRepertoireItem[]> => {
   const { data: repertoire, error } = await supabase
     .from('repertoire')
@@ -15,7 +15,7 @@ export const getRepertoireByStudentSupabase = async (
 }
 
 export const createRepertoireItemSupabase = async (
-  item: TRepertoireItem,
+  item: TRepertoireItem
 ): Promise<TRepertoireItem[]> => {
   const { data: repertoireItem, error } = await supabase
     .from('repertoire')

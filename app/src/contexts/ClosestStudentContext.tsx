@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { ContextTypeClosestStudent } from '../types/types'
-import { getClosestStudentIndex } from '../utils/getClosestStudentIndex'
+import getClosestStudentIndex from '../utils/getClosestStudentIndex'
 import { useStudents } from './StudentContext'
 
 export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({

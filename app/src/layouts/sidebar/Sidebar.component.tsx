@@ -1,24 +1,24 @@
+import { useCallback, useEffect, useState } from 'react'
 import './sidebar.style.scss'
-import { useEffect, useState } from 'react'
 
-import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
-  IoCompassOutline,
-  IoPeopleCircleOutline,
-  IoCalendarOutline,
-  IoSchoolOutline,
-  IoChevronForwardOutline,
-  IoLogOutOutline,
-  IoCheckboxOutline,
-  IoSettingsOutline,
   IoBookOutline,
+  IoCalendarOutline,
+  IoCheckboxOutline,
+  IoChevronForwardOutline,
+  IoCompassOutline,
+  IoLogOutOutline,
+  IoPeopleCircleOutline,
+  IoSchoolOutline,
+  IoSettingsOutline,
 } from 'react-icons/io5'
+import { Link, NavLink } from 'react-router-dom'
 
 import Logo from '../../components/common/logo/Logo.component'
 import { useClosestStudent } from '../../contexts/ClosestStudentContext'
-import { getClosestStudentIndex } from '../../utils/getClosestStudentIndex'
 import { useStudents } from '../../contexts/StudentContext'
 import { useUser } from '../../contexts/UserContext'
+import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 
 function Sidebar() {
@@ -28,22 +28,27 @@ function Sidebar() {
   const { logout } = useUser()
 
   const activeStudentsIds: number[] = sortStudentsDateTime(
-    students.filter((student) => !student.archive)
+    students.filter((student) => !student.archive),
   ).map((student) => student.id)
 
   const currentStudentId = activeStudentsIds[currentStudentIndex]
 
-  const toggleSidebar = () => {
+  const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
-  }
+  }, [sidebarOpen])
 
-  const closeSidebarOnWindowClick = (e: MouseEvent) => {
-    const target = e.target as Element
-    if (
-      !target?.closest('button')?.classList.contains('sidebar__button--toggle')
-    )
-      toggleSidebar()
-  }
+  const closeSidebarOnWindowClick = useCallback(
+    (e: MouseEvent) => {
+      const target = e.target as Element
+      if (
+        !target
+          ?.closest('button')
+          ?.classList.contains('sidebar__button--toggle')
+      )
+        toggleSidebar()
+    },
+    [toggleSidebar],
+  )
 
   const resetClosestStudentIndex = () => {
     setClosestStudentIndex(getClosestStudentIndex(activeStudents))
@@ -56,12 +61,16 @@ function Sidebar() {
     return () => {
       window.removeEventListener('click', closeSidebarOnWindowClick)
     }
-  }, [sidebarOpen])
+  }, [closeSidebarOnWindowClick, sidebarOpen])
 
   return (
     <div>
       <div className={`sidebar${sidebarOpen ? ' sidebar--open' : ''}`}>
-        <button className="sidebar__button--toggle" onClick={toggleSidebar}>
+        <button
+          type="button"
+          className="sidebar__button--toggle"
+          onClick={toggleSidebar}
+        >
           <IoChevronForwardOutline className="chevron" />
         </button>
         <div className="container-top">
@@ -84,7 +93,7 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to={`lessons`} className="sidebar__nav-link">
+                <NavLink to="lessons" className="sidebar__nav-link">
                   <div className="sidebar__nav-icon">
                     <IoSchoolOutline className="icon" />
                   </div>
@@ -146,12 +155,16 @@ function Sidebar() {
             </NavLink>
           </div>
           <div className="sidebar__nav-el">
-            <div className="sidebar__nav-link" onClick={logout}>
+            <button
+              type="button"
+              className="sidebar__nav-link"
+              onClick={logout}
+            >
               <div className="sidebar__nav-icon">
                 <IoLogOutOutline className="icon icon--logout" />
               </div>
               <span className="sidebar__link-text">Log out</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>

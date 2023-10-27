@@ -1,4 +1,4 @@
-export const calcTimeDifference = (startTime: string, endTime: string) => {
+const calcTimeDifference = (startTime: string, endTime: string) => {
   const hourStartTime = +startTime.split(':')[0]
   const hourEndTime = +endTime.split(':')[0]
 
@@ -13,3 +13,5 @@ export const calcTimeDifference = (startTime: string, endTime: string) => {
 
   return totalDiffInMin
 }
+
+export default calcTimeDifference

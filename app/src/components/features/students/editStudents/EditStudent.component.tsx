@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useStudents } from '../../../../contexts/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import { calcTimeDifference } from '../../../../utils/calcTimeDifference'
+import calcTimeDifference from '../../../../utils/calcTimeDifference'
 import Button from '../../../common/button/Button.component'
 import './editStudent.style.scss'
 

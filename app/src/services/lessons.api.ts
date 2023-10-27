@@ -1,10 +1,10 @@
+import { supabase } from './supabase'
 import { TLesson } from '../types/types'
-import supabase from './supabase'
 
-export const fetchAllLessonsSupabase = async (
-  studentId: number,
-): Promise<TLesson[]> => {
-  const { data: lessons, error } = await supabase
+export const fetchAllLessonsSupabase = async function (
+  studentId: number
+): Promise<TLesson[]> {
+  let { data: lessons, error } = await supabase
     .from('lessons')
     .select('*')
     .eq('studentId', studentId)
@@ -14,10 +14,10 @@ export const fetchAllLessonsSupabase = async (
   return lessons
 }
 
-export const saveNewLessonSupabase = async (
+export const saveNewLessonSupabase = async function (
   lesson: TLesson,
-  userId: string,
-): Promise<TLesson[]> => {
+  userId: string
+): Promise<TLesson[]> {
   const { date, homework, lessonContent, studentId } = lesson
 
   const { data, error } = await supabase
@@ -30,7 +30,10 @@ export const saveNewLessonSupabase = async (
 }
 
 export const deleteLessonSupabase = async (lessonId: number) => {
-  const { error } = await supabase.from('lessons').delete().eq('id', lessonId)
+  const { data, error } = await supabase
+    .from('lessons')
+    .delete()
+    .eq('id', lessonId)
 
   if (error) {
     throw new Error(error.message)
@@ -55,7 +58,7 @@ export const fetchLatestLessonsSupabase = async () => {
 }
 
 export const fetchLatestLessonsPerStudentSupabase = async (
-  studentIds: number[],
+  studentIds: number[]
 ) => {
   const { data: lessons, error } = await supabase
     .from('lessons')

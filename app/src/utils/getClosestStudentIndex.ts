@@ -1,9 +1,9 @@
 import { TStudent, TWeekday } from '../types/types'
 import { sortStudentsDateTime } from './sortStudents'
 
-export const getClosestStudentIndex = (students: TStudent[]) => {
+const getClosestStudentIndex = (students: TStudent[]) => {
   const filteredSortedStudents = sortStudentsDateTime(students).filter(
-    (student) => !student.archive
+    (student) => !student.archive,
   )
 
   const day = new Date().getDay()
@@ -101,28 +101,29 @@ export const getClosestStudentIndex = (students: TStudent[]) => {
   let upcomingStudent: TStudent
 
   const todaysStudents = filteredSortedStudents.filter(
-    (student) => student.dayOfLesson === today
+    (student) => student.dayOfLesson === today,
   )
   const todaysNextStudent = todaysStudents.filter(
-    (student) => student.endOfLesson > now
+    (student) => student.endOfLesson > now,
   )[0]
 
   if (todaysNextStudent) {
     upcomingStudent = todaysNextStudent
   } else {
-    for (let i = 0; i < studentsAfterToday.length; i++) {
+    for (let i = 0; i < studentsAfterToday.length; i += i) {
       if (studentsAfterToday[i].length) {
-        upcomingStudent = studentsAfterToday[i][0]
+        ;[upcomingStudent] = studentsAfterToday[i]
         break
       }
     }
   }
 
   const closestStudentIndex = filteredSortedStudents.findIndex(
-    (student) => student.id === upcomingStudent?.id
+    (student) => student.id === upcomingStudent?.id,
   )
 
   if (closestStudentIndex === -1) return 0
 
   return closestStudentIndex
 }
+export default getClosestStudentIndex
