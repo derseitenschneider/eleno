@@ -1,6 +1,6 @@
+import { createContext, useContext, useMemo } from 'react'
 import Emtpy from '../emtpy/Empty.component'
 import './table.style.scss'
-import { FC, ReactElement, ReactNode, createContext, useContext } from 'react'
 
 interface TableProps {
   columns: string
@@ -18,29 +18,23 @@ interface RowProps {
   styles?: React.CSSProperties
 }
 
-interface BodyProps {
+interface BodyProps<T> {
   className?: string
-  data: any[]
-  render: (item: any) => JSX.Element
+  data: T[]
+  render: (item: T) => JSX.Element
   emptyMessage: string
 }
 
 interface FooterProps {
   children: React.ReactNode
 }
-
-interface TableComp {
-  Header: FC<HeaderProps>
-  Body: FC<BodyProps>
-  Row: FC<RowProps>
-  Footer: FC<FooterProps>
-}
-
 const TableContext = createContext(null)
 
-const Table: FC<TableProps> & TableComp = ({ columns, children }) => {
+function Table({ columns, children }: TableProps) {
+  const value = useMemo(() => ({ columns }), [columns])
+
   return (
-    <TableContext.Provider value={{ columns }}>
+    <TableContext.Provider value={value}>
       <div className="table" role="table">
         {children}
       </div>
@@ -48,7 +42,7 @@ const Table: FC<TableProps> & TableComp = ({ columns, children }) => {
   )
 }
 
-const Header: FC<HeaderProps> = ({ children }) => {
+function Header({ children }: HeaderProps) {
   const { columns } = useContext(TableContext)
   return (
     <div
@@ -61,18 +55,19 @@ const Header: FC<HeaderProps> = ({ children }) => {
   )
 }
 
-const Body: FC<BodyProps> = ({ data, render, emptyMessage, className }) => {
+function Body<T>({ data, render, emptyMessage, className }: BodyProps<T>) {
   if (!data.length) return <Emtpy emptyMessage={emptyMessage} />
+
   return (
     <div className={`table__body ${className || ''}`}>{data.map(render)}</div>
   )
 }
 
-const Row: FC<RowProps> = ({ children, className, rowRef, styles }) => {
+function Row({ children, className = '', rowRef, styles }: RowProps) {
   const { columns } = useContext(TableContext)
   return (
     <div
-      className={`table__row ${className ? className : ''}`}
+      className={`table__row ${className}`}
       role="row"
       style={{ ...styles, gridTemplateColumns: columns }}
       ref={rowRef}
@@ -82,7 +77,7 @@ const Row: FC<RowProps> = ({ children, className, rowRef, styles }) => {
   )
 }
 
-const Footer: FC<FooterProps> = ({ children }) => {
+function Footer({ children }: FooterProps) {
   return <div className="table__footer">{children}</div>
 }
 

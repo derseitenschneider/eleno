@@ -150,8 +150,8 @@
     position: relative;
   }
 }
-
-@media (max-width: 480px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .sidebar {
     display: none;
   }

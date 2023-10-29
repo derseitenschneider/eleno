@@ -1,0 +1,16 @@
+.delete-note {
+  padding: 4.8rem;
+
+  &.loading {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &__buttons {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    justify-content: flex-end;
+  }
+}

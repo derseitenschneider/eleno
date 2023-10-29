@@ -1,21 +1,21 @@
-import './button.style.scss';
+import './button.style.scss'
 
-import { ReactElement } from 'react';
-import { IconType } from 'react-icons/lib';
+import { ReactElement } from 'react'
+import { IconType } from 'react-icons/lib'
 
 export interface ButtonProps {
-  type?: 'button' | 'submit';
-  label?: string;
-  icon?: ReactElement<IconType>;
-  btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warning' | 'danger';
-  handler?: (e: React.MouseEvent) => void;
-  className?: string;
-  children?: React.ReactNode;
-  dataref?: string | number;
-  tabIndex?: number;
-  disabled?: boolean;
-  size?: 'md' | 'sm';
-  onClick?: () => void;
+  type: 'button' | 'submit'
+  label?: string
+  icon?: ReactElement<IconType>
+  btnStyle: 'primary' | 'secondary' | 'icon-only' | 'warning' | 'danger'
+  handler?: (e: React.MouseEvent) => void
+  className?: string
+  children?: React.ReactNode
+  dataref?: string | number
+  tabIndex?: number
+  disabled?: boolean
+  size?: 'md' | 'sm'
+  onClick?: () => void
 }
 
 function Button({
@@ -47,7 +47,7 @@ function Button({
       <span>{label}</span>
       {children}
     </button>
-  );
+  )
 }
 
-export default Button;
+export default Button

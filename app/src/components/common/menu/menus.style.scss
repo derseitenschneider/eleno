@@ -6,6 +6,11 @@
     color: var(--clr-primary-600);
     svg {
       stroke: var(--clr-primary-600);
+
+      @media screen and (max-width: 42.5em) {
+        width: 2rem;
+        height: 1.6rem;
+      }
     }
   }
 

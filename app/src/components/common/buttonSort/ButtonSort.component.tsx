@@ -5,9 +5,10 @@ import { useSearchParams } from 'react-router-dom'
 
 interface IButtonSort {
   name: string
+  direction?: 'asc' | 'desc'
 }
 
-function ButtonSort({ name }: IButtonSort) {
+function ButtonSort({ name, direction = 'asc' }: IButtonSort) {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const sortBy = searchParams.get('sort')
@@ -33,7 +34,7 @@ function ButtonSort({ name }: IButtonSort) {
       className={`button--sort ${active ? 'active' : ''}`}
       onClick={handleClick}
     >
-      <IoTriangle />
+      <IoTriangle className={direction} />
     </button>
   )
 }

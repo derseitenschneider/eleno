@@ -1,4 +1,4 @@
-import { TLesson, TSorting, TStudent, TTodo } from '../types/types'
+import { TLesson, TSorting, TStudent } from '../types/types'
 
 const compareLastName = (a: TStudent, b: TStudent) => {
   const studentA = a.lastName.toUpperCase()
@@ -30,9 +30,6 @@ const compareDays = (a: TStudent, b: TStudent) => {
   const days = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag']
   const dayA = a.dayOfLesson.toLowerCase()
   const dayB = b.dayOfLesson.toLowerCase()
-
-  const timeA = +a.startOfLesson.split(':').join('')
-  const timeB = +b.startOfLesson.split(':').join('')
 
   let comparison = 0
   if (days.indexOf(dayA) > days.indexOf(dayB)) {
@@ -84,33 +81,37 @@ const compareLocations = (a: TStudent, b: TStudent) => {
 }
 
 export const sortStudents = (students: TStudent[], sorting: TSorting) => {
+  const sortedbyTime = students.sort(compareTime)
   switch (sorting.sort) {
     case 'lastName':
       if (sorting.ascending === 'false') {
         return students.sort(compareLastName).reverse()
-      } else return students.sort(compareLastName)
+      }
+      return students.sort(compareLastName)
 
     case 'instrument':
       if (sorting.ascending === 'false') {
         return students.sort(compareInstrument).reverse()
-      } else return students.sort(compareInstrument)
+      }
+      return students.sort(compareInstrument)
 
     case 'dayOfLesson':
-      const sortedbyTime = students.sort(compareTime)
-
       if (sorting.ascending === 'false') {
         return sortedbyTime.sort(compareDays).reverse()
-      } else return sortedbyTime.sort(compareDays)
+      }
+      return sortedbyTime.sort(compareDays)
 
     case 'durationMinutes':
       if (sorting.ascending === 'false') {
         return students.sort(compareDurations).reverse()
-      } else return students.sort(compareDurations)
+      }
+      return students.sort(compareDurations)
 
     case 'location':
       if (sorting.ascending === 'false') {
         return students.sort(compareLocations).reverse()
-      } else return students.sort(compareLocations)
+      }
+      return students.sort(compareLocations)
 
     default:
       return students
@@ -173,6 +174,8 @@ export const sortStudentsDateTime = (students: TStudent[]) => {
       case '':
         undef.push(student)
         break
+      default:
+        undef.push(student)
     }
   })
   const sortedArray = [

@@ -1,20 +1,26 @@
-import { ContextTypeStudents, TStudent } from '../types/types'
-import { createContext, useContext, useState } from 'react'
 import {
-  resetStudentSupabase,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
+import {
   createNewStudentSupabase,
   deactivateStudentsupabase,
-  reactivateStudentSupabase,
   deleteStudentSupabase,
+  reactivateStudentSupabase,
+  resetStudentSupabase,
   updateStudentSupabase,
-} from '../supabase/students.supabase'
+} from '../services/students.api'
+import { ContextTypeStudents, TStudent } from '../types/types'
 
-import { useUser } from './UserContext'
-import { useLessons } from './LessonsContext'
-import { fetchLatestLessonsPerStudentSupabase } from '../supabase/lessons.supabase'
-import { useNotes } from './NotesContext'
-import { fetchNotesByStudent } from '../supabase/notes.supabase'
+import { fetchLatestLessonsPerStudentSupabase } from '../services/lessons.api'
+import { fetchNotesByStudent } from '../services/notes.api'
 import { sortStudentsDateTime } from '../utils/sortStudents'
+import { useLessons } from './LessonsContext'
+import { useNotes } from './NotesContext'
+import { useUser } from './UserContext'
 
 export const StudentsContext = createContext<ContextTypeStudents>({
   students: [],
@@ -35,7 +41,7 @@ export const StudentsContext = createContext<ContextTypeStudents>({
   updateStudent: () => new Promise(() => {}),
 })
 
-export const StudentsProvider = ({ children }) => {
+export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [students, setStudents] = useState([])
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
@@ -48,121 +54,159 @@ export const StudentsProvider = ({ children }) => {
   const inactiveStudents = students.filter((student) => student.archive)
 
   const activeSortedStudentIds: number[] = sortStudentsDateTime(
-    students.filter((student) => !student.archive)
+    students.filter((student) => !student.archive),
   ).map((student) => student.id)
 
   const currentStudentId = activeSortedStudentIds[currentStudentIndex]
 
-  const resetLessonData = async (studentIds: number[]) => {
-    const newStudents = students.map((student) =>
-      studentIds.includes(student.id)
-        ? {
-            ...student,
-            dayOfLesson: '',
-            startOfLesson: '',
-            endOfLesson: '',
-            durationMinutes: 0,
-            location: '',
-          }
-        : student
-    )
-    try {
-      await resetStudentSupabase(studentIds)
-      setStudents(newStudents)
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
-
-  const saveNewStudents = async (students: TStudent[]) => {
-    setIsPending(true)
-    try {
-      const data = await createNewStudentSupabase(students, user.id)
-      setStudents((prev) => [...prev, ...data])
-    } catch (error) {
-      throw new Error(error.message)
-    } finally {
-      setIsPending(false)
-    }
-  }
-
-  const deactivateStudents = async (studentIds: number[]) => {
-    const newStudents = students.map((student) =>
-      studentIds.includes(student.id) ? { ...student, archive: true } : student
-    )
-    try {
-      await deactivateStudentsupabase(studentIds)
-      setStudents(newStudents)
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
-
-  const reactivateStudents = async (studentIds: number[]) => {
-    const newStudents = students.map((student) =>
-      studentIds.includes(student.id) ? { ...student, archive: false } : student
-    )
-    try {
-      await reactivateStudentSupabase(studentIds)
-      setStudents(newStudents)
-
-      // Fetch latest lessons from reactivated student
-      const reactivatedLessons = await fetchLatestLessonsPerStudentSupabase(
-        studentIds
+  const resetLessonData = useCallback(
+    async (studentIds: number[]) => {
+      const newStudents = students.map((student) =>
+        studentIds.includes(student.id)
+          ? {
+              ...student,
+              dayOfLesson: '',
+              startOfLesson: '',
+              endOfLesson: '',
+              durationMinutes: 0,
+              location: '',
+            }
+          : student,
       )
-      setLessons((prev) => [...prev, ...reactivatedLessons])
+      try {
+        await resetStudentSupabase(studentIds)
+        setStudents(newStudents)
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [students],
+  )
 
-      // Fetch notes from reactivated student
-      const reactivatedNotes = await fetchNotesByStudent(studentIds)
-      setNotes((prev) => [...prev, ...reactivatedNotes])
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
+  const saveNewStudents = useCallback(
+    async (newStudents: TStudent[]) => {
+      setIsPending(true)
+      try {
+        const data = await createNewStudentSupabase(newStudents, user.id)
+        setStudents((prev) => [...prev, ...data])
+      } catch (error) {
+        throw new Error(error.message)
+      } finally {
+        setIsPending(false)
+      }
+    },
+    [user?.id],
+  )
 
-  const deleteStudents = async (studentIds: number[]) => {
-    const newStudents = students.filter(
-      (student) => !studentIds.includes(student.id)
-    )
-    try {
-      await deleteStudentSupabase(studentIds)
-      setStudents(newStudents)
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
+  const deactivateStudents = useCallback(
+    async (studentIds: number[]) => {
+      const newStudents = students.map((student) =>
+        studentIds.includes(student.id)
+          ? { ...student, archive: true }
+          : student,
+      )
+      try {
+        await deactivateStudentsupabase(studentIds)
+        setStudents(newStudents)
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [students],
+  )
 
-  const updateStudent = async (editStudent: TStudent) => {
+  const reactivateStudents = useCallback(
+    async (studentIds: number[]) => {
+      const newStudents = students.map((student) =>
+        studentIds.includes(student.id)
+          ? { ...student, archive: false }
+          : student,
+      )
+      try {
+        await reactivateStudentSupabase(studentIds)
+        setStudents(newStudents)
+
+        // Fetch latest lessons from reactivated student
+        const reactivatedLessons =
+          await fetchLatestLessonsPerStudentSupabase(studentIds)
+        setLessons((prev) => [...prev, ...reactivatedLessons])
+
+        // Fetch notes from reactivated student
+        const reactivatedNotes = await fetchNotesByStudent(studentIds)
+        setNotes((prev) => [...prev, ...reactivatedNotes])
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [setLessons, students, setNotes],
+  )
+
+  const deleteStudents = useCallback(
+    async (studentIds: number[]) => {
+      const newStudents = students.filter(
+        (student) => !studentIds.includes(student.id),
+      )
+      try {
+        await deleteStudentSupabase(studentIds)
+        setStudents(newStudents)
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [students],
+  )
+
+  const updateStudent = useCallback(async (editStudent: TStudent) => {
     try {
       await updateStudentSupabase(editStudent)
       setStudents((prev) =>
         prev.map((student) =>
-          student.id === editStudent.id ? editStudent : student
-        )
+          student.id === editStudent.id ? editStudent : student,
+        ),
       )
     } catch (error) {
       throw new Error(error.message)
     }
-  }
+  }, [])
 
-  const value = {
-    students,
-    setStudents,
-    currentStudentIndex,
-    setCurrentStudentIndex,
-    currentStudentId,
-    isPending,
-    setIsPending,
-    activeStudents,
-    inactiveStudents,
-    activeSortedStudentIds,
-    resetLessonData,
-    saveNewStudents,
-    deactivateStudents,
-    reactivateStudents,
-    deleteStudents,
-    updateStudent,
-  }
+  const value = useMemo(
+    () => ({
+      students,
+      setStudents,
+      currentStudentIndex,
+      setCurrentStudentIndex,
+      currentStudentId,
+      isPending,
+      setIsPending,
+      activeStudents,
+      inactiveStudents,
+      activeSortedStudentIds,
+      resetLessonData,
+      saveNewStudents,
+      deactivateStudents,
+      reactivateStudents,
+      deleteStudents,
+      updateStudent,
+    }),
+    [
+      students,
+      setStudents,
+      currentStudentIndex,
+      setCurrentStudentIndex,
+      currentStudentId,
+      isPending,
+      setIsPending,
+      activeStudents,
+      inactiveStudents,
+      activeSortedStudentIds,
+      resetLessonData,
+      saveNewStudents,
+      deactivateStudents,
+      reactivateStudents,
+      deleteStudents,
+      updateStudent,
+    ],
+  )
 
   return (
     <StudentsContext.Provider value={value}>

@@ -4,7 +4,8 @@
   visibility: hidden;
 }
 
-@media (max-width: 480px) {
+// 680px
+@media (max-width: 42.5em) {
   .navbar--mobile {
     display: block;
     pointer-events: all;

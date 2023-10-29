@@ -1,6 +1,5 @@
-import './dropdownSearch.style.scss'
-import { FunctionComponent } from 'react'
 import { TDropdownSearchButton } from '../../../types/types'
+import './dropdownSearch.style.scss'
 
 interface DropdownSearchProps {
   buttons: TDropdownSearchButton[]
@@ -12,7 +11,7 @@ interface DropdownSearchProps {
   onChangeSearchfield?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const DropdownSearch: FunctionComponent<DropdownSearchProps> = ({
+function DropdownSearch({
   buttons,
   positionX,
   positionY,
@@ -20,7 +19,7 @@ const DropdownSearch: FunctionComponent<DropdownSearchProps> = ({
   searchField,
   valueSearchfield,
   onChangeSearchfield,
-}) => {
+}: DropdownSearchProps) {
   return (
     <div
       className={`dropdown-search ${className}`}
@@ -31,12 +30,13 @@ const DropdownSearch: FunctionComponent<DropdownSearchProps> = ({
           type="search"
           value={valueSearchfield}
           onChange={onChangeSearchfield}
-          autoFocus={window.screen.width > 1000 ? true : false}
+          autoFocus={window.screen.width > 1000}
         />
       )}
-      {buttons.map((button, i) => (
+      {buttons.map((button) => (
         <button
-          key={i}
+          type="button"
+          key={button.label}
           onClick={button.handler}
           className={`dropdown-search__button ${button.type}`}
         >

@@ -39,13 +39,14 @@
     }
   }
 
-  @media screen and (max-width: 62.5em) {
+  // 1084px
+  @media screen and (max-width: 67.75em) {
     &__content {
       flex-direction: column;
     }
   }
-
-  @media screen and (max-width: 30em) {
+  // 680px
+  @media screen and (max-width: 42.5em) {
     .card {
       padding: 1.8rem;
     }

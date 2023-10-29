@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
-
 import Navbar from '../../layouts/navbar/Navbar.component'
+
 function Todos() {
   return (
     <div className="container">

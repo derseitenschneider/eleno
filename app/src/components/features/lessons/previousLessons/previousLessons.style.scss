@@ -1,0 +1,83 @@
+.container--previous-lessons {
+  border-bottom: 1px solid var(--clr-bg-400);
+  padding: 1.6rem 3.2rem;
+
+  height: 25rem;
+
+  .content--previous-lesson {
+    height: 14rem;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+
+    white-space: pre-line;
+    ul {
+      list-style: initial;
+    }
+    ul,
+    ol {
+      margin-left: 1.6rem;
+    }
+
+    a {
+      text-decoration: underline;
+      color: var(--clr-primary-600);
+    }
+
+    & > * {
+      background-color: unset !important;
+    }
+  }
+  .container--edit-buttons {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 2.4rem;
+    display: flex;
+  }
+
+  .container--tabs {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.2rem;
+
+    .tab {
+      padding: 0.8rem;
+      padding-right: 1.1rem;
+      background-color: var(--clr-bg-600);
+      border-left: 3px solid transparent;
+      &--active {
+        background-color: var(--clr-bg-400);
+        border-left: 3px solid var(--clr-primary-600);
+      }
+    }
+  }
+
+  .container--two-rows.loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+// 680px
+@media (max-width: 42.5em) {
+  .lessons {
+    .main {
+      .container--previous-lessons {
+        padding-block: 3.2rem;
+
+        .content--previous-lesson {
+          height: unset;
+        }
+
+        .container--edit-buttons {
+          right: 1.2rem;
+        }
+
+        .tab--repertoire {
+          display: none;
+          visibility: hidden;
+          position: none;
+        }
+      }
+    }
+  }
+}

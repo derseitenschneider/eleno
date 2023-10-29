@@ -1,0 +1,84 @@
+.repertoire-list {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 90vh;
+  width: 65vw;
+  overflow-y: hidden;
+  padding: 4.8rem;
+
+  // 1084px
+  @media screen and (max-width: 67.75em) {
+    width: 100vw;
+    padding: 4.8rem 2rem;
+  }
+
+  .header {
+    margin: 1rem 0;
+    display: flex;
+
+    align-items: stretch;
+
+    .heading-2 {
+      margin-right: auto;
+    }
+  }
+
+  .table {
+    overflow-y: hidden;
+
+    &__body {
+      // height: 100%;
+      overflow-y: auto;
+      // padding-bottom: 4.8rem;
+
+      &.scroll-lock {
+        overflow-y: hidden;
+      }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__row {
+      &.loading {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      &.write {
+        box-shadow:
+          0 4px 8px rgba(146, 195, 211, 0.1),
+          0 -4px 8px rgba(146, 195, 211, 0.1);
+      }
+
+      &.inactive {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        & > * {
+          padding: 0.8rem;
+
+          svg {
+            height: 1.4rem;
+            width: 1.4rem;
+          }
+        }
+      }
+    }
+  }
+
+  .count {
+    // margin-top: 1.6rem;
+    display: inline-block;
+    width: fit-content;
+    margin-left: auto;
+  }
+}

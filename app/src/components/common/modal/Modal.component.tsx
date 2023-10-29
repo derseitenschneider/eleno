@@ -1,17 +1,18 @@
-import './modal.style.scss'
 import React, {
-  FC,
   cloneElement,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
+import './modal.style.scss'
 
+import { motion } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
 
 interface ModalProps {
   children: React.ReactNode
@@ -28,42 +29,38 @@ interface WindowProps {
   styles?: React.CSSProperties
 }
 
-interface ModalComp {
-  Open: FC<OpenProps>
-  Window: FC<WindowProps>
-}
-
 const ModalContext = createContext(null)
 
-const Modal: FC<ModalProps> & ModalComp = ({ children }) => {
+function Modal({ children }: ModalProps) {
   const [openName, setOpenName] = useState('')
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const close = () => {
+  const close = useCallback(() => {
     searchParams.delete('modal')
     setSearchParams(searchParams)
 
     setOpenName('')
-  }
+  }, [searchParams, setSearchParams])
+
   const open = setOpenName
 
-  return (
-    <ModalContext.Provider value={{ openName, close, open }}>
-      {children}
-    </ModalContext.Provider>
+  const value = useMemo(
+    () => ({ openName, close, open }),
+    [openName, close, open],
   )
+  return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
 }
 
-const Open: FC<OpenProps> = ({ children, opens: opensWindowName }) => {
+function Open({ children, opens: opensWindowName }: OpenProps) {
   const { open } = useContext(ModalContext)
 
-  const [searchParams, _] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     if (searchParams.get('modal') === opensWindowName) {
       open(opensWindowName)
     }
-  }, [searchParams, opensWindowName])
+  }, [searchParams, opensWindowName, open])
 
   if (!children) return null
 
@@ -74,8 +71,8 @@ const Open: FC<OpenProps> = ({ children, opens: opensWindowName }) => {
   })
 }
 
-const Window: FC<WindowProps> = ({ children, name, styles }) => {
-  const { openName, close, open } = useContext(ModalContext)
+function Window({ children, name, styles }: WindowProps) {
+  const { openName, close } = useContext(ModalContext)
 
   /**
    * Prevent scrollbar jumps
@@ -109,12 +106,12 @@ const Window: FC<WindowProps> = ({ children, name, styles }) => {
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
     }
-    if (name == openName) {
+    if (name === openName) {
       window.addEventListener('keydown', handleKeydown)
     }
 
     return () => window.removeEventListener('keydown', handleKeydown)
-  }, [name, openName])
+  }, [close, name, openName])
 
   const onClickOverlay = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) close()
@@ -123,6 +120,7 @@ const Window: FC<WindowProps> = ({ children, name, styles }) => {
   if (name !== openName) return null
 
   return createPortal(
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div className="overlay" onClick={onClickOverlay}>
       <motion.div
         className="modal"
@@ -131,13 +129,13 @@ const Window: FC<WindowProps> = ({ children, name, styles }) => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.1 }}
       >
-        <button onClick={close} className="modal__btn-close">
+        <button type="button" onClick={close} className="modal__btn-close">
           <IoCloseOutline />
         </button>
         {cloneElement(children, { onCloseModal: close })}
       </motion.div>
     </div>,
-    document.body
+    document.body,
   )
 }
 

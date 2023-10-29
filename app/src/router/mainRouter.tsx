@@ -4,22 +4,20 @@ import ErrorPage from '../pages/error/error'
 import Dashboard from '../pages/dashboard/Dashboard'
 import Students from '../pages/students/Students'
 
-import Timetable from '../pages/timetable/Timetable.component'
-import Lessons from '../pages/lessons/Lessons'
 import Application from '../Application'
+import Lessons from '../pages/lessons/Lessons'
 import Settings from '../pages/settings/Settings'
+import Timetable from '../pages/timetable/Timetable.component'
 
-import ToDos from '../pages/todos/Todos.page'
-import TodosOpen from '../pages/todos/TodosOpen.page'
-import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import Account from '../pages/settings/account/Account'
-import TermsAndConditionsPage from '../pages/terms/TermsAndConditionsPage'
-import PrivacyPolicyPage from '../pages/privacy/PrivacyPolicyPage'
+import ToDos from '../pages/todos/Todos.page'
+import TodosCompleted from '../pages/todos/TodosCompleted.page'
+import TodosOpen from '../pages/todos/TodosOpen.page'
 
-import ActiveStudents from '../components/students/activeStudents/ActiveStudents.component'
-import ArchivatedStudents from '../components/students/inActiveStudents/InactiveStudents.component'
+import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
+import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 
-export const mainRouter = createBrowserRouter(
+const mainRouter = createBrowserRouter(
   [
     {
       path: `/`,
@@ -41,7 +39,7 @@ export const mainRouter = createBrowserRouter(
             },
             {
               path: `archive`,
-              element: <ArchivatedStudents />,
+              element: <InactiveStudents />,
             },
           ],
         },
@@ -72,18 +70,11 @@ export const mainRouter = createBrowserRouter(
             },
           ],
         },
-        {
-          path: `terms`,
-          element: <TermsAndConditionsPage />,
-        },
-        {
-          path: `privacy`,
-          element: <PrivacyPolicyPage />,
-        },
       ],
     },
   ],
   {
     basename: '/',
-  }
+  },
 )
+export default mainRouter
