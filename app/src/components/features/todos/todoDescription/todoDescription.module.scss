@@ -5,7 +5,8 @@
   column-gap: var(--column-gap-todos);
 }
 
-@media (max-width: 680px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .description {
     display: none;
   }

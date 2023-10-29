@@ -20,31 +20,18 @@
     input {
       font-size: 1.6rem;
     }
+
+    // 680px
     @media screen and (max-width: 42.5em) {
       display: flex;
       flex-wrap: wrap;
+      padding: 0;
       gap: 1.4rem;
+      background-color: inherit;
+
       input {
         flex: 1 0 100%;
       }
-      .btn-save {
-        margin-left: auto;
-      }
-    }
-  }
-}
-// 680px
-@media screen and (max-width: 42.5em) {
-  .container--add {
-    .inputs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-
-      .add-student {
-        padding: 0.8rem;
-      }
-
       .btn-save {
         margin-left: auto;
       }

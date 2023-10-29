@@ -33,17 +33,13 @@
     gap: 1.6rem;
     justify-content: flex-end;
   }
-}
 
-@media (max-width: 1084px) {
-  .edit-lesson {
+  @media (max-width: 1084px) {
     width: 100vw;
   }
-}
 
-@media (max-width: 42.5em) {
-  .edit-lesson {
-    padding: 4.8rem 2rem;
+  @media (max-width: 42.5em) {
+    // padding: 4.8rem 2rem;
     min-height: 100vh;
     &__inputs {
       grid-template-columns: 1fr;

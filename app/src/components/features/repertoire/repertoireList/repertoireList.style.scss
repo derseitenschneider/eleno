@@ -6,8 +6,10 @@
   overflow-y: hidden;
   padding: 4.8rem;
 
-  @media screen and (max-width: 67.5em) {
-    width: 90vw;
+  // 1084px
+  @media screen and (max-width: 67.75em) {
+    width: 100vw;
+    padding: 4.8rem 2rem;
   }
 
   .header {
@@ -46,7 +48,8 @@
       }
 
       &.write {
-        box-shadow: 0 4px 8px rgba(146, 195, 211, 0.1),
+        box-shadow:
+          0 4px 8px rgba(146, 195, 211, 0.1),
           0 -4px 8px rgba(146, 195, 211, 0.1);
       }
 

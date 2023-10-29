@@ -46,17 +46,18 @@
   }
 }
 
-@media (max-width: 1084px) {
+// 1084px
+@media screen and (max-width: 67.75em) {
   .all-lessons {
     width: 100vw;
     height: 100vh;
   }
 }
 
-@media (max-width: 480px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .all-lessons {
-    padding: 0;
-    padding-block: 4.8rem;
+    padding: 5.2rem 0 !important;
 
     &__row {
       grid-template-columns: 1fr 1fr;

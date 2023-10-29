@@ -82,7 +82,8 @@
   }
 }
 
-@media (max-width: 1084px) {
+// 1084px
+@media screen and (max-width: 67.75em) {
   .lessons {
     display: block;
     height: unset;
@@ -115,7 +116,8 @@
   }
 }
 
-@media (max-width: 680px) {
+// 680px
+@media screen and (max-width: 42.5em) {
   .lessons {
     .main {
       .container--previous-lessons {

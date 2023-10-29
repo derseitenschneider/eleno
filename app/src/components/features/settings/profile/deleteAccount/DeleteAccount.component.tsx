@@ -36,15 +36,17 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
     <div className="delete-account">
       <h2 className="heading-2">Benutzerkonto löschen</h2>
       <div className="delete-account__input">
-        <span>Email-Adresse zur Bestätigung</span>
-        <input
-          autoFocus
-          type="text"
-          name="email"
-          className={`email${!check ? ' input--error' : ''}`}
-          value={input}
-          onChange={inputHandler}
-        />
+        <label htmlFor="email">
+          Email-Adresse zur Bestätigung
+          <input
+            autoFocus
+            type="text"
+            name="email"
+            className={`email${!check ? ' input--error' : ''}`}
+            value={input}
+            onChange={inputHandler}
+          />
+        </label>
       </div>
       <div className="delete-account__buttons">
         <Button type="button" btnStyle="secondary" onClick={onCloseModal}>

@@ -43,14 +43,10 @@
   }
 }
 
-@media (max-width: 1084px) {
+// 1084px
+@media (max-width: 67.75em) {
   .edit-student {
     width: 100vw;
     padding: 2.4rem;
-
-    // .grid {
-    //   grid-template-columns: repeat(4, 1fr);
-    //   row-gap: 2.4rem;
-    // }
   }
 }
