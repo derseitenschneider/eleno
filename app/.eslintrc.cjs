@@ -12,6 +12,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   overrides: [],
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -28,4 +29,5 @@ module.exports = {
     'import/no-cycle': 0,
     'react/jsx-no-bind': 0,
   },
+  ignorePatterns: ['tests/*.ts', 'playwright.config.ts'],
 }

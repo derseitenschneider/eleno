@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "vite --open",
     "build": "tsc && vite build",
-    "netlify": "tsc && vite build --config netlify.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -33,6 +32,7 @@
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.39.0",
     "@types/node": "^18.13.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",

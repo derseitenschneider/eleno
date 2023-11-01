@@ -1,0 +1,25 @@
+{
+  "name": "eleno",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derseitenschneider/eleno.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/derseitenschneider/eleno/issues"
+  },
+  "homepage": "https://github.com/derseitenschneider/eleno#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.9"
+  },
+  "dependencies": {
+    "morgan": "^1.10.0"
+  }
+}
