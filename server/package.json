@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon src/server.js & npm run scss",
+    "scss": "sass --watch src/views/styles/main.scss public/css/main.css",
     "vercel-build": "echo hello"
   },
   "keywords": [],
@@ -22,5 +23,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5"
   }
 }
