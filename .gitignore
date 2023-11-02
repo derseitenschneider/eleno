@@ -26,6 +26,7 @@ dev-dist
 *.sw?
 
 .env
+config.env
 .prettierrc
 .eslintrc
 

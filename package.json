@@ -20,6 +20,7 @@
     "@types/node": "^20.8.9"
   },
   "dependencies": {
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2"
   }
 }
