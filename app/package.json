@@ -7,7 +7,9 @@
   "main": "./index.html",
   "scripts": {
     "dev": "vite --open",
+    "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
+    "build:demo": "VITE_MODE=demo tsc &6 vite build",
     "preview": "vite preview"
   },
   "dependencies": {

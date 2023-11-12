@@ -1,9 +1,3 @@
-# Roadmap (next)
-
-- [ ] Anleitung für PWA-Installation
-- [ ] Bulk edit students
-- [ ] more fields in repertoire-list (Werk, Komponist, Lehrmittel(Quelle), Dauer, etc.)
-
 ## Features V2
 
 - [ ] searchfield in allLessons view

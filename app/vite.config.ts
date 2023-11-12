@@ -21,6 +21,7 @@ export default defineConfig({
         description: 'Smart unterrichten',
         id: '?homescreen=1',
         orientation: 'landscape',
+        display: 'standalone',
         background_color: '#484e53',
         theme_color: '#484e53',
         icons: [

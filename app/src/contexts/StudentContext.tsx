@@ -47,8 +47,8 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
-
   const [isPending, setIsPending] = useState(false)
+  const mode = import.meta.env.VITE_MODE
 
   const activeStudents = students.filter((student) => !student.archive)
   const inactiveStudents = students.filter((student) => student.archive)
@@ -73,6 +73,10 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
             }
           : student,
       )
+      if (mode === 'demo') {
+        setStudents(newStudents)
+        return
+      }
       try {
         await resetStudentSupabase(studentIds)
         setStudents(newStudents)
@@ -80,12 +84,21 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [students],
+    [students, mode],
   )
 
   const saveNewStudents = useCallback(
     async (newStudents: TStudent[]) => {
       setIsPending(true)
+      if (mode === 'demo') {
+        const studentsWithIds = newStudents.map((student, index) => ({
+          ...student,
+          id: students.length + 1 + index,
+        }))
+        setStudents((prev) => [...prev, ...studentsWithIds])
+        setIsPending(false)
+        return
+      }
       try {
         const data = await createNewStudentSupabase(newStudents, user.id)
         setStudents((prev) => [...prev, ...data])
@@ -95,7 +108,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         setIsPending(false)
       }
     },
-    [user?.id],
+    [user?.id, mode, students.length],
   )
 
   const deactivateStudents = useCallback(
@@ -105,6 +118,10 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
           ? { ...student, archive: true }
           : student,
       )
+      if (mode === 'demo') {
+        setStudents(newStudents)
+        return
+      }
       try {
         await deactivateStudentsupabase(studentIds)
         setStudents(newStudents)
@@ -112,7 +129,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [students],
+    [students, mode],
   )
 
   const reactivateStudents = useCallback(
@@ -122,6 +139,10 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
           ? { ...student, archive: false }
           : student,
       )
+      if (mode === 'demo') {
+        setStudents(newStudents)
+        return
+      }
       try {
         await reactivateStudentSupabase(studentIds)
         setStudents(newStudents)
@@ -138,7 +159,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [setLessons, students, setNotes],
+    [setLessons, students, setNotes, mode],
   )
 
   const deleteStudents = useCallback(
@@ -146,6 +167,10 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
       const newStudents = students.filter(
         (student) => !studentIds.includes(student.id),
       )
+      if (mode === 'demo') {
+        setStudents(newStudents)
+        return
+      }
       try {
         await deleteStudentSupabase(studentIds)
         setStudents(newStudents)
@@ -153,21 +178,32 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [students],
+    [students, mode],
   )
 
-  const updateStudent = useCallback(async (editStudent: TStudent) => {
-    try {
-      await updateStudentSupabase(editStudent)
-      setStudents((prev) =>
-        prev.map((student) =>
-          student.id === editStudent.id ? editStudent : student,
-        ),
-      )
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }, [])
+  const updateStudent = useCallback(
+    async (editStudent: TStudent) => {
+      if (mode === 'demo') {
+        setStudents((prev) =>
+          prev.map((student) =>
+            student.id === editStudent.id ? editStudent : student,
+          ),
+        )
+        return
+      }
+      try {
+        await updateStudentSupabase(editStudent)
+        setStudents((prev) =>
+          prev.map((student) =>
+            student.id === editStudent.id ? editStudent : student,
+          ),
+        )
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    [mode],
+  )
 
   const value = useMemo(
     () => ({

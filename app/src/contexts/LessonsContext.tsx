@@ -14,6 +14,7 @@ import {
 import { ContextTypeLessons, TDraft, TLesson } from '../types/types'
 import { formatDateToDatabase } from '../utils/formateDate'
 import { useUser } from './UserContext'
+import mockLessons from '../services/mock-db/mockLessons'
 
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
@@ -30,12 +31,18 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [lessons, setLessons] = useState<TLesson[]>([])
   const [drafts, setDrafts] = useState<TDraft[]>([])
+  const mode = import.meta.env.VITE_MODE
 
   const saveNewLesson = useCallback(
     async (lesson: TLesson): Promise<void> => {
       const tempLesson: TLesson = {
         ...lesson,
         date: formatDateToDatabase(lesson.date),
+      }
+
+      if (mode === 'demo') {
+        setLessons((prev) => [...prev, tempLesson])
+        return
       }
 
       try {
@@ -45,44 +52,72 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error)
       }
     },
-    [user?.id],
+    [user?.id, mode],
   )
 
-  const deleteLesson = useCallback(async (lessonId: number) => {
-    try {
-      await deleteLessonSupabase(lessonId)
-      setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
-    } catch (err) {
-      throw new Error(err)
-    }
-  }, [])
+  const deleteLesson = useCallback(
+    async (lessonId: number) => {
+      if (mode === 'demo') {
+        setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
+        return
+      }
+      try {
+        await deleteLessonSupabase(lessonId)
+        setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
+      } catch (err) {
+        throw new Error(err)
+      }
+    },
+    [mode],
+  )
 
-  const updateLesson = useCallback(async (updatedLesson: TLesson) => {
-    try {
-      await updateLessonSupabase(updatedLesson)
-      setLessons((prev) =>
-        prev.map((lesson) =>
-          lesson.id === updatedLesson.id
-            ? {
-                ...updatedLesson,
-                date: formatDateToDatabase(updatedLesson.date),
-              }
-            : lesson,
-        ),
-      )
-    } catch (error) {
-      throw new Error(error)
-    }
-  }, [])
+  const updateLesson = useCallback(
+    async (updatedLesson: TLesson) => {
+      if (mode === 'demo') {
+        setLessons((prev) =>
+          prev.map((lesson) =>
+            lesson.id === updatedLesson.id
+              ? {
+                  ...updatedLesson,
+                  date: formatDateToDatabase(updatedLesson.date),
+                }
+              : lesson,
+          ),
+        )
+      }
+      try {
+        await updateLessonSupabase(updatedLesson)
+        setLessons((prev) =>
+          prev.map((lesson) =>
+            lesson.id === updatedLesson.id
+              ? {
+                  ...updatedLesson,
+                  date: formatDateToDatabase(updatedLesson.date),
+                }
+              : lesson,
+          ),
+        )
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    [mode],
+  )
 
-  const getAllLessons = useCallback(async (studentId: number) => {
-    try {
-      const allLessons = await fetchAllLessonsSupabase(studentId)
-      return allLessons
-    } catch (error) {
-      throw new Error(error.mesage)
-    }
-  }, [])
+  const getAllLessons = useCallback(
+    async (studentId: number) => {
+      if (mode === 'demo') {
+        return mockLessons.toReversed()
+      }
+      try {
+        const allLessons = await fetchAllLessonsSupabase(studentId)
+        return allLessons
+      } catch (error) {
+        throw new Error(error.mesage)
+      }
+    },
+    [mode],
+  )
 
   const value = useMemo(
     () => ({

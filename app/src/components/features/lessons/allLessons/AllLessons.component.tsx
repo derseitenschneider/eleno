@@ -28,6 +28,7 @@ function AllLessons({ studentId }: AllLessonsProps) {
       setErrorMessage('')
       try {
         const lessons = await getAllLessons(studentId)
+
         setAllLessons(lessons)
       } catch (error) {
         setErrorMessage(

@@ -5,7 +5,7 @@ exports.getHomework = async (req, res) => {
     const lesson = await supabase
       .from('lessons')
       .select('*')
-      .eq('api_key', req.params.api_key);
+      .eq('homework_key', req.params.homework_key);
 
     const studentId = +req.params.studentId;
 

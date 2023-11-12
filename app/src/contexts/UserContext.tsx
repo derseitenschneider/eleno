@@ -21,6 +21,7 @@ import {
 } from '../services/user.api'
 import { ContextTypeUser, TProfile, TUser } from '../types/types'
 import { useLoading } from './LoadingContext'
+import mockUser from '../services/mock-db/mockUser'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
@@ -40,8 +41,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<TUser | null>(null)
   const { loading, setLoading } = useLoading()
   const navigate = useNavigate()
+  const mode = import.meta.env.VITE_MODE
 
-  const getUserProfiles = async (userId: string) => {
+  const getUserProfiles = async (userId?: string) => {
+    if (mode === 'demo') {
+      console.log('demo')
+      setUser(mockUser)
+      setLoading(false)
+      return
+    }
     try {
       const [data] = await getProfilesSupabase(userId)
       const currentUser: TUser = {
@@ -59,6 +67,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
+    if (mode === 'demo') {
+      getUserProfiles()
+      return
+    }
     supabase.auth.getSession().then(({ data: { session } }) => {
       setCurrentSession(session)
       if (session) {
@@ -150,6 +162,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
     ],
   )
+
+  if (mode === 'demo')
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 
   return (
     <UserContext.Provider value={value}>
