@@ -10,11 +10,15 @@ function HeaderDashboard() {
       <h1 className="heading-1">Dashboard</h1>
 
       <div className="container-message">
-        <span className="welcome-message">
-          {mode === 'demo'
-            ? 'Willkommen und viel Spass beim Ausprobieren der Demo!'
-            : `Hi <b>${user.firstName}</b>, willkommen bei Eleno!`}
-        </span>
+        {mode === 'demo' ? (
+          <span className="welcome-message">
+            Willkommen und viel Spass beim Ausprobieren der Demo!
+          </span>
+        ) : (
+          <span className="welcome-message">
+            Hi <b>{user.firstName}</b>, willkommen bei Eleno!
+          </span>
+        )}
       </div>
     </header>
   )

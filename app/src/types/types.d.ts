@@ -31,6 +31,7 @@ export type TLesson = {
   lessonContent?: string
   homework: string
   studentId: number
+  homeworkKey?: string
 }
 
 export type TDraft = {

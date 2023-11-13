@@ -4,7 +4,7 @@ import './previousLessons.style.scss'
 // Hooks
 import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
-import { HiPencil, HiTrash } from 'react-icons/hi'
+import { HiPencil, HiShare, HiTrash } from 'react-icons/hi'
 import { useLessons } from '../../../../contexts/LessonsContext'
 import { useStudents } from '../../../../contexts/StudentContext'
 
@@ -20,6 +20,7 @@ import Menus from '../../../common/menu/Menus.component'
 import AllLessons from '../allLessons/AllLessons.component'
 import DeleteLesson from '../deleteLesson/DeleteLesson.component'
 import EditLesson from '../editLesson/EditLesson.component'
+import ShareHomework from '../shareHomework/ShareHomework.component'
 
 function PreviousLessons() {
   const { lessons } = useLessons()
@@ -123,6 +124,12 @@ function PreviousLessons() {
                       </Menus.Button>
                     </Modal.Open>
 
+                    <Modal.Open opens="share-homework">
+                      <Menus.Button icon={<HiShare />}>
+                        Hausaufgaben teilen
+                      </Menus.Button>
+                    </Modal.Open>
+
                     <Modal.Open opens="delete-lesson">
                       <Menus.Button
                         icon={<HiTrash />}
@@ -141,6 +148,12 @@ function PreviousLessons() {
 
               <Modal.Window name="delete-lesson">
                 <DeleteLesson lessonId={currentLesson.id} />
+              </Modal.Window>
+              <Modal.Window name="share-homework">
+                <ShareHomework
+                  lessonId={currentLesson.id}
+                  studentId={currentStudentId}
+                />
               </Modal.Window>
             </Modal>
           </div>

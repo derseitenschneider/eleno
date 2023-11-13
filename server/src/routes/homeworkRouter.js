@@ -3,6 +3,6 @@ const { getHomework } = require('../controllers/homeworkController');
 
 const router = express.Router();
 
-router.route('/:studentId/:homework_key').get(getHomework);
+router.route('/:studentId/:homeworkKey').get(getHomework);
 
 module.exports = router;
