@@ -1,0 +1,10 @@
+extends base.pug
+
+block content 
+  section.section
+    h2.heading-2 Hausaufgaben
+    p Hallo #{students.firstName}
+    p Hier sind deine Hausaufgaben vom #{' '}
+      b #{date.split('-').reverse().join('.')}:
+    .homework !{homework}
+    p Viel Spass und bis zum nächsten Mal.

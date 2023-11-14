@@ -3,3 +3,57 @@
 @use '../../../../app/src/scss/_global.scss';
 @use '../../../../app/src/scss/_typography.scss';
 @use '../../../../app/src/scss/_variables.scss';
+
+p {
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+a:link,
+a:visited,
+a:active {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--clr-primary-600);
+}
+
+ul {
+  list-style: disc;
+  line-height: 2;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 2rem;
+  .logo img {
+    height: 4.8rem;
+    width: 4.8rem;
+  }
+}
+
+.section {
+  padding: 2rem;
+
+  .homework {
+    font-size: 1.7rem;
+    padding: 3.2rem;
+    background-color: var(--clr-bg-400);
+    box-shadow: var(--box-shadow-cards);
+
+    margin-bottom: 3.2rem;
+  }
+}
+
+.footer {
+}
+
+// .container {
+//   max-width: 75rem;
+//   margin: 8rem auto;
+// }

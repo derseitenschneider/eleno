@@ -14,7 +14,7 @@ app.use(compression());
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('home');
 });
 app.use('/homework', homeworkRouter);
 

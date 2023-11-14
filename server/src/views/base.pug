@@ -3,8 +3,13 @@ html(lang = 'de')
   head
     title Eleno - Hausaufgaben
     link(rel='stylesheet' href= '/css/main.css')
-    link(rel='icon' type='image/x-icon' href='favicon.svg')
+    link(rel='icon' type='image/x-icon' href='/favicon.svg')
   body
-    .container
-      h1.heading-1 Eleno - Hausaufgaben
-      h3.heading-3 Leider wurden keine Hausaufgaben gefunden
+    header.header
+      .logo
+        img(src='/logo.svg')
+    block content
+    footer.footer
+
+
+
