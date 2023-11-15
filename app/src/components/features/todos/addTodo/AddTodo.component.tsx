@@ -97,7 +97,7 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
           value={inputTodo.text}
           required
           onChange={onChangeInputs}
-          autoFocus={window.screen.width > 1000}
+          autoFocus={window.screen.width > 1366}
           autoComplete="off"
         />
         <TodoAddStudent
