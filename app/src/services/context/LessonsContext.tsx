@@ -107,7 +107,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const getAllLessons = useCallback(
     async (studentId: number) => {
       if (mode === 'demo') {
-        return mockLessons.toReversed()
+        return mockLessons.reverse()
       }
       try {
         const allLessons = await fetchAllLessonsSupabase(studentId)
