@@ -23,6 +23,7 @@ interface BodyProps<T> {
   data: T[]
   render: (item: T) => JSX.Element
   emptyMessage: string
+  alternateColor?: boolean
 }
 
 interface FooterProps {
@@ -55,11 +56,23 @@ function Header({ children }: HeaderProps) {
   )
 }
 
-function Body<T>({ data, render, emptyMessage, className }: BodyProps<T>) {
+function Body<T>({
+  data,
+  render,
+  emptyMessage,
+  className,
+  alternateColor = false,
+}: BodyProps<T>) {
   if (!data.length) return <Emtpy emptyMessage={emptyMessage} />
 
   return (
-    <div className={`table__body ${className || ''}`}>{data.map(render)}</div>
+    <div
+      className={`table__body ${className || ''} ${
+        alternateColor && 'alternate-color'
+      }`}
+    >
+      {data.map(render)}
+    </div>
   )
 }
 

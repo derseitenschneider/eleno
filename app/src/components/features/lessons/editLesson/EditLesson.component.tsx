@@ -16,6 +16,8 @@ interface EditLessonProps {
 
 function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
   const { updateLesson } = useLessons()
+  // const lesson = lessons.find((l) => l.id === lessonId)
+
   const { studentId, id } = lesson
 
   const [lessonContent, setLessonContent] = useState(lesson.lessonContent)

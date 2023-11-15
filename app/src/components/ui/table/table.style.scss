@@ -20,9 +20,9 @@
   }
 
   &__body {
-    // &::-webkit-scrollbar {
-    //   width: 0;
-    // }
+    &.alternate-color .table__row:nth-of-type(even) {
+      background-color: var(--clr-bg-500);
+    }
   }
 
   &__row {

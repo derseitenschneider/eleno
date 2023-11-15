@@ -3,6 +3,7 @@ import './previousLessons.style.scss'
 
 // Hooks
 import parse from 'html-react-parser'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { HiPencil, HiTrash } from 'react-icons/hi'
 import { FiShare } from 'react-icons/fi'
@@ -19,7 +20,7 @@ import Modal from '../../../ui/modal/Modal.component'
 
 import Emtpy from '../../../ui/emtpy/Empty.component'
 import Menus from '../../../ui/menu/Menus.component'
-import AllLessons from '../allLessons/AllLessons.component'
+
 import DeleteLesson from '../deleteLesson/DeleteLesson.component'
 import EditLesson from '../editLesson/EditLesson.component'
 import ShareHomework from '../shareHomework/ShareHomework.component'
@@ -28,6 +29,7 @@ import Button from '../../../ui/button/Button.component'
 function PreviousLessons() {
   const { lessons } = useLessons()
   const { currentStudentId } = useStudents()
+  const navigate = useNavigate()
 
   const [tabIndex, setTabIndex] = useState(0)
   const [isPending] = useState(false)
@@ -80,17 +82,16 @@ function PreviousLessons() {
                 )}
               </button>
             ))}
-            <Modal>
-              <Modal.Open opens="all-lessons">
-                <button type="button" className="tab">
-                  {' '}
-                  ...{' '}
-                </button>
-              </Modal.Open>
-              <Modal.Window name="all-lessons">
-                <AllLessons studentId={currentStudentId} />
-              </Modal.Window>
-            </Modal>
+            <button
+              type="button"
+              className="tab"
+              onClick={() =>
+                navigate(`/all-lessons/?studentId=${currentStudentId}`)
+              }
+            >
+              {' '}
+              ...{' '}
+            </button>
           </>
         ) : null}
       </div>

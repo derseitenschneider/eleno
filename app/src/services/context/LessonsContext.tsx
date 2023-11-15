@@ -111,6 +111,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       }
       try {
         const allLessons = await fetchAllLessonsSupabase(studentId)
+        // setLessons(allLessons)
         return allLessons
       } catch (error) {
         throw new Error(error.mesage)
