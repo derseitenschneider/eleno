@@ -56,12 +56,14 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
       <h2 className="heading-2">Lektion bearbeiten</h2>
       <div className="edit-lesson__date">
         <span>Datum</span>
-        <DatePicker
-          selectedDate={new Date(formatDateToDatabase(date))}
-          hideRemoveBtn
-          id="lesson-date"
-          setDate={setDate}
-        />
+        <div className="wrapper-picker">
+          <DatePicker
+            selectedDate={new Date(formatDateToDatabase(date))}
+            hideRemoveBtn
+            id="lesson-date"
+            setDate={setDate}
+          />
+        </div>
       </div>
       <div className={`edit-lesson__inputs ${isPending ? 'loading' : ''}`}>
         <div className="edit-lesson__lesson">

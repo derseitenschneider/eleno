@@ -7,6 +7,10 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    .wrapper-picker {
+      background-color: var(--clr-bg-400);
+      padding: 0.6rem;
+    }
   }
 
   &__inputs {
