@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useTodos } from '../../../../contexts/TodosContext'
+import { useTodos } from '../../../../services/context/TodosContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { formatDateToDatabase } from '../../../../utils/formateDate'
-import Button from '../../../common/button/Button.component'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
+import Button from '../../../ui/button/Button.component'
+import DatePicker from '../../../ui/datePicker/DatePicker.component'
 import TodoAddStudent from '../todoAddStudent/TodoAddStudent.component'
 import './editTodo.style.scss'
 

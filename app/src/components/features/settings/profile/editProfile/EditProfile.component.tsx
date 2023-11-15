@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useUser } from '../../../../../contexts/UserContext'
+import { useUser } from '../../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../../hooks/fetchErrorToast'
-import Button from '../../../../common/button/Button.component'
+import Button from '../../../../ui/button/Button.component'
 import './editProfile.style.scss'
 
 interface EditProfileProps {

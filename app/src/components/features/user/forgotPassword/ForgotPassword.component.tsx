@@ -3,9 +3,9 @@ import './forgotPassword.style.scss'
 import { useState } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
-import { useUser } from '../../../../contexts/UserContext'
-import Button from '../../../common/button/Button.component'
-import Loader from '../../../common/loader/Loader'
+import { useUser } from '../../../../services/context/UserContext'
+import Button from '../../../ui/button/Button.component'
+import Loader from '../../../ui/loader/Loader'
 
 function ForgotPassword() {
   const [recoverSuccess, setRecoverSuccess] = useState(false)

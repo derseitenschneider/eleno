@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { IoAddOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { TStudent } from '../../../../types/types'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 import AddStudentRow from '../addStudentRow/AddStudentRow'
 import './addStudents.style.scss'
 

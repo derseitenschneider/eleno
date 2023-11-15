@@ -3,12 +3,12 @@ import { HiTrash } from 'react-icons/hi'
 import { toast } from 'react-toastify'
 import { IoReturnDownBackOutline } from 'react-icons/io5'
 import { TStudent } from '../../../../types/types'
-import Menus from '../../../common/menu/Menus.component'
-import Table from '../../../common/table/Table.component'
+import Menus from '../../../ui/menu/Menus.component'
+import Table from '../../../ui/table/Table.component'
 
-import Modal from '../../../common/modal/Modal.component'
+import Modal from '../../../ui/modal/Modal.component'
 
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 
 import DeleteStudents from '../deleteStudents/DeleteStudents.component'

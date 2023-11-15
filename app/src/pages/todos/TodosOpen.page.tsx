@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import NoContent from '../../components/common/noContent/NoContent.component'
+import NoContent from '../../components/ui/noContent/NoContent.component'
 import AddTodo from '../../components/features/todos/addTodo/AddTodo.component'
 import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
 import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
 import TodoList from '../../components/features/todos/todoList/TodoList.component'
-import { useTodos } from '../../contexts/TodosContext'
+import { useTodos } from '../../services/context/TodosContext'
 import compareDateTodos from '../../utils/sortTodos'
 
 function TodosOpen() {

@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { useLessons } from '../../../../contexts/LessonsContext'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useLessons } from '../../../../services/context/LessonsContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import { TLesson } from '../../../../types/types'
-import Loader from '../../../common/loader/Loader'
+import Loader from '../../../ui/loader/Loader'
 import LessonRow from '../lessonrow/LessonRow.component'
 import './allLessons.style.scss'
 

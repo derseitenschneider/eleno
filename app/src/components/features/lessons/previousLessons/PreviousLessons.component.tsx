@@ -4,23 +4,26 @@ import './previousLessons.style.scss'
 // Hooks
 import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
-import { HiPencil, HiShare, HiTrash } from 'react-icons/hi'
-import { useLessons } from '../../../../contexts/LessonsContext'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { HiPencil, HiTrash } from 'react-icons/hi'
+import { FiShare } from 'react-icons/fi'
+
+import { useLessons } from '../../../../services/context/LessonsContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 
 // Functions
 import { formatDateToDisplay } from '../../../../utils/formateDate'
 
 import { TLesson } from '../../../../types/types'
 // Components
-import Modal from '../../../common/modal/Modal.component'
+import Modal from '../../../ui/modal/Modal.component'
 
-import Emtpy from '../../../common/emtpy/Empty.component'
-import Menus from '../../../common/menu/Menus.component'
+import Emtpy from '../../../ui/emtpy/Empty.component'
+import Menus from '../../../ui/menu/Menus.component'
 import AllLessons from '../allLessons/AllLessons.component'
 import DeleteLesson from '../deleteLesson/DeleteLesson.component'
 import EditLesson from '../editLesson/EditLesson.component'
 import ShareHomework from '../shareHomework/ShareHomework.component'
+import Button from '../../../ui/button/Button.component'
 
 function PreviousLessons() {
   const { lessons } = useLessons()
@@ -114,6 +117,14 @@ function PreviousLessons() {
 
           <div className="container--edit-buttons">
             <Modal>
+              <Modal.Open opens="share-homework">
+                <Button
+                  type="button"
+                  btnStyle="icon-only"
+                  icon={<FiShare />}
+                  title="Hausaufgaben teilen"
+                />
+              </Modal.Open>
               <Menus>
                 <Menus.Toggle id="edit-lesson" />
                 <Menus.Menu>
@@ -125,7 +136,7 @@ function PreviousLessons() {
                     </Modal.Open>
 
                     <Modal.Open opens="share-homework">
-                      <Menus.Button icon={<HiShare />}>
+                      <Menus.Button icon={<FiShare />}>
                         Hausaufgaben teilen
                       </Menus.Button>
                     </Modal.Open>
@@ -150,10 +161,7 @@ function PreviousLessons() {
                 <DeleteLesson lessonId={currentLesson.id} />
               </Modal.Window>
               <Modal.Window name="share-homework">
-                <ShareHomework
-                  lessonId={currentLesson.id}
-                  studentId={currentStudentId}
-                />
+                <ShareHomework lessonId={currentLesson.id} />
               </Modal.Window>
             </Modal>
           </div>

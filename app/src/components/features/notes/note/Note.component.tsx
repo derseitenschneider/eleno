@@ -2,8 +2,8 @@ import './note.style.scss'
 
 import parse from 'html-react-parser'
 import { HiPencil, HiTrash } from 'react-icons/hi'
-import Menus from '../../../common/menu/Menus.component'
-import Modal from '../../../common/modal/Modal.component'
+import Menus from '../../../ui/menu/Menus.component'
+import Modal from '../../../ui/modal/Modal.component'
 import DeleteNote from '../deleteNote/DeleteNote.component'
 import EditNote from '../editNote/EditNote.component'
 

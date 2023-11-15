@@ -7,9 +7,9 @@ import {
   IoSettingsOutline,
 } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
-import Logo from '../../components/common/logo/Logo.component'
+import Logo from '../../components/ui/logo/Logo.component'
 
-import { useUser } from '../../contexts/UserContext'
+import { useUser } from '../../services/context/UserContext'
 
 function NavbarMobile() {
   const { logout } = useUser()

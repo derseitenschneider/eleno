@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import calcTimeDifference from '../../../../utils/calcTimeDifference'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 import './editStudent.style.scss'
 
 interface EditStudentProps {

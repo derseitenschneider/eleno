@@ -2,8 +2,8 @@ import './login.style.scss'
 
 import { useSearchParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
-import { loginSupabase } from '../../../../services/user.api'
-import Button from '../../../common/button/Button.component'
+import { loginSupabase } from '../../../../services/api/user.api'
+import Button from '../../../ui/button/Button.component'
 
 function Login() {
   const [input, setInput] = useState({ email: '', password: '' })

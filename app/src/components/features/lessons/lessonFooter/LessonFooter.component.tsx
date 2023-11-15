@@ -1,6 +1,6 @@
 import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
-import { useStudents } from '../../../../contexts/StudentContext'
-import Button from '../../../common/button/Button.component'
+import { useStudents } from '../../../../services/context/StudentContext'
+import Button from '../../../ui/button/Button.component'
 import './lessonFooter.style.scss'
 
 function LessonFooter() {

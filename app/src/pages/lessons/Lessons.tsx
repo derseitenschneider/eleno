@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom'
 // Types
 
 // Context
-import { useLoading } from '../../contexts/LoadingContext'
-import { useStudents } from '../../contexts/StudentContext'
+import { useLoading } from '../../services/context/LoadingContext'
+import { useStudents } from '../../services/context/StudentContext'
 
 // Functions
 
@@ -19,7 +19,7 @@ import PreviousLessons from '../../components/features/lessons/previousLessons/P
 import LessonFooter from '../../components/features/lessons/lessonFooter/LessonFooter.component'
 import NewLesson from '../../components/features/lessons/newLesson/NewLesson.component'
 
-import NoContent from '../../components/common/noContent/NoContent.component'
+import NoContent from '../../components/ui/noContent/NoContent.component'
 import NoteList from '../../components/features/notes/noteList/NoteList.component'
 
 function Lesson() {

@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 
-import Button from '../../components/common/button/Button.component'
-import Modal from '../../components/common/modal/Modal.component'
-import NoContent from '../../components/common/noContent/NoContent.component'
+import Button from '../../components/ui/button/Button.component'
+import Modal from '../../components/ui/modal/Modal.component'
+import NoContent from '../../components/ui/noContent/NoContent.component'
 import DeleteTodos from '../../components/features/todos/deleteTodos/DeleteTodos.component'
 import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
 import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
 import TodoList from '../../components/features/todos/todoList/TodoList.component'
-import { useTodos } from '../../contexts/TodosContext'
+import { useTodos } from '../../services/context/TodosContext'
 
 function TodosCompleted() {
   const { todos } = useTodos()

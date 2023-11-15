@@ -1,3 +1,63 @@
 .share-homework {
   padding: 4.8rem;
+  width: max-content;
+
+  a:link,
+  a:visited {
+    text-decoration: underline;
+    display: block;
+    // margin-bottom: 2rem;
+  }
+  a:hover:not(:has(svg)) {
+    color: var(--clr-primary-600);
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+      color: var(--clr-primary-600);
+      height: 1.8rem;
+      width: 1.8rem;
+    }
+  }
+
+  .container-buttons {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+    p {
+      margin: 0;
+    }
+
+    svg {
+      color: var(--clr-text-500);
+      height: 2.1rem;
+      width: 2.1rem;
+    }
+
+    .telegram svg {
+      color: #2aabee;
+    }
+    .threema svg {
+      color: var(--clr-text-400);
+    }
+    .signal svg {
+      color: #2c6bed;
+    }
+    .whatsapp svg {
+      color: #25d366;
+    }
+  }
 }

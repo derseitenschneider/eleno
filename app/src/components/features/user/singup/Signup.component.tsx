@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { signUpSupabase } from '../../../../services/user.api'
-import Button from '../../../common/button/Button.component'
-import Loader from '../../../common/loader/Loader'
+import { signUpSupabase } from '../../../../services/api/user.api'
+import Button from '../../../ui/button/Button.component'
+import Loader from '../../../ui/loader/Loader'
 import './signup.style.scss'
 
 const dataSignup = {

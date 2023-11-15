@@ -2,15 +2,15 @@ import './newLesson.style.scss'
 
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import Button from '../../../common/button/Button.component'
-import CustomEditor from '../../../common/customEditor/CustomEditor.component'
+import Button from '../../../ui/button/Button.component'
+import CustomEditor from '../../../ui/customEditor/CustomEditor.component'
 
-import { useLessons } from '../../../../contexts/LessonsContext'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useLessons } from '../../../../services/context/LessonsContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { TLesson } from '../../../../types/types'
 import { formatDateToDatabase } from '../../../../utils/formateDate'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
+import DatePicker from '../../../ui/datePicker/DatePicker.component'
 
 function NewLesson() {
   const [date, setDate] = useState('')

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useTodos } from '../../../../contexts/TodosContext'
+import { useTodos } from '../../../../services/context/TodosContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 import './deleteTodos.style.scss'
 
 interface DeleteTodosProps {

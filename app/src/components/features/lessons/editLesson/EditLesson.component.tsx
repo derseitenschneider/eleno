@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useLessons } from '../../../../contexts/LessonsContext'
+import { useLessons } from '../../../../services/context/LessonsContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { TLesson } from '../../../../types/types'
 import { formatDateToDatabase } from '../../../../utils/formateDate'
-import Button from '../../../common/button/Button.component'
-import CustomEditor from '../../../common/customEditor/CustomEditor.component'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
+import Button from '../../../ui/button/Button.component'
+import CustomEditor from '../../../ui/customEditor/CustomEditor.component'
+import DatePicker from '../../../ui/datePicker/DatePicker.component'
 import './editLesson.style.scss'
 
 interface EditLessonProps {

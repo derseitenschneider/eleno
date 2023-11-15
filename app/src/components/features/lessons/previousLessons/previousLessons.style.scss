@@ -32,6 +32,12 @@
     bottom: 1.2rem;
     right: 2.4rem;
     display: flex;
+    gap: 0.8rem;
+
+    svg {
+      height: 1.4rem;
+      width: 1.4rem;
+    }
   }
 
   .container--tabs {

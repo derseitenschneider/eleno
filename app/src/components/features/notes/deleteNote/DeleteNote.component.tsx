@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useNotes } from '../../../../contexts/NotesContext'
+import { useNotes } from '../../../../services/context/NotesContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 import './deleteNote.style.scss'
 
 interface DeleteNoteProps {

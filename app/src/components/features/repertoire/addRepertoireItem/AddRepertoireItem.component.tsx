@@ -2,13 +2,13 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useRepertoire } from '../../../../contexts/RepertoireContext'
-import { useUser } from '../../../../contexts/UserContext'
+import { useRepertoire } from '../../../../services/context/RepertoireContext'
+import { useUser } from '../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { TRepertoireItem } from '../../../../types/types'
 import { formatDateToDatabase } from '../../../../utils/formateDate'
-import Button from '../../../common/button/Button.component'
-import DatePicker from '../../../common/datePicker/DatePicker.component'
+import Button from '../../../ui/button/Button.component'
+import DatePicker from '../../../ui/datePicker/DatePicker.component'
 import './addRepertoireItem.style.scss'
 
 interface AddRepertoireItemProps {

@@ -1,6 +1,6 @@
 import { TStudent } from '../../../../types/types'
-import ButtonSort from '../../../common/buttonSort/ButtonSort.component'
-import Table from '../../../common/table/Table.component'
+import ButtonSort from '../../../ui/buttonSort/ButtonSort.component'
+import Table from '../../../ui/table/Table.component'
 
 interface StudentsTableProps {
   children: React.ReactNode

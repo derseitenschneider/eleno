@@ -1,10 +1,10 @@
 import { SetStateAction, useEffect, useState } from 'react'
 import { IoPeopleCircleOutline } from 'react-icons/io5'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import { sortStudents } from '../../../../utils/sortStudents'
-import Button from '../../../common/button/Button.component'
-import ButtonRemove from '../../../common/buttonRemove/ButtonRemove'
-import DropdownSearch from '../../../common/dropdownSearch/DropdownSearch.component'
+import Button from '../../../ui/button/Button.component'
+import ButtonRemove from '../../../ui/buttonRemove/ButtonRemove'
+import DropdownSearch from '../../../ui/dropdownSearch/DropdownSearch.component'
 import './todoAddStudent.style.scss'
 
 interface TodoAddStudentProps {

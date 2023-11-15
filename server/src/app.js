@@ -14,8 +14,12 @@ app.use(compression());
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.status(200).render('home');
+  res.redirect('https://eleno.net');
 });
 app.use('/homework', homeworkRouter);
+
+app.get('*', (req, res) => {
+  res.status(404).render('error');
+});
 
 module.exports = app;

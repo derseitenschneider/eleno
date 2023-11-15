@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useLessons } from '../../../../contexts/LessonsContext'
+import { useLessons } from '../../../../services/context/LessonsContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 import './deleteLesson.style.scss'
 
 interface DeleteLessonProps {

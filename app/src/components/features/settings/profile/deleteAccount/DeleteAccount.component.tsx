@@ -2,9 +2,9 @@ import './deleteAccount.style.scss'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useUser } from '../../../../../contexts/UserContext'
+import { useUser } from '../../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../../hooks/fetchErrorToast'
-import Button from '../../../../common/button/Button.component'
+import Button from '../../../../ui/button/Button.component'
 
 interface DeleteAccountProps {
   onCloseModal?: () => void

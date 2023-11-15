@@ -3,10 +3,10 @@ import './lessonHeader.style.scss'
 import { HiPencil } from 'react-icons/hi'
 import { HiOutlineListBullet } from 'react-icons/hi2'
 import { IoCheckboxOutline, IoPersonCircleOutline } from 'react-icons/io5'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 
-import Menus from '../../../common/menu/Menus.component'
-import Modal from '../../../common/modal/Modal.component'
+import Menus from '../../../ui/menu/Menus.component'
+import Modal from '../../../ui/modal/Modal.component'
 import AddTodo from '../../todos/addTodo/AddTodo.component'
 
 import Repertoire from '../../repertoire/Repertoire.component'

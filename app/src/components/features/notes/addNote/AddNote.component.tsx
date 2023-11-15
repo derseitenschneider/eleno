@@ -2,10 +2,10 @@ import './addNote.style.scss'
 
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useNotes } from '../../../../contexts/NotesContext'
+import { useNotes } from '../../../../services/context/NotesContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import Button from '../../../common/button/Button.component'
-import CustomEditor from '../../../common/customEditor/CustomEditor.component'
+import Button from '../../../ui/button/Button.component'
+import CustomEditor from '../../../ui/customEditor/CustomEditor.component'
 
 interface AddNoteProps {
   onCloseModal?: () => void

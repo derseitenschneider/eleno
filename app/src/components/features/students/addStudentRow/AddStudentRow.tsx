@@ -1,6 +1,6 @@
 import { SetStateAction, useEffect } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import Button from '../../../common/button/Button.component'
+import Button from '../../../ui/button/Button.component'
 
 import { TStudent } from '../../../../types/types'
 import calcTimeDifference from '../../../../utils/calcTimeDifference'

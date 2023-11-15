@@ -14,10 +14,10 @@ import {
 } from 'react-icons/io5'
 import { Link, NavLink } from 'react-router-dom'
 
-import Logo from '../../components/common/logo/Logo.component'
-import { useClosestStudent } from '../../contexts/ClosestStudentContext'
-import { useStudents } from '../../contexts/StudentContext'
-import { useUser } from '../../contexts/UserContext'
+import Logo from '../../components/ui/logo/Logo.component'
+import { useClosestStudent } from '../../services/context/ClosestStudentContext'
+import { useStudents } from '../../services/context/StudentContext'
+import { useUser } from '../../services/context/UserContext'
 import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 
 function Sidebar() {

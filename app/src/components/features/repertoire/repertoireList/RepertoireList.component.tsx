@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Table from '../../../common/table/Table.component'
+import Table from '../../../ui/table/Table.component'
 import './repertoireList.style.scss'
 
 import { TSorting } from '../../../../types/types'
 import sortRepertoire from '../../../../utils/sortRepertoire'
-import ButtonSort from '../../../common/buttonSort/ButtonSort.component'
-import SearchBar from '../../../common/searchBar/SearchBar.component'
+import ButtonSort from '../../../ui/buttonSort/ButtonSort.component'
+import SearchBar from '../../../ui/searchBar/SearchBar.component'
 import RepertoireItem from '../RepertoireItem.component'
 
-import { useRepertoire } from '../../../../contexts/RepertoireContext'
-import { useStudents } from '../../../../contexts/StudentContext'
-import Loader from '../../../common/loader/Loader'
-import Menus from '../../../common/menu/Menus.component'
+import { useRepertoire } from '../../../../services/context/RepertoireContext'
+import { useStudents } from '../../../../services/context/StudentContext'
+import Loader from '../../../ui/loader/Loader'
+import Menus from '../../../ui/menu/Menus.component'
 import AddRepertoireItem from '../addRepertoireItem/AddRepertoireItem.component'
 
 type TRepertoireProps = {

@@ -3,8 +3,8 @@ import { HiPencil, HiTrash } from 'react-icons/hi'
 import { IoReturnDownBackOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useDateToday } from '../../../../contexts/DateTodayContext'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useDateToday } from '../../../../services/context/DateTodayContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import { TTodo } from '../../../../types/types'
 import {
   formatDateToDatabase,
@@ -13,10 +13,10 @@ import {
 import { sortStudentsDateTime } from '../../../../utils/sortStudents'
 import './todoItem.style.scss'
 
-import { useTodos } from '../../../../contexts/TodosContext'
+import { useTodos } from '../../../../services/context/TodosContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
-import Menus from '../../../common/menu/Menus.component'
-import Modal from '../../../common/modal/Modal.component'
+import Menus from '../../../ui/menu/Menus.component'
+import Modal from '../../../ui/modal/Modal.component'
 import DeleteTodos from '../deleteTodos/DeleteTodos.component'
 import EditTodo from '../editTodo/EditTodo.component'
 

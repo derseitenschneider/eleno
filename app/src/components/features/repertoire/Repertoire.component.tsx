@@ -1,4 +1,4 @@
-import { RepertoireProvider } from '../../../contexts/RepertoireContext'
+import { RepertoireProvider } from '../../../services/context/RepertoireContext'
 import RepertoireList from './repertoireList/RepertoireList.component'
 
 interface RepertoireProps {

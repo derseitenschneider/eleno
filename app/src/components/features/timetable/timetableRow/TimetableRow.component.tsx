@@ -1,6 +1,6 @@
 import { IoArrowForwardOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
-import { useStudents } from '../../../../contexts/StudentContext'
+import { useStudents } from '../../../../services/context/StudentContext'
 import { TStudent } from '../../../../types/types'
 import { sortStudentsDateTime } from '../../../../utils/sortStudents'
 

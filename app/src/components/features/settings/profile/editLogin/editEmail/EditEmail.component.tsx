@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useUser } from '../../../../../../contexts/UserContext'
+import { useUser } from '../../../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../../../hooks/fetchErrorToast'
 import validateEmail from '../../../../../../utils/validateEmail'
-import Button from '../../../../../common/button/Button.component'
+import Button from '../../../../../ui/button/Button.component'
 import './editEmail.style.scss'
 
 interface EditEmailProps {

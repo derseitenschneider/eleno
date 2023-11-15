@@ -9,23 +9,23 @@ exports.getHomework = async (req, res) => {
       .select('*, students(firstName, lastName)')
       .eq('homeworkKey', req.params.homeworkKey);
 
-    console.log(lesson);
-
     const studentId = +req.params.studentId;
 
     if (studentId !== lesson.studentId) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'No matching keys',
-      });
+      return res.status(404).render('error');
     }
 
-    res.status(200).render('homework', lesson);
+    const formattedLesson = {
+      ...lesson,
+      date: lesson.date
+        .split('-')
+        .map((el, i) => (i === 0 ? el.slice(2) : el))
+        .reverse()
+        .join('.'),
+    };
+    res.status(200).render('homework', formattedLesson);
   } catch (error) {
     console.log(error);
-    res.status(404).json({
-      status: 'fail',
-      message: error,
-    });
+    res.status(404).render('error');
   }
 };
