@@ -76,7 +76,7 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
           name="title"
           onChange={handleChangeTitle}
           value={item.title}
-          autoFocus
+          autoFocus={window.screen.width > 1366}
         />
         <DatePicker
           selectedDate={
