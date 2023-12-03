@@ -45,6 +45,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [students, setStudents] = useState([])
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
+
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
   const [isPending, setIsPending] = useState(false)

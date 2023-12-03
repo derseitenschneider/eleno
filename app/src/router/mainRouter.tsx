@@ -53,7 +53,7 @@ const mainRouter = createBrowserRouter(
           element: <Lessons />,
         },
         {
-          path: 'all-lessons',
+          path: '/lessons/all',
           element: <AllLessons />,
         },
         {

@@ -36,7 +36,7 @@ function PreviousLessons() {
 
   const previousLessonsIds = lessons
     .filter((lesson) => lesson.studentId === currentStudentId)
-    ?.slice(-3)
+    ?.slice(0, 3)
     .map((lesson) => lesson.id)
     .reverse()
 
@@ -86,7 +86,7 @@ function PreviousLessons() {
               type="button"
               className="tab"
               onClick={() =>
-                navigate(`/all-lessons/?studentId=${currentStudentId}`)
+                navigate(`/lessons/all/?studentId=${currentStudentId}`)
               }
             >
               {' '}

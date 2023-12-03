@@ -122,13 +122,7 @@ function DatePicker({
             className="date-picker__date"
             onClick={toggleCalendar}
           >
-            {selectedDate
-              .toLocaleDateString()
-              .split('.')
-              .map((el, i) =>
-                i === 0 || i === 1 ? el.padStart(2, '0') : el.slice(2),
-              )
-              .join('.')}
+            {selectedDate.toLocaleDateString('de', { dateStyle: 'short' })}
           </button>
           {!hideRemoveBtn && (
             <button
