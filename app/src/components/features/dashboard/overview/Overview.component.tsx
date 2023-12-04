@@ -1,17 +1,16 @@
 import './overview.style.scss'
 
 import { useClosestStudent } from '../../../../services/context/ClosestStudentContext'
-import { useDateToday } from '../../../../services/context/DateTodayContext'
+
 import { useStudents } from '../../../../services/context/StudentContext'
 import { useTodos } from '../../../../services/context/TodosContext'
-import { formatDateToDatabase } from '../../../../utils/formateDate'
 import { sortStudentsDateTime } from '../../../../utils/sortStudents'
 
 function Overview() {
   const { activeStudents, inactiveStudents } = useStudents()
   const { todos } = useTodos()
   const { closestStudentIndex } = useClosestStudent()
-  const { dateToday } = useDateToday()
+  const { overdueTodos } = useTodos()
 
   const sortedStudents =
     (activeStudents && sortStudentsDateTime(activeStudents)) || null
@@ -19,10 +18,6 @@ function Overview() {
     (sortedStudents && sortedStudents[closestStudentIndex]) || null
 
   const todosOpen = todos.filter((todo) => !todo.completed)
-
-  const todosOverdue = todosOpen.filter(
-    (todo) => todo.due < formatDateToDatabase(dateToday),
-  )
 
   return (
     <div className="overview">
@@ -63,9 +58,9 @@ function Overview() {
           ) : (
             <p>Keine offenen Todos</p>
           )}
-          {todosOverdue.length > 0 ? (
+          {overdueTodos.length > 0 ? (
             <p className="todos-overdue">
-              Überfällige Todos: <b>{todosOverdue.length}</b>
+              Überfällige Todos: <b>{overdueTodos.length}</b>
             </p>
           ) : (
             <p>Keine Todos überfällig.</p>

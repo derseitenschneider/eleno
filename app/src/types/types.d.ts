@@ -65,6 +65,7 @@ export type ContextTypeUser = {
 export type ContextTypeTodos = {
   todos: TTodo[] | null
   setTodos: React.Dispatch<React.SetStateAction<TTodo[]>>
+  overdueTodos: TTodo[] | null
   saveTodo: (newTodo: TTodo) => Promise<void>
   deleteTodo: (id: number) => Promise<void>
   completeTodo: (id: number) => Promise<void>

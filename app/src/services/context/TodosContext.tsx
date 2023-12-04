@@ -14,10 +14,13 @@ import {
   updateTodoSupabase,
 } from '../api/todos.api'
 import { ContextTypeTodos, TTodo } from '../../types/types'
+import { useDateToday } from './DateTodayContext'
+import { formatDateToDatabase } from '../../utils/formateDate'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
   setTodos: () => {},
+  overdueTodos: [],
   saveTodo: () => new Promise(() => {}),
   deleteTodo: () => new Promise(() => {}),
   completeTodo: () => new Promise(() => {}),
@@ -27,7 +30,12 @@ export const TodosContext = createContext<ContextTypeTodos>({
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {
+  const { dateToday } = useDateToday()
   const [todos, setTodos] = useState<TTodo[]>([])
+
+  const overdueTodos = todos.filter(
+    (todo) => todo.due < formatDateToDatabase(dateToday) && !todo.completed,
+  )
 
   const saveTodo = useCallback(async (newTodo: TTodo) => {
     try {
@@ -99,6 +107,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
     () => ({
       todos,
       setTodos,
+      overdueTodos,
       saveTodo,
       deleteTodo,
       completeTodo,
@@ -109,6 +118,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
     [
       todos,
       setTodos,
+      overdueTodos,
       saveTodo,
       deleteTodo,
       completeTodo,

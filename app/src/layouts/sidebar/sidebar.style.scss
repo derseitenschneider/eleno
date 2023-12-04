@@ -73,6 +73,23 @@
   &__nav-el {
     width: 100%;
     padding: 1rem;
+    position: relative;
+
+    &.todos .sidebar__nav-icon.overdue .counter {
+      position: absolute;
+      bottom: 0.4rem;
+      right: 0.4rem;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      z-index: 1000;
+      font-size: 1rem;
+      height: 1.4rem;
+      width: 1.4rem;
+      background-color: var(--clr-warning);
+    }
     a {
       text-decoration: none;
       color: inherit;
