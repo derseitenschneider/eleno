@@ -109,7 +109,7 @@ function AllLessons() {
         </button>
       </div>
       <div className="header">
-        <h1 className="heading-1">Lektionsliste {studentName}</h1>
+        <h2 className="heading-2">Lektionsliste {studentName}</h2>
         <div className="controlls">
           <SearchBar
             searchInput={searchInput}
