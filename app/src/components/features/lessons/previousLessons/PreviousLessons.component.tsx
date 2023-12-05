@@ -35,28 +35,18 @@ function PreviousLessons() {
   const [isPending] = useState(false)
 
   const previousLessonsIds = lessons
-    .filter((lesson) => lesson.studentId === currentStudentId)
-    ?.slice(0, 3)
-    .map((lesson) => lesson.id)
-    .reverse()
-
-  const prevLessonsSorted = previousLessonsIds
-    .map((prevLesson) => {
-      return {
-        id: prevLesson,
-        date: lessons.find((lesson) => lesson.id === prevLesson).date,
-      }
-    })
     .sort((a, b) => {
       return (
         +b.date.split('-').reduce((acc, curr) => acc + curr) -
         +a.date.split('-').reduce((acc, curr) => acc + curr)
       )
     })
-    .map((el) => el.id)
+    .filter((lesson) => lesson.studentId === currentStudentId)
+    ?.slice(0, 3)
+    .map((lesson) => lesson.id)
 
   const currentLesson: TLesson = lessons.find(
-    (lesson) => lesson.id === prevLessonsSorted[tabIndex],
+    (lesson) => lesson.id === previousLessonsIds[tabIndex],
   )
 
   useEffect(() => {
@@ -66,9 +56,9 @@ function PreviousLessons() {
   return (
     <div className="container--lessons container--previous-lessons">
       <div className="container--tabs">
-        {prevLessonsSorted.length > 0 ? (
+        {previousLessonsIds.length > 0 ? (
           <>
-            {prevLessonsSorted.map((prev, index) => (
+            {previousLessonsIds.map((prev, index) => (
               <button
                 type="button"
                 className={`tab ${tabIndex === index && 'tab--active'}`}
@@ -95,7 +85,7 @@ function PreviousLessons() {
           </>
         ) : null}
       </div>
-      {prevLessonsSorted.length > 0 ? (
+      {previousLessonsIds.length > 0 ? (
         <>
           <div className={`container--two-rows${isPending ? ' loading' : ''}`}>
             <div className="row-left">
@@ -109,7 +99,7 @@ function PreviousLessons() {
               <div className="content--previous-lesson">
                 {parse(
                   lessons.find(
-                    (lesson) => lesson.id === prevLessonsSorted[tabIndex],
+                    (lesson) => lesson.id === previousLessonsIds[tabIndex],
                   )?.homework,
                 )}
               </div>
