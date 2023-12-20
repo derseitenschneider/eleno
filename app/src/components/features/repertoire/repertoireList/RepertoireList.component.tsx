@@ -1,4 +1,6 @@
 import { HiArrowSmLeft } from 'react-icons/hi'
+import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
+
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -16,6 +18,9 @@ import { useStudents } from '../../../../services/context/StudentContext'
 import Loader from '../../../ui/loader/Loader'
 import Menus from '../../../ui/menu/Menus.component'
 import AddRepertoireItem from '../addRepertoireItem/AddRepertoireItem.component'
+import Button from '../../../ui/button/Button.component'
+import Modal from '../../../ui/modal/Modal.component'
+import ExportRepertoire from '../exportRepertoire/ExportRepertoire.component'
 
 type TRepertoireProps = {
   studentId: number
@@ -88,27 +93,43 @@ function RepertoireList({ studentId }: TRepertoireProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      <button type="button" className="link-back" onClick={handleNavigate}>
+        <HiArrowSmLeft />
+        <span>Zur Lektion</span>
+      </button>
       <div className="header">
-        <button type="button" className="link-back" onClick={handleNavigate}>
-          <HiArrowSmLeft />
-          <span>Zurück zur Lektion</span>
-        </button>
         <h2 className="heading-2">
           Repetoire {currentStudent.firstName} {currentStudent.lastName}
         </h2>
       </div>
 
       <AddRepertoireItem studentId={studentId} />
-
-      <div className="controls">
-        {repertoire.length > 0 && (
+      {repertoire.length > 0 && (
+        <div className="controls">
           <span className="count">Anzahl Songs: {repertoire.length}</span>
-        )}
-        <SearchBar
-          searchInput={searchInput}
-          handlerSearchInput={handleSearchInput}
-        />
-      </div>
+
+          <Modal>
+            <Modal.Open opens="export">
+              <Button
+                type="button"
+                btnStyle="primary"
+                icon={<HiOutlineDocumentArrowDown />}
+                size="sm"
+              >
+                Exportieren
+              </Button>
+            </Modal.Open>
+
+            <Modal.Window name="export">
+              <ExportRepertoire repertoire={sortedFilteredRepertoire} />
+            </Modal.Window>
+          </Modal>
+          <SearchBar
+            searchInput={searchInput}
+            handlerSearchInput={handleSearchInput}
+          />
+        </div>
+      )}
 
       <Table columns="1fr repeat(2, 10ch) 4rem">
         <Table.Header>

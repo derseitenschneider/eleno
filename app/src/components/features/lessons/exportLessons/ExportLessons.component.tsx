@@ -37,7 +37,9 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
   const currentStudent = students.find((student) => student.id === studentId)
   const studentFullName = `${currentStudent.firstName} ${currentStudent.lastName}`
-  const studentFullNameDashes = `${currentStudent.firstName}-${currentStudent.lastName}`
+  const studentFullNameDashes = `${currentStudent.firstName
+    .split(' ')
+    .join('-')}-${currentStudent.lastName}`
 
   const lessonsCSV = lessons.map((lesson) => {
     const { date, lessonContent, homework } = lesson
