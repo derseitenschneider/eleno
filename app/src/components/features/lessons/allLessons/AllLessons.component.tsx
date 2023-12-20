@@ -131,7 +131,7 @@ function AllLessons() {
             <Modal.Open opens="export">
               <Button
                 type="button"
-                btnStyle="primary"
+                btnStyle="secondary"
                 onClick={handleDownloadPDF}
                 icon={<HiOutlineDocumentArrowDown />}
                 size="sm"

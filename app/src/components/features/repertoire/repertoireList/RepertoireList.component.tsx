@@ -113,7 +113,7 @@ function RepertoireList({ studentId }: TRepertoireProps) {
             <Modal.Open opens="export">
               <Button
                 type="button"
-                btnStyle="primary"
+                btnStyle="secondary"
                 icon={<HiOutlineDocumentArrowDown />}
                 size="sm"
               >

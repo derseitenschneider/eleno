@@ -114,7 +114,7 @@ export const sortStudents = (students: TStudent[], sorting: TSorting) => {
       return students.sort(compareLocations)
 
     default:
-      return students
+      return students.sort(compareLastName)
   }
 }
 

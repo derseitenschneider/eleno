@@ -45,9 +45,8 @@ export default function LessonPDF({
 
   return (
     <BaseLayoutPDF
-      studentFullName={studentFullName}
       orientation="portrait"
-      title="Lektionsliste"
+      title={`Lektionsliste ${studentFullName}`}
     >
       <TablePDF.Head>
         <Text style={styles.col1}>Datum</Text>

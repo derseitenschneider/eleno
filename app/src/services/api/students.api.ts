@@ -6,7 +6,7 @@ export const fetchStudents = async (userId) => {
     .from('students')
     .select('*')
     .eq('user_id', userId)
-    .order('dayOfLesson', { ascending: false })
+    .order('lastName', { ascending: false })
   if (error) throw new Error(error.message)
   return students
 }

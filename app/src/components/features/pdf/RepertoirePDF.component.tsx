@@ -20,8 +20,7 @@ const styles = StyleSheet.create({
 function RepertoirePDF({ repertoire, studentFullName }: RepertoirePDFProps) {
   return (
     <BaseLayoutPDF
-      studentFullName={studentFullName}
-      title="Repertoire"
+      title={`Repertoire ${studentFullName}`}
       orientation="portrait"
     >
       <TablePDF.Head>

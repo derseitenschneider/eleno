@@ -1,6 +1,7 @@
 import './studentsActive.style.scss'
 
 import { IoAddOutline } from 'react-icons/io5'
+import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
 
 import { createContext, useContext, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -23,6 +24,7 @@ import AddStudents from '../addStudents/AddStudents.component'
 import ResetStudents from '../resetStudents/ResetStudents.component'
 import StudentsTable from '../studentsTable/StudentsTable.component'
 import ActiveStudentRow from './ActiveStudentRow.component'
+import ExportStudentList from '../exportStudentList/ExportStudentList.component'
 
 type ContextTypeActiveStudents = {
   isSelected: number[]
@@ -134,6 +136,22 @@ export default function ActiveStudents() {
             </Modal>
 
             <div className="container-right">
+              <Modal>
+                <Modal.Open opens="export-student-list">
+                  <Button
+                    btnStyle="secondary"
+                    type="button"
+                    icon={<HiOutlineDocumentArrowDown />}
+                    size="sm"
+                  >
+                    Exportieren
+                  </Button>
+                </Modal.Open>
+
+                <Modal.Window name="export-student-list">
+                  <ExportStudentList students={sortedStudents} />
+                </Modal.Window>
+              </Modal>
               <SearchBar
                 searchInput={searchInput}
                 handlerSearchInput={handlerSearchInput}
@@ -144,9 +162,11 @@ export default function ActiveStudents() {
                   <Button
                     btnStyle="primary"
                     type="button"
-                    label="Neu"
+                    size="sm"
                     icon={<IoAddOutline />}
-                  />
+                  >
+                    Neu
+                  </Button>
                 </Modal.Open>
                 <Modal.Window name="add-students">
                   <AddStudents />

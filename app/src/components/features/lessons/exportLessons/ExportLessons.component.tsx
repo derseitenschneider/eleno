@@ -108,7 +108,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       <p>
         Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
         entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
-        Lektionen exportieren
+        Lektionen exportieren.
       </p>
       <h5 className="heading-5">Zeitraum</h5>
       <div className="export-lessons__dates">

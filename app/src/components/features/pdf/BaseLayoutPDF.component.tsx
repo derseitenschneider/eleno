@@ -24,7 +24,7 @@ Font.register({
 
 interface BaseLayoutPDFProps {
   children: React.ReactNode
-  studentFullName: string
+
   title: string
   orientation: 'portrait' | 'landscape'
 }
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
 function BaseLayoutPDF({
   children,
-  studentFullName,
+
   title,
   orientation,
 }: BaseLayoutPDFProps) {
@@ -93,15 +93,11 @@ function BaseLayoutPDF({
         </Svg>
 
         <View style={styles.header}>
-          <Text>
-            {title} {studentFullName}
-          </Text>
+          <Text>{title}</Text>
         </View>
         <Text
           style={styles.headerAfterOne}
-          render={({ pageNumber }) =>
-            pageNumber > 1 ? `${title} ${studentFullName}` : ''
-          }
+          render={({ pageNumber }) => (pageNumber > 1 ? title : '')}
           fixed
         />
 
