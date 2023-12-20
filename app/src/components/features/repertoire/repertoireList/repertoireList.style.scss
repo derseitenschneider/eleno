@@ -1,16 +1,14 @@
 .repertoire-list {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  height: 90vh;
-  width: 65vw;
+
   overflow-y: hidden;
-  padding: 4.8rem;
 
   // 1084px
-  @media screen and (max-width: 67.75em) {
-    width: 100vw;
-    padding: 4.8rem 2rem;
-  }
+  // @media screen and (max-width: 67.75em) {
+  //   width: 100vw;
+  //   padding: 4.8rem 2rem;
+  // }
 
   .header {
     margin: 1rem 0;
@@ -23,17 +21,23 @@
     }
   }
 
+  .controls {
+    display: flex;
+    align-items: end;
+    margin-bottom: 1.6rem;
+
+    .count {
+      // margin-top: 1.6rem;
+      display: inline-block;
+      margin-right: auto;
+    }
+  }
+
   .table {
     overflow-y: hidden;
 
     &__body {
-      // height: 100%;
       overflow-y: auto;
-      // padding-bottom: 4.8rem;
-
-      &.scroll-lock {
-        overflow-y: hidden;
-      }
     }
 
     &__footer {
@@ -73,12 +77,5 @@
         }
       }
     }
-  }
-
-  .count {
-    // margin-top: 1.6rem;
-    display: inline-block;
-    width: fit-content;
-    margin-left: auto;
   }
 }

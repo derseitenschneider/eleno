@@ -18,9 +18,11 @@ import mockLessons from '../api/mock-db/mockLessons'
 
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
+
   drafts: [],
   setDrafts: () => {},
   setLessons: () => {},
+
   saveNewLesson: () => new Promise(() => {}),
   deleteLesson: () => new Promise(() => {}),
   updateLesson: () => new Promise(() => {}),
@@ -30,6 +32,7 @@ export const LessonsContext = createContext<ContextTypeLessons>({
 export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [lessons, setLessons] = useState<TLesson[]>([])
+
   const [drafts, setDrafts] = useState<TDraft[]>([])
   const mode = import.meta.env.VITE_MODE
 
@@ -124,6 +127,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     () => ({
       lessons,
       setLessons,
+
       drafts,
       setDrafts,
       saveNewLesson,
@@ -134,6 +138,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     [
       lessons,
       setLessons,
+
       drafts,
       setDrafts,
       saveNewLesson,

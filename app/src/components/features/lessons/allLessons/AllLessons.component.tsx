@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
 import parse from 'html-react-parser'
-import { HiPencil, HiTrash, HiArrowSmLeft } from 'react-icons/hi'
 import { FiShare } from 'react-icons/fi'
+
+import { HiArrowSmLeft, HiPencil, HiTrash } from 'react-icons/hi'
+
+import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
 
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -10,17 +13,20 @@ import { useStudents } from '../../../../services/context/StudentContext'
 
 import Loader from '../../../ui/loader/Loader'
 
-import './allLessons.style.scss'
-import Table from '../../../ui/table/Table.component'
-import { formatDateToDisplay } from '../../../../utils/formateDate'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { formatDateToDisplay } from '../../../../utils/formateDate'
 import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
+import Table from '../../../ui/table/Table.component'
 import EditLesson from '../editLesson/EditLesson.component'
 import ShareHomework from '../shareHomework/ShareHomework.component'
+import './allLessons.style.scss'
+
+import SearchBar from '../../../ui/searchBar/SearchBar.component'
 
 import DeleteLesson from '../deleteLesson/DeleteLesson.component'
-import SearchBar from '../../../ui/searchBar/SearchBar.component'
+import Button from '../../../ui/button/Button.component'
+import ExportLessons from '../exportLessons/ExportLessons.component'
 
 function AllLessons() {
   const { students } = useStudents()
@@ -49,13 +55,21 @@ function AllLessons() {
     const fetchAllLessons = async () => {
       try {
         const allLessons = await getAllLessons(studentId)
+        const allLessonsStudent = allLessons.filter(
+          (lesson) => lesson.studentId === studentId,
+        )
+        const lessonsStudent = lessons.filter(
+          (lesson) => lesson.studentId === studentId,
+        )
 
-        setLessons((prev) => {
-          const cleanedUpLessons = prev.filter(
-            (lesson) => lesson.studentId !== studentId,
-          )
-          return [...cleanedUpLessons, ...allLessons]
-        })
+        if (allLessonsStudent.length > lessonsStudent.length) {
+          setLessons((prev) => {
+            const cleanedUpLessons = prev.filter(
+              (lesson) => lesson.studentId !== studentId,
+            )
+            return [...cleanedUpLessons, ...allLessons]
+          })
+        }
       } catch (error) {
         fetchErrorToast()
       } finally {
@@ -63,7 +77,7 @@ function AllLessons() {
       }
     }
     fetchAllLessons()
-  }, [getAllLessons, lessons, setLessons, studentId])
+  }, [getAllLessons, setLessons, studentId, lessons])
 
   const filteredLessons = studentsLessons.filter(
     (lesson) =>
@@ -96,6 +110,8 @@ function AllLessons() {
     setSearchInput(e.target.value)
   }
 
+  const handleDownloadPDF = () => {}
+
   return (
     <motion.div
       className="all-lessons"
@@ -111,6 +127,22 @@ function AllLessons() {
       <div className="header">
         <h2 className="heading-2">Lektionsliste {studentName}</h2>
         <div className="controlls">
+          <Modal>
+            <Modal.Open opens="export">
+              <Button
+                type="button"
+                btnStyle="primary"
+                onClick={handleDownloadPDF}
+                icon={<HiOutlineDocumentArrowDown />}
+                size="sm"
+              >
+                Exportieren
+              </Button>
+            </Modal.Open>
+            <Modal.Window name="export">
+              <ExportLessons studentId={studentId} />
+            </Modal.Window>
+          </Modal>
           <SearchBar
             searchInput={searchInput}
             handlerSearchInput={handleSearch}

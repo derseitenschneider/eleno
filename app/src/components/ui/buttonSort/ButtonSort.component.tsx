@@ -16,12 +16,19 @@ function ButtonSort({ name, direction = 'asc' }: IButtonSort) {
   const active = sortBy === name
 
   const handleClick = () => {
-    setSearchParams({ sort: name })
+    searchParams.set('sort', name)
+    setSearchParams(searchParams)
     if (!active) {
-      setSearchParams({ sort: name })
+      setSearchParams(searchParams)
     }
     if (active && !ascending) {
-      setSearchParams({ sort: name, asc: 'false' })
+      searchParams.set('asc', 'false')
+      setSearchParams(searchParams)
+    }
+
+    if (active && ascending) {
+      searchParams.delete('asc')
+      setSearchParams(searchParams)
     }
   }
 

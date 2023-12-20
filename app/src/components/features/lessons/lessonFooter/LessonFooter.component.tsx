@@ -3,6 +3,8 @@ import { useStudents } from '../../../../services/context/StudentContext'
 import Button from '../../../ui/button/Button.component'
 import './lessonFooter.style.scss'
 
+// [ ] Suchfunktion in Navigation
+
 function LessonFooter() {
   const {
     activeSortedStudentIds,

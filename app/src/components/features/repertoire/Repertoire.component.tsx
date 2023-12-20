@@ -1,11 +1,11 @@
+import { useSearchParams } from 'react-router-dom'
 import { RepertoireProvider } from '../../../services/context/RepertoireContext'
 import RepertoireList from './repertoireList/RepertoireList.component'
 
-interface RepertoireProps {
-  studentId: number
-}
+function Repertoire() {
+  const [searchParams] = useSearchParams()
+  const studentId = Number(searchParams.get('studentId'))
 
-function Repertoire({ studentId }: RepertoireProps) {
   return (
     <RepertoireProvider>
       <RepertoireList studentId={studentId} />

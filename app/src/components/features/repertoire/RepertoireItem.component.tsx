@@ -1,22 +1,58 @@
-import { useState } from 'react'
+import { HiPencil, HiTrash } from 'react-icons/hi'
 
 import { TRepertoireItem } from '../../../types/types'
+import { formatDateToDisplay } from '../../../utils/formateDate'
 
-import ReadRow from './readRow/ReadRow.component'
-import WriteRow from './writeRow/WriteRow.component'
+import Menus from '../../ui/menu/Menus.component'
 
-interface RepertoireItemProps {
+import Table from '../../ui/table/Table.component'
+import Modal from '../../ui/modal/Modal.component'
+import EditRepertoireItem from './editRepertoireItem/EditRepertoireItem.component'
+import DeleteRepertoireItem from './deleteRepertoireItem/DeleteRepertoireItem.component'
+
+interface ReadRowProps {
   item: TRepertoireItem
 }
 
-export type TMode = 'read' | 'write'
+function RepertoireItem({ item }: ReadRowProps) {
+  const { title, startDate, endDate } = item
 
-function RepertoireItem({ item }: RepertoireItemProps) {
-  const [mode, setMode] = useState('read')
+  return (
+    <Table.Row>
+      <span>{title}</span>
+      <span className="date">
+        {startDate ? formatDateToDisplay(startDate) : ''}
+      </span>
+      <span className="date">
+        {endDate ? formatDateToDisplay(endDate) : ''}
+      </span>
 
-  if (mode === 'read') return <ReadRow item={item} setMode={setMode} />
+      <Menus.Toggle id={item.id} />
+      <Modal>
+        <Menus.Menu>
+          <Menus.List id={item.id}>
+            <Modal.Open opens="edit-repertoire-item">
+              <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
+            </Modal.Open>
 
-  if (mode === 'write') return <WriteRow item={item} setMode={setMode} />
+            <Modal.Open opens="delete-repertoire-item">
+              <Menus.Button icon={<HiTrash />} iconColor="var(--clr-warning)">
+                Löschen
+              </Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+        </Menus.Menu>
+
+        <Modal.Window name="edit-repertoire-item">
+          <EditRepertoireItem itemId={item.id} />
+        </Modal.Window>
+
+        <Modal.Window name="delete-repertoire-item">
+          <DeleteRepertoireItem itemId={item.id} />
+        </Modal.Window>
+      </Modal>
+    </Table.Row>
+  )
 }
 
 export default RepertoireItem

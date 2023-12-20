@@ -17,6 +17,7 @@ import TodosOpen from '../pages/todos/TodosOpen.page'
 import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
 import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 import AllLessons from '../components/features/lessons/allLessons/AllLessons.component'
+import Repertoire from '../components/features/repertoire/Repertoire.component'
 
 const mainRouter = createBrowserRouter(
   [
@@ -55,6 +56,10 @@ const mainRouter = createBrowserRouter(
         {
           path: '/lessons/all',
           element: <AllLessons />,
+        },
+        {
+          path: '/lessons/repertoire',
+          element: <Repertoire />,
         },
         {
           path: `todos`,

@@ -96,6 +96,7 @@ export type ContextTypeStudents = {
 export type ContextTypeLessons = {
   lessons: TLesson[] | null
   setLessons: React.Dispatch<React.SetStateAction<TLesson[]>>
+
   drafts: TDraft[]
   setDrafts: React.Dispatch<React.SetStateAction<TDraft[]>>
 

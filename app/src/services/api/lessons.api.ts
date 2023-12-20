@@ -14,6 +14,23 @@ export const fetchAllLessonsSupabase = async (
   return lessons
 }
 
+export const fetchLessonsByDateRangeSupabase = async (
+  startDate: string,
+  endDate: string,
+  studentId: number,
+) => {
+  const { data: lessons, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .eq('studentId', studentId)
+    .gte('date', startDate)
+    .lte('date', endDate)
+    .order('date', { ascending: false })
+
+  if (error) throw new Error(error.message)
+  return lessons
+}
+
 export const saveNewLessonSupabase = async (
   lesson: TLesson,
   userId: string,

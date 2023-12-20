@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import './lessonHeader.style.scss'
 
 import { HiPencil } from 'react-icons/hi'
@@ -14,6 +15,7 @@ import EditStudent from '../../students/editStudents/EditStudent.component'
 
 function LessonHeader() {
   const { students, currentStudentId } = useStudents()
+  const navigate = useNavigate()
 
   const {
     firstName,
@@ -23,6 +25,10 @@ function LessonHeader() {
     startOfLesson,
     endOfLesson,
   } = students.find((student) => student.id === currentStudentId)
+
+  const navigateRepertoire = () => {
+    navigate(`repertoire?studentId=${currentStudentId}`)
+  }
 
   return (
     <header className="container container--header">
@@ -75,7 +81,15 @@ function LessonHeader() {
             {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
           </span>
         </div>
-        <Modal>
+        <button
+          type="button"
+          className="button-repertoire"
+          onClick={navigateRepertoire}
+        >
+          <HiOutlineListBullet />
+          <span>Repertoire</span>
+        </button>
+        {/* <Modal>
           <Modal.Open opens="repertoire">
             <button type="button" className="button-repertoire">
               <HiOutlineListBullet />
@@ -85,7 +99,7 @@ function LessonHeader() {
           <Modal.Window name="repertoire">
             <Repertoire studentId={currentStudentId} />
           </Modal.Window>
-        </Modal>
+        </Modal> */}
       </div>
     </header>
   )

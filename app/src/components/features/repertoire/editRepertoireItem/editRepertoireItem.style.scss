@@ -1,0 +1,30 @@
+.edit-repertoire-item {
+  padding: 4.8rem;
+  width: 80vw;
+
+  &.loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, 10rem);
+    align-items: center;
+    background-color: var(--clr-bg-400);
+    &.labels {
+      background-color: unset;
+      & > span {
+        padding: 0.8rem;
+      }
+    }
+  }
+
+  &__buttons {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    justify-content: flex-end;
+  }
+}

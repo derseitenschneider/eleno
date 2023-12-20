@@ -4,6 +4,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .controlls {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
   }
   .link-back {
     display: flex;
