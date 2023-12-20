@@ -1,8 +1,12 @@
+import {
+  HiOutlineDocumentArrowDown,
+  HiOutlineListBullet,
+} from 'react-icons/hi2'
 import { useNavigate } from 'react-router-dom'
 import './lessonHeader.style.scss'
 
 import { HiPencil } from 'react-icons/hi'
-import { HiOutlineListBullet } from 'react-icons/hi2'
+
 import { IoCheckboxOutline, IoPersonCircleOutline } from 'react-icons/io5'
 import { useStudents } from '../../../../services/context/StudentContext'
 
@@ -10,8 +14,8 @@ import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
 import AddTodo from '../../todos/addTodo/AddTodo.component'
 
-import Repertoire from '../../repertoire/Repertoire.component'
 import EditStudent from '../../students/editStudents/EditStudent.component'
+import ExportLessons from '../exportLessons/ExportLessons.component'
 
 function LessonHeader() {
   const { students, currentStudentId } = useStudents()
@@ -56,6 +60,12 @@ function LessonHeader() {
                           Todo erfassen
                         </Menus.Button>
                       </Modal.Open>
+
+                      <Modal.Open opens="export-lessons">
+                        <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
+                          Lektionsliste exportieren
+                        </Menus.Button>
+                      </Modal.Open>
                     </Menus.List>
                   </Menus.Menu>
                 </Menus>
@@ -66,6 +76,10 @@ function LessonHeader() {
 
                 <Modal.Window name="add-todo" styles={{ overflowY: 'visible' }}>
                   <AddTodo studentId={currentStudentId} />
+                </Modal.Window>
+
+                <Modal.Window name="export-lessons">
+                  <ExportLessons studentId={currentStudentId} />
                 </Modal.Window>
               </Modal>
             </div>
@@ -89,17 +103,6 @@ function LessonHeader() {
           <HiOutlineListBullet />
           <span>Repertoire</span>
         </button>
-        {/* <Modal>
-          <Modal.Open opens="repertoire">
-            <button type="button" className="button-repertoire">
-              <HiOutlineListBullet />
-              <span>Repertoire</span>
-            </button>
-          </Modal.Open>
-          <Modal.Window name="repertoire">
-            <Repertoire studentId={currentStudentId} />
-          </Modal.Window>
-        </Modal> */}
       </div>
     </header>
   )

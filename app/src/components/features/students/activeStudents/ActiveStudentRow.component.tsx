@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { HiArchive, HiPencil } from 'react-icons/hi'
-import { HiOutlineListBullet } from 'react-icons/hi2'
+
+import {
+  HiOutlineListBullet,
+  HiOutlineDocumentArrowDown,
+} from 'react-icons/hi2'
 import { IoCheckboxOutline, IoSchool } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -11,10 +15,11 @@ import Table from '../../../ui/table/Table.component'
 import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Modal from '../../../ui/modal/Modal.component'
-import Repertoire from '../../repertoire/Repertoire.component'
+
 import AddTodo from '../../todos/addTodo/AddTodo.component'
 import EditStudent from '../editStudents/EditStudent.component'
 import { useActiveStudents } from './ActiveStudents.component'
+import ExportLessons from '../../lessons/exportLessons/ExportLessons.component'
 
 interface ActiveStudentRowProps {
   student: TStudent
@@ -56,6 +61,10 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
     if (!isSelected.includes(student.id)) {
       setIsSelected((prev) => [...prev, student.id])
     }
+  }
+
+  const navigateRepertoire = () => {
+    navigate(`/lessons/repertoire?studentId=${student.id}`)
   }
 
   return (
@@ -121,15 +130,22 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
               </Menus.Button>
             </Modal.Open>
 
-            <Modal.Open opens="repertoire">
-              <Menus.Button icon={<HiOutlineListBullet />}>
-                Repertoire
-              </Menus.Button>
-            </Modal.Open>
+            <Menus.Button
+              icon={<HiOutlineListBullet />}
+              onClick={navigateRepertoire}
+            >
+              Repertoire
+            </Menus.Button>
 
             <Menus.Button icon={<HiArchive />} onClick={handleArchivate}>
               Archivieren
             </Menus.Button>
+
+            <Modal.Open opens="export-lessons">
+              <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
+                Lektionsliste exportieren
+              </Menus.Button>
+            </Modal.Open>
           </Menus.List>
 
           <Modal.Window name="edit-student">
@@ -140,8 +156,8 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
             <AddTodo studentId={student.id} />
           </Modal.Window>
 
-          <Modal.Window name="repertoire">
-            <Repertoire studentId={student.id} />
+          <Modal.Window name="export-lessons">
+            <ExportLessons studentId={student.id} />
           </Modal.Window>
         </Modal>
       </div>

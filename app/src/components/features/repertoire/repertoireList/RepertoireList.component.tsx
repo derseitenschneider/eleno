@@ -15,11 +15,11 @@ import RepertoireItem from '../RepertoireItem.component'
 
 import { useRepertoire } from '../../../../services/context/RepertoireContext'
 import { useStudents } from '../../../../services/context/StudentContext'
+import Button from '../../../ui/button/Button.component'
 import Loader from '../../../ui/loader/Loader'
 import Menus from '../../../ui/menu/Menus.component'
-import AddRepertoireItem from '../addRepertoireItem/AddRepertoireItem.component'
-import Button from '../../../ui/button/Button.component'
 import Modal from '../../../ui/modal/Modal.component'
+import AddRepertoireItem from '../addRepertoireItem/AddRepertoireItem.component'
 import ExportRepertoire from '../exportRepertoire/ExportRepertoire.component'
 
 type TRepertoireProps = {
@@ -38,14 +38,13 @@ function RepertoireList({ studentId }: TRepertoireProps) {
   const { students, activeSortedStudentIds, setCurrentStudentIndex } =
     useStudents()
 
+  const isActiveStudent = !!activeSortedStudentIds.find(
+    (el) => el === studentId,
+  )
+
   const navigate = useNavigate()
 
   const currentStudent = students.find((student) => student.id === studentId)
-
-  // useEffect(() => {
-  //   return () => setSearchParams({})
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
 
   useEffect(() => {
     getRepertoire(studentId)
@@ -93,10 +92,12 @@ function RepertoireList({ studentId }: TRepertoireProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <button type="button" className="link-back" onClick={handleNavigate}>
-        <HiArrowSmLeft />
-        <span>Zur Lektion</span>
-      </button>
+      {isActiveStudent && (
+        <button type="button" className="link-back" onClick={handleNavigate}>
+          <HiArrowSmLeft />
+          <span>Zur Lektion</span>
+        </button>
+      )}
       <div className="header">
         <h2 className="heading-2">
           Repetoire {currentStudent.firstName} {currentStudent.lastName}

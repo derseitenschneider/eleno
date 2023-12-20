@@ -55,7 +55,7 @@ function Menus({ children, icon = <IoEllipsisVertical /> }: MenusProps) {
   const open = setOpenId
   const close = useCallback(() => setOpenId(null), [])
 
-  const MAX_HEIGHT = 200
+  const MAX_HEIGHT = 250
 
   const value = useMemo(
     () => ({ open, close, openId, position, setPosition, icon, MAX_HEIGHT }),

@@ -1,18 +1,24 @@
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { HiTrash } from 'react-icons/hi'
-import { toast } from 'react-toastify'
+import {
+  HiOutlineDocumentArrowDown,
+  HiOutlineListBullet,
+} from 'react-icons/hi2'
 import { IoReturnDownBackOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
 import { TStudent } from '../../../../types/types'
 import Menus from '../../../ui/menu/Menus.component'
 import Table from '../../../ui/table/Table.component'
 
 import Modal from '../../../ui/modal/Modal.component'
 
-import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { useStudents } from '../../../../services/context/StudentContext'
 
 import DeleteStudents from '../deleteStudents/DeleteStudents.component'
 import { useInactiveStudents } from './InactiveStudents.component'
+import ExportLessons from '../../lessons/exportLessons/ExportLessons.component'
 
 interface InactiveStudentRowProps {
   student: TStudent
@@ -23,6 +29,7 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
   const { reactivateStudents } = useStudents()
   const [isPending, setIsPending] = useState(false)
   const { isSelected, setIsSelected } = useInactiveStudents()
+  const navigate = useNavigate()
 
   const handleReactivate = async () => {
     setIsPending(true)
@@ -45,6 +52,10 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
     if (!isSelected.includes(student.id)) {
       setIsSelected((prev) => [...prev, student.id])
     }
+  }
+
+  const navigateRepertoire = () => {
+    navigate(`/lessons/repertoire?studentId=${student.id}`)
   }
 
   return (
@@ -103,12 +114,29 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
               Wiederherstellen
             </Menus.Button>
 
+            <Menus.Button
+              icon={<HiOutlineListBullet />}
+              onClick={navigateRepertoire}
+            >
+              Repertoire
+            </Menus.Button>
+
+            <Modal.Open opens="export-lessons">
+              <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
+                Lektionsliste exportieren
+              </Menus.Button>
+            </Modal.Open>
+
             <Modal.Open opens="delete-student">
               <Menus.Button icon={<HiTrash />} iconColor="var(--clr-warning)">
                 Löschen
               </Menus.Button>
             </Modal.Open>
           </Menus.List>
+
+          <Modal.Window name="export-lessons">
+            <ExportLessons studentId={student.id} />
+          </Modal.Window>
 
           <Modal.Window name="delete-student">
             <DeleteStudents studentIds={[student.id]} />
