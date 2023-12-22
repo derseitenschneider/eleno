@@ -1,45 +1,73 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
-import { TRepertoireItem, TTimetableDay } from '../../../types/types'
+import { TTimetableDay } from '../../../types/types'
 import BaseLayoutPDF from './BaseLayoutPDF.component'
 import TablePDF from './TablePDF.component'
-import { formatDateToDisplay } from '../../../utils/formateDate'
 
 interface TimetablePDFProps {
   days: TTimetableDay[]
   title: string
+  userName: string
 }
 
 const styles = StyleSheet.create({
-  // column: { padding: '18px, 5px' },
-  col1: { width: '1%', padding: '8px 5px' },
-  col2: { width: '75%', padding: '8px 5px' },
-  col3: { width: '12%', padding: '8px 5px' },
-  col4: { width: '12%', padding: '8px 5px' },
+  day: {
+    marginBottom: '48px',
+    border: '1px solid #e2e8f0',
+  },
+  head: {
+    padding: '8px 5px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    marginBottom: '6px',
+  },
+  tableHeading: {
+    fontSize: '12px',
+    textTransform: 'uppercase',
+  },
+
+  col1: { width: '20%', padding: '8px 5px' },
+  col2: { width: '30%', padding: '8px 5px' },
+  col3: { width: '30%', padding: '8px 5px' },
+  col4: { width: '30%', padding: '8px 5px' },
 })
 
-function TimetablePDF({ days, title }: TimetablePDFProps) {
+function TimetablePDF({ days, title, userName }: TimetablePDFProps) {
   return (
-    <BaseLayoutPDF title={title || 'Studenplan'} orientation="portrait">
-      <Text>Test</Text>
-      {/* <TablePDF.Head>
-        <View style={styles.col1} />
-        <Text style={styles.col2}>Song</Text>
-        <Text style={styles.col3}>Start</Text>
-        <Text style={styles.col4}>Ende</Text>
-      </TablePDF.Head>
+    <BaseLayoutPDF
+      title={title || `Stundenplan ${userName}`}
+      orientation="portrait"
+    >
+      {days.map((day) => (
+        <View key={day.day} wrap={false} style={styles.day}>
+          <View style={styles.head}>
+            <Text style={styles.tableHeading}>{day.day}</Text>
+            <Text>Anz. Schüler:innen: {day.students.length}</Text>
+          </View>
+          <TablePDF.Head>
+            <Text style={styles.col1}>Zeit</Text>
+            <Text style={styles.col2}>Schüler:in</Text>
+            <Text style={styles.col3}>Instrument</Text>
+            <Text style={styles.col4}>Ort</Text>
+          </TablePDF.Head>
 
-      {repertoire.map((item, index) => (
-        <TablePDF key={item.id} index={index}>
-          <Text style={styles.col1}>{`${index + 1}.`}</Text>
-          <Text style={styles.col2}>{item.title}</Text>
-          <Text style={styles.col3}>
-            {item.startDate ? formatDateToDisplay(item.startDate) : ''}
-          </Text>
-          <Text style={styles.col4}>
-            {item.endDate ? formatDateToDisplay(item.endDate) : ''}
-          </Text>
-        </TablePDF>
-      ))} */}
+          {day.students.map((student, index) => (
+            <View key={student.id}>
+              <TablePDF index={index}>
+                <Text style={styles.col1}>
+                  {student.startOfLesson} - {student.endOfLesson}
+                </Text>
+                <Text style={styles.col2}>
+                  {student.firstName} {student.lastName}
+                </Text>
+                <Text style={styles.col3}>{student.instrument}</Text>
+                <Text style={styles.col4}>{student.location}</Text>
+              </TablePDF>
+            </View>
+          ))}
+        </View>
+      ))}
     </BaseLayoutPDF>
   )
 }

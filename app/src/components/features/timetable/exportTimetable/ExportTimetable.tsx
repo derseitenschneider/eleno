@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { TTimetableDay } from '../../../../types/types'
 import './exportTimetable.style.scss'
@@ -88,7 +89,13 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
         }`}
       >
         <PDFDownloadLink
-          document={<TimetablePDF days={selectedDays} title={title} />}
+          document={
+            <TimetablePDF
+              days={selectedDays}
+              title={title}
+              userName={userName}
+            />
+          }
           fileName={
             title
               ? title.split(' ').join('-').toLowerCase()

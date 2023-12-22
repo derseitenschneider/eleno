@@ -137,15 +137,15 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
               Repertoire
             </Menus.Button>
 
-            <Menus.Button icon={<HiArchive />} onClick={handleArchivate}>
-              Archivieren
-            </Menus.Button>
-
             <Modal.Open opens="export-lessons">
               <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
                 Lektionsliste exportieren
               </Menus.Button>
             </Modal.Open>
+
+            <Menus.Button icon={<HiArchive />} onClick={handleArchivate}>
+              Archivieren
+            </Menus.Button>
           </Menus.List>
 
           <Modal.Window name="edit-student">

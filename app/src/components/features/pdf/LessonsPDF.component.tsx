@@ -57,27 +57,29 @@ export default function LessonPDF({
       </TablePDF.Head>
 
       {sanitizedLessons?.map((lesson, index) => (
-        <TablePDF key={lesson.id} index={index}>
-          <Text style={styles.col1}>{formatDateToDisplay(lesson.date)}</Text>
-          <View style={styles.col2} wrap={false}>
-            <Html
-              stylesheet={contentStyles}
-              resetStyles
-              style={{ fontSize: '10px' }}
-            >
-              {lesson.sanitizedContent}
-            </Html>
-          </View>
-          <View style={styles.col3}>
-            <Html
-              resetStyles
-              stylesheet={contentStyles}
-              style={{ fontSize: '10px' }}
-            >
-              {lesson.sanitizedHomework}
-            </Html>
-          </View>
-        </TablePDF>
+        <View key={lesson.id}>
+          <TablePDF index={index}>
+            <Text style={styles.col1}>{formatDateToDisplay(lesson.date)}</Text>
+            <View style={styles.col2} wrap={false}>
+              <Html
+                stylesheet={contentStyles}
+                resetStyles
+                style={{ fontSize: '10px' }}
+              >
+                {lesson.sanitizedContent}
+              </Html>
+            </View>
+            <View style={styles.col3}>
+              <Html
+                resetStyles
+                stylesheet={contentStyles}
+                style={{ fontSize: '10px' }}
+              >
+                {lesson.sanitizedHomework}
+              </Html>
+            </View>
+          </TablePDF>
+        </View>
       ))}
     </BaseLayoutPDF>
   )
