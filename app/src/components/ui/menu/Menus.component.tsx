@@ -27,6 +27,8 @@ interface MenuProps {
 
 interface ToggleProbs {
   id: number | string
+  label?: string
+  disabled?: boolean
 }
 
 interface ListProps {
@@ -69,7 +71,7 @@ function Menu({ children }: MenuProps) {
   return cloneElement(children, { openId })
 }
 
-function Toggle({ id }: ToggleProbs) {
+function Toggle({ id, label, disabled }: ToggleProbs) {
   const { open, openId, close, setPosition, icon, MAX_HEIGHT } =
     useContext(MenusContext)
   const toggleRef = useRef(null)
@@ -131,10 +133,12 @@ function Toggle({ id }: ToggleProbs) {
   return (
     <button
       type="button"
-      className="menu__toggle"
+      className={`menu__toggle ${label ? 'with-label' : ''}`}
       onClick={handleClick}
       ref={toggleRef}
+      disabled={disabled}
     >
+      {label}
       {icon}
     </button>
   )

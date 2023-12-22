@@ -1,3 +1,6 @@
+import { HiArchive, HiSelector } from 'react-icons/hi'
+import { RxReset } from 'react-icons/rx'
+
 import './studentsActive.style.scss'
 
 import { IoAddOutline } from 'react-icons/io5'
@@ -31,6 +34,8 @@ type ContextTypeActiveStudents = {
   setIsSelected: React.Dispatch<React.SetStateAction<number[]>>
 }
 
+type TBulkActions = 'Archivieren' | 'Zurücksetzen' | ''
+
 const ActiveStudentsContext = createContext<ContextTypeActiveStudents>(null)
 
 export default function ActiveStudents() {
@@ -38,7 +43,7 @@ export default function ActiveStudents() {
   const [searchInput, setSearchInput] = useState('')
 
   const [isSelected, setIsSelected] = useState<number[]>([])
-  const [inputAction, setInputAction] = useState<number>(0)
+  const [inputAction, setInputAction] = useState<TBulkActions>('')
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -75,26 +80,26 @@ export default function ActiveStudents() {
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
-  const onChangeAction = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInputAction(+e.target.value)
-  }
+  // const onChangeAction = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setInputAction(+e.target.value)
+  // }
 
   const handlerAction = async () => {
-    if (inputAction === 1) {
+    if (inputAction === 'Archivieren') {
       try {
         await deactivateStudents(isSelected)
         toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} archiviert`)
-        setInputAction(0)
+        setInputAction('')
         setIsSelected([])
       } catch (error) {
         fetchErrorToast()
       }
     }
 
-    if (inputAction === 2) {
+    if (inputAction === 'Zurücksetzen') {
       searchParams.set('modal', 'reset-students')
       setSearchParams(searchParams)
-      setInputAction(0)
+      setInputAction('')
     }
   }
   const value = useMemo(() => ({ isSelected, setIsSelected }), [isSelected])
@@ -107,24 +112,38 @@ export default function ActiveStudents() {
           </div>
 
           <div className="container--controls">
-            <select
-              className="select-action"
-              onChange={onChangeAction}
-              value={inputAction}
-              disabled={isSelected.length === 0}
-            >
-              <option disabled hidden value={0}>
-                Aktion
-              </option>
-              <option value={1}>Archivieren</option>
-              <option value={2}>Zurücksetzen</option>
-            </select>
+            <Menus icon={<HiSelector />}>
+              <Menus.Toggle
+                id="action"
+                label={inputAction || 'Aktion'}
+                disabled={isSelected.length === 0}
+              />
+
+              <Menus.Menu>
+                <Menus.List id="action">
+                  <Menus.Button
+                    icon={<HiArchive />}
+                    onClick={() => setInputAction('Archivieren')}
+                  >
+                    Archivieren
+                  </Menus.Button>
+                  <Menus.Button
+                    icon={<RxReset />}
+                    onClick={() => setInputAction('Zurücksetzen')}
+                  >
+                    Zurücksetzen
+                  </Menus.Button>
+                </Menus.List>
+              </Menus.Menu>
+            </Menus>
+
             {inputAction && isSelected.length ? (
               <Button
                 label="Anwenden"
                 btnStyle="primary"
                 type="button"
                 handler={handlerAction}
+                size="sm"
               />
             ) : null}
 
