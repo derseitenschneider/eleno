@@ -34,6 +34,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [selectAll, setSelectAll] = useState(false)
+  const [title, setTitle] = useState('')
 
   const currentStudent = students.find((student) => student.id === studentId)
   const studentFullName = `${currentStudent.firstName} ${currentStudent.lastName}`
@@ -145,6 +146,22 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         <span>Alle Lektionen exportieren</span>
       </label>
 
+      <div className="export-lessons__title-input">
+        <label htmlFor="title">
+          Titel (optional){' '}
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const { value } = e.target
+              setTitle(value)
+            }}
+          />
+        </label>
+      </div>
+
       <div
         className={`export-lessons__download-buttons ${
           !isPending && ((startDate && endDate) || selectAll) ? 'active' : ''
@@ -157,9 +174,17 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         )}
         <PDFDownloadLink
           document={
-            <LessonPDF studentFullName={studentFullName} lessons={lessons} />
+            <LessonPDF
+              studentFullName={studentFullName}
+              lessons={lessons}
+              title={title}
+            />
           }
-          fileName={`lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}`}
+          fileName={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}`
+          }
         >
           <Button
             type="button"
@@ -187,7 +212,11 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
               key: 'homework',
             },
           ]}
-          filename={`lektionsliste-${studentFullNameDashes.toLowerCase()}.csv`}
+          filename={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `lektionsliste-${studentFullNameDashes.toLowerCase()}.csv`
+          }
         >
           <Button
             type="button"

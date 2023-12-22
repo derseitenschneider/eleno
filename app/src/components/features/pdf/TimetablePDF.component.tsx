@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
-import { TRepertoireItem } from '../../../types/types'
+import { TRepertoireItem, TTimetableDay } from '../../../types/types'
 import BaseLayoutPDF from './BaseLayoutPDF.component'
 import TablePDF from './TablePDF.component'
 import { formatDateToDisplay } from '../../../utils/formateDate'
 
-interface RepertoirePDFProps {
-  repertoire: TRepertoireItem[]
-  studentFullName: string
+interface TimetablePDFProps {
+  days: TTimetableDay[]
   title: string
 }
 
@@ -18,17 +17,11 @@ const styles = StyleSheet.create({
   col4: { width: '12%', padding: '8px 5px' },
 })
 
-function RepertoirePDF({
-  repertoire,
-  studentFullName,
-  title,
-}: RepertoirePDFProps) {
+function TimetablePDF({ days, title }: TimetablePDFProps) {
   return (
-    <BaseLayoutPDF
-      title={title || `Repertoire ${studentFullName}`}
-      orientation="portrait"
-    >
-      <TablePDF.Head>
+    <BaseLayoutPDF title={title || 'Studenplan'} orientation="portrait">
+      <Text>Test</Text>
+      {/* <TablePDF.Head>
         <View style={styles.col1} />
         <Text style={styles.col2}>Song</Text>
         <Text style={styles.col3}>Start</Text>
@@ -46,9 +39,9 @@ function RepertoirePDF({
             {item.endDate ? formatDateToDisplay(item.endDate) : ''}
           </Text>
         </TablePDF>
-      ))}
+      ))} */}
     </BaseLayoutPDF>
   )
 }
 
-export default RepertoirePDF
+export default TimetablePDF

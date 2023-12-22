@@ -1,3 +1,5 @@
+import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
+
 import { useEffect } from 'react'
 import NoContent from '../../components/ui/noContent/NoContent.component'
 import TimeTableDay from '../../components/features/timetable/timeTableDay/TimetableDay.component'
@@ -5,6 +7,9 @@ import { useStudents } from '../../services/context/StudentContext'
 import { TTimetableDay } from '../../types/types'
 import { sortStudentsDateTime } from '../../utils/sortStudents'
 import './timetable.style.scss'
+import Modal from '../../components/ui/modal/Modal.component'
+import Button from '../../components/ui/button/Button.component'
+import ExportTimetable from '../../components/features/timetable/exportTimetable/ExportTimetable'
 
 function Timetable() {
   const { students } = useStudents()
@@ -96,8 +101,28 @@ function Timetable() {
   ]
 
   return (
-    <div className="container">
-      <h1 className="heading-1">Stundenplan</h1>
+    <div className="container timetable">
+      <div className="head">
+        <h1 className="heading-1">Stundenplan</h1>
+        {days.some((day) => day.students.length > 0) && (
+          <Modal>
+            <Modal.Open opens="export-timetable">
+              <Button
+                type="button"
+                btnStyle="secondary"
+                size="sm"
+                icon={<HiOutlineDocumentArrowDown />}
+              >
+                Exportieren
+              </Button>
+            </Modal.Open>
+
+            <Modal.Window name="export-timetable">
+              <ExportTimetable days={days} />
+            </Modal.Window>
+          </Modal>
+        )}
+      </div>
       {days.some((day) => day.students.length) ? (
         <div className="container--timetable">
           {days.map((day) =>

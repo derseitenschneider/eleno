@@ -1,5 +1,12 @@
-.container--timetable {
-  // display: flex;
-  gap: 6.4rem;
-  align-items: baseline;
+.timetable {
+  .heading-1 {
+    margin-bottom: unset;
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+
+    margin-bottom: 2rem;
+  }
 }

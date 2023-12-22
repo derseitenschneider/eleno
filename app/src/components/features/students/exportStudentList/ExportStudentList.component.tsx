@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { CSVLink } from 'react-csv'
 
@@ -13,6 +14,7 @@ interface ExportStudentListProps {
 }
 
 function ExportStudentList({ students }: ExportStudentListProps) {
+  const [title, setTitle] = useState('')
   const {
     user: { firstName, lastName },
   } = useUser()
@@ -37,10 +39,35 @@ function ExportStudentList({ students }: ExportStudentListProps) {
     <div className="export-student-list">
       <h2 className="heading-2">Schüler:innen exportieren</h2>
       <p>Exportiere eine Liste mit allen aktiven Schüler:innen.</p>
+      <div className="export-student-list__input-title">
+        <label htmlFor="title">
+          Titel (optional){' '}
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const { value } = e.target
+              setTitle(value)
+            }}
+          />
+        </label>
+      </div>
       <div className="export-student-list__buttons">
         <PDFDownloadLink
-          document={<StudentListPDF students={students} userName={userName} />}
-          fileName={`schüler:innen-${userNameDashes}.pdf`}
+          document={
+            <StudentListPDF
+              students={students}
+              userName={userName}
+              title={title}
+            />
+          }
+          fileName={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `schüler:innen-${userNameDashes}.pdf`
+          }
         >
           <Button type="button" btnStyle="primary">
             PDF herunterladen

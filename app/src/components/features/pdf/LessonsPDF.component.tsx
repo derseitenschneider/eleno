@@ -9,6 +9,7 @@ import TablePDF from './TablePDF.component'
 interface LessonsPDFProps {
   lessons: TLesson[]
   studentFullName: string
+  title: string
 }
 
 const contentStyles = {
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
 export default function LessonPDF({
   lessons,
   studentFullName,
+  title,
 }: LessonsPDFProps) {
   const sanitizedLessons = lessons.map((lesson) => {
     const sanitizedContent = lesson.lessonContent
@@ -46,7 +48,7 @@ export default function LessonPDF({
   return (
     <BaseLayoutPDF
       orientation="portrait"
-      title={`Lektionsliste ${studentFullName}`}
+      title={title || `Lektionsliste ${studentFullName}`}
     >
       <TablePDF.Head>
         <Text style={styles.col1}>Datum</Text>

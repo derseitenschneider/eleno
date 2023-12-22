@@ -1,0 +1,28 @@
+.export-timetable {
+  padding: 4.8rem;
+
+  &__checkboxes {
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      input {
+        width: fit-content;
+        margin: 0;
+      }
+    }
+  }
+  &__title-input {
+    margin-top: 2rem;
+  }
+  &__buttons {
+    display: flex;
+    margin-top: 2.8rem;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}

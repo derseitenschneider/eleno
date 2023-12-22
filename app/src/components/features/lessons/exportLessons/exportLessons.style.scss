@@ -26,7 +26,14 @@
     }
   }
 
+  &__title-input {
+    input {
+      width: 35ch;
+    }
+  }
+
   &__download-buttons {
+    margin-top: 2.8rem;
     display: flex;
     gap: 2rem;
     position: relative;
