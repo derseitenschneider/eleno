@@ -28,7 +28,7 @@ interface InactiveStudentRowProps {
 function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
   const { reactivateStudents } = useStudents()
   const [isPending, setIsPending] = useState(false)
-  const { isSelected, setIsSelected } = useInactiveStudents()
+  const { selectedStudents, setSelectedStudents } = useInactiveStudents()
   const navigate = useNavigate()
 
   const handleReactivate = async () => {
@@ -44,13 +44,13 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
   }
 
   const handleCheckbox = () => {
-    if (isSelected.includes(student.id)) {
-      setIsSelected((prev) =>
+    if (selectedStudents.includes(student.id)) {
+      setSelectedStudents((prev) =>
         prev.filter((studentId) => studentId !== student.id),
       )
     }
-    if (!isSelected.includes(student.id)) {
-      setIsSelected((prev) => [...prev, student.id])
+    if (!selectedStudents.includes(student.id)) {
+      setSelectedStudents((prev) => [...prev, student.id])
     }
   }
 
@@ -74,7 +74,7 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
       <div>
         <input
           type="checkbox"
-          checked={isSelected.includes(student.id)}
+          checked={selectedStudents.includes(student.id)}
           onChange={handleCheckbox}
         />
       </div>
@@ -126,6 +126,8 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
                 Lektionsliste exportieren
               </Menus.Button>
             </Modal.Open>
+
+            <hr />
 
             <Modal.Open opens="delete-student">
               <Menus.Button icon={<HiTrash />} iconColor="var(--clr-warning)">

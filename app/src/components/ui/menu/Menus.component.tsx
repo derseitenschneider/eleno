@@ -101,7 +101,7 @@ function Toggle({ id, label, disabled }: ToggleProbs) {
     } else if (togglePositionVertical === 'bottom') {
       yPosition = windowHeight - toggleRect.y
     }
-    // const
+
     setPosition({
       x: xPosition,
       y: yPosition,

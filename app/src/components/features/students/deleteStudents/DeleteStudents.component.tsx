@@ -14,9 +14,9 @@ interface DeleteStudentsProps {
 function DeleteStudents({ onCloseModal, studentIds }: DeleteStudentsProps) {
   const [isPending, setIsPending] = useState(false)
   const { inactiveStudents, deleteStudents } = useStudents()
-  const { isSelected, setIsSelected } = useInactiveStudents()
+  const { selectedStudents, setSelectedStudents } = useInactiveStudents()
 
-  const studentsToDelete = studentIds || isSelected
+  const studentsToDelete = studentIds || selectedStudents
 
   const { firstName, lastName } = inactiveStudents.find(
     (student) => student.id === studentsToDelete[0],
@@ -27,8 +27,8 @@ function DeleteStudents({ onCloseModal, studentIds }: DeleteStudentsProps) {
     try {
       await deleteStudents(studentsToDelete)
       onCloseModal?.()
-      toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} gelöscht`)
-      setIsSelected([])
+      toast(`Schüler:in${selectedStudents.length > 1 ? 'nen' : ''} gelöscht`)
+      setSelectedStudents([])
     } catch (error) {
       fetchErrorToast()
     } finally {

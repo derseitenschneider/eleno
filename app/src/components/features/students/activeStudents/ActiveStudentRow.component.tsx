@@ -30,7 +30,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
   const { deactivateStudents, setCurrentStudentIndex, activeSortedStudentIds } =
     useStudents()
   const [isPending, setIsPending] = useState(false)
-  const { isSelected, setIsSelected } = useActiveStudents()
+  const { selectedStudents, setSelectedStudents } = useActiveStudents()
 
   const navigate = useNavigate()
 
@@ -53,13 +53,13 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
   }
 
   const handleCheckbox = () => {
-    if (isSelected.includes(student.id)) {
-      setIsSelected((prev) =>
+    if (selectedStudents.includes(student.id)) {
+      setSelectedStudents((prev) =>
         prev.filter((studentId) => studentId !== student.id),
       )
     }
-    if (!isSelected.includes(student.id)) {
-      setIsSelected((prev) => [...prev, student.id])
+    if (!selectedStudents.includes(student.id)) {
+      setSelectedStudents((prev) => [...prev, student.id])
     }
   }
 
@@ -83,7 +83,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
       <div>
         <input
           type="checkbox"
-          checked={isSelected.includes(student.id)}
+          checked={selectedStudents.includes(student.id)}
           onChange={handleCheckbox}
         />
       </div>
@@ -142,7 +142,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
                 Lektionsliste exportieren
               </Menus.Button>
             </Modal.Open>
-
+            <hr />
             <Menus.Button icon={<HiArchive />} onClick={handleArchivate}>
               Archivieren
             </Menus.Button>

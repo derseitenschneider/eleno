@@ -1,5 +1,5 @@
-import { HiArchive, HiSelector } from 'react-icons/hi'
-import { RxReset } from 'react-icons/rx'
+import { HiArchive } from 'react-icons/hi'
+import { MdRestore } from 'react-icons/md'
 
 import './studentsActive.style.scss'
 
@@ -28,22 +28,21 @@ import ResetStudents from '../resetStudents/ResetStudents.component'
 import StudentsTable from '../studentsTable/StudentsTable.component'
 import ActiveStudentRow from './ActiveStudentRow.component'
 import ExportStudentList from '../exportStudentList/ExportStudentList.component'
+import Select from '../../../ui/select/Select.component'
+import BulkExportLessons from '../../lessons/bulkExportLessons/BulkExportLessons.component'
 
 type ContextTypeActiveStudents = {
-  isSelected: number[]
-  setIsSelected: React.Dispatch<React.SetStateAction<number[]>>
+  selectedStudents: number[]
+  setSelectedStudents: React.Dispatch<React.SetStateAction<number[]>>
 }
-
-type TBulkActions = 'Archivieren' | 'Zurücksetzen' | ''
 
 const ActiveStudentsContext = createContext<ContextTypeActiveStudents>(null)
 
 export default function ActiveStudents() {
   const { deactivateStudents, activeStudents } = useStudents()
   const [searchInput, setSearchInput] = useState('')
-
-  const [isSelected, setIsSelected] = useState<number[]>([])
-  const [inputAction, setInputAction] = useState<TBulkActions>('')
+  const [action, setAction] = useState('')
+  const [selectedStudents, setSelectedStudents] = useState<number[]>([])
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -80,29 +79,35 @@ export default function ActiveStudents() {
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
-  // const onChangeAction = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setInputAction(+e.target.value)
-  // }
-
   const handlerAction = async () => {
-    if (inputAction === 'Archivieren') {
+    if (action === 'Archivieren') {
       try {
-        await deactivateStudents(isSelected)
-        toast(`Schüler:in${isSelected.length > 1 ? 'nen' : ''} archiviert`)
-        setInputAction('')
-        setIsSelected([])
+        await deactivateStudents(selectedStudents)
+        toast(
+          `Schüler:in${selectedStudents.length > 1 ? 'nen' : ''} archiviert`,
+        )
+        setAction('')
+        setSelectedStudents([])
       } catch (error) {
         fetchErrorToast()
       }
     }
 
-    if (inputAction === 'Zurücksetzen') {
+    if (action === 'Zurücksetzen') {
       searchParams.set('modal', 'reset-students')
       setSearchParams(searchParams)
-      setInputAction('')
+      setAction('')
+    }
+    if (action === 'Lektionsliste exportieren') {
+      searchParams.set('modal', 'bulk-export-lessons')
+      setSearchParams(searchParams)
+      setAction('')
     }
   }
-  const value = useMemo(() => ({ isSelected, setIsSelected }), [isSelected])
+  const value = useMemo(
+    () => ({ selectedStudents, setSelectedStudents }),
+    [selectedStudents],
+  )
   return (
     <ActiveStudentsContext.Provider value={value}>
       <div className="students">
@@ -112,32 +117,22 @@ export default function ActiveStudents() {
           </div>
 
           <div className="container--controls">
-            <Menus icon={<HiSelector />}>
-              <Menus.Toggle
-                id="action"
-                label={inputAction || 'Aktion'}
-                disabled={isSelected.length === 0}
-              />
+            <Select
+              selected={action}
+              setSelected={setAction}
+              label="Aktion"
+              disabled={selectedStudents.length === 0}
+              options={[
+                {
+                  name: 'Lektionsliste exportieren',
+                  icon: <HiOutlineDocumentArrowDown />,
+                },
+                { name: 'Archivieren', icon: <HiArchive /> },
+                { name: 'Zurücksetzen', icon: <MdRestore /> },
+              ]}
+            />
 
-              <Menus.Menu>
-                <Menus.List id="action">
-                  <Menus.Button
-                    icon={<HiArchive />}
-                    onClick={() => setInputAction('Archivieren')}
-                  >
-                    Archivieren
-                  </Menus.Button>
-                  <Menus.Button
-                    icon={<RxReset />}
-                    onClick={() => setInputAction('Zurücksetzen')}
-                  >
-                    Zurücksetzen
-                  </Menus.Button>
-                </Menus.List>
-              </Menus.Menu>
-            </Menus>
-
-            {inputAction && isSelected.length ? (
+            {action && selectedStudents.length ? (
               <Button
                 label="Anwenden"
                 btnStyle="primary"
@@ -151,6 +146,13 @@ export default function ActiveStudents() {
               <Modal.Open opens="reset-students" />
               <Modal.Window name="reset-students">
                 <ResetStudents />
+              </Modal.Window>
+            </Modal>
+
+            <Modal>
+              <Modal.Open opens="bulk-export-lessons" />
+              <Modal.Window name="bulk-export-lessons">
+                <BulkExportLessons />
               </Modal.Window>
             </Modal>
 
@@ -195,8 +197,8 @@ export default function ActiveStudents() {
           </div>
         </div>
         <StudentsTable
-          isSelected={isSelected}
-          setIsSelected={setIsSelected}
+          isSelected={selectedStudents}
+          setIsSelected={setSelectedStudents}
           students={sortedStudents}
         >
           <Menus>

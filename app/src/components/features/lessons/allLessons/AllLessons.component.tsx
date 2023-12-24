@@ -193,6 +193,7 @@ function AllLessons() {
                             Hausaufgaben teilen
                           </Menus.Button>
                         </Modal.Open>
+                        <hr />
 
                         <Modal.Open opens="delete-lesson">
                           <Menus.Button

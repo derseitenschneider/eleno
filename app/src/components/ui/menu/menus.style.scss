@@ -46,7 +46,14 @@
     padding: 0.8rem;
     // box-shadow: var(--box-shadow);
     // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+    // box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+    box-shadow: rgb(38, 57, 77, 0.5) 0px 20px 30px -10px;
+
+    hr {
+      margin: 8px 0;
+      border-top: 1px solid var(--clr-bg-500);
+      border-bottom: 0;
+    }
   }
 
   &__button {

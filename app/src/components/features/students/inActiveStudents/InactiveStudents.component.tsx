@@ -1,6 +1,9 @@
+import { RxReset } from 'react-icons/rx'
 // Hooks
 // Components
 import { createContext, useContext, useMemo, useState } from 'react'
+
+import { HiTrash } from 'react-icons/hi2'
 
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -11,24 +14,25 @@ import Menus from '../../../ui/menu/Menus.component'
 import Table from '../../../ui/table/Table.component'
 import StudentsTable from '../studentsTable/StudentsTable.component'
 
-import Button from '../../../ui/button/Button.component'
 import { useStudents } from '../../../../services/context/StudentContext'
+import Button from '../../../ui/button/Button.component'
 import Modal from '../../../ui/modal/Modal.component'
 import SearchBar from '../../../ui/searchBar/SearchBar.component'
+import Select from '../../../ui/select/Select.component'
 import DeleteStudents from '../deleteStudents/DeleteStudents.component'
 import InachtiveStudentRow from './InactiveStudentRow.component'
 
 type ContextTypeInactiveStudents = {
-  isSelected: number[]
-  setIsSelected: React.Dispatch<React.SetStateAction<number[]>>
+  selectedStudents: number[]
+  setSelectedStudents: React.Dispatch<React.SetStateAction<number[]>>
 }
 
 const InactiveStudentsContext = createContext<ContextTypeInactiveStudents>(null)
 
 function InactiveStudents() {
   const { reactivateStudents, inactiveStudents } = useStudents()
-  const [isSelected, setIsSelected] = useState<number[]>([])
-  const [inputAction, setInputAction] = useState<number>(0)
+  const [selectedStudents, setSelectedStudents] = useState<number[]>([])
+  const [action, setAction] = useState('')
   const [searchInput, setSearchInput] = useState('')
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -49,37 +53,35 @@ function InactiveStudents() {
 
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
-  const onChangeAction = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInputAction(+e.target.value)
-  }
-
   const handlerAction = async () => {
-    if (inputAction === 1) {
+    if (action === 'Wiederherstellen') {
       try {
-        await reactivateStudents(isSelected)
+        await reactivateStudents(selectedStudents)
         toast(
-          `Schüler:in${isSelected.length > 1 ? 'nen' : ''} wiederhergestellt`,
+          `Schüler:in${
+            selectedStudents.length > 1 ? 'nen' : ''
+          } wiederhergestellt`,
         )
-        setInputAction(0)
-        setIsSelected([])
+        setAction('')
+        setSelectedStudents([])
       } catch (error) {
         fetchErrorToast()
       }
     }
 
-    if (inputAction === 2) {
+    if (action === 'Löschen') {
       searchParams.append('modal', 'multi-delete-students')
       setSearchParams(searchParams)
 
-      setInputAction(0)
+      setAction('')
     }
   }
   const value = useMemo(
     () => ({
-      isSelected,
-      setIsSelected,
+      selectedStudents,
+      setSelectedStudents,
     }),
-    [isSelected],
+    [selectedStudents],
   )
 
   return (
@@ -90,19 +92,22 @@ function InactiveStudents() {
             <span>Archivierte Schüler:innen: {inactiveStudents.length}</span>
           </div>
           <div className="container--controls">
-            <select
-              className="select-action"
-              onChange={onChangeAction}
-              value={inputAction}
-              disabled={isSelected.length === 0}
-            >
-              <option disabled hidden value={0}>
-                Aktion
-              </option>
-              <option value={1}>Wiederherstellen</option>
-              <option value={2}>Löschen</option>
-            </select>
-            {inputAction && isSelected.length ? (
+            <Select
+              selected={action}
+              setSelected={setAction}
+              label="Aktion"
+              disabled={selectedStudents.length === 0}
+              options={[
+                { name: 'Wiederherstellen', icon: <RxReset /> },
+                {
+                  name: 'Löschen',
+                  icon: <HiTrash />,
+                  iconColor: 'var(--clr-warning)',
+                },
+              ]}
+            />
+
+            {action && selectedStudents.length ? (
               <Button
                 label="Anwenden"
                 btnStyle="primary"
@@ -129,8 +134,8 @@ function InactiveStudents() {
         </div>
 
         <StudentsTable
-          isSelected={isSelected}
-          setIsSelected={setIsSelected}
+          isSelected={selectedStudents}
+          setIsSelected={setSelectedStudents}
           students={filteredStudents}
         >
           <Menus>
