@@ -1,5 +1,4 @@
 import { FaSpinner } from 'react-icons/fa'
-import { toCsv } from 'react-csv-downloader'
 
 import JSZip from 'jszip'
 import { useEffect, useState } from 'react'
@@ -8,16 +7,15 @@ import { useActiveStudents } from '../../students/activeStudents/ActiveStudents.
 import './bulkExportLessons.style.scss'
 import LessonPDF from '../../pdf/LessonsPDF.component'
 import {
+  fetchAllLessonsCSVSupabase,
   fetchAllLessonsSupabase,
   fetchLessonsByDateRangeSupabase,
+  fetchLessonsCSVByDateRangeSupabase,
 } from '../../../../services/api/lessons.api'
 import Button from '../../../ui/button/Button.component'
 import { useStudents } from '../../../../services/context/StudentContext'
 import DatePicker from '../../../ui/datePicker/DatePicker.component'
-import {
-  formatDateToDatabase,
-  formatDateToDisplay,
-} from '../../../../utils/formateDate'
+import { formatDateToDatabase } from '../../../../utils/formateDate'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import stripHtmlTags from '../../../../utils/stripHtmlTags'
 
@@ -61,9 +59,24 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
         const { firstName, lastName } = students.find(
           (student) => student.id === studentId,
         )
+
+        const lessonsStrings = selectAll
+          ? await fetchAllLessonsCSVSupabase(studentId)
+          : await fetchLessonsCSVByDateRangeSupabase(
+              startDate,
+              endDate,
+              studentId,
+            )
+
+        const lessonsCSV = stripHtmlTags(lessonsStrings)
+          .replaceAll('date', 'Datum')
+          .replaceAll('lessonContent', 'Lektionsinhalt')
+          .replaceAll('homework', 'Hausaufgaben')
+          .replaceAll(/(\d{4})-(\d{2})-(\d{2})/g, '$3.$2.$1')
+
         const studentName = `${firstName} ${lastName}`
 
-        return { studentName, lessons }
+        return { studentName, lessons, lessonsCSV }
       })
       const allLessonsAllStudents = await Promise.all(lessonsAllStudents)
       return allLessonsAllStudents
@@ -71,8 +84,8 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
 
     const createData = async () => {
       const allLessonsAllStudents = await fetchLessons()
-      const blobsPDF = allLessonsAllStudents.map(async (stud) => {
-        const blob = await pdf(
+      const data = allLessonsAllStudents.map(async (stud) => {
+        const PDFBlob = await pdf(
           <LessonPDF
             lessons={stud.lessons}
             title={`Lektionsliste ${stud.studentName}`}
@@ -80,50 +93,16 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
           />,
         ).toBlob()
 
-        return { studentName: stud.studentName, blob }
+        return {
+          studentName: stud.studentName,
+          PDFBlob,
+          stringCSV: stud.lessonsCSV,
+        }
       })
 
-      const stringCSV = allLessonsAllStudents.map(async (stud) => {
-        const cleanedLessons = stud.lessons.map((lesson, index) => {
-          return {
-            nr: index,
-            date: formatDateToDisplay(lesson.date),
-            content: stripHtmlTags(lesson.lessonContent),
-            homework: lesson.homework,
-          }
-        })
+      const allData = await Promise.all(data)
 
-        const columns = [
-          {
-            id: 'nr',
-            displayName: '',
-          },
-          {
-            id: 'date',
-            displayName: 'Datum',
-          },
-          {
-            id: 'content',
-            displayName: 'Lektionsinhalt',
-          },
-          {
-            id: 'homework',
-            displayName: 'Hausaufgaben',
-          },
-        ]
-
-        const stringCSV = (await toCsv({
-          datas: cleanedLessons,
-          columns,
-        })) as string
-        // const blobCSV = new Blob([stringCSV], { type: 'csv' })
-
-        return { studentName: stud.studentName, stringCSV }
-      })
-
-      const allBlobsPDF = await Promise.all(blobsPDF)
-      const allStringCSV = await Promise.all(stringCSV)
-      return { blobsPDF: allBlobsPDF, stringCSV: allStringCSV }
+      return allData
     }
 
     const createZips = async () => {
@@ -132,21 +111,18 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
           setIsPending(true)
           const zipPDF = new JSZip()
           const zipCSV = new JSZip()
-          const { blobsPDF, stringCSV } = await createData()
+          const data = await createData()
 
-          blobsPDF.forEach((b) => {
-            const nameDashes = b.studentName.split(' ').join('-').toLowerCase()
-            zipPDF.file(`lektionsliste-${nameDashes}.pdf`, b.blob)
+          data.forEach((d) => {
+            const nameDashes = d.studentName.split(' ').join('-').toLowerCase()
+            zipPDF.file(`lektionsliste-${nameDashes}.pdf`, d.PDFBlob)
+            zipCSV.file(`lektionsliste-${nameDashes}.csv`, d.stringCSV)
           })
           const dataPDF = await zipPDF.generateAsync({ type: 'blob' })
           const dataURLPDF = window.URL.createObjectURL(dataPDF)
 
-          stringCSV.forEach((b) => {
-            const nameDashes = b.studentName.split(' ').join('-').toLowerCase()
-            zipCSV.file(`lektionsliste-${nameDashes}.csv`, b.stringCSV)
-          })
           const dataCSV = await zipCSV.generateAsync({ type: 'blob' })
-          const dataURLCSV = window.URL.createObjectURL(dataCSV)
+          const dataURLCSV = await window.URL.createObjectURL(dataCSV)
 
           setUrlPDF(dataURLPDF)
           setURLCSV(dataURLCSV)
@@ -213,12 +189,12 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
         {urlPDF && (selectAll || (startDate && endDate)) && !isPending && (
           <>
             <Button type="button" btnStyle="primary">
-              <a href={urlPDF} download="alle-lektionen">
+              <a href={urlPDF} download="alle-lektionen-pdf">
                 PDF herunterladen
               </a>
             </Button>
             <Button type="button" btnStyle="primary">
-              <a href={urlCSV} download="alle-lektionen">
+              <a href={urlCSV} download="alle-lektionen-csv">
                 CSV herunterladen
               </a>
             </Button>

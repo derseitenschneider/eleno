@@ -123,12 +123,12 @@ export default function ActiveStudents() {
               label="Aktion"
               disabled={selectedStudents.length === 0}
               options={[
+                { name: 'Archivieren', icon: <HiArchive /> },
+                { name: 'Zurücksetzen', icon: <MdRestore /> },
                 {
                   name: 'Lektionsliste exportieren',
                   icon: <HiOutlineDocumentArrowDown />,
                 },
-                { name: 'Archivieren', icon: <HiArchive /> },
-                { name: 'Zurücksetzen', icon: <MdRestore /> },
               ]}
             />
 

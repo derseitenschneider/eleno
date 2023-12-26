@@ -29,6 +29,7 @@ export default function stripHtmlTags(string: string) {
     .replaceAll('<a>', '')
     .replaceAll('<a >', '')
     .replaceAll('</a>', '')
+    .replaceAll('&amp;', '&')
 
   return newString
 }

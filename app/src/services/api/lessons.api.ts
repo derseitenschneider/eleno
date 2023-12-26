@@ -14,6 +14,20 @@ export const fetchAllLessonsSupabase = async (
   return lessons
 }
 
+export const fetchAllLessonsCSVSupabase = async (
+  studentId: number,
+): Promise<string> => {
+  const { data: lessons, error } = await supabase
+    .from('lessons')
+    .select('date, lessonContent, homework')
+    .eq('studentId', studentId)
+    .order('date', { ascending: false })
+    .csv()
+
+  if (error) throw new Error(error.message)
+  return lessons
+}
+
 export const fetchLessonsByDateRangeSupabase = async (
   startDate: string,
   endDate: string,
@@ -26,6 +40,24 @@ export const fetchLessonsByDateRangeSupabase = async (
     .gte('date', startDate)
     .lte('date', endDate)
     .order('date', { ascending: false })
+
+  if (error) throw new Error(error.message)
+  return lessons
+}
+
+export const fetchLessonsCSVByDateRangeSupabase = async (
+  startDate: string,
+  endDate: string,
+  studentId: number,
+) => {
+  const { data: lessons, error } = await supabase
+    .from('lessons')
+    .select('date, lessonContent, homework')
+    .eq('studentId', studentId)
+    .gte('date', startDate)
+    .lte('date', endDate)
+    .order('date', { ascending: false })
+    .csv()
 
   if (error) throw new Error(error.message)
   return lessons
