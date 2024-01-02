@@ -1,25 +1,31 @@
 .edit-student {
   padding: 4.8rem;
   width: 95vw;
+  max-height: 80vh;
 
-  .grid {
-    position: relative;
+  .labels {
     display: grid;
-    align-items: stretch;
-    grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 7rem 1fr;
-    column-gap: 0.2rem;
-    margin-bottom: 2.4rem;
-
-    &.loading > * {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-    input[type='time' i] {
-      // padding: 0;
-      // padding-inline-start: 0;
-      padding-bottom: 6px;
-    }
+    margin-bottom: 0.6rem;
   }
+
+  // .grid {
+  //   position: relative;
+  //   display: grid;
+  //   align-items: stretch;
+  //   grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 7rem 1fr;
+  //   column-gap: 0.2rem;
+  //   margin-bottom: 2.4rem;
+
+  //   &.loading > * {
+  //     opacity: 0.3;
+  //     pointer-events: none;
+  //   }
+  //   input[type='time' i] {
+  //     // padding: 0;
+  //     // padding-inline-start: 0;
+  //     padding-bottom: 6px;
+  //   }
+  // }
 
   .labels span {
     padding-left: 0.8rem;

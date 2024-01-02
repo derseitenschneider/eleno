@@ -122,7 +122,7 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
           const dataURLPDF = window.URL.createObjectURL(dataPDF)
 
           const dataCSV = await zipCSV.generateAsync({ type: 'blob' })
-          const dataURLCSV = await window.URL.createObjectURL(dataCSV)
+          const dataURLCSV = window.URL.createObjectURL(dataCSV)
 
           setUrlPDF(dataURLPDF)
           setURLCSV(dataURLCSV)

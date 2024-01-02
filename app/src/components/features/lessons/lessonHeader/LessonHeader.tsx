@@ -14,7 +14,7 @@ import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
 import AddTodo from '../../todos/addTodo/AddTodo.component'
 
-import EditStudent from '../../students/editStudents/EditStudent.component'
+import EditStudent from '../../students/editStudents/EditStudents.component'
 import ExportLessons from '../exportLessons/ExportLessons.component'
 
 function LessonHeader() {

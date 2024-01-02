@@ -4,7 +4,7 @@ import { MdRestore } from 'react-icons/md'
 import './studentsActive.style.scss'
 
 import { IoAddOutline } from 'react-icons/io5'
-import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
+import { HiOutlineDocumentArrowDown, HiPencil } from 'react-icons/hi2'
 
 import { createContext, useContext, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -30,6 +30,8 @@ import ActiveStudentRow from './ActiveStudentRow.component'
 import ExportStudentList from '../exportStudentList/ExportStudentList.component'
 import Select from '../../../ui/select/Select.component'
 import BulkExportLessons from '../../lessons/bulkExportLessons/BulkExportLessons.component'
+
+import EditStudents from '../editStudents/EditStudents.component'
 
 type ContextTypeActiveStudents = {
   selectedStudents: number[]
@@ -80,6 +82,10 @@ export default function ActiveStudents() {
   const sortedStudents = sortStudents(filteredStudents, sorting)
 
   const handlerAction = async () => {
+    if (action === 'Bearbeiten') {
+      searchParams.set('modal', 'bulk-edit-students')
+      setSearchParams(searchParams)
+    }
     if (action === 'Archivieren') {
       try {
         await deactivateStudents(selectedStudents)
@@ -123,6 +129,7 @@ export default function ActiveStudents() {
               label="Aktion"
               disabled={selectedStudents.length === 0}
               options={[
+                { name: 'Bearbeiten', icon: <HiPencil /> },
                 { name: 'Archivieren', icon: <HiArchive /> },
                 { name: 'Zurücksetzen', icon: <MdRestore /> },
                 {
@@ -141,6 +148,13 @@ export default function ActiveStudents() {
                 size="sm"
               />
             ) : null}
+
+            <Modal>
+              <Modal.Open opens="bulk-edit-students" />
+              <Modal.Window name="bulk-edit-students">
+                <EditStudents studentIds={selectedStudents} />
+              </Modal.Window>
+            </Modal>
 
             <Modal>
               <Modal.Open opens="reset-students" />

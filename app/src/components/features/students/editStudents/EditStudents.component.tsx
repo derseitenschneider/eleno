@@ -5,76 +5,95 @@ import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import calcTimeDifference from '../../../../utils/calcTimeDifference'
 import Button from '../../../ui/button/Button.component'
 import './editStudent.style.scss'
+import EditStudentRow from '../editStudentRow/EditStudentRow.component'
 
-interface EditStudentProps {
-  studentId: number
+interface EditStudentsProps {
+  studentIds: number[]
   onCloseModal?: () => void
 }
 
-function EditStudent({ studentId, onCloseModal }: EditStudentProps) {
+function EditStudents({ studentIds, onCloseModal }: EditStudentsProps) {
   const { students, updateStudent } = useStudents()
-  const [inputStudent, setInputStudent] = useState(
-    students.find((student) => student.id === studentId),
+  const [inputStudents, setInputStudents] = useState(
+    students.filter((student) => studentIds.find((id) => id === student.id)),
   )
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
+  const grid = 'repeat(3, 1fr) 16rem repeat(2, 6.5rem) 7rem 1fr'
 
-  const {
-    firstName,
-    lastName,
-    dayOfLesson,
-    instrument,
-    startOfLesson,
-    endOfLesson,
-    durationMinutes,
-    location,
-  } = inputStudent
+  // const {
+  //   firstName,
+  //   lastName,
+  //   dayOfLesson,
+  //   instrument,
+  //   startOfLesson,
+  //   endOfLesson,
+  //   durationMinutes,
+  //   location,
+  // } = inputStudent
 
-  useEffect(() => {
-    if (startOfLesson && endOfLesson) {
-      const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
-      setInputStudent((prev) => {
-        return { ...prev, durationMinutes: diffInMinutes }
-      })
-    }
-  }, [startOfLesson, endOfLesson])
+  // useEffect(() => {
+  //   if (startOfLesson && endOfLesson) {
+  //     const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
+  //     setInputStudent((prev) => {
+  //       return { ...prev, durationMinutes: diffInMinutes }
+  //     })
+  //   }
+  // }, [startOfLesson, endOfLesson])
 
-  const onChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target
+  // const onChangeHandler = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  // ) => {
+  //   const { name, value } = e.target
 
-    setInputStudent((prev) => {
-      return { ...prev, [name]: value }
-    })
-  }
+  //   setInputStudent((prev) => {
+  //     return { ...prev, [name]: value }
+  //   })
+  // }
 
-  const updateHandler = async () => {
-    setError('')
-    if (
-      !inputStudent.firstName ||
-      !inputStudent.lastName ||
-      !inputStudent.instrument
-    ) {
-      setError('Einige Pfilchtfelder sind leer')
-      return
-    }
-    setIsPending(true)
-    try {
-      await updateStudent(inputStudent)
-      toast('Änderungen gespeichert')
-      onCloseModal?.()
-    } catch (err) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
-  }
+  // const updateHandler = async () => {
+  //   setError('')
+  //   if (
+  //     !inputStudent.firstName ||
+  //     !inputStudent.lastName ||
+  //     !inputStudent.instrument
+  //   ) {
+  //     setError('Einige Pfilchtfelder sind leer')
+  //     return
+  //   }
+  //   setIsPending(true)
+  //   try {
+  //     await updateStudent(inputStudent)
+  //     toast('Änderungen gespeichert')
+  //     onCloseModal?.()
+  //   } catch (err) {
+  //     fetchErrorToast()
+  //   } finally {
+  //     setIsPending(false)
+  //   }
+  // }
 
   return (
     <div className="edit-student">
-      <h2 className="heading-2">Schüler:in bearbeiten</h2>
-      <form className={`grid ${isPending ? 'loading' : ''}`}>
+      <h2 className="heading-2">
+        Schüler:in{studentIds.length > 1 ? 'nen' : ''} bearbeiten
+      </h2>
+      <div className="labels" style={{ gridTemplateColumns: grid }}>
+        <span>Vorname*</span>
+        <span>Nachname*</span>
+        <span>Instrument*</span>
+        <span>Tag</span>
+        <span>Von</span>
+        <span>Bis</span>
+        <span>Dauer</span>
+        <span>Ort</span>
+      </div>
+
+      {inputStudents.map((student) => (
+        <EditStudentRow student={student} key={student.id} />
+      ))}
+
+      {/* <form className={`grid ${isPending ? 'loading' : ''}`}>
         <div className="item">
           <label htmlFor="firstName">
             Vorname*
@@ -184,7 +203,7 @@ function EditStudent({ studentId, onCloseModal }: EditStudentProps) {
             />
           </label>
         </div>
-      </form>
+      </form> */}
       <div className="edit-student__buttons">
         <div className="error-message">{error}</div>
         <Button
@@ -194,16 +213,16 @@ function EditStudent({ studentId, onCloseModal }: EditStudentProps) {
           handler={onCloseModal}
           disabled={isPending}
         />
-        <Button
+        {/* <Button
           type="button"
           btnStyle="primary"
           label="Speichern"
           handler={updateHandler}
           disabled={isPending}
-        />
+        /> */}
       </div>
     </div>
   )
 }
 
-export default EditStudent
+export default EditStudents
