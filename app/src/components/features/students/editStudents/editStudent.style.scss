@@ -1,4 +1,4 @@
-.edit-student {
+.edit-students {
   padding: 4.8rem;
   width: 95vw;
   max-height: 80vh;
@@ -8,24 +8,18 @@
     margin-bottom: 0.6rem;
   }
 
-  // .grid {
-  //   position: relative;
-  //   display: grid;
-  //   align-items: stretch;
-  //   grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 7rem 1fr;
-  //   column-gap: 0.2rem;
-  //   margin-bottom: 2.4rem;
+  &__info {
+    p {
+      font-size: 1.2rem;
+    }
+  }
 
-  //   &.loading > * {
-  //     opacity: 0.3;
-  //     pointer-events: none;
-  //   }
-  //   input[type='time' i] {
-  //     // padding: 0;
-  //     // padding-inline-start: 0;
-  //     padding-bottom: 6px;
-  //   }
-  // }
+  &__grid {
+    &.loading > * {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
 
   .labels span {
     padding-left: 0.8rem;
@@ -41,17 +35,12 @@
     align-items: center;
     gap: 1.6rem;
     justify-content: flex-end;
-
-    .error-message {
-      color: var(--clr-warning);
-      margin-right: auto;
-    }
   }
 }
 
 // 1084px
 @media (max-width: 67.75em) {
-  .edit-student {
+  .edit-students {
     width: 100vw;
     padding: 2.4rem;
   }

@@ -1,12 +1,14 @@
 import './editStudentRow.style.scss'
-import { useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { TStudent } from '../../../../types/types'
+import calcTimeDifference from '../../../../utils/calcTimeDifference'
 
 interface EditStudentRowProps {
   student: TStudent
+  setInputStudents: React.Dispatch<SetStateAction<TStudent[]>>
 }
 
-function EditStudentRow({ student }: EditStudentRowProps) {
+function EditStudentRow({ student, setInputStudents }: EditStudentRowProps) {
   const [input, setInput] = useState(student)
   const {
     firstName,
@@ -17,7 +19,33 @@ function EditStudentRow({ student }: EditStudentRowProps) {
     endOfLesson,
     durationMinutes,
     location,
+    id,
   } = input
+
+  useEffect(() => {
+    if (startOfLesson && endOfLesson && durationMinutes === 0) {
+      console.log('test')
+      const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
+      setInput((prev) => {
+        return { ...prev, durationMinutes: diffInMinutes }
+      })
+
+      setInputStudents((prev) =>
+        prev.map((stud) =>
+          stud.id === id
+            ? { ...student, durationMinutes: diffInMinutes }
+            : student,
+        ),
+      )
+    }
+  }, [
+    startOfLesson,
+    endOfLesson,
+    setInputStudents,
+    id,
+    student,
+    durationMinutes,
+  ])
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -26,6 +54,14 @@ function EditStudentRow({ student }: EditStudentRowProps) {
 
     setInput((prev) => {
       return { ...prev, [name]: value }
+    })
+
+    setInputStudents((prev) => {
+      const newStudents = prev.map((stud) => {
+        if (stud.id === id) return { ...stud, [name]: value }
+        return stud
+      })
+      return newStudents
     })
   }
   return (

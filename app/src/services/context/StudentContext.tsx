@@ -11,7 +11,7 @@ import {
   deleteStudentSupabase,
   reactivateStudentSupabase,
   resetStudentSupabase,
-  updateStudentSupabase,
+  updateStudentsSupabase,
 } from '../api/students.api'
 import { ContextTypeStudents, TStudent } from '../../types/types'
 
@@ -38,7 +38,7 @@ export const StudentsContext = createContext<ContextTypeStudents>({
   deactivateStudents: () => new Promise(() => {}),
   reactivateStudents: () => new Promise(() => {}),
   deleteStudents: () => new Promise(() => {}),
-  updateStudent: () => new Promise(() => {}),
+  updateStudents: () => new Promise(() => {}),
 })
 
 export function StudentsProvider({ children }: { children: React.ReactNode }) {
@@ -182,21 +182,25 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
     [students, mode],
   )
 
-  const updateStudent = useCallback(
-    async (editStudent: TStudent) => {
+  const updateStudents = useCallback(
+    async (editStudents: TStudent[]) => {
       if (mode === 'demo') {
         setStudents((prev) =>
-          prev.map((student) =>
-            student.id === editStudent.id ? editStudent : student,
+          prev.map(
+            (student) =>
+              // student.id === editStudent.id ? editStudent : student,
+              editStudents.find((stud) => stud.id === student.id) || student,
           ),
         )
         return
       }
       try {
-        await updateStudentSupabase(editStudent)
+        await updateStudentsSupabase(editStudents)
         setStudents((prev) =>
-          prev.map((student) =>
-            student.id === editStudent.id ? editStudent : student,
+          prev.map(
+            (student) =>
+              // student.id === editStudent.id ? editStudent : student,
+              editStudents.find((stud) => stud.id === student.id) || student,
           ),
         )
       } catch (error) {
@@ -223,7 +227,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
       deactivateStudents,
       reactivateStudents,
       deleteStudents,
-      updateStudent,
+      updateStudents,
     }),
     [
       students,
@@ -241,7 +245,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
       deactivateStudents,
       reactivateStudents,
       deleteStudents,
-      updateStudent,
+      updateStudents,
     ],
   )
 

@@ -85,6 +85,7 @@ export default function ActiveStudents() {
     if (action === 'Bearbeiten') {
       searchParams.set('modal', 'bulk-edit-students')
       setSearchParams(searchParams)
+      setAction('')
     }
     if (action === 'Archivieren') {
       try {
@@ -152,7 +153,10 @@ export default function ActiveStudents() {
             <Modal>
               <Modal.Open opens="bulk-edit-students" />
               <Modal.Window name="bulk-edit-students">
-                <EditStudents studentIds={selectedStudents} />
+                <EditStudents
+                  studentIds={selectedStudents}
+                  setSelectedStudents={setSelectedStudents}
+                />
               </Modal.Window>
             </Modal>
 

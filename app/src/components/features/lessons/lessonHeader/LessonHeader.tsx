@@ -14,8 +14,8 @@ import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
 import AddTodo from '../../todos/addTodo/AddTodo.component'
 
-import EditStudent from '../../students/editStudents/EditStudents.component'
 import ExportLessons from '../exportLessons/ExportLessons.component'
+import EditStudents from '../../students/editStudents/EditStudents.component'
 
 function LessonHeader() {
   const { students, currentStudentId } = useStudents()
@@ -71,7 +71,7 @@ function LessonHeader() {
                 </Menus>
 
                 <Modal.Window name="edit-student">
-                  <EditStudent studentId={currentStudentId} />
+                  <EditStudents studentIds={[currentStudentId]} />
                 </Modal.Window>
 
                 <Modal.Window name="add-todo" styles={{ overflowY: 'visible' }}>
@@ -89,7 +89,7 @@ function LessonHeader() {
             {startOfLesson && `, ${startOfLesson}`}
             {endOfLesson && ` - ${endOfLesson}`}
           </span>
-          {dayOfLesson && durationMinutes && <span> | </span>}
+          {dayOfLesson && durationMinutes > 0 && <span> | </span>}
 
           <span>
             {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}

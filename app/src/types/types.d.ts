@@ -90,7 +90,7 @@ export type ContextTypeStudents = {
   deactivateStudents: (ids: number | number[]) => Promise<void>
   reactivateStudents: (ids: number | number[]) => Promise<void>
   deleteStudents: (ids: number | number[]) => voiPromise<void>
-  updateStudent: (student: TStudent) => Promise<void>
+  updateStudents: (student: TStudent[]) => Promise<void>
 }
 
 export type ContextTypeLessons = {

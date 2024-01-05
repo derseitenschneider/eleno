@@ -54,11 +54,8 @@ export const deleteStudentSupabase = async (studentIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateStudentSupabase = async (student: TStudent) => {
-  const { error } = await supabase
-    .from('students')
-    .update({ ...student })
-    .eq('id', student.id)
+export const updateStudentsSupabase = async (students: TStudent[]) => {
+  const { error } = await supabase.from('students').upsert(students)
 
   if (error) throw new Error(error.message)
 }

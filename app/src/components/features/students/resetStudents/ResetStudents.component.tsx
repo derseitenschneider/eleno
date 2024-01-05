@@ -14,14 +14,14 @@ interface ResetStudentsProps {
 function ResetStudents({ onCloseModal }: ResetStudentsProps) {
   const [isPending, setIsPending] = useState(false)
   const { resetLessonData } = useStudents()
-  const { isSelected, setIsSelected } = useActiveStudents()
+  const { selectedStudents, setSelectedStudents } = useActiveStudents()
 
   const handleReset = async () => {
     setIsPending(true)
     try {
-      await resetLessonData(isSelected)
+      await resetLessonData(selectedStudents)
       onCloseModal?.()
-      setIsSelected([])
+      setSelectedStudents([])
       toast('Unterrichtsdaten zurückgesetzt')
     } catch (error) {
       fetchErrorToast()
