@@ -89,10 +89,10 @@ function LessonHeader() {
             {startOfLesson && `, ${startOfLesson}`}
             {endOfLesson && ` - ${endOfLesson}`}
           </span>
-          {dayOfLesson && durationMinutes > 0 && <span> | </span>}
+          {dayOfLesson && durationMinutes !== '0' && <span> | </span>}
 
           <span>
-            {durationMinutes > 0 && <span> {durationMinutes} Minuten</span>}
+            {durationMinutes !== '0' && <span> {durationMinutes} Minuten</span>}
           </span>
         </div>
         <button

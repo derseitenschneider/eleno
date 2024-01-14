@@ -31,7 +31,9 @@ function AddStudentRow({ id, rows, setRows }: AddStudentRowProps) {
       const diffInMinutes = calcTimeDifference(startOfLesson, endOfLesson)
       setRows((prev) =>
         prev.map((row) =>
-          row.tempId === id ? { ...row, durationMinutes: diffInMinutes } : row,
+          row.tempId === id
+            ? { ...row, durationMinutes: String(diffInMinutes) }
+            : row,
         ),
       )
     }

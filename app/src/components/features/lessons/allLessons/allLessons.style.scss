@@ -43,7 +43,18 @@
 // 680px
 @media screen and (max-width: 42.5em) {
   .all-lessons {
-    padding: 5.2rem 0 !important;
+    padding: 4.8rem 0 !important;
+
+    &__buttons {
+      padding: 0 1rem;
+    }
+
+    .header {
+      padding: 0 1rem;
+      .controlls {
+        display: none;
+      }
+    }
 
     &__row {
       grid-template-columns: 1fr 1fr;

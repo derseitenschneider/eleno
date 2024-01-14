@@ -42,6 +42,8 @@ function AllLessons() {
 
   const studentId = Number(searchParams.get('studentId'))
 
+  const isMobile = window.innerWidth < 680
+
   const studentsLessons = lessons.filter(
     (lesson) => lesson.studentId === studentId,
   )
@@ -152,7 +154,7 @@ function AllLessons() {
 
       {isPending && <Loader loading={isPending} />}
       {!isPending && (
-        <Table columns="12rem 1fr 1fr 4rem">
+        <Table columns={isMobile ? '8rem 1fr 1fr' : '12rem 1fr 1fr 4rem'}>
           <Table.Header>
             <div>
               <span>Datum</span>
@@ -178,7 +180,7 @@ function AllLessons() {
                     <div>{formatDateToDisplay(lesson.date)}</div>
                     <div>{parse(lesson.lessonContent)}</div>
                     <div>{parse(lesson.homework)}</div>
-                    <Menus.Toggle id={lesson.id} />
+                    {!isMobile && <Menus.Toggle id={lesson.id} />}
 
                     <Modal>
                       <Menus.List id={lesson.id}>

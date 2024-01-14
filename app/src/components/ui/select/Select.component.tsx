@@ -1,10 +1,16 @@
+import React from 'react'
 import { HiSelector } from 'react-icons/hi'
 import Menus from '../menu/Menus.component'
 
 interface SelectProps {
   disabled?: boolean
   label: string
-  options: { name: string; icon: React.ReactElement; iconColor?: string }[]
+  options: {
+    name: string
+    icon: React.ReactElement
+    iconColor?: string
+    breakBefore?: boolean
+  }[]
   selected: string
   setSelected: React.Dispatch<React.SetStateAction<string>>
 }
@@ -23,14 +29,16 @@ function Select({
       <Menus.Menu>
         <Menus.List id="action">
           {options.map((option) => (
-            <Menus.Button
-              icon={option.icon}
-              iconColor={option.iconColor}
-              key={option.name}
-              onClick={() => setSelected(option.name)}
-            >
-              {option.name}
-            </Menus.Button>
+            <React.Fragment key={option.name}>
+              {option.breakBefore && <hr />}
+              <Menus.Button
+                icon={option.icon}
+                iconColor={option.iconColor}
+                onClick={() => setSelected(option.name)}
+              >
+                {option.name}
+              </Menus.Button>
+            </React.Fragment>
           ))}
         </Menus.List>
       </Menus.Menu>

@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom'
 import Logo from '../../components/ui/logo/Logo.component'
 
 import { useUser } from '../../services/context/UserContext'
+import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
 
 function NavbarMobile() {
   const { logout } = useUser()
@@ -25,6 +26,8 @@ function NavbarMobile() {
         <li>
           <NavLink to="todos" className="navlist--mobile__navlink">
             <div className="navbar--icon">
+              <CountOverdueTodos />
+
               <IoCheckboxOutline className="icon" />
             </div>
           </NavLink>

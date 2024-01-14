@@ -23,7 +23,7 @@ function StudentsTable({
 
   const allChecked = selectedString === studentsString && isSelected.length > 0
 
-  const columns = '4rem repeat(3, 1fr) 14rem repeat(2, 8rem) 10rem  1fr 4rem'
+  const columns = '4rem repeat(3, 1fr) 11rem repeat(2, 7rem) 10rem  1fr 4rem'
 
   const handleAllCheckboxes = () => {
     if (allChecked) {
@@ -69,11 +69,10 @@ function StudentsTable({
           <span>Dauer</span>
           <ButtonSort name="durationMinutes" />
         </div>
-        <div>
+        <div style={{ gridColumn: 'auto / span 2' }}>
           <span>Unterrichtsort</span>
           <ButtonSort name="location" />
         </div>
-        <div />
       </Table.Header>
       {children}
       {/* <Menus>

@@ -1,15 +1,14 @@
 ## Features V2
 
-- [ ] searchfield in allLessons view
-
+- [ ] Search-field in lesson navigation
+- [ ] Display student related todos in lesson sheet
+- [ ] Notification popup
 - [ ] Absenzen-Funktion
 
   - [ ] Apply in overview, paginate by semester/year
   - [ ] export semester/year as pdf/csv
 
 - [ ] Improve PWA for offline use
-
-- [ ] Export timetable as pdf/csv
 
 - [ ] Darkmode switch
 

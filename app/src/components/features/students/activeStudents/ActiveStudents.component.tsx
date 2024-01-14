@@ -136,6 +136,7 @@ export default function ActiveStudents() {
                 {
                   name: 'Lektionsliste exportieren',
                   icon: <HiOutlineDocumentArrowDown />,
+                  breakBefore: true,
                 },
               ]}
             />

@@ -17,7 +17,7 @@ export type TStudent = {
   firstName: string
   lastName: string
   instrument: string
-  durationMinutes: number
+  durationMinutes: string
   dayOfLesson?: string
   startOfLesson?: string
   endOfLesson?: string

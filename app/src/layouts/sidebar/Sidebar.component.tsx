@@ -19,14 +19,14 @@ import { useClosestStudent } from '../../services/context/ClosestStudentContext'
 import { useStudents } from '../../services/context/StudentContext'
 import { useUser } from '../../services/context/UserContext'
 import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
-import { useTodos } from '../../services/context/TodosContext'
+
+import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
   const { activeStudents } = useStudents()
   const { logout } = useUser()
-  const { overdueTodos } = useTodos()
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
@@ -118,12 +118,8 @@ function Sidebar() {
 
               <li className="sidebar__nav-el todos">
                 <NavLink to="todos" className="sidebar__nav-link">
-                  <div
-                    className={`sidebar__nav-icon ${
-                      overdueTodos.length > 0 ? 'overdue' : ''
-                    }`}
-                  >
-                    <div className="counter">{overdueTodos.length || ''}</div>
+                  <div className="sidebar__nav-icon">
+                    <CountOverdueTodos />
                     <IoCheckboxOutline className="icon" />
                   </div>
 

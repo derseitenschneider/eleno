@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { PDFDownloadLink } from '@react-pdf/renderer'
+
 import { TTimetableDay } from '../../../../types/types'
 import './exportTimetable.style.scss'
 import Button from '../../../ui/button/Button.component'
