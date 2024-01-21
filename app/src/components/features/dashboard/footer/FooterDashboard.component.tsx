@@ -10,10 +10,10 @@ function FooterDashboard() {
   return (
     <footer className="footer-dashboard">
       <div className="links">
-        <Link to="https://eleno.net/terms" target="_blank">
+        <Link to="https://eleno.net/terms-conditions" target="_blank">
           Allgemeine Geschäftsbedingungen
         </Link>
-        <Link to="https://eleno.net/impressum" target="_blank">
+        <Link to="https://eleno.net/impressum-datenschutz" target="_blank">
           Impressum & Datenschutz
         </Link>
       </div>

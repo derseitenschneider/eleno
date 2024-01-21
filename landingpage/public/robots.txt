@@ -1,7 +1,0 @@
-#robots.txt zu http://eleno.net
-
-User-agent: *
-Disallow: 
-
-
-Sitemap: https://eleno.net/sitemap-index.xml

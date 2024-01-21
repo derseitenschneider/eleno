@@ -160,11 +160,14 @@ function Signup() {
             />{' '}
             <label htmlFor="privacy-policy">
               Ich bin mit den{' '}
-              <a href="https://eleno.net/impressum/" target="_blank">
+              <a
+                href="https://eleno.net/impressum-datenschutz/"
+                target="_blank"
+              >
                 Datenschutzbestimmungen{' '}
               </a>{' '}
               und den{' '}
-              <a href="https://eleno.net/terms/" target="_blank">
+              <a href="https://eleno.net/terms-conditions/" target="_blank">
                 Allgemeinen Geschäftsbestimmungen
               </a>{' '}
               einverstanden
