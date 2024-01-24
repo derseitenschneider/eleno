@@ -1,3 +1,4 @@
+import { logEvent } from '@firebase/analytics'
 import { useCallback, useEffect, useState } from 'react'
 import './sidebar.style.scss'
 
@@ -21,6 +22,7 @@ import { useUser } from '../../services/context/UserContext'
 import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 
 import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
+import analytics from '../../services/analytics/firebaseAnalytics'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -45,8 +47,42 @@ function Sidebar() {
     [toggleSidebar],
   )
 
-  const resetClosestStudentIndex = () => {
-    setClosestStudentIndex(getClosestStudentIndex(activeStudents))
+  const handleNav = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement
+    const path = target.closest('a').pathname
+
+    switch (path) {
+      case '/':
+        if (target.closest('a').target === '_blank')
+          return logEvent(analytics, 'page_view', { page_title: 'manual' })
+
+        setClosestStudentIndex(getClosestStudentIndex(activeStudents))
+        return logEvent(analytics, 'page_view', { page_title: 'dashboard' })
+        break
+
+      case '/lessons':
+        return logEvent(analytics, 'page_view', { page_title: 'lessons' })
+        break
+
+      case '/students':
+        return logEvent(analytics, 'page_view', { page_title: 'students' })
+        break
+
+      case '/timetable':
+        return logEvent(analytics, 'page_view', { page_title: 'timetable' })
+        break
+
+      case '/todos':
+        return logEvent(analytics, 'page_view', { page_title: 'todos' })
+        break
+
+      case '/settings':
+        return logEvent(analytics, 'page_view', { page_title: 'todos' })
+        break
+
+      default:
+        return null
+    }
   }
 
   useEffect(() => {
@@ -78,7 +114,7 @@ function Sidebar() {
                 <NavLink
                   to="/"
                   className="sidebar__nav-link"
-                  onClick={resetClosestStudentIndex}
+                  onClick={handleNav}
                 >
                   <div className="sidebar__nav-icon">
                     <IoCompassOutline className="icon" />
@@ -88,7 +124,11 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="lessons" className="sidebar__nav-link">
+                <NavLink
+                  to="lessons"
+                  className="sidebar__nav-link"
+                  onClick={handleNav}
+                >
                   <div className="sidebar__nav-icon">
                     <IoSchoolOutline className="icon" />
                   </div>
@@ -97,7 +137,11 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="students" className="sidebar__nav-link">
+                <NavLink
+                  to="students"
+                  className="sidebar__nav-link"
+                  onClick={handleNav}
+                >
                   <div className="sidebar__nav-icon">
                     <IoPeopleCircleOutline className="icon" />
                   </div>
@@ -107,7 +151,11 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el">
-                <NavLink to="timetable" className="sidebar__nav-link">
+                <NavLink
+                  to="timetable"
+                  className="sidebar__nav-link"
+                  onClick={handleNav}
+                >
                   <div className="sidebar__nav-icon">
                     <IoCalendarOutline className="icon" />
                   </div>
@@ -117,7 +165,11 @@ function Sidebar() {
               </li>
 
               <li className="sidebar__nav-el todos">
-                <NavLink to="todos" className="sidebar__nav-link">
+                <NavLink
+                  to="todos"
+                  className="sidebar__nav-link"
+                  onClick={handleNav}
+                >
                   <div className="sidebar__nav-icon">
                     <CountOverdueTodos />
                     <IoCheckboxOutline className="icon" />
@@ -132,6 +184,7 @@ function Sidebar() {
         <div className="container-settings">
           <div className="sidebar__nav-el">
             <Link
+              onClick={handleNav}
               to="https://manual.eleno.net/"
               target="_blank"
               className="sidebar__nav-link"
@@ -143,7 +196,11 @@ function Sidebar() {
             </Link>
           </div>
           <div className="sidebar__nav-el">
-            <NavLink to="settings" className="sidebar__nav-link">
+            <NavLink
+              to="settings"
+              className="sidebar__nav-link"
+              onClick={handleNav}
+            >
               <div className="sidebar__nav-icon">
                 <IoSettingsOutline className="icon" />
               </div>

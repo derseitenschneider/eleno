@@ -1,29 +1,19 @@
 import { TLesson, TSorting, TStudent } from '../types/types'
 
 const compareLastName = (a: TStudent, b: TStudent) => {
-  const studentA = a.lastName.toUpperCase()
-  const studentB = b.lastName.toUpperCase()
+  const studentA = a.lastName
+  const studentB = b.lastName
 
-  let comparison = 0
-  if (studentA > studentB) {
-    comparison = 1
-  } else if (studentA < studentB) {
-    comparison = -1
-  }
-  return comparison
+  return studentA.localeCompare(studentB, 'de', { sensitivity: 'variant' })
 }
 
 const compareInstrument = (a: TStudent, b: TStudent) => {
-  const studentA = a.instrument.toUpperCase()
-  const studentB = b.instrument.toUpperCase()
+  const instrumentA = a.instrument
+  const instrumentB = b.instrument
 
-  let comparison = 0
-  if (studentA > studentB) {
-    comparison = 1
-  } else if (studentA < studentB) {
-    comparison = -1
-  }
-  return comparison
+  return instrumentA.localeCompare(instrumentB, 'de', {
+    sensitivity: 'variant',
+  })
 }
 
 const compareDays = (a: TStudent, b: TStudent) => {
@@ -71,13 +61,7 @@ const compareLocations = (a: TStudent, b: TStudent) => {
   const locationA = a.location
   const locationB = b.location
 
-  let comparison = 0
-  if (locationA > locationB) {
-    comparison = 1
-  } else if (locationA < locationB) {
-    comparison = -1
-  }
-  return comparison
+  return locationA.localeCompare(locationB, 'de', { sensitivity: 'variant' })
 }
 
 export const sortStudents = (students: TStudent[], sorting: TSorting) => {

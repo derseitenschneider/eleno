@@ -3,15 +3,8 @@ import { TRepertoireItem, TSorting } from '../types/types'
 const compareTitle = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
   const titleA = itemA.title
   const titleB = itemB.title
-  let comparison = 0
-  if (titleA > titleB) {
-    comparison = 1
-  }
-  if (titleA < titleB) {
-    comparison = -1
-  }
 
-  return comparison
+  return titleA.localeCompare(titleB, 'de', { sensitivity: 'variant' })
 }
 
 const compareStartDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
