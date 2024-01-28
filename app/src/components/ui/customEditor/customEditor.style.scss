@@ -8,7 +8,7 @@
   height: 20rem;
 
   .rsw-toolbar {
-    background-color: var(--clr-bg-600);
+    background-color: var(--clr-bg-200);
     justify-content: space-between;
     gap: 1rem;
     border: none;
@@ -22,20 +22,20 @@
     }
 
     .rsw-btn {
-      color: var(--clr-text-400);
+      color: var(--clr-text);
       display: flex;
       align-items: center;
       justify-content: center;
 
       &:hover,
       &[data-active='true'] {
-        background-color: var(--clr-bg-400);
+        background-color: var(--clr-bg-50);
       }
     }
   }
   .rsw-ce {
     padding: 1rem;
-    background-color: var(--clr-bg-400);
+    background-color: var(--clr-bg-50);
     height: 100%;
     overflow-y: auto;
     white-space: pre-line;

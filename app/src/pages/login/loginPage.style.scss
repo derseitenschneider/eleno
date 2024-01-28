@@ -2,7 +2,7 @@
   width: 100%;
   display: grid;
   place-content: center;
-  background-color: var(--clr-bg-600);
+  background-color: var(--clr-bg-200);
   font-size: 1.8rem;
   padding: 3rem 0;
 
@@ -20,7 +20,7 @@
     svg {
       height: 6rem;
       rect {
-        fill: var(--clr-bg-500);
+        fill: var(--clr-bg-100);
       }
     }
   }
@@ -32,7 +32,7 @@
     border-radius: 8px;
     min-width: 45rem;
     column-gap: 4.8rem;
-    background-color: var(--clr-bg-500);
+    background-color: var(--clr-bg-100);
     align-items: center;
 
     .wrapper {

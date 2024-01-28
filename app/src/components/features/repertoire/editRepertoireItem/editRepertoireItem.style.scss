@@ -11,7 +11,7 @@
     display: grid;
     grid-template-columns: 1fr repeat(2, 10rem);
     align-items: center;
-    background-color: var(--clr-bg-400);
+    background-color: var(--clr-bg-50);
     &.labels {
       background-color: unset;
       & > span {

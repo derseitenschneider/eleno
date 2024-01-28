@@ -14,10 +14,10 @@
     'overview aside'
     'footer footer';
 
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-lines);
 
   & > *:not(.footer-dashboard) {
-    background-color: var(--clr-bg-500);
+    background-color: var(--clr-bg-100);
     padding: 2.8rem;
     // border-radius: 8px;
     // box-shadow: var(--box-shadow);

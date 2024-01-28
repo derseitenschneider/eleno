@@ -8,8 +8,8 @@
 
   .main {
     textarea {
-      background-color: var(--clr-bg-400);
-      color: var(--clr-text-400);
+      background-color: var(--clr-bg-50);
+      color: var(--clr-text);
       // min-height: 15rem;
 
       &:focus {
@@ -17,8 +17,8 @@
       }
     }
     input {
-      background-color: var(--clr-bg-400);
-      color: var(--clr-text-400);
+      background-color: var(--clr-bg-50);
+      color: var(--clr-text);
       font-size: inherit;
       text-align: center;
       font-family: inherit;
@@ -27,7 +27,7 @@
       padding: 0.8rem 0;
       width: fit-content;
       &:focus {
-        background-color: var(--clr-bg-400);
+        background-color: var(--clr-bg-50);
         outline: none;
       }
     }
@@ -49,7 +49,7 @@
 
   .aside {
     position: relative;
-    border-left: 1px solid var(--clr-bg-400);
+    border-left: 1px solid var(--clr-lines);
     height: 100%;
     overflow: hidden;
     padding: 1.6rem;
@@ -68,7 +68,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--clr-bg-600);
+      background-color: var(--clr-bg-200);
     }
   }
   .modal--notes {
@@ -98,7 +98,7 @@
       }
       .container--new-lesson {
         padding: 1.6rem;
-        border-bottom: 1px solid var(--clr-bg-400);
+        border-bottom: 1px solid var(--clr-bg-50);
       }
     }
 
@@ -136,7 +136,7 @@
     }
     .aside {
       overflow-y: unset;
-      border-top: 1px solid var(--clr-bg-400);
+      border-top: 1px solid var(--clr-bg-50);
     }
   }
 }

@@ -1,13 +1,14 @@
 .note {
   position: relative;
   margin-top: 2.4rem;
-  // min-height: 18rem;
+
   line-height: 2;
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-bg-50);
   padding: 1.6rem;
-  // padding-bottom: 3.2rem;
+
   white-space: pre-wrap;
-  box-shadow: var(--box-shadow-cards);
+  // box-shadow: var(--box-shadow-cards);
+  box-shadow: var(--box-shadow-50);
 
   .container--edit-button {
     position: absolute;

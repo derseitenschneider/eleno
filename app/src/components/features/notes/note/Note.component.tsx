@@ -44,7 +44,7 @@ function Note({ id, title, text }: NoteProps) {
           </Modal.Window>
         </Modal>
       </div>
-      <h5 className="heading-5">{title}</h5>
+      {title && <h5 className="heading-5">{title}</h5>}
       <div>{parse(text)}</div>
     </div>
   )

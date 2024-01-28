@@ -7,8 +7,8 @@
   &__header {
     font-size: 1.4rem;
     display: grid;
-    background-color: var(--clr-bg-600);
-    color: var(--clr-text-600);
+    background-color: var(--clr-bg-200);
+    color: var(--clr-text);
     font-weight: 600;
     align-items: center;
 
@@ -22,13 +22,13 @@
 
   &__body {
     &.alternate-color .table__row:nth-of-type(even) {
-      background-color: var(--clr-bg-500);
+      background-color: var(--clr-bg-100);
     }
   }
 
   &__row {
     display: grid;
-    background-color: var(--clr-bg-400);
+    background-color: var(--clr-bg-50);
     margin-bottom: 0.1rem;
     align-items: center;
     & > * {

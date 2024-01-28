@@ -19,7 +19,7 @@
 
     &:disabled {
       color: var(--clr-darkgrey);
-      background-color: var(--clr-bg-400);
+      background-color: var(--clr-bg-50);
     }
   }
 
@@ -51,7 +51,7 @@
     color: var(--clr-white);
     &:disabled {
       color: var(--clr-darkgrey);
-      background-color: var(--clr-bg-400);
+      background-color: var(--clr-bg-50);
     }
   }
 

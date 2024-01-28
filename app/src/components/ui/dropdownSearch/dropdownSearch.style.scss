@@ -2,8 +2,8 @@
   position: absolute;
   z-index: 30;
 
-  background-color: var(--clr-bg-400);
-  border: 1px solid var(--clr-bg-600);
+  background-color: var(--clr-bg-50);
+  border: 1px solid var(--clr-bg-200);
   min-width: 20rem;
   max-height: 30rem;
   overflow-y: auto;
@@ -22,7 +22,7 @@
     }
 
     &:hover {
-      background-color: var(--clr-bg-600);
+      background-color: var(--clr-bg-200);
       // color: var(--clr-primary-600);
     }
   }

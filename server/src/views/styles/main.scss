@@ -39,7 +39,7 @@ body {
 
 .section {
   padding: 2rem;
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-bg-50);
   box-shadow: var(--box-shadow-cards);
   width: max-content;
   max-width: 100vw;
@@ -51,7 +51,7 @@ body {
 
   .homework {
     padding: 2.4rem;
-    border: 1px solid var(--clr-bg-600);
+    border: 1px solid var(--clr-bg-200);
     margin-top: 0.8rem;
     margin-bottom: 2.4rem;
   }

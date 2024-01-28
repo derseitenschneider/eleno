@@ -5,7 +5,7 @@
   width: 6rem;
   height: 100vh;
   z-index: 50;
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-bg-50);
   display: flex;
   align-items: stretch;
   flex-direction: column;
@@ -58,7 +58,7 @@
       height: 3rem;
 
       rect {
-        fill: var(--clr-bg-400);
+        fill: var(--clr-bg-50);
       }
     }
   }
@@ -84,7 +84,7 @@
   }
 
   .active {
-    color: var(--clr-text-600);
+    color: var(--clr-text);
   }
 
   &__nav-link {
@@ -150,7 +150,7 @@
 
   .container-settings {
     // margin-top: auto;
-    border-top: 1px solid var(--clr-bg-600);
+    border-top: 1px solid var(--clr-bg-200);
     position: relative;
   }
 }

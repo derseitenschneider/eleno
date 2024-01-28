@@ -6,6 +6,8 @@ import TodoItem from '../../components/features/todos/todoItem/TodoItem.componen
 import TodoList from '../../components/features/todos/todoList/TodoList.component'
 import { useTodos } from '../../services/context/TodosContext'
 import compareDateTodos from '../../utils/sortTodos'
+import Modal from '../../components/ui/modal/Modal.component'
+import Menus from '../../components/ui/menu/Menus.component'
 
 function TodosOpen() {
   const { todos } = useTodos()
@@ -30,11 +32,15 @@ function TodosOpen() {
       {openTodos.length > 0 ? (
         <>
           <TodoDescription />
-          <ul>
-            {sortedFilteredTodos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} type="open" />
-            ))}
-          </ul>
+          <Modal>
+            <ul>
+              <Menus>
+                {sortedFilteredTodos.map((todo) => (
+                  <TodoItem key={todo.id} todo={todo} type="open" />
+                ))}
+              </Menus>
+            </ul>
+          </Modal>
         </>
       ) : (
         <NoContent heading="Aktuell keine offenen Todos" />

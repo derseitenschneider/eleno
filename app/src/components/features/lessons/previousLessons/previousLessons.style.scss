@@ -1,5 +1,5 @@
 .container--previous-lessons {
-  border-bottom: 1px solid var(--clr-bg-400);
+  border-bottom: 1px solid var(--clr-lines);
   padding: 1.6rem 3.2rem;
 
   height: 25rem;
@@ -48,10 +48,10 @@
     .tab {
       padding: 0.8rem;
       padding-right: 1.1rem;
-      background-color: var(--clr-bg-600);
+      background-color: var(--clr-bg-200);
       border-left: 3px solid transparent;
       &--active {
-        background-color: var(--clr-bg-400);
+        background-color: var(--clr-bg-50);
         border-left: 3px solid var(--clr-primary-600);
       }
     }

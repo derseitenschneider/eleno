@@ -9,11 +9,13 @@
 *::-webkit-scrollbar {
   width: 1rem;
 }
+
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
 *::-webkit-scrollbar-thumb {
-  background-color: var(--clr-bg-600);
+  background-color: var(--clr-bg-200);
 }
 
 html {
@@ -25,8 +27,8 @@ body {
   margin: 0;
   padding: 0;
   font-size: 1.4rem;
-  background-color: var(--clr-bg-500);
-  color: var(--clr-text-400);
+  background-color: var(--clr-bg-100);
+  color: var(--clr-text);
 }
 
 img,
@@ -85,7 +87,7 @@ select {
   font-family: inherit;
   font-size: 1.6rem;
   color: inherit;
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-bg-50);
   border: none;
   padding: 0.8rem;
   resize: none;
@@ -131,6 +133,7 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "DM Sans";
   src: url("../fonts/DM_Sans/DMSans-Medium.eot");
@@ -139,6 +142,7 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "DM Sans";
   src: url("../fonts/DM_Sans/DMSans-Bold.eot");
@@ -147,6 +151,7 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
+
 .App {
   display: flex;
   height: 100%;
@@ -161,6 +166,7 @@ label textarea {
   width: 100%;
   max-width: calc(100vw - 6.5rem);
 }
+
 @media screen and (max-width: 42.5em) {
   #main {
     max-width: unset;
@@ -170,6 +176,7 @@ label textarea {
 .container {
   padding: 2rem 3.2rem;
 }
+
 @media screen and (max-width: 64em) {
   .container {
     padding: 2rem;
@@ -196,7 +203,7 @@ label textarea {
 
 .container--infos p {
   font-size: 1.2rem;
-  color: var(--clr-text-400);
+  color: var(--clr-text);
   margin-bottom: 1.2rem;
 }
 
@@ -210,34 +217,40 @@ label textarea {
 }
 
 @media screen and (max-width: 42.5em) {
+
   *::-webkit-scrollbar,
   *::-webkit-scrollbar-track,
   *::-webkit-scrollbar-thumb {
     width: 0 !important;
     color: transparent;
   }
+
   .App {
     display: block;
     overflow-x: hidden;
     height: fit-content;
   }
+
   #main {
     margin-left: 0;
     display: block;
     margin-bottom: 6rem;
   }
+
   .container {
     padding: 2rem 1.4rem;
   }
+
   .container--loader:not(:empty) {
     height: 100vw;
     width: 100vw;
   }
 }
+
 .heading-1 {
   font-size: 3.2rem;
   margin-bottom: 0.8em;
-  color: var(--clr-text-600);
+  color: var(--clr-text);
   letter-spacing: -1.5px;
 }
 
@@ -245,14 +258,14 @@ label textarea {
   font-size: 2.4rem;
   font-weight: 500;
   margin-bottom: 1em;
-  color: var(--clr-text-600);
+  color: var(--clr-text);
   letter-spacing: -1px;
 }
 
 .heading-3 {
   font-size: 2rem;
   font-weight: 300;
-  color: var(--clr-text-400);
+  color: var(--clr-text);
   margin-bottom: 1.2rem;
 }
 
@@ -289,8 +302,8 @@ label textarea {
   --clr-bg-600: #2f343a;
   --clr-bg-500: #343a40;
   --clr-bg-400: #484e53;
-  --toastify-color-dark: var(--clr-bg-400) !important;
-  --toastify-text-color-dark: var(--clr-text-400) !important;
+  --toastify-color-dark: var(--clr-bg-50) !important;
+  --toastify-text-color-dark: var(--clr-text) !important;
   --toastify-color-progress-dark: var(--clr-primary-600) !important;
   --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
   --box-shadow-cards: 0 1px 5px rgba(0, 0, 0, 0.08),
@@ -310,6 +323,7 @@ label textarea {
     --clr-text-600: #202020;
   }
 }
+
 p {
   margin: 0;
   line-height: 2;
@@ -339,6 +353,7 @@ body {
 .header {
   padding: 2rem;
 }
+
 .header .logo img {
   height: 4.8rem;
   width: 4.8rem;
@@ -346,7 +361,7 @@ body {
 
 .section {
   padding: 2rem;
-  background-color: var(--clr-bg-400);
+  background-color: var(--clr-bg-50);
   box-shadow: var(--box-shadow-cards);
   width: max-content;
   max-width: 100vw;
@@ -355,20 +370,24 @@ body {
   align-self: center;
   transform: translateY(-5vh);
 }
+
 .section .homework {
   padding: 2.4rem;
-  border: 1px solid var(--clr-bg-600);
+  border: 1px solid var(--clr-bg-200);
   margin-top: 0.8rem;
   margin-bottom: 2.4rem;
 }
+
 .section.error {
   text-align: center;
 }
+
 @media screen and (max-width: 42.5em) {
   .section.error {
     text-align: left;
   }
 }
+
 .section.error p {
   line-height: 1.6;
   margin-bottom: 1.6rem;

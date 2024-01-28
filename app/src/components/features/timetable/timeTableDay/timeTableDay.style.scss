@@ -3,16 +3,16 @@
   margin-bottom: 4.8rem;
   box-shadow: var(--box-shadow-cards);
   width: 70rem;
-  border: 1px solid var(--clr-bg-600);
-  background-color: var(--clr-bg-400);
+  border: 1px solid var(--clr-bg-200);
+  background-color: var(--clr-bg-50);
   .header {
-    background-color: var(--clr-bg-600);
+    background-color: var(--clr-bg-200);
     padding: var(--padding);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     .heading-3 {
-      color: var(--clr-text-600);
+      color: var(--clr-text);
     }
   }
   .row {
@@ -25,7 +25,7 @@
     }
 
     &:nth-child(odd) {
-      background-color: var(--clr-bg-500);
+      background-color: var(--clr-bg-100);
     }
   }
 }

@@ -1,6 +1,6 @@
 .overview {
   grid-area: overview;
-  // border-top: 1px solid var(--clr-bg-400);
+  // border-top: 1px solid var(--clr-bg-50);
   // height: 100%;
 
   &__content {
@@ -11,9 +11,9 @@
   }
 
   .card {
-    background-color: var(--clr-bg-400);
-    // border: 1px solid var(--clr-bg-600);
-    color: var(--clr-text-400);
+    background-color: var(--clr-bg-50);
+    // border: 1px solid var(--clr-bg-200);
+    color: var(--clr-text);
     padding: 2rem 3.2rem;
     flex: 1;
 

@@ -112,22 +112,19 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
       </div>
       <div className="container--button">
         {type === 'open' && (
-          <Modal>
-            <Menus>
-              <Menus.Toggle id={todo.id} />
-              <Menus.Menu>
-                <Menus.List id={todo.id}>
-                  <Modal.Open opens="edit-todo">
-                    <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
-                  </Modal.Open>
-                </Menus.List>
-              </Menus.Menu>
-            </Menus>
-
+          <>
+            <Menus.Toggle id={todo.id} />
+            <Menus.Menu>
+              <Menus.List id={todo.id}>
+                <Modal.Open opens="edit-todo">
+                  <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
+                </Modal.Open>
+              </Menus.List>
+            </Menus.Menu>
             <Modal.Window name="edit-todo" styles={{ overflowY: 'visible' }}>
               <EditTodo todoId={todo.id} />
             </Modal.Window>
-          </Modal>
+          </>
         )}
         {type === 'completed' && (
           <Modal>

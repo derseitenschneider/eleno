@@ -13,7 +13,7 @@
       overflow: hidden;
 
       &:has(.navlink.active) {
-        color: var(--clr-text-600);
+        color: var(--clr-text);
         box-shadow: 0 3px 0 var(--clr-primary-600);
       }
     }
