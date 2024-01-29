@@ -8,6 +8,7 @@ import TodoDescription from '../../components/features/todos/todoDescription/Tod
 import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
 import TodoList from '../../components/features/todos/todoList/TodoList.component'
 import { useTodos } from '../../services/context/TodosContext'
+import Menus from '../../components/ui/menu/Menus.component'
 
 function TodosCompleted() {
   const { todos } = useTodos()
@@ -36,9 +37,13 @@ function TodosCompleted() {
           <TodoDescription />
 
           <ul>
-            {completedTodos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} type="completed" />
-            ))}
+            <Modal>
+              <Menus>
+                {completedTodos.map((todo) => (
+                  <TodoItem key={todo.id} todo={todo} type="completed" />
+                ))}
+              </Menus>
+            </Modal>
           </ul>
         </>
       ) : (

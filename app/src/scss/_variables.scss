@@ -46,3 +46,27 @@
     // --clr-text-600: #202020;
   }
 }
+
+html.dark-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: #92c3d3;
+
+  --clr-lines: #484e53;
+  --clr-bg-200: #2f343a;
+  --clr-bg-100: #343a40;
+  --clr-bg-50: #484e53;
+  --clr-text: #e4e4e7;
+}
+
+html.light-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: hsl(195, 42%, 70%);
+
+  --clr-lines: #fff;
+  --clr-bg-50: #fafafa;
+  --clr-bg-100: #f4f4f5;
+  --clr-bg-200: #e4e4e7;
+  --clr-text: #3f3f46;
+}

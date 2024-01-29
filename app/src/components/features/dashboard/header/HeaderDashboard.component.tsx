@@ -1,5 +1,6 @@
 import './headerDashboard.style.scss'
 import { useUser } from '../../../../services/context/UserContext'
+import DarkmodeToggle from '../../../ui/darkmodeToggle/DarkmodeToggle.component'
 
 function HeaderDashboard() {
   const { user } = useUser()
@@ -19,6 +20,9 @@ function HeaderDashboard() {
             Hi <b>{user.firstName}</b>, willkommen bei Eleno!
           </span>
         )}
+      </div>
+      <div className="controlls-darkmode">
+        <DarkmodeToggle />
       </div>
     </header>
   )

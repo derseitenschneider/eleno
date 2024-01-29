@@ -32,15 +32,15 @@ function TodosOpen() {
       {openTodos.length > 0 ? (
         <>
           <TodoDescription />
-          <Modal>
-            <ul>
+          <ul>
+            <Modal>
               <Menus>
                 {sortedFilteredTodos.map((todo) => (
                   <TodoItem key={todo.id} todo={todo} type="open" />
                 ))}
               </Menus>
-            </ul>
-          </Modal>
+            </Modal>
+          </ul>
         </>
       ) : (
         <NoContent heading="Aktuell keine offenen Todos" />

@@ -116,44 +116,45 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
             <Menus.Toggle id={todo.id} />
             <Menus.Menu>
               <Menus.List id={todo.id}>
-                <Modal.Open opens="edit-todo">
+                <Modal.Open opens={`edit-todo-${todo.id}`}>
                   <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
                 </Modal.Open>
               </Menus.List>
             </Menus.Menu>
-            <Modal.Window name="edit-todo" styles={{ overflowY: 'visible' }}>
+            <Modal.Window
+              name={`edit-todo-${todo.id}`}
+              styles={{ overflowY: 'visible' }}
+            >
               <EditTodo todoId={todo.id} />
             </Modal.Window>
           </>
         )}
         {type === 'completed' && (
-          <Modal>
-            <Menus>
-              <Menus.Toggle id={todo.id} />
-              <Menus.Menu>
-                <Menus.List id={todo.id}>
+          <>
+            <Menus.Toggle id={todo.id} />
+            <Menus.Menu>
+              <Menus.List id={todo.id}>
+                <Menus.Button
+                  icon={<IoReturnDownBackOutline />}
+                  onClick={handleReactivate}
+                >
+                  Wiederherstellen
+                </Menus.Button>
+                <Modal.Open opens="delete-todo">
                   <Menus.Button
-                    icon={<IoReturnDownBackOutline />}
-                    onClick={handleReactivate}
+                    iconColor="var(--clr-warning)"
+                    icon={<HiTrash />}
                   >
-                    Wiederherstellen
+                    Löschen
                   </Menus.Button>
-                  <Modal.Open opens="delete-todo">
-                    <Menus.Button
-                      iconColor="var(--clr-warning)"
-                      icon={<HiTrash />}
-                    >
-                      Löschen
-                    </Menus.Button>
-                  </Modal.Open>
-                </Menus.List>
-              </Menus.Menu>
-            </Menus>
+                </Modal.Open>
+              </Menus.List>
+            </Menus.Menu>
 
             <Modal.Window name="delete-todo">
               <DeleteTodos todoId={todo.id} />
             </Modal.Window>
-          </Modal>
+          </>
         )}
       </div>
     </li>
