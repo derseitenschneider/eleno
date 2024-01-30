@@ -1,5 +1,8 @@
 .header-dashboard {
   grid-area: header;
+  display: flex;
+  align-items: first baseline;
+  justify-content: space-between;
   .heading-1 {
     margin-bottom: 0;
   }

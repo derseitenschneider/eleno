@@ -1,7 +1,10 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../../layouts/navbar/Navbar.component'
 
-const navLinks = [{ path: '', label: 'Benutzerkonto', key: 1, end: true }]
+const navLinks = [
+  { path: '', label: 'Benutzerkonto', key: 1, end: true },
+  { path: 'view', label: 'Ansicht', key: 2 },
+]
 
 function Settings() {
   return (

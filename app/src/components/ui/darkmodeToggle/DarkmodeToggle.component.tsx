@@ -1,34 +1,36 @@
-import { useEffect, useState } from 'react'
+import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2'
+import * as Switch from '@radix-ui/react-switch'
+
 import './darkmodeToggle.style.scss'
+import { useDarkMode } from '../../../services/context/DarkModeContext'
 
 export default function DarkmodeToggle() {
-  const [darkmode, setDarkmode] = useState(false)
-  const toggleDarkMode = () => {
-    setDarkmode((prev) => !prev)
-  }
-
-  useEffect(() => {
-    if (darkmode) {
-      document.documentElement.classList.add('dark-mode')
-      document.documentElement.classList.remove('light-mode')
-    } else {
-      document.documentElement.classList.add('light-mode')
-      document.documentElement.classList.remove('dark-mode')
-    }
-  }, [darkmode])
+  const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   return (
-    <div className="toggle-darkmode">
-      <label htmlFor="darkmode">
-        Darkmode{' '}
-        <input
-          type="checkbox"
-          name="darkmode"
-          id="darkmode"
-          onChange={toggleDarkMode}
-          checked={darkmode}
-        />
-      </label>
-    </div>
+    <form className="toggle-darkmode">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* <label
+          className="Label"
+          htmlFor="airplane-mode"
+          style={{ paddingRight: 15 }}
+        >
+          Airplane mode
+        </label> */}
+        <Switch.Root
+          className="SwitchRoot"
+          id="airplane-mode"
+          onCheckedChange={toggleDarkMode}
+          checked={isDarkMode}
+        >
+          <Switch.Thumb className="SwitchThumb">
+            {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
+          </Switch.Thumb>
+        </Switch.Root>
+      </div>
+    </form>
+    // <button className="toggle-darkmode" type="button" onClick={toggleDarkMode}>
+    //   {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
+    // </button>
   )
 }

@@ -8,18 +8,20 @@ function HeaderDashboard() {
 
   return (
     <header className="header-dashboard">
-      <h1 className="heading-1">Dashboard</h1>
+      <div className="left">
+        <h1 className="heading-1">Dashboard</h1>
 
-      <div className="container-message">
-        {mode === 'demo' ? (
-          <span className="welcome-message">
-            Willkommen und viel Spass beim Ausprobieren der Demo!
-          </span>
-        ) : (
-          <span className="welcome-message">
-            Hi <b>{user.firstName}</b>, willkommen bei Eleno!
-          </span>
-        )}
+        <div className="container-message">
+          {mode === 'demo' ? (
+            <span className="welcome-message">
+              Willkommen und viel Spass beim Ausprobieren der Demo!
+            </span>
+          ) : (
+            <span className="welcome-message">
+              Hi <b>{user.firstName}</b>, willkommen bei Eleno!
+            </span>
+          )}
+        </div>
       </div>
       <div className="controlls-darkmode">
         <DarkmodeToggle />
