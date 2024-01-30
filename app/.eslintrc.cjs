@@ -28,6 +28,7 @@ module.exports = {
     'jsx-a11y/no-autofocus': 0,
     'import/no-cycle': 0,
     'react/jsx-no-bind': 0,
+    'react/jsx-props-no-spreading': 0,
   },
   ignorePatterns: ['tests/*.ts', 'playwright.config.ts'],
 }

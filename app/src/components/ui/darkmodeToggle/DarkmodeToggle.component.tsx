@@ -24,7 +24,7 @@ export default function DarkmodeToggle() {
           checked={isDarkMode}
         >
           <Switch.Thumb className="SwitchThumb">
-            {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
+            {isDarkMode ? <HiOutlineMoon /> : <HiOutlineSun />}
           </Switch.Thumb>
         </Switch.Root>
       </div>

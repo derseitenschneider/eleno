@@ -1,4 +1,5 @@
 import './note.style.scss'
+import { Draggable } from 'react-beautiful-dnd'
 
 import parse from 'html-react-parser'
 import { HiPencil, HiTrash } from 'react-icons/hi'
@@ -11,42 +12,55 @@ interface NoteProps {
   id: number
   title: string
   text: string
+  index: number
 }
 
-function Note({ id, title, text }: NoteProps) {
+function Note({ id, title, text, index }: NoteProps) {
   return (
-    <div className="note">
-      <div className="container--edit-button">
-        <Modal>
-          <Menus.Toggle id={`note-${id}`} />
-          <Menus.Menu>
-            <Menus.List id={`note-${id}`}>
-              <Modal.Open opens="edit-note">
-                <Menus.Button icon={<HiPencil />}>
-                  Notiz bearbeiten
-                </Menus.Button>
-              </Modal.Open>
+    <Draggable key={id} draggableId={String(id)} index={index}>
+      {(provided) => (
+        <li
+          className="note"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div className="container--edit-button">
+            <Modal>
+              <Menus.Toggle id={`note-${id}`} />
+              <Menus.Menu>
+                <Menus.List id={`note-${id}`}>
+                  <Modal.Open opens="edit-note">
+                    <Menus.Button icon={<HiPencil />}>
+                      Notiz bearbeiten
+                    </Menus.Button>
+                  </Modal.Open>
 
-              <Modal.Open opens="delete-note">
-                <Menus.Button iconColor="var(--clr-warning)" icon={<HiTrash />}>
-                  Notiz löschen
-                </Menus.Button>
-              </Modal.Open>
-            </Menus.List>
-          </Menus.Menu>
+                  <Modal.Open opens="delete-note">
+                    <Menus.Button
+                      iconColor="var(--clr-warning)"
+                      icon={<HiTrash />}
+                    >
+                      Notiz löschen
+                    </Menus.Button>
+                  </Modal.Open>
+                </Menus.List>
+              </Menus.Menu>
 
-          <Modal.Window name="edit-note">
-            <EditNote noteId={id} />
-          </Modal.Window>
+              <Modal.Window name="edit-note">
+                <EditNote noteId={id} />
+              </Modal.Window>
 
-          <Modal.Window name="delete-note">
-            <DeleteNote noteId={id} />
-          </Modal.Window>
-        </Modal>
-      </div>
-      {title && <h5 className="heading-5">{title}</h5>}
-      <div>{parse(text)}</div>
-    </div>
+              <Modal.Window name="delete-note">
+                <DeleteNote noteId={id} />
+              </Modal.Window>
+            </Modal>
+          </div>
+          {title && <h5 className="heading-5">{title}</h5>}
+          <div>{parse(text)}</div>
+        </li>
+      )}
+    </Draggable>
   )
 }
 

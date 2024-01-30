@@ -4,6 +4,7 @@ import { TNotes } from '../../types/types'
 export const fetchNotes = async () => {
   const { data, error } = await supabase.from('only_active_notes').select('*')
   if (error) throw new Error(error.message)
+
   return data
 }
 

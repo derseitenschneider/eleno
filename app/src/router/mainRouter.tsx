@@ -18,6 +18,7 @@ import ActiveStudents from '../components/features/students/activeStudents/Activ
 import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 import AllLessons from '../components/features/lessons/allLessons/AllLessons.component'
 import Repertoire from '../components/features/repertoire/Repertoire.component'
+import View from '../pages/settings/view/View'
 
 const mainRouter = createBrowserRouter(
   [
@@ -77,6 +78,11 @@ const mainRouter = createBrowserRouter(
               index: true,
               path: '',
               element: <Account />,
+            },
+            {
+              index: true,
+              path: 'view',
+              element: <View />,
             },
           ],
         },

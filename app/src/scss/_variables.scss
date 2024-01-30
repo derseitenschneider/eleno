@@ -37,7 +37,7 @@
     --clr-primary-600: #4794ae;
     --clr-primary-400: hsl(195, 42%, 70%);
 
-    --clr-lines: #fff;
+    --clr-lines: #e4e4e7;
     --clr-bg-50: #fafafa;
     --clr-bg-100: #f4f4f5;
     --clr-bg-200: #e4e4e7;
@@ -45,6 +45,20 @@
     // --clr-text-400: #454545;
     // --clr-text-600: #202020;
   }
+}
+
+:root.light-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: hsl(195, 42%, 70%);
+
+  --clr-lines: #e4e4e7;
+  --clr-bg-50: #fafafa;
+  --clr-bg-100: #f4f4f5;
+  --clr-bg-200: #e4e4e7;
+  --clr-text: #3f3f46;
+  // --clr-text-400: #454545;
+  // --clr-text-600: #202020;
 }
 
 html.dark-mode {
