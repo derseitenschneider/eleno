@@ -54,6 +54,7 @@ function NoteList() {
           </Modal.Window>
         </Modal>
       </div>
+
       <DragDropContext onDragEnd={handleOnDragend}>
         <StrictModeDroppable droppableId="notes">
           {(provided) => (

@@ -37,12 +37,14 @@
     &::-webkit-scrollbar {
       width: 0;
     }
+    scrollbar-width: none;
 
     background-color: var(--clr-bg-50);
     border: 1px solid var(--clr-bg-200);
     min-width: 20rem;
 
-    overflow-y: auto;
+    // overflow-y: auto;
+    overflow: auto;
     padding: 0.8rem;
     box-shadow: rgb(38, 57, 77, 0.5) 0px 20px 30px -10px;
 

@@ -36,10 +36,14 @@
   .rsw-ce {
     padding: 1rem;
     background-color: var(--clr-bg-50);
+
     height: 100%;
     overflow-y: auto;
     white-space: pre-line;
     font-size: 1.5rem;
+    & > * {
+      color: var(--clr-text) !important;
+    }
 
     ul {
       list-style: initial;
