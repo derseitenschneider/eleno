@@ -10,7 +10,7 @@ function News() {
   return (
     <aside className="news">
       <h2 className="heading-2">News</h2>
-      <div className="wrapper-news">
+      <div className="wrapper-news no-scrollbar">
         {sortedNews
           .sort((newsA, newsB) => +newsA.date - +newsB.date)
           .map((currentNews) => (

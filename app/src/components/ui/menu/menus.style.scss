@@ -34,11 +34,6 @@
 
     z-index: 1000;
 
-    &::-webkit-scrollbar {
-      width: 0;
-    }
-    scrollbar-width: none;
-
     background-color: var(--clr-bg-50);
     border: 1px solid var(--clr-bg-200);
     min-width: 20rem;

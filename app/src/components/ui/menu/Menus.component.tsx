@@ -154,7 +154,7 @@ const List: FC<ListProps> = ({ children, id }) => {
     <AnimatePresence>
       {isVisible && (
         <motion.ul
-          className="menu__list"
+          className="menu__list no-scrollbar"
           style={{
             [position.verticalDirection]: position.y,
             [position.horizontalDirection]: position.x,

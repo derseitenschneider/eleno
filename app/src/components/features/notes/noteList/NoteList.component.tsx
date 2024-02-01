@@ -59,7 +59,7 @@ function NoteList() {
         <StrictModeDroppable droppableId="notes">
           {(provided) => (
             <ul
-              className="notes__list"
+              className="notes__list no-scrollbar"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
