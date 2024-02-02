@@ -47,6 +47,7 @@ export type TNotes = {
   title?: string
   text?: string
   order: number
+  user_id: string
 }
 
 // CONTEXT TYPES

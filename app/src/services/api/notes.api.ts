@@ -2,10 +2,12 @@ import supabase from './supabase'
 import { TNotes } from '../../types/types'
 
 export const fetchNotes = async () => {
-  const { data, error } = await supabase.from('only_active_notes').select('*')
+  const { data: notes, error } = await supabase
+    .from('only_active_notes')
+    .select('*')
   if (error) throw new Error(error.message)
 
-  return data
+  return notes
 }
 
 export const fetchNotesByStudent = async (studentIds: number[]) => {
@@ -15,7 +17,7 @@ export const fetchNotesByStudent = async (studentIds: number[]) => {
     .in('studentId', studentIds)
 
   if (error) throw new Error(error.message)
-  return notes
+  return notes as TNotes[]
 }
 
 export const postNotesSupabase = async (
@@ -45,5 +47,10 @@ export const editNoteSupabase = async (note: TNotes) => {
     .update({ ...note })
     .eq('id', note.id)
 
+  if (error) throw new Error(error.message)
+}
+
+export const updateNotesSupabase = async (notes: TNotes[]) => {
+  const { error } = await supabase.from('notes').upsert(notes).select()
   if (error) throw new Error(error.message)
 }
