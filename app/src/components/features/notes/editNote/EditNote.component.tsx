@@ -4,6 +4,8 @@ import { useNotes } from '../../../../services/context/NotesContext'
 import Button from '../../../ui/button/Button.component'
 import CustomEditor from '../../../ui/customEditor/CustomEditor.component'
 import './editNote.style.scss'
+import { TNotesBackgrounds } from '../../../../types/types'
+import NoteColor from '../noteColor/NoteColor.component'
 
 interface EditNoteProps {
   onCloseModal?: () => void
@@ -15,6 +17,8 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
   const [isPending, setIsPending] = useState(false)
   const currentNote = notes.find((note) => note.id === noteId)
   const [text, setText] = useState(currentNote.text)
+  const [backgroundColor, setBackgroundColor] =
+    useState<TNotesBackgrounds | null>(currentNote.backgroundColor)
 
   const [title, setTitle] = useState(currentNote.title)
 
@@ -33,7 +37,12 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
     }
     setIsPending(true)
     try {
-      const updatedNote = { ...currentNote, text, title }
+      const updatedNote = {
+        ...currentNote,
+        text,
+        title,
+        backgroundColor,
+      }
       await updateNote(updatedNote)
       toast('Anpassungen gespeichert')
       onCloseModal?.()
@@ -44,7 +53,12 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
     }
   }
   return (
-    <div className={`edit-note ${isPending ? 'loading' : ''}`}>
+    <div
+      className={`edit-note ${isPending ? 'loading' : ''}`}
+      style={{
+        boxShadow: `inset 12px 0 0  var(--bg-notes-${backgroundColor})`,
+      }}
+    >
       <h2 className="heading-2">Notiz bearbeiten</h2>
       <input
         autoFocus={window.screen.width > 1000}
@@ -60,18 +74,21 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
         <CustomEditor value={text} onChange={handleText} />
       </div>
       <div className="edit-note__buttons">
-        <Button
-          type="button"
-          btnStyle="secondary"
-          handler={onCloseModal}
-          label="Abbrechen"
-        />
-        <Button
-          type="button"
-          btnStyle="primary"
-          handler={handleUpdate}
-          label="Speichern"
-        />
+        <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
+        <div className="buttons-right">
+          <Button
+            type="button"
+            btnStyle="secondary"
+            handler={onCloseModal}
+            label="Abbrechen"
+          />
+          <Button
+            type="button"
+            btnStyle="primary"
+            handler={handleUpdate}
+            label="Speichern"
+          />
+        </div>
       </div>
     </div>
   )

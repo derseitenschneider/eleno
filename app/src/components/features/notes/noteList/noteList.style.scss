@@ -14,7 +14,9 @@
     padding-bottom: 8rem;
   }
 
-  &.dragging * {
-    opacity: 0.8;
+  &.dragging {
+    .note:not(.dragged) {
+      opacity: 0.6;
+    }
   }
 }

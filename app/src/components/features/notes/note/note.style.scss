@@ -1,10 +1,26 @@
 .note {
   position: relative;
   margin-top: 2.4rem;
+  border-radius: 3px;
 
   line-height: 2;
   background-color: var(--clr-bg-50);
   padding: 1.6rem;
+  border-left: 6px solid transparent;
+
+  &.yellow {
+    // background-color: var(--bg-notes-yellow);
+    border-left: 6px solid var(--bg-notes-yellow);
+  }
+  &.blue {
+    border-left: 6px solid var(--bg-notes-blue);
+  }
+  &.red {
+    border-left: 6px solid var(--bg-notes-red);
+  }
+  &.green {
+    border-left: 6px solid var(--bg-notes-green);
+  }
 
   white-space: pre-wrap;
   // box-shadow: var(--box-shadow-cards);

@@ -24,10 +24,12 @@ export const postNotesSupabase = async (
   note: TNotes,
   userId: string,
 ): Promise<TNotes[]> => {
-  const { studentId, title, text } = note
+  const { studentId, title, text, order, backgroundColor } = note
   const { data, error } = await supabase
     .from('notes')
-    .insert([{ studentId, title, text, user_id: userId }])
+    .insert([
+      { studentId, title, text, user_id: userId, order, backgroundColor },
+    ])
     .select()
 
   if (error) throw new Error(error.message)
@@ -42,6 +44,7 @@ export const deleteNoteSupabase = async (noteId: number) => {
 }
 
 export const editNoteSupabase = async (note: TNotes) => {
+  console.log(note)
   const { error } = await supabase
     .from('notes')
     .update({ ...note })

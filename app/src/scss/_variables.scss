@@ -44,6 +44,11 @@
     --clr-text: #3f3f46;
     // --clr-text-400: #454545;
     // --clr-text-600: #202020;
+
+    --bg-notes-red: #f38181;
+    --bg-notes-blue: #95e1d3;
+    --bg-notes-yellow: #fce38a;
+    --bg-notes-green: #d6f7ad;
   }
 }
 
@@ -71,6 +76,11 @@ html.dark-mode {
   --clr-bg-100: #343a40;
   --clr-bg-50: #484e53;
   --clr-text: #e4e4e7;
+
+  --bg-notes-red: hsl(0, 30%, 50%);
+  --bg-notes-blue: hsl(203, 30%, 50%);
+  --bg-notes-yellow: hsl(49, 100%, 68%);
+  --bg-notes-green: hsla(118, 30%, 50%, 0.552);
 }
 
 html.light-mode {

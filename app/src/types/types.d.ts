@@ -41,6 +41,8 @@ export type TDraft = {
   studentId: number
 }
 
+export type TNotesBackgrounds = 'red' | 'blue' | 'yellow' | 'green'
+
 export type TNotes = {
   id?: number
   studentId: number
@@ -48,6 +50,7 @@ export type TNotes = {
   text?: string
   order: number
   user_id: string
+  backgroundColor: TNotesBackgrounds
 }
 
 // CONTEXT TYPES

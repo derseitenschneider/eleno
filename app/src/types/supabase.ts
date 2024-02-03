@@ -59,6 +59,9 @@ export interface Database {
       }
       notes: {
         Row: {
+          backgroundColor:
+            | Database['public']['Enums']['background_colors']
+            | null
           created_at: string | null
           id: number
           order: number
@@ -68,6 +71,9 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          background_color?:
+            | Database['public']['Enums']['background_colors']
+            | null
           created_at?: string | null
           id?: number
           order?: number
@@ -77,6 +83,9 @@ export interface Database {
           user_id: string
         }
         Update: {
+          background_color?:
+            | Database['public']['Enums']['background_colors']
+            | null
           created_at?: string | null
           id?: number
           order?: number
@@ -340,6 +349,9 @@ export interface Database {
       }
       only_active_notes: {
         Row: {
+          backgroundColor:
+            | Database['public']['Enums']['background_colors']
+            | null
           id: number | null
           order: number | null
           studentId: number | null
@@ -355,6 +367,13 @@ export interface Database {
             referencedRelation: 'students'
             referencedColumns: ['id']
           },
+          {
+            foreignKeyName: 'notes_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
         ]
       }
     }
@@ -365,7 +384,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      background_colors: 'blue' | 'red' | 'green' | 'yellow'
     }
     CompositeTypes: {
       [_ in never]: never

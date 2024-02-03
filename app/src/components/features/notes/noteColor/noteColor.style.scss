@@ -1,0 +1,49 @@
+.note-color {
+  &__heading {
+    margin-bottom: 0.8rem;
+  }
+  &__buttons {
+    display: flex;
+    gap: 0.8rem;
+
+    .button-color {
+      height: 2rem;
+      width: 2rem;
+      border-radius: 2px;
+      // border: 1px solid var(--clr-text);
+      &.active {
+        outline: 1px solid var(--clr-primary-600);
+        outline-offset: 2px;
+      }
+      &--default {
+        background-color: var(--clr-bg-100);
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: '';
+          height: 140%;
+          width: 1px;
+          top: -20%;
+          left: 50%;
+          background-color: var(--clr-text);
+          transform: rotate(45deg);
+          transform-origin: center center;
+        }
+        border: 1px solid var(--clr-text);
+      }
+      &--red {
+        background-color: var(--bg-notes-red);
+      }
+      &--green {
+        background-color: var(--bg-notes-green);
+      }
+      &--yellow {
+        background-color: var(--bg-notes-yellow);
+      }
+      &--blue {
+        background-color: var(--bg-notes-blue);
+      }
+    }
+  }
+}

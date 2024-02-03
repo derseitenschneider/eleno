@@ -18,9 +18,15 @@
   &__buttons {
     margin-top: 2rem;
     display: flex;
-    align-items: center;
-    gap: 1.6rem;
-    justify-content: flex-end;
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    .container-right {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
   }
 }
 

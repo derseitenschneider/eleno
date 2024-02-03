@@ -25,16 +25,14 @@ function NoteList() {
   useEffect(() => {
     setCurrentNotes(notes.filter((note) => note.studentId === currentStudentId))
   }, [currentStudentId, notes])
-  console.log(isDragging)
 
-  function hanldeOnDragStart() {
-    // const container = notesContainer.current
-    notesContainer.current.classList.add('dragging')
-  }
-
-  // function removeAnimation() {
-  //   notesContainer.current.classList.remove('dragging')
-  // }
+  useEffect(() => {
+    if (isDragging) {
+      notesContainer.current.classList.add('dragging')
+    } else {
+      notesContainer.current.classList.remove('dragging')
+    }
+  }, [isDragging])
 
   async function handleOnDragend(result) {
     if (!result.destination) return
@@ -59,6 +57,7 @@ function NoteList() {
   }
 
   const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
+
   return (
     <div className="notes" ref={notesContainer}>
       <div className="notes__header">
@@ -77,10 +76,10 @@ function NoteList() {
           </Modal.Window>
         </Modal>
       </div>
-      {notes.length > 0 ? (
+      {sortedNotes.length > 0 ? (
         <DragDropContext
           onDragEnd={handleOnDragend}
-          onDragStart={hanldeOnDragStart}
+          // onDragStart={hanldeOnDragStart}
           // on={removeAnimation}
         >
           <StrictModeDroppable droppableId="notes">
@@ -94,14 +93,8 @@ function NoteList() {
                 >
                   <Menus>
                     {sortedNotes &&
-                      sortedNotes.map(({ id, title, text }, index) => (
-                        <Note
-                          id={id}
-                          title={title}
-                          text={text}
-                          key={id}
-                          index={index}
-                        />
+                      sortedNotes.map((note, index) => (
+                        <Note note={note} index={index} key={note.id} />
                       ))}
                   </Menus>
                   {provided.placeholder}

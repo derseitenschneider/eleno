@@ -27,6 +27,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
 
   const saveNote = useCallback(
     async (note: TNotes) => {
+      console.log(note)
       try {
         const [data] = await postNotesSupabase(note, user.id)
         setNotes((prev) => [...prev, data])

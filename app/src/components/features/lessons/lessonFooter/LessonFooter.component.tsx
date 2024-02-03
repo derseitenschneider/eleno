@@ -1,4 +1,8 @@
-import { IoArrowBackOutline, IoArrowForwardOutline } from 'react-icons/io5'
+import {
+  IoArrowBackOutline,
+  IoArrowForwardOutline,
+  IoSearchOutline,
+} from 'react-icons/io5'
 import { useStudents } from '../../../../services/context/StudentContext'
 import Button from '../../../ui/button/Button.component'
 import './lessonFooter.style.scss'
@@ -33,14 +37,22 @@ function LessonFooter() {
           btnStyle="icon-only"
           handler={handlerPreviousStudent}
           icon={<IoArrowBackOutline />}
-          className="btn-arrow"
+          className="btn btn-arrow"
+        />
+
+        <Button
+          type="button"
+          btnStyle="icon-only"
+          // handler={handlerPreviousStudent}
+          icon={<IoSearchOutline />}
+          className="btn btn-search"
         />
         <Button
           type="button"
           btnStyle="icon-only"
           handler={handlerNextStudent}
           icon={<IoArrowForwardOutline />}
-          className="btn-arrow"
+          className="btn btn-arrow"
         />
       </div>
     </footer>
