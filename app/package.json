@@ -6,7 +6,7 @@
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite --open --host",
     "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",

@@ -7,23 +7,22 @@ import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
 import DeleteNote from '../deleteNote/DeleteNote.component'
 import EditNote from '../editNote/EditNote.component'
-import { TNotes } from '../../../../types/types'
+import { TNote } from '../../../../types/types'
 
 interface NoteProps {
-  note: TNotes
+  note: TNote
   index: number
 }
 
 function Note({ note, index }: NoteProps) {
   const { id, title, text, backgroundColor } = note
 
-  console.log(backgroundColor)
-
   return (
     <Draggable key={id} draggableId={String(id)} index={index}>
       {(provided, snapshot) => {
         return (
           <li
+            data-dragging={snapshot.isDragging}
             className={`note${snapshot.isDragging ? ' dragged' : ''} ${
               backgroundColor || ''
             }`}

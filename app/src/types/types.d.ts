@@ -43,7 +43,7 @@ export type TDraft = {
 
 export type TNotesBackgrounds = 'red' | 'blue' | 'yellow' | 'green'
 
-export type TNotes = {
+export type TNote = {
   id?: number
   studentId: number
   title?: string
@@ -117,11 +117,11 @@ export type ContextTypeLoading = {
 }
 
 export type ContextTypeNotes = {
-  notes: TNotes[] | null
-  setNotes: React.Dispatch<React.SetStateAction<TNotes[]>>
-  saveNote: (note: TNotes) => Promise<void>
+  notes: TNote[] | null
+  setNotes: React.Dispatch<React.SetStateAction<TNote[]>>
+  saveNote: (note: TNote) => Promise<void>
   deleteNote: (id: number) => Promise<void>
-  updateNote: (note: TNotes) => Promise<void>
+  updateNotes: (notes: TNote[]) => Promise<void>
 }
 
 export type ContextTypeClosestStudent = {

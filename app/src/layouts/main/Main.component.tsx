@@ -96,9 +96,10 @@ function Main({ children }: MainProps) {
     }
   }, [isOnline])
 
+  if (isPending) return <Loader loading={isPending} />
+
   return (
     <>
-      {isPending && <Loader loading={isPending} />}
       {!isPending && !errorMessage && <div id="main">{children}</div>}
       {!isOnline && <OfflineBanner />}
     </>

@@ -7,10 +7,10 @@ import {
 } from 'react'
 import {
   deleteNoteSupabase,
-  editNoteSupabase,
+  updateNotesSupabase,
   postNotesSupabase,
 } from '../api/notes.api'
-import { ContextTypeNotes, TNotes } from '../../types/types'
+import { ContextTypeNotes, TNote } from '../../types/types'
 import { useUser } from './UserContext'
 
 export const NotesContext = createContext<ContextTypeNotes>({
@@ -18,19 +18,24 @@ export const NotesContext = createContext<ContextTypeNotes>({
   setNotes: () => {},
   saveNote: () => new Promise(() => {}),
   deleteNote: () => new Promise(() => {}),
-  updateNote: () => new Promise(() => {}),
+  updateNotes: () => new Promise(() => {}),
 })
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
-  const [notes, setNotes] = useState<TNotes[]>([])
+  const [notes, setNotes] = useState<TNote[]>([])
 
   const saveNote = useCallback(
-    async (note: TNotes) => {
-      console.log(note)
+    async (note: TNote) => {
       try {
-        const [data] = await postNotesSupabase(note, user.id)
-        setNotes((prev) => [...prev, data])
+        const [
+          { text, user_id, title, order, backgroundColor, studentId, id },
+        ] = await postNotesSupabase(note, user.id)
+
+        setNotes((prev) => [
+          ...prev,
+          { text, user_id, title, order, backgroundColor, studentId, id },
+        ])
       } catch (err) {
         throw new Error(err.message)
       }
@@ -47,11 +52,16 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const updateNote = useCallback(async (currentNote: TNotes) => {
+  const updateNotes = useCallback(async (updatedNotes: TNote[]) => {
     try {
-      await editNoteSupabase(currentNote)
+      await updateNotesSupabase(updatedNotes)
       setNotes((prev) =>
-        prev.map((note) => (note.id === currentNote.id ? currentNote : note)),
+        prev
+          .map(
+            (note) =>
+              updatedNotes.find((newNote) => newNote.id === note.id) || note,
+          )
+          .sort((a, b) => a.order - b.order),
       )
     } catch (error) {
       throw new Error(error.message)
@@ -64,9 +74,9 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
       setNotes,
       saveNote,
       deleteNote,
-      updateNote,
+      updateNotes,
     }),
-    [notes, setNotes, saveNote, deleteNote, updateNote],
+    [notes, setNotes, saveNote, deleteNote, updateNotes],
   )
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>

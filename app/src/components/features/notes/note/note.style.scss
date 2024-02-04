@@ -8,6 +8,10 @@
   padding: 1.6rem;
   border-left: 6px solid transparent;
 
+  &[data-dragging='true'] {
+    outline: 3px solid var(--clr-primary-600);
+  }
+
   &.yellow {
     // background-color: var(--bg-notes-yellow);
     border-left: 6px solid var(--bg-notes-yellow);

@@ -13,7 +13,7 @@ interface EditNoteProps {
 }
 
 function EditNote({ onCloseModal, noteId }: EditNoteProps) {
-  const { notes, updateNote } = useNotes()
+  const { notes, updateNotes } = useNotes()
   const [isPending, setIsPending] = useState(false)
   const currentNote = notes.find((note) => note.id === noteId)
   const [text, setText] = useState(currentNote.text)
@@ -43,7 +43,8 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
         title,
         backgroundColor,
       }
-      await updateNote(updatedNote)
+
+      await updateNotes([updatedNote])
       toast('Anpassungen gespeichert')
       onCloseModal?.()
     } catch (error) {

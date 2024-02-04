@@ -75,6 +75,7 @@ export const saveNewLessonSupabase = async (
     .select()
 
   if (error) throw new Error(error.message)
+
   return data
 }
 
@@ -100,6 +101,7 @@ export const fetchLatestLessonsSupabase = async () => {
     .from('last_3_lessons')
     .select()
   if (error) throw new Error(error.message)
+
   return lessons
 }
 

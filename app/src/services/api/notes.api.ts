@@ -1,12 +1,12 @@
 import supabase from './supabase'
-import { TNotes } from '../../types/types'
+import { TNote } from '../../types/types'
 
 export const fetchNotes = async () => {
   const { data: notes, error } = await supabase
     .from('only_active_notes')
     .select('*')
+    .order('order')
   if (error) throw new Error(error.message)
-
   return notes
 }
 
@@ -17,13 +17,13 @@ export const fetchNotesByStudent = async (studentIds: number[]) => {
     .in('studentId', studentIds)
 
   if (error) throw new Error(error.message)
-  return notes as TNotes[]
+  return notes as TNote[]
 }
 
 export const postNotesSupabase = async (
-  note: TNotes,
+  note: TNote,
   userId: string,
-): Promise<TNotes[]> => {
+): Promise<TNote[]> => {
   const { studentId, title, text, order, backgroundColor } = note
   const { data, error } = await supabase
     .from('notes')
@@ -43,17 +43,7 @@ export const deleteNoteSupabase = async (noteId: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const editNoteSupabase = async (note: TNotes) => {
-  console.log(note)
-  const { error } = await supabase
-    .from('notes')
-    .update({ ...note })
-    .eq('id', note.id)
-
-  if (error) throw new Error(error.message)
-}
-
-export const updateNotesSupabase = async (notes: TNotes[]) => {
-  const { error } = await supabase.from('notes').upsert(notes).select()
+export const updateNotesSupabase = async (notes: TNote[]) => {
+  const { error } = await supabase.from('notes').upsert([...notes])
   if (error) throw new Error(error.message)
 }

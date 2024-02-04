@@ -11,28 +11,20 @@ import AddNote from '../addNote/AddNote.component'
 import Note from '../note/Note.component'
 import './noteList.style.scss'
 import StrictModeDroppable from '../../../../utils/StrictModeDroppable'
-import { TNotes } from '../../../../types/types'
-import { updateNotesSupabase } from '../../../../services/api/notes.api'
+import { TNote } from '../../../../types/types'
+
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 
 function NoteList() {
   const { currentStudentId } = useStudents()
-  const { notes } = useNotes()
-  const [currentNotes, setCurrentNotes] = useState<TNotes[]>([])
-  const [isDragging, setIsDragging] = useState(false)
+  const { notes, updateNotes } = useNotes()
+  const [currentNotes, setCurrentNotes] = useState<TNote[]>([])
+  // const [isDragging, setIsDragging] = useState(false)
   const notesContainer = useRef<HTMLDivElement>()
 
   useEffect(() => {
     setCurrentNotes(notes.filter((note) => note.studentId === currentStudentId))
   }, [currentStudentId, notes])
-
-  useEffect(() => {
-    if (isDragging) {
-      notesContainer.current.classList.add('dragging')
-    } else {
-      notesContainer.current.classList.remove('dragging')
-    }
-  }, [isDragging])
 
   async function handleOnDragend(result) {
     if (!result.destination) return
@@ -46,17 +38,16 @@ function NoteList() {
     items.splice(destination, 0, reorderedItem)
     const newNotes = items.map((item, index) => ({ ...item, order: index }))
 
-    setCurrentNotes(newNotes)
-
     try {
-      await updateNotesSupabase(newNotes)
-    } catch {
-      setCurrentNotes(preservedNotes)
+      setCurrentNotes(newNotes)
+      await updateNotes(newNotes)
+    } catch (error) {
       fetchErrorToast()
+      setCurrentNotes(preservedNotes)
     }
   }
 
-  const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
+  // const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
 
   return (
     <div className="notes" ref={notesContainer}>
@@ -76,26 +67,21 @@ function NoteList() {
           </Modal.Window>
         </Modal>
       </div>
-      {sortedNotes.length > 0 ? (
-        <DragDropContext
-          onDragEnd={handleOnDragend}
-          // onDragStart={hanldeOnDragStart}
-          // on={removeAnimation}
-        >
+      {currentNotes.length > 0 ? (
+        <DragDropContext onDragEnd={handleOnDragend}>
           <StrictModeDroppable droppableId="notes">
             {(provided, snapshot) => {
-              setIsDragging(snapshot.isDraggingOver)
               return (
                 <ul
+                  data-isdraggingover={snapshot.isDraggingOver}
                   className="notes__list no-scrollbar"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
                   <Menus>
-                    {sortedNotes &&
-                      sortedNotes.map((note, index) => (
-                        <Note note={note} index={index} key={note.id} />
-                      ))}
+                    {currentNotes.map((note, index) => (
+                      <Note note={note} index={index} key={note.id} />
+                    ))}
                   </Menus>
                   {provided.placeholder}
                 </ul>

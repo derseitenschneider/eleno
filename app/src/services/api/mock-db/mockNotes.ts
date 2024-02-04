@@ -1,6 +1,6 @@
-import { TNotes } from '../../../types/types'
+import { TNote } from '../../../types/types'
 
-const mockNotes: TNotes[] = [
+const mockNotes: TNote[] = [
   {
     id: 1,
     studentId: 1,

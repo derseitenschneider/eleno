@@ -5,6 +5,7 @@
   grid-template-columns: var(--columns-todos);
   min-height: 5rem;
   box-shadow: var(--box-shadow-cards);
+  border-radius: 3px;
   position: relative;
 
   column-gap: var(--column-gap-todos);
@@ -17,8 +18,8 @@
   &.overdue {
     box-shadow:
       var(--box-shadow-cards),
-      inset 3px 0 0 var(--clr-warning),
-      inset -3px 0 0 var(--clr-warning);
+      inset 5px 0 0 var(--clr-warning);
+    // inset -3px 0 0 var(--clr-warning);
   }
 
   .checkbox {

@@ -29,6 +29,7 @@ module.exports = {
     'import/no-cycle': 0,
     'react/jsx-no-bind': 0,
     'react/jsx-props-no-spreading': 0,
+    '@typescript-eslint/naming-convention': 0,
   },
   ignorePatterns: ['tests/*.ts', 'playwright.config.ts'],
 }
