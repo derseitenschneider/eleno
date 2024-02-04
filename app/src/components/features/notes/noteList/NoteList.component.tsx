@@ -47,7 +47,7 @@ function NoteList() {
     }
   }
 
-  // const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
+  const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
 
   return (
     <div className="notes" ref={notesContainer}>
@@ -67,7 +67,7 @@ function NoteList() {
           </Modal.Window>
         </Modal>
       </div>
-      {currentNotes.length > 0 ? (
+      {sortedNotes.length > 0 ? (
         <DragDropContext onDragEnd={handleOnDragend}>
           <StrictModeDroppable droppableId="notes">
             {(provided, snapshot) => {
@@ -79,7 +79,7 @@ function NoteList() {
                   ref={provided.innerRef}
                 >
                   <Menus>
-                    {currentNotes.map((note, index) => (
+                    {sortedNotes.map((note, index) => (
                       <Note note={note} index={index} key={note.id} />
                     ))}
                   </Menus>

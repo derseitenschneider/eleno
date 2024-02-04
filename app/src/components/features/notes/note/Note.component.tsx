@@ -2,12 +2,13 @@ import './note.style.scss'
 import { Draggable } from 'react-beautiful-dnd'
 
 import parse from 'html-react-parser'
-import { HiPencil, HiTrash } from 'react-icons/hi'
+import { HiPencil, HiTrash, HiDocumentDuplicate } from 'react-icons/hi'
 import Menus from '../../../ui/menu/Menus.component'
 import Modal from '../../../ui/modal/Modal.component'
 import DeleteNote from '../deleteNote/DeleteNote.component'
 import EditNote from '../editNote/EditNote.component'
 import { TNote } from '../../../../types/types'
+import { useNotes } from '../../../../services/context/NotesContext'
 
 interface NoteProps {
   note: TNote
@@ -15,6 +16,7 @@ interface NoteProps {
 }
 
 function Note({ note, index }: NoteProps) {
+  const { duplicateNote } = useNotes()
   const { id, title, text, backgroundColor } = note
 
   return (
@@ -40,6 +42,13 @@ function Note({ note, index }: NoteProps) {
                         Notiz bearbeiten
                       </Menus.Button>
                     </Modal.Open>
+
+                    <Menus.Button
+                      icon={<HiDocumentDuplicate />}
+                      onClick={() => duplicateNote(note)}
+                    >
+                      Notiz duplizieren
+                    </Menus.Button>
 
                     <Modal.Open opens="delete-note">
                       <Menus.Button

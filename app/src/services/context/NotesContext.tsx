@@ -19,6 +19,7 @@ export const NotesContext = createContext<ContextTypeNotes>({
   saveNote: () => new Promise(() => {}),
   deleteNote: () => new Promise(() => {}),
   updateNotes: () => new Promise(() => {}),
+  duplicateNote: () => new Promise(() => {}),
 })
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,21 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  const duplicateNote = useCallback(
+    async (original: TNote) => {
+      const copy: TNote = {
+        text: original.text,
+        title: `Kopie ${original.title}`,
+        user_id: original.user_id,
+        order: original.order,
+        backgroundColor: original.backgroundColor,
+        studentId: original.studentId,
+      }
+      saveNote(copy)
+    },
+    [saveNote],
+  )
+
   const updateNotes = useCallback(async (updatedNotes: TNote[]) => {
     try {
       await updateNotesSupabase(updatedNotes)
@@ -75,8 +91,9 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
       saveNote,
       deleteNote,
       updateNotes,
+      duplicateNote,
     }),
-    [notes, setNotes, saveNote, deleteNote, updateNotes],
+    [notes, setNotes, saveNote, deleteNote, updateNotes, duplicateNote],
   )
 
   return <NotesContext.Provider value={value}>{children}</NotesContext.Provider>

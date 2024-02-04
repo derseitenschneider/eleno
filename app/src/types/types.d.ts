@@ -122,6 +122,7 @@ export type ContextTypeNotes = {
   saveNote: (note: TNote) => Promise<void>
   deleteNote: (id: number) => Promise<void>
   updateNotes: (notes: TNote[]) => Promise<void>
+  duplicateNote: (original: TNote) => Promise<void>
 }
 
 export type ContextTypeClosestStudent = {
