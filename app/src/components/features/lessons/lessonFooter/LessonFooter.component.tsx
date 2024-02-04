@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
@@ -5,9 +6,8 @@ import {
 } from 'react-icons/io5'
 import { useStudents } from '../../../../services/context/StudentContext'
 import Button from '../../../ui/button/Button.component'
+import NavigateToStudent from '../navigateToStudent/NavigateToStudent.component'
 import './lessonFooter.style.scss'
-
-// [ ] Suchfunktion in Navigation
 
 function LessonFooter() {
   const {
@@ -15,6 +15,8 @@ function LessonFooter() {
     currentStudentIndex,
     setCurrentStudentIndex,
   } = useStudents()
+
+  const [navigateToStudentOpen, setNavigateToStudentOpen] = useState(false)
 
   const handlerPreviousStudent = () => {
     if (currentStudentIndex > 0)
@@ -35,18 +37,23 @@ function LessonFooter() {
         <Button
           type="button"
           btnStyle="icon-only"
+          // handler={handlerPreviousStudent}
+          handler={() => setNavigateToStudentOpen((prev) => !prev)}
+          icon={<IoSearchOutline />}
+          className="btn btn-search"
+        />
+        <NavigateToStudent
+          isOpen={navigateToStudentOpen}
+          setIsOpen={setNavigateToStudentOpen}
+        />
+        <Button
+          type="button"
+          btnStyle="icon-only"
           handler={handlerPreviousStudent}
           icon={<IoArrowBackOutline />}
           className="btn btn-arrow"
         />
 
-        <Button
-          type="button"
-          btnStyle="icon-only"
-          // handler={handlerPreviousStudent}
-          icon={<IoSearchOutline />}
-          className="btn btn-search"
-        />
         <Button
           type="button"
           btnStyle="icon-only"

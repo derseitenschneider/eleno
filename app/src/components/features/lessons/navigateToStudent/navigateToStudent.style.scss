@@ -1,0 +1,33 @@
+.navigate-to-student {
+  position: fixed;
+  bottom: 6rem;
+  right: 12rem;
+  background-color: var(--clr-bg-50);
+  border: 1px solid var(--clr-bg-200);
+  padding: 1.2rem;
+  box-shadow: var(--box-shadow);
+
+  .student-list {
+    height: 25rem;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    align-items: flex-start;
+    li {
+      width: 100%;
+    }
+  }
+
+  button {
+    padding: 0.8rem;
+    width: 100%;
+    text-align: left;
+
+    &:hover {
+      background-color: rgba(146, 195, 211, 0.1);
+    }
+  }
+}

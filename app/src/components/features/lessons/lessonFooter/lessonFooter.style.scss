@@ -7,7 +7,7 @@
   padding: 2rem 3.2rem;
   .container--buttons {
     display: flex;
-    // gap: 0.4rem;
+    gap: 1.6rem;
     // height: 100%;
     width: fit-content;
     align-items: flex-start;
@@ -15,6 +15,7 @@
   }
 
   .btn {
+    position: relative;
     background-color: var(--clr-bg-50);
     height: 3.8rem;
     width: 3.8rem;
@@ -29,13 +30,7 @@
     }
 
     &.btn-search {
-      height: 3.4rem;
-      width: 3.4rem;
-      transform: translateY(-100%);
-      svg {
-        height: 100%;
-        width: 100%;
-      }
+      margin-right: 2rem;
     }
   }
 }
