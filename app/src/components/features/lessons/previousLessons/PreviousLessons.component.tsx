@@ -1,7 +1,5 @@
 import './previousLessons.style.scss'
-// Types
 
-// Hooks
 import parse from 'html-react-parser'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -11,11 +9,10 @@ import { FiShare } from 'react-icons/fi'
 import { useLessons } from '../../../../services/context/LessonsContext'
 import { useStudents } from '../../../../services/context/StudentContext'
 
-// Functions
 import { formatDateToDisplay } from '../../../../utils/formateDate'
 
 import { TLesson } from '../../../../types/types'
-// Components
+
 import Modal from '../../../ui/modal/Modal.component'
 
 import Emtpy from '../../../ui/emtpy/Empty.component'
@@ -79,8 +76,7 @@ function PreviousLessons() {
                 navigate(`/lessons/all/?studentId=${currentStudentId}`)
               }
             >
-              {' '}
-              ...{' '}
+              Alle
             </button>
           </>
         ) : null}

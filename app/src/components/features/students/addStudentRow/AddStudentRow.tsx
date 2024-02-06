@@ -75,6 +75,7 @@ function AddStudentRow({ id, rows, setRows }: AddStudentRowProps) {
         value={lastName}
         onChange={handleInput}
       />
+      les
       <input
         type="text"
         placeholder="Instrument"
