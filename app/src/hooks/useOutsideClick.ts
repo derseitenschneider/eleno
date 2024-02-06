@@ -6,8 +6,6 @@ function useOutsideClick<T extends HTMLElement>(
 ) {
   const ref: RefObject<T> = useRef(null)
 
-  // RefObject<HTMLUListElement>
-
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const target = e.target as Element

@@ -150,20 +150,6 @@ function Sidebar() {
                 </NavLink>
               </li>
 
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="timetable"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoCalendarOutline className="icon" />
-                  </div>
-
-                  <span className="sidebar__link-text">Stundenplan</span>
-                </NavLink>
-              </li>
-
               <li className="sidebar__nav-el todos">
                 <NavLink
                   to="todos"
@@ -176,6 +162,20 @@ function Sidebar() {
                   </div>
 
                   <span className="sidebar__link-text">Todos</span>
+                </NavLink>
+              </li>
+
+              <li className="sidebar__nav-el">
+                <NavLink
+                  to="timetable"
+                  className="sidebar__nav-link"
+                  onClick={handleNav}
+                >
+                  <div className="sidebar__nav-icon">
+                    <IoCalendarOutline className="icon" />
+                  </div>
+
+                  <span className="sidebar__link-text">Stundenplan</span>
                 </NavLink>
               </li>
             </ul>

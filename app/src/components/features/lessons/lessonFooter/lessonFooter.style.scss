@@ -12,6 +12,10 @@
     width: fit-content;
     align-items: flex-start;
     margin-left: auto;
+
+    .search-student {
+      position: relative;
+    }
   }
 
   .btn {
@@ -39,5 +43,8 @@
 @media screen and (max-width: 42.5em) {
   .footer--lessons {
     bottom: 6rem;
+  }
+  .search-student {
+    display: none;
   }
 }

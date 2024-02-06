@@ -8,6 +8,7 @@ import { useStudents } from '../../../../services/context/StudentContext'
 import Button from '../../../ui/button/Button.component'
 import NavigateToStudent from '../navigateToStudent/NavigateToStudent.component'
 import './lessonFooter.style.scss'
+import useOutsideClick from '../../../../hooks/useOutsideClick'
 
 function LessonFooter() {
   const {
@@ -30,22 +31,28 @@ function LessonFooter() {
     return setCurrentStudentIndex(0)
   }
 
+  const panelRef = useOutsideClick<HTMLDivElement>(
+    () => setNavigateToStudentOpen(false),
+    false,
+  )
+
   return (
     <footer className="footer--lessons">
       <div className="container--main" />
       <div className="container--buttons">
-        <Button
-          type="button"
-          btnStyle="icon-only"
-          // handler={handlerPreviousStudent}
-          handler={() => setNavigateToStudentOpen((prev) => !prev)}
-          icon={<IoSearchOutline />}
-          className="btn btn-search"
-        />
-        <NavigateToStudent
-          isOpen={navigateToStudentOpen}
-          setIsOpen={setNavigateToStudentOpen}
-        />
+        <div className="search-student" ref={panelRef}>
+          <Button
+            type="button"
+            btnStyle="icon-only"
+            handler={() => setNavigateToStudentOpen((prev) => !prev)}
+            icon={<IoSearchOutline />}
+            className="btn btn-search"
+          />
+          <NavigateToStudent
+            isOpen={navigateToStudentOpen}
+            close={() => setNavigateToStudentOpen(false)}
+          />
+        </div>
         <Button
           type="button"
           btnStyle="icon-only"

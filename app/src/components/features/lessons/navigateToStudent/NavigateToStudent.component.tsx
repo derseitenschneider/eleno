@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
 import { useStudents } from '../../../../services/context/StudentContext'
-import './navigateToStudent.style.scss'
 import { sortStudents } from '../../../../utils/sortStudents'
+import './navigateToStudent.style.scss'
 
 type NavigateToStudentProps = {
   isOpen: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  close: () => void
 }
 export default function NavigateToStudent({
   isOpen,
-  setIsOpen,
+  close,
 }: NavigateToStudentProps) {
   const { activeStudents, activeSortedStudentIds, setCurrentStudentIndex } =
     useStudents()
@@ -25,40 +26,48 @@ export default function NavigateToStudent({
       student.lastName.toLowerCase().includes(searchInput.toLowerCase()),
   )
 
-  const panel = useRef()
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (!isOpen) return
-    }
-
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
-  }, [isOpen])
-
   const handleOnClick = (id: number) => {
     const studentIndex = activeSortedStudentIds.indexOf(id)
     setCurrentStudentIndex(studentIndex)
+    setSearchInput('')
+    close()
   }
 
-  if (!isOpen) return null
+  // if (!isOpen) return null
   return (
-    <div className="navigate-to-student" ref={panel}>
-      <ul className="student-list no-scrollbar">
-        {filteredStudents.map((student) => (
-          <li key={student.id}>
-            <button
-              onClick={() => handleOnClick(student.id)}
-              type="button"
-            >{`${student.firstName} ${student.lastName}`}</button>
-          </li>
-        ))}
-      </ul>
-      <input
-        type="search"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-      />
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="navigate-to-student"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeIn', duration: 0.05 }}
+          exit={{ opacity: 0 }}
+        >
+          <ul className="student-list no-scrollbar">
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map((student) => (
+                <li key={student.id}>
+                  <button
+                    onClick={() => handleOnClick(student.id)}
+                    type="button"
+                  >{`${student.firstName} ${student.lastName}`}</button>
+                </li>
+              ))
+            ) : (
+              <li className="non-found">Keine Schüler gefunden</li>
+            )}
+          </ul>
+          <input
+            type="search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="input-search"
+            placeholder="Suchen..."
+            autoFocus={window.screen.width > 1000}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
