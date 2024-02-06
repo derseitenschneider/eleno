@@ -475,6 +475,7 @@ export default defineConfig({
           },
         ],
       },
+      minify: true,
     }),
   ],
   build: {

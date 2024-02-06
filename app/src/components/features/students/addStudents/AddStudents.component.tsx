@@ -27,6 +27,7 @@ const rowData: IRow = {
   location: '',
   archive: false,
   tempId: 0,
+  user_id: '',
 }
 
 function AddStudents({ onCloseModal }: AddStudentsProps) {

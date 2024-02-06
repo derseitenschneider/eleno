@@ -12,6 +12,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Montag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Montag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 3,
@@ -36,6 +38,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Montag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 4,
@@ -48,6 +51,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Montag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
 
   {
@@ -61,6 +65,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Montag',
     location: 'Musikschule Oberhausen',
     archive: true,
+    user_id: 'test_user',
   },
   {
     id: 6,
@@ -73,6 +78,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Dienstag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 12,
@@ -85,6 +91,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Dienstag',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 7,
@@ -97,6 +104,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Mittwoch',
     location: 'Musikschule Niederdorf',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 8,
@@ -109,6 +117,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Mittwoch',
     location: 'Musikschule Niederdorf',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 9,
@@ -121,6 +130,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Mittwoch',
     location: 'Musikschule Niederdorf',
     archive: false,
+    user_id: 'test_user',
   },
 
   {
@@ -134,6 +144,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Mittwoch',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
   {
     id: 11,
@@ -146,6 +157,7 @@ const mockStudents: TStudent[] = [
     dayOfLesson: 'Mittwoch',
     location: 'Musikschule Oberhausen',
     archive: false,
+    user_id: 'test_user',
   },
 ]
 

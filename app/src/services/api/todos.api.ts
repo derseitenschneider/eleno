@@ -76,7 +76,7 @@ export const deleteCompletedTodosSupabase = async () => {
 export const reactivateTodoSupabase = async (id: number) => {
   const { error } = await supabase
     .from('todos')
-    .update([{ completed: false }])
+    .update({ completed: false })
     .eq('id', id)
 
   if (error) throw new Error(error.message)

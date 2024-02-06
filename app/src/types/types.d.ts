@@ -23,6 +23,7 @@ export type TStudent = {
   endOfLesson?: string
   archive: boolean
   location: string
+  user_id: string
 }
 
 export type TLesson = {

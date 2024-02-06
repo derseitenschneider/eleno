@@ -2,6 +2,11 @@ import { TNews } from '../../../../types/types'
 
 const news: TNews[] = [
   {
+    date: '2024-02-06',
+    title: '🌟 Update: Notizen, Dunkelmodus, Lektionsnavigation',
+    text: '<p>Mit dem neusten Update von Eleno kommen einige neue Funktionen dazu, die von vielen Nutzern immer wieder gewünscht wurden: Dunkelmodus, bessere Organisation der Schülernotizen und eine einfachere Lektionsnavigation.</p><p><a href="https://eleno.net/update-notizen-dunkelmodus-lektionsnavigation/" target="_blank">Mehr dazu hier im neusten Blogpost!</a></p>',
+  },
+  {
     date: '2024-01-14',
     title: '🚀 Neu: Daten als PDF und CSV exportieren ',
     text: '<p>Eine vielseits gewünschte Funktion ist endlich Verfügbar: Export als PDF und CSV. Ab jetzt kannst du ganz einfach deine Lektionsliste, Schüler:innen-Liste etc. generieren und herunterladen.</p><p><a href="https://manual.eleno.net/export/export/" target="_blank">Mehr Infos dazu findest du hier!</a></p>',

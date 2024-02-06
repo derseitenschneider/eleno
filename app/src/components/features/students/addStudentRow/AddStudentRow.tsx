@@ -86,7 +86,7 @@ function AddStudentRow({ id, rows, setRows }: AddStudentRowProps) {
         name="dayOfLesson"
         value={dayOfLesson}
         onChange={handleInput}
-        defaultValue={null}
+        defaultValue=""
       >
         <option style={{ display: 'none' }} value="">
           Wochentag
@@ -98,7 +98,7 @@ function AddStudentRow({ id, rows, setRows }: AddStudentRowProps) {
         <option value="Freitag">Freitag</option>
         <option value="Samstag">Samstag</option>
         <option value="Sonntag">Sonntag</option>
-        <option value={null}> - </option>
+        <option value=""> - </option>
       </select>
       <input
         type="time"

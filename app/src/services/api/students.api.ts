@@ -67,7 +67,7 @@ export const resetStudentSupabase = async (studentIds: number[]) => {
       dayOfLesson: '',
       startOfLesson: '',
       endOfLesson: '',
-      durationMinutes: 0,
+      durationMinutes: '',
       location: '',
     })
     .in('id', studentIds)
