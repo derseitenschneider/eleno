@@ -9,7 +9,7 @@ const parseVersionString = require('parse-version-string').default
 const { execSync } = require('child_process')
 const pkg = require('../package.json')
 
-console.log('HELLO FROM UPDATE VERSION')
+console.log('HELLO FROM UPDATE VERSION s')
 
 const updatePatch = () => {
   try {
