@@ -1,0 +1,24 @@
+{
+  "name": "eleno",
+  "version": "1.6.1",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "update-version": "node ./scripts/update-version.js",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derseitenschneider/eleno.git"
+  },
+  "author": "Brian Boy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/derseitenschneider/eleno/issues"
+  },
+  "homepage": "https://github.com/derseitenschneider/eleno#readme",
+  "dependencies": {
+    "parse-version-string": "^1.0.1"
+  }
+}

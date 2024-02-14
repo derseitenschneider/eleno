@@ -10,9 +10,7 @@
     "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",
-    "preview": "vite preview",
-    "prepare": "husky",
-    "update-version": "node ./scripts/update-version.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@firebase/analytics": "^0.10.0",
@@ -31,7 +29,6 @@
     "jszip": "^3.10.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
-    "parse-version-string": "^1.0.1",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-csv": "^2.2.2",
@@ -63,7 +60,6 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^9.0.11",
     "prettier": "^3.0.3",
     "sass": "^1.62.1",
     "typescript": "^4.9.3",
