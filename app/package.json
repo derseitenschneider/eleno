@@ -12,7 +12,7 @@
     "build:demo": "VITE_MODE=demo tsc &6 vite build",
     "preview": "vite preview",
     "prepare": "husky",
-    "update-version": "node scripts/update-version.js"
+    "update-version": "node ./scripts/update-version.js"
   },
   "dependencies": {
     "@firebase/analytics": "^0.10.0",

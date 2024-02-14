@@ -1,8 +1,13 @@
 /* eslint-disable no-console */
-import fs from 'fs'
-import parseVersionString from 'parse-version-string'
-import execSync from 'child_process'
-import pkg from '../package.json'
+// import fs from 'fs'
+// import parseVersionString from 'parse-version-string'
+// import execSync from 'child_process'
+// import pkg from '../package.json'
+
+const fs = require('fs')
+const parseVersionString = require('parse-version-string').default
+const { execSync } = require('child_process')
+const pkg = require('../package.json')
 
 console.log('HELLO FROM UPDATE VERSION')
 
