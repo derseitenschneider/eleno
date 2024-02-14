@@ -31,6 +31,7 @@
     "jszip": "^3.10.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "parse-version-string": "^1.0.1",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-csv": "^2.2.2",

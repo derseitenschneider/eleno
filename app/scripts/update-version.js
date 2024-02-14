@@ -1,6 +1,11 @@
-;(() => {
+import fs from 'fs'
+import parseVersionString from 'parse-version-string'
+import execSync from 'child_process'
+import pkg from '../package.json'
+
+const updatePatch = () => {
   try {
-    const pkg = require('../package.json')
+    // const pkg = require('../package.json')
 
     // execSync('git remote show origin')
 
@@ -35,4 +40,6 @@
   } catch (e) {
     console.log('Version update failed', e)
   }
-})()
+}
+
+updatePatch()
