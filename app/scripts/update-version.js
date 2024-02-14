@@ -3,6 +3,8 @@ import parseVersionString from 'parse-version-string'
 import execSync from 'child_process'
 import pkg from '../package.json'
 
+console.log('HELLO FROM UPDATE VERSION')
+
 const updatePatch = () => {
   try {
     // const pkg = require('../package.json')
@@ -38,7 +40,7 @@ const updatePatch = () => {
 
     console.log('application updated to', newVersion, 'version')
   } catch (e) {
-    console.log('Version update failed', e)
+    console.warning('Version update failed', e)
   }
 }
 
