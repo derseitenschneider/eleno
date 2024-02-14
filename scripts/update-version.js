@@ -10,10 +10,6 @@ const { execSync } = require('child_process');
 // const { execSync } = require('child_process')
 const pkg = require('../package.json');
 
-console.log(
-  'Last commit-message: ' + execSync('git rev-parse HEAD').toString().trim()
-);
-
 const updatePatch = () => {
   try {
     // const pkg = require('../package.json')
@@ -23,9 +19,8 @@ const updatePatch = () => {
     const { major, minor, patch } = parseVersionString(pkg.version);
     const newVersion = `${major}.${minor}.${patch + 1}`;
 
-    const pkgs = ['../package.json', '../app/package.json'].filter(
-      fs.existsSync
-    );
+    const pkgs = ['./package.json', './app/package.json'].filter(fs.existsSync);
+    console.log(pkgs.length);
 
     pkgs.forEach((pkgJson) => {
       const pkgValues = JSON.parse(fs.readFileSync(pkgJson, 'utf8'));
