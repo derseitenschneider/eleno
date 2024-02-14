@@ -6,9 +6,53 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
+      groups: {
+        Row: {
+          archive: boolean
+          createdAt: string
+          dayOfLesson: string | null
+          durationMinutes: string | null
+          endOfLesson: string | null
+          groupName: string
+          id: number
+          startOfLesson: string | null
+          userId: string
+        }
+        Insert: {
+          archive?: boolean
+          createdAt?: string
+          dayOfLesson?: string | null
+          durationMinutes?: string | null
+          endOfLesson?: string | null
+          groupName: string
+          id?: number
+          startOfLesson?: string | null
+          userId: string
+        }
+        Update: {
+          archive?: boolean
+          createdAt?: string
+          dayOfLesson?: string | null
+          durationMinutes?: string | null
+          endOfLesson?: string | null
+          groupName?: string
+          id?: number
+          startOfLesson?: string | null
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_groups_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       lessons: {
         Row: {
           created_at: string | null
@@ -42,25 +86,25 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'lessons_studentId_fkey'
-            columns: ['studentId']
+            foreignKeyName: "lessons_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'lessons_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "lessons_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       notes: {
         Row: {
           backgroundColor:
-            | Database['public']['Enums']['background_colors']
+            | Database["public"]["Enums"]["background_colors"]
             | null
           created_at: string | null
           id: number
@@ -71,8 +115,8 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          background_color?:
-            | Database['public']['Enums']['background_colors']
+          backgroundColor?:
+            | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
           id?: number
@@ -83,8 +127,8 @@ export interface Database {
           user_id: string
         }
         Update: {
-          background_color?:
-            | Database['public']['Enums']['background_colors']
+          backgroundColor?:
+            | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
           id?: number
@@ -96,19 +140,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'notes_studentId_fkey'
-            columns: ['studentId']
+            foreignKeyName: "notes_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'notes_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "notes_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       profiles: {
@@ -141,12 +185,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'profiles_id_fkey'
-            columns: ['id']
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
             isOneToOne: true
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       repertoire: {
@@ -179,19 +223,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'repertoire_studentId_fkey'
-            columns: ['studentId']
+            foreignKeyName: "repertoire_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'repertoire_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "repertoire_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       settings: {
@@ -212,12 +256,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'settings_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "settings_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: true
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       students: {
@@ -265,12 +309,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'students_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "students_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       todos: {
@@ -303,19 +347,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'todos_student_id_fkey'
-            columns: ['student_id']
+            foreignKeyName: "todos_student_id_fkey"
+            columns: ["student_id"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'todos_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "todos_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
     }
@@ -332,25 +376,25 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'lessons_studentId_fkey'
-            columns: ['studentId']
+            foreignKeyName: "lessons_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'lessons_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "lessons_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
       only_active_notes: {
         Row: {
           backgroundColor:
-            | Database['public']['Enums']['background_colors']
+            | Database["public"]["Enums"]["background_colors"]
             | null
           id: number | null
           order: number | null
@@ -361,19 +405,19 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'notes_studentId_fkey'
-            columns: ['studentId']
+            foreignKeyName: "notes_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
+            referencedRelation: "students"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'notes_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "notes_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
     }
@@ -384,7 +428,7 @@ export interface Database {
       }
     }
     Enums: {
-      background_colors: 'blue' | 'red' | 'green' | 'yellow'
+      background_colors: "blue" | "red" | "green" | "yellow"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -394,23 +438,23 @@ export interface Database {
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database['public']['Tables'] & Database['public']['Views'])
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
-    : never = never,
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database['public']['Tables'] &
-      Database['public']['Views'])
-  ? (Database['public']['Tables'] &
-      Database['public']['Views'])[PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
       Row: infer R
     }
     ? R
@@ -419,19 +463,19 @@ export type Tables<
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-  ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
       Insert: infer I
     }
     ? I
@@ -440,19 +484,19 @@ export type TablesInsert<
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-  ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
       Update: infer U
     }
     ? U
@@ -461,13 +505,13 @@ export type TablesUpdate<
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database['public']['Enums']
+    | keyof Database["public"]["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
-    : never = never,
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database['public']['Enums']
-  ? Database['public']['Enums'][PublicEnumNameOrOptions]
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
   : never

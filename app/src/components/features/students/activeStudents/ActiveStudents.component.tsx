@@ -45,7 +45,6 @@ export default function ActiveStudents() {
   const [searchInput, setSearchInput] = useState('')
   const [action, setAction] = useState('')
   const [selectedStudents, setSelectedStudents] = useState<number[]>([])
-
   const [searchParams, setSearchParams] = useSearchParams()
 
   const filteredStudents = activeStudents?.filter(
