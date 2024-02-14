@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from 'fs'
 import parseVersionString from 'parse-version-string'
 import execSync from 'child_process'
@@ -16,7 +17,7 @@ const updatePatch = () => {
 
     const pkgs = ['./package.json'].filter(fs.existsSync)
 
-    pkgs.map((pkgJson) => {
+    pkgs.forEach((pkgJson) => {
       const pkgValues = JSON.parse(fs.readFileSync(pkgJson, 'utf8'))
       pkgValues.version = newVersion
       fs.writeFileSync(pkgJson, JSON.stringify(pkgValues, null, 2))
