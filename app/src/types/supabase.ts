@@ -14,33 +14,36 @@ export type Database = {
           archive: boolean
           createdAt: string
           dayOfLesson: string | null
-          durationMinutes: string | null
+          durationMinutes: number | null
           endOfLesson: string | null
           groupName: string
           id: number
           startOfLesson: string | null
+          students: string[] | null
           userId: string
         }
         Insert: {
           archive?: boolean
           createdAt?: string
           dayOfLesson?: string | null
-          durationMinutes?: string | null
+          durationMinutes?: number | null
           endOfLesson?: string | null
           groupName: string
           id?: number
           startOfLesson?: string | null
+          students?: string[] | null
           userId: string
         }
         Update: {
           archive?: boolean
           createdAt?: string
           dayOfLesson?: string | null
-          durationMinutes?: string | null
+          durationMinutes?: number | null
           endOfLesson?: string | null
           groupName?: string
           id?: number
           startOfLesson?: string | null
+          students?: string[] | null
           userId?: string
         }
         Relationships: [

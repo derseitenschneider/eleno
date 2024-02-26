@@ -1,0 +1,13 @@
+.grouprow {
+  &__students {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  &__student {
+    background-color: var(--clr-primary-600);
+    color: var(--clr-white);
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+  }
+}

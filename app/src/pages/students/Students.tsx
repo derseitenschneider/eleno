@@ -3,7 +3,8 @@ import Navbar from '../../layouts/navbar/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },
-  { path: '/students/archive/', label: 'Archiv', key: 2 },
+  { path: '/students/groups/', label: 'Gruppen', key: 2 },
+  { path: '/students/archive/', label: 'Archiv', key: 3 },
 ]
 export default function Students() {
   return (

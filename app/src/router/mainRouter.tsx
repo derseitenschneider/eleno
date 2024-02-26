@@ -19,6 +19,7 @@ import InactiveStudents from '../components/features/students/inActiveStudents/I
 import AllLessons from '../components/features/lessons/allLessons/AllLessons.component'
 import Repertoire from '../components/features/repertoire/Repertoire.component'
 import View from '../pages/settings/view/View'
+import Groups from '../components/features/groups/Groups.component'
 
 const mainRouter = createBrowserRouter(
   [
@@ -43,6 +44,10 @@ const mainRouter = createBrowserRouter(
             {
               path: `archive`,
               element: <InactiveStudents />,
+            },
+            {
+              path: `groups`,
+              element: <Groups />,
             },
           ],
         },
