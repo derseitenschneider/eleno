@@ -1,4 +1,5 @@
 import './note.style.scss'
+// import { lazy, Suspense } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 
 import parse from 'html-react-parser'

@@ -15,7 +15,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths" : {
+      "@components/*": ["./src/components/*"]
+    }
+
+
   },
   "include": [".eslintrc.cjs", "src", "vite.config.ts", "scripts"],
   "references": [{ "path": "./tsconfig.node.json" }]
