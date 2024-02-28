@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react'
+
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -489,11 +490,21 @@ export default defineConfig({
     cssMinify: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          dnd: ['react-beautiful-dnd'],
-
-          // ...renderChunks(dependencies),
+        // manualChunks: {
+        //   vendor: ['react', 'react-dom'],
+        //   dnd: ['react-beautiful-dnd'],
+        //   firebase: ['@firebase/analytics'],
+        //   // ...renderChunks(dependencies),
+        // },
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString()
+          }
+          return null
         },
       },
     },

@@ -32,7 +32,6 @@ export const GroupsContext = createContext<IGroupsContext>({
 
 export function GroupsProvider({ children }: { children: React.ReactNode }) {
   const [groups, setGroups] = useState<Array<Tables<'groups'>>>([])
-  console.log(groups)
 
   // const mode = import.meta.env.VITE_MODE
 

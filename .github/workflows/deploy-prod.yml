@@ -1,4 +1,4 @@
-name: 🚀 Deploy app on push main
+name: 🚀 Deploy prod on push main
 
 on:
   push:
