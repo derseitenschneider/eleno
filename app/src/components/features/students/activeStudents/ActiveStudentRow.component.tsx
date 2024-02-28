@@ -26,6 +26,8 @@ interface ActiveStudentRowProps {
   openId?: number
 }
 
+// Test
+
 function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
   const { deactivateStudents, setCurrentStudentIndex, activeSortedStudentIds } =
     useStudents()

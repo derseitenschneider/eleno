@@ -1,7 +1,7 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.4",
+  "version": "1.6.6",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
@@ -10,7 +10,8 @@
     "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-types": " npx supabase gen types typescript --project-id 'brhpqxeowknyhrimssxw' --schema public > src/types/supabase.ts"
   },
   "dependencies": {
     "@firebase/analytics": "^0.10.1",
@@ -62,6 +63,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.0.3",
     "sass": "^1.62.1",
+    "supabase": "^1.142.2",
     "typescript": "^4.9.3",
     "vite": "^4.3.9",
     "vite-plugin-pwa": "^0.15.0"

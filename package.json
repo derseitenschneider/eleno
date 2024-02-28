@@ -1,11 +1,13 @@
 {
   "name": "eleno",
-  "version": "1.6.4",
+  "version": "1.6.6",
   "description": "",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
     "update-version": "node ./scripts/update-version.js",
+    "dev:app": "cd app && npm run dev",
+    "build:app": "cd app && npm run build",
     "prepare": "husky"
   },
   "repository": {

@@ -15,6 +15,8 @@ import { fetchTodosSupabase } from '../../services/api/todos.api'
 import mockStudents from '../../services/api/mock-db/mockStudents'
 import mockLessons from '../../services/api/mock-db/mockLessons'
 import mockNotes from '../../services/api/mock-db/mockNotes'
+import { fetchGroups } from '../../services/api/groups.api'
+import { useGroups } from '../../services/context/GroupsContext'
 
 interface MainProps {
   children: React.ReactNode
@@ -28,6 +30,7 @@ function Main({ children }: MainProps) {
   const { setStudents } = useStudents()
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
+  const { setGroups } = useGroups()
   const { setTodos } = useTodos()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [errorMessage, setErrorMessage] = useState('')
@@ -51,15 +54,17 @@ function Main({ children }: MainProps) {
         fetchLatestLessonsSupabase(),
         fetchNotes(),
         fetchTodosSupabase(user.id),
+        fetchGroups(),
       ])
       const fetchAll = async () => {
         setErrorMessage('')
         try {
-          const [students, lessons, notes, todos] = await allPromise
+          const [students, lessons, notes, todos, groups] = await allPromise
           setStudents([...students])
           setLessons([...lessons])
           setNotes([...notes])
           setTodos([...todos])
+          setGroups([...groups])
 
           setIsPending(false)
         } catch (err) {
@@ -71,7 +76,7 @@ function Main({ children }: MainProps) {
       }
       fetchAll()
     }
-  }, [setLessons, setNotes, setStudents, setTodos, user, mode])
+  }, [setLessons, setNotes, setStudents, setTodos, user, mode, setGroups])
 
   useEffect(() => {
     if (errorMessage)
