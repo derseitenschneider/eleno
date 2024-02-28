@@ -1,11 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error/error'
 
-import Dashboard from '../pages/dashboard/Dashboard'
-import Students from '../pages/students/Students'
+// import Dashboard from '../pages/dashboard/Dashboard'
+// import Students from '../pages/students/Students'
 
 import Application from '../Application'
-import Lessons from '../pages/lessons/Lessons'
+// import Lessons from '../pages/lessons/Lessons'
 import Settings from '../pages/settings/Settings'
 import Timetable from '../pages/timetable/Timetable.component'
 
@@ -14,12 +15,16 @@ import ToDos from '../pages/todos/Todos.page'
 import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import TodosOpen from '../pages/todos/TodosOpen.page'
 
-import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
-import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
+import Groups from '../components/features/groups/Groups.component'
 import AllLessons from '../components/features/lessons/allLessons/AllLessons.component'
 import Repertoire from '../components/features/repertoire/Repertoire.component'
+import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
+import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 import View from '../pages/settings/view/View'
-import Groups from '../components/features/groups/Groups.component'
+
+const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
+const Students = lazy(() => import('../pages/students/Students'))
+const Lessons = lazy(() => import('../pages/lessons/Lessons'))
 
 const mainRouter = createBrowserRouter(
   [
@@ -30,11 +35,19 @@ const mainRouter = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <Dashboard />,
+          element: (
+            <Suspense fallback={<p>...loading</p>}>
+              <Dashboard />,
+            </Suspense>
+          ),
         },
         {
           path: 'students',
-          element: <Students />,
+          element: (
+            <Suspense fallback={<p>...loading</p>}>
+              <Students />,
+            </Suspense>
+          ),
           children: [
             {
               index: true,
@@ -57,7 +70,11 @@ const mainRouter = createBrowserRouter(
         },
         {
           path: 'lessons',
-          element: <Lessons />,
+          element: (
+            <Suspense fallback={<p>...loading</p>}>
+              <Lessons />,
+            </Suspense>
+          ),
         },
         {
           path: '/lessons/all',
