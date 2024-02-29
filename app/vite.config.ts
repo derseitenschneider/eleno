@@ -8,11 +8,6 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
-  resolve: {
-    alias: {
-      '@components/*': path.resolve(__dirname, './src/components/*'),
-    },
-  },
 
   plugins: [
     react(),
@@ -490,12 +485,6 @@ export default defineConfig({
     cssMinify: true,
     rollupOptions: {
       output: {
-        // manualChunks: {
-        //   vendor: ['react', 'react-dom'],
-        //   dnd: ['react-beautiful-dnd'],
-        //   firebase: ['@firebase/analytics'],
-        //   // ...renderChunks(dependencies),
-        // },
         manualChunks(id) {
           if (id.includes('node_modules')) {
             return id
