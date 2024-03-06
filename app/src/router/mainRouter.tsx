@@ -14,6 +14,7 @@ import Repertoire from '../components/features/repertoire/Repertoire.component'
 import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
 import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 import View from '../pages/settings/view/View'
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
 const Students = lazy(() => import('../pages/students/Students'))
@@ -32,7 +33,7 @@ const mainRouter = createBrowserRouter(
         {
           index: true,
           element: (
-            <Suspense fallback={<p>...loading</p>}>
+            <Suspense fallback={<DashboardSkeleton />}>
               <Dashboard />,
             </Suspense>
           ),

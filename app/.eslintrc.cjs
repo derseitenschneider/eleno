@@ -13,6 +13,19 @@ module.exports = {
   ],
   overrides: [],
 
+  settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import-parser': {
+      '@typescript-eslint/parser': '[".ts", ".tsx"]',
+    },
+    'import/resolver': {
+      typescript: {},
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

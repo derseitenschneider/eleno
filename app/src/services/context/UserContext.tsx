@@ -26,8 +26,6 @@ import mockUser from '../api/mock-db/mockUser'
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
   setUser: () => {},
-  loading: false,
-  setLoading: () => {},
   updateProfile: () => new Promise(() => {}),
   updateEmail: () => new Promise(() => {}),
   updatePassword: () => new Promise(() => {}),
@@ -39,7 +37,7 @@ export const UserContext = createContext<ContextTypeUser>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session>()
   const [user, setUser] = useState<TUser | null>(null)
-  const { loading, setLoading } = useLoading()
+  const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
 
@@ -47,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (mode === 'demo') {
       console.log('demo')
       setUser(mockUser)
-      setLoading(false)
+      setIsLoading(false)
       return
     }
     try {
@@ -62,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       fetchErrorToast()
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -76,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session) {
         getUserProfiles(session.user.id)
       } else {
-        setLoading(false)
+        setIsLoading(false)
       }
     })
 
@@ -142,8 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       user,
       setUser,
-      loading,
-      setLoading,
+
       updateProfile,
       updateEmail,
       updatePassword,
@@ -151,16 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logout,
       recoverPassword,
     }),
-    [
-      deleteAccount,
-      loading,
-      logout,
-      setLoading,
-      updateEmail,
-      updatePassword,
-      updateProfile,
-      user,
-    ],
+    [deleteAccount, logout, updateEmail, updatePassword, updateProfile, user],
   )
 
   if (mode === 'demo')
@@ -169,7 +157,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <UserContext.Provider value={value}>
       {currentSession && children}
-      {!currentSession && !loading && <LoginPage />}
+      {!currentSession && !isLoading && <LoginPage />}
     </UserContext.Provider>
   )
 }

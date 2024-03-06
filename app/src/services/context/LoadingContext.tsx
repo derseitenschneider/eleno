@@ -2,18 +2,18 @@ import { createContext, useContext, useMemo, useState } from 'react'
 import { ContextTypeLoading } from '../../types/types'
 
 export const LoadingContext = createContext<ContextTypeLoading>({
-  loading: true,
-  setLoading: () => {},
+  isLoading: true,
+  setIsLoading: () => {},
 })
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const value = useMemo(
     () => ({
-      loading,
-      setLoading,
+      isLoading,
+      setIsLoading,
     }),
-    [loading, setLoading],
+    [isLoading, setIsLoading],
   )
   return (
     <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>

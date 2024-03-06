@@ -9,19 +9,22 @@ import Overview from '../../components/features/dashboard/overview/Overview.comp
 import QuickLinks from '../../components/features/dashboard/quickLinks/QuickLinks.component'
 import { useLoading } from '../../services/context/LoadingContext'
 import { useUser } from '../../services/context/UserContext'
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 
 function Dashboard() {
   const { user } = useUser()
 
-  const { setLoading } = useLoading()
+  const { isLoading } = useLoading()
 
-  useEffect(() => {
-    if (user) setLoading(false)
-  }, [user, setLoading])
+  // useEffect(() => {
+  //   if (user) setLoading(false)
+  // }, [user, setLoading])
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  if (isLoading) return <DashboardSkeleton />
 
   return (
     <motion.div

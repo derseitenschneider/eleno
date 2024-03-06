@@ -58,8 +58,7 @@ export type TNote = {
 export type ContextTypeUser = {
   user: TUser | null
   setUser: React.Dispatch<React.SetStateAction<TUser>>
-  loading: boolean
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+
   updateProfile: (data: TProfile) => Promise<void>
   updateEmail: (email: string) => Promise<void>
   updatePassword: (password: string) => Promise<void>
@@ -113,8 +112,8 @@ export type ContextTypeLessons = {
 }
 
 export type ContextTypeLoading = {
-  loading: boolean | null
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  isLoading: boolean | null
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type ContextTypeNotes = {

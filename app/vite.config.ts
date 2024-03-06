@@ -481,6 +481,11 @@ export default defineConfig({
       minify: true,
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   build: {
     cssMinify: true,
     rollupOptions: {

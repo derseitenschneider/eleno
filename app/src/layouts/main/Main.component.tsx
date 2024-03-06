@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import Loader from '../../components/ui/loader/Loader'
+
+import { useLoading } from '@/services/context/LoadingContext'
 import OfflineBanner from '../../components/ui/offlineBanner/OfflineBanner.component'
+import { fetchGroups } from '../../services/api/groups.api'
+import { fetchLatestLessonsSupabase } from '../../services/api/lessons.api'
+import mockLessons from '../../services/api/mock-db/mockLessons'
+import mockNotes from '../../services/api/mock-db/mockNotes'
+import mockStudents from '../../services/api/mock-db/mockStudents'
+import { fetchNotes } from '../../services/api/notes.api'
+import { fetchStudents } from '../../services/api/students.api'
+import { fetchTodosSupabase } from '../../services/api/todos.api'
 import { useClosestStudent } from '../../services/context/ClosestStudentContext'
+import { useGroups } from '../../services/context/GroupsContext'
 import { useLessons } from '../../services/context/LessonsContext'
 import { useNotes } from '../../services/context/NotesContext'
 import { useStudents } from '../../services/context/StudentContext'
 import { useTodos } from '../../services/context/TodosContext'
 import { useUser } from '../../services/context/UserContext'
-import { fetchLatestLessonsSupabase } from '../../services/api/lessons.api'
-import { fetchNotes } from '../../services/api/notes.api'
-import { fetchStudents } from '../../services/api/students.api'
-import { fetchTodosSupabase } from '../../services/api/todos.api'
-import mockStudents from '../../services/api/mock-db/mockStudents'
-import mockLessons from '../../services/api/mock-db/mockLessons'
-import mockNotes from '../../services/api/mock-db/mockNotes'
-import { fetchGroups } from '../../services/api/groups.api'
-import { useGroups } from '../../services/context/GroupsContext'
 
 interface MainProps {
   children: React.ReactNode
@@ -26,6 +27,7 @@ function Main({ children }: MainProps) {
   const { user } = useUser()
   const { closestStudentIndex } = useClosestStudent()
   const { setCurrentStudentIndex } = useStudents()
+  const { isLoading, setIsLoading } = useLoading()
   const [isPending, setIsPending] = useState(true)
   const { setStudents } = useStudents()
   const { setLessons } = useLessons()
@@ -44,7 +46,7 @@ function Main({ children }: MainProps) {
       setStudents(mockStudents)
       setLessons(mockLessons)
       setNotes(mockNotes)
-      setIsPending(false)
+      setIsLoading(false)
       return
     }
 
@@ -66,17 +68,26 @@ function Main({ children }: MainProps) {
           setTodos([...todos])
           setGroups([...groups])
 
-          setIsPending(false)
+          setIsLoading(false)
         } catch (err) {
           setErrorMessage(
             'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.',
           )
-          setIsPending(false)
+          setIsLoading(false)
         }
       }
       fetchAll()
     }
-  }, [setLessons, setNotes, setStudents, setTodos, user, mode, setGroups])
+  }, [
+    setLessons,
+    setNotes,
+    setStudents,
+    setTodos,
+    user,
+    mode,
+    setGroups,
+    setIsLoading,
+  ])
 
   useEffect(() => {
     if (errorMessage)
@@ -101,11 +112,9 @@ function Main({ children }: MainProps) {
     }
   }, [isOnline])
 
-  if (isPending) return <Loader loading={isPending} />
-
   return (
     <>
-      {!isPending && !errorMessage && <div id="main">{children}</div>}
+      {!errorMessage && <div id="main">{children}</div>}
       {!isOnline && <OfflineBanner />}
     </>
   )
