@@ -85,6 +85,7 @@ function AddStudents({ onCloseModal }: AddStudentsProps) {
         <span className="label">Bis</span>
         <span className="label">Dauer</span>
         <span className="label">Unterrichtsort</span>
+        <span />
       </div>
       <form action="" className="add-students__form">
         {rows.map((row) => (
