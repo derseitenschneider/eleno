@@ -7,7 +7,7 @@
   &__grid {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 12rem 1fr auto;
+    grid-template-columns: repeat(3, 1fr) 16rem repeat(2, 6.5rem) 12rem 1fr 4rem;
     column-gap: 0.2rem;
     margin-bottom: 1rem;
     overflow-x: visible;
