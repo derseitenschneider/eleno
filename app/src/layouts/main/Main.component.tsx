@@ -27,8 +27,8 @@ function Main({ children }: MainProps) {
   const { user } = useUser()
   const { closestStudentIndex } = useClosestStudent()
   const { setCurrentStudentIndex } = useStudents()
-  const { isLoading, setIsLoading } = useLoading()
-  const [isPending, setIsPending] = useState(true)
+  const { setIsLoading } = useLoading()
+
   const { setStudents } = useStudents()
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
@@ -67,12 +67,11 @@ function Main({ children }: MainProps) {
           setNotes([...notes])
           setTodos([...todos])
           setGroups([...groups])
-
-          setIsLoading(false)
         } catch (err) {
           setErrorMessage(
             'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.',
           )
+        } finally {
           setIsLoading(false)
         }
       }

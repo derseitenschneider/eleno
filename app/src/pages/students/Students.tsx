@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../../layouts/navbar/Navbar.component'
+import { useLoading } from '@/services/context/LoadingContext'
+import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
 
 const navLinks = [
   { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },
@@ -7,6 +9,9 @@ const navLinks = [
   { path: '/students/archive/', label: 'Archiv', key: 3 },
 ]
 export default function Students() {
+  const { isLoading } = useLoading()
+
+  if (isLoading) return <StudentsSkeleton />
   return (
     <div className="container">
       <h1 className="heading-1">Schüler:innen</h1>

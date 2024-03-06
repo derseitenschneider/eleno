@@ -15,6 +15,8 @@ import ActiveStudents from '../components/features/students/activeStudents/Activ
 import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
 import View from '../pages/settings/view/View'
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
+import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
+import LessonSkeleton from '@/components/ui/skeletons/LessonSkeleton.component'
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
 const Students = lazy(() => import('../pages/students/Students'))
@@ -41,7 +43,7 @@ const mainRouter = createBrowserRouter(
         {
           path: 'students',
           element: (
-            <Suspense fallback={<p>...loading</p>}>
+            <Suspense fallback={<StudentsSkeleton />}>
               <Students />,
             </Suspense>
           ),
@@ -73,7 +75,8 @@ const mainRouter = createBrowserRouter(
           path: 'lessons',
           element: (
             <Suspense fallback={<p>...loading</p>}>
-              <Lessons />,
+              <LessonSkeleton />
+              {/* <Lessons />, */}
             </Suspense>
           ),
         },

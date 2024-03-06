@@ -1,5 +1,6 @@
 import './dashboard.style.scss'
 
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import FooterDashboard from '../../components/features/dashboard/footer/FooterDashboard.component'
@@ -8,17 +9,9 @@ import News from '../../components/features/dashboard/news/News.component'
 import Overview from '../../components/features/dashboard/overview/Overview.component'
 import QuickLinks from '../../components/features/dashboard/quickLinks/QuickLinks.component'
 import { useLoading } from '../../services/context/LoadingContext'
-import { useUser } from '../../services/context/UserContext'
-import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 
 function Dashboard() {
-  const { user } = useUser()
-
   const { isLoading } = useLoading()
-
-  // useEffect(() => {
-  //   if (user) setLoading(false)
-  // }, [user, setLoading])
 
   useEffect(() => {
     window.scrollTo(0, 0)
