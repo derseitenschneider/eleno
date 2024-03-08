@@ -1,45 +1,43 @@
 :root {
-  --clr-primary-800: #387589;
-  --clr-primary-600: #4794ae;
-  --clr-primary-400: #92c3d3;
-  --clr-text: #e4e4e7;
-  // --clr-text-200: #b7b8b8;
-  // --clr-text-400: #d5d6d7;
-  // --clr-text-600: #f1f1f1;
-  --clr-warning: rgb(193, 70, 70);
-  --clr-darkgrey: #aaa;
-  --clr-grey-400: #f0f0f0;
-  --clr-grey-300: #f3f3f3;
-  --clr-grey-200: #f8f9fa;
-  --clr-white: #ffffff;
-  --clr-bg-0: #000;
+  // --clr-primary-800: #387589;
+  // --clr-primary-600: #4794ae;
+  // --clr-primary-400: #92c3d3;
+  // --clr-text: #e4e4e7;
 
-  --clr-bg-200: #2f343a;
-  --clr-bg-100: #343a40;
-  --clr-bg-50: #484e53;
-  --clr-lines: #484e53;
+  // --clr-warning: hsl(0, 50%, 52%);
+  // --clr-darkgrey: #aaa;
+  // --clr-grey-400: #f0f0f0;
+  // --clr-grey-300: #f3f3f3;
+  // --clr-grey-200: #f8f9fa;
+  // --clr-white: #ffffff;
+  // --clr-bg-0: #000;
 
-  --toastify-color-dark: var(--clr-bg-50) !important;
-  --toastify-text-color-dark: var(--clr-text) !important;
+  // --clr-bg-200: #2f343a;
+  // --clr-bg-100: hsl(210, 10%, 23%);
+  --clr-bg-50: hsl(207, 7%, 30%);
+  // --clr-lines: #484e53;
 
-  --toastify-color-progress-dark: var(--clr-primary-600) !important;
+  // --toastify-color-dark: var(--clr-bg-50) !important;
+  // --toastify-text-color-dark: var(--clr-text) !important;
 
-  --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
-  --box-shadow-50: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --box-shadow-cards: 0 1px 5px rgba(0, 0, 0, 0.08),
-    0 2px 2px rgba(0, 0, 0, 0.14);
+  // --toastify-color-progress-dark: var(--clr-primary-600) !important;
+
+  // --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+  // --box-shadow-50: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+  //   0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  // --box-shadow-cards: 0 1px 5px rgba(0, 0, 0, 0.08),
+  //   0 2px 2px rgba(0, 0, 0, 0.14);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     // --clr-primary-800: #387589;
-    // --clr-primary-600: #4794ae;
+    // --clr-primary-600: hsl(195, 42%, 48%);
     // --clr-primary-400: hsl(195, 42%, 70%);
 
     // --clr-lines: #e4e4e7;
     // --clr-bg-50: #fafafa;
-    // --clr-bg-100: #f4f4f5;
+    // --clr-bg-100: hsl(240, 5%, 96%);
     // --clr-bg-200: #e4e4e7;
     // --clr-text: #3f3f46;
     // // --clr-text-400: #454545;

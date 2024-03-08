@@ -11,6 +11,7 @@ function AnimatedLogo() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
+      className="h-[100%]"
     >
       <motion.path
         initial={{ strokeWidth: 0 }}
