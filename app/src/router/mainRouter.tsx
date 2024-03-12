@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error/error'
 
+import Loader from '../components/ui/loader/Loader'
 import Application from '../Application'
 
 import Account from '../pages/settings/account/Account'
@@ -32,7 +33,7 @@ const mainRouter = createBrowserRouter(
         {
           index: true,
           element: (
-            <Suspense fallback={<p>...loading</p>}>
+            <Suspense fallback={<Loader loading />}>
               <Dashboard />,
             </Suspense>
           ),
@@ -40,7 +41,7 @@ const mainRouter = createBrowserRouter(
         {
           path: 'students',
           element: (
-            <Suspense fallback={<p>...loading</p>}>
+            <Suspense fallback={<Loader loading />}>
               <Students />,
             </Suspense>
           ),
@@ -71,7 +72,7 @@ const mainRouter = createBrowserRouter(
         {
           path: 'lessons',
           element: (
-            <Suspense fallback={<p>...loading</p>}>
+            <Suspense fallback={<Loader loading />}>
               <Lessons />,
             </Suspense>
           ),
@@ -87,7 +88,7 @@ const mainRouter = createBrowserRouter(
         {
           path: `todos`,
           element: (
-            <Suspense>
+            <Suspense fallback={<Loader loading />}>
               <ToDos />
             </Suspense>
           ),
@@ -99,7 +100,7 @@ const mainRouter = createBrowserRouter(
         {
           path: `settings`,
           element: (
-            <Suspense>
+            <Suspense fallback={<Loader loading />}>
               <Settings />
             </Suspense>
           ),
