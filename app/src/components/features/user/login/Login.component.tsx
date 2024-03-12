@@ -44,11 +44,8 @@ function Login() {
   }
   return (
     <>
-      <CardHeader>
-        <CardTitle>Login</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <div className="space-y-1">
+      <CardContent className="flex flex-col space-y-3 pt-3">
+        <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
@@ -58,10 +55,10 @@ function Login() {
             placeholder="Email"
             value={input.email}
             onChange={handleInput}
-            className={error ? 'border-solid border-2 !border-destructive' : ''}
+            className={error ? 'border-2 border-solid !border-destructive' : ''}
           />
         </div>
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="passwort">Passwort</Label>
           <PasswordInput
             id="password"
@@ -69,7 +66,7 @@ function Login() {
             placeholder="Passwort"
             value={input.password}
             onChange={handleInput}
-            className={error ? 'border-solid border-2 !border-destructive' : ''}
+            className={error ? 'border-2 border-solid !border-destructive' : ''}
           />
         </div>
       </CardContent>
@@ -77,7 +74,7 @@ function Login() {
         <Button onClick={handleLogin}>Login</Button>
       </CardFooter>
       {error && (
-        <p className="p-6 text-sm text-destructive text-center">
+        <p className="p-6 text-center text-sm text-destructive">
           Login-Daten stimmen nicht. Versuch's nochmal...
         </p>
       )}
