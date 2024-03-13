@@ -40,6 +40,7 @@ function Lesson() {
         animate={{ opacity: 1 }}
       >
         <LessonHeader />
+        <h1>I am a test</h1>
 
         <main className="main">
           <PreviousLessons />
