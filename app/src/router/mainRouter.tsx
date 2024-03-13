@@ -34,7 +34,7 @@ const mainRouter = createBrowserRouter(
           index: true,
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Dashboard />,
+              <Dashboard />
             </Suspense>
           ),
         },
@@ -42,7 +42,7 @@ const mainRouter = createBrowserRouter(
           path: 'students',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Students />,
+              <Students />
             </Suspense>
           ),
           children: [
@@ -73,7 +73,7 @@ const mainRouter = createBrowserRouter(
           path: 'lessons',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Lessons />,
+              <Lessons />
             </Suspense>
           ),
         },
