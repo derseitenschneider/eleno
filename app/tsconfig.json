@@ -18,12 +18,6 @@
     "sourceMap": true,
     "baseUrl": "./"
   },
-  "include": [
-    ".eslintrc.cjs",
-    "src",
-    "vite.config.ts",
-    "scripts",
-    "manifest.ts"
-  ],
+  "include": [".eslintrc.cjs", "src", "vite.config.ts", "scripts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
