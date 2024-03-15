@@ -1,14 +1,14 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.22",
+  "version": "1.6.23",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
   "scripts": {
     "dev": "vite --open --host",
     "dev:demo": "VITE_MODE=demo vite --open",
-    "build": "tsc && vite build && node ../scripts/hash-index.js",
+    "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",
     "preview": "vite preview",
     "generate-types": " npx supabase gen types typescript --project-id 'brhpqxeowknyhrimssxw' --schema public > src/types/supabase.ts"
