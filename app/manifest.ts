@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { ManifestOptions } from 'vite-plugin-pwa'
 
 const manifest: Partial<ManifestOptions> = {
