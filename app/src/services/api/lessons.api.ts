@@ -95,7 +95,7 @@ export const updateLessonSupabase = async (
     .update({ ...lesson })
     .eq('id', lesson.id)
     .select()
-    .returns<TLesson>()
+    .single()
 
   if (error) throw new Error(error.message)
   return data
