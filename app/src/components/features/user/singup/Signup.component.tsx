@@ -37,10 +37,17 @@ const dataSignup = {
   terms: false,
 }
 
+const defaultErrors = {
+  passwordNotEqual: '',
+  passwordLength: '',
+  termsUnchecked: '',
+  emailExists: '',
+}
+
 function Signup() {
   const [input, setInput] = useState<TInput>(dataSignup)
   const [confirmEmailSent, setConfirmEmailSent] = useState(false)
-  const [errors, setErrors] = useState<TErrors>(null)
+  const [errors, setErrors] = useState<TErrors>(defaultErrors)
   const [isPending, setIsPending] = useState(false)
   const inputRef = useRef(null)
 
@@ -60,9 +67,7 @@ function Signup() {
 
     if (name === 'password' || name === 'password2') {
       setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors.passwordLength
-        delete newErrors.passwordNotEqual
+        const newErrors = { ...prev, passwordLength: '', passwordNotEqual: '' }
 
         return newErrors
       })
@@ -72,8 +77,7 @@ function Signup() {
 
   const handleCheckbox = (checked: CheckedState) => {
     setErrors((prev) => {
-      const newErrors = { ...prev }
-      delete newErrors.termsUnchecked
+      const newErrors = { ...prev, termsUnchecked: '' }
 
       return newErrors
     })
@@ -192,7 +196,9 @@ function Signup() {
         <div className="space-y-2">
           <Label htmlFor="password">Passwort</Label>
           <PasswordInput
-            className={error ? 'border-2 border-solid !border-destructive' : ''}
+            className={
+              errors ? 'border-2 border-solid !border-destructive' : ''
+            }
             id="password"
             name="password"
             placeholder="Passwort"
@@ -206,7 +212,9 @@ function Signup() {
           <Label htmlFor="password-2">Passwort-Wiederholung</Label>
           <PasswordInput
             value={input.password2}
-            className={error ? 'border-2 border-solid !border-destructive' : ''}
+            className={
+              errors ? 'border-2 border-solid !border-destructive' : ''
+            }
             id="password-2"
             name="password2"
             placeholder="Passwort-Wiederholung"
@@ -218,7 +226,9 @@ function Signup() {
         <div className="flex items-start space-x-2 pt-5">
           <Checkbox
             id="terms"
-            className={error ? 'border-2 border-solid !border-destructive' : ''}
+            className={
+              errors ? 'border-2 border-solid !border-destructive' : ''
+            }
             required
             checked={input.terms}
             onCheckedChange={handleCheckbox}
@@ -245,7 +255,9 @@ function Signup() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={signUp}>Sign Up</Button>
+        <Button className="w-full" onClick={signUp}>
+          Sign Up
+        </Button>
       </CardFooter>
     </>
   )

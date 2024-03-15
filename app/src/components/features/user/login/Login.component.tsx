@@ -44,7 +44,7 @@ function Login() {
   }
   return (
     <>
-      <CardContent className="flex flex-col space-y-3 pt-3">
+      <CardContent className="flex flex-col space-y-3 pt-3 my-3">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -71,7 +71,9 @@ function Login() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleLogin}>Login</Button>
+        <Button className="w-full" onClick={handleLogin}>
+          Log In
+        </Button>
       </CardFooter>
       {error && (
         <p className="p-6 text-center text-sm text-destructive">

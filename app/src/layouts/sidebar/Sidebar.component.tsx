@@ -95,8 +95,8 @@ function Sidebar() {
   }, [closeSidebarOnWindowClick, sidebarOpen])
 
   return (
-    <div>
-      <div className={`sidebar${sidebarOpen ? ' sidebar--open' : ''}`}>
+    <div className="h-1">
+      <div className="flex">
         <button
           type="button"
           className="sidebar__button--toggle"
