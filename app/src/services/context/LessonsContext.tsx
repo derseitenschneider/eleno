@@ -89,13 +89,13 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
         )
       }
       try {
-        await updateLessonSupabase(updatedLesson)
+        const newLesson = await updateLessonSupabase(updatedLesson)
         setLessons((prev) =>
           prev.map((lesson) =>
-            lesson.id === updatedLesson.id
+            lesson.id === newLesson.id
               ? {
-                  ...updatedLesson,
-                  date: formatDateToDatabase(updatedLesson.date),
+                  ...newLesson,
+                  date: formatDateToDatabase(newLesson.date),
                 }
               : lesson,
           ),
