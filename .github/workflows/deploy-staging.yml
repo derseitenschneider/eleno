@@ -7,7 +7,7 @@ on:
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy App
+    name: 🎉 Deploy Staging App
     runs-on: ubuntu-latest
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}

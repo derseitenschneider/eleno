@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error/error'
 
+import Loader from '../components/ui/loader/Loader'
 import Application from '../Application'
 
 import Account from '../pages/settings/account/Account'
@@ -91,7 +92,7 @@ const mainRouter = createBrowserRouter(
         {
           path: `todos`,
           element: (
-            <Suspense>
+            <Suspense fallback={<Loader loading />}>
               <ToDos />
             </Suspense>
           ),
@@ -103,7 +104,7 @@ const mainRouter = createBrowserRouter(
         {
           path: `settings`,
           element: (
-            <Suspense>
+            <Suspense fallback={<Loader loading />}>
               <Settings />
             </Suspense>
           ),

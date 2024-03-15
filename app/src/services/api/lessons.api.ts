@@ -1,5 +1,5 @@
-import supabase from './supabase'
 import { TLesson } from '../../types/types'
+import supabase from './supabase'
 
 export const fetchAllLessonsSupabase = async (
   studentId: number,
@@ -87,13 +87,18 @@ export const deleteLessonSupabase = async (lessonId: number) => {
   }
 }
 
-export const updateLessonSupabase = async (lesson: TLesson) => {
-  const { error } = await supabase
+export const updateLessonSupabase = async (
+  lesson: TLesson,
+): Promise<TLesson> => {
+  const { data, error } = await supabase
     .from('lessons')
     .update({ ...lesson })
     .eq('id', lesson.id)
+    .select()
+    .single()
 
   if (error) throw new Error(error.message)
+  return data
 }
 
 export const fetchLatestLessonsSupabase = async () => {

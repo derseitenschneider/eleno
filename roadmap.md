@@ -1,9 +1,5 @@
 ## Features V2
 
-- [ ] Color coding «Notizen»
-
-- [ ] Search-field in lesson navigation
-
 - [ ] Display student related todos in lesson sheet
 
 - [ ] Notification popup
@@ -13,8 +9,6 @@
   - [ ] Apply in overview, paginate by semester/year
 
 - [ ] Improve PWA for offline use
-
-- [ ] Darkmode switch
 
 - [ ] Toolbox
 
