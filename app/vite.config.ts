@@ -18,7 +18,7 @@ export default defineConfig({
 
       // strategies: 'injectManifest',
       devOptions: {
-        enabled: true,
+        enabled: false,
       },
       manifest,
       minify: true,

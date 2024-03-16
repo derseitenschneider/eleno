@@ -72,5 +72,9 @@ body {
 }
 
 a {
-  @apply text-primary
+  @apply text-primary hover:underline cursor-pointer
+}
+
+p {
+  @apply text-foreground
 }

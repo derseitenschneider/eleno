@@ -16,10 +16,10 @@ export default function Application() {
       <LoadingProvider>
         <AuthProvider>
           <MainContext>
-            <Sidebar />
-            <NavbarMobile />
             <Main>
+              <Sidebar />
               <Outlet />
+              <NavbarMobile />
             </Main>
           </MainContext>
         </AuthProvider>

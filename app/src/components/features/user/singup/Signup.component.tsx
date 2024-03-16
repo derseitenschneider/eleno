@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { signUpSupabase } from '../../../../services/api/user.api'
@@ -12,6 +12,7 @@ import { PasswordInput } from '@/components/ui/password-input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { CheckedState } from '@radix-ui/react-checkbox'
+import LogoText from '@/components/ui/LogoText.component'
 
 type TInput = {
   firstName: string
@@ -148,129 +149,142 @@ function Signup() {
   console.log(errors)
 
   return (
-    <>
-      <CardContent className="my-3 flex flex-col space-y-3 pt-3">
-        <h2 className="mb-4 text-center text-xl">Los geht's!</h2>
-        <div className="grid grid-cols-2 space-x-3">
-          <div className="space-y-2">
-            <Label htmlFor="firstname">Vorname</Label>
-            <Input
-              type="firstName"
-              ref={inputRef}
-              id="firstName"
-              name="firstName"
-              placeholder="Vorname"
-              value={input.firstName}
-              onChange={handleInput}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Nachname</Label>
-            <Input
-              type="lastName"
-              id="lastName"
-              name="lastName"
-              placeholder="Nachname"
-              required
-              value={input.lastName}
-              onChange={handleInput}
-            />
-          </div>
+    <div className="flex min-h-screen flex-col items-stretch ">
+      <div className="z-10 flex justify-between p-6">
+        <LogoText />
+        <div className="flex items-center gap-4">
+          <p className="text-sm">Ich habe bereits einen Account?</p>
+          <Button onClick={() => setSearchParams({ page: 'login' })}>
+            Login
+          </Button>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            className={
-              errors.emailExists
-                ? 'border-2 border-solid !border-destructive'
-                : ''
-            }
-            id="email"
-            name="email"
-            placeholder="Email"
-            value={input.email}
-            onChange={handleInput}
-            required
-          />
-          <span>{errors.emailExists}</span>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Passwort</Label>
-          <PasswordInput
-            className={
-              errors.passwordLength || errors.passwordNotEqual
-                ? 'border-2 border-solid !border-destructive'
-                : ''
-            }
-            id="password"
-            name="password"
-            placeholder="Passwort"
-            value={input.password}
-            onChange={handleInput}
-            required
-          />
-          <span className="text-xs">Mind. 6 Zeichen</span>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password-2">Passwort-Wiederholung</Label>
-          <PasswordInput
-            value={input.password2}
-            className={
-              errors.passwordLength || errors.passwordNotEqual
-                ? 'border-2 border-solid !border-destructive'
-                : ''
-            }
-            id="password-2"
-            name="password2"
-            placeholder="Passwort-Wiederholung"
-            onChange={handleInput}
-            required
-          />
-        </div>
+      </div>
+      <div
+        className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
+          justify-center gap-2 py-20"
+      >
+        <Card className="px-8 py-3">
+          <CardContent className="my-3 flex w-[500px] flex-col space-y-3 pt-3">
+            <h2 className="mb-4 text-center text-xl">Los geht's!</h2>
+            <div className="grid grid-cols-2 space-x-3">
+              <div className="space-y-2">
+                <Label htmlFor="firstname">Vorname</Label>
+                <Input
+                  type="firstName"
+                  ref={inputRef}
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Vorname"
+                  value={input.firstName}
+                  onChange={handleInput}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Nachname</Label>
+                <Input
+                  type="lastName"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Nachname"
+                  required
+                  value={input.lastName}
+                  onChange={handleInput}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                className={
+                  errors.emailExists
+                    ? 'border-2 border-solid !border-destructive'
+                    : ''
+                }
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={input.email}
+                onChange={handleInput}
+                required
+              />
+              <span>{errors.emailExists}</span>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Passwort</Label>
+              <PasswordInput
+                className={
+                  errors.passwordLength || errors.passwordNotEqual
+                    ? 'border-2 border-solid !border-destructive'
+                    : ''
+                }
+                id="password"
+                name="password"
+                placeholder="Passwort"
+                value={input.password}
+                onChange={handleInput}
+                required
+              />
+              <span className="text-xs">Mind. 6 Zeichen</span>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password-2">Passwort-Wiederholung</Label>
+              <PasswordInput
+                value={input.password2}
+                className={
+                  errors.passwordLength || errors.passwordNotEqual
+                    ? 'border-2 border-solid !border-destructive'
+                    : ''
+                }
+                id="password-2"
+                name="password2"
+                placeholder="Passwort-Wiederholung"
+                onChange={handleInput}
+                required
+              />
+            </div>
 
-        <div className="flex items-start space-x-2 pt-5">
-          <Checkbox
-            id="terms"
-            className={
-              errors.termsUnchecked
-                ? 'border-2 border-solid !border-destructive'
-                : ''
-            }
-            required
-            checked={input.terms}
-            onCheckedChange={handleCheckbox}
-          />
-          <Label htmlFor="terms" className="text-sm font-normal">
-            Ich bin mit den{' '}
-            <a
-              className="hover:underline"
-              href="https://eleno.net/impressum-datenschutz/"
-              target="_blank"
-            >
-              Datenschutzbestimmungen{' '}
-            </a>
-            und den{' '}
-            <a
-              className="hover:underline"
-              href="https://eleno.net/terms-conditions/"
-              target="_blank"
-            >
-              Allgemeinen Geschäftsbestimmungen
-            </a>{' '}
-            einverstanden
-          </Label>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button className="w-full" onClick={signUp}>
-          Sign Up
-        </Button>
-      </CardFooter>
-      <a href="?page=login" className="mb-4 block text-center text-sm">
-        Ich habe bereits einen Account.
-      </a>
-    </>
+            <div className="flex items-start space-x-2 pt-5">
+              <Checkbox
+                id="terms"
+                className={
+                  errors.termsUnchecked
+                    ? 'border-2 border-solid !border-destructive'
+                    : ''
+                }
+                required
+                checked={input.terms}
+                onCheckedChange={handleCheckbox}
+              />
+              <Label htmlFor="terms" className="text-sm font-normal">
+                Ich bin mit den{' '}
+                <a
+                  className="hover:underline"
+                  href="https://eleno.net/impressum-datenschutz/"
+                  target="_blank"
+                >
+                  Datenschutzbestimmungen{' '}
+                </a>
+                und den{' '}
+                <a
+                  className="hover:underline"
+                  href="https://eleno.net/terms-conditions/"
+                  target="_blank"
+                >
+                  Allgemeinen Geschäftsbestimmungen
+                </a>{' '}
+                einverstanden
+              </Label>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full" onClick={signUp}>
+              Sign Up
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   )
 }
 
