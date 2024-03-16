@@ -1,20 +1,18 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { loginSupabase } from '../../../../services/api/user.api'
 
+import LogoText from '@/components/ui/LogoText.component'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
-import LogoText from '@/components/ui/LogoText.component'
 
 function Login() {
   const [input, setInput] = useState({ email: '', password: '' })
   const [error, setError] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
-
-  const inputRef = useRef(null)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false)
@@ -34,14 +32,13 @@ function Login() {
     } catch (err) {
       setError(true)
       setInput({ email: '', password: '' })
-      inputRef.current.focus()
     }
   }
   return (
     <div className="flex min-h-screen flex-col items-stretch ">
       <div className="z-10 flex justify-between p-6">
         <LogoText />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <p className="text-sm">Noch keinen Account?</p>
           <Button onClick={() => setSearchParams({ page: 'signup' })}>
             Sign Up
@@ -59,9 +56,9 @@ function Login() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
+                  autoFocus
                   required
                   type="email"
-                  ref={inputRef}
                   id="email"
                   name="email"
                   placeholder="Email"
@@ -98,7 +95,7 @@ function Login() {
               </p>
             )}
             <a
-              href="?page=reset"
+              onClick={() => setSearchParams({ page: 'reset' })}
               className=" mb-4 mt-2 block text-center text-sm "
             >
               Passwort vergessen?

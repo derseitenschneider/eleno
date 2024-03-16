@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { CheckedState } from '@radix-ui/react-checkbox'
 import LogoText from '@/components/ui/LogoText.component'
+import { Loader2 } from 'lucide-react'
 
 type TInput = {
   firstName: string
@@ -55,7 +56,6 @@ function Signup() {
   const [, setSearchParams] = useSearchParams()
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
     const { value, name } = e.target
 
     if (name === 'email') {
@@ -152,7 +152,7 @@ function Signup() {
     <div className="flex min-h-screen flex-col items-stretch ">
       <div className="z-10 flex justify-between p-6">
         <LogoText />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <p className="text-sm">Ich habe bereits einen Account?</p>
           <Button onClick={() => setSearchParams({ page: 'login' })}>
             Login
@@ -280,6 +280,7 @@ function Signup() {
           <CardFooter>
             <Button className="w-full" onClick={signUp}>
               Sign Up
+              {isPending && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
             </Button>
           </CardFooter>
         </Card>
