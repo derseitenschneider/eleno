@@ -44,7 +44,8 @@ function Login() {
   }
   return (
     <>
-      <CardContent className="flex flex-col space-y-3 pt-3 my-3">
+      <CardContent className="my-3 flex flex-col space-y-3 pt-3">
+        <h2 className="mb-4 text-center text-xl">Willkommen zurück!</h2>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -80,6 +81,9 @@ function Login() {
           Login-Daten stimmen nicht. Versuch's nochmal...
         </p>
       )}
+      <a href="?page=reset" className=" mb-4 mt-2 block text-center text-sm ">
+        Passwort vergessen?
+      </a>
     </>
   )
 }

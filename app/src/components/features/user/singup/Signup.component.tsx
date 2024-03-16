@@ -145,10 +145,12 @@ function Signup() {
         </div>
       </div>
     )
+  console.log(errors)
 
   return (
     <>
-      <CardContent className="flex flex-col space-y-3 pt-3">
+      <CardContent className="my-3 flex flex-col space-y-3 pt-3">
+        <h2 className="mb-4 text-center text-xl">Los geht's!</h2>
         <div className="grid grid-cols-2 space-x-3">
           <div className="space-y-2">
             <Label htmlFor="firstname">Vorname</Label>
@@ -197,7 +199,9 @@ function Signup() {
           <Label htmlFor="password">Passwort</Label>
           <PasswordInput
             className={
-              errors ? 'border-2 border-solid !border-destructive' : ''
+              errors.passwordLength || errors.passwordNotEqual
+                ? 'border-2 border-solid !border-destructive'
+                : ''
             }
             id="password"
             name="password"
@@ -213,7 +217,9 @@ function Signup() {
           <PasswordInput
             value={input.password2}
             className={
-              errors ? 'border-2 border-solid !border-destructive' : ''
+              errors.passwordLength || errors.passwordNotEqual
+                ? 'border-2 border-solid !border-destructive'
+                : ''
             }
             id="password-2"
             name="password2"
@@ -227,7 +233,9 @@ function Signup() {
           <Checkbox
             id="terms"
             className={
-              errors ? 'border-2 border-solid !border-destructive' : ''
+              errors.termsUnchecked
+                ? 'border-2 border-solid !border-destructive'
+                : ''
             }
             required
             checked={input.terms}
@@ -236,7 +244,7 @@ function Signup() {
           <Label htmlFor="terms" className="text-sm font-normal">
             Ich bin mit den{' '}
             <a
-              className="text-primary hover:underline"
+              className="hover:underline"
               href="https://eleno.net/impressum-datenschutz/"
               target="_blank"
             >
@@ -244,7 +252,7 @@ function Signup() {
             </a>
             und den{' '}
             <a
-              className="text-primary hover:underline"
+              className="hover:underline"
               href="https://eleno.net/terms-conditions/"
               target="_blank"
             >
@@ -259,6 +267,9 @@ function Signup() {
           Sign Up
         </Button>
       </CardFooter>
+      <a href="?page=login" className="mb-4 block text-center text-sm">
+        Ich habe bereits einen Account.
+      </a>
     </>
   )
 }
