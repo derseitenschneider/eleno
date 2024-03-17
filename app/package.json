@@ -1,7 +1,7 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.21",
+  "version": "1.6.22",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@firebase/analytics": "^0.10.1",
+    "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-hover-card": "^1.0.7",
     "@radix-ui/react-label": "^2.0.2",
@@ -43,6 +44,7 @@
     "react-csv-downloader": "^3.0.0",
     "react-day-picker": "^8.8.1",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.1",
     "react-icons": "^4.7.1",
     "react-pdf-html": "^1.1.18",
     "react-router-dom": "^6.8.0",
@@ -52,7 +54,8 @@
     "react-toastify": "^9.1.1",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^18.19.21",

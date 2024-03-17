@@ -1,0 +1,22 @@
+import LogoText from '@/components/ui/LogoText.component'
+import { Button } from '@/components/ui/button'
+type LoginHeaderProps = {
+  preText: string
+  buttonText: string
+  onClick: () => void
+}
+export default function LoginHeader({
+  preText,
+  buttonText,
+  onClick,
+}: LoginHeaderProps) {
+  return (
+    <div className="z-10 flex justify-between p-6">
+      <LogoText />
+      <div className="flex items-center gap-3">
+        <p>{preText}</p>
+        <Button onClick={onClick}>{buttonText}</Button>
+      </div>
+    </div>
+  )
+}

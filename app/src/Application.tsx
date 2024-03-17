@@ -11,15 +11,15 @@ import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
 export default function Application() {
   return (
-    <div className="App">
+    <div className="bg-background">
       <Toast />
       <LoadingProvider>
         <AuthProvider>
           <MainContext>
             <Main>
               <Sidebar />
-              <Outlet />
-              <NavbarMobile />
+              {/* <Outlet /> */}
+              {/* <NavbarMobile /> */}
             </Main>
           </MainContext>
         </AuthProvider>

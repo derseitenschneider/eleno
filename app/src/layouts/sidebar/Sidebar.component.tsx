@@ -1,6 +1,5 @@
 import { logEvent } from '@firebase/analytics'
 import { useCallback, useEffect, useState } from 'react'
-import './sidebar.style.scss'
 
 import {
   IoBookOutline,
@@ -95,130 +94,124 @@ function Sidebar() {
   }, [closeSidebarOnWindowClick, sidebarOpen])
 
   return (
-    <div className="h-1">
-      <div className="flex">
-        <button
-          type="button"
-          className="sidebar__button--toggle"
-          onClick={toggleSidebar}
-        >
-          <IoChevronForwardOutline className="chevron" />
-        </button>
-        <div className="container-top">
-          <NavLink to="/" className="sidebar__logo">
-            <Logo />
-          </NavLink>
-          <nav className="sidebar__navigation">
-            <ul className="sidebar__nav-list">
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="/"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoCompassOutline className="icon" />
-                  </div>
-                  <span className="sidebar__link-text">Dashboard</span>
-                </NavLink>
-              </li>
+    <div
+      className={`bg-background2 fixed left-0 top-0 z-50 flex h-screen flex-col items-stretch
+      justify-between p-2.5 shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
+    >
+      <div className="w-full">
+        <NavLink to="/" className="relative block w-full">
+          <Logo />
+          <button
+            type="button"
+            className="absolute bottom-[-20px] right-[-20px] flex aspect-auto h-[1em] items-center
+              justify-center rounded-full bg-primary p-0.5 text-white"
+            onClick={toggleSidebar}
+          >
+            <IoChevronForwardOutline className="h-full w-full" />
+          </button>
+        </NavLink>
+        <nav className="">
+          <ul className="">
+            <li className="">
+              <NavLink
+                to="/"
+                className="flex h-full w-full"
+                onClick={handleNav}
+              >
+                <div className="sidebar__nav-icon">
+                  <IoCompassOutline className="icon" />
+                </div>
+                <span className="hidden">Dashboard</span>
+              </NavLink>
+            </li>
 
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="lessons"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoSchoolOutline className="icon" />
-                  </div>
-                  <span className="sidebar__link-text">Unterrichten</span>
-                </NavLink>
-              </li>
+            <li className="flex">
+              <NavLink
+                to="lessons"
+                className="sidebar__nav-link"
+                onClick={handleNav}
+              >
+                <div className="sidebar__nav-icon">
+                  <IoSchoolOutline className="icon" />
+                </div>
+                <span className="hidden">Unterrichten</span>
+              </NavLink>
+            </li>
 
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="students"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoPeopleCircleOutline className="icon" />
-                  </div>
+            <li className="flex">
+              <NavLink
+                to="students"
+                className="sidebar__nav-link"
+                onClick={handleNav}
+              >
+                <div className="sidebar__nav-icon">
+                  <IoPeopleCircleOutline className="icon" />
+                </div>
 
-                  <span className="sidebar__link-text">Schüler:innen</span>
-                </NavLink>
-              </li>
+                <span className="hidden">Schüler:innen</span>
+              </NavLink>
+            </li>
 
-              <li className="sidebar__nav-el todos">
-                <NavLink
-                  to="todos"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <CountOverdueTodos />
-                    <IoCheckboxOutline className="icon" />
-                  </div>
+            <li className="sidebar__nav-el todos">
+              <NavLink
+                to="todos"
+                className="sidebar__nav-link"
+                onClick={handleNav}
+              >
+                <div className="sidebar__nav-icon">
+                  <CountOverdueTodos />
+                  <IoCheckboxOutline className="icon" />
+                </div>
 
-                  <span className="sidebar__link-text">Todos</span>
-                </NavLink>
-              </li>
+                <span className="hidden">Todos</span>
+              </NavLink>
+            </li>
 
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="timetable"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoCalendarOutline className="icon" />
-                  </div>
+            <li className="sidebar__nav-el">
+              <NavLink to="timetable" className="flex" onClick={handleNav}>
+                <div className="sidebar__nav-icon">
+                  <IoCalendarOutline className="icon" />
+                </div>
 
-                  <span className="sidebar__link-text">Stundenplan</span>
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
+                <span className="hidden">Stundenplan</span>
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="container-settings">
+        <div className="sidebar__nav-el">
+          <Link
+            onClick={handleNav}
+            to="https://manual.eleno.net/"
+            target="_blank"
+            className="sidebar__nav-link"
+          >
+            <div className="sidebar__nav-icon">
+              <IoBookOutline className="icon" />
+            </div>
+            <span className="sidebar__link-text">Anleitung</span>
+          </Link>
         </div>
-        <div className="container-settings">
-          <div className="sidebar__nav-el">
-            <Link
-              onClick={handleNav}
-              to="https://manual.eleno.net/"
-              target="_blank"
-              className="sidebar__nav-link"
-            >
-              <div className="sidebar__nav-icon">
-                <IoBookOutline className="icon" />
-              </div>
-              <span className="sidebar__link-text">Anleitung</span>
-            </Link>
-          </div>
-          <div className="sidebar__nav-el">
-            <NavLink
-              to="settings"
-              className="sidebar__nav-link"
-              onClick={handleNav}
-            >
-              <div className="sidebar__nav-icon">
-                <IoSettingsOutline className="icon" />
-              </div>
-              <span className="sidebar__link-text">Einstellungen</span>
-            </NavLink>
-          </div>
-          <div className="sidebar__nav-el">
-            <button
-              type="button"
-              className="sidebar__nav-link"
-              onClick={logout}
-            >
-              <div className="sidebar__nav-icon">
-                <IoLogOutOutline className="icon icon--logout" />
-              </div>
-              <span className="sidebar__link-text">Log out</span>
-            </button>
-          </div>
+        <div className="sidebar__nav-el">
+          <NavLink
+            to="settings"
+            className="sidebar__nav-link"
+            onClick={handleNav}
+          >
+            <div className="sidebar__nav-icon">
+              <IoSettingsOutline className="icon" />
+            </div>
+            <span className="sidebar__link-text">Einstellungen</span>
+          </NavLink>
+        </div>
+        <div className="sidebar__nav-el">
+          <button type="button" className="sidebar__nav-link" onClick={logout}>
+            <div className="sidebar__nav-icon">
+              <IoLogOutOutline className="icon icon--logout" />
+            </div>
+            <span className="sidebar__link-text">Log out</span>
+          </button>
         </div>
       </div>
     </div>

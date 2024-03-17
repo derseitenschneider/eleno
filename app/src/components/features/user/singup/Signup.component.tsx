@@ -146,7 +146,6 @@ function Signup() {
         </div>
       </div>
     )
-  console.log(errors)
 
   return (
     <div className="flex min-h-screen flex-col items-stretch ">
