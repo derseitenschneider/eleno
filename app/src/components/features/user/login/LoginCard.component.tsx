@@ -11,10 +11,12 @@ import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { loginSupabase } from '@/services/api/user.api'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
-import { useEffect } from 'react'
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Gib eine gültige E-Mail Adresse ein' }),
@@ -23,6 +25,7 @@ const loginSchema = z.object({
 
 type TInput = z.infer<typeof loginSchema>
 export default function LoginCard() {
+  const [_, setSearchParams] = useSearchParams()
   const form = useForm<TInput>({
     defaultValues: {
       email: '',
@@ -50,57 +53,73 @@ export default function LoginCard() {
   }
 
   return (
-    <WrapperCard header="Willkommen zurück">
-      <Form {...form}>
-        <form
-          className="flex flex-col space-y-6"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-Mail Adresse</FormLabel>
-                <FormControl>
-                  <Input placeholder="E-Mail Adresse" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div
+      className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
+        justify-center gap-2 py-20"
+    >
+      <WrapperCard header="Willkommen zurück">
+        <Form {...form}>
+          <form
+            className="flex flex-col space-y-6"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>E-Mail Adresse</FormLabel>
+                  <FormControl>
+                    <Input placeholder="E-Mail Adresse" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Passwort</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    placeholder="Passwort"
-                    // value={field.value}
-                    // onChange={field.onChange}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Passwort</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder="Passwort"
+                      // value={field.value}
+                      // onChange={field.onChange}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={form.formState.isSubmitting}
+              className="relative w-full"
+              type="submit"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="absolute left-20 animate-spin" />
+              )}
+              Login
+            </Button>
+            {form.formState.errors.root && (
+              <p className="text-center text-sm text-red-500">
+                {form.formState.errors.root.message}
+              </p>
             )}
-          />
-          <Button className=" w-full" type="submit">
-            Login
-          </Button>
-          {form.formState.errors.root && (
-            <p className="text-center text-sm text-red-500">
-              {form.formState.errors.root.message}
-            </p>
-          )}
-        </form>
-      </Form>
-      <a onClick={() => form.reset()} className="text-center text-sm">
-        Passwort vergessen?
-      </a>
-    </WrapperCard>
+          </form>
+        </Form>
+        <a onClick={() => form.reset()} className="text-center text-sm">
+          Passwort vergessen?
+        </a>
+      </WrapperCard>
+      <p className="text-center text-sm">
+        Noch keinen Account?{' '}
+        <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
+      </p>
+    </div>
   )
 }
