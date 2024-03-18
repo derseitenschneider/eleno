@@ -17,6 +17,7 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "baseUrl": ".",
+    "types": ["vitest/globals"],
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -27,7 +28,8 @@
     "vite.config.ts",
     "scripts",
     "postcss.config.js",
-    "tailwind.config.js"
+    "tailwind.config.js",
+    "sum.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
