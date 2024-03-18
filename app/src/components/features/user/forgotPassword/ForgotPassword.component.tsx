@@ -11,6 +11,8 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'
+import LoginHeader from '../login/LoginHeader.component'
+import ResetCard from '../login/ResetCard.component'
 
 function ForgotPassword() {
   const [recoverSuccess, setRecoverSuccess] = useState(false)
@@ -36,24 +38,18 @@ function ForgotPassword() {
     }
   }
   return (
-    <div className="flex min-h-screen flex-col items-stretch ">
-      <div className="z-10 flex justify-between p-6">
-        <LogoText />
-        <div className="flex items-center gap-3">
-          <p className="text-sm">Noch keinen Account?</p>
-          <Button
-            onClick={() => setSearchParams({ page: 'signup' })}
-            type="button"
-          >
-            Sign Up
-          </Button>
-        </div>
-      </div>
+    <div>
+      <LoginHeader
+        preText="Noch kein Benutzerkonto?"
+        buttonText="Sign up"
+        onClick={() => setSearchParams({ page: 'signup' })}
+      />
 
       <div
         className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
           justify-center gap-2 py-20"
       >
+        <ResetCard />
         {!recoverSuccess ? (
           <Card className="  px-8 py-3">
             <form>

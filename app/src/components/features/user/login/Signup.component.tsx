@@ -1,16 +1,15 @@
 /* eslint-disable react/jsx-no-target-blank */
 import { useSearchParams } from 'react-router-dom'
-import './signup.style.scss'
 
-import LoginHeader from '../login/LoginHeader.component'
-import SignupCard from '../login/SingupCard.component'
+import LoginHeader from './LoginHeader.component'
+import SignupCard from './SingupCard.component'
 
 function Signup() {
   const [_, setSearchParams] = useSearchParams()
   return (
     <>
       <LoginHeader
-        preText="Bereits einen Account?"
+        preText="Bereits einen Benutzerkonto?"
         buttonText="Login"
         onClick={() => {
           setSearchParams({ page: 'login' })

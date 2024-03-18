@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <>
       <LoginHeader
-        preText="Noch keinen Account?"
+        preText="Noch keinen Benutzerkonto?"
         buttonText="Sign up"
         onClick={() => setSearchParams({ page: 'signup' })}
       />

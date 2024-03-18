@@ -14,16 +14,18 @@ import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/ui/password-input'
+import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
+import SuccessCard from './SuccessCard.component'
+import { signUpSupabase } from '@/services/api/user.api'
 
 const signupSchema = z
   .object({
-    firstName: z.string().min(1, { message: 'Gib deinen Vornamen ein' }),
-    lastName: z.string().min(1, { message: 'Gib deinen Nachnamen ein' }),
-    email: z.string().email({ message: 'Gib eine gültige E-Mail Adresse ein' }),
-    password: z.string().min(1, { message: 'Gib ein Passwort ein' }),
-    password2: z
-      .string()
-      .min(1, { message: 'Gib die Passwortwiederholung ein' }),
+    firstName: z.string().min(1, { message: 'Vorname fehlt' }),
+    lastName: z.string().min(1, { message: 'Nachname fehlt' }),
+    email: z.string().email({ message: 'Ungültige E-Mail Adresse' }),
+    password: z.string().min(1, { message: 'Passwort fehlt' }),
+    password2: z.string().min(1, { message: 'Passwort Wiederholung fehlt' }),
     terms: z
       .boolean({
         invalid_type_error:
@@ -35,13 +37,15 @@ const signupSchema = z
       }),
   })
   .refine((data) => data.password === data.password2, {
-    message: 'Die Passwörter stimmt nicht überein',
+    message: 'Passwörter stimmen nicht überein',
     path: ['password2'],
   })
 
 type TInput = z.infer<typeof signupSchema>
 
 export default function SignupCard() {
+  const [isSuccess, setIsSuccess] = useState(false)
+
   const form = useForm<TInput>({
     defaultValues: {
       firstName: '',
@@ -55,18 +59,31 @@ export default function SignupCard() {
     mode: 'onSubmit',
     shouldFocusError: true,
   })
+
+  const onSubmit = async (data: TInput) => {
+    const { firstName, lastName, email, password } = data
+
+    try {
+      await signUpSupabase(data)
+      setIsSuccess(true)
+    } catch (error) {
+      form.setFocus('email')
+      form.setError('root', {
+        message: 'Etwas ist schiefgelaufen. Bitte versuche es nochmal.',
+      })
+    }
+  }
+  if (isSuccess) return <SuccessCard />
   return (
     <div
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard header="Willkommen zurück">
+      <WrapperCard header="Los geht's!">
         <Form {...form}>
           <form
-            className="flex flex-col space-y-6"
-            onSubmit={form.handleSubmit((data) => {
-              console.log(data)
-            })}
+            className="flex flex-col space-y-7"
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="grid grid-cols-2 gap-4">
               <FormField
@@ -76,7 +93,7 @@ export default function SignupCard() {
                   <FormItem>
                     <FormLabel>Vorname</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Vorname" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -89,7 +106,7 @@ export default function SignupCard() {
                   <FormItem>
                     <FormLabel>Nachname</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Nachname" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,7 +120,7 @@ export default function SignupCard() {
                 <FormItem>
                   <FormLabel>E-Mail Adresse</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="E-Mail Adresse" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,7 +134,7 @@ export default function SignupCard() {
                 <FormItem>
                   <FormLabel>Passwort</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput placeholder="Passwort" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,8 +147,45 @@ export default function SignupCard() {
                 <FormItem>
                   <FormLabel>Passwort Wiederholung</FormLabel>
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput
+                      placeholder="Passwort Wiederholung"
+                      {...field}
+                    />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="terms"
+              render={({ field }) => (
+                <FormItem className="items-tart flex flex-row space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-normal">
+                      Ich bin mit den{' '}
+                      <a
+                        href="https://eleno.net/impressum-datenschutz"
+                        target="_blank"
+                      >
+                        Datenschutzbestimmungen
+                      </a>{' '}
+                      und der{' '}
+                      <a
+                        href="https://eleno.net/terms-conditions"
+                        target="_blank"
+                      >
+                        Allgemeinen Geschäftsbedingungen
+                      </a>{' '}
+                      gelesen
+                    </FormLabel>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

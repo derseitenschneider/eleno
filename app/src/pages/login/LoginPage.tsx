@@ -3,7 +3,7 @@ import './loginPage.style.scss'
 
 import Login from '../../components/features/user/login/Login.component'
 
-import Signup from '../../components/features/user/singup/Signup.component'
+import Signup from '../../components/features/user/login/Signup.component'
 import ForgotPassword from '@/components/features/user/forgotPassword/ForgotPassword.component'
 
 function LoginPage() {

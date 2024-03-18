@@ -19,11 +19,12 @@ import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Gib eine gültige E-Mail Adresse ein' }),
-  password: z.string().min(1, { message: 'Gib ein Passwort ein' }),
+  email: z.string().email({ message: 'Email Adresse ungültig' }),
+  password: z.string().min(1, { message: 'Passwort fehlt' }),
 })
 
 type TInput = z.infer<typeof loginSchema>
+
 export default function LoginCard() {
   const [_, setSearchParams] = useSearchParams()
   const form = useForm<TInput>({
@@ -47,7 +48,7 @@ export default function LoginCard() {
     } catch {
       form.setFocus('email')
       form.setError('root', {
-        message: 'E-Mail Adresse oder Passwort ungültig',
+        message: 'E-Mail Adresse und/oder Passwort ungültig',
       })
     }
   }
@@ -57,7 +58,7 @@ export default function LoginCard() {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard header="Willkommen zurück">
+      <WrapperCard header="Willkommen zurück!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-6"
@@ -112,7 +113,10 @@ export default function LoginCard() {
             )}
           </form>
         </Form>
-        <a onClick={() => form.reset()} className="text-center text-sm">
+        <a
+          onClick={() => setSearchParams({ page: 'reset' })}
+          className="text-center text-sm"
+        >
           Passwort vergessen?
         </a>
       </WrapperCard>
