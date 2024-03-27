@@ -1,16 +1,22 @@
-import { logEvent } from '@firebase/analytics'
+import { Analytics, logEvent } from '@firebase/analytics'
 import { useCallback, useEffect, useState } from 'react'
 
 import {
   IoBookOutline,
+  IoCalendarClearOutline,
   IoCalendarOutline,
   IoCheckboxOutline,
   IoChevronForwardOutline,
+  IoCompass,
   IoCompassOutline,
   IoLogOutOutline,
+  IoLogOutSharp,
   IoPeopleCircleOutline,
+  IoPeopleOutline,
+  IoSchool,
   IoSchoolOutline,
   IoSettingsOutline,
+  IoSettingsSharp,
 } from 'react-icons/io5'
 import { Link, NavLink } from 'react-router-dom'
 
@@ -22,6 +28,7 @@ import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 
 import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
 import analytics from '../../services/analytics/firebaseAnalytics'
+import SidebarElement from '@/components/ui/SidebarElement.component'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -46,41 +53,35 @@ function Sidebar() {
     [toggleSidebar],
   )
 
-  const handleNav = (e: React.MouseEvent) => {
+  const handleLogEvent = (e: React.MouseEvent):void => {
     const target = e.target as HTMLElement
-    const path = target.closest('a').pathname
+    const path = target.closest('a')?.pathname
 
     switch (path) {
       case '/':
-        if (target.closest('a').target === '_blank')
+        if (target.closest('a')?.target === '_blank')
           return logEvent(analytics, 'page_view', { page_title: 'manual' })
 
-        setClosestStudentIndex(getClosestStudentIndex(activeStudents))
+        setClosestStudentIndex(getClosestStudentIndex(activeStudents ?? []))
         return logEvent(analytics, 'page_view', { page_title: 'dashboard' })
-        break
 
       case '/lessons':
         return logEvent(analytics, 'page_view', { page_title: 'lessons' })
-        break
 
       case '/students':
         return logEvent(analytics, 'page_view', { page_title: 'students' })
-        break
 
       case '/timetable':
         return logEvent(analytics, 'page_view', { page_title: 'timetable' })
-        break
 
       case '/todos':
         return logEvent(analytics, 'page_view', { page_title: 'todos' })
-        break
 
       case '/settings':
         return logEvent(analytics, 'page_view', { page_title: 'todos' })
-        break
 
       default:
-        return null
+        return logEvent(analytics, 'page_view', {page_title: 'undefined'})
     }
   }
 
@@ -94,127 +95,38 @@ function Sidebar() {
   }, [closeSidebarOnWindowClick, sidebarOpen])
 
   return (
-    <div
-      className={`bg-background2 fixed left-0 top-0 z-50 flex h-screen flex-col items-stretch
-      justify-between p-2.5 shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
+    <nav
+      className={`bg-background50 relative fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
+justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
     >
-      <div className="w-full">
-        <NavLink to="/" className="relative block w-full">
-          <Logo />
-          <button
-            type="button"
-            className="absolute bottom-[-20px] right-[-20px] flex aspect-auto h-[1em] items-center
-              justify-center rounded-full bg-primary p-0.5 text-white"
-            onClick={toggleSidebar}
-          >
-            <IoChevronForwardOutline className="h-full w-full" />
-          </button>
-        </NavLink>
-        <nav className="">
-          <ul className="">
-            <li className="">
-              <NavLink
-                to="/"
-                className="flex h-full w-full"
-                onClick={handleNav}
-              >
-                <div className="sidebar__nav-icon">
-                  <IoCompassOutline className="icon" />
-                </div>
-                <span className="hidden">Dashboard</span>
-              </NavLink>
-            </li>
-
-            <li className="flex">
-              <NavLink
-                to="lessons"
-                className="sidebar__nav-link"
-                onClick={handleNav}
-              >
-                <div className="sidebar__nav-icon">
-                  <IoSchoolOutline className="icon" />
-                </div>
-                <span className="hidden">Unterrichten</span>
-              </NavLink>
-            </li>
-
-            <li className="flex">
-              <NavLink
-                to="students"
-                className="sidebar__nav-link"
-                onClick={handleNav}
-              >
-                <div className="sidebar__nav-icon">
-                  <IoPeopleCircleOutline className="icon" />
-                </div>
-
-                <span className="hidden">Schüler:innen</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el todos">
-              <NavLink
-                to="todos"
-                className="sidebar__nav-link"
-                onClick={handleNav}
-              >
-                <div className="sidebar__nav-icon">
-                  <CountOverdueTodos />
-                  <IoCheckboxOutline className="icon" />
-                </div>
-
-                <span className="hidden">Todos</span>
-              </NavLink>
-            </li>
-
-            <li className="sidebar__nav-el">
-              <NavLink to="timetable" className="flex" onClick={handleNav}>
-                <div className="sidebar__nav-icon">
-                  <IoCalendarOutline className="icon" />
-                </div>
-
-                <span className="hidden">Stundenplan</span>
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div className="container-settings">
-        <div className="sidebar__nav-el">
-          <Link
-            onClick={handleNav}
-            to="https://manual.eleno.net/"
-            target="_blank"
-            className="sidebar__nav-link"
-          >
-            <div className="sidebar__nav-icon">
-              <IoBookOutline className="icon" />
-            </div>
-            <span className="sidebar__link-text">Anleitung</span>
-          </Link>
+        <button
+          type="button"
+          className="absolute top-[42px] right-[-8px] flex aspect-auto h-[1em] items-center
+          justify-center rounded-full bg-primary p-0.5 text-white"
+          onClick={toggleSidebar}
+        >
+          <IoChevronForwardOutline className="h-full w-full" />
+        </button>
+      <NavLink to="/" className="block w-full">
+        <div className='p-2 mb-8'>
+          <Logo  />
         </div>
-        <div className="sidebar__nav-el">
-          <NavLink
-            to="settings"
-            className="sidebar__nav-link"
-            onClick={handleNav}
-          >
-            <div className="sidebar__nav-icon">
-              <IoSettingsOutline className="icon" />
-            </div>
-            <span className="sidebar__link-text">Einstellungen</span>
-          </NavLink>
-        </div>
-        <div className="sidebar__nav-el">
-          <button type="button" className="sidebar__nav-link" onClick={logout}>
-            <div className="sidebar__nav-icon">
-              <IoLogOutOutline className="icon icon--logout" />
-            </div>
-            <span className="sidebar__link-text">Log out</span>
-          </button>
-        </div>
-      </div>
-    </div>
+      </NavLink>
+        <ul className="flex flex-col items-center justify-between">
+          <SidebarElement handleNav={handleLogEvent} to='/' name='Dashboard' icon={<IoCompassOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/lessons' name='Unterrichten' icon={<IoSchoolOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/students' name='Schüler:innen' icon={<IoPeopleCircleOutline
+          />} />
+          <SidebarElement handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoCalendarOutline/>} />
+        </ul>
+
+        <ul className='mt-auto border-t border-background200 flex flex-col items-center justify-between'>
+          <SidebarElement handleNav={handleLogEvent} to='https://manual.eleno.net' target={'_blank'} name='Anleitung' icon={<IoBookOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/settings' name='Einstellungen' icon={<IoSettingsOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoLogOutOutline/>} />
+        </ul>
+    </nav>
   )
 }
 

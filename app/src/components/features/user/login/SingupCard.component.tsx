@@ -79,7 +79,7 @@ export default function SignupCard() {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard header="Los geht's!">
+      <WrapperCard size="md" header="Los geht's!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-7"

@@ -11,7 +11,7 @@ import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
 export default function Application() {
   return (
-    <div className="bg-background">
+    <div >
       <Toast />
       <LoadingProvider>
         <AuthProvider>

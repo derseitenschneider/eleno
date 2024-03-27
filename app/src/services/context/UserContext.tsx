@@ -156,9 +156,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <UserContext.Provider value={value}>
-      {/* {currentSession && children} */}
-      {/* {!currentSession && !isLoading && <LoginPage />} */}
-      <LoginPage />
+      {currentSession && children}
+      {!currentSession && !isLoading && <LoginPage />}
+      {/* <LoginPage /> */}
     </UserContext.Provider>
   )
 }

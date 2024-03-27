@@ -4,12 +4,15 @@
 
 @layer base {
   :root {
-    --background: 240 5% 96%;
-    --background2: 0 0% 98%;
-    --foreground: 222.2 84% 4.9%;
+    --background-50: 0 0% 98%;
+    --background-100: 240 5% 96%;
+    --background-200: 240 5% 90%;
+    /* --foreground-500: 240 4% 46%; */
+    /* --foreground-600: 240 5% 34%; */
+    --foreground: 240 5% 26%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: var(--background-50);
+    --card-foreground: var(--foreground);
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -37,11 +40,15 @@
   }
 
   .dark-mode {
-    --background: 210 10% 23%;
-    --foreground: 210 40% 98%;
+    --background-50: 207 7% 30%;
+    --background-100: 210 9% 22%;
+    --background-200: 213 10% 21%;
+    --foreground: 240 5% 90%;
+    /* --foreground: 240 5% 96%; */
+    /* --foreground: 0 0% 98%; */
 
-    --card: 207 7% 30%;
-    --card-foreground: 210 40% 98%;
+    --card: var(--background-50);
+    --card-foreground: var(--foreground);
 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
@@ -63,18 +70,18 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 195 42% 75%;
+    --ring: 195 35% 40%;
   }
 }
 
 body {
-  @apply bg-background;
+  @apply bg-background100;
 }
 
 a {
-  @apply text-primary hover:underline cursor-pointer
+  @apply cursor-pointer text-primary hover:underline;
 }
 
 p {
-  @apply text-foreground
+  @apply text-foreground;
 }

@@ -157,6 +157,7 @@ export default function ActiveStudents() {
                   studentIds={selectedStudents}
                   setSelectedStudents={setSelectedStudents}
                 />
+              
               </Modal.Window>
             </Modal>
 

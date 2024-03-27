@@ -20,8 +20,9 @@ export const theme = {
       border: 'hsl(var(--border))',
       input: 'hsl(var(--input))',
       ring: 'hsl(var(--ring))',
-      background: 'hsl(var(--background))',
-      background2: 'hsl(var(--background2))',
+      background50: 'hsl(var(--background-50))',
+      background100: 'hsl(var(--background-100))',
+      background200: 'hsl(var(--background-200))',
       foreground: 'hsl(var(--foreground))',
       primary: {
         DEFAULT: 'hsl(var(--primary))',

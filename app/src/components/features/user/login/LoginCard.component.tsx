@@ -58,7 +58,7 @@ export default function LoginCard() {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard header="Willkommen zurück!">
+      <WrapperCard size="sm" header="Willkommen zurück!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-6"
