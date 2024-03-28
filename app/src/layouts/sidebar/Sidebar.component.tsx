@@ -29,6 +29,7 @@ import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
 import analytics from '../../services/analytics/firebaseAnalytics'
 import SidebarElement from '@/components/ui/SidebarElement.component'
+import SidebarToggle from '@/components/ui/SidebarToggle.component'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -96,17 +97,10 @@ function Sidebar() {
 
   return (
     <nav
-      className={`bg-background50 relative fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
+      className={`bg-background50 fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
 justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
     >
-        <button
-          type="button"
-          className="absolute top-[42px] right-[-8px] flex aspect-auto h-[1em] items-center
-          justify-center rounded-full bg-primary p-0.5 text-white"
-          onClick={toggleSidebar}
-        >
-          <IoChevronForwardOutline className="h-full w-full" />
-        </button>
+      <SidebarToggle />
       <NavLink to="/" className="block w-full">
         <div className='p-2 mb-8'>
           <Logo  />
