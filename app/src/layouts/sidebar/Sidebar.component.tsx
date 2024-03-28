@@ -3,22 +3,15 @@ import { useCallback, useEffect, useState } from 'react'
 
 import {
   IoBookOutline,
-  IoCalendarClearOutline,
   IoCalendarOutline,
   IoCheckboxOutline,
-  IoChevronForwardOutline,
-  IoCompass,
   IoCompassOutline,
   IoLogOutOutline,
-  IoLogOutSharp,
   IoPeopleCircleOutline,
-  IoPeopleOutline,
-  IoSchool,
   IoSchoolOutline,
   IoSettingsOutline,
-  IoSettingsSharp,
 } from 'react-icons/io5'
-import { Link, NavLink } from 'react-router-dom'
+import {  NavLink } from 'react-router-dom'
 
 import Logo from '../../components/ui/logo/Logo.component'
 import { useClosestStudent } from '../../services/context/ClosestStudentContext'
@@ -118,7 +111,7 @@ justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
         <ul className='mt-auto border-t border-background200 flex flex-col items-center justify-between'>
           <SidebarElement handleNav={handleLogEvent} to='https://manual.eleno.net' target={'_blank'} name='Anleitung' icon={<IoBookOutline/>} />
           <SidebarElement handleNav={handleLogEvent} to='/settings' name='Einstellungen' icon={<IoSettingsOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoLogOutOutline/>} />
+          <SidebarElement handleNav={handleLogEvent} to='/logout' name='Log out' icon={<IoLogOutOutline/>} />
         </ul>
     </nav>
   )
