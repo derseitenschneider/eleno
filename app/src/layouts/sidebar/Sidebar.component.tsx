@@ -78,7 +78,7 @@ function Sidebar() {
         return logEvent(analytics, 'page_view', {page_title: 'undefined'})
     }
   }
-
+/*
   useEffect(() => {
     if (sidebarOpen) {
       window.addEventListener('click', closeSidebarOnWindowClick)
@@ -86,32 +86,32 @@ function Sidebar() {
     return () => {
       window.removeEventListener('click', closeSidebarOnWindowClick)
     }
-  }, [closeSidebarOnWindowClick, sidebarOpen])
+  }, [closeSidebarOnWindowClick, sidebarOpen]) */
 
   return (
     <nav
       className={`bg-background50 fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
 justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
     >
-      <SidebarToggle />
+      <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
       <NavLink to="/" className="block w-full">
         <div className='p-2 mb-8'>
           <Logo  />
         </div>
       </NavLink>
         <ul className="flex flex-col items-center justify-between">
-          <SidebarElement handleNav={handleLogEvent} to='/' name='Dashboard' icon={<IoCompassOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/lessons' name='Unterrichten' icon={<IoSchoolOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/students' name='Schüler:innen' icon={<IoPeopleCircleOutline
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/' name='Dashboard' icon={<IoCompassOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/lessons' name='Unterrichten' icon={<IoSchoolOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/students' name='Schüler:innen' icon={<IoPeopleCircleOutline
           />} />
-          <SidebarElement handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoCalendarOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoCalendarOutline/>} />
         </ul>
 
         <ul className='mt-auto border-t border-background200 flex flex-col items-center justify-between'>
-          <SidebarElement handleNav={handleLogEvent} to='https://manual.eleno.net' target={'_blank'} name='Anleitung' icon={<IoBookOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/settings' name='Einstellungen' icon={<IoSettingsOutline/>} />
-          <SidebarElement handleNav={handleLogEvent} to='/logout' name='Log out' icon={<IoLogOutOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='https://manual.eleno.net' target={'_blank'} name='Anleitung' icon={<IoBookOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/settings' name='Einstellungen' icon={<IoSettingsOutline/>} />
+          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/logout' name='Log out' icon={<IoLogOutOutline/>} />
         </ul>
     </nav>
   )
