@@ -23,12 +23,14 @@ import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdu
 import analytics from '../../services/analytics/firebaseAnalytics'
 import SidebarElement from '@/components/ui/SidebarElement.component'
 import SidebarToggle from '@/components/ui/SidebarToggle.component'
+import { useTodos } from '@/services/context/TodosContext'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
   const { activeStudents } = useStudents()
   const { logout } = useUser()
+  const {overdueTodos} = useTodos()
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
@@ -104,7 +106,7 @@ justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/lessons' name='Unterrichten' icon={<IoSchoolOutline/>} />
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/students' name='Schüler:innen' icon={<IoPeopleCircleOutline
           />} />
-          <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
+          <SidebarElement notificationContent={overdueTodos.length > 0 ? overdueTodos.length : '' } sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoCalendarOutline/>} />
         </ul>
 
