@@ -11,8 +11,6 @@ type TSidebarProps = {
   notificationContent?: string
 }
 
-// TODO: Add optional notification circle (e.g. overdue todos)
-
 export default function SidebarElement({
   handleNav,
   to,

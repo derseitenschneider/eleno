@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
 
-  const getUserProfiles = async (userId?: string) => {
+  const getUserProfiles = async (userId: string) => {
     if (mode === 'demo') {
       console.log('demo')
       setUser(mockUser)
@@ -51,10 +51,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const [data] = await getProfilesSupabase(userId)
       const currentUser: TUser = {
-        email: data.email,
+        email: data.email ?? '',
         id: data.id,
-        firstName: data.first_name,
-        lastName: data.last_name,
+        firstName: data.first_name ?? '',
+        lastName: data.last_name ?? '',
       }
       setUser(currentUser)
     } catch (error) {
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (mode === 'demo') {
-      getUserProfiles()
+      // getUserProfiles()
       return
     }
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -129,7 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut()
-    navigate('/')
+    navigate('/?page=login', {replace: true})
   }, [navigate])
 
   const recoverPassword = async (email: string) => {

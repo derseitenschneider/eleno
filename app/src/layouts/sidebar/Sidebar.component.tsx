@@ -91,6 +91,9 @@ function Sidebar() {
         return logEvent(analytics, 'page_view', {page_title: 'undefined'})
     }
   }
+
+  // TODO: Outside click
+  // TODO: Fix opacity delay link names
 /*
   useEffect(() => {
     if (sidebarOpen) {
