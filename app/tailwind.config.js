@@ -27,6 +27,7 @@ export const theme = {
       background100: 'hsl(var(--background-100))',
       background200: 'hsl(var(--background-200))',
       foreground: 'hsl(var(--foreground))',
+      warning: 'hsl(var(--clr-warning))',
       primary: {
         DEFAULT: 'hsl(var(--primary))',
         foreground: 'hsl(var(--primary-foreground))',

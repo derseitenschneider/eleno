@@ -1,6 +1,5 @@
 import { Analytics, logEvent } from '@firebase/analytics'
 import { useCallback, useEffect, useState } from 'react'
-
 import {
   IoBookOutline,
   IoCalendarOutline,
@@ -49,32 +48,44 @@ function Sidebar() {
     [toggleSidebar],
   )
 
-  const handleLogEvent = (e: React.MouseEvent):void => {
+  const handleLogEvent = (e: React.MouseEvent):void|Promise<void> => {
     const target = e.target as HTMLElement
     const path = target.closest('a')?.pathname
 
     switch (path) {
       case '/':
         if (target.closest('a')?.target === '_blank')
-          return logEvent(analytics, 'page_view', { page_title: 'manual' })
-
+        { setSidebarOpen(false)
+          return logEvent(analytics, 'page_view', { page_title: 'manual' }) }
+        setSidebarOpen(false)
         setClosestStudentIndex(getClosestStudentIndex(activeStudents ?? []))
         return logEvent(analytics, 'page_view', { page_title: 'dashboard' })
 
       case '/lessons':
+        setSidebarOpen(false)
         return logEvent(analytics, 'page_view', { page_title: 'lessons' })
 
       case '/students':
+        setSidebarOpen(false)
         return logEvent(analytics, 'page_view', { page_title: 'students' })
 
       case '/timetable':
+        setSidebarOpen(false)
         return logEvent(analytics, 'page_view', { page_title: 'timetable' })
 
       case '/todos':
+        setSidebarOpen(false)
         return logEvent(analytics, 'page_view', { page_title: 'todos' })
 
       case '/settings':
+        setSidebarOpen(false)
         return logEvent(analytics, 'page_view', { page_title: 'todos' })
+
+      case '/logout':
+
+        // TODO Clear browser history
+
+        return logout()
 
       default:
         return logEvent(analytics, 'page_view', {page_title: 'undefined'})
@@ -93,7 +104,7 @@ function Sidebar() {
   return (
     <nav
       className={`bg-background50 fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
-justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
+justify-start transition-all duration-300 shadow-lg ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'}`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
       <NavLink to="/" className="block w-full">
@@ -106,7 +117,7 @@ justify-start shadow-lg ${sidebarOpen ? 'w-[250px]' : 'w-[50px]'}`}
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/lessons' name='Unterrichten' icon={<IoSchoolOutline/>} />
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/students' name='Schüler:innen' icon={<IoPeopleCircleOutline
           />} />
-          <SidebarElement notificationContent={overdueTodos.length > 0 ? overdueTodos.length : '' } sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
+          <SidebarElement notificationContent={overdueTodos?.length  ? String( overdueTodos.length ) : '' } sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/todos' name='Todos' icon={<IoCheckboxOutline/>} />
           <SidebarElement sidebarOpen={sidebarOpen} handleNav={handleLogEvent} to='/timetable' name='Stundenplan' icon={<IoCalendarOutline/>} />
         </ul>
 
