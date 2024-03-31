@@ -8,6 +8,7 @@ import ForgotPassword from '@/components/features/user/forgotPassword/ForgotPass
 
 function LoginPage() {
   const [searchParams] = useSearchParams()
+  // TODO: No darkmode
 
   const page = searchParams.get('page')
   if (!page || 'login' === page) return <Login />

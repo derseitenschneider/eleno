@@ -14,7 +14,7 @@ export default function SidebarToggle({
       type="button"
       className={`absolute right-[-8px] top-[42.5px] flex aspect-auto h-[1em] translate-y-[50%]
       items-center justify-center rounded-full bg-primary p-0.5 text-white transition
-      duration-300 ${sidebarOpen ? 'rotate-[-180deg]' : ''}`}
+      duration-150 ${sidebarOpen ? 'rotate-[-180deg]' : ''}`}
       onClick={toggleSidebar}
     >
       <IoChevronForwardOutline className="h-full w-full" />

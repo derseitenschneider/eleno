@@ -23,6 +23,7 @@ import analytics from '../../services/analytics/firebaseAnalytics'
 import SidebarElement from '@/components/ui/SidebarElement.component'
 import SidebarToggle from '@/components/ui/SidebarToggle.component'
 import { useTodos } from '@/services/context/TodosContext'
+import useOutsideClick from '@/hooks/useOutsideClick'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -30,23 +31,11 @@ function Sidebar() {
   const { activeStudents } = useStudents()
   const { logout } = useUser()
   const {overdueTodos} = useTodos()
+  const sidebarRef = useOutsideClick(()=> setSidebarOpen(false))
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
-
-  const closeSidebarOnWindowClick = useCallback(
-    (e: MouseEvent) => {
-      const target = e.target as Element
-      if (
-        !target
-          ?.closest('button')
-          ?.classList.contains('sidebar__button--toggle')
-      )
-        toggleSidebar()
-    },
-    [toggleSidebar],
-  )
 
   const handleLogEvent = (e: React.MouseEvent):void|Promise<void> => {
     const target = e.target as HTMLElement
@@ -82,9 +71,6 @@ function Sidebar() {
         return logEvent(analytics, 'page_view', { page_title: 'todos' })
 
       case '/logout':
-
-        // TODO Clear browser history
-
         return logout()
 
       default:
@@ -92,25 +78,16 @@ function Sidebar() {
     }
   }
 
-  // TODO: Outside click
   // TODO: Fix opacity delay link names
-/*
-  useEffect(() => {
-    if (sidebarOpen) {
-      window.addEventListener('click', closeSidebarOnWindowClick)
-    }
-    return () => {
-      window.removeEventListener('click', closeSidebarOnWindowClick)
-    }
-  }, [closeSidebarOnWindowClick, sidebarOpen]) */
 
   return (
     <nav
+      ref={sidebarRef}
       className={`bg-background50 fixed left-0 top-0 z-50 flex min-h-screen flex-col items-stretch
-justify-start transition-all duration-300 shadow-lg ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'}`}
+justify-start transition-width duration-150 shadow-lg ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'}`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
-      <NavLink to="/" className="block w-full">
+      <NavLink to="/" onClick={()=> setSidebarOpen(false)} className="block w-full">
         <div className='p-2 mb-8'>
           <Logo  />
         </div>
