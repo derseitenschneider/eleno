@@ -18,22 +18,40 @@ export default function SidebarElement({
   name,
   target,
   sidebarOpen,
-  notificationContent
+  notificationContent,
 }: TSidebarProps) {
-
-const isActive = window.location.pathname === to
+  const isActive = window.location.pathname === to
 
   return (
-    <li className="p-2 h-full w-full">
-      <NavLink title={name} to={to} target={target} className={ `${!isActive ? 'before:hidden text-foreground' : 'after:hidden text-white' } items-center hover:no-underline text-foreground after:z-[-1] flex align-center gap-4 after:bg-transparent hover:after:bg-background100 after:h-full after:w-full after:absolute after:top-0 after:left-0 after:rounded-md p-1.5 z-1  relative before:z-[-1] before:bg-primary before:h-full before:w-full before:absolute before:top-0 before:rounded-md  before:left-0` }  onClick={handleNav}>
-        <div className='max-w-[22px] shrink-0 *:w-full h-full *:h-full z-10 w-full relative' >
+    <li className="h-full w-full p-2">
+      <NavLink
+        title={name}
+        to={to}
+        target={target}
+        className={`${!isActive ? 'text-foreground before:hidden' : 'text-white after:hidden'}
+        align-center z-1 relative flex items-center gap-4 p-1.5 text-foreground
+        before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full
+        before:w-full before:rounded-md before:bg-primary after:absolute after:left-0
+        after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md
+        after:bg-transparent hover:no-underline hover:after:bg-background100`}
+        onClick={handleNav}
+      >
+        <div className="relative z-10 h-full w-full max-w-[22px] shrink-0 *:h-full *:w-full">
           {icon}
-          <div className={`${!notificationContent ? 'hidden' : ''} absolute text-[10px] text-white bg-warning flex items-center justify-center rounded-full max-h-[14px] max-w-[14px] bottom-0 right-0 translate-x-[25%] translate-y-[25%] z-100 aspect-square `}>
+          <div
+            className={`${!notificationContent ? 'hidden' : ''} z-100 absolute bottom-0 right-0 flex
+            aspect-square max-h-[14px] max-w-[14px] translate-x-[25%] translate-y-[25%]
+            items-center justify-center rounded-full bg-warning text-[10px] text-white`}
+          >
             <span>{notificationContent}</span>
           </div>
-
         </div>
-        <span className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} whitespace-nowrap transition-opacity delay-500 duration-1000 text-sm leading-none`}>{name}</span>
+        <span
+          className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} whitespace-nowrap text-sm
+          leading-none transition-opacity delay-500 duration-1000`}
+        >
+          {name}
+        </span>
       </NavLink>
     </li>
   )

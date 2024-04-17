@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-target-blank */
-import './footerDashboard.style.scss'
+// import './footerDashboard.style.scss'
 
 import { Link } from 'react-router-dom'
 import { useDateToday } from '../../../../services/context/DateTodayContext'

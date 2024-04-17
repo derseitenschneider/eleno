@@ -83,6 +83,11 @@ a {
   @apply cursor-pointer text-primary hover:underline;
 }
 
-p {
+p,
+span {
   @apply text-foreground;
+}
+
+h1 {
+  @apply text-3xl tracking-tighter;
 }

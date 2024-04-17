@@ -1,5 +1,5 @@
 import news from './news'
-import './news.style.scss'
+// import './news.style.scss'
 import NewsItem from './newsItem/NewsItem.component'
 
 function News() {
@@ -8,7 +8,7 @@ function News() {
   )
 
   return (
-    <aside className="news">
+    <aside className="row-start-2 col-start-3">
       <h2 className="heading-2">News</h2>
       <div className="wrapper-news no-scrollbar">
         {sortedNews

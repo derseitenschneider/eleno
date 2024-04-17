@@ -1,4 +1,4 @@
-import './overview.style.scss'
+// import './overview.style.scss'
 
 import { useClosestStudent } from '../../../../services/context/ClosestStudentContext'
 
@@ -20,7 +20,7 @@ function Overview() {
   const todosOpen = todos.filter((todo) => !todo.completed)
 
   return (
-    <div className="overview">
+    <div className="col-span-2">
       <h2 className="heading-2">Übersicht</h2>
       <div className="overview__content">
         <div className="card overview__students">

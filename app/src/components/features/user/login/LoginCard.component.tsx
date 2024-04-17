@@ -18,6 +18,7 @@ import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 
+
 const loginSchema = z.object({
   email: z.string().email({ message: 'Email Adresse ungültig' }),
   password: z.string().min(1, { message: 'Passwort fehlt' }),
@@ -120,8 +121,8 @@ export default function LoginCard() {
           Passwort vergessen?
         </a>
       </WrapperCard>
-      <p className="text-center text-sm">
-        Noch keinen Account?{' '}
+      <p className="text-black-100 text-center text-sm ">
+        Noch keinen Benutzerkonto?{' '}
         <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
       </p>
     </div>

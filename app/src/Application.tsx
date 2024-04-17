@@ -11,15 +11,17 @@ import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 
 export default function Application() {
   return (
-    <div >
+    <div>
       <Toast />
       <LoadingProvider>
         <AuthProvider>
           <MainContext>
             <Main>
               <Sidebar />
-              {/* <Outlet /> */}
               {/* <NavbarMobile /> */}
+              <div className="ml-[50px] p-5">
+                <Outlet />
+              </div>
             </Main>
           </MainContext>
         </AuthProvider>

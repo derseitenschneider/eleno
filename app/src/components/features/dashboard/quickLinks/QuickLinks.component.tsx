@@ -1,5 +1,3 @@
-import './quicklinks.style.scss'
-
 import {
   IoBookOutline,
   IoCheckboxOutline,
@@ -7,9 +5,9 @@ import {
   IoSchoolSharp,
   IoSettingsOutline,
 } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
 import { useClosestStudent } from '../../../../services/context/ClosestStudentContext'
 import { useStudents } from '../../../../services/context/StudentContext'
+import QuickLinkItem from './QuickLinkItem.component'
 
 function QuickLinks() {
   const { setCurrentStudentIndex } = useStudents()
@@ -20,44 +18,36 @@ function QuickLinks() {
   }
 
   return (
-    <div className="quick-links">
+    <div className="col-span-2">
       <h2 className="heading-2">Quick-Links</h2>
-      <div className="quick-links__content">
-        <Link
-          to="lessons"
-          className="quick-links__item quick-links__item--lessons"
+      <div className="flex justify-between flex-wrap">
+        <QuickLinkItem
+          title="Unterricht starten"
+          icon={<IoSchoolSharp />}
           onClick={navigateToClosestStudent}
-        >
-          <IoSchoolSharp className="icon" />
-          <p className="card-title">Unterricht starten</p>
-        </Link>
-        <Link
-          to="students?modal=add-students"
-          className="quick-links__item quick-links__item--add-student"
-        >
-          <IoPeopleCircleOutline className="icon" />
-          <p className="card-title">Schüler:in hinzufügen</p>
-        </Link>
-        <Link to="todos" className="quick-links__item quick-links__item--todos">
-          <IoCheckboxOutline className="icon" />
-          <p className="card-title">Todo erfassen</p>
-        </Link>
-
-        <Link
-          to="settings"
-          className="quick-links__item quick-links__item--settings"
-        >
-          <IoSettingsOutline className="icon" />
-          <p className="card-title">Einstellungen</p>
-        </Link>
-        <Link
-          to="https://manual.eleno.net"
+          link="lessons"
+        />
+        <QuickLinkItem
+          title="Schüler:in hinzufügen"
+          icon={<IoPeopleCircleOutline />}
+          link="students?modal=add-students"
+        />
+        <QuickLinkItem
+          title="Todo erfassen"
+          icon={<IoCheckboxOutline />}
+          link="todos"
+        />
+        <QuickLinkItem
+          title="Einstellungen"
+          icon={<IoSettingsOutline />}
+          link="settings"
+        />
+        <QuickLinkItem
+          title="Anleitung"
+          icon={<IoBookOutline />}
+          link="https://manual.eleno.net"
           target="_blank"
-          className="quick-links__item"
-        >
-          <IoBookOutline className="icon" />
-          <p className="card-title">Anleitung</p>
-        </Link>
+        />
       </div>
     </div>
   )

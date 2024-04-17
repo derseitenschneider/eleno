@@ -114,7 +114,7 @@ function Main({ children }: MainProps) {
   return (
     <>
       {!errorMessage && <div id="main">{children}</div>}
-      {!isOnline && <OfflineBanner />}
+      {!isOnline && mode !== 'demo' && <OfflineBanner />}
     </>
   )
 }

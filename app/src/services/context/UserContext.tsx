@@ -40,10 +40,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
-
+  
   const getUserProfiles = async (userId: string) => {
     if (mode === 'demo') {
-      console.log('demo')
       setUser(mockUser)
       setIsLoading(false)
       return
