@@ -18,7 +18,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className="grid grid-cols-3 gap-2"
+      className="grid grid-cols-[3fr_minmax(350px,_1fr)] gap-2 *:p-7"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >

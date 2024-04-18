@@ -80,7 +80,7 @@ body {
 }
 
 a {
-  @apply cursor-pointer text-primary hover:underline;
+  @apply cursor-pointer hover:text-primary hover:underline;
 }
 
 p,
@@ -89,5 +89,8 @@ span {
 }
 
 h1 {
-  @apply text-3xl tracking-tighter;
+  @apply mb-[.75em] text-3xl;
+}
+h2 {
+  @apply mb-[.5em] text-2xl leading-relaxed tracking-tight;
 }

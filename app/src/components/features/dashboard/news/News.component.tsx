@@ -8,7 +8,7 @@ function News() {
   )
 
   return (
-    <aside className="row-start-2 col-start-3">
+    <aside className="row-start-2 col-start-2">
       <h2 className="heading-2">News</h2>
       <div className="wrapper-news no-scrollbar">
         {sortedNews

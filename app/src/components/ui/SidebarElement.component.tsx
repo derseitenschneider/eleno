@@ -43,11 +43,11 @@ export default function SidebarElement({
             aspect-square max-h-[14px] max-w-[14px] translate-x-[25%] translate-y-[25%]
             items-center justify-center rounded-full bg-warning text-[10px] text-white`}
           >
-            <span>{notificationContent}</span>
+            <span >{notificationContent}</span>
           </div>
         </div>
         <span
-          className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} whitespace-nowrap text-sm
+          className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} ${isActive? 'text-white' : ''} whitespace-nowrap text-sm
           leading-none transition-opacity delay-500 duration-1000`}
         >
           {name}

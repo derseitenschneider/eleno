@@ -18,8 +18,8 @@ function QuickLinks() {
   }
 
   return (
-    <div className="col-span-2">
-      <h2 className="heading-2">Quick-Links</h2>
+    <div className="col-span-1 p-3 border-b border-background200">
+      <h2>Quick-Links</h2>
       <div className="flex justify-between flex-wrap">
         <QuickLinkItem
           title="Unterricht starten"
@@ -50,7 +50,7 @@ function QuickLinks() {
         />
       </div>
     </div>
-  )
-}
+    )
+  }
 
 export default QuickLinks

@@ -19,7 +19,7 @@ export default function Application() {
             <Main>
               <Sidebar />
               {/* <NavbarMobile /> */}
-              <div className="ml-[50px] p-5">
+              <div className="ml-[50px]">
                 <Outlet />
               </div>
             </Main>
