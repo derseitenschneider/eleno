@@ -2,12 +2,15 @@
 import { useSearchParams } from 'react-router-dom'
 
 import LoginHeader from './LoginHeader.component'
-import SignupCard from './SingupCard.component'
+import SignupCard from './SignupCard.component'
 
-function Signup() {
+type SignupProps = {
+  className: string
+}
+function Signup({ className }: SignupProps) {
   const [_, setSearchParams] = useSearchParams()
   return (
-    <>
+    <div className={className}>
       <LoginHeader
         preText="Bereits einen Benutzerkonto?"
         buttonText="Login"
@@ -16,7 +19,7 @@ function Signup() {
         }}
       />
       <SignupCard />
-    </>
+    </div>
   )
 }
 

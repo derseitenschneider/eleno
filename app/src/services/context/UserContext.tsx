@@ -156,7 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <UserContext.Provider value={value}>
       {currentSession && children}
-      {!currentSession && !isLoading && <LoginPage />}
+      {!currentSession && !isLoading && <LoginPage className='min-h-screen bg-zinc-100' />}
       {/* <LoginPage /> */}
     </UserContext.Provider>
   )

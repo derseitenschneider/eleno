@@ -1,19 +1,22 @@
 import { useSearchParams } from 'react-router-dom'
-import './loginPage.style.scss'
 
 import Login from '../../components/features/user/login/Login.component'
 
 import Signup from '../../components/features/user/login/Signup.component'
-import ForgotPassword from '@/components/features/user/forgotPassword/ForgotPassword.component'
+import ForgotPassword from '@/components/features/user/login/ForgotPassword.component'
 
-function LoginPage() {
+type LoginPageProps = {
+  className: string
+}
+function LoginPage({ className }: LoginPageProps) {
   const [searchParams] = useSearchParams()
   // TODO: No darkmode
 
   const page = searchParams.get('page')
-  if (!page || 'login' === page) return <Login />
-  if ('signup' === page) return <Signup />
-  if ('reset' === page) return <ForgotPassword />
+  if (!page || 'login' === page) return <Login className={className} />
+  if ('signup' === page) return <Signup className={className} />
+  if ('reset' === page) return <ForgotPassword className={className} />
+  return null
 }
 
 export default LoginPage

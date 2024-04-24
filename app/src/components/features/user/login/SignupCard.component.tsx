@@ -79,7 +79,7 @@ export default function SignupCard() {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard size="md" header="Los geht's!">
+      <WrapperCard className='bg-zinc-50' size="md" header="Los geht's!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-7"
@@ -91,9 +91,9 @@ export default function SignupCard() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Vorname</FormLabel>
+                    <FormLabel className='text-zinc-700'>Vorname</FormLabel>
                     <FormControl>
-                      <Input placeholder="Vorname" {...field} />
+                      <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="Vorname" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,9 +104,10 @@ export default function SignupCard() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nachname</FormLabel>
+                    <FormLabel className='text-zinc-700'>Nachname</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nachname" {...field} />
+                      <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200'
+                        placeholder="Nachname" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -120,7 +121,7 @@ export default function SignupCard() {
                 <FormItem>
                   <FormLabel>E-Mail Adresse</FormLabel>
                   <FormControl>
-                    <Input placeholder="E-Mail Adresse" {...field} />
+                    <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="E-Mail Adresse" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,7 +135,7 @@ export default function SignupCard() {
                 <FormItem>
                   <FormLabel>Passwort</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="Passwort" {...field} />
+                    <PasswordInput className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="Passwort" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -148,6 +149,7 @@ export default function SignupCard() {
                   <FormLabel>Passwort Wiederholung</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200'
                       placeholder="Passwort Wiederholung"
                       {...field}
                     />

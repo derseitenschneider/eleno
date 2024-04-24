@@ -80,7 +80,7 @@ body {
 }
 
 a {
-  @apply cursor-pointer hover:text-primary hover:underline;
+  @apply cursor-pointer text-primary hover:underline;
 }
 
 p,

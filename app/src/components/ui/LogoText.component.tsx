@@ -5,7 +5,7 @@ export default function LogoText() {
     <a
       href="https://eleno.net"
       target="_blank"
-      className="flex items-center justify-start gap-1 "
+      className="flex items-center justify-start gap-1 hover:no-underline "
     >
       <div className="aspect-auto h-[32px]">
         <Logo />
