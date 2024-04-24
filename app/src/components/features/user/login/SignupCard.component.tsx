@@ -61,8 +61,6 @@ export default function SignupCard() {
   })
 
   const onSubmit = async (data: TInput) => {
-    const { firstName, lastName, email, password } = data
-
     try {
       await signUpSupabase(data)
       setIsSuccess(true)
@@ -119,7 +117,7 @@ export default function SignupCard() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-Mail Adresse</FormLabel>
+                  <FormLabel className='text-zinc-700'>E-Mail Adresse</FormLabel>
                   <FormControl>
                     <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="E-Mail Adresse" {...field} />
                   </FormControl>
@@ -133,7 +131,7 @@ export default function SignupCard() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Passwort</FormLabel>
+                  <FormLabel className='text-zinc-700'>Passwort</FormLabel>
                   <FormControl>
                     <PasswordInput className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="Passwort" {...field} />
                   </FormControl>
@@ -146,7 +144,7 @@ export default function SignupCard() {
               name="password2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Passwort Wiederholung</FormLabel>
+                  <FormLabel className='text-zinc-700'>Passwort Wiederholung</FormLabel>
                   <FormControl>
                     <PasswordInput
                       className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200'
@@ -170,7 +168,7 @@ export default function SignupCard() {
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-normal">
+                    <FormLabel className="text-sm text-zinc-700 font-normal">
                       Ich bin mit den{' '}
                       <a
                         href="https://eleno.net/impressum-datenschutz"
