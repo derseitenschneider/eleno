@@ -1,4 +1,4 @@
-import {  useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import WrapperCard from './WrapperCard.component'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -27,13 +27,14 @@ export default function ResetCard() {
     shouldFocusError: true,
   })
 
-  const onSubmit = async (data:TInput) => {
+  const onSubmit = async (data: TInput) => {
     try {
       await recoverPasswordSupabase(data.email)
     } catch {
       form.setFocus('email')
       form.setError('root', {
-        message: 'Passwort zurücksetzten zurzeit nicht möglich. Versuch es später noch einmal.',
+        message:
+          'Passwort zurücksetzten zurzeit nicht möglich. Versuch es später noch einmal.',
       })
     }
   }
@@ -45,19 +46,24 @@ export default function ResetCard() {
           className="flex flex-col space-y-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-zinc-700 '>E-Mail Adresse</FormLabel>
-                  <FormControl>
-                    <Input placeholder="E-Mail Adresse" {...field} className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-zinc-700 ">E-Mail Adresse</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="E-Mail Adresse"
+                    {...field}
+                    className="border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
+                      placeholder:text-zinc-400 focus-visible:ring-primary"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit">Passwort zurücksetzten</Button>
         </form>
       </Form>

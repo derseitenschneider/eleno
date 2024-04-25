@@ -11,16 +11,16 @@ export default function WrapperCard({
   header,
   size = 'sm',
   children,
-  className
+  className,
 }: WrapperCardProps): JSX.Element {
   const width = size === 'sm' ? 'w-[400px]' : 'w-[450px]'
 
   return (
     <Card className={`${className} px-8 py-3`}>
-      <CardContent
-        className={`${width}  flex flex-col space-y-3 pt-3`}
-      >
-        <h2 className="mb-4 text-zinc-700 text-center text-xl">{header}</h2>
+      <CardContent className={`${width} flex flex-col space-y-3 pt-3`}>
+        <h2 className="mb-4 text-center text-3xl font-bold text-zinc-600">
+          {header}
+        </h2>
         {children}
       </CardContent>
     </Card>

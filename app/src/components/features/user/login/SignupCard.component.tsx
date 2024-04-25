@@ -21,30 +21,32 @@ import { signUpSupabase } from '@/services/api/user.api'
 
 const signupSchema = z
   .object({
-    firstName: z.string().min(1, { message: 'Vorname fehlt' }),
-    lastName: z.string().min(1, { message: 'Nachname fehlt' }),
-    email: z.string().email({ message: 'Ungültige E-Mail Adresse' }),
-    password: z.string().min(1, { message: 'Passwort fehlt' }),
-    password2: z.string().min(1, { message: 'Passwort Wiederholung fehlt' }),
+    firstName: z.string().min(1, { message: 'Vorname fehlt!' }),
+    lastName: z.string().min(1, { message: 'Nachname fehlt!' }),
+    email: z.string().email({ message: 'Ungültige E-Mail Adresse!' }),
+    password: z
+      .string()
+      .min(6, { message: 'Passwort muss mindestens 6 Zeichen lang sein.' }),
+    password2: z.string().min(1, { message: 'Passwort Wiederholung fehlt!' }),
     terms: z
       .boolean({
         invalid_type_error:
-          'Bitte akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen',
+          'Akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen.',
       })
       .refine((val) => val, {
         message:
-          'Bitte akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen',
+          'Bitte akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen!',
       }),
   })
   .refine((data) => data.password === data.password2, {
-    message: 'Passwörter stimmen nicht überein',
+    message: 'Passwörter stimmen nicht überein!',
     path: ['password2'],
   })
 
 type TInput = z.infer<typeof signupSchema>
 
 export default function SignupCard() {
-  const [isSuccess, setIsSuccess] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(true)
 
   const form = useForm<TInput>({
     defaultValues: {
@@ -77,7 +79,7 @@ export default function SignupCard() {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard className='bg-zinc-50' size="md" header="Los geht's!">
+      <WrapperCard className="bg-zinc-50" size="md" header="Los geht's!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-7"
@@ -89,11 +91,17 @@ export default function SignupCard() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-zinc-700'>Vorname</FormLabel>
+                    <FormLabel className="text-zinc-700">Vorname</FormLabel>
                     <FormControl>
-                      <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="Vorname" {...field} />
+                      <Input
+                        className={`${form.formState.errors.firstName ? 'border-red-600' : 'border-zinc-400'}
+                        bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
+                        focus-visible:ring-primary`}
+                        placeholder="Maria"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />
@@ -102,12 +110,17 @@ export default function SignupCard() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-zinc-700'>Nachname</FormLabel>
+                    <FormLabel className="text-zinc-700">Nachname</FormLabel>
                     <FormControl>
-                      <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200'
-                        placeholder="Nachname" {...field} />
+                      <Input
+                        className={`${form.formState.errors.lastName ? 'border-red-600' : 'border-zinc-400'}
+                        bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
+                        focus-visible:ring-primary`}
+                        placeholder="Muster"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />
@@ -117,11 +130,19 @@ export default function SignupCard() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-zinc-700'>E-Mail Adresse</FormLabel>
+                  <FormLabel className="text-zinc-700">
+                    E-Mail Adresse
+                  </FormLabel>
                   <FormControl>
-                    <Input className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="E-Mail Adresse" {...field} />
+                    <Input
+                      className={`${form.formState.errors.email ? 'border-red-600' : 'border-zinc-400'} bg-zinc-50
+                      text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
+                      focus-visible:ring-primary`}
+                      placeholder="maria@muster.com"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600" />
                 </FormItem>
               )}
             />
@@ -131,11 +152,17 @@ export default function SignupCard() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-zinc-700'>Passwort</FormLabel>
+                  <FormLabel className="text-zinc-700">Passwort</FormLabel>
                   <FormControl>
-                    <PasswordInput className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200' placeholder="Passwort" {...field} />
+                    <PasswordInput
+                      className={`${form.formState.errors.email ? 'border-red-600' : 'border-zinc-400'} bg-zinc-50
+                      text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
+                      focus-visible:ring-primary`}
+                      placeholder="Mindestens 6 Zeichen"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600" />
                 </FormItem>
               )}
             />
@@ -144,15 +171,18 @@ export default function SignupCard() {
               name="password2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-zinc-700'>Passwort Wiederholung</FormLabel>
+                  <FormLabel className="text-zinc-700">
+                    Passwort Wiederholung
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
-                      className='text-zinc-700 bg-zinc-50 placeholder:text-zinc-600 focus-visible:ring-primary ring-offset-zinc-50 border border-zinc-200'
+                      className="border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
+                        placeholder:text-zinc-400 focus-visible:ring-primary"
                       placeholder="Passwort Wiederholung"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600" />
                 </FormItem>
               )}
             />
@@ -160,34 +190,42 @@ export default function SignupCard() {
               control={form.control}
               name="terms"
               render={({ field }) => (
-                <FormItem className="items-tart flex flex-row space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm text-zinc-700 font-normal">
-                      Ich bin mit den{' '}
-                      <a
-                        href="https://eleno.net/impressum-datenschutz"
-                        target="_blank"
-                      >
-                        Datenschutzbestimmungen
-                      </a>{' '}
-                      und der{' '}
-                      <a
-                        href="https://eleno.net/terms-conditions"
-                        target="_blank"
-                      >
-                        Allgemeinen Geschäftsbedingungen
-                      </a>{' '}
-                      gelesen
-                    </FormLabel>
-                  </div>
-                  <FormMessage />
-                </FormItem>
+                <>
+                  <FormItem className="items-tart flex flex-row space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        className={`${form.formState.errors.terms ? 'border-red-600' : 'border-zinc-400'}`}
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="text-sm font-normal text-zinc-700">
+                        Ich bin mit den{' '}
+                        <a
+                          href="https://eleno.net/impressum-datenschutz"
+                          target="_blank"
+                        >
+                          Datenschutzbestimmungen
+                        </a>{' '}
+                        und der{' '}
+                        <a
+                          href="https://eleno.net/terms-conditions"
+                          target="_blank"
+                        >
+                          Allgemeinen Geschäftsbedingungen
+                        </a>{' '}
+                        gelesen
+                      </FormLabel>
+                    </div>
+                    {/* <FormMessage className="text-red-600" /> */}
+                  </FormItem>
+                  {form.formState.errors.terms && (
+                    <span className="!mt-1 text-xs text-red-600">
+                      {form.formState.errors.terms.message}
+                    </span>
+                  )}
+                </>
               )}
             />
             <Button
