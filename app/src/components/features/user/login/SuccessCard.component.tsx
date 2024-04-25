@@ -1,8 +1,10 @@
-import { HiEnvelope, HiOutlineEnvelope } from 'react-icons/hi2'
 import { IoMailOutline } from 'react-icons/io5'
 import WrapperCard from './WrapperCard.component'
 
-export default function SuccessCard() {
+type SuccessCardProps = {
+  email: string
+}
+export default function SuccessCard({ email }: SuccessCardProps) {
   return (
     <div
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
@@ -13,6 +15,7 @@ export default function SuccessCard() {
           <IoMailOutline className="h-full w-auto text-primary" />
         </div>
         <p className="text-2xl">Wir haben dir eine E-Mail geschickt.</p>
+        <p className="font-semibold">{email}</p>
         <p className="">
           Öffne dein Postfach und klicke auf den Bestätigungslink um dein
           Benutzerkonto zu aktivieren.

@@ -46,7 +46,8 @@ const signupSchema = z
 type TInput = z.infer<typeof signupSchema>
 
 export default function SignupCard() {
-  const [isSuccess, setIsSuccess] = useState(true)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [email, setEmail] = useState('')
 
   const form = useForm<TInput>({
     defaultValues: {
@@ -64,8 +65,9 @@ export default function SignupCard() {
 
   const onSubmit = async (data: TInput) => {
     try {
-      await signUpSupabase(data)
+      const res = await signUpSupabase(data)
       setIsSuccess(true)
+      setEmail(res.user?.email || '')
     } catch (error) {
       form.setFocus('email')
       form.setError('root', {
@@ -73,7 +75,7 @@ export default function SignupCard() {
       })
     }
   }
-  if (isSuccess) return <SuccessCard />
+  if (isSuccess) return <SuccessCard email={email} />
   return (
     <div
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
