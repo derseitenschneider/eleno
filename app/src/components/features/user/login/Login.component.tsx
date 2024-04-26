@@ -9,7 +9,7 @@ export default function Login({ className }: LoginHeaderProps) {
   const [_, setSearchParams] = useSearchParams()
 
   return (
-    <div className={className}>
+    <div className={`${className}`}>
       <LoginHeader
         preText="Noch keinen Benutzerkonto?"
         buttonText="Sign up"

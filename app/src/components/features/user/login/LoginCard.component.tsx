@@ -58,11 +58,17 @@ export default function LoginCard() {
   }
 
   return (
-    <div
-      className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
-        justify-center gap-2 py-20"
-    >
-      <WrapperCard className="bg-zinc-50" size="sm" header="Willkommen zurück!">
+    <>
+      <WrapperCard
+        size="sm"
+        complementary={
+          <p className="text-center text-sm text-zinc-700 ">
+            Noch keinen Benutzerkonto?{' '}
+            <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
+          </p>
+        }
+        header="Willkommen zurück!"
+      >
         <Form {...form}>
           <form
             className="flex flex-col space-y-6"
@@ -100,8 +106,6 @@ export default function LoginCard() {
                       placeholder="Passwort"
                       className="border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
                         placeholder:text-zinc-400 focus-visible:ring-primary"
-                      // value={field.value}
-                      // onChange={field.onChange}
                       {...field}
                     />
                   </FormControl>
@@ -133,10 +137,6 @@ export default function LoginCard() {
           Passwort vergessen?
         </a>
       </WrapperCard>
-      <p className="text-center text-sm text-zinc-700 ">
-        Noch keinen Benutzerkonto?{' '}
-        <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
-      </p>
-    </div>
+    </>
   )
 }

@@ -10,7 +10,6 @@ type LoginPageProps = {
 }
 function LoginPage({ className }: LoginPageProps) {
   const [searchParams] = useSearchParams()
-  // TODO: No darkmode
 
   const page = searchParams.get('page')
   if (!page || 'login' === page) return <Login className={className} />

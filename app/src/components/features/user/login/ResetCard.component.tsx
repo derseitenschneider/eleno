@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { recoverPasswordSupabase } from '@/services/api/user.api'
+import { useSearchParams } from 'react-router-dom'
 
 const resetSchema = z.object({
   email: z.string().email({ message: 'Keine gültige E-Mail Adresse.' }),
@@ -21,6 +22,8 @@ const resetSchema = z.object({
 type TInput = z.infer<typeof resetSchema>
 
 export default function ResetCard() {
+  const [, setSearchParams] = useSearchParams()
+
   const form = useForm<TInput>({
     resolver: zodResolver(resetSchema),
     mode: 'onSubmit',
@@ -40,7 +43,15 @@ export default function ResetCard() {
   }
 
   return (
-    <WrapperCard className="bg-zinc-50" header="Passwort zurücksetzten">
+    <WrapperCard
+      complementary={
+        <p className=" text-center text-sm text-zinc-700">
+          Noch keinen Benutzerkonto?{' '}
+          <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
+        </p>
+      }
+      header="Passwort zurücksetzten"
+    >
       <Form {...form}>
         <form
           className="flex flex-col space-y-6"

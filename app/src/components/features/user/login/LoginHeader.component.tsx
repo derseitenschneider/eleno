@@ -15,7 +15,7 @@ export default function LoginHeader({
     <div className="z-10 flex justify-between p-6">
       <LogoText />
       <div className="flex items-center gap-3">
-        <p className="text-sm text-zinc-700">{preText}</p>
+        <p className="hidden text-sm text-zinc-700 md:block">{preText}</p>
         <Button onClick={onClick}>{buttonText}</Button>
       </div>
     </div>

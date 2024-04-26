@@ -4,25 +4,28 @@ type WrapperCardProps = {
   header: string
   size?: 'sm' | 'md'
   children: React.ReactNode
-  className: string
+  complementary?: React.ReactNode
 }
 
 export default function WrapperCard({
   header,
   size = 'sm',
   children,
-  className,
+  complementary,
 }: WrapperCardProps): JSX.Element {
-  const width = size === 'sm' ? 'w-[400px]' : 'w-[450px]'
+  const width = size === 'sm' ? 'sm:w-[400px]' : 'sm:w-[450px]'
 
   return (
-    <Card className={`${className} px-8 py-3`}>
-      <CardContent className={`${width} flex flex-col space-y-3 pt-3`}>
-        <h2 className="mb-4 text-center text-3xl font-bold text-zinc-600">
-          {header}
-        </h2>
-        {children}
-      </CardContent>
-    </Card>
+    <div className="flex w-full flex-col justify-center gap-2 p-3 ">
+      <Card className="bg-zinc-50 py-3 sm:px-8">
+        <CardContent className={`${width} flex flex-col space-y-3 pt-3`}>
+          <h2 className="mb-4 text-center text-3xl font-bold text-zinc-600">
+            {header}
+          </h2>
+          {children}
+        </CardContent>
+      </Card>
+      {complementary}
+    </div>
   )
 }

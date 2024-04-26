@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
-  
+
   const getUserProfiles = async (userId: string) => {
     if (mode === 'demo') {
       setUser(mockUser)
@@ -128,7 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut()
-    navigate('/?page=login', {replace: true})
+    navigate('/?page=login', { replace: true })
   }, [navigate])
 
   const recoverPassword = async (email: string) => {
@@ -156,7 +156,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <UserContext.Provider value={value}>
       {currentSession && children}
-      {!currentSession && !isLoading && <LoginPage className='min-h-screen bg-zinc-100' />}
+      {!currentSession && !isLoading && (
+        <LoginPage className="min-h-screen grid-rows-[88px_1fr] bg-zinc-100 sm:grid" />
+      )}
       {/* <LoginPage /> */}
     </UserContext.Provider>
   )

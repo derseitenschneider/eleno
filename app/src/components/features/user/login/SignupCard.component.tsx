@@ -77,17 +77,14 @@ export default function SignupCard() {
   }
   if (isSuccess) return <SuccessCard email={email} />
   return (
-    <div
-      className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
-        justify-center gap-2 py-20"
-    >
-      <WrapperCard className="bg-zinc-50" size="md" header="Los geht's!">
+    <>
+      <WrapperCard size="md" header="Los geht's!">
         <Form {...form}>
           <form
             className="flex flex-col space-y-7"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-7 sm:grid-cols-2">
               <FormField
                 control={form.control}
                 name="firstName"
@@ -248,6 +245,6 @@ export default function SignupCard() {
           </form>
         </Form>
       </WrapperCard>
-    </div>
+    </>
   )
 }

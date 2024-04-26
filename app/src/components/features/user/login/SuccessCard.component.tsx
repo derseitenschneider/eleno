@@ -10,7 +10,7 @@ export default function SuccessCard({ email }: SuccessCardProps) {
       className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20"
     >
-      <WrapperCard size="md" className="bg-zinc-50" header="Gleich geschafft!">
+      <WrapperCard size="md" header="Gleich geschafft!">
         <div className="flex h-20 justify-center">
           <IoMailOutline className="h-full w-auto text-primary" />
         </div>
