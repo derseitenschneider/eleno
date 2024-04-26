@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import Login from '../../components/features/user/login/Login.component'
 
 import Signup from '../../components/features/user/login/Signup.component'
-import ForgotPassword from '@/components/features/user/login/ForgotPassword.component'
+import ForgotPassword from '@/components/features/user/login/PasswordRecovery.component'
 
 type LoginPageProps = {
   className: string

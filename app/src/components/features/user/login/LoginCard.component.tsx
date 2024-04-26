@@ -63,7 +63,7 @@ export default function LoginCard() {
         size="sm"
         complementary={
           <p className="text-center text-sm text-zinc-700 ">
-            Noch keinen Benutzerkonto?{' '}
+            Noch kein Benutzerkonto?{' '}
             <a onClick={() => setSearchParams({ page: 'signup' })}>Sign up</a>
           </p>
         }
