@@ -1,122 +1,122 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-import { useLoading } from '@/services/context/LoadingContext'
-import OfflineBanner from '../../components/ui/offlineBanner/OfflineBanner.component'
-import { fetchGroups } from '../../services/api/groups.api'
-import { fetchLatestLessonsSupabase } from '../../services/api/lessons.api'
-import mockLessons from '../../services/api/mock-db/mockLessons'
-import mockNotes from '../../services/api/mock-db/mockNotes'
-import mockStudents from '../../services/api/mock-db/mockStudents'
-import { fetchNotes } from '../../services/api/notes.api'
-import { fetchStudents } from '../../services/api/students.api'
-import { fetchTodosSupabase } from '../../services/api/todos.api'
-import { useClosestStudent } from '../../services/context/ClosestStudentContext'
-import { useGroups } from '../../services/context/GroupsContext'
-import { useLessons } from '../../services/context/LessonsContext'
-import { useNotes } from '../../services/context/NotesContext'
-import { useStudents } from '../../services/context/StudentContext'
-import { useTodos } from '../../services/context/TodosContext'
-import { useUser } from '../../services/context/UserContext'
+import { useLoading } from "@/services/context/LoadingContext";
+import OfflineBanner from "../../components/ui/offlineBanner/OfflineBanner.component";
+import { fetchGroups } from "../../services/api/groups.api";
+import { fetchLatestLessonsSupabase } from "../../services/api/lessons.api";
+import mockLessons from "../../services/api/mock-db/mockLessons";
+import mockNotes from "../../services/api/mock-db/mockNotes";
+import mockStudents from "../../services/api/mock-db/mockStudents";
+import { fetchNotes } from "../../services/api/notes.api";
+import { fetchStudents } from "../../services/api/students.api";
+import { fetchTodosSupabase } from "../../services/api/todos.api";
+import { useClosestStudent } from "../../services/context/ClosestStudentContext";
+import { useGroups } from "../../services/context/GroupsContext";
+import { useLessons } from "../../services/context/LessonsContext";
+import { useNotes } from "../../services/context/NotesContext";
+import { useStudents } from "../../services/context/StudentContext";
+import { useTodos } from "../../services/context/TodosContext";
+import { useUser } from "../../services/context/UserContext";
 
 interface MainProps {
-  children: React.ReactNode
+	children: React.ReactNode;
 }
 
 function Main({ children }: MainProps) {
-  const { user } = useUser()
-  const { closestStudentIndex } = useClosestStudent()
-  const { setCurrentStudentIndex } = useStudents()
-  const { setIsLoading } = useLoading()
+	const { user } = useUser();
+	const { closestStudentIndex } = useClosestStudent();
+	const { setCurrentStudentIndex } = useStudents();
+	const { setIsLoading } = useLoading();
 
-  const { setStudents } = useStudents()
-  const { setLessons } = useLessons()
-  const { setNotes } = useNotes()
-  const { setGroups } = useGroups()
-  const { setTodos } = useTodos()
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
-  const [errorMessage, setErrorMessage] = useState('')
-  const mode = import.meta.env.VITE_MODE
-  useEffect(() => {
-    setCurrentStudentIndex(closestStudentIndex)
-  }, [closestStudentIndex, setCurrentStudentIndex])
+	const { setStudents } = useStudents();
+	const { setLessons } = useLessons();
+	const { setNotes } = useNotes();
+	const { setGroups } = useGroups();
+	const { setTodos } = useTodos();
+	const [isOnline, setIsOnline] = useState(navigator.onLine);
+	const [errorMessage, setErrorMessage] = useState("");
+	const mode = import.meta.env.VITE_MODE;
+	useEffect(() => {
+		setCurrentStudentIndex(closestStudentIndex);
+	}, [closestStudentIndex, setCurrentStudentIndex]);
 
-  useEffect(() => {
-    if (mode === 'demo') {
-      setStudents(mockStudents)
-      setLessons(mockLessons)
-      setNotes(mockNotes)
-      setIsLoading(false)
-      return
-    }
+	useEffect(() => {
+		if (mode === "demo") {
+			setStudents(mockStudents);
+			setLessons(mockLessons);
+			setNotes(mockNotes);
+			setIsLoading(false);
+			return;
+		}
 
-    if (user) {
-      const allPromise = Promise.all([
-        fetchStudents(user.id),
-        fetchLatestLessonsSupabase(),
-        fetchNotes(),
-        fetchTodosSupabase(user.id),
-        fetchGroups(),
-      ])
-      const fetchAll = async () => {
-        setErrorMessage('')
-        try {
-          const [students, lessons, notes, todos, groups] = await allPromise
-          setStudents([...students])
-          setLessons([...lessons])
-          setNotes([...notes])
-          setTodos([...todos])
-          setGroups([...groups])
-        } catch (err) {
-          setErrorMessage(
-            'Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.',
-          )
-        } finally {
-          setIsLoading(false)
-        }
-      }
-      fetchAll()
-    }
-  }, [
-    setLessons,
-    setNotes,
-    setStudents,
-    setTodos,
-    user,
-    mode,
-    setGroups,
-    setIsLoading,
-  ])
+		if (user) {
+			const allPromise = Promise.all([
+				fetchStudents(user.id),
+				fetchLatestLessonsSupabase(),
+				fetchNotes(),
+				fetchTodosSupabase(user.id),
+				fetchGroups(),
+			]);
+			const fetchAll = async () => {
+				setErrorMessage("");
+				try {
+					const [students, lessons, notes, todos, groups] = await allPromise;
+					setStudents([...students]);
+					setLessons([...lessons]);
+					setNotes([...notes]);
+					setTodos([...todos]);
+					setGroups([...groups]);
+				} catch (err) {
+					setErrorMessage(
+						"Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.",
+					);
+				} finally {
+					setIsLoading(false);
+				}
+			};
+			fetchAll();
+		}
+	}, [
+		setLessons,
+		setNotes,
+		setStudents,
+		setTodos,
+		user,
+		mode,
+		setGroups,
+		setIsLoading,
+	]);
 
-  useEffect(() => {
-    if (errorMessage)
-      toast(errorMessage, {
-        position: 'top-center',
-        type: 'error',
-        autoClose: false,
-      })
-  }, [errorMessage])
+	useEffect(() => {
+		if (errorMessage)
+			toast(errorMessage, {
+				position: "top-center",
+				type: "error",
+				autoClose: false,
+			});
+	}, [errorMessage]);
 
-  useEffect(() => {
-    const handleStatusChange = () => {
-      setIsOnline(navigator.onLine)
-    }
+	useEffect(() => {
+		const handleStatusChange = () => {
+			setIsOnline(navigator.onLine);
+		};
 
-    window.addEventListener('online', handleStatusChange)
-    window.addEventListener('offline', handleStatusChange)
+		window.addEventListener("online", handleStatusChange);
+		window.addEventListener("offline", handleStatusChange);
 
-    return () => {
-      window.removeEventListener('online', handleStatusChange)
-      window.removeEventListener('offline', handleStatusChange)
-    }
-  }, [isOnline])
+		return () => {
+			window.removeEventListener("online", handleStatusChange);
+			window.removeEventListener("offline", handleStatusChange);
+		};
+	}, [isOnline]);
 
-  return (
-    <>
-      {!errorMessage && <div id="main">{children}</div>}
-      {!isOnline && mode !== 'demo' && <OfflineBanner />}
-    </>
-  )
+	return (
+		<>
+			{!errorMessage && <div id="main">{children}</div>}
+			{!isOnline && mode !== "demo" && <OfflineBanner />}
+		</>
+	);
 }
 
-export default Main
+export default Main;

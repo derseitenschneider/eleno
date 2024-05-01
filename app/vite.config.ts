@@ -1,26 +1,24 @@
 ///<reference types="vitest" />
 
-import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
-import react from '@vitejs/plugin-react'
-import preload from 'vite-plugin-preload'
-import manifest from './manifest'
-import path from 'path'
+import path from "node:path"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+import preload from "vite-plugin-preload"
+import { VitePWA } from "vite-plugin-pwa"
+import manifest from "./manifest"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
   test: {
-    globals: true,
     environment: 'jsdom',
-    setupFiles: './setup.test.ts',
-    css: true,
+    globals: true
   },
+  base: "/",
   plugins: [
     react(),
     preload(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
 
       // strategies: 'injectManifest',
       devOptions: {
@@ -32,7 +30,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
@@ -40,11 +38,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
+          if (id.includes("node_modules")) {
             return id
               .toString()
-              .split('node_modules/')[1]
-              .split('/')[0]
+              .split("node_modules/")[1]
+              .split("/")[0]
               .toString()
           }
           return null

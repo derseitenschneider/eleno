@@ -1,23 +1,23 @@
-import LogoText from '@/components/ui/LogoText.component'
-import { Button } from '@/components/ui/button'
+import LogoText from "@/components/ui/LogoText.component";
+import { Button } from "@/components/ui/button";
 
 type LoginHeaderProps = {
-  preText: string
-  buttonText: string
-  onClick: () => void
-}
+	preText: string;
+	buttonText: string;
+	onClick: () => void;
+};
 export default function LoginHeader({
-  preText,
-  buttonText,
-  onClick,
+	preText,
+	buttonText,
+	onClick,
 }: LoginHeaderProps) {
-  return (
-    <div className="z-10 flex justify-between p-6">
-      <LogoText />
-      <div className="flex items-center gap-3">
-        <p className="hidden text-sm text-zinc-700 md:block">{preText}</p>
-        <Button onClick={onClick}>{buttonText}</Button>
-      </div>
-    </div>
-  )
+	return (
+		<div className="z-10 flex justify-between p-6">
+			<LogoText />
+			<div className="flex items-center gap-3">
+				<p className="hidden text-sm text-zinc-700 md:block">{preText}</p>
+				<Button onClick={onClick}>{buttonText}</Button>
+			</div>
+		</div>
+	);
 }

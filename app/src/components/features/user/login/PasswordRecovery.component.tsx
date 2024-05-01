@@ -1,33 +1,33 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-import { useSearchParams } from 'react-router-dom'
-import { Card } from '@/components/ui/card'
-import LoginHeader from './LoginHeader.component'
-import ResetCard from './ResetCard.component'
-import SuccessCard from './SuccessCard.component'
+import { useSearchParams } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import LoginHeader from "./LoginHeader.component";
+import ResetCard from "./ResetCard.component";
+import SuccessCard from "./SuccessCard.component";
 
 type ForgotPasswordProps = {
-  className: string
-}
+	className: string;
+};
 
 function ForgotPassword({ className }: ForgotPasswordProps) {
-  const [recoverSuccess, setRecoverSuccess] = useState(false)
+	const [recoverSuccess, setRecoverSuccess] = useState(false);
 
-  const [, setSearchParams] = useSearchParams()
+	const [, setSearchParams] = useSearchParams();
 
-  return (
-    <div className={className}>
-      <LoginHeader
-        preText="Noch kein Benutzerkonto?"
-        buttonText="Sign up"
-        onClick={() => setSearchParams({ page: 'signup' })}
-      />
+	return (
+		<div className={className}>
+			<LoginHeader
+				preText="Noch kein Benutzerkonto?"
+				buttonText="Sign up"
+				onClick={() => setSearchParams({ page: "signup" })}
+			/>
 
-      {!recoverSuccess ? (
-        <ResetCard />
-      ) : (
-        <SuccessCard />
-        /*{ <div
+			{!recoverSuccess ? (
+				<ResetCard />
+			) : (
+				<SuccessCard />
+				/*{ <div
           className="mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
             justify-center gap-2 py-20"
         >
@@ -41,9 +41,9 @@ function ForgotPassword({ className }: ForgotPasswordProps) {
             <p className="text-center text-zinc-700">Überprüfe dein Postfach</p>
           </Card>
         </div> }*/
-      )}
-    </div>
-  )
+			)}
+		</div>
+	);
 }
 
-export default ForgotPassword
+export default ForgotPassword;

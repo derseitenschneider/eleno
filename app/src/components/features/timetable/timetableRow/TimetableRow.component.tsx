@@ -1,48 +1,48 @@
-import { IoArrowForwardOutline } from 'react-icons/io5'
-import { useNavigate } from 'react-router-dom'
-import { useStudents } from '../../../../services/context/StudentContext'
-import { TStudent } from '../../../../types/types'
-import { sortStudentsDateTime } from '../../../../utils/sortStudents'
+import { IoArrowForwardOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useStudents } from "../../../../services/context/StudentContext";
+import type { TStudent } from "../../../../types/types";
+import { sortStudentsDateTime } from "../../../../utils/sortStudents";
 
 interface TimeTableRowProps {
-  currentStudent: TStudent
+	currentStudent: TStudent;
 }
 
 function TimeTableRow({ currentStudent }: TimeTableRowProps) {
-  const { students, setCurrentStudentIndex } = useStudents()
-  const navigate = useNavigate()
+	const { students, setCurrentStudentIndex } = useStudents();
+	const navigate = useNavigate();
 
-  const navigateTolesson = () => {
-    const filteredSortedStudents = sortStudentsDateTime(students).filter(
-      (student) => !student.archive,
-    )
-    const index = filteredSortedStudents.findIndex(
-      (student) => student.id === currentStudent.id,
-    )
-    setCurrentStudentIndex(index)
+	const navigateTolesson = () => {
+		const filteredSortedStudents = sortStudentsDateTime(students).filter(
+			(student) => !student.archive,
+		);
+		const index = filteredSortedStudents.findIndex(
+			(student) => student.id === currentStudent.id,
+		);
+		setCurrentStudentIndex(index);
 
-    navigate('/lessons')
-  }
+		navigate("/lessons");
+	};
 
-  return (
-    <div className="row" key={currentStudent.id}>
-      <div>
-        {currentStudent.startOfLesson && (
-          <>
-            {currentStudent.startOfLesson} - {currentStudent.endOfLesson}
-          </>
-        )}
-      </div>
-      <div>
-        {currentStudent.firstName} {currentStudent.lastName}
-      </div>
-      <div>{currentStudent.instrument}</div>
-      <div>{currentStudent.location}</div>
-      <button type="button" onClick={navigateTolesson} className="btn-go-to">
-        <IoArrowForwardOutline />
-      </button>
-    </div>
-  )
+	return (
+		<div className="row" key={currentStudent.id}>
+			<div>
+				{currentStudent.startOfLesson && (
+					<>
+						{currentStudent.startOfLesson} - {currentStudent.endOfLesson}
+					</>
+				)}
+			</div>
+			<div>
+				{currentStudent.firstName} {currentStudent.lastName}
+			</div>
+			<div>{currentStudent.instrument}</div>
+			<div>{currentStudent.location}</div>
+			<button type="button" onClick={navigateTolesson} className="btn-go-to">
+				<IoArrowForwardOutline />
+			</button>
+		</div>
+	);
 }
 
-export default TimeTableRow
+export default TimeTableRow;
