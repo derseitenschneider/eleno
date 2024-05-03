@@ -8,6 +8,9 @@ export const content = [
 ]
 export const prefix = ""
 export const theme = {
+  fontFamily: {
+    body: ['"DM Sans"'],
+  },
   container: {
     center: true,
     padding: "2rem",

@@ -94,7 +94,7 @@ function Sidebar() {
         onClick={() => setSidebarOpen(false)}
         className='block w-full'
       >
-        <div className='mb-8 p-2'>
+        <div className='flex items-center justify-center mt-3 mb-8'>
           <Logo />
         </div>
       </NavLink>
