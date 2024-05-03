@@ -1,131 +1,131 @@
-import { lazy, Suspense } from "react";
-import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../pages/error/error";
+import { lazy, Suspense } from "react"
+import { createBrowserRouter } from "react-router-dom"
+import ErrorPage from "../pages/error/error"
 
-import Loader from "../components/ui/loader/Loader";
-import Application from "../Application";
+import Loader from "../components/ui/loader/Loader"
+import Application from "../Application"
 
-import Account from "../pages/settings/account/Account";
-import TodosCompleted from "../pages/todos/TodosCompleted.page";
-import TodosOpen from "../pages/todos/TodosOpen.page";
+import Account from "../pages/settings/account/Account"
+import TodosCompleted from "../pages/todos/TodosCompleted.page"
+import TodosOpen from "../pages/todos/TodosOpen.page"
 
-import Groups from "../components/features/groups/Groups.component";
-import AllLessons from "../components/features/lessons/allLessons/AllLessons.component";
-import Repertoire from "../components/features/repertoire/Repertoire.component";
-import ActiveStudents from "../components/features/students/activeStudents/ActiveStudents.component";
-import InactiveStudents from "../components/features/students/inActiveStudents/InactiveStudents.component";
-import View from "../pages/settings/view/View";
-import DashboardSkeleton from "@/components/ui/skeletons/DashboardSkeleton.component";
-import StudentsSkeleton from "@/components/ui/skeletons/StudentsSkeleton.component";
-import LessonSkeleton from "@/components/ui/skeletons/LessonSkeleton.component";
+import Groups from "../components/features/groups/Groups.component"
+import AllLessons from "../components/features/lessons/allLessons/AllLessons.component"
+import Repertoire from "../components/features/repertoire/Repertoire.component"
+import ActiveStudents from "../components/features/students/activeStudents/ActiveStudents.component"
+import InactiveStudents from "../components/features/students/inActiveStudents/InactiveStudents.component"
+import View from "../pages/settings/view/View"
+import DashboardSkeleton from "@/components/ui/skeletons/DashboardSkeleton.component"
+import StudentsSkeleton from "@/components/ui/skeletons/StudentsSkeleton.component"
+import LessonSkeleton from "@/components/ui/skeletons/LessonSkeleton.component"
 
-const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
-const Students = lazy(() => import("../pages/students/Students"));
-const Lessons = lazy(() => import("../pages/lessons/Lessons"));
-const ToDos = lazy(() => import("../pages/todos/Todos.page"));
-const Settings = lazy(() => import("../pages/settings/Settings"));
-const Timetable = lazy(() => import("../pages/timetable/Timetable.component"));
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
+const Students = lazy(() => import("../pages/students/Students"))
+const Lessons = lazy(() => import("../pages/lessons/Lessons"))
+const ToDos = lazy(() => import("../pages/todos/Todos.page"))
+const Settings = lazy(() => import("../pages/settings/Settings"))
+const Timetable = lazy(() => import("../pages/timetable/Timetable.component"))
 
 const mainRouter = createBrowserRouter(
-	[
-		{
-			path: `/`,
-			element: <Application />,
-			errorElement: <ErrorPage />,
-			children: [
-				{
-					index: true,
-					element: (
-						<Suspense fallback={<DashboardSkeleton />}>
-							<Dashboard />,
-						</Suspense>
-					),
-				},
-				{
-					path: "students",
-					element: (
-						<Suspense fallback={<StudentsSkeleton />}>
-							<Students />,
-						</Suspense>
-					),
-					children: [
-						{
-							index: true,
-							path: "",
-							element: <ActiveStudents />,
-						},
-						{
-							path: `archive`,
-							element: <InactiveStudents />,
-						},
-						{
-							path: `groups`,
-							element: <Groups />,
-						},
-					],
-				},
-				{
-					path: `timetable`,
-					element: (
-						<Suspense>
-							<Timetable />
-						</Suspense>
-					),
-				},
-				{
-					path: "lessons",
-					element: (
-						<Suspense fallback={<p>...loading</p>}>
-							{/* <LessonSkeleton /> */}
-							<Lessons />,
-						</Suspense>
-					),
-				},
-				{
-					path: "/lessons/all",
-					element: <AllLessons />,
-				},
-				{
-					path: "/lessons/repertoire",
-					element: <Repertoire />,
-				},
-				{
-					path: `todos`,
-					element: (
-						<Suspense fallback={<Loader loading />}>
-							<ToDos />
-						</Suspense>
-					),
-					children: [
-						{ index: true, path: "", element: <TodosOpen /> },
-						{ path: "completed", element: <TodosCompleted /> },
-					],
-				},
-				{
-					path: `settings`,
-					element: (
-						<Suspense fallback={<Loader loading />}>
-							<Settings />
-						</Suspense>
-					),
-					children: [
-						{
-							index: true,
-							path: "",
-							element: <Account />,
-						},
-						{
-							index: true,
-							path: "view",
-							element: <View />,
-						},
-					],
-				},
-			],
-		},
-	],
-	{
-		basename: "/",
-	},
-);
-export default mainRouter;
+  [
+    {
+      path: "/",
+      element: <Application />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: (
+            <Suspense fallback={<DashboardSkeleton />}>
+              <Dashboard />
+            </Suspense>
+          ),
+        },
+        {
+          path: "students",
+          element: (
+            <Suspense fallback={<StudentsSkeleton />}>
+              <Students />
+            </Suspense>
+          ),
+          children: [
+            {
+              index: true,
+              path: "",
+              element: <ActiveStudents />,
+            },
+            {
+              path: `archive`,
+              element: <InactiveStudents />,
+            },
+            {
+              path: `groups`,
+              element: <Groups />,
+            },
+          ],
+        },
+        {
+          path: `timetable`,
+          element: (
+            <Suspense>
+              <Timetable />
+            </Suspense>
+          ),
+        },
+        {
+          path: "lessons",
+          element: (
+            <Suspense fallback={<p>...loading</p>}>
+              {/* <LessonSkeleton /> */}
+              <Lessons />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/lessons/all",
+          element: <AllLessons />,
+        },
+        {
+          path: "/lessons/repertoire",
+          element: <Repertoire />,
+        },
+        {
+          path: `todos`,
+          element: (
+            <Suspense fallback={<Loader loading />}>
+              <ToDos />
+            </Suspense>
+          ),
+          children: [
+            { index: true, path: "", element: <TodosOpen /> },
+            { path: "completed", element: <TodosCompleted /> },
+          ],
+        },
+        {
+          path: `settings`,
+          element: (
+            <Suspense fallback={<Loader loading />}>
+              <Settings />
+            </Suspense>
+          ),
+          children: [
+            {
+              index: true,
+              path: "",
+              element: <Account />,
+            },
+            {
+              index: true,
+              path: "view",
+              element: <View />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  {
+    basename: "/",
+  },
+)
+export default mainRouter

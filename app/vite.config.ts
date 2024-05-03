@@ -1,7 +1,7 @@
 ///<reference types="vitest" />
 
-import path from "node:path"
 import react from "@vitejs/plugin-react"
+import { fileURLToPath } from "node:url"
 import { defineConfig } from "vite"
 import preload from "vite-plugin-preload"
 import { VitePWA } from "vite-plugin-pwa"
@@ -11,7 +11,14 @@ import manifest from "./manifest"
 export default defineConfig({
   test: {
     environment: 'jsdom',
-    globals: true
+    root: './tests',
+    globals: true,
+    alias: {
+      // "@": path.resolve(__dirname, "./src"),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+
+      // '@/': new URL('./src/', import.meta.url).pathname,
+    }
   },
   base: "/",
   plugins: [
@@ -30,7 +37,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // '@/': new URL('./src/', import.meta.url).pathname,
+      // "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+import LoginHeader from "../../../src/components/features/user/login/LoginHeader.component";
 
 describe("Greet", () => {
 	it("should render the logo", () => {

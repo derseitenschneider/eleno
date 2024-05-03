@@ -1,16 +1,18 @@
 {
 	"extends": "../tsconfig.json",
+
 	"compilerOptions": {
 		// No transpiling here, let's stay on the edge.
 		"target": "esnext",
 		"module": "esnext",
+		"baseUrl": ".",
 		"paths": {
-			"@/*": ["../src/*"]
+			"@/*": ["../src/"]
 		},
 		// Integration tests run in Node.js.
 		// Let's also add those test runner's globals.
 		"types": ["@types/node", "vitest/globals"]
 	},
 	// We care only about the test files here.
-	"include": ["**/*.test.tsx"]
+	"include": ["./**/*.test.tsx"]
 }
