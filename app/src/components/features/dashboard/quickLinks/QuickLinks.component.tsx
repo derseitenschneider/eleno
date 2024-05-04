@@ -18,7 +18,7 @@ function QuickLinks() {
   }
 
   return (
-    <div className='col-span-1 row-start-2 row-end-3 p-3 border-b border-background200'>
+    <div className='col-span-1 row-start-2 row-end-3 p-3 border-b border-hairline'>
       <h2>Quick-Links</h2>
       <div className='flex gap-8 flex-wrap'>
         <QuickLinkItem

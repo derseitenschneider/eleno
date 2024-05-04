@@ -8,7 +8,7 @@ function News() {
   )
 
   return (
-    <aside className='row-start-2 border-l overflow-hidden row-end-4 col-start-2'>
+    <aside className='row-start-2 border-l border-hairline overflow-hidden row-end-4 col-start-2'>
       <h2>News</h2>
       <div className='h-full overflow-y-auto no-scrollbar'>
         {sortedNews

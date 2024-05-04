@@ -29,6 +29,7 @@ export const theme = {
       background50: "hsl(var(--background-50))",
       background100: "hsl(var(--background-100))",
       background200: "hsl(var(--background-200))",
+      hairline: "hsl(var(--hairline))",
       foreground: "hsl(var(--foreground))",
       warning: "hsl(var(--clr-warning))",
       primary: {

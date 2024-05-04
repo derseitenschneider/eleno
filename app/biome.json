@@ -4,7 +4,9 @@
 		"enabled": true
 	},
 	"formatter": {
-		"indentStyle": "space"
+		"indentStyle": "space",
+    "lineWidth": 80
+    "attributePosition": "multiline"
 	},
 	"javascript": {
 		"formatter": {

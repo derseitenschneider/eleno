@@ -8,7 +8,7 @@ import { version } from "../../../../../package.json"
 function FooterDashboard() {
   const { dateToday } = useDateToday()
   return (
-    <footer className='border-t col-start-1 col-end-3 flex justify-center gap-4 text-[10px] !py-4 px-8'>
+    <footer className='border-t border-hairline col-start-1 col-end-3 flex justify-center gap-4 text-[10px] !py-4 px-8'>
       <div className='flex gap-4'>
         <Link to='https://eleno.net/terms-conditions' target='_blank'>
           Allgemeine Geschäftsbedingungen
