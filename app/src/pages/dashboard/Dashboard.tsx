@@ -15,7 +15,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className='h-screen min-h-[700px] grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto] *:p-7'
+      className='sm:h-screen sm:min-h-[700px] sm:grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto] *:py-5 *:px-3 sm:*:p-7'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >

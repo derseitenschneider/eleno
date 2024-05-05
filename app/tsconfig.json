@@ -28,7 +28,7 @@
 		"vite.config.ts",
 		"scripts",
 		"postcss.config.js",
-		"tailwind.config.js"
+		"tailwind.config.js",
 	],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

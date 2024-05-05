@@ -6,18 +6,20 @@ function HeaderDashboard() {
   const mode = import.meta.env.VITE_MODE
 
   return (
-    <header className='col-span-2 flex justify-between border-b border-hairline p-3'>
+    <header className='col-span-2 flex justify-between border-b border-hairline'>
       <div className='left'>
         <h1>Dashboard</h1>
 
         <div className=''>
           {mode === "demo" ? (
             <span className=''>
-              Willkommen und viel Spass beim Ausprobieren der Demo.
+              Willkommen und viel Spass beim
+              Ausprobieren der Demo.
             </span>
           ) : (
             <span className=''>
-              Hi <b>{user?.firstName}</b>, willkommen bei Eleno!
+              Hi <b>{user?.firstName}</b>,
+              willkommen bei Eleno!
             </span>
           )}
         </div>

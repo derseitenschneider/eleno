@@ -5,8 +5,8 @@
 	},
 	"formatter": {
 		"indentStyle": "space",
-    "lineWidth": 80
-    "attributePosition": "multiline"
+    "lineWidth": 50,
+		"formatWithErrors": true
 	},
 	"javascript": {
 		"formatter": {
