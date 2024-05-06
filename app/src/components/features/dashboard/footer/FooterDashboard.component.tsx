@@ -1,42 +1,25 @@
-/* eslint-disable react/jsx-no-target-blank */
-// import './footerDashboard.style.scss'
-
 import { Link } from "react-router-dom"
-import { useDateToday } from "../../../../services/context/DateTodayContext"
 import { version } from "../../../../../package.json"
+import { useDateToday } from "../../../../services/context/DateTodayContext"
 
 function FooterDashboard() {
   const { dateToday } = useDateToday()
   return (
-    <footer className='border-t border-hairline col-start-1 col-end-3 sm:flex justify-center gap-4 text-[10px] !py-4 px-8'>
-      <div className='sm:flex gap-4'>
-        <Link
-          to='https://eleno.net/terms-conditions'
-          target='_blank'
-          className='block'
-        >
-          Allgemeine Geschäftsbedingungen
-        </Link>
-        <Link
-          to='https://eleno.net/impressum-datenschutz'
-          target='_blank'
-          className='block'
-        >
-          Impressum & Datenschutz
-        </Link>
-      </div>
-      <div>
-        <a
-          className='block'
-          href='mailto:info@eleno.net'
-        >
-          Kontakt
-        </a>
-      </div>
-      <span>
+    <footer className='border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-8'>
+      <Link
+        to='https://eleno.net/terms-conditions'
+        className='block'
+        target='_blank'
+      >
+        Allgemeine Geschäftsbedingungen
+      </Link>
+      <Link to='https://eleno.net/impressum-datenschutz' target='_blank'>
+        Impressum & Datenschutz
+      </Link>
+      <a href='mailto:info@eleno.net'>Kontakt</a>
+      <p>
         Copyright © {dateToday.substring(6)} by{" "}
         <a
-          className='block'
           href='https://derseitenschneider.ch'
           target='_blank'
           rel='noreferrer'
@@ -44,7 +27,7 @@ function FooterDashboard() {
           derseitenschneider
         </a>{" "}
         - all rights reserved
-      </span>
+      </p>
 
       <span>Version {version}</span>
     </footer>

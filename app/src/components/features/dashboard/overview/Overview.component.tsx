@@ -6,64 +6,46 @@ import { sortStudentsDateTime } from "../../../../utils/sortStudents"
 import OverviewCard from "./OverviewCard.component"
 
 function Overview() {
-  const { activeStudents, inactiveStudents } =
-    useStudents()
+  const { activeStudents, inactiveStudents } = useStudents()
   const { todos } = useTodos()
-  const { closestStudentIndex } =
-    useClosestStudent()
+  const { closestStudentIndex } = useClosestStudent()
   const { overdueTodos } = useTodos()
 
   const sortedStudents =
-    (activeStudents &&
-      sortStudentsDateTime(activeStudents)) ||
-    null
+    (activeStudents && sortStudentsDateTime(activeStudents)) || null
   const closestStudent = sortedStudents
     ? sortedStudents[closestStudentIndex]
     : null
 
-  const todosOpen = todos?.filter(
-    (todo) => !todo.completed,
-  )
+  const todosOpen = todos?.filter((todo) => !todo.completed)
 
   return (
     <div className='row-start-3 '>
       <h2>Übersicht</h2>
-      <div className='sm:flex gap-5'>
-        <OverviewCard
-          to='/students'
-          title='Schüler:innen'
-        >
+      <div className='lg:flex gap-5 space-y-5 lg:space-y-0'>
+        <OverviewCard to='/students' title='Schüler:innen'>
           <div>
-            {activeStudents &&
-            activeStudents?.length > 0 ? (
+            {activeStudents && activeStudents?.length > 0 ? (
               <>
                 <p className='mb-2'>
                   Nächste Lektion:{" "}
                   <b>
-                    {closestStudent?.firstName}{" "}
-                    {closestStudent?.lastName}
+                    {closestStudent?.firstName} {closestStudent?.lastName}
                   </b>
                 </p>
                 <p>
-                  Aktive Schüler:innen:{" "}
-                  <b>{activeStudents.length}</b>
+                  Aktive Schüler:innen: <b>{activeStudents.length}</b>
                 </p>
               </>
             ) : (
-              <p>
-                Keine aktiven Schüler:innen
-                erfasst
-              </p>
+              <p>Keine aktiven Schüler:innen erfasst</p>
             )}
             {inactiveStudents?.length ? (
               <p>
-                Archivierte Schüler:innen:{" "}
-                <b>{inactiveStudents.length}</b>
+                Archivierte Schüler:innen: <b>{inactiveStudents.length}</b>
               </p>
             ) : (
-              <p>
-                Keine archivierten Schüler:innen
-              </p>
+              <p>Keine archivierten Schüler:innen</p>
             )}
           </div>
         </OverviewCard>
@@ -72,16 +54,14 @@ function Overview() {
           <div>
             {todosOpen?.length ? (
               <p className='mb-2'>
-                Offene Todos:{" "}
-                <b>{todosOpen.length}</b>
+                Offene Todos: <b>{todosOpen.length}</b>
               </p>
             ) : (
               <p>Keine offenen Todos</p>
             )}
             {overdueTodos?.length ? (
               <p>
-                Überfällige Todos:{" "}
-                <b>{overdueTodos.length}</b>
+                Überfällige Todos: <b>{overdueTodos.length}</b>
               </p>
             ) : (
               <p>Keine Todos überfällig.</p>

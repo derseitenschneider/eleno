@@ -19,7 +19,7 @@ export default function Application() {
             <Main>
               <Sidebar />
               <NavbarMobile />
-              <div className='sm:ml-[50px]'>
+              <div className='md:ml-[50px] mb-[58px] md:mb-0'>
                 <Outlet />
               </div>
             </Main>

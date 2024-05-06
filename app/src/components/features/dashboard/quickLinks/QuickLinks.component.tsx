@@ -12,8 +12,7 @@ import QuickLinkItem from "./QuickLinkItem.component"
 function QuickLinks() {
   const { setCurrentStudentIndex } = useStudents()
 
-  const { closestStudentIndex } =
-    useClosestStudent()
+  const { closestStudentIndex } = useClosestStudent()
   const navigateToClosestStudent = () => {
     setCurrentStudentIndex(closestStudentIndex)
   }
@@ -21,7 +20,7 @@ function QuickLinks() {
   return (
     <div className='col-span-1 row-start-2 row-end-3 p-3 border-b border-hairline'>
       <h2>Quick-Links</h2>
-      <div className='flex gap-x-8 gap-y-5 sm:gap-8 flex-wrap'>
+      <div className='flex gap-x-8 gap-y-5 sm:gap-9 flex-wrap'>
         <QuickLinkItem
           title='Unterricht starten'
           icon={<IoSchoolSharp />}
@@ -32,6 +31,7 @@ function QuickLinks() {
           title='Schüler:in hinzufügen'
           icon={<IoPeopleCircleOutline />}
           link='students?modal=add-students'
+          className='hidden md:flex'
         />
         <QuickLinkItem
           title='Todo erfassen'

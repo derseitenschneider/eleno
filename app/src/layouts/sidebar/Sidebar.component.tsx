@@ -25,45 +25,29 @@ import { useTodos } from "@/services/context/TodosContext"
 import useOutsideClick from "@/hooks/useOutsideClick"
 
 function Sidebar() {
-  const [sidebarOpen, setSidebarOpen] =
-    useState(false)
-  const { setClosestStudentIndex } =
-    useClosestStudent()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { setClosestStudentIndex } = useClosestStudent()
   const { activeStudents } = useStudents()
   const { logout } = useUser()
   const { overdueTodos } = useTodos()
-  const sidebarRef = useOutsideClick(() =>
-    setSidebarOpen(false),
-  )
+  const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
 
-  const handleLogEvent = (
-    e: React.MouseEvent,
-  ): void | Promise<void> => {
+  const handleLogEvent = (e: React.MouseEvent): void | Promise<void> => {
     const target = e.target as HTMLElement
     const path = target.closest("a")?.pathname
 
     switch (path) {
       case "/":
-        if (
-          target.closest("a")?.target === "_blank"
-        ) {
+        if (target.closest("a")?.target === "_blank") {
           setSidebarOpen(false)
-          return logEvent(
-            analytics,
-            "page_view",
-            { page_title: "manual" },
-          )
+          return logEvent(analytics, "page_view", { page_title: "manual" })
         }
         setSidebarOpen(false)
-        setClosestStudentIndex(
-          getClosestStudentIndex(
-            activeStudents ?? [],
-          ),
-        )
+        setClosestStudentIndex(getClosestStudentIndex(activeStudents ?? []))
         return logEvent(analytics, "page_view", {
           page_title: "dashboard",
         })
@@ -113,15 +97,12 @@ function Sidebar() {
   return (
     <nav
       ref={sidebarRef}
-      className={`hidden sm:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
+      className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
       bg-background50 shadow-lg transition-width duration-150 ${
         sidebarOpen ? "w-[180px]" : "w-[50px]"
       }`}
     >
-      <SidebarToggle
-        sidebarOpen={sidebarOpen}
-        toggleSidebar={toggleSidebar}
-      />
+      <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
         to='/'
         onClick={() => setSidebarOpen(false)}
@@ -155,9 +136,7 @@ function Sidebar() {
         />
         <SidebarElement
           notificationContent={
-            overdueTodos?.length
-              ? String(overdueTodos.length)
-              : ""
+            overdueTodos?.length ? String(overdueTodos.length) : ""
           }
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}

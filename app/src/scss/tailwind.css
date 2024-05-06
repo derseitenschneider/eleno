@@ -142,7 +142,7 @@ h1 {
 }
 
 h2 {
-  @apply mb-[.5em] text-2xl leading-relaxed tracking-tight text-foreground;
+  @apply mb-[.5em] text-2xl font-medium leading-relaxed tracking-tight text-foreground;
 }
 
 h3 {
