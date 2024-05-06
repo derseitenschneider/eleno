@@ -18,6 +18,7 @@ import View from "../pages/settings/view/View"
 import DashboardSkeleton from "@/components/ui/skeletons/DashboardSkeleton.component"
 import StudentsSkeleton from "@/components/ui/skeletons/StudentsSkeleton.component"
 import LessonSkeleton from "@/components/ui/skeletons/LessonSkeleton.component"
+import Logout from "@/components/features/user/Logout.component"
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
 const Students = lazy(() => import("../pages/students/Students"))
@@ -55,17 +56,17 @@ const mainRouter = createBrowserRouter(
               element: <ActiveStudents />,
             },
             {
-              path: `archive`,
+              path: "archive",
               element: <InactiveStudents />,
             },
             {
-              path: `groups`,
+              path: "groups",
               element: <Groups />,
             },
           ],
         },
         {
-          path: `timetable`,
+          path: "timetable",
           element: (
             <Suspense>
               <Timetable />
@@ -90,7 +91,7 @@ const mainRouter = createBrowserRouter(
           element: <Repertoire />,
         },
         {
-          path: `todos`,
+          path: "todos",
           element: (
             <Suspense fallback={<Loader loading />}>
               <ToDos />
@@ -102,7 +103,7 @@ const mainRouter = createBrowserRouter(
           ],
         },
         {
-          path: `settings`,
+          path: "settings",
           element: (
             <Suspense fallback={<Loader loading />}>
               <Settings />
@@ -120,6 +121,10 @@ const mainRouter = createBrowserRouter(
               element: <View />,
             },
           ],
+        },
+        {
+          path: "logout",
+          element: <Logout />,
         },
       ],
     },

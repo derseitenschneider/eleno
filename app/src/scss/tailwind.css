@@ -128,6 +128,10 @@ a {
   @apply cursor-pointer text-primary hover:underline;
 }
 
+svg {
+  @apply h-full w-auto
+}
+
 p,
 span {
   @apply text-foreground;
