@@ -135,9 +135,7 @@ function Sidebar() {
           icon={<IoPeopleCircleOutline />}
         />
         <SidebarElement
-          notificationContent={
-            overdueTodos?.length ? String(overdueTodos.length) : ""
-          }
+          notificationContent={overdueTodos?.length}
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='/todos'

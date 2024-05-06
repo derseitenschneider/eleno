@@ -8,7 +8,7 @@ type TSidebarProps = {
   name: string
   target?: HTMLAttributeAnchorTarget
   sidebarOpen: boolean
-  notificationContent?: string
+  notificationContent?: number
 }
 
 export default function SidebarElement({
@@ -43,7 +43,9 @@ export default function SidebarElement({
         <div className='relative z-10 h-full w-full max-w-[22px] shrink-0 *:h-full *:w-full'>
           {icon}
           <div
-            className={`${!notificationContent ? "hidden" : ""} z-100 absolute bottom-0 right-0 flex
+            className={`${
+              notificationContent && notificationContent > 0 ? "hidden" : ""
+            } z-100 absolute bottom-0 right-0 flex
             aspect-square max-h-[14px] max-w-[14px] translate-x-[25%] translate-y-[25%]
             items-center justify-center rounded-full bg-warning`}
           >
