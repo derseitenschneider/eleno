@@ -22,7 +22,7 @@ import Logout from "@/components/features/user/Logout.component"
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
 const Students = lazy(() => import("../pages/students/Students"))
-const Lessons = lazy(() => import("../pages/lessons/Lessons"))
+const Lessons = lazy(() => import("../pages/Lessons.page"))
 const ToDos = lazy(() => import("../pages/todos/Todos.page"))
 const Settings = lazy(() => import("../pages/settings/Settings"))
 const Timetable = lazy(() => import("../pages/timetable/Timetable.component"))

@@ -26,7 +26,10 @@ export default function NavbarMobileItem({
         />
         {icon}
         {notificationContent ? (
-          <div className='z-100 absolute bottom-0 right-0 flex aspect-square !size-[16px] items-center justify-center rounded-full bg-warning'>
+          <div
+            className='z-100 absolute bottom-0 right-0 flex aspect-square 
+            !size-[16px] items-center justify-center rounded-full bg-warning'
+          >
             <span className='text-[10px] text-white'>
               {notificationContent}
             </span>

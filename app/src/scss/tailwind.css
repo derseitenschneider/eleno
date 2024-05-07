@@ -96,7 +96,7 @@
     --card: var(--background-50);
     --card-foreground: var(--foreground);
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 207 7% 30%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 195 42% 48%;
@@ -108,7 +108,7 @@
     --muted: 207 7% 30%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 213 10% 21%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
