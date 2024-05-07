@@ -36,6 +36,7 @@ import {
 import EditStudents from "../../students/editStudents/EditStudents.component"
 import ExportLessons from "../exportLessons/ExportLessons.component"
 import EditStudentTrigger from "@/components/ui/EditStudentTrigger.component"
+import EditStudentMenu from "@/components/ui/EditStudentMenu.component"
 
 function LessonHeader() {
   const { students, currentStudentId } = useStudents()
@@ -55,95 +56,39 @@ function LessonHeader() {
   }
 
   return (
-    <header className='col-start-1 col-span-2 py-5 pl-8 pr-4'>
-      <div className='flex justify-between'>
-        <div className=''>
-          <div className='flex items-center'>
+    <header className='col-start-1 col-span-2 py-5 pl-8 pr-4 border-b border-hairline'>
+      <div className='flex items-end justify-between'>
+        <div>
+          <div className='flex mb-2 items-center'>
             <div className='mr-[4px] text-primary h-6'>
               <IoPersonCircleOutline className='' />
             </div>
-            <span className='mr-3 text-xl'>
+            <span className='mr-3 text-lg'>
               {firstName} {lastName}
             </span>
-            <div className=''>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className='h-3 text-primary' type='button'>
-                    <IoEllipsisVertical />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <EditStudentTrigger />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <IoCheckboxOutline />
-                    <span className='ml-2'>Todo erfassen</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <HiOutlineDocumentArrowDown />
-                    <span className='ml-2'>Lektionsliste exportieren</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* <Modal>
-                <Menus>
-                  <Menus.Toggle id='header-menu' />
-                  <Menus.Menu>
-                    <Menus.List id='header-menu'>
-                      <Modal.Open opens='edit-student'>
-                        <Menus.Button icon={<HiPencil />}>
-                          Schüler:in bearbeiten
-                        </Menus.Button>
-                      </Modal.Open>
-
-                      <Modal.Open opens='add-todo'>
-                        <Menus.Button icon={<IoCheckboxOutline />}>
-                          Todo erfassen
-                        </Menus.Button>
-                      </Modal.Open>
-
-                      <Modal.Open opens='export-lessons'>
-                        <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
-                          Lektionsliste exportieren
-                        </Menus.Button>
-                      </Modal.Open>
-                    </Menus.List>
-                  </Menus.Menu>
-                </Menus>
-
-                <Modal.Window name='edit-student'>
-                  <EditStudents studentIds={[currentStudentId]} />
-                </Modal.Window>
-
-                <Modal.Window name='add-todo' styles={{ overflowY: "visible" }}>
-                  <AddTodo studentId={currentStudentId} />
-                </Modal.Window>
-
-                <Modal.Window name='export-lessons'>
-                  <ExportLessons studentId={currentStudentId} />
-                </Modal.Window>
-              </Modal> */}
-            </div>
+            <EditStudentMenu />
           </div>
-          <span>
-            {dayOfLesson && `${dayOfLesson}`}
-            {startOfLesson && `, ${startOfLesson}`}
-            {endOfLesson && ` - ${endOfLesson}`}
-          </span>
-          {dayOfLesson && durationMinutes !== "0" && <span> | </span>}
+          <div className='text-sm'>
+            <span>
+              {dayOfLesson && `${dayOfLesson}`}
+              {startOfLesson && `, ${startOfLesson}`}
+              {endOfLesson && ` - ${endOfLesson}`}
+            </span>
+            {dayOfLesson && durationMinutes !== "0" && <span> | </span>}
 
-          <span>
-            {durationMinutes !== "0" && <span> {durationMinutes} Minuten</span>}
-          </span>
+            <span>
+              {durationMinutes !== "0" && (
+                <span> {durationMinutes} Minuten</span>
+              )}
+            </span>
+          </div>
         </div>
         <button
           type='button'
-          className='button-repertoire'
+          className='gap-2 text-sm p-2 bg-background50 flex items-center'
           onClick={navigateRepertoire}
         >
-          <HiOutlineListBullet />
+          <HiOutlineListBullet className='text-primary' />
           <span>Repertoire</span>
         </button>
       </div>
