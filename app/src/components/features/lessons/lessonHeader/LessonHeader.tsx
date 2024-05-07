@@ -8,9 +8,9 @@ import "./lessonHeader.style.scss"
 import { HiPencil } from "react-icons/hi"
 
 import {
+  IoCheckboxOutline,
   IoEllipsisVertical,
   IoPersonCircleOutline,
-  IoCheckboxOutline,
 } from "react-icons/io5"
 import { useStudents } from "../../../../services/context/StudentContext"
 
@@ -18,8 +18,7 @@ import Menus from "../../../ui/menu/Menus.component"
 import Modal from "../../../ui/modal/Modal.component"
 import AddTodo from "../../todos/addTodo/AddTodo.component"
 
-import ExportLessons from "../exportLessons/ExportLessons.component"
-import EditStudents from "../../students/editStudents/EditStudents.component"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +26,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -35,6 +33,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import EditStudents from "../../students/editStudents/EditStudents.component"
+import ExportLessons from "../exportLessons/ExportLessons.component"
+import EditStudentTrigger from "@/components/ui/EditStudentTrigger.component"
 
 function LessonHeader() {
   const { students, currentStudentId } = useStudents()
@@ -65,36 +66,26 @@ function LessonHeader() {
               {firstName} {lastName}
             </span>
             <div className=''>
-              <Sheet>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className='h-3 text-primary' type='button'>
-                      <IoEllipsisVertical />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <SheetTrigger>
-                      <DropdownMenuItem>
-                        <HiPencil />
-                        <span className='ml-2'>Schüler:in bearbeiten</span>
-                      </DropdownMenuItem>
-                    </SheetTrigger>
-                    <DropdownMenuItem>
-                      <IoCheckboxOutline />
-                      <span className='ml-2'>Todo erfassen</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <HiOutlineDocumentArrowDown />
-                      <span className='ml-2'>Lektionsliste exportieren</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Schüler:in bearbeiten</SheetTitle>
-                  </SheetHeader>
-                </SheetContent>
-              </Sheet>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className='h-3 text-primary' type='button'>
+                    <IoEllipsisVertical />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>
+                    <EditStudentTrigger />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <IoCheckboxOutline />
+                    <span className='ml-2'>Todo erfassen</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <HiOutlineDocumentArrowDown />
+                    <span className='ml-2'>Lektionsliste exportieren</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
               {/* <Modal>
                 <Menus>
