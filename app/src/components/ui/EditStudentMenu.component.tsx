@@ -1,55 +1,83 @@
+import { DialogDescription } from "@radix-ui/react-dialog"
+import { useState } from "react"
+import { HiDownload } from "react-icons/hi"
 import { HiPencil } from "react-icons/hi2"
 import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "./dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./sheet"
+
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./sheet"
+
+type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
 export default function EditStudentMenu() {
+  const [openModal, setOpenModal] = useState<Modals>(null)
+
   return (
-    <Sheet>
-      <Dialog open={true}>
-        <DropdownMenu>
-          <DropdownMenuTrigger className='text-primary h-3'>
-            <IoEllipsisVertical />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              {/* <SheetTrigger className='flex items-center gap-2'> */}
-              <HiPencil />
-              <span>Schüler:in bearbeiten</span>
-              {/* </SheetTrigger> */}
-            </DropdownMenuItem>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger className='text-primary h-3'>
+          <IoEllipsisVertical />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={() => setOpenModal("EDIT")}>
+            <HiPencil className='mr-3 text-primary' />
+            <span>Schüler:in bearbeiten</span>
+          </DropdownMenuItem>
 
-            <DropdownMenuItem>
-              <DialogTrigger>
-                <IoCheckboxOutline />
-                <span>Todo erfassen</span>
-              </DialogTrigger>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenuItem onClick={() => setOpenModal("TODO")}>
+            <IoCheckboxOutline className='mr-3 text-primary' />
+            <span>Todo erfassen</span>
+          </DropdownMenuItem>
 
-        <DialogContent>
-          <DialogHeader>Todo erfassen</DialogHeader>
-        </DialogContent>
+          <DropdownMenuItem onClick={() => setOpenModal("EXPORT")}>
+            <HiDownload className='mr-3 text-primary' />
+            <span>Lektionsliste exportieren</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-        <SheetContent >
+      <Sheet
+        open={openModal === "EDIT"}
+        onOpenChange={() => setOpenModal(null)}
+      >
+        <SheetContent>
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
           </SheetHeader>
         </SheetContent>
+      </Sheet>
+
+      <Dialog
+        open={openModal === "TODO"}
+        onOpenChange={() => setOpenModal(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Todos</DialogTitle>
+            <DialogDescription>Neue Todo erstellen</DialogDescription>
+          </DialogHeader>
+          <p>Ich bin ein Paragraph.</p>
+        </DialogContent>
       </Dialog>
-    </Sheet>
+
+      <Dialog
+        open={openModal === "EXPORT"}
+        onOpenChange={() => setOpenModal(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Lektionsliste exportieren</DialogTitle>
+            <DialogDescription>Export</DialogDescription>
+          </DialogHeader>
+          <p>Ich bin ein Paragraph.</p>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
