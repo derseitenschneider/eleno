@@ -74,7 +74,7 @@ const mainRouter = createBrowserRouter(
           ),
         },
         {
-          path: "lessons",
+          path: "/lessons/:studentId",
           element: (
             <Suspense fallback={<p>...loading</p>}>
               {/* <LessonSkeleton /> */}

@@ -8,6 +8,7 @@ import MainContext from "./services/context/MainContext"
 import { AuthProvider } from "./services/context/UserContext"
 import { LoadingProvider } from "./services/context/LoadingContext"
 import NavbarMobile from "./layouts/navbarMobile/NavbarMobile.component"
+import { DarkModeProvider } from "./services/context/DarkModeContext"
 
 export default function Application() {
   return (
@@ -17,11 +18,14 @@ export default function Application() {
         <AuthProvider>
           <MainContext>
             <Main>
-              <Sidebar />
-              <NavbarMobile />
-              <div className='md:ml-[50px] mb-[58px] md:mb-0'>
-                <Outlet />
-              </div>
+              <DarkModeProvider>
+                <Sidebar />
+
+                <NavbarMobile />
+                <div className='md:ml-[50px] mb-[58px] md:mb-0'>
+                  <Outlet />
+                </div>
+              </DarkModeProvider>
             </Main>
           </MainContext>
         </AuthProvider>

@@ -27,7 +27,7 @@ import useOutsideClick from "@/hooks/useOutsideClick"
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setClosestStudentIndex } = useClosestStudent()
-  const { activeStudents } = useStudents()
+  const { activeStudents, currentStudentId } = useStudents()
   const { logout } = useUser()
   const { overdueTodos } = useTodos()
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
@@ -98,9 +98,8 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${
-        sidebarOpen ? "w-[180px]" : "w-[50px]"
-      }`}
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
+        }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
@@ -123,7 +122,7 @@ function Sidebar() {
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
-          to='/lessons'
+          to={`/lessons/${currentStudentId}`}
           name='Unterrichten'
           icon={<IoSchoolOutline />}
         />

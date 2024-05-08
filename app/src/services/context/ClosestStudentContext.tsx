@@ -1,35 +1,36 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { ContextTypeClosestStudent } from "../../types/types";
-import getClosestStudentIndex from "../../utils/getClosestStudentIndex";
-import { useStudents } from "./StudentContext";
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import type { ContextTypeClosestStudent as ContextTypeNearestStudent } from "../../types/types"
+import calcNearestStudentIndex from "../../utils/getClosestStudentIndex"
+import { useStudents } from "./StudentContext"
 
-export const ClosestStudentContext = createContext<ContextTypeClosestStudent>({
-	closestStudentIndex: 0,
-	setClosestStudentIndex: () => {},
-});
+export const NearestStudentContext = createContext<ContextTypeNearestStudent>({
+  nearestStudentIndex: 0,
+  setNearestStudentIndex: () => { },
+})
 
 export function ClosestStudentProvider({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode
 }) {
-	const { students } = useStudents();
-	const [closestStudentIndex, setClosestStudentIndex] = useState<number>(0);
+  const { students } = useStudents()
+  const [nearestStudentIndex, setNearestStudentIndex] = useState(0)
 
-	useEffect(() => {
-		if (students) {
-			setClosestStudentIndex(getClosestStudentIndex(students));
-		}
-	}, [students]);
-	const value = useMemo(
-		() => ({ closestStudentIndex, setClosestStudentIndex }),
-		[closestStudentIndex, setClosestStudentIndex],
-	);
-	return (
-		<ClosestStudentContext.Provider value={value}>
-			{children}
-		</ClosestStudentContext.Provider>
-	);
+  useEffect(() => {
+    if (students) {
+      setNearestStudentIndex(calcNearestStudentIndex(students))
+    }
+  }, [students])
+
+  const value = useMemo(
+    () => ({ nearestStudentIndex, setNearestStudentIndex }),
+    [nearestStudentIndex],
+  )
+  return (
+    <NearestStudentContext.Provider value={value}>
+      {children}
+    </NearestStudentContext.Provider>
+  )
 }
 
-export const useClosestStudent = () => useContext(ClosestStudentContext);
+export const useClosestStudent = () => useContext(NearestStudentContext)
