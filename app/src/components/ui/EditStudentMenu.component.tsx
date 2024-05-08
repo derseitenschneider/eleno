@@ -1,8 +1,10 @@
+import { useStudents } from "@/services/context/StudentContext"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { useState } from "react"
 import { HiDownload } from "react-icons/hi"
 import { HiPencil } from "react-icons/hi2"
 import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
+import EditStudent from "../features/students/EditStudent.component"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
 import {
   DropdownMenu,
@@ -16,6 +18,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./sheet"
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
 export default function EditStudentMenu() {
+  const { currentStudentId } = useStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
 
   return (
@@ -50,6 +53,7 @@ export default function EditStudentMenu() {
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
           </SheetHeader>
+          <EditStudent studentId={currentStudentId} />
         </SheetContent>
       </Sheet>
 
