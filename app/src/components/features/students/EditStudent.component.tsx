@@ -54,32 +54,33 @@ export default function EditStudent({ studentId }: EditStudentProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <FormField
-          control={form.control}
-          name='firstName'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Vorname</FormLabel>
-              <FormControl>
-                <Input placeholder='Vorname' {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className='flex gap-4'>
+          <FormField
+            control={form.control}
+            name='firstName'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vorname</FormLabel>
+                <FormControl>
+                  <Input placeholder='Vorname' {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name='lastName'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nachname</FormLabel>
-              <FormControl>
-                <Input placeholder='Nachname' {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
+          <FormField
+            control={form.control}
+            name='lastName'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nachname</FormLabel>
+                <FormControl>
+                  <Input placeholder='Nachname' {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name='instrument'
@@ -105,31 +106,33 @@ export default function EditStudent({ studentId }: EditStudentProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='startOfLesson'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Von</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className='flex gap-4'>
+          <FormField
+            control={form.control}
+            name='startOfLesson'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Von</FormLabel>
+                <FormControl>
+                  <Input type='time' {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name='endOfLesson'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bis</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name='endOfLesson'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bis</FormLabel>
+                <FormControl>
+                  <Input type='time' {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
