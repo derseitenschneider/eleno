@@ -8,7 +8,7 @@ export const NearestStudentContext = createContext<ContextTypeNearestStudent>({
   setNearestStudentIndex: () => { },
 })
 
-export function ClosestStudentProvider({
+export function NearestStudentProvider({
   children,
 }: {
   children: React.ReactNode
@@ -33,4 +33,4 @@ export function ClosestStudentProvider({
   )
 }
 
-export const useClosestStudent = () => useContext(NearestStudentContext)
+export const useNearestStudent = () => useContext(NearestStudentContext)

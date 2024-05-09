@@ -1,59 +1,28 @@
-import {
-  HiOutlineDocumentArrowDown,
-  HiOutlineListBullet,
-} from "react-icons/hi2"
-import { useNavigate } from "react-router-dom"
+import { HiOutlineListBullet } from "react-icons/hi2"
+import { NavLink, useParams } from "react-router-dom"
 import "./lessonHeader.style.scss"
 
-import { HiPencil } from "react-icons/hi"
-
-import {
-  IoCheckboxOutline,
-  IoEllipsisVertical,
-  IoPersonCircleOutline,
-} from "react-icons/io5"
+import { IoPersonCircleOutline } from "react-icons/io5"
 import { useStudents } from "../../../../services/context/StudentContext"
 
-import Menus from "../../../ui/menu/Menus.component"
-import Modal from "../../../ui/modal/Modal.component"
-import AddTodo from "../../todos/addTodo/AddTodo.component"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import EditStudents from "../../students/editStudents/EditStudents.component"
-import ExportLessons from "../exportLessons/ExportLessons.component"
-import EditStudentTrigger from "@/components/ui/EditStudentTrigger.component"
 import EditStudentMenu from "@/components/ui/EditStudentMenu.component"
+import type { TStudent } from "@/types/types"
 
 function LessonHeader() {
-  const { students, currentStudentId } = useStudents()
-  const navigate = useNavigate()
+  const { students } = useStudents()
+  const { studentId } = useParams()
 
-  const {
-    firstName,
-    lastName,
-    durationMinutes,
-    dayOfLesson,
-    startOfLesson,
-    endOfLesson,
-  } = students.find((student) => student.id === currentStudentId)
-
-  const navigateRepertoire = () => {
-    navigate(`repertoire?studentId=${currentStudentId}`)
+  let currentStudent: TStudent | undefined
+  if (studentId !== undefined && students !== null) {
+    currentStudent = students.find((student) => student.id === +studentId)
   }
+
+  const firstName = currentStudent?.firstName
+  const lastName = currentStudent?.lastName
+  const dayOfLesson = currentStudent?.dayOfLesson
+  const durationMinutes = currentStudent?.durationMinutes
+  const startOfLesson = currentStudent?.startOfLesson
+  const endOfLesson = currentStudent?.endOfLesson
 
   return (
     <header className='col-start-1 col-span-2 py-5 pl-8 pr-4 border-b border-hairline'>
@@ -83,14 +52,13 @@ function LessonHeader() {
             </span>
           </div>
         </div>
-        <button
-          type='button'
+        <NavLink
           className='gap-2 text-sm p-2 bg-background50 flex items-center'
-          onClick={navigateRepertoire}
+          to='repertoire'
         >
           <HiOutlineListBullet className='text-primary' />
           <span>Repertoire</span>
-        </button>
+        </NavLink>
       </div>
     </header>
   )

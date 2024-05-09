@@ -46,32 +46,31 @@ function Lesson() {
       </motion.div>
     )
 
-  if (!activeSortedStudentIds.length && !isLoading)
-    return (
-      <NoContent
-        heading='Keine aktiven Schüler:innen'
-        buttons={[
-          {
-            label: "Schüler:innen erfassen",
-            handler: () => {
-              navigate("/students")
-            },
+  return (
+    <NoContent
+      heading='Keine aktiven Schüler:innen'
+      buttons={[
+        {
+          label: "Schüler:innen erfassen",
+          handler: () => {
+            navigate("/students")
           },
-          {
-            label: "Aus Archiv wiederherstellen",
-            handler: () => {
-              navigate("/students/archive")
-            },
+        },
+        {
+          label: "Aus Archiv wiederherstellen",
+          handler: () => {
+            navigate("/students/archive")
           },
-        ]}
-      >
-        <p>
-          Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
-          Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und
-          wähle welche aus, die du wiederherstellen möchtest
-        </p>
-      </NoContent>
-    )
+        },
+      ]}
+    >
+      <p>
+        Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
+        Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und wähle
+        welche aus, die du wiederherstellen möchtest
+      </p>
+    </NoContent>
+  )
 }
 
 export default Lesson

@@ -1,4 +1,4 @@
-import { ClosestStudentProvider } from "./ClosestStudentContext"
+import { NearestStudentProvider } from "./NearestStudentContext"
 import { DarkModeProvider } from "./DarkModeContext"
 import { DateTodayProvider } from "./DateTodayContext"
 import { GroupsProvider } from "./GroupsContext"
@@ -19,7 +19,7 @@ function MainContext({ children }: MainContextProps) {
           <StudentsProvider>
             <GroupsProvider>
               <TodosProvider>
-                <ClosestStudentProvider>{children}</ClosestStudentProvider>
+                <NearestStudentProvider>{children}</NearestStudentProvider>
               </TodosProvider>
             </GroupsProvider>
           </StudentsProvider>

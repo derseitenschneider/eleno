@@ -13,20 +13,20 @@ import {
 import { NavLink } from "react-router-dom"
 
 import Logo from "../../components/ui/logo/Logo.component"
-import { useClosestStudent } from "../../services/context/ClosestStudentContext"
+import { useNearestStudent } from "../../services/context/NearestStudentContext"
 import { useStudents } from "../../services/context/StudentContext"
 import { useUser } from "../../services/context/UserContext"
-import getClosestStudentIndex from "../../utils/getClosestStudentIndex"
+import calcNearestStudentIndex from "../../utils/getClosestStudentIndex"
 
 import analytics from "../../services/analytics/firebaseAnalytics"
-import SidebarElement from "@/components/ui/SidebarElement.component"
-import SidebarToggle from "@/components/ui/SidebarToggle.component"
+import SidebarElement from "@/layouts/sidebar/SidebarElement.component"
+import SidebarToggle from "@/layouts/sidebar/SidebarToggle.component"
 import { useTodos } from "@/services/context/TodosContext"
 import useOutsideClick from "@/hooks/useOutsideClick"
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { setClosestStudentIndex } = useClosestStudent()
+  const { setNearestStudentIndex: setClosestStudentIndex } = useNearestStudent()
   const { activeStudents, currentStudentId } = useStudents()
   const { logout } = useUser()
   const { overdueTodos } = useTodos()
@@ -47,7 +47,7 @@ function Sidebar() {
           return logEvent(analytics, "page_view", { page_title: "manual" })
         }
         setSidebarOpen(false)
-        setClosestStudentIndex(getClosestStudentIndex(activeStudents ?? []))
+        setClosestStudentIndex(calcNearestStudentIndex(activeStudents ?? []))
         return logEvent(analytics, "page_view", {
           page_title: "dashboard",
         })
@@ -98,8 +98,9 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
-        }`}
+      bg-background50 shadow-lg transition-width duration-150 ${
+        sidebarOpen ? "w-[180px]" : "w-[50px]"
+      }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink

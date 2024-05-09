@@ -5,16 +5,16 @@ import {
   IoSchoolSharp,
   IoSettingsOutline,
 } from "react-icons/io5"
-import { useClosestStudent } from "../../../../services/context/ClosestStudentContext"
+import { useNearestStudent } from "../../../../services/context/NearestStudentContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import QuickLinkItem from "./QuickLinkItem.component"
 
 function QuickLinks() {
-  const { setCurrentStudentIndex } = useStudents()
+  const { setCurrentStudentIndex, currentStudentId } = useStudents()
+  const { nearestStudentIndex } = useNearestStudent()
 
-  const { closestStudentIndex } = useClosestStudent()
   const navigateToClosestStudent = () => {
-    setCurrentStudentIndex(closestStudentIndex)
+    setCurrentStudentIndex(nearestStudentIndex)
   }
 
   return (
@@ -25,7 +25,7 @@ function QuickLinks() {
           title='Unterricht starten'
           icon={<IoSchoolSharp />}
           onClick={navigateToClosestStudent}
-          link='lessons'
+          link={`/lessons/${currentStudentId}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'

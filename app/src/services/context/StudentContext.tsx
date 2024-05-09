@@ -21,25 +21,24 @@ import { sortStudentsDateTime } from "../../utils/sortStudents"
 import { useLessons } from "./LessonsContext"
 import { useNotes } from "./NotesContext"
 import { useUser } from "./UserContext"
-import { Database, Tables, students } from "@/types/supabase"
 
 export const StudentsContext = createContext<ContextTypeStudents>({
   students: [],
-  setStudents: () => { },
+  setStudents: () => {},
   currentStudentIndex: 0,
-  setCurrentStudentIndex: () => { },
+  setCurrentStudentIndex: () => {},
   currentStudentId: 0,
   isPending: false,
-  setIsPending: () => { },
+  setIsPending: () => {},
   activeStudents: [],
   activeSortedStudentIds: [],
   inactiveStudents: [],
-  resetLessonData: () => new Promise(() => { }),
-  saveNewStudents: () => new Promise(() => { }),
-  deactivateStudents: () => new Promise(() => { }),
-  reactivateStudents: () => new Promise(() => { }),
-  deleteStudents: () => new Promise(() => { }),
-  updateStudents: () => new Promise(() => { }),
+  resetLessonData: () => new Promise(() => {}),
+  saveNewStudents: () => new Promise(() => {}),
+  deactivateStudents: () => new Promise(() => {}),
+  reactivateStudents: () => new Promise(() => {}),
+  deleteStudents: () => new Promise(() => {}),
+  updateStudents: () => new Promise(() => {}),
 })
 
 export function StudentsProvider({ children }: { children: React.ReactNode }) {
@@ -50,7 +49,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const { setLessons } = useLessons()
   const { setNotes } = useNotes()
   const [isPending, setIsPending] = useState(false)
-  const mode = import.meta.env.VITE_MODE
+  const _MODE = import.meta.env.VITE_MODE
 
   const activeStudents = students.filter((student) => !student.archive)
   const inactiveStudents = students.filter((student) => student.archive)
@@ -74,7 +73,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
           location: "",
         }
       })
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         setStudents(newStudents)
         return
       }
@@ -92,7 +91,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const saveNewStudents = useCallback(
     async (newStudents: TStudent[]) => {
       setIsPending(true)
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         const studentsWithIds = newStudents.map((student, index) => ({
           ...student,
           id: students.length + 1 + index,
@@ -121,7 +120,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
           ? { ...student, archive: true }
           : student,
       )
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         setStudents(newStudents)
         return
       }
@@ -142,7 +141,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
           ? { ...student, archive: false }
           : student,
       )
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         setStudents(newStudents)
         return
       }
@@ -162,7 +161,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [setLessons, students, setNotes, mode],
+    [setLessons, students, setNotes, _MODE],
   )
 
   const deleteStudents = useCallback(
@@ -170,7 +169,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
       const newStudents = students.filter(
         (student) => !studentIds.includes(student.id),
       )
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         setStudents(newStudents)
         return
       }
@@ -181,12 +180,12 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [students, mode],
+    [students, _MODE],
   )
 
   const updateStudents = useCallback(
     async (editStudents: TStudent[]) => {
-      if (mode === "demo") {
+      if (_MODE === "demo") {
         setStudents((prev) =>
           prev.map(
             (student) =>
@@ -209,7 +208,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
         throw new Error(error.message)
       }
     },
-    [mode],
+    [_MODE],
   )
 
   const value = useMemo(

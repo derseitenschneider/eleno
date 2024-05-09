@@ -1,4 +1,4 @@
-import { useClosestStudent } from "../../../../services/context/ClosestStudentContext"
+import { useNearestStudent } from "../../../../services/context/NearestStudentContext"
 
 import { useStudents } from "../../../../services/context/StudentContext"
 import { useTodos } from "../../../../services/context/TodosContext"
@@ -8,7 +8,7 @@ import OverviewCard from "./OverviewCard.component"
 function Overview() {
   const { activeStudents, inactiveStudents } = useStudents()
   const { todos } = useTodos()
-  const { closestStudentIndex } = useClosestStudent()
+  const { nearestStudentIndex: closestStudentIndex } = useNearestStudent()
   const { overdueTodos } = useTodos()
 
   const sortedStudents =

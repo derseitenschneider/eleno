@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 
 import Toast from "./components/ui/toast/Toast.component"
 import Sidebar from "./layouts/sidebar/Sidebar.component"
-import Main from "./layouts/main/Main.component"
+import DataFetcher from "./DataFetcher.component"
 
 import MainContext from "./services/context/MainContext"
 import { AuthProvider } from "./services/context/UserContext"
@@ -17,7 +17,7 @@ export default function Application() {
       <LoadingProvider>
         <AuthProvider>
           <MainContext>
-            <Main>
+            <DataFetcher>
               <DarkModeProvider>
                 <Sidebar />
 
@@ -26,7 +26,7 @@ export default function Application() {
                   <Outlet />
                 </div>
               </DarkModeProvider>
-            </Main>
+            </DataFetcher>
           </MainContext>
         </AuthProvider>
       </LoadingProvider>
