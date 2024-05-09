@@ -15,6 +15,7 @@
     }
   },
   "linter": {
+    "ignore": ["./app/coverage/*"],
     "enabled": true,
     "rules": {
       "recommended": true,
