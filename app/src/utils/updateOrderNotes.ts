@@ -1,11 +1,11 @@
-import type { TNote } from "../types/types";
+import type { Note } from "../types/types"
 
-export default function updateOrderNotes(notes: TNote[]): TNote[] {
-	const sortedNotes = notes.sort((a, b) => a.order - b.order);
-	const updatedNotes = sortedNotes.map((note, index) => ({
-		...note,
-		order: index,
-	}));
+export default function updateOrderNotes(notes: Note[]): Note[] {
+  const sortedNotes = notes.sort((a, b) => a.order - b.order)
+  const updatedNotes = sortedNotes.map((note, index) => ({
+    ...note,
+    order: index,
+  }))
 
-	return updatedNotes;
+  return updatedNotes
 }

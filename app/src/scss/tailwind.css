@@ -152,3 +152,7 @@ h3 {
 h4 {
   @apply text-lg mb-2 font-light text-foreground
 }
+
+h5 {
+  @apply text-foreground mb-2 text-base font-medium
+}

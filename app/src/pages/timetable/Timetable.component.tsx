@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import NoContent from "../../components/ui/NoContent.component"
 import TimeTableDay from "../../components/features/timetable/timeTableDay/TimetableDay.component"
 import { useStudents } from "../../services/context/StudentContext"
-import type { TTimetableDay } from "../../types/types"
+import type { TimetableDay } from "../../types/types"
 import { sortStudentsDateTime } from "../../utils/sortStudents"
 import "./timetable.style.scss"
 import Modal from "../../components/ui/modal/Modal.component"
@@ -21,35 +21,35 @@ function Timetable() {
   const sortedStudents = sortStudentsDateTime(
     students.filter((student) => !student.archive),
   )
-  const monday: TTimetableDay = {
+  const monday: TimetableDay = {
     day: "Montag",
     students: [],
   }
-  const tuesday: TTimetableDay = {
+  const tuesday: TimetableDay = {
     day: "Dienstag",
     students: [],
   }
-  const wednesday: TTimetableDay = {
+  const wednesday: TimetableDay = {
     day: "Mittwoch",
     students: [],
   }
-  const thursday: TTimetableDay = {
+  const thursday: TimetableDay = {
     day: "Donnerstag",
     students: [],
   }
-  const friday: TTimetableDay = {
+  const friday: TimetableDay = {
     day: "Freitag",
     students: [],
   }
-  const saturday: TTimetableDay = {
+  const saturday: TimetableDay = {
     day: "Samstag",
     students: [],
   }
-  const sunday: TTimetableDay = {
+  const sunday: TimetableDay = {
     day: "Sonntag",
     students: [],
   }
-  const noDayAssigned: TTimetableDay = {
+  const noDayAssigned: TimetableDay = {
     day: "Kein Tag angegeben",
     students: [],
   }

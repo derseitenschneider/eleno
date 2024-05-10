@@ -8,7 +8,7 @@ import CustomEditor from "../../../ui/customEditor/CustomEditor.component"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import type { TLesson } from "../../../../types/types"
+import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
 import DatePicker from "../../../ui/datePicker/DatePicker.component"
 
@@ -111,7 +111,7 @@ function NewLesson() {
     }
     try {
       setIsPending(true)
-      const newLesson: TLesson = {
+      const newLesson: Lesson = {
         lessonContent,
         homework,
         date,

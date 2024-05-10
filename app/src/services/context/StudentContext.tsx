@@ -13,7 +13,7 @@ import {
   resetStudentSupabase,
   updateStudentsSupabase,
 } from "../api/students.api"
-import type { ContextTypeStudents, TStudent } from "../../types/types"
+import type { ContextTypeStudents, Student } from "../../types/types"
 
 import { fetchLatestLessonsPerStudentSupabase } from "../api/lessons.api"
 import { fetchNotesByStudent } from "../api/notes.api"
@@ -43,7 +43,7 @@ export const StudentsContext = createContext<ContextTypeStudents>({
 
 export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
-  const [students, setStudents] = useState<Array<TStudent>>([])
+  const [students, setStudents] = useState<Array<Student>>([])
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
 
   const { setLessons } = useLessons()
@@ -62,15 +62,15 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
 
   const resetLessonData = useCallback(
     async (studentIds: number[]) => {
-      const newStudents = students.map((student) => {
+      const newStudents: Array<Student> = students.map((student) => {
         if (!student.id || !studentIds.includes(student.id)) return student
         return {
           ...student,
-          dayOfLesson: "",
-          startOfLesson: "",
-          endOfLesson: "",
-          durationMinutes: "",
-          location: "",
+          dayOfLesson: null,
+          startOfLesson: null,
+          endOfLesson: null,
+          durationMinutes: null,
+          location: null,
         }
       })
       if (_MODE === "demo") {
@@ -89,7 +89,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   )
 
   const saveNewStudents = useCallback(
-    async (newStudents: TStudent[]) => {
+    async (newStudents: Student[]) => {
       setIsPending(true)
       if (_MODE === "demo") {
         const studentsWithIds = newStudents.map((student, index) => ({
@@ -184,7 +184,7 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
   )
 
   const updateStudents = useCallback(
-    async (editStudents: TStudent[]) => {
+    async (editStudents: Student[]) => {
       if (_MODE === "demo") {
         setStudents((prev) =>
           prev.map(

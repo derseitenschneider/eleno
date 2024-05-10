@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useLoading } from "../services/context/LoadingContext"
 import { useStudents } from "../services/context/StudentContext"
 
-import LessonHeader from "../components/features/lessons/lessonHeader/LessonHeader"
+import LessonHeader from "../components/features/lessons/LessonHeader"
 import PreviousLessons from "../components/features/lessons/previousLessons/PreviousLessons.component"
 
 import LessonFooter from "../components/features/lessons/lessonFooter/LessonFooter.component"

@@ -1,13 +1,13 @@
-import type { TLesson, TSorting, TStudent } from "../types/types"
+import type { Lesson, Sorting, Student } from "../types/types"
 
-const compareLastName = (a: TStudent, b: TStudent) => {
+const compareLastName = (a: Student, b: Student) => {
   const studentA = a.lastName
   const studentB = b.lastName
 
   return studentA.localeCompare(studentB, "de", { sensitivity: "variant" })
 }
 
-const compareInstrument = (a: TStudent, b: TStudent) => {
+const compareInstrument = (a: Student, b: Student) => {
   const instrumentA = a.instrument
   const instrumentB = b.instrument
 
@@ -16,7 +16,7 @@ const compareInstrument = (a: TStudent, b: TStudent) => {
   })
 }
 
-const compareDays = (a: TStudent, b: TStudent) => {
+const compareDays = (a: Student, b: Student) => {
   const days = ["montag", "dienstag", "mittwoch", "donnerstag", "freitag"]
   const dayA = a.dayOfLesson?.toLowerCase()
   const dayB = b.dayOfLesson?.toLowerCase()
@@ -33,7 +33,7 @@ const compareDays = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareTime = (a: TStudent, b: TStudent) => {
+const compareTime = (a: Student, b: Student) => {
   const studentA = a.startOfLesson
   const studentB = b.startOfLesson
 
@@ -48,7 +48,7 @@ const compareTime = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareDurations = (a: TStudent, b: TStudent) => {
+const compareDurations = (a: Student, b: Student) => {
   const durationA = a.durationMinutes
   const durationB = b.durationMinutes
 
@@ -61,14 +61,14 @@ const compareDurations = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareLocations = (a: TStudent, b: TStudent) => {
+const compareLocations = (a: Student, b: Student) => {
   const locationA = a.location
   const locationB = b.location
 
   return locationA.localeCompare(locationB, "de", { sensitivity: "variant" })
 }
 
-export const sortStudents = (students: TStudent[], sorting: TSorting) => {
+export const sortStudents = (students: Student[], sorting: Sorting) => {
   const sortedbyTime = students.sort(compareTime)
   switch (sorting.sort) {
     case "lastName":
@@ -106,7 +106,7 @@ export const sortStudents = (students: TStudent[], sorting: TSorting) => {
   }
 }
 
-export const compareDateString = (a: TLesson, b: TLesson) => {
+export const compareDateString = (a: Lesson, b: Lesson) => {
   const lessonA = a.date
     .split("-")
     .map((el) => el.trim())
@@ -126,15 +126,15 @@ export const compareDateString = (a: TLesson, b: TLesson) => {
   return comparison
 }
 
-export const sortStudentsDateTime = (students: TStudent[]) => {
-  const mo: TStudent[] = []
-  const tue: TStudent[] = []
-  const wed: TStudent[] = []
-  const thur: TStudent[] = []
-  const fri: TStudent[] = []
-  const sat: TStudent[] = []
-  const sun: TStudent[] = []
-  const undef: TStudent[] = []
+export const sortStudentsDateTime = (students: Student[]) => {
+  const mo: Student[] = []
+  const tue: Student[] = []
+  const wed: Student[] = []
+  const thur: Student[] = []
+  const fri: Student[] = []
+  const sat: Student[] = []
+  const sun: Student[] = []
+  const undef: Student[] = []
 
   for (const student of students) {
     switch (student.dayOfLesson?.toLowerCase()) {

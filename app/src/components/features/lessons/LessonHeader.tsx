@@ -1,18 +1,17 @@
 import { HiOutlineListBullet } from "react-icons/hi2"
 import { NavLink, useParams } from "react-router-dom"
-import "./lessonHeader.style.scss"
 
 import { IoPersonCircleOutline } from "react-icons/io5"
-import { useStudents } from "../../../../services/context/StudentContext"
+import { useStudents } from "../../../services/context/StudentContext"
 
 import EditStudentMenu from "@/components/ui/EditStudentMenu.component"
-import type { TStudent } from "@/types/types"
+import type { Student } from "@/types/types"
 
 function LessonHeader() {
   const { students } = useStudents()
   const { studentId } = useParams()
 
-  let currentStudent: TStudent | undefined
+  let currentStudent: Student | undefined
   if (studentId !== undefined && students !== null) {
     currentStudent = students.find((student) => student.id === +studentId)
   }
@@ -43,12 +42,10 @@ function LessonHeader() {
               {startOfLesson && `, ${startOfLesson}`}
               {endOfLesson && ` - ${endOfLesson}`}
             </span>
-            {dayOfLesson && durationMinutes !== "0" && <span> | </span>}
+            {dayOfLesson && durationMinutes && <span> | </span>}
 
             <span>
-              {durationMinutes !== "0" && (
-                <span> {durationMinutes} Minuten</span>
-              )}
+              {durationMinutes && <span> {durationMinutes} Minuten</span>}
             </span>
           </div>
         </div>

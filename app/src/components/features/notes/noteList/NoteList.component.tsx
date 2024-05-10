@@ -11,14 +11,14 @@ import AddNote from "../addNote/AddNote.component"
 import Note from "../note/Note.component"
 import "./noteList.style.scss"
 import StrictModeDroppable from "../../../../utils/StrictModeDroppable"
-import type { TNote } from "../../../../types/types"
+import type { Note } from "../../../../types/types"
 
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 
 function NoteList() {
   const { currentStudentId } = useStudents()
   const { notes, updateNotes } = useNotes()
-  const [currentNotes, setCurrentNotes] = useState<TNote[]>([])
+  const [currentNotes, setCurrentNotes] = useState<Note[]>([])
   // const [isDragging, setIsDragging] = useState(false)
   const notesContainer = useRef<HTMLDivElement>()
 

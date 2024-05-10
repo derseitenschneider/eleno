@@ -1,10 +1,10 @@
-import type { TLesson } from "../types/types";
+import type { Lesson } from "../types/types"
 
-const sortDate = (a: TLesson, b: TLesson) => {
-	return (
-		+b.date.split("-").reduce((acc, curr) => acc + curr) -
-		+a.date.split("-").reduce((acc, curr) => acc + curr)
-	);
-};
+const sortDate = (a: Lesson, b: Lesson) => {
+  return (
+    +b.date.split("-").reduce((acc, curr) => acc + curr) -
+    +a.date.split("-").reduce((acc, curr) => acc + curr)
+  )
+}
 
-export default sortDate;
+export default sortDate

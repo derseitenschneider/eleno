@@ -1,6 +1,6 @@
-import type { TStudent } from "../../../types/types"
+import type { Student } from "../../../types/types"
 
-const mockStudents: TStudent[] = [
+const mockStudents: Student[] = [
   {
     id: 1,
     firstName: "Sebastian",

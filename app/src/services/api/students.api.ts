@@ -1,5 +1,5 @@
 import supabase from "./supabase"
-import type { TStudent } from "../../types/types"
+import type { Student } from "../../types/types"
 
 export const fetchStudents = async (userId) => {
   const { data: students, error } = await supabase
@@ -12,9 +12,9 @@ export const fetchStudents = async (userId) => {
 }
 
 export const createNewStudentSupabase = async (
-  students: TStudent[],
+  students: Student[],
   userId: string,
-): Promise<TStudent[]> => {
+): Promise<Student[]> => {
   const newStudents = students.map((student) => {
     return { ...student, user_id: userId }
   })
@@ -54,7 +54,7 @@ export const deleteStudentSupabase = async (studentIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateStudentsSupabase = async (students: TStudent[]) => {
+export const updateStudentsSupabase = async (students: Student[]) => {
   const { error } = await supabase.from("students").upsert(students)
 
   if (error) throw new Error(error.message)
@@ -64,11 +64,11 @@ export const resetStudentSupabase = async (studentIds: number[]) => {
   const { error } = await supabase
     .from("students")
     .update({
-      dayOfLesson: "",
-      startOfLesson: "",
-      endOfLesson: "",
+      dayOfLesson: null,
+      startOfLesson: null,
+      endOfLesson: null,
       durationMinutes: null,
-      location: "",
+      location: null,
     })
     .in("id", studentIds)
 

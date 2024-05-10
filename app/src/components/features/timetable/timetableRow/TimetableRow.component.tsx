@@ -1,11 +1,11 @@
 import { IoArrowForwardOutline } from "react-icons/io5"
 import { useNavigate } from "react-router-dom"
 import { useStudents } from "../../../../services/context/StudentContext"
-import type { TStudent } from "../../../../types/types"
+import type { Student } from "../../../../types/types"
 import { sortStudentsDateTime } from "../../../../utils/sortStudents"
 
 interface TimeTableRowProps {
-  currentStudent: TStudent
+  currentStudent: Student
 }
 
 function TimeTableRow({ currentStudent }: TimeTableRowProps) {

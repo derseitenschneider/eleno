@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useStudents } from "@/services/context/StudentContext"
-import type { TStudent } from "@/types/types"
+import type { Student } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -34,7 +34,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
   const { students } = useStudents()
   const currentStudent = students?.find((student) => student.id === studentId)
 
-  const form = useForm<TStudent>({
+  const form = useForm<Student>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
       firstName: currentStudent?.firstName || "",
@@ -48,7 +48,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
     },
   })
 
-  function onSubmit(values: TStudent) {
+  function onSubmit(values: Student) {
     console.log(values)
   }
   return (

@@ -11,7 +11,7 @@ import { useStudents } from "../../../../services/context/StudentContext"
 
 import { formatDateToDisplay } from "../../../../utils/formateDate"
 
-import type { TLesson } from "../../../../types/types"
+import type { Lesson } from "../../../../types/types"
 
 import Modal from "../../../ui/modal/Modal.component"
 
@@ -42,7 +42,7 @@ function PreviousLessons() {
     ?.slice(0, 3)
     .map((lesson) => lesson.id)
 
-  const currentLesson: TLesson = lessons.find(
+  const currentLesson: Lesson = lessons.find(
     (lesson) => lesson.id === previousLessonsIds[tabIndex],
   )
 
