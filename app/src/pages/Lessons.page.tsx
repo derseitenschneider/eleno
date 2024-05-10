@@ -12,8 +12,9 @@ import PreviousLessons from "../components/features/lessons/previousLessons/Prev
 import LessonFooter from "../components/features/lessons/lessonFooter/LessonFooter.component"
 import NewLesson from "../components/features/lessons/newLesson/NewLesson.component"
 
-import NoContent from "../components/ui/noContent/NoContent.component"
+import NoContent from "../components/ui/NoContent.component"
 import NoteList from "../components/features/notes/noteList/NoteList.component"
+import NoStudents from "@/components/features/lessons/NoStudents.component"
 
 function Lesson() {
   const { isLoading } = useLoading()
@@ -46,31 +47,7 @@ function Lesson() {
       </motion.div>
     )
 
-  return (
-    <NoContent
-      heading='Keine aktiven Schüler:innen'
-      buttons={[
-        {
-          label: "Schüler:innen erfassen",
-          handler: () => {
-            navigate("/students")
-          },
-        },
-        {
-          label: "Aus Archiv wiederherstellen",
-          handler: () => {
-            navigate("/students/archive")
-          },
-        },
-      ]}
-    >
-      <p>
-        Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
-        Schüler:innen. Erfasse neue Schüler:innen oder geh ins Archiv und wähle
-        welche aus, die du wiederherstellen möchtest
-      </p>
-    </NoContent>
-  )
+  return <NoStudents />
 }
 
 export default Lesson

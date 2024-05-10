@@ -123,7 +123,7 @@ function Sidebar() {
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
-          to={`/lessons/${currentStudentId}`}
+          to={`/lessons/${currentStudentId || "no-students"}`}
           name='Unterrichten'
           icon={<IoSchoolOutline />}
         />

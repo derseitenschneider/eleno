@@ -25,7 +25,7 @@ function QuickLinks() {
           title='Unterricht starten'
           icon={<IoSchoolSharp />}
           onClick={navigateToClosestStudent}
-          link={`/lessons/${currentStudentId}`}
+          link={`/lessons/${currentStudentId || "no-students"}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'
