@@ -9,8 +9,8 @@ import {
 import { Input } from "@/components/ui/input"
 import {
   Select,
-  SelectItem,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -28,12 +28,13 @@ const studentSchema = z.object({
   instrument: z.string().min(1, { message: "Instrument fehlt." }),
   durationMinutes: z.coerce.number().nullable(),
   location: z.string().nullable(),
-  dayOfLesson: z.union([z.number().int().min(0).max(6), z.literal(null)]),
+  dayOfLesson: z.number(),
   startOfLesson: z.string().time().nullable(),
   endOfLesson: z.string().nullable(),
 })
 
-type StudentSchema = z.infer<typeof studentSchema>
+type StudentInput = z.infer<typeof studentSchema>
+
 type EditStudentProps = {
   studentId?: number
 }
@@ -42,7 +43,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
   const { students } = useStudents()
   const currentStudent = students?.find((student) => student.id === studentId)
 
-  const form = useForm<StudentSchema>({
+  const form = useForm<StudentInput>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
       firstName: currentStudent?.firstName,
@@ -56,7 +57,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
     },
   })
 
-  function onSubmit(values: StudentSchema) {
+  function onSubmit(values: StudentInput) {
     console.log(values)
   }
   return (
@@ -108,20 +109,23 @@ export default function EditStudent({ studentId }: EditStudentProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tag</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder='Tag' />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={1}>Montag</SelectItem>
-                  <SelectItem value={2}>Dienstag</SelectItem>
-                  <SelectItem value={3}>Mittwoch</SelectItem>
-                  <SelectItem value={4}>Donnerstag</SelectItem>
-                  <SelectItem value={5}>Freitag</SelectItem>
-                  <SelectItem value={6}>Samstag</SelectItem>
-                  <SelectItem value={0}>Sonntag</SelectItem>
+                  <SelectItem value='1'>Montag</SelectItem>
+                  <SelectItem value='2'>Dienstag</SelectItem>
+                  <SelectItem value='3'>Mittwoch</SelectItem>
+                  <SelectItem value='4'>Donnerstag</SelectItem>
+                  <SelectItem value='5'>Freitag</SelectItem>
+                  <SelectItem value='6'>Samstag</SelectItem>
+                  <SelectItem value='0'>Sonntag</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
@@ -132,7 +136,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
             control={form.control}
             name='startOfLesson'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='grow-0'>
                 <FormLabel>Von</FormLabel>
                 <FormControl>
                   <Input type='time' {...field} />
@@ -145,7 +149,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
             control={form.control}
             name='endOfLesson'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='grow-0'>
                 <FormLabel>Bis</FormLabel>
                 <FormControl>
                   <Input type='time' {...field} />
@@ -157,7 +161,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
             control={form.control}
             name='durationMinutes'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='ml-auto basis-20'>
                 <FormLabel>Minuten</FormLabel>
                 <FormControl>
                   <Input type='number' {...field} />
