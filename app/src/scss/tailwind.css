@@ -90,8 +90,6 @@
     --background-200: 213 10% 21%;
     --foreground: 240 5% 90%;
     --hairline: 207 7% 30%;
-    /* --foreground: 240 5% 96%; */
-    /* --foreground: 0 0% 98%; */
 
     --card: var(--background-50);
     --card-foreground: var(--foreground);

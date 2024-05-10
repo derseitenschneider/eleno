@@ -4,7 +4,7 @@ import { NavLink, useParams } from "react-router-dom"
 import { IoPersonCircleOutline } from "react-icons/io5"
 import { useStudents } from "../../../services/context/StudentContext"
 
-import EditStudentMenu from "@/components/ui/EditStudentMenu.component"
+import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
 import type { Student } from "@/types/types"
 
 function LessonHeader() {
@@ -34,7 +34,7 @@ function LessonHeader() {
             <span className='mr-3 text-lg'>
               {firstName} {lastName}
             </span>
-            <EditStudentMenu />
+            <StudentDropdownLesson />
           </div>
           <div className='text-sm'>
             <span>

@@ -15,17 +15,17 @@ export type Profile = {
 }
 
 export type Student = {
-  id?: number
+  id: number
+  user_id: string
   firstName: string
   lastName: string
+  archive: boolean
   instrument: string
   durationMinutes: number | null
   dayOfLesson: NumericWeekday | null
   startOfLesson: string | null
   endOfLesson: string | null
-  archive: boolean
   location: string | null
-  user_id: string
 }
 
 export type Lesson = {

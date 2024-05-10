@@ -4,20 +4,20 @@ import { useState } from "react"
 import { HiDownload } from "react-icons/hi"
 import { HiPencil } from "react-icons/hi2"
 import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
-import EditStudent from "../features/students/EditStudent.component"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog"
+import EditStudent from "../students/EditStudent.component"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu"
+} from "../../ui/dropdown-menu"
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
-export default function EditStudentMenu() {
+export default function StudentDropdownLesson() {
   const { currentStudentId } = useStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
 

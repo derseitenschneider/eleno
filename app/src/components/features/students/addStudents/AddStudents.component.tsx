@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 import { useStudents } from "../../../../services/context/StudentContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Student } from "../../../../types/types"
-import Button from "../../../ui/button/Button.component"
 import AddStudentRow from "../addStudentRow/AddStudentRow"
 import "./addStudents.style.scss"
 

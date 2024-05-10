@@ -15,10 +15,8 @@ import Table from "../../../ui/table/Table.component"
 import StudentsTable from "../studentsTable/StudentsTable.component"
 
 import { useStudents } from "../../../../services/context/StudentContext"
-import Button from "../../../ui/button/Button.component"
 import Modal from "../../../ui/modal/Modal.component"
 import SearchBar from "../../../ui/searchBar/SearchBar.component"
-import Select from "../../../ui/select/Select.component"
 import DeleteStudents from "../deleteStudents/DeleteStudents.component"
 import InachtiveStudentRow from "./InactiveStudentRow.component"
 

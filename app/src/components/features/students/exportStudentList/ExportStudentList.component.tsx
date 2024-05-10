@@ -6,7 +6,6 @@ import type { Student } from "../../../../types/types"
 import "./exportStudents.style.scss"
 
 import { useUser } from "../../../../services/context/UserContext"
-import Button from "../../../ui/button/Button.component"
 import StudentListPDF from "../../pdf/StudentlistPDF.component"
 
 interface ExportStudentListProps {

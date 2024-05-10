@@ -15,8 +15,6 @@ import { useStudents } from "../../../../services/context/StudentContext"
 import type { Sorting } from "../../../../types/types"
 import { sortStudents } from "../../../../utils/sortStudents"
 
-import Button from "../../../ui/button/Button.component"
-
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import SearchBar from "../../../ui/searchBar/SearchBar.component"
 
@@ -28,7 +26,6 @@ import ResetStudents from "../resetStudents/ResetStudents.component"
 import StudentsTable from "../studentsTable/StudentsTable.component"
 import ActiveStudentRow from "./ActiveStudentRow.component"
 import ExportStudentList from "../exportStudentList/ExportStudentList.component"
-import Select from "../../../ui/select/Select.component"
 import BulkExportLessons from "../../lessons/bulkExportLessons/BulkExportLessons.component"
 
 import EditStudents from "../editStudents/EditStudents.component"

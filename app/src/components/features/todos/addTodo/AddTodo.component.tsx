@@ -5,8 +5,6 @@ import { useUser } from "../../../../services/context/UserContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Todo } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
-import Button from "../../../ui/button/Button.component"
-import DatePicker from "../../../ui/datePicker/DatePicker.component"
 import TodoAddStudent from "../todoAddStudent/TodoAddStudent.component"
 import "./addTodo.style.scss"
 

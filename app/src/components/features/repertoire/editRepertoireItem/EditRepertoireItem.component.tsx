@@ -4,8 +4,6 @@ import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import { useRepertoire } from "../../../../services/context/RepertoireContext"
 import type { RepertoireItem } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
-import Button from "../../../ui/button/Button.component"
-import DatePicker from "../../../ui/datePicker/DatePicker.component"
 import "./editRepertoireItem.style.scss"
 
 interface EditRepertoireItemProps {

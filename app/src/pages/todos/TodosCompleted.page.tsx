@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 
-import Button from "../../components/ui/button/Button.component"
 import Modal from "../../components/ui/modal/Modal.component"
 import NoContent from "../../components/ui/NoContent.component"
 import DeleteTodos from "../../components/features/todos/deleteTodos/DeleteTodos.component"

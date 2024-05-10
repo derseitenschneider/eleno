@@ -8,13 +8,11 @@ import type { Lesson } from "../../../../types/types"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 import { useStudents } from "../../../../services/context/StudentContext"
-import DatePicker from "../../../ui/datePicker/DatePicker.component"
 import {
   formatDateToDatabase,
   formatDateToDisplay,
 } from "../../../../utils/formateDate"
 
-import Button from "../../../ui/button/Button.component"
 import {
   fetchAllLessonsSupabase,
   fetchLessonsByDateRangeSupabase,

@@ -4,7 +4,6 @@ import { CSVLink } from "react-csv"
 
 import { useStudents } from "../../../../services/context/StudentContext"
 import type { RepertoireItem } from "../../../../types/types"
-import Button from "../../../ui/button/Button.component"
 import "./exportRepertoire.style.scss"
 
 import { formatDateToDisplay } from "../../../../utils/formateDate"

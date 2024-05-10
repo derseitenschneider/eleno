@@ -15,7 +15,6 @@ import RepertoireItem from "../RepertoireItem.component"
 
 import { useRepertoire } from "../../../../services/context/RepertoireContext"
 import { useStudents } from "../../../../services/context/StudentContext"
-import Button from "../../../ui/button/Button.component"
 import Loader from "../../../ui/loader/Loader"
 import Menus from "../../../ui/menu/Menus.component"
 import Modal from "../../../ui/modal/Modal.component"
