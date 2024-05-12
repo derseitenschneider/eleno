@@ -4,9 +4,9 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import CustomEditor from "../../../ui/customEditor/CustomEditor.component"
 
+import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
 
@@ -133,17 +133,13 @@ function NewLesson() {
     <div className=''>
       <div className='wrapper-date'>
         <h3 className='heading-4'>Aktuelle Lektion</h3>
-        <div className='wrapper-picker'></div>
       </div>
-      <div className=''>
+      <div className='grid grid-cols-2 gap-6'>
         <div className='row-left'>
           <h5 className='heading-5'>Lektion</h5>
-          <div className={`container--editor ${isPending ? "loading" : ""}`}>
-            <CustomEditor
-              value={lessonContent}
-              onChange={handleLessonContent}
-            />
-          </div>
+          <div
+            className={`container--editor ${isPending ? "loading" : ""}`}
+          ></div>
         </div>
         <div className='row-right'>
           <h5 className='heading-5'>Hausaufgaben</h5>

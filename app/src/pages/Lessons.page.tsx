@@ -37,7 +37,7 @@ function Lesson() {
 
         <main className='sm:*:px-5 sm:*:py-4'>
           <PreviousLessons />
-          {/* <NewLesson /> */}
+          <NewLesson />
         </main>
 
         {/* <aside className=''>
