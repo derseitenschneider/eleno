@@ -39,7 +39,7 @@ type EditStudentProps = {
   studentId?: number
 }
 
-export default function EditStudent({ studentId }: EditStudentProps) {
+export default function StudentForm({ studentId }: EditStudentProps) {
   const { students } = useStudents()
   const currentStudent = students?.find((student) => student.id === studentId)
 
@@ -131,7 +131,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
             </FormItem>
           )}
         />
-        <div className='flex gap-4'>
+        {/* <div className='flex gap-4'>
           <FormField
             control={form.control}
             name='startOfLesson'
@@ -169,9 +169,9 @@ export default function EditStudent({ studentId }: EditStudentProps) {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name='location'
           render={({ field }) => (
@@ -182,7 +182,7 @@ export default function EditStudent({ studentId }: EditStudentProps) {
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
         <Button type='submit'>Speichern</Button>
       </form>
     </Form>

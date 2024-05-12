@@ -1,27 +1,27 @@
-import "./previousLessons.style.scss"
-
 import parse from "html-react-parser"
-import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { HiPencil, HiTrash } from "react-icons/hi"
 import { FiShare } from "react-icons/fi"
+import { HiPencil, HiTrash } from "react-icons/hi"
+import { useNavigate } from "react-router-dom"
 
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 
 import { formatDateToDisplay } from "../../../../utils/formateDate"
 
-import type { Lesson } from "../../../../types/types"
-
-import Modal from "../../../ui/modal/Modal.component"
-
 import Emtpy from "../../../ui/emtpy/Empty.component"
-import Menus from "../../../ui/menu/Menus.component"
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
+import { IoEllipsisVertical } from "react-icons/io5"
 import DeleteLesson from "../deleteLesson/DeleteLesson.component"
 import EditLesson from "../editLesson/EditLesson.component"
 import ShareHomework from "../shareHomework/ShareHomework.component"
-import Button from "../../../ui/button/Button.component"
 
 function PreviousLessons() {
   const { lessons } = useLessons()
@@ -31,18 +31,19 @@ function PreviousLessons() {
   const [tabIndex, setTabIndex] = useState(0)
   const [isPending] = useState(false)
 
-  const previousLessonsIds = lessons
-    .sort((a, b) => {
-      return (
-        +b.date.split("-").reduce((acc, curr) => acc + curr) -
-        +a.date.split("-").reduce((acc, curr) => acc + curr)
-      )
-    })
-    .filter((lesson) => lesson.studentId === currentStudentId)
-    ?.slice(0, 3)
-    .map((lesson) => lesson.id)
+  const previousLessonsIds =
+    lessons
+      ?.sort((a, b) => {
+        return (
+          +b.date.split("-").reduce((acc, curr) => acc + curr) -
+          +a.date.split("-").reduce((acc, curr) => acc + curr)
+        )
+      })
+      .filter((lesson) => lesson.studentId === currentStudentId)
+      ?.slice(0, 3)
+      .map((lesson) => lesson.id) || []
 
-  const currentLesson: Lesson = lessons.find(
+  const currentLesson = lessons?.find(
     (lesson) => lesson.id === previousLessonsIds[tabIndex],
   )
 
@@ -51,27 +52,31 @@ function PreviousLessons() {
   }, [])
 
   return (
-    <div className=''>
-      <div className=''>
+    <div className='border-b border-hairline h-[300px] relative'>
+      <div className='flex gap-5 mb-5'>
         {previousLessonsIds.length > 0 ? (
           <>
             {previousLessonsIds.map((prev, index) => (
               <button
                 type='button'
-                className={`tab ${tabIndex === index && "tab--active"}`}
+                className={cn(
+                  "p-2 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
+                  index === tabIndex &&
+                  "bg-background50 border-primary/80 hover:bg-background50",
+                )}
                 onClick={() => {
                   setTabIndex(index)
                 }}
                 key={prev}
               >
                 {formatDateToDisplay(
-                  lessons.find((lesson) => lesson.id === prev).date,
+                  lessons?.find((lesson) => lesson?.id === prev)?.date || "",
                 )}
               </button>
             ))}
             <button
               type='button'
-              className='tab'
+              className='text-sm p-2 text-foreground'
               onClick={() =>
                 navigate(`/lessons/all/?studentId=${currentStudentId}`)
               }
@@ -83,74 +88,45 @@ function PreviousLessons() {
       </div>
       {previousLessonsIds.length > 0 ? (
         <>
-          <div className={`container--two-rows${isPending ? " loading" : ""}`}>
-            <div className='row-left'>
-              <h4 className='heading-4'>Lektion</h4>
-              <div className='content--previous-lesson'>
-                {parse(currentLesson.lessonContent)}
+          <div className={cn("grid grid-cols-2 gap-6")}>
+            <div>
+              <h4>Lektion</h4>
+              <div className='text-foreground'>
+                {parse(currentLesson?.lessonContent || "")}
               </div>
             </div>
-            <div className='row-right'>
-              <h4 className='heading-4'>Hausaufgaben</h4>
-              <div className='content--previous-lesson'>
+            <div>
+              <h4>Hausaufgaben</h4>
+              <div className='text-foreground'>
                 {parse(
-                  lessons.find(
+                  lessons?.find(
                     (lesson) => lesson.id === previousLessonsIds[tabIndex],
-                  )?.homework,
+                  )?.homework || "",
                 )}
               </div>
             </div>
           </div>
 
-          <div className=''>
-            <Modal>
-              <Modal.Open opens='share-homework'>
-                <Button
-                  type='button'
-                  btnStyle='icon-only'
-                  icon={<FiShare />}
-                  title='Hausaufgaben teilen'
-                />
-              </Modal.Open>
-              <Menus>
-                <Menus.Toggle id='edit-lesson' />
-                <Menus.Menu>
-                  <Menus.List id='edit-lesson'>
-                    <Modal.Open opens='edit-lesson'>
-                      <Menus.Button icon={<HiPencil />}>
-                        Lektion bearbeiten
-                      </Menus.Button>
-                    </Modal.Open>
-
-                    <Modal.Open opens='share-homework'>
-                      <Menus.Button icon={<FiShare />}>
-                        Hausaufgaben teilen
-                      </Menus.Button>
-                    </Modal.Open>
-
-                    <Modal.Open opens='delete-lesson'>
-                      <Menus.Button
-                        icon={<HiTrash />}
-                        iconColor='var(--clr-warning)'
-                      >
-                        Lektion löschen
-                      </Menus.Button>
-                    </Modal.Open>
-                  </Menus.List>
-                </Menus.Menu>
-              </Menus>
-
-              <Modal.Window name='edit-lesson'>
-                <EditLesson lesson={currentLesson} />
-              </Modal.Window>
-
-              <Modal.Window name='delete-lesson'>
-                <DeleteLesson lessonId={currentLesson.id} />
-              </Modal.Window>
-              <Modal.Window name='share-homework'>
-                <ShareHomework lessonId={currentLesson.id} />
-              </Modal.Window>
-            </Modal>
+          <div className='absolute bottom-4 right-5 flex gap-2'>
+            <DropdownMenu>
+              <DropdownMenuTrigger className='h-3 text-primary'>
+                <IoEllipsisVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <HiPencil className='text-primary mr-3' />
+                  <span>Lektion bearbeiten</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <FiShare className='text-primary mr-3' />
+                  <span>Hausaufgaben teilen</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <HiTrash className='text-warning mr-3' />
+                  <span>Lektion löschen</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </>
       ) : (

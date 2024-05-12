@@ -29,18 +29,18 @@ function Lesson() {
   if (activeSortedStudentIds.length && !isLoading)
     return (
       <motion.div
-        className='grid grid-cols-[1fr_400px] grid-rows-[auto_1fr]'
+        className=' grid grid-cols-[1fr_400px] grid-rows-[auto_1fr]'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
         <LessonHeader />
 
-        {/* <main className=''>
+        <main className='sm:*:px-5 sm:*:py-4'>
           <PreviousLessons />
-          <NewLesson />
+          {/* <NewLesson /> */}
         </main>
 
-        <aside className=''>
+        {/* <aside className=''>
           <NoteList />
         </aside>
         <LessonFooter /> */}

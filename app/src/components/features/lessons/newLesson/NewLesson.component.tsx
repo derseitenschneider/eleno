@@ -2,7 +2,6 @@ import "./newLesson.style.scss"
 
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import Button from "../../../ui/button/Button.component"
 import CustomEditor from "../../../ui/customEditor/CustomEditor.component"
 
 import { useLessons } from "../../../../services/context/LessonsContext"
@@ -10,7 +9,6 @@ import { useStudents } from "../../../../services/context/StudentContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
-import DatePicker from "../../../ui/datePicker/DatePicker.component"
 
 function NewLesson() {
   const [date, setDate] = useState("")
@@ -135,14 +133,7 @@ function NewLesson() {
     <div className=''>
       <div className='wrapper-date'>
         <h3 className='heading-4'>Aktuelle Lektion</h3>
-        <div className='wrapper-picker'>
-          <DatePicker
-            setDate={handlerInputDate}
-            id='new-lesson'
-            selectedDate={new Date(formatDateToDatabase(date))}
-            hideRemoveBtn
-          />
-        </div>
+        <div className='wrapper-picker'></div>
       </div>
       <div className=''>
         <div className='row-left'>
@@ -161,14 +152,6 @@ function NewLesson() {
           </div>
         </div>
       </div>
-      <Button
-        type='button'
-        btnStyle='primary'
-        label='Speichern'
-        className='btn--save'
-        handler={handleSaveLesson}
-        disabled={!lessonContent && !homework}
-      />
     </div>
   )
 }

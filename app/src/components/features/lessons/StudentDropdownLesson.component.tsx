@@ -4,8 +4,13 @@ import { useState } from "react"
 import { HiDownload } from "react-icons/hi"
 import { HiPencil } from "react-icons/hi2"
 import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
-import EditStudent from "../students/EditStudent.component"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog"
+import StudentForm from "../students/StudentForm.component"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../../ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,7 +58,7 @@ export default function StudentDropdownLesson() {
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
           </SheetHeader>
-          <EditStudent studentId={currentStudentId} />
+          <StudentForm studentId={currentStudentId} />
         </SheetContent>
       </Sheet>
 

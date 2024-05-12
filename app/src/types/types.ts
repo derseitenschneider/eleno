@@ -1,6 +1,6 @@
 import type React from "react"
 
-export type NumericWeekday = 0 | 1 | 2 | 3 | 4 | 5 | 6
+export type NumericWeekday = "0" | "1" | "2" | "3" | "4" | "5" | "6"
 
 export type User = {
   id: string
