@@ -9,6 +9,8 @@ import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
+import { DayPicker } from "@/components/ui/daypicker.component"
+import { Button } from "@/components/ui/button"
 
 function NewLesson() {
   const [date, setDate] = useState("")
@@ -130,27 +132,24 @@ function NewLesson() {
   }
 
   return (
-    <div className=''>
-      <div className='wrapper-date'>
-        <h3 className='heading-4'>Aktuelle Lektion</h3>
+    <div>
+      <div className='flex mb-2 gap-4 items-baseline'>
+        <h4 className='m-0'>Aktuelle Lektion</h4>
+        <DayPicker />
       </div>
       <div className='grid grid-cols-2 gap-6'>
-        <div className='row-left'>
+        <div>
           <h5 className='heading-5'>Lektion</h5>
-          <div className={`container--editor ${isPending ? "loading" : ""}`}>
-            <CustomEditor
-              value={lessonContent}
-              onChange={handleLessonContent}
-            />
-          </div>
+          <CustomEditor value={lessonContent} onChange={handleLessonContent} />
         </div>
-        <div className='row-right'>
+        <div>
           <h5 className='heading-5'>Hausaufgaben</h5>
-          <div className={`container--editor ${isPending ? "loading" : ""}`}>
-            <CustomEditor value={homework} onChange={handleHomework} />
-          </div>
+          <CustomEditor value={homework} onChange={handleHomework} />
         </div>
       </div>
+      <Button onClick={handleSaveLesson} className='block mt-4 ml-auto'>
+        Speichern
+      </Button>
     </div>
   )
 }

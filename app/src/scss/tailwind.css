@@ -87,7 +87,7 @@
   .dark-mode {
     --background-50: 207 7% 30%;
     --background-100: 210 9% 22%;
-    --background-200: 213 10% 21%;
+    --background-200: 213 10% 18.8%;
     --foreground: 240 5% 90%;
     --hairline: 207 7% 30%;
 
@@ -160,13 +160,17 @@ h5 {
 }
 
 .rsw-toolbar {
-  @apply justify-between !bg-transparent text-foreground !border-hairline
+  @apply justify-between !bg-transparent text-foreground !border-transparent
 }
 
 .rsw-btn {
   all: unset !important;
 
   @apply text-foreground hover:bg-background50;
+}
+
+.rsw-btn[data-active='true'] {
+  /* background: red !important; */
 }
 
 .rsw-ce {

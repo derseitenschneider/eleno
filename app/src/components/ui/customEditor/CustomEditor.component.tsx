@@ -18,7 +18,6 @@ import {
   Undo,
 } from "lucide-react"
 import { Toggle } from "@/components/ui/toggle"
-import { cloneElement } from "react"
 
 interface CustomEditorProps {
   value: string
@@ -27,7 +26,10 @@ interface CustomEditorProps {
 
 const BtnBold = createButton(
   "Bold",
-  <Toggle aria-label='Toggle bold'>
+  <Toggle
+    aria-label='Toggle bold'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Bold className='h-4' />
   </Toggle>,
   "bold",
@@ -35,7 +37,10 @@ const BtnBold = createButton(
 
 const BtnItalic = createButton(
   "Italic",
-  <Toggle aria-label='Toggle italic'>
+  <Toggle
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+    aria-label='Toggle italic'
+  >
     <Italic className='h-4' />
   </Toggle>,
   "italic",
@@ -43,7 +48,10 @@ const BtnItalic = createButton(
 
 const BtnUnderline = createButton(
   "Underline",
-  <Toggle aria-label='Toggle underline'>
+  <Toggle
+    aria-label='Toggle underline'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Underline className='h-4' />
   </Toggle>,
   "underline",
@@ -51,7 +59,10 @@ const BtnUnderline = createButton(
 
 const BtnStrikeThrough = createButton(
   "Strike Through",
-  <Toggle aria-label='Toggle strike-through'>
+  <Toggle
+    aria-label='Toggle strike-through'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Strikethrough className='h-4' />
   </Toggle>,
   "strikeThrough",
@@ -59,7 +70,10 @@ const BtnStrikeThrough = createButton(
 
 const BtnBulletList = createButton(
   "Bullet list",
-  <Toggle aria-label='Toggle bullet list'>
+  <Toggle
+    aria-label='Toggle bullet list'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <List className='h-4' />
   </Toggle>,
   "insertUnorderedList",
@@ -67,7 +81,10 @@ const BtnBulletList = createButton(
 
 const BtnNumberedList = createButton(
   "Numbered list",
-  <Toggle aria-label='Toggle numbered list'>
+  <Toggle
+    aria-label='Toggle numbered list'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <ListOrdered className='h-4' />
   </Toggle>,
   "insertOrderedList",
@@ -75,7 +92,10 @@ const BtnNumberedList = createButton(
 
 const BtnLink = createButton(
   "Link",
-  <Toggle aria-label='Toggle link'>
+  <Toggle
+    aria-label='Toggle link'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Link className='h-4' />
   </Toggle>,
   "createLink",
@@ -83,7 +103,10 @@ const BtnLink = createButton(
 
 const BtnClearFormatting = createButton(
   "Clear Formatting",
-  <Toggle aria-label='Toggle clear formatting'>
+  <Toggle
+    aria-label='Toggle clear formatting'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <RemoveFormatting className='h-4' />
   </Toggle>,
   "RemoveFormatting",
@@ -91,7 +114,10 @@ const BtnClearFormatting = createButton(
 
 const BtnUndo = createButton(
   "Undo",
-  <Toggle aria-label='Toggle undo'>
+  <Toggle
+    aria-label='Toggle undo'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Undo className='h-4' />
   </Toggle>,
   "undo",
@@ -99,7 +125,10 @@ const BtnUndo = createButton(
 
 const BtnRedo = createButton(
   "Redo",
-  <Toggle aria-label='Toggle redo' className=''>
+  <Toggle
+    aria-label='Toggle redo'
+    className='data-[state=on]:text-foreground data-[state=on]:bg-background200 rounded-none text-foreground'
+  >
     <Redo className='h-4' />
   </Toggle>,
   "redo",
@@ -115,8 +144,8 @@ function CustomEditor({ value, onChange }: CustomEditorProps) {
   return (
     <EditorProvider>
       <Editor value={value} onChange={onChangeEditor} className='bg-red-500'>
-        <Toolbar className='flex'>
-          <div>
+        <Toolbar className=''>
+          <div className=''>
             <BtnBold className='p-2' />
             <BtnItalic tabIndex={-1} />
             <BtnUnderline tabIndex={-1} />
@@ -127,7 +156,7 @@ function CustomEditor({ value, onChange }: CustomEditorProps) {
             <BtnBulletList tabIndex={-1} />
             <BtnNumberedList tabIndex={-1} />
           </div>
-          <div className='container--right'>
+          <div className=''>
             <BtnClearFormatting tabIndex={-1} />
             <BtnUndo tabIndex={-1} />
             <BtnRedo tabIndex={-1} />
