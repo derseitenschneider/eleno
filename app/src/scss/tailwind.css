@@ -154,3 +154,37 @@ h4 {
 h5 {
   @apply text-foreground mb-2 text-base font-medium
 }
+
+.rsw-editor {
+  @apply !border-hairline h-[250px] mt-[10px];
+}
+
+.rsw-toolbar {
+  @apply justify-between !bg-transparent text-foreground !border-hairline
+}
+
+.rsw-btn {
+  all: unset !important;
+
+  @apply text-foreground hover:bg-background50;
+}
+
+.rsw-ce {
+  @apply bg-background50 text-foreground !p-[10px] h-full;
+}
+
+.rsw-ce ul,
+.rsw-ce ol {
+  margin: initial;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.rsw-ce ul {
+  list-style: initial;
+}
+
+.rsw-ce ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}

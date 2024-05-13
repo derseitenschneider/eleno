@@ -137,9 +137,12 @@ function NewLesson() {
       <div className='grid grid-cols-2 gap-6'>
         <div className='row-left'>
           <h5 className='heading-5'>Lektion</h5>
-          <div
-            className={`container--editor ${isPending ? "loading" : ""}`}
-          ></div>
+          <div className={`container--editor ${isPending ? "loading" : ""}`}>
+            <CustomEditor
+              value={lessonContent}
+              onChange={handleLessonContent}
+            />
+          </div>
         </div>
         <div className='row-right'>
           <h5 className='heading-5'>Hausaufgaben</h5>
