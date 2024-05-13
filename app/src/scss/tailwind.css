@@ -156,7 +156,7 @@ h5 {
 }
 
 .rsw-editor {
-  @apply !border-hairline h-[250px] mt-[10px];
+  @apply !border-hairline h-[200px] mt-[10px];
 }
 
 .rsw-toolbar {

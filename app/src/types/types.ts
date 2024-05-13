@@ -1,6 +1,13 @@
 import type React from "react"
 
-export type NumericWeekday = "0" | "1" | "2" | "3" | "4" | "5" | "6"
+export type Weekday =
+  | "Montag"
+  | "Dienstag"
+  | "Mittwoch"
+  | "Donnerstag"
+  | "Freitag"
+  | "Samstag"
+  | "Sonntag"
 
 export type User = {
   id: string
@@ -22,7 +29,7 @@ export type Student = {
   archive: boolean
   instrument: string
   durationMinutes: number | null
-  dayOfLesson: NumericWeekday | null
+  dayOfLesson: Weekday | null
   startOfLesson: string | null
   endOfLesson: string | null
   location: string | null

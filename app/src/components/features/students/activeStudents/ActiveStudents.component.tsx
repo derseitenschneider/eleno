@@ -28,7 +28,7 @@ import ActiveStudentRow from "./ActiveStudentRow.component"
 import ExportStudentList from "../exportStudentList/ExportStudentList.component"
 import BulkExportLessons from "../../lessons/bulkExportLessons/BulkExportLessons.component"
 
-import EditStudents from "../editStudents/EditStudents.component"
+import StudentForm from "../editStudents/EditStudents.component"
 
 type ContextTypeActiveStudents = {
   selectedStudents: number[]
@@ -150,7 +150,7 @@ export default function ActiveStudents() {
             <Modal>
               <Modal.Open opens='bulk-edit-students' />
               <Modal.Window name='bulk-edit-students'>
-                <EditStudents
+                <StudentForm
                   studentIds={selectedStudents}
                   setSelectedStudents={setSelectedStudents}
                 />

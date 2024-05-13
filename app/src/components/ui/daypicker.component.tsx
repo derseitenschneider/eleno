@@ -18,6 +18,7 @@ export function DayPicker() {
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          size='sm'
           variant={"outline"}
           className={cn(
             "w-auto gap-2 justify-start text-left text-foreground font-normal border-hairline",

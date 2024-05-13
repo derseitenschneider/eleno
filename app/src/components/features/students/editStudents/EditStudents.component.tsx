@@ -12,7 +12,7 @@ interface EditStudentsProps {
   setSelectedStudents?: React.Dispatch<SetStateAction<number[]>>
 }
 
-function EditStudents({
+function StudentForm({
   onCloseModal,
   studentIds,
   setSelectedStudents,
@@ -98,4 +98,4 @@ function EditStudents({
   )
 }
 
-export default EditStudents
+export default StudentForm

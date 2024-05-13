@@ -26,9 +26,20 @@ const studentSchema = z.object({
   }),
   lastName: z.string().min(1, { message: "Nachname fehlt." }),
   instrument: z.string().min(1, { message: "Instrument fehlt." }),
-  durationMinutes: z.coerce.number().nullable(),
+  durationMinutes: z.number().nullable(),
   location: z.string().nullable(),
-  dayOfLesson: z.number(),
+  dayOfLesson: z
+    .union([
+      z.literal("Montag"),
+      z.literal("Dienstag"),
+      z.literal("Mittwoch"),
+      z.literal("Donnerstag"),
+      z.literal("Freitag"),
+      z.literal("Samstag"),
+      z.literal("Sonntag"),
+      z.literal("null"),
+    ])
+    .nullable(),
   startOfLesson: z.string().time().nullable(),
   endOfLesson: z.string().nullable(),
 })
@@ -103,7 +114,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name='dayOfLesson'
           render={({ field }) => (
@@ -119,18 +130,19 @@ export default function StudentForm({ studentId }: EditStudentProps) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value='1'>Montag</SelectItem>
-                  <SelectItem value='2'>Dienstag</SelectItem>
-                  <SelectItem value='3'>Mittwoch</SelectItem>
-                  <SelectItem value='4'>Donnerstag</SelectItem>
-                  <SelectItem value='5'>Freitag</SelectItem>
-                  <SelectItem value='6'>Samstag</SelectItem>
-                  <SelectItem value='0'>Sonntag</SelectItem>
+                  <SelectItem value='Montag'>Montag</SelectItem>
+                  <SelectItem value='Dienstag'>Dienstag</SelectItem>
+                  <SelectItem value='Mittwoch'>Mittwoch</SelectItem>
+                  <SelectItem value='Donnerstag'>Donnerstag</SelectItem>
+                  <SelectItem value='Freitag'>Freitag</SelectItem>
+                  <SelectItem value='Samstag'>Samstag</SelectItem>
+                  <SelectItem value='Sonntag'>Sonntag</SelectItem>
+                  <SelectItem value={"null"}>-</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
           )}
-        />
+        /> */}
         {/* <div className='flex gap-4'>
           <FormField
             control={form.control}

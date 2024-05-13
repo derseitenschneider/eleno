@@ -143,7 +143,7 @@ function CustomEditor({ value, onChange }: CustomEditorProps) {
   }
   return (
     <EditorProvider>
-      <Editor value={value} onChange={onChangeEditor} className='bg-red-500'>
+      <Editor value={value} onChange={onChangeEditor}>
         <Toolbar className=''>
           <div className=''>
             <BtnBold className='p-2' />

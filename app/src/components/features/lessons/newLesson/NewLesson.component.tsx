@@ -147,7 +147,11 @@ function NewLesson() {
           <CustomEditor value={homework} onChange={handleHomework} />
         </div>
       </div>
-      <Button onClick={handleSaveLesson} className='block mt-4 ml-auto'>
+      <Button
+        size='sm'
+        onClick={handleSaveLesson}
+        className='block mt-4 ml-auto'
+      >
         Speichern
       </Button>
     </div>
