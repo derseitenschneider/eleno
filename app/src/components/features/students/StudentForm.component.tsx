@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useStudents } from "@/services/context/StudentContext"
+import { useUser } from "@/services/context/UserContext"
 import type { Student } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -26,10 +27,8 @@ const studentSchema = z.object({
   }),
   lastName: z.string().min(1, { message: "Nachname fehlt." }),
   instrument: z.string().min(1, { message: "Instrument fehlt." }),
-  durationMinutes: z.number().nullable(),
-  location: z.string().nullable(),
-  dayOfLesson: z
-    .union([
+  dayOfLesson: z.optional(
+    z.union([
       z.literal("Montag"),
       z.literal("Dienstag"),
       z.literal("Mittwoch"),
@@ -37,11 +36,13 @@ const studentSchema = z.object({
       z.literal("Freitag"),
       z.literal("Samstag"),
       z.literal("Sonntag"),
-      z.literal("null"),
-    ])
-    .nullable(),
-  startOfLesson: z.string().time().nullable(),
-  endOfLesson: z.string().nullable(),
+      z.literal("none"),
+    ]),
+  ),
+  startOfLesson: z.optional(z.string()),
+  endOfLesson: z.optional(z.string()),
+  durationMinutes: z.optional(z.coerce.number()),
+  location: z.optional(z.string()),
 })
 
 type StudentInput = z.infer<typeof studentSchema>
@@ -51,7 +52,7 @@ type EditStudentProps = {
 }
 
 export default function StudentForm({ studentId }: EditStudentProps) {
-  const { students } = useStudents()
+  const { students, updateStudents } = useStudents()
   const currentStudent = students?.find((student) => student.id === studentId)
 
   const form = useForm<StudentInput>({
@@ -68,8 +69,20 @@ export default function StudentForm({ studentId }: EditStudentProps) {
     },
   })
 
-  function onSubmit(values: StudentInput) {
-    console.log(values)
+  async function onSubmit(values: StudentInput) {
+    if (!currentStudent) return
+    try {
+      await updateStudents([
+        {
+          ...values,
+          id: currentStudent.id,
+          archive: currentStudent.archive,
+          user_id: currentStudent.user_id,
+        },
+      ])
+    } catch (err) {
+      console.log(err)
+    }
   }
   return (
     <Form {...form}>
@@ -114,16 +127,13 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           )}
         />
 
-        {/* <FormField
+        <FormField
           control={form.control}
           name='dayOfLesson'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tag</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={String(field.value)}
-              >
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder='Tag' />
@@ -137,13 +147,13 @@ export default function StudentForm({ studentId }: EditStudentProps) {
                   <SelectItem value='Freitag'>Freitag</SelectItem>
                   <SelectItem value='Samstag'>Samstag</SelectItem>
                   <SelectItem value='Sonntag'>Sonntag</SelectItem>
-                  <SelectItem value={"null"}>-</SelectItem>
+                  <SelectItem value='null'>-</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
           )}
-        /> */}
-        {/* <div className='flex gap-4'>
+        />
+        <div className='flex gap-4'>
           <FormField
             control={form.control}
             name='startOfLesson'
@@ -164,7 +174,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
               <FormItem className='grow-0'>
                 <FormLabel>Bis</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} />
+                  <Input type='time' {...field} value={field.value || ""} />
                 </FormControl>
               </FormItem>
             )}
@@ -181,20 +191,20 @@ export default function StudentForm({ studentId }: EditStudentProps) {
               </FormItem>
             )}
           />
-        </div> */}
+        </div>
 
-        {/* <FormField
+        <FormField
           control={form.control}
           name='location'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Ort</FormLabel>
               <FormControl>
-                <Input placeholder='Ort' {...field} />
+                <Input placeholder='Ort' {...field} value={field.value || ""} />
               </FormControl>
             </FormItem>
           )}
-        /> */}
+        />
         <Button type='submit'>Speichern</Button>
       </form>
     </Form>
