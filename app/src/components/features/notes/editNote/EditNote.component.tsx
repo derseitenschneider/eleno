@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { useNotes } from "../../../../services/context/NotesContext"
-import Button from "../../../ui/button/Button.component"
 import CustomEditor from "../../../ui/CustomEditor.component"
 import "./editNote.style.scss"
 import type { NotesBackgrounds } from "../../../../types/types"

@@ -5,6 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
@@ -25,21 +26,25 @@ const studentSchema = z.object({
   }),
   lastName: z.string().min(1, { message: "Nachname fehlt." }),
   instrument: z.string().min(1, { message: "Instrument fehlt." }),
-  dayOfLesson: z.optional(
-    z.union([
-      z.literal("Montag"),
-      z.literal("Dienstag"),
-      z.literal("Mittwoch"),
-      z.literal("Donnerstag"),
-      z.literal("Freitag"),
-      z.literal("Samstag"),
-      z.literal("Sonntag"),
-      z.literal("none"),
-    ]),
-  ),
+  dayOfLesson: z
+    .optional(
+      z.union([
+        z.literal("Montag"),
+        z.literal("Dienstag"),
+        z.literal("Mittwoch"),
+        z.literal("Donnerstag"),
+        z.literal("Freitag"),
+        z.literal("Samstag"),
+        z.literal("Sonntag"),
+        z.literal("none"),
+      ]),
+    )
+    .transform((val) => (val === "none" ? null : val)),
   startOfLesson: z.optional(z.string()),
   endOfLesson: z.optional(z.string()),
-  durationMinutes: z.optional(z.coerce.number()),
+  durationMinutes: z
+    .optional(z.coerce.number())
+    .transform((val) => (val === 0 ? null : val)),
   location: z.optional(z.string()),
 })
 
@@ -65,6 +70,12 @@ export default function StudentForm({ studentId }: EditStudentProps) {
       durationMinutes: currentStudent?.durationMinutes,
       location: currentStudent?.location,
     },
+    mode: "onSubmit",
+    resetOptions: {
+      keepDirtyValues: true,
+      keepErrors: false,
+    },
+    shouldFocusError: true,
   })
 
   async function onSubmit(values: StudentInput) {
@@ -78,9 +89,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           user_id: currentStudent.user_id,
         },
       ])
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) { }
   }
   return (
     <Form {...form}>
@@ -91,10 +100,11 @@ export default function StudentForm({ studentId }: EditStudentProps) {
             name='firstName'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Vorname</FormLabel>
+                <FormLabel>Vorname*</FormLabel>
                 <FormControl>
                   <Input placeholder='Vorname' {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -104,7 +114,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
             name='lastName'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nachname</FormLabel>
+                <FormLabel>Nachname*</FormLabel>
                 <FormControl>
                   <Input placeholder='Nachname' {...field} />
                 </FormControl>
@@ -117,7 +127,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           name='instrument'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Instrument</FormLabel>
+              <FormLabel>Instrument*</FormLabel>
               <FormControl>
                 <Input placeholder='Instrument' {...field} />
               </FormControl>
@@ -131,7 +141,10 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tag</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value || "none"}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder='Tag' />
@@ -145,7 +158,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
                   <SelectItem value='Freitag'>Freitag</SelectItem>
                   <SelectItem value='Samstag'>Samstag</SelectItem>
                   <SelectItem value='Sonntag'>Sonntag</SelectItem>
-                  <SelectItem value='null'>-</SelectItem>
+                  <SelectItem value='none'>-</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
@@ -172,7 +185,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
               <FormItem className='grow-0'>
                 <FormLabel>Bis</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} value={field.value || ""} />
+                  <Input type='time' {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -184,7 +197,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
               <FormItem className='ml-auto basis-20'>
                 <FormLabel>Minuten</FormLabel>
                 <FormControl>
-                  <Input type='number' {...field} />
+                  <Input type='number' {...field} value={field.value || ""} />
                 </FormControl>
               </FormItem>
             )}
@@ -203,7 +216,9 @@ export default function StudentForm({ studentId }: EditStudentProps) {
             </FormItem>
           )}
         />
-        <Button type='submit'>Speichern</Button>
+        <Button size='sm' type='submit'>
+          Speichern
+        </Button>
       </form>
     </Form>
   )

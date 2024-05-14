@@ -8,7 +8,7 @@ export type Weekday =
   | "Freitag"
   | "Samstag"
   | "Sonntag"
-  | "none"
+  | null
 
 export type User = {
   id: string
@@ -29,7 +29,7 @@ export type Student = {
   lastName: string
   archive: boolean
   instrument: string
-  durationMinutes?: number
+  durationMinutes?: number | null
   dayOfLesson?: Weekday
   startOfLesson?: string
   endOfLesson?: string
