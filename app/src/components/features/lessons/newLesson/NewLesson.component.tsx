@@ -132,7 +132,7 @@ function NewLesson() {
   }
 
   return (
-    <div>
+    <div className='sm:pr-4 sm:pl-8 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h4 className='m-0'>Aktuelle Lektion</h4>
         <DayPicker />

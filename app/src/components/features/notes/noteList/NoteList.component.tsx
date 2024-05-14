@@ -4,14 +4,13 @@ import { DragDropContext } from "react-beautiful-dnd"
 import { useNotes } from "../../../../services/context/NotesContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 
-import Button from "../../../ui/button/Button.component"
 import Menus from "../../../ui/menu/Menus.component"
 import Modal from "../../../ui/modal/Modal.component"
 import AddNote from "../addNote/AddNote.component"
 import Note from "../note/Note.component"
 import "./noteList.style.scss"
 import StrictModeDroppable from "../../../../utils/StrictModeDroppable"
-import type { Note } from "../../../../types/types"
+import type { Note as NoteType } from "../../../../types/types"
 
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 
@@ -54,13 +53,7 @@ function NoteList() {
       <div className=''>
         <h4 className=''>Notizen</h4>
         <Modal>
-          <Modal.Open opens='add-note'>
-            <Button
-              type='button'
-              btnStyle='icon-only'
-              icon={<IoAddOutline />}
-            />
-          </Modal.Open>
+          <Modal.Open opens='add-note'></Modal.Open>
 
           <Modal.Window name='add-note'>
             <AddNote currentStudentId={currentStudentId} />

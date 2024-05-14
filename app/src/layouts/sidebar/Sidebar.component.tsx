@@ -18,11 +18,22 @@ import { useStudents } from "../../services/context/StudentContext"
 import { useUser } from "../../services/context/UserContext"
 import calcNearestStudentIndex from "../../utils/getClosestStudentIndex"
 
-import analytics from "../../services/analytics/firebaseAnalytics"
+import useOutsideClick from "@/hooks/useOutsideClick"
 import SidebarElement from "@/layouts/sidebar/SidebarElement.component"
 import SidebarToggle from "@/layouts/sidebar/SidebarToggle.component"
 import { useTodos } from "@/services/context/TodosContext"
-import useOutsideClick from "@/hooks/useOutsideClick"
+import {
+  BookMarked,
+  BookOpenCheck,
+  CalendarDays,
+  GaugeCircle,
+  LayoutDashboard,
+  ListChecks,
+  LogOut,
+  Settings,
+  Users,
+} from "lucide-react"
+import analytics from "../../services/analytics/firebaseAnalytics"
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -98,9 +109,8 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${
-        sidebarOpen ? "w-[180px]" : "w-[50px]"
-      }`}
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
+        }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
@@ -118,21 +128,21 @@ function Sidebar() {
           handleNav={handleLogEvent}
           to='/'
           name='Dashboard'
-          icon={<IoCompassOutline />}
+          icon={<LayoutDashboard strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to={`/lessons/${currentStudentId || "no-students"}`}
           name='Unterrichten'
-          icon={<IoSchoolOutline />}
+          icon={<BookOpenCheck strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='/students'
           name='Schüler:innen'
-          icon={<IoPeopleCircleOutline />}
+          icon={<Users strokeWidth={1.5} />}
         />
         <SidebarElement
           notificationContent={overdueTodos?.length}
@@ -140,14 +150,14 @@ function Sidebar() {
           handleNav={handleLogEvent}
           to='/todos'
           name='Todos'
-          icon={<IoCheckboxOutline />}
+          icon={<ListChecks strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='/timetable'
           name='Stundenplan'
-          icon={<IoCalendarOutline />}
+          icon={<CalendarDays strokeWidth={1.5} />}
         />
       </ul>
 
@@ -158,21 +168,21 @@ function Sidebar() {
           to='https://manual.eleno.net'
           target={"_blank"}
           name='Anleitung'
-          icon={<IoBookOutline />}
+          icon={<BookMarked strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='/settings'
           name='Einstellungen'
-          icon={<IoSettingsOutline />}
+          icon={<Settings strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='/logout'
           name='Log out'
-          icon={<IoLogOutOutline />}
+          icon={<LogOut strokeWidth={1.5} />}
         />
       </ul>
     </nav>

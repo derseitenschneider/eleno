@@ -9,6 +9,7 @@ import Logo from "../../components/ui/logo/Logo.component"
 import NavbarMobileItem from "./NavbarMobileItem.component"
 import { useTodos } from "@/services/context/TodosContext"
 import { useRoutes } from "react-router-dom"
+import { BookOpenCheck, ListChecks, LogOut, Settings } from "lucide-react"
 
 function NavbarMobile() {
   const { overdueTodos } = useTodos()
@@ -20,11 +21,17 @@ function NavbarMobile() {
         <NavbarMobileItem
           notificationContent={overdueTodos?.length}
           to='/todos'
-          icon={<IoCheckboxOutline />}
+          icon={<ListChecks strokeWidth={1.5} />}
         />
-        <NavbarMobileItem to='/lessons' icon={<IoSchoolOutline />} />
-        <NavbarMobileItem to='/settings' icon={<IoSettingsOutline />} />
-        <NavbarMobileItem to='/logout' icon={<IoLogOutOutline />} />
+        <NavbarMobileItem
+          to='/lessons'
+          icon={<BookOpenCheck strokeWidth={1.5} />}
+        />
+        <NavbarMobileItem
+          to='/settings'
+          icon={<Settings strokeWidth={1.5} />}
+        />
+        <NavbarMobileItem to='/logout' icon={<LogOut strokeWidth={1.5} />} />
       </ul>
     </nav>
   )

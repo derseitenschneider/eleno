@@ -160,7 +160,7 @@ h5 {
 }
 
 .rsw-toolbar {
-  @apply justify-between !bg-background50 text-foreground !border-hairline
+  @apply justify-between !bg-background50 !border-hairline
 }
 
 .rsw-btn {
@@ -168,7 +168,7 @@ h5 {
 }
 
 .rsw-btn svg {
-  @apply size-[16px]
+  @apply size-[16px] !text-foreground
 }
 
 .rsw-btn[data-active='true'] {

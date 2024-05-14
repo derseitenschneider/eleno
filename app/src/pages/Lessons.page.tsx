@@ -35,15 +35,15 @@ function Lesson() {
       >
         <LessonHeader />
 
-        <main className='sm:*:px-5 sm:*:py-4'>
+        <main className=''>
           <PreviousLessons />
           <NewLesson />
         </main>
 
-        {/* <aside className=''>
+        <aside className='border-l border-hairline'>
           <NoteList />
         </aside>
-        <LessonFooter /> */}
+        {/* <LessonFooter /> */}
       </motion.div>
     )
 

@@ -1,4 +1,11 @@
 import {
+  BookMarked,
+  BookOpenCheck,
+  ListTodo,
+  Settings,
+  UserPlus,
+} from "lucide-react"
+import {
   IoBookOutline,
   IoCheckboxOutline,
   IoPeopleCircleOutline,
@@ -23,29 +30,29 @@ function QuickLinks() {
       <div className='flex gap-x-8 gap-y-5 sm:gap-9 flex-wrap'>
         <QuickLinkItem
           title='Unterricht starten'
-          icon={<IoSchoolSharp />}
+          icon={<BookOpenCheck strokeWidth={1.5} />}
           onClick={navigateToClosestStudent}
           link={`/lessons/${currentStudentId || "no-students"}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'
-          icon={<IoPeopleCircleOutline />}
+          icon={<UserPlus strokeWidth={1.5} />}
           link='students?modal=add-students'
           className='hidden md:flex'
         />
         <QuickLinkItem
           title='Todo erfassen'
-          icon={<IoCheckboxOutline />}
+          icon={<ListTodo strokeWidth={1.5} />}
           link='todos'
         />
         <QuickLinkItem
           title='Einstellungen'
-          icon={<IoSettingsOutline />}
+          icon={<Settings strokeWidth={1.5} />}
           link='settings'
         />
         <QuickLinkItem
           title='Anleitung'
-          icon={<IoBookOutline />}
+          icon={<BookMarked strokeWidth={1.5} />}
           link='https://manual.eleno.net'
           target='_blank'
         />

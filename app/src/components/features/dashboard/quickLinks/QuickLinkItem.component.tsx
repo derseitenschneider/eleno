@@ -19,10 +19,10 @@ export default function QuickLinkItem({
   return (
     <Link
       to={link}
-      className={`${className || ""} flex items-center gap-2`}
+      className={`${className || ""} flex items-center gap-[6px]`}
       onClick={onClick}
     >
-      <div>{icon}</div>
+      <div className='size-[18px]'>{icon}</div>
       {title}
     </Link>
   )

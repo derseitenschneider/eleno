@@ -24,7 +24,7 @@ function LessonHeader() {
   const endOfLesson = currentStudent?.endOfLesson
 
   return (
-    <header className='sm:*:px-5 sm:*:py-4 col-start-1 col-span-2 border-b border-hairline'>
+    <header className='sm:pr-4 sm:pl-8 sm:py-4 col-start-1 col-span-2 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div>
           <div className='flex mb-2 items-center'>

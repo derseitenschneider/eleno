@@ -52,7 +52,7 @@ function PreviousLessons() {
   }, [])
 
   return (
-    <div className='border-b border-hairline h-[300px] relative'>
+    <div className='sm:pr-4 sm:pl-8 sm:py-4 border-b border-hairline h-[300px] relative'>
       <div className='flex gap-5 mb-5'>
         {previousLessonsIds.length > 0 ? (
           <>
@@ -62,7 +62,7 @@ function PreviousLessons() {
                 className={cn(
                   "p-2 pr-3 text-xs bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
                   index === tabIndex &&
-                    "bg-background50 border-primary/80 hover:bg-background50",
+                  "bg-background50 border-primary/80 hover:bg-background50",
                 )}
                 onClick={() => {
                   setTabIndex(index)
