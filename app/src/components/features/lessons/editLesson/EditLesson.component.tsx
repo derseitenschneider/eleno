@@ -4,7 +4,7 @@ import { useLessons } from "../../../../services/context/LessonsContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
-import CustomEditor from "../../../ui/customEditor/CustomEditor.component"
+import CustomEditor from "../../../ui/CustomEditor.component"
 import "./editLesson.style.scss"
 
 interface EditLessonProps {

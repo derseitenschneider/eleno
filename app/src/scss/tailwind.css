@@ -160,18 +160,21 @@ h5 {
 }
 
 .rsw-toolbar {
-  @apply justify-between !bg-transparent text-foreground !border-transparent
+  @apply justify-between !bg-background50 text-foreground !border-hairline
 }
 
 .rsw-btn {
-  all: unset !important;
+  @apply flex items-center justify-center !size-[28px];
+}
 
-  @apply text-foreground hover:bg-background50;
+.rsw-btn svg {
+  @apply size-[16px]
 }
 
 .rsw-btn[data-active='true'] {
-  /* background: red !important; */
+  @apply bg-hairline
 }
+
 
 .rsw-ce {
   @apply bg-background50 text-foreground !p-[10px] h-full;
@@ -181,7 +184,7 @@ h5 {
 .rsw-ce ol {
   margin: initial;
   margin-left: 10px;
-  padding-left: 10px;
+  padding-left: 8px;
 }
 
 .rsw-ce ul {
@@ -190,5 +193,5 @@ h5 {
 
 .rsw-ce ol {
   list-style-type: decimal;
-  list-style-position: inside;
+  /* list-style-position: inside; */
 }

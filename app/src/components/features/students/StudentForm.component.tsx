@@ -15,8 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useStudents } from "@/services/context/StudentContext"
-import { useUser } from "@/services/context/UserContext"
-import type { Student } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"

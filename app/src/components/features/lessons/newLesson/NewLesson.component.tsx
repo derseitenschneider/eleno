@@ -2,7 +2,7 @@ import "./newLesson.style.scss"
 
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import CustomEditor from "../../../ui/customEditor/CustomEditor.component"
+import CustomEditor from "../../../ui/CustomEditor.component"
 
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import { useLessons } from "../../../../services/context/LessonsContext"

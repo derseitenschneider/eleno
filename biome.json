@@ -15,7 +15,7 @@
     }
   },
   "linter": {
-    "ignore": ["./app/coverage/*"],
+    "ignore": ["./app/coverage/*", "./app/src/scss/tailwind.css"],
     "enabled": true,
     "rules": {
       "recommended": true,
