@@ -22,9 +22,11 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useEffect, useState } from "react"
 import calcTimeDifference from "@/utils/calcTimeDifference"
+import { cn } from "@/lib/utils"
 
 // -TODO: Validate time inputs
 // -TODO: Success toast/sonner
+// -TODO: Durationminutes can be null but not negative
 const studentSchema = z.object({
   firstName: z.string().min(1, {
     message: "Vorname fehlt.",
@@ -48,7 +50,7 @@ const studentSchema = z.object({
   startOfLesson: z.optional(z.string()),
   endOfLesson: z.optional(z.string()),
   durationMinutes: z
-    .optional(z.coerce.number().min(1, "Ungültiger Wert."))
+    .optional(z.coerce.number())
     .transform((val) => (val === 0 ? null : val)),
   location: z.optional(z.string()),
 })
@@ -129,9 +131,15 @@ export default function StudentForm({
             disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Vorname*</FormLabel>
+                <FormLabel className='text-foreground'>Vorname*</FormLabel>
                 <FormControl>
-                  <Input placeholder='Vorname' {...field} />
+                  <Input
+                    placeholder='Vorname'
+                    {...field}
+                    className={cn(
+                      form.formState.errors.firstName && "border-warning",
+                    )}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,10 +152,17 @@ export default function StudentForm({
             disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nachname*</FormLabel>
+                <FormLabel className='text-foreground'>Nachname*</FormLabel>
                 <FormControl>
-                  <Input placeholder='Nachname' {...field} />
+                  <Input
+                    placeholder='Nachname'
+                    className={cn(
+                      form.formState.errors.lastName && "border-warning",
+                    )}
+                    {...field}
+                  />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -158,10 +173,17 @@ export default function StudentForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Instrument*</FormLabel>
+              <FormLabel className='text-foreground'>Instrument*</FormLabel>
               <FormControl>
-                <Input placeholder='Instrument' {...field} />
+                <Input
+                  placeholder='Instrument'
+                  className={cn(
+                    form.formState.errors.instrument && "border-warning",
+                  )}
+                  {...field}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -171,15 +193,20 @@ export default function StudentForm({
           name='dayOfLesson'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tag</FormLabel>
+              <FormLabel className='text-foreground'>Unterrichtstag</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value || "none"}
                 disabled={form.formState.isSubmitting}
               >
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Tag' />
+                  <SelectTrigger
+                    className={cn(
+                      form.formState.errors.dayOfLesson &&
+                        "border-warning text-warning",
+                    )}
+                  >
+                    <SelectValue placeholder='Unterrichtstag' />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -193,6 +220,7 @@ export default function StudentForm({
                   <SelectItem value='none'>-</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -203,10 +231,18 @@ export default function StudentForm({
             disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className='grow-0'>
-                <FormLabel>Von</FormLabel>
+                <FormLabel className='text-foreground'>Von</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} onBlur={calculateMinutes} />
+                  <Input
+                    type='time'
+                    {...field}
+                    className={cn(
+                      form.formState.errors.startOfLesson && "border-warning",
+                    )}
+                    onBlur={calculateMinutes}
+                  />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -217,10 +253,18 @@ export default function StudentForm({
             disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className='grow-0'>
-                <FormLabel>Bis</FormLabel>
+                <FormLabel className='text-foreground'>Bis</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} onBlur={calculateMinutes} />
+                  <Input
+                    type='time'
+                    {...field}
+                    className={cn(
+                      form.formState.errors.endOfLesson && "border-warning",
+                    )}
+                    onBlur={calculateMinutes}
+                  />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -230,9 +274,16 @@ export default function StudentForm({
             disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className='ml-auto grow-1'>
-                <FormLabel>Minuten</FormLabel>
+                <FormLabel className='text-foreground'>Minuten</FormLabel>
                 <FormControl>
-                  <Input type='number' {...field} value={field.value || ""} />
+                  <Input
+                    type='number'
+                    {...field}
+                    className={cn(
+                      form.formState.errors.durationMinutes && "border-warning",
+                    )}
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -246,9 +297,16 @@ export default function StudentForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ort</FormLabel>
+              <FormLabel className='text-foreground'>Ort</FormLabel>
               <FormControl>
-                <Input placeholder='Ort' {...field} value={field.value || ""} />
+                <Input
+                  placeholder='Ort'
+                  className={cn(
+                    form.formState.errors.location && "border-warning",
+                  )}
+                  {...field}
+                  value={field.value || ""}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -265,7 +323,7 @@ export default function StudentForm({
         </div>
       </form>
       {form.formState.errors.root && (
-        <p className='mt-2 text-sm text-red-500'>
+        <p className='mt-2 text-sm text-warning'>
           {form.formState.errors.root.message}
         </p>
       )}

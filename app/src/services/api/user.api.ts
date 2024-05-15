@@ -23,7 +23,6 @@ export const signUpSupabase = async (inputData: {
 }
 
 export const loginSupabase = async (email: string, password: string) => {
-  await new Promise((res) => setTimeout(res, 2000))
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,

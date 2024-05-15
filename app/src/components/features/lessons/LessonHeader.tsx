@@ -6,6 +6,7 @@ import { useStudents } from "../../../services/context/StudentContext"
 
 import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
 import type { Student } from "@/types/types"
+import { User } from "lucide-react"
 
 function LessonHeader() {
   const { students } = useStudents()
@@ -29,7 +30,7 @@ function LessonHeader() {
         <div>
           <div className='flex mb-2 items-center'>
             <div className='mr-[4px] text-primary h-6'>
-              <IoPersonCircleOutline className='' />
+              <User strokeWidth={1.5} />
             </div>
             <span className='mr-3 text-lg'>
               {firstName} {lastName}
