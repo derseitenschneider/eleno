@@ -1,3 +1,4 @@
+import MiniLoader from "@/components/ui/MiniLoader.component"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -19,7 +20,11 @@ import { useStudents } from "@/services/context/StudentContext"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { useEffect, useState } from "react"
+import calcTimeDifference from "@/utils/calcTimeDifference"
 
+// -TODO: Validate time inputs
+// -TODO: Success toast/sonner
 const studentSchema = z.object({
   firstName: z.string().min(1, {
     message: "Vorname fehlt.",
@@ -43,7 +48,7 @@ const studentSchema = z.object({
   startOfLesson: z.optional(z.string()),
   endOfLesson: z.optional(z.string()),
   durationMinutes: z
-    .optional(z.coerce.number())
+    .optional(z.coerce.number().min(1, "Ungültiger Wert."))
     .transform((val) => (val === 0 ? null : val)),
   location: z.optional(z.string()),
 })
@@ -52,9 +57,13 @@ type StudentInput = z.infer<typeof studentSchema>
 
 type EditStudentProps = {
   studentId?: number
+  onSuccess: () => void
 }
 
-export default function StudentForm({ studentId }: EditStudentProps) {
+export default function StudentForm({
+  studentId,
+  onSuccess,
+}: EditStudentProps) {
   const { students, updateStudents } = useStudents()
   const currentStudent = students?.find((student) => student.id === studentId)
 
@@ -78,6 +87,21 @@ export default function StudentForm({ studentId }: EditStudentProps) {
     shouldFocusError: true,
   })
 
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) onSuccess()
+  }, [onSuccess, form.formState.isSubmitSuccessful])
+
+  function calculateMinutes() {
+    if (form.getValues("startOfLesson") && form.getValues("endOfLesson")) {
+      const difference = calcTimeDifference(
+        form.getValues("startOfLesson") || "",
+        form.getValues("endOfLesson") || "",
+      )
+      if (difference && difference > 0)
+        form.setValue("durationMinutes", difference)
+    }
+  }
+
   async function onSubmit(values: StudentInput) {
     if (!currentStudent) return
     try {
@@ -89,15 +113,20 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           user_id: currentStudent.user_id,
         },
       ])
-    } catch (err) { }
+    } catch (err) {
+      form.setError("root", {
+        message: "Es ist etwas schiefgelaufen. Bitte versuch's nochmal.",
+      })
+    }
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
         <div className='flex gap-4'>
           <FormField
             control={form.control}
             name='firstName'
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Vorname*</FormLabel>
@@ -112,6 +141,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           <FormField
             control={form.control}
             name='lastName'
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nachname*</FormLabel>
@@ -125,6 +155,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
         <FormField
           control={form.control}
           name='instrument'
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Instrument*</FormLabel>
@@ -144,6 +175,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value || "none"}
+                disabled={form.formState.isSubmitting}
               >
                 <FormControl>
                   <SelectTrigger>
@@ -168,11 +200,12 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           <FormField
             control={form.control}
             name='startOfLesson'
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className='grow-0'>
                 <FormLabel>Von</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} />
+                  <Input type='time' {...field} onBlur={calculateMinutes} />
                 </FormControl>
               </FormItem>
             )}
@@ -181,11 +214,12 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           <FormField
             control={form.control}
             name='endOfLesson'
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className='grow-0'>
                 <FormLabel>Bis</FormLabel>
                 <FormControl>
-                  <Input type='time' {...field} />
+                  <Input type='time' {...field} onBlur={calculateMinutes} />
                 </FormControl>
               </FormItem>
             )}
@@ -193,12 +227,14 @@ export default function StudentForm({ studentId }: EditStudentProps) {
           <FormField
             control={form.control}
             name='durationMinutes'
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
-              <FormItem className='ml-auto basis-20'>
+              <FormItem className='ml-auto grow-1'>
                 <FormLabel>Minuten</FormLabel>
                 <FormControl>
                   <Input type='number' {...field} value={field.value || ""} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -207,6 +243,7 @@ export default function StudentForm({ studentId }: EditStudentProps) {
         <FormField
           control={form.control}
           name='location'
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Ort</FormLabel>
@@ -216,10 +253,22 @@ export default function StudentForm({ studentId }: EditStudentProps) {
             </FormItem>
           )}
         />
-        <Button size='sm' type='submit'>
-          Speichern
-        </Button>
+        <div className='flex gap-2 items-center'>
+          <Button
+            size='sm'
+            type='submit'
+            disabled={form.formState.isSubmitting}
+          >
+            Speichern
+          </Button>
+          {form.formState.isSubmitting && <MiniLoader />}
+        </div>
       </form>
+      {form.formState.errors.root && (
+        <p className='mt-2 text-sm text-red-500'>
+          {form.formState.errors.root.message}
+        </p>
+      )}
     </Form>
   )
 }

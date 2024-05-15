@@ -26,6 +26,8 @@ export default function StudentDropdownLesson() {
   const { currentStudentId } = useStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
 
+  const closeModal = () => setOpenModal(null)
+
   return (
     <>
       <DropdownMenu>
@@ -50,22 +52,16 @@ export default function StudentDropdownLesson() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet
-        open={openModal === "EDIT"}
-        onOpenChange={() => setOpenModal(null)}
-      >
+      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
           </SheetHeader>
-          <StudentForm studentId={currentStudentId} />
+          <StudentForm onSuccess={closeModal} studentId={currentStudentId} />
         </SheetContent>
       </Sheet>
 
-      <Dialog
-        open={openModal === "TODO"}
-        onOpenChange={() => setOpenModal(null)}
-      >
+      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Todos</DialogTitle>
@@ -75,10 +71,7 @@ export default function StudentDropdownLesson() {
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={openModal === "EXPORT"}
-        onOpenChange={() => setOpenModal(null)}
-      >
+      <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
