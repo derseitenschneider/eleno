@@ -10,20 +10,21 @@ import {
 import { Input } from "@/components/ui/input"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { PasswordInput } from "@/components/ui/password-input"
+import { cn } from "@/lib/utils"
 import { loginSupabase } from "@/services/api/user.api"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 import WrapperCard from "./WrapperCard.component"
 
 const loginSchema = z.object({
   email: z
-    .string({ required_error: "E-Mail Adresse fehlt." })
+    .string()
+    .min(1, { message: "E-Mail Adresse fehlt." })
     .email({ message: "Keine gültige E-Mail Adresse." }),
-  password: z.string({ required_error: "Passwort fehlt." }),
+  password: z.string().min(1, { message: "Passwort fehlt." }),
 })
 
 type TInput = z.infer<typeof loginSchema>
@@ -88,8 +89,11 @@ export default function LoginCard() {
                   <FormControl>
                     <Input
                       disabled={form.formState.isSubmitting}
-                      className='border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
-                        placeholder:text-zinc-400 focus-visible:ring-primary'
+                      className={cn(
+                        form.formState.errors.email
+                          ? "border-warning"
+                          : "border-zinc-400",
+                      )}
                       placeholder='E-Mail Adresse'
                       {...field}
                     />
@@ -109,8 +113,11 @@ export default function LoginCard() {
                     <PasswordInput
                       disabled={form.formState.isSubmitting}
                       placeholder='Passwort'
-                      className='border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
-                        placeholder:text-zinc-400 focus-visible:ring-primary'
+                      className={cn(
+                        form.formState.errors.password
+                          ? "border-warning"
+                          : "border-zinc-400",
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -118,6 +125,13 @@ export default function LoginCard() {
                 </FormItem>
               )}
             />
+            <Link
+              // onClick={() => setSearchParams({ page: "reset" })}
+              to='/?page=reset'
+              className='translate-y-[-10px] text-right text-sm'
+            >
+              Passwort vergessen?
+            </Link>
             <Button
               disabled={form.formState.isSubmitting}
               className='w-full'
@@ -127,18 +141,12 @@ export default function LoginCard() {
             </Button>
 
             {form.formState.errors.root && (
-              <p className='text-center text-sm text-red-500'>
+              <p className='text-center text-sm text-warning'>
                 {form.formState.errors.root.message}
               </p>
             )}
           </form>
         </Form>
-        <a
-          onClick={() => setSearchParams({ page: "reset" })}
-          className='text-center text-sm'
-        >
-          Passwort vergessen?
-        </a>
       </WrapperCard>
     </>
   )

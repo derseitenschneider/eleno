@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PasswordInput } from "@/components/ui/password-input"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -19,27 +18,25 @@ import { useState } from "react"
 import SuccessCard from "./SuccessCard.component"
 import { signUpSupabase } from "@/services/api/user.api"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { cn } from "@/lib/utils"
 
 const signupSchema = z
   .object({
-    firstName: z.string({ required_error: "Vorname fehlt." }),
-    lastName: z.string({ required_error: "Nachname fehlt." }),
+    firstName: z.string().min(1, { message: "Vorname fehlt." }),
+    lastName: z.string().min(1, { message: "Nachname fehlt." }),
     email: z
-      .string({ required_error: "E-Mail Adresse fehlt." })
+      .string()
+      .min(1, { message: "E-Mail Adresse fehlt." })
       .email({ message: "Ungültige E-Mail Adresse!" }),
     password: z
-      .string({ required_error: "Passwort fehlt." })
+      .string()
+      .min(1, { message: "Passwort fehlt." })
       .min(6, { message: "Passwort muss mindestens 6 Zeichen lang sein." }),
-    password2: z.string({ required_error: "Passwort-Wiederholung fehlt." }),
-    terms: z
-      .boolean({
-        invalid_type_error:
-          "Akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen.",
-      })
-      .refine((val) => val, {
-        message:
-          "Bitte akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen!",
-      }),
+    password2: z.string().min(1, { message: "Passwort-Wiederholung fehlt." }),
+    terms: z.boolean().refine((val) => val, {
+      message:
+        "Bitte akzeptiere die Datenschutzbestimmungen und die Allgemeinen Geschäftsbedingungen!",
+    }),
   })
   .refine((data) => data.password === data.password2, {
     message: "Die Passwörter stimmen nicht überein!",
@@ -97,18 +94,17 @@ export default function SignupCard() {
                     <FormControl>
                       <Input
                         disabled={form.formState.isSubmitting}
-                        className={`${
+                        className={cn(
                           form.formState.errors.firstName
-                            ? "border-red-600"
-                            : "border-zinc-400"
-                        }
-                        bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
-                        focus-visible:ring-primary`}
+                            ? "border-warning"
+                            : "border-zinc-400",
+                          "bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary",
+                        )}
                         placeholder='Maria'
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='text-red-600' />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -121,18 +117,17 @@ export default function SignupCard() {
                     <FormControl>
                       <Input
                         disabled={form.formState.isSubmitting}
-                        className={`${
+                        className={cn(
                           form.formState.errors.lastName
-                            ? "border-red-600"
-                            : "border-zinc-400"
-                        }
-                        bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
-                        focus-visible:ring-primary`}
+                            ? "border-warning"
+                            : "border-zinc-400",
+                          "bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary",
+                        )}
                         placeholder='Muster'
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='text-red-600' />
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -148,18 +143,17 @@ export default function SignupCard() {
                   <FormControl>
                     <Input
                       disabled={form.formState.isSubmitting}
-                      className={`${
+                      className={cn(
                         form.formState.errors.email
-                          ? "border-red-600"
-                          : "border-zinc-400"
-                      } bg-zinc-50
-                      text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
-                      focus-visible:ring-primary`}
+                          ? "border-warning"
+                          : "border-zinc-400",
+                        "bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary",
+                      )}
                       placeholder='maria@muster.com'
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage className='text-red-600' />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -173,18 +167,17 @@ export default function SignupCard() {
                   <FormControl>
                     <PasswordInput
                       disabled={form.formState.isSubmitting}
-                      className={`${
-                        form.formState.errors.email
-                          ? "border-red-600"
-                          : "border-zinc-400"
-                      } bg-zinc-50
-                      text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400
-                      focus-visible:ring-primary`}
+                      className={cn(
+                        form.formState.errors.password
+                          ? "border-warning"
+                          : "border-zinc-400",
+                        "bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary",
+                      )}
                       placeholder='Mindestens 6 Zeichen'
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage className='text-red-600' />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -199,8 +192,12 @@ export default function SignupCard() {
                   <FormControl>
                     <PasswordInput
                       disabled={form.formState.isSubmitting}
-                      className='border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
-                        placeholder:text-zinc-400 focus-visible:ring-primary'
+                      className={cn(
+                        form.formState.errors.password2
+                          ? "border-warning"
+                          : "border-zinc-400",
+                        "bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary",
+                      )}
                       placeholder='Passwort-Wiederholung'
                       {...field}
                     />
@@ -218,11 +215,11 @@ export default function SignupCard() {
                     <FormControl>
                       <Checkbox
                         disabled={form.formState.isSubmitting}
-                        className={`${
+                        className={cn(
                           form.formState.errors.terms
-                            ? "border-red-600"
-                            : "border-zinc-400"
-                        }`}
+                            ? "border-warning"
+                            : "border-zinc-400",
+                        )}
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
@@ -250,7 +247,7 @@ export default function SignupCard() {
                     </div>
                   </FormItem>
                   {form.formState.errors.terms && (
-                    <span className='!mt-1 text-xs text-red-600'>
+                    <span className='!mt-1 text-xs text-warning'>
                       {form.formState.errors.terms.message}
                     </span>
                   )}
@@ -268,7 +265,7 @@ export default function SignupCard() {
               {form.formState.isSubmitting && <MiniLoader />}
             </div>
             {form.formState.errors.root && (
-              <p className='text-center text-sm text-red-500'>
+              <p className='text-center text-sm text-warning'>
                 {form.formState.errors.root.message}
               </p>
             )}

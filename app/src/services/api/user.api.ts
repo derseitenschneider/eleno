@@ -32,7 +32,6 @@ export const loginSupabase = async (email: string, password: string) => {
 }
 
 export const recoverPasswordSupabase = async (email: string) => {
-  await new Promise((res) => setTimeout(res, 2000))
   const { error } = await supabase.auth.resetPasswordForEmail(email)
   if (error) throw new Error(error.message)
 }

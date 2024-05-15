@@ -16,10 +16,12 @@ import { Button } from "@/components/ui/button"
 import { recoverPasswordSupabase } from "@/services/api/user.api"
 import { useSearchParams } from "react-router-dom"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { cn } from "@/lib/utils"
 
 const resetSchema = z.object({
   email: z
     .string({ required_error: "E-Mail Adresse fehlt." })
+    .min(1, { message: "E-Mail Adresse fehlt." })
     .email({ message: "Keine gültige E-Mail Adresse." }),
 })
 
@@ -72,14 +74,17 @@ export default function ResetCard() {
                     disabled={form.formState.isSubmitting}
                     placeholder='E-Mail Adresse'
                     {...field}
-                    className='border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
-                      placeholder:text-zinc-400 focus-visible:ring-primary'
+                    className={cn(
+                      form.formState.errors.email
+                        ? "border-warning"
+                        : "border-zinc-400",
+                    )}
                   />
                 </FormControl>
+                <FormMessage />
                 <FormDescription>
                   Du erhältst einen Link zum zurücksetzten deines Passworts.
                 </FormDescription>
-                <FormMessage />
               </FormItem>
             )}
           />

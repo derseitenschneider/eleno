@@ -11,6 +11,9 @@ export const theme = {
   fontFamily: {
     body: ['"DM Sans"'],
   },
+  backgroundImage: {
+    "login-background": "url(./public/background.svg)",
+  },
   container: {
     center: true,
     padding: "2rem",
