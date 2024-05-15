@@ -1,4 +1,3 @@
-import { Tables } from "@/types/supabase"
 import type { Profile } from "../../types/types"
 import supabase from "./supabase"
 
@@ -24,6 +23,7 @@ export const signUpSupabase = async (inputData: {
 }
 
 export const loginSupabase = async (email: string, password: string) => {
+  await new Promise((res) => setTimeout(res, 2000))
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,

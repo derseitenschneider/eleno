@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { PasswordInput } from "@/components/ui/password-input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState } from "react"
-import SuccessCard from "./SuccessCard.component"
+import SignupSuccess from "./SignupSuccess.component"
 import { signUpSupabase } from "@/services/api/user.api"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { cn } from "@/lib/utils"
@@ -75,7 +75,7 @@ export default function SignupCard() {
       })
     }
   }
-  if (isSuccess) return <SuccessCard email={email} />
+  if (isSuccess) return <SignupSuccess email={email} />
   return (
     <>
       <WrapperCard size='md' header="Los geht's!">

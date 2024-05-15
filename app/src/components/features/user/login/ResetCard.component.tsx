@@ -1,7 +1,5 @@
-import { useForm } from "react-hook-form"
-import WrapperCard from "./WrapperCard.component"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import MiniLoader from "@/components/ui/MiniLoader.component"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -12,11 +10,15 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { recoverPasswordSupabase } from "@/services/api/user.api"
-import { useSearchParams } from "react-router-dom"
-import MiniLoader from "@/components/ui/MiniLoader.component"
 import { cn } from "@/lib/utils"
+import { recoverPasswordSupabase } from "@/services/api/user.api"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
+import { z } from "zod"
+import ResetSuccess from "./ResetSuccess.component"
+import WrapperCard from "./WrapperCard.component"
 
 const resetSchema = z.object({
   email: z
@@ -28,7 +30,7 @@ const resetSchema = z.object({
 type TInput = z.infer<typeof resetSchema>
 
 export default function ResetCard() {
-  const [, setSearchParams] = useSearchParams()
+  const [success, setSuccess] = useState(false)
 
   const form = useForm<TInput>({
     resolver: zodResolver(resetSchema),
@@ -39,6 +41,7 @@ export default function ResetCard() {
   const onSubmit = async (data: TInput) => {
     try {
       await recoverPasswordSupabase(data.email)
+      setSuccess(true)
     } catch {
       form.setFocus("email")
       form.setError("root", {
@@ -47,13 +50,15 @@ export default function ResetCard() {
       })
     }
   }
+  if (success) {
+    return <ResetSuccess />
+  }
 
   return (
     <WrapperCard
       complementary={
         <p className=' text-center text-sm text-zinc-700'>
-          Noch kein Benutzerkonto?{" "}
-          <a onClick={() => setSearchParams({ page: "signup" })}>Sign up</a>
+          Noch kein Benutzerkonto? <Link to='/?page=signup'>Sign up</Link>
         </p>
       }
       header='Passwort zurücksetzten'

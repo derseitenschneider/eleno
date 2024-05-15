@@ -15,7 +15,7 @@ import { loginSupabase } from "@/services/api/user.api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { z } from "zod"
 import WrapperCard from "./WrapperCard.component"
 
@@ -30,8 +30,6 @@ const loginSchema = z.object({
 type TInput = z.infer<typeof loginSchema>
 
 export default function LoginCard() {
-  const [_, setSearchParams] = useSearchParams()
-
   const form = useForm<TInput>({
     defaultValues: {
       email: "",
@@ -67,8 +65,7 @@ export default function LoginCard() {
         size='sm'
         complementary={
           <p className='text-center text-sm text-zinc-700 '>
-            Noch kein Benutzerkonto?{" "}
-            <a onClick={() => setSearchParams({ page: "signup" })}>Sign up</a>
+            Noch kein Benutzerkonto? <Link to='/?page=signup'>Sign up</Link>
           </p>
         }
         header='Willkommen zurück!'
@@ -126,20 +123,22 @@ export default function LoginCard() {
               )}
             />
             <Link
-              // onClick={() => setSearchParams({ page: "reset" })}
               to='/?page=reset'
               className='translate-y-[-10px] text-right text-sm'
             >
               Passwort vergessen?
             </Link>
-            <Button
-              disabled={form.formState.isSubmitting}
-              className='w-full'
-              type='submit'
-            >
-              Login
-            </Button>
+            <div className='flex gap-2 items-center'>
+              <Button
+                disabled={form.formState.isSubmitting}
+                className='w-full'
+                type='submit'
+              >
+                Login
+              </Button>
 
+              {form.formState.isSubmitting && <MiniLoader />}
+            </div>
             {form.formState.errors.root && (
               <p className='text-center text-sm text-warning'>
                 {form.formState.errors.root.message}

@@ -1,5 +1,4 @@
 import { NearestStudentProvider } from "./NearestStudentContext"
-import { DarkModeProvider } from "./DarkModeContext"
 import { DateTodayProvider } from "./DateTodayContext"
 import { GroupsProvider } from "./GroupsContext"
 import { LessonsProvider } from "./LessonsContext"
