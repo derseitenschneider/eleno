@@ -24,11 +24,13 @@ const signupSchema = z
   .object({
     firstName: z.string({ required_error: "Vorname fehlt." }),
     lastName: z.string({ required_error: "Nachname fehlt." }),
-    email: z.string().email({ message: "Ungültige E-Mail Adresse!" }),
+    email: z
+      .string({ required_error: "E-Mail Adresse fehlt." })
+      .email({ message: "Ungültige E-Mail Adresse!" }),
     password: z
-      .string()
+      .string({ required_error: "Passwort fehlt." })
       .min(6, { message: "Passwort muss mindestens 6 Zeichen lang sein." }),
-    password2: z.string().min(1, { message: "Passwort Wiederholung fehlt!" }),
+    password2: z.string({ required_error: "Passwort-Wiederholung fehlt." }),
     terms: z
       .boolean({
         invalid_type_error:
@@ -40,7 +42,7 @@ const signupSchema = z
       }),
   })
   .refine((data) => data.password === data.password2, {
-    message: "Passwörter stimmen nicht überein!",
+    message: "Die Passwörter stimmen nicht überein!",
     path: ["password2"],
   })
 
@@ -192,18 +194,18 @@ export default function SignupCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className='text-zinc-700'>
-                    Passwort Wiederholung
+                    Passwort-Wiederholung
                   </FormLabel>
                   <FormControl>
                     <PasswordInput
                       disabled={form.formState.isSubmitting}
                       className='border border-zinc-400 bg-zinc-50 text-zinc-700 ring-offset-zinc-50
                         placeholder:text-zinc-400 focus-visible:ring-primary'
-                      placeholder='Passwort Wiederholung'
+                      placeholder='Passwort-Wiederholung'
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage className='text-red-600' />
+                  <FormMessage />
                 </FormItem>
               )}
             />
