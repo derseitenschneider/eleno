@@ -89,7 +89,7 @@
     --background-100: 210 9% 22%;
     --background-200: 213 10% 18.8%;
     --foreground: 240 5% 90%;
-    --hairline: 207 7% 30%;
+    --hairline: 207 7% 33%;
 
     --card: var(--background-50);
     --card-foreground: var(--foreground);
@@ -164,7 +164,11 @@ h5 {
 }
 
 .rsw-btn {
-  @apply flex items-center justify-center !size-[28px];
+  @apply flex items-center justify-center !size-[28px]
+}
+
+.rsw-btn:hover {
+  @apply bg-accent !important
 }
 
 .rsw-btn svg {
@@ -172,7 +176,7 @@ h5 {
 }
 
 .rsw-btn[data-active='true'] {
-  @apply bg-hairline
+  @apply !bg-background200
 }
 
 
@@ -194,4 +198,9 @@ h5 {
 .rsw-ce ol {
   list-style-type: decimal;
   /* list-style-position: inside; */
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+
 }

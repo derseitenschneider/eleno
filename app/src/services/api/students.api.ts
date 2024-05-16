@@ -1,7 +1,7 @@
 import supabase from "./supabase"
 import type { Student } from "../../types/types"
 
-export const fetchStudents = async (userId) => {
+export const fetchStudents = async (userId: string) => {
   const { data: students, error } = await supabase
     .from("students")
     .select("*")

@@ -34,6 +34,7 @@ import {
   LogOut,
   Settings,
   Users,
+  UsersRound,
 } from "lucide-react"
 import analytics from "../../services/analytics/firebaseAnalytics"
 
@@ -145,7 +146,7 @@ function Sidebar() {
           handleNav={handleLogEvent}
           to='/students'
           name='Schüler:innen'
-          icon={<Users strokeWidth={1.5} />}
+          icon={<UsersRound strokeWidth={1.5} />}
         />
         <SidebarElement
           notificationContent={overdueTodos?.length}

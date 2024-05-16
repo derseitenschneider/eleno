@@ -19,6 +19,7 @@ import {
 } from "../../ui/dropdown-menu"
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
+import { toast } from "sonner"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
@@ -57,7 +58,13 @@ export default function StudentDropdownLesson() {
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
           </SheetHeader>
-          <StudentForm onSuccess={closeModal} studentId={currentStudentId} />
+          <StudentForm
+            onSuccess={() => {
+              closeModal()
+              toast.success("Änderungen gespeichert.")
+            }}
+            studentId={currentStudentId}
+          />
         </SheetContent>
       </Sheet>
 

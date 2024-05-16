@@ -20,13 +20,12 @@ import { useStudents } from "@/services/context/StudentContext"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import calcTimeDifference from "@/utils/calcTimeDifference"
 import { cn } from "@/lib/utils"
 
 // -TODO: Validate time inputs
 // -TODO: Success toast/sonner
-// -TODO: Durationminutes can be null but not negative
 const studentSchema = z.object({
   firstName: z.string().min(1, {
     message: "Vorname fehlt.",
@@ -50,7 +49,7 @@ const studentSchema = z.object({
   startOfLesson: z.optional(z.string()),
   endOfLesson: z.optional(z.string()),
   durationMinutes: z
-    .optional(z.coerce.number())
+    .optional(z.coerce.number().min(0, { message: "Ungültiger Wert." }))
     .transform((val) => (val === 0 ? null : val)),
   location: z.optional(z.string()),
 })
@@ -134,11 +133,12 @@ export default function StudentForm({
                 <FormLabel className='text-foreground'>Vorname*</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='Vorname'
-                    {...field}
                     className={cn(
                       form.formState.errors.firstName && "border-warning",
                     )}
+                    placeholder='Vorname'
+                    {...field}
+                    value={field.value || ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -160,6 +160,7 @@ export default function StudentForm({
                       form.formState.errors.lastName && "border-warning",
                     )}
                     {...field}
+                    value={field.value || ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -181,6 +182,7 @@ export default function StudentForm({
                     form.formState.errors.instrument && "border-warning",
                   )}
                   {...field}
+                  value={field.value || ""}
                 />
               </FormControl>
               <FormMessage />
@@ -234,12 +236,13 @@ export default function StudentForm({
                 <FormLabel className='text-foreground'>Von</FormLabel>
                 <FormControl>
                   <Input
-                    type='time'
-                    {...field}
                     className={cn(
                       form.formState.errors.startOfLesson && "border-warning",
                     )}
+                    type='time'
+                    {...field}
                     onBlur={calculateMinutes}
+                    value={field.value || ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -257,10 +260,11 @@ export default function StudentForm({
                 <FormControl>
                   <Input
                     type='time'
-                    {...field}
                     className={cn(
                       form.formState.errors.endOfLesson && "border-warning",
                     )}
+                    {...field}
+                    value={field.value || ""}
                     onBlur={calculateMinutes}
                   />
                 </FormControl>
@@ -278,10 +282,10 @@ export default function StudentForm({
                 <FormControl>
                   <Input
                     type='number'
-                    {...field}
                     className={cn(
                       form.formState.errors.durationMinutes && "border-warning",
                     )}
+                    {...field}
                     value={field.value || ""}
                   />
                 </FormControl>
