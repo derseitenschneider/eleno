@@ -61,7 +61,6 @@ export default function StudentDropdownLesson() {
           <StudentForm
             onSuccess={() => {
               closeModal()
-              toast.success("Änderungen gespeichert.")
             }}
             studentId={currentStudentId}
           />

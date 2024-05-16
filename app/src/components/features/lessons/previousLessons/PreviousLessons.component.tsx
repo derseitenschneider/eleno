@@ -90,13 +90,13 @@ function PreviousLessons() {
         <>
           <div className={cn("grid grid-cols-2 gap-6")}>
             <div>
-              <h4>Lektion</h4>
+              <p className='text-foreground/70'>Lektion</p>
               <div className='text-foreground'>
                 {parse(currentLesson?.lessonContent || "")}
               </div>
             </div>
             <div>
-              <h4>Hausaufgaben</h4>
+              <p className='text-foreground/70'>Hausaufgaben</p>
               <div className='text-foreground'>
                 {parse(
                   lessons?.find(

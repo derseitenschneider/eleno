@@ -28,10 +28,10 @@ function LessonHeader() {
       <div className='flex items-end justify-between'>
         <div>
           <div className='flex mb-2 items-center'>
-            <div className='mr-[4px] text-primary h-6'>
-              <UserRound strokeWidth={1.5} />
+            <div className='mr-[4px] text-primary h-5'>
+              <UserRound strokeWidth={2} />
             </div>
-            <span className='mr-3 text-lg'>
+            <span className='mr-2 text-lg'>
               {firstName} {lastName}
             </span>
             <StudentDropdownLesson />

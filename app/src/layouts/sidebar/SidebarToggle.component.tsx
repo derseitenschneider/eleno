@@ -1,23 +1,23 @@
-import { IoChevronForwardOutline } from "react-icons/io5";
+import { IoChevronForwardOutline } from "react-icons/io5"
 
 type SidebarToggleProps = {
-	sidebarOpen: boolean;
-	toggleSidebar: () => void;
-};
+  sidebarOpen: boolean
+  toggleSidebar: () => void
+}
 
 export default function SidebarToggle({
-	sidebarOpen,
-	toggleSidebar,
+  sidebarOpen,
+  toggleSidebar,
 }: SidebarToggleProps) {
-	return (
-		<button
-			type="button"
-			className={`absolute right-[-8px] top-[42.5px] flex aspect-auto h-[1em] translate-y-[50%]
+  return (
+    <button
+      type='button'
+      className={`absolute right-[-8px] top-[51.444px] flex aspect-auto h-[1em] translate-y-[-50%]
       items-center justify-center rounded-full bg-primary p-0.5 text-white transition
       duration-150 ${sidebarOpen ? "rotate-[-180deg]" : ""}`}
-			onClick={toggleSidebar}
-		>
-			<IoChevronForwardOutline className="h-full w-full" />
-		</button>
-	);
+      onClick={toggleSidebar}
+    >
+      <IoChevronForwardOutline className='h-full w-full' />
+    </button>
+  )
 }

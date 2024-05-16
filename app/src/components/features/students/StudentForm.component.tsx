@@ -23,9 +23,8 @@ import { z } from "zod"
 import { useEffect } from "react"
 import calcTimeDifference from "@/utils/calcTimeDifference"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
-// -TODO: Validate time inputs
-// -TODO: Success toast/sonner
 const studentSchema = z.object({
   firstName: z.string().min(1, {
     message: "Vorname fehlt.",
@@ -114,6 +113,7 @@ export default function StudentForm({
           user_id: currentStudent.user_id,
         },
       ])
+      toast.success("Änderungen gespeichert.")
     } catch (err) {
       form.setError("root", {
         message: "Es ist etwas schiefgelaufen. Bitte versuch's nochmal.",
@@ -205,7 +205,7 @@ export default function StudentForm({
                   <SelectTrigger
                     className={cn(
                       form.formState.errors.dayOfLesson &&
-                        "border-warning text-warning",
+                      "border-warning text-warning",
                     )}
                   >
                     <SelectValue placeholder='Unterrichtstag' />

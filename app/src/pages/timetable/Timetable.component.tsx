@@ -8,7 +8,6 @@ import type { TimetableDay } from "../../types/types"
 import { sortStudentsDateTime } from "../../utils/sortStudents"
 import "./timetable.style.scss"
 import Modal from "../../components/ui/modal/Modal.component"
-import Button from "../../components/ui/button/Button.component"
 import ExportTimetable from "../../components/features/timetable/exportTimetable/ExportTimetable"
 
 function Timetable() {

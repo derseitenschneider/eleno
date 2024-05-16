@@ -4,7 +4,6 @@ import { PDFDownloadLink } from "@react-pdf/renderer"
 
 import type { TimetableDay } from "../../../../types/types"
 import "./exportTimetable.style.scss"
-import Button from "../../../ui/button/Button.component"
 import TimetablePDF from "../../pdf/TimetablePDF.component"
 import { useUser } from "../../../../services/context/UserContext"
 
@@ -85,9 +84,8 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
         </label>
       </div>
       <div
-        className={`export-timetable__buttons${
-          selectedDays.length === 0 ? " hidden" : ""
-        }`}
+        className={`export-timetable__buttons${selectedDays.length === 0 ? " hidden" : ""
+          }`}
       >
         <PDFDownloadLink
           document={

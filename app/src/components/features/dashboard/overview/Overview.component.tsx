@@ -17,6 +17,7 @@ function Overview() {
     ? sortedStudents[closestStudentIndex]
     : null
 
+  // TODO: Search student and navigate to lesson sheet
   const todosOpen = todos?.filter((todo) => !todo.completed)
 
   return (

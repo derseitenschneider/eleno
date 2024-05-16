@@ -134,16 +134,16 @@ function NewLesson() {
   return (
     <div className='sm:pr-4 sm:pl-8 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
-        <h4 className='m-0'>Aktuelle Lektion</h4>
+        <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker />
       </div>
       <div className='grid grid-cols-2 gap-6'>
         <div>
-          <h5 className='heading-5'>Lektion</h5>
+          <p className='text-foreground/70'>Lektion</p>
           <CustomEditor value={lessonContent} onChange={handleLessonContent} />
         </div>
         <div>
-          <h5 className='heading-5'>Hausaufgaben</h5>
+          <p className='capitalize text-foreground/70'>Hausaufgaben</p>
           <CustomEditor value={homework} onChange={handleHomework} />
         </div>
       </div>

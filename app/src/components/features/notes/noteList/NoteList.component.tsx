@@ -49,7 +49,7 @@ function NoteList() {
   const sortedNotes = currentNotes.sort((a, b) => a.order - b.order)
 
   return (
-    <div className='' ref={notesContainer}>
+    <div className='sm:p-4' ref={notesContainer}>
       <div className=''>
         <h4 className=''>Notizen</h4>
         <Modal>
