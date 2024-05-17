@@ -4,9 +4,11 @@ import { useTodos } from "../../../../services/context/TodosContext"
 import { useUser } from "../../../../services/context/UserContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Todo } from "../../../../types/types"
-import { formatDateToDatabase } from "../../../../utils/formateDate"
 import TodoAddStudent from "../todoAddStudent/TodoAddStudent.component"
-import "./addTodo.style.scss"
+import { DayPicker } from "@/components/ui/daypicker.component"
+import { Button } from "@/components/ui/button"
+import StudentsCombobox from "../../students/StudentsCombobox.component"
+import { Input } from "@/components/ui/input"
 
 interface AddTodoProps {
   studentId?: number
@@ -23,7 +25,7 @@ const todoData = {
 function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
   const { user } = useUser()
   const [inputTodo, setInputTodo] = useState(todoData)
-  const [currentStudentId, setCurrentStudentId] = useState(null)
+  const [currentStudentId, setCurrentStudentId] = useState<number>()
   const { saveTodo } = useTodos()
   const [isPending, setIsPending] = useState(false)
 
@@ -53,17 +55,16 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
     const newTodo: Todo = {
       ...inputTodo,
       studentId: currentStudentId,
-      userId: user.id,
+      userId: user?.id || "",
     }
     setIsPending(true)
     try {
       await saveTodo({
         ...newTodo,
-        due: newTodo.due.length ? newTodo.due : null,
+        due: newTodo.due?.length ? newTodo.due : "",
       })
       toast("Todo erstellt")
       setInputTodo(todoData)
-      setCurrentStudentId(null)
       onCloseModal?.()
     } catch (error) {
       fetchErrorToast()
@@ -74,51 +75,21 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
   }
 
   return (
-    <div
-      className={`add-todo ${isPending ? "loading" : ""}`}
-      style={
-        !onCloseModal
-          ? {
-              marginBottom: "4.2rem",
-            }
-          : {
-              padding: "4.8rem",
-              width: "80vw",
-            }
-      }
-    >
-      <div className='inputs'>
-        <input
-          type='text'
-          placeholder='Todo'
-          name='text'
-          value={inputTodo.text}
-          required
-          onChange={onChangeInputs}
-          autoFocus={window.screen.width > 1366}
-          autoComplete='off'
-        />
-        <TodoAddStudent
-          currentStudentId={currentStudentId}
-          setCurrentStudentId={setCurrentStudentId}
-        />
+    <div className='w-full bg-background50 flex items-center justify-between'>
+      <Input
+        className='border-none'
+        type='text'
+        placeholder='Todo'
+        name='text'
+        value={inputTodo.text}
+        required
+        onChange={onChangeInputs}
+        autoComplete='off'
+      />
 
-        <DatePicker
-          selectedDate={
-            inputTodo.due ? new Date(formatDateToDatabase(inputTodo.due)) : null
-          }
-          setDate={setDate}
-          id='due-date'
-        />
-
-        <Button
-          label='Speichern'
-          type='button'
-          btnStyle='primary'
-          handler={onSaveHandler}
-          className='btn-save'
-        />
-      </div>
+      <StudentsCombobox />
+      <DayPicker className='border-none' />
+      <Button size='sm'>Speichern</Button>
     </div>
   )
 }

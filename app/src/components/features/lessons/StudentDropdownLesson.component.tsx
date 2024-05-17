@@ -1,10 +1,10 @@
 import { useStudents } from "@/services/context/StudentContext"
 import { DialogDescription } from "@radix-ui/react-dialog"
+import { Pencil, Check, Download, Box, Square } from "lucide-react"
 import { useState } from "react"
 import { HiDownload } from "react-icons/hi"
 import { HiPencil } from "react-icons/hi2"
 import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
-import StudentForm from "../students/StudentForm.component"
 import {
   Dialog,
   DialogContent,
@@ -17,9 +17,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu"
+import StudentForm from "../students/StudentForm.component"
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import { toast } from "sonner"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
+import AddTodo from "../todos/addTodo/AddTodo.component"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
@@ -37,17 +39,17 @@ export default function StudentDropdownLesson() {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => setOpenModal("EDIT")}>
-            <HiPencil className='mr-3 text-primary' />
+            <Pencil strokeWidth={1.5} className='mr-3 text-primary h-4' />
             <span>Schüler:in bearbeiten</span>
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenModal("TODO")}>
-            <IoCheckboxOutline className='mr-3 text-primary' />
+            <Square strokeWidth={1.5} className='mr-3 text-primary h-4' />
             <span>Todo erfassen</span>
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenModal("EXPORT")}>
-            <HiDownload className='mr-3 text-primary' />
+            <Download strokeWidth={1.5} className='mr-3 text-primary h-4' />
             <span>Lektionsliste exportieren</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -70,10 +72,9 @@ export default function StudentDropdownLesson() {
       <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Todos</DialogTitle>
-            <DialogDescription>Neue Todo erstellen</DialogDescription>
+            <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <p>Ich bin ein Paragraph.</p>
+          <AddTodo studentId={currentStudentId} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 

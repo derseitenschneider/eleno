@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
-export function DayPicker() {
+export function DayPicker({ className }: { className: string }) {
   const [date, setDate] = useState<Date>()
 
   return (
@@ -23,6 +23,7 @@ export function DayPicker() {
           className={cn(
             "w-auto gap-2 justify-start text-left text-foreground font-normal border-hairline",
             !date && "text-muted-foreground",
+            className,
           )}
         >
           <CalendarIcon className='h-4 w-4' />

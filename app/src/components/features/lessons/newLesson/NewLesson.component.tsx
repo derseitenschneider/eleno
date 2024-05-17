@@ -1,5 +1,3 @@
-import "./newLesson.style.scss"
-
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import CustomEditor from "../../../ui/CustomEditor.component"

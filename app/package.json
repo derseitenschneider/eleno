@@ -1,7 +1,7 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.89",
+  "version": "1.6.90",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
@@ -38,6 +38,7 @@
     "@supabase/supabase-js": "^2.10.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "cmdk": "^1.0.0",
     "date-fns": "^2.30.0",
     "export-from-json": "^1.7.3",
     "firebase": "^10.8.0",

@@ -1,10 +1,9 @@
+import { Button } from "@/components/ui/button"
 import { type SetStateAction, useEffect, useState } from "react"
-import { IoPeopleCircleOutline } from "react-icons/io5"
 import { useStudents } from "../../../../services/context/StudentContext"
 import { sortStudents } from "../../../../utils/sortStudents"
 import ButtonRemove from "../../../ui/buttonRemove/ButtonRemove"
 import DropdownSearch from "../../../ui/dropdownSearch/DropdownSearch.component"
-import "./todoAddStudent.style.scss"
 
 interface TodoAddStudentProps {
   currentStudentId: number
@@ -37,8 +36,8 @@ function TodoAddStudent({
     }
   }, [dropdownSearchOpen])
 
-  const filteredStudents = sortStudents(
-    students.filter((student) => {
+  /* const filteredStudents = sortStudents(
+    students?.filter((student) => {
       const firstName = student.firstName.toLowerCase()
       const lastName = student.lastName.toLowerCase()
       const search = searchInput.toLowerCase()
@@ -48,7 +47,7 @@ function TodoAddStudent({
       return false
     }),
     { sort: "lastName", ascending: "true" },
-  )
+  ) */
 
   const onSelectDropdownSearch = (studentId: number) => {
     setCurrentStudentId(studentId)
@@ -67,24 +66,16 @@ function TodoAddStudent({
               setDropdownSearchOpen((prev) => !prev)
             }}
           >
-            {`${
-              students.find((student) => student.id === currentStudentId)
+            {`${students.find((student) => student.id === currentStudentId)
                 .firstName
-            } ${
-              students.find((student) => student.id === currentStudentId)
+              } ${students.find((student) => student.id === currentStudentId)
                 .lastName
-            }`}
+              }`}
           </button>
           <ButtonRemove onRemove={() => setCurrentStudentId(null)} />
         </div>
       ) : (
-        <Button
-          icon={<IoPeopleCircleOutline />}
-          handler={() => setDropdownSearchOpen((prev) => !prev)}
-          className='button--student'
-          type='button'
-          btnStyle='icon-only'
-        />
+        <Button>test</Button>
       )}
 
       {dropdownSearchOpen && (
