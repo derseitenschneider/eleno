@@ -1,4 +1,6 @@
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import {
   Command,
   CommandEmpty,
@@ -16,9 +18,13 @@ import { useStudents } from "@/services/context/StudentContext"
 import { UsersRound } from "lucide-react"
 import { useState } from "react"
 
-export default function StudentsCombobox() {
+export default function StudentsCombobox({
+  studentId = null,
+}: { studentId?: number | null }) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<number>()
+  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(
+    studentId,
+  )
   const { activeStudents } = useStudents()
 
   const students = activeStudents?.map((student) => ({
@@ -26,47 +32,60 @@ export default function StudentsCombobox() {
     label: `${student.firstName} ${student.lastName}`,
   }))
 
+  const selectedStudent = students?.find(
+    (student) => student.value === selectedStudentId,
+  )
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant='outline'
-          role='combobox'
-          aria-expanded={open}
-          className='border-none !bg-transparent justify-between'
-        >
-          {value ? (
-            value
-          ) : (
-            <UsersRound
-              strokeWidth={1.5}
-              className=' h-5 text-primary text-right'
-            />
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className='p-0' side='bottom' align='start'>
-        <Command>
-          <CommandInput placeholder='Schüler:in suchen' />
-          <CommandList>
-            <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
-            <CommandGroup>
-              {students?.map((student) => (
-                <CommandItem
-                  key={student.value}
-                  value={student.value}
-                  onSelect={(value) => {
-                    setValue(value)
-                    setOpen(false)
-                  }}
-                >
-                  <span>{student.label}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div className='flex items-center'>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant='outline'
+            role='combobox'
+            aria-expanded={open}
+            className='border-none !bg-transparent justify-between'
+          >
+            {selectedStudentId ? (
+              <div>
+                <Badge>{selectedStudent?.label}</Badge>
+              </div>
+            ) : (
+              <UsersRound
+                strokeWidth={1.5}
+                className=' h-5 text-primary text-right'
+              />
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className='p-0' side='bottom' align='start'>
+          <Command>
+            <CommandInput placeholder='Schüler:in suchen' />
+            <CommandList>
+              <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
+              <CommandGroup>
+                {students?.map((student) => (
+                  <CommandItem
+                    key={String(student.value)}
+                    value={String(student.value)}
+                    onSelect={() => {
+                      setSelectedStudentId(student.value)
+                      setOpen(false)
+                    }}
+                  >
+                    <span>{student.label}</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+      {selectedStudentId && (
+        <ButtonRemove
+          className='translate-x-[-12px]'
+          onRemove={() => setSelectedStudentId(null)}
+        />
+      )}
+    </div>
   )
 }

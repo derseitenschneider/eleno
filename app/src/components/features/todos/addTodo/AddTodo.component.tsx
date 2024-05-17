@@ -77,7 +77,7 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
   return (
     <div className='w-full bg-background50 flex items-center justify-between'>
       <Input
-        className='border-none'
+        className='border-none w-[300px]'
         type='text'
         placeholder='Todo'
         name='text'
@@ -87,7 +87,7 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
         autoComplete='off'
       />
 
-      <StudentsCombobox />
+      <StudentsCombobox studentId={studentId} />
       <DayPicker className='border-none' />
       <Button size='sm'>Speichern</Button>
     </div>

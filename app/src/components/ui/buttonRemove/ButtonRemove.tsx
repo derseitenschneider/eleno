@@ -1,16 +1,21 @@
-import { IoCloseOutline } from "react-icons/io5";
-import "./buttonRemove.style.scss";
+import { cn } from "@/lib/utils"
+import { IoCloseOutline } from "react-icons/io5"
 
 interface ButtonRemoveProps {
-	onRemove: () => void;
+  onRemove: () => void
+  className?: string
 }
 
-function ButtonRemove({ onRemove }: ButtonRemoveProps) {
-	return (
-		<button className="btn-remove" onClick={onRemove} type="button">
-			<IoCloseOutline />
-		</button>
-	);
+function ButtonRemove({ onRemove, className = "" }: ButtonRemoveProps) {
+  return (
+    <button
+      className={cn("bg-primary/70 rounded-full h-[12px]", className)}
+      onClick={onRemove}
+      type='button'
+    >
+      <IoCloseOutline className='text-background50' />
+    </button>
+  )
 }
 
-export default ButtonRemove;
+export default ButtonRemove
