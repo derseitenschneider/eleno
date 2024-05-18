@@ -11,13 +11,24 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
-export function DayPicker({ className }: { className: string }) {
-  const [date, setDate] = useState<Date>()
+type DayPickerProps = {
+  className?: string
+  date?: Date
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+  disabled?: boolean
+}
 
+export function DayPicker({
+  className,
+  date,
+  setDate,
+  disabled,
+}: DayPickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          disabled={disabled}
           size='sm'
           variant={"outline"}
           className={cn(

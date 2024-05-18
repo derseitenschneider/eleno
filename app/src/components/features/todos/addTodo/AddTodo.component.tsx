@@ -4,67 +4,50 @@ import { useTodos } from "../../../../services/context/TodosContext"
 import { useUser } from "../../../../services/context/UserContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Todo } from "../../../../types/types"
-import TodoAddStudent from "../todoAddStudent/TodoAddStudent.component"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import StudentsCombobox from "../../students/StudentsCombobox.component"
 import { Input } from "@/components/ui/input"
+import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 
 interface AddTodoProps {
-  studentId?: number
+  currentStudentId?: number
   onCloseModal?: () => void
 }
 
-const todoData = {
-  text: "",
-  due: "",
-  studentId: null,
-  completed: false,
-}
-
-function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
+function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
   const { user } = useUser()
-  const [inputTodo, setInputTodo] = useState(todoData)
-  const [currentStudentId, setCurrentStudentId] = useState<number>()
   const { saveTodo } = useTodos()
+  const [errorMessage, setErrorMessage] = useState("")
+  const [text, setText] = useState("")
+  const [due, setDue] = useState<Date>()
+  const [studentId, setStudentId] = useState<number>()
   const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
-    if (studentId) setCurrentStudentId(studentId)
-  }, [studentId])
-
-  const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-
-    setInputTodo((prev) => {
-      return { ...prev, [name]: value }
-    })
-  }
-  const setDate = (date: string) => {
-    setInputTodo((prev) => ({
-      ...prev,
-      due: date,
-    }))
-  }
+    if (currentStudentId) setStudentId(currentStudentId)
+  }, [currentStudentId])
 
   const onSaveHandler = async () => {
-    if (!inputTodo.text) {
-      toast("Leere Todo kann nicht gespeichert werden", { type: "error" })
+    if (!text) {
+      setErrorMessage("Text fehlt.")
       return
     }
-    const newTodo: Todo = {
-      ...inputTodo,
-      studentId: currentStudentId,
-      userId: user?.id || "",
-    }
     setIsPending(true)
+    const newTodo: Todo = {
+      text,
+      due,
+      studentId,
+      userId: user?.id || "",
+      completed: false,
+    }
     try {
-      await saveTodo({
-        ...newTodo,
-        due: newTodo.due?.length ? newTodo.due : "",
-      })
+      await saveTodo(newTodo)
       toast("Todo erstellt")
-      setInputTodo(todoData)
+      setText("")
+      setDue(undefined)
+      setStudentId(undefined)
       onCloseModal?.()
     } catch (error) {
       fetchErrorToast()
@@ -75,21 +58,46 @@ function AddTodo({ studentId, onCloseModal }: AddTodoProps) {
   }
 
   return (
-    <div className='w-full bg-background50 flex items-center justify-between'>
-      <Input
-        className='border-none w-[300px]'
-        type='text'
-        placeholder='Todo'
-        name='text'
-        value={inputTodo.text}
-        required
-        onChange={onChangeInputs}
-        autoComplete='off'
-      />
-
-      <StudentsCombobox studentId={studentId} />
-      <DayPicker className='border-none' />
-      <Button size='sm'>Speichern</Button>
+    <div>
+      <div className='w-[800px] bg-background50 flex items-center justify-stretch'>
+        <div className='shrink grow'>
+          <Input
+            className='border-none'
+            type='text'
+            placeholder='Todo'
+            name='text'
+            value={text}
+            required
+            onChange={(e) => {
+              setText(e.target.value)
+              setErrorMessage("")
+            }}
+            autoComplete='off'
+            disabled={isPending}
+          />
+        </div>
+        <StudentsCombobox disabled={isPending} studentId={studentId} />
+        <DayPicker
+          disabled={isPending}
+          className='border-none'
+          date={due}
+          setDate={setDue}
+        />
+        {due && (
+          <ButtonRemove
+            disabled={isPending}
+            className='translate-x-[-8px]'
+            onRemove={() => setDue(undefined)}
+          />
+        )}
+        <Button disabled={isPending} onClick={onSaveHandler} size='sm'>
+          Speichern
+        </Button>
+        {isPending && <MiniLoader />}
+      </div>
+      {errorMessage && (
+        <p className='text-sm text-warning p-2'>{errorMessage}</p>
+      )}
     </div>
   )
 }

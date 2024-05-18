@@ -171,7 +171,7 @@ export type TimetableDay = {
 export type Todo = {
   id?: number
   text: string
-  due?: string
+  due?: Date
   studentId?: number
   completed: boolean
   userId: string

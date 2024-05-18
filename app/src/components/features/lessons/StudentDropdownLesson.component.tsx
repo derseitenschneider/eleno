@@ -74,7 +74,10 @@ export default function StudentDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo studentId={currentStudentId} onCloseModal={closeModal} />
+          <AddTodo
+            currentStudentId={currentStudentId}
+            onCloseModal={closeModal}
+          />
         </DialogContent>
       </Dialog>
 

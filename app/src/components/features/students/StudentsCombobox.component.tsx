@@ -19,12 +19,13 @@ import { UsersRound } from "lucide-react"
 import { useState } from "react"
 
 export default function StudentsCombobox({
-  studentId = null,
-}: { studentId?: number | null }) {
+  studentId,
+  disabled,
+}: { studentId?: number; disabled?: boolean }) {
   const [open, setOpen] = useState(false)
-  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(
-    studentId,
-  )
+  const [selectedStudentId, setSelectedStudentId] = useState<
+    number | undefined
+  >(studentId)
   const { activeStudents } = useStudents()
 
   const students = activeStudents?.map((student) => ({
@@ -40,6 +41,7 @@ export default function StudentsCombobox({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             variant='outline'
             role='combobox'
             aria-expanded={open}
