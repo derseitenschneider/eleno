@@ -38,7 +38,7 @@ export type Student = {
 
 export type Lesson = {
   id?: number
-  date: string
+  date: Date
   lessonContent?: string
   homework: string
   studentId: number

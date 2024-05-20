@@ -1,4 +1,3 @@
-import "./exportLessons.style.scss"
 import { CSVLink } from "react-csv"
 import { FaSpinner } from "react-icons/fa"
 
@@ -19,33 +18,36 @@ import {
 } from "../../../../services/api/lessons.api"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import stripHtmlTags from "../../../../utils/stripHtmlTags"
+import { useParams } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { DayPicker } from "@/components/ui/daypicker.component"
 
-interface ExportLessonsProps {
-  studentId: number
-}
-
-function ExportLessons({ studentId }: ExportLessonsProps) {
+function ExportLessons() {
   const { getAllLessons } = useLessons()
   const { students } = useStudents()
   const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
-  const [startDate, setStartDate] = useState("")
-  const [endDate, setEndDate] = useState("")
+  const [startDate, setStartDate] = useState<Date>()
+  const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
 
-  const currentStudent = students.find((student) => student.id === studentId)
-  const studentFullName = `${currentStudent.firstName} ${currentStudent.lastName}`
-  const studentFullNameDashes = `${currentStudent.firstName
+  const { studentId } = useParams()
+
+  const currentStudent = students?.find(
+    (student) => student.id === Number(studentId),
+  )
+  const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
+  const studentFullNameDashes = `${currentStudent?.firstName
     .split(" ")
-    .join("-")}-${currentStudent.lastName}`
+    .join("-")}-${currentStudent?.lastName}`
 
   const lessonsCSV = lessons.map((lesson) => {
     const { date, lessonContent, homework } = lesson
 
     return {
       date: formatDateToDisplay(date),
-      lessonContent: stripHtmlTags(lessonContent),
+      lessonContent: stripHtmlTags(lessonContent || ""),
       homework: stripHtmlTags(homework),
     }
   })
@@ -58,8 +60,8 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
   useEffect(() => {
     if (selectAll) {
-      setStartDate("")
-      setEndDate("")
+      setStartDate(undefined)
+      setEndDate(undefined)
     }
   }, [selectAll])
 
@@ -71,7 +73,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
           const allLessons = await fetchLessonsByDateRangeSupabase(
             startDate,
             endDate,
-            studentId,
+            Number(studentId),
           )
           setLessons(allLessons)
         } catch (error) {
@@ -82,14 +84,14 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       }
       fetchLessons()
     }
-  }, [endDate, getAllLessons, startDate, studentId])
+  }, [endDate, startDate, studentId])
 
   useEffect(() => {
     if (selectAll) {
       setIsPending(true)
       const fetchLessons = async () => {
         try {
-          const allLessons = await fetchAllLessonsSupabase(studentId)
+          const allLessons = await fetchAllLessonsSupabase(Number(studentId))
           setLessons(allLessons)
         } catch (error) {
           fetchErrorToast()
@@ -102,38 +104,26 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   }, [selectAll, studentId])
 
   return (
-    <div className='export-lessons'>
-      <h2 className='heading-2'>Lektionsliste exportieren</h2>
+    <div>
+      <h2>Lektionsliste exportieren</h2>
       <p>
         Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
         entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
         Lektionen exportieren.
       </p>
-      <h5 className='heading-5'>Zeitraum</h5>
-      <div className='export-lessons__dates'>
-        <div className='start-date'>
+      <h5>Zeitraum</h5>
+      <div>
+        <div>
           <span>Von</span>
-          <DatePicker
-            id='start-date'
-            setDate={setStartDate}
-            selectedDate={
-              startDate ? new Date(formatDateToDatabase(startDate)) : null
-            }
-          />
+          <DayPicker setDate={setStartDate} date={startDate} />
         </div>
-        <div className='end-date'>
+        <div>
           <span>Bis</span>
-          <DatePicker
-            id='start-date'
-            setDate={setEndDate}
-            selectedDate={
-              endDate ? new Date(formatDateToDatabase(endDate)) : null
-            }
-          />
+          <DayPicker setDate={setEndDate} date={endDate} />
         </div>
       </div>
 
-      <label htmlFor='select-all' className='export-lessons__select-all'>
+      <label htmlFor='select-all'>
         <input
           type='checkbox'
           name='select-all'
@@ -144,7 +134,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         <span>Alle Lektionen exportieren</span>
       </label>
 
-      <div className='export-lessons__title-input'>
+      <div>
         <label htmlFor='title'>
           Titel (optional){" "}
           <input
@@ -160,13 +150,9 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         </label>
       </div>
 
-      <div
-        className={`export-lessons__download-buttons ${
-          !isPending && ((startDate && endDate) || selectAll) ? "active" : ""
-        }`}
-      >
+      <div>
         {isPending && (
-          <div className='container-loader'>
+          <div>
             <FaSpinner />
           </div>
         )}
@@ -184,12 +170,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
               : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}`
           }
         >
-          <Button
-            type='button'
-            btnStyle='primary'
-            disabled={(!startDate || !endDate) && !selectAll}
-            className='btn-pdf'
-          >
+          <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}>
             PDF herunterladen
           </Button>
         </PDFDownloadLink>
@@ -216,12 +197,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
               : `lektionsliste-${studentFullNameDashes.toLowerCase()}.csv`
           }
         >
-          <Button
-            type='button'
-            btnStyle='primary'
-            disabled={(!startDate || !endDate) && !selectAll}
-            className='btn-pdf'
-          >
+          <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}>
             CSV herunterladen
           </Button>
         </CSVLink>

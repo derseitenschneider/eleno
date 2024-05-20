@@ -22,6 +22,7 @@ import StudentForm from "../students/StudentForm.component"
 import { toast } from "sonner"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
+import ExportLessons from "./exportLessons/ExportLessons.component"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
@@ -82,9 +83,8 @@ export default function StudentDropdownLesson() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
-            <DialogDescription>Export</DialogDescription>
           </DialogHeader>
-          <p>Ich bin ein Paragraph.</p>
+          <ExportLessons />
         </DialogContent>
       </Dialog>
     </>

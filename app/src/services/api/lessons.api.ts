@@ -29,8 +29,8 @@ export const fetchAllLessonsCSVSupabase = async (
 }
 
 export const fetchLessonsByDateRangeSupabase = async (
-  startDate: string,
-  endDate: string,
+  startDate: Date,
+  endDate: Date,
   studentId: number,
 ) => {
   const { data: lessons, error } = await supabase
@@ -46,8 +46,8 @@ export const fetchLessonsByDateRangeSupabase = async (
 }
 
 export const fetchLessonsCSVByDateRangeSupabase = async (
-  startDate: string,
-  endDate: string,
+  startDate: Date,
+  endDate: Date,
   studentId: number,
 ) => {
   const { data: lessons, error } = await supabase
