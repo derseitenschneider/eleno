@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import NoContent from "../../components/ui/NoContent.component"
-import AddTodo from "../../components/features/todos/addTodo/AddTodo.component"
+import AddTodo from "../../components/features/todos/AddTodo.component"
 import TodoDescription from "../../components/features/todos/todoDescription/TodoDescription.component"
 import TodoItem from "../../components/features/todos/todoItem/TodoItem.component"
 import TodoList from "../../components/features/todos/todoList/TodoList.component"

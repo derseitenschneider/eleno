@@ -16,7 +16,7 @@ import { useStudents } from "../../../../services/context/StudentContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import Modal from "../../../ui/modal/Modal.component"
 
-import AddTodo from "../../todos/addTodo/AddTodo.component"
+import AddTodo from "../../todos/AddTodo.component"
 import EditStudent from "../editStudents/EditStudents.component"
 import { useActiveStudents } from "./ActiveStudents.component"
 import ExportLessons from "../../lessons/exportLessons/ExportLessons.component"
@@ -75,10 +75,10 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
       styles={
         openId === student.id
           ? {
-              color: "var(--clr-primary-600)",
-              boxShadow:
-                "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
-            }
+            color: "var(--clr-primary-600)",
+            boxShadow:
+              "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
+          }
           : null
       }
     >

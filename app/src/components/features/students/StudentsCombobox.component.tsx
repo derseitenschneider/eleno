@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/popover"
 import { useStudents } from "@/services/context/StudentContext"
 import { UsersRound } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function StudentsCombobox({
   studentId,
@@ -28,12 +28,16 @@ export default function StudentsCombobox({
   >(studentId)
   const { activeStudents } = useStudents()
 
-  const students = activeStudents?.map((student) => ({
+  useEffect(() => {
+    studentId && setSelectedStudentId(studentId)
+  }, [studentId])
+
+  const studentsSelect = activeStudents?.map((student) => ({
     value: student.id,
     label: `${student.firstName} ${student.lastName}`,
   }))
 
-  const selectedStudent = students?.find(
+  const selectedStudent = studentsSelect?.find(
     (student) => student.value === selectedStudentId,
   )
   return (
@@ -65,7 +69,7 @@ export default function StudentsCombobox({
             <CommandList>
               <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
               <CommandGroup>
-                {students?.map((student) => (
+                {studentsSelect?.map((student) => (
                   <CommandItem
                     key={String(student.value)}
                     value={String(student.value)}

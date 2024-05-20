@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { useTodos } from "../../../../services/context/TodosContext"
-import { useUser } from "../../../../services/context/UserContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import type { Todo } from "../../../../types/types"
+import { useTodos } from "../../../services/context/TodosContext"
+import { useUser } from "../../../services/context/UserContext"
+import fetchErrorToast from "../../../hooks/fetchErrorToast"
+import type { Todo } from "../../../types/types"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
-import StudentsCombobox from "../../students/StudentsCombobox.component"
+import StudentsCombobox from "../students/StudentsCombobox.component"
 import { Input } from "@/components/ui/input"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { useParams } from "react-router-dom"
 
 interface AddTodoProps {
-  currentStudentId?: number
   onCloseModal?: () => void
 }
 
-function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
+function AddTodo({ onCloseModal }: AddTodoProps) {
   const { user } = useUser()
   const { saveTodo } = useTodos()
   const [errorMessage, setErrorMessage] = useState("")
   const [text, setText] = useState("")
   const [due, setDue] = useState<Date>()
-  const [studentId, setStudentId] = useState<number>()
+  const [selectedStudentId, setSelectedStudentId] = useState<number>()
   const [isPending, setIsPending] = useState(false)
+  const { studentId } = useParams()
 
   useEffect(() => {
-    if (currentStudentId) setStudentId(currentStudentId)
-  }, [currentStudentId])
+    studentId && setSelectedStudentId(Number(studentId))
+  }, [studentId])
 
   const onSaveHandler = async () => {
     if (!text) {
@@ -38,7 +39,7 @@ function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
     const newTodo: Todo = {
       text,
       due,
-      studentId,
+      studentId: selectedStudentId,
       userId: user?.id || "",
       completed: false,
     }
@@ -47,7 +48,8 @@ function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
       toast("Todo erstellt")
       setText("")
       setDue(undefined)
-      setStudentId(undefined)
+      setSelectedStudentId(undefined)
+      toast.success("Änderungen gespeichert.")
       onCloseModal?.()
     } catch (error) {
       fetchErrorToast()
@@ -59,7 +61,10 @@ function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
 
   return (
     <div>
-      <div className='w-[800px] bg-background50 flex items-center justify-stretch'>
+      <form
+        onSubmit={onSaveHandler}
+        className=' gap-2 w-[800px] bg-background50 flex items-center justify-stretch'
+      >
         <div className='shrink grow'>
           <Input
             className='border-none'
@@ -76,7 +81,7 @@ function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
             disabled={isPending}
           />
         </div>
-        <StudentsCombobox disabled={isPending} studentId={studentId} />
+        <StudentsCombobox disabled={isPending} studentId={selectedStudentId} />
         <DayPicker
           disabled={isPending}
           className='border-none'
@@ -90,11 +95,16 @@ function AddTodo({ currentStudentId, onCloseModal }: AddTodoProps) {
             onRemove={() => setDue(undefined)}
           />
         )}
-        <Button disabled={isPending} onClick={onSaveHandler} size='sm'>
+        <Button
+          disabled={isPending}
+          type='submit'
+          onClick={onSaveHandler}
+          size='sm'
+        >
           Speichern
         </Button>
         {isPending && <MiniLoader />}
-      </div>
+      </form>
       {errorMessage && (
         <p className='text-sm text-warning p-2'>{errorMessage}</p>
       )}

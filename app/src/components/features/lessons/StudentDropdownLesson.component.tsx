@@ -21,7 +21,7 @@ import StudentForm from "../students/StudentForm.component"
 
 import { toast } from "sonner"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
-import AddTodo from "../todos/addTodo/AddTodo.component"
+import AddTodo from "../todos/AddTodo.component"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
@@ -74,10 +74,7 @@ export default function StudentDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo
-            currentStudentId={currentStudentId}
-            onCloseModal={closeModal}
-          />
+          <AddTodo onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 
