@@ -67,6 +67,26 @@ function ExportLessons() {
     }
   }, [selectAll])
 
+  function b64toBlob(b64Data, contentType = "", sliceSize = 512) {
+    const byteCharacters = atob(b64Data)
+    const byteArrays = []
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize)
+
+      const byteNumbers = new Array(slice.length)
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i)
+      }
+
+      const byteArray = new Uint8Array(byteNumbers)
+      byteArrays.push(byteArray)
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType })
+    return blob
+  }
+
   useEffect(() => {
     if (startDate && endDate) {
       setIsPending(true)
@@ -221,12 +241,26 @@ function ExportLessons() {
       </div>
       <Button
         onClick={async () => {
-          const { data, error } = await supabase.functions.invoke("export", {
-            body: {
-              name: "Test from body",
+          const { data: response, error } = await supabase.functions.invoke(
+            "export",
+            {
+              body: {
+                name: "Test from body",
+              },
             },
-          })
-          console.log(data, error)
+          )
+
+          console.log(response)
+          const blob = await response.arrayBuffer() // Get the response as a blob
+
+          const url = window.URL.createObjectURL(blob) // Create a temporary URL
+
+          const link = document.createElement("a")
+          link.href = url
+          link.download = "mypdf.pdf" // Set the download filename (optional)
+          link.click()
+
+          window.URL.revokeObjectURL(url)
         }}
       >
         Test
