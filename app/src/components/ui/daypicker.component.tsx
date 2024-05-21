@@ -37,7 +37,7 @@ export function DayPicker({
             className,
           )}
         >
-          {!date && <CalendarIcon className='h-4 w-4' />}
+          {!date && <CalendarIcon className='h-4 w-4 text-primary' />}
           {date ? format(date, "P") : null}
         </Button>
       </PopoverTrigger>

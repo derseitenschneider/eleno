@@ -9,7 +9,7 @@ import { useStudents } from "../../../../services/context/StudentContext"
 
 import { formatDateToDisplay } from "../../../../utils/formateDate"
 
-import Emtpy from "../../../ui/emtpy/Empty.component"
+import Emtpy from "../../../ui/Empty.component"
 
 import {
   DropdownMenu,

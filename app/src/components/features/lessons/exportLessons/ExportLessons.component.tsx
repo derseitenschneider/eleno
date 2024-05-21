@@ -1,26 +1,28 @@
 import { CSVLink } from "react-csv"
 import { FaSpinner } from "react-icons/fa"
 
-import { useEffect, useState } from "react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
-import type { Lesson } from "../../../../types/types"
+import { useEffect, useState } from "react"
 import { useLessons } from "../../../../services/context/LessonsContext"
-import LessonPDF from "../../pdf/LessonsPDF.component"
 import { useStudents } from "../../../../services/context/StudentContext"
+import type { Lesson } from "../../../../types/types"
 import {
   formatDateToDatabase,
   formatDateToDisplay,
 } from "../../../../utils/formateDate"
+import LessonPDF from "../../pdf/LessonsPDF.component"
 
+import { Button } from "@/components/ui/button"
+import { DayPicker } from "@/components/ui/daypicker.component"
+import supabase from "@/services/api/supabase"
+import { useParams } from "react-router-dom"
+import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import {
   fetchAllLessonsSupabase,
   fetchLessonsByDateRangeSupabase,
 } from "../../../../services/api/lessons.api"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import stripHtmlTags from "../../../../utils/stripHtmlTags"
-import { useParams } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { DayPicker } from "@/components/ui/daypicker.component"
+import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 
 function ExportLessons() {
   const { getAllLessons } = useLessons()
@@ -104,22 +106,37 @@ function ExportLessons() {
   }, [selectAll, studentId])
 
   return (
-    <div>
-      <h2>Lektionsliste exportieren</h2>
+    <div className='text-sm'>
       <p>
         Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
         entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
         Lektionen exportieren.
       </p>
       <h5>Zeitraum</h5>
-      <div>
-        <div>
+      <div className='mb-4 grid grid-cols-[140px_140px]'>
+        <div className='flex flex-col gap-2 items-start grow-0'>
           <span>Von</span>
-          <DayPicker setDate={setStartDate} date={startDate} />
+          <div className='flex items-center'>
+            <DayPicker setDate={setStartDate} date={startDate} />
+            {startDate && (
+              <ButtonRemove
+                className='translate-x-[-50%]'
+                onRemove={() => setStartDate(undefined)}
+              />
+            )}
+          </div>
         </div>
-        <div>
+        <div className='flex flex-col gap-2 items-start grow-0'>
           <span>Bis</span>
-          <DayPicker setDate={setEndDate} date={endDate} />
+          <div className='flex items-center'>
+            <DayPicker setDate={setEndDate} date={endDate} />
+            {endDate && (
+              <ButtonRemove
+                className='translate-x-[-50%]'
+                onRemove={() => setEndDate(undefined)}
+              />
+            )}
+          </div>
         </div>
       </div>
 
@@ -202,6 +219,14 @@ function ExportLessons() {
           </Button>
         </CSVLink>
       </div>
+      <Button
+        onClick={async () => {
+          const { data, error } = await supabase.functions.invoke("export")
+          console.log(data)
+        }}
+      >
+        Test
+      </Button>
     </div>
   )
 }

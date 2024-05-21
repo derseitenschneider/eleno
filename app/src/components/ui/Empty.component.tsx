@@ -1,5 +1,3 @@
-import "./empty.style.scss"
-
 interface EmtpyProps {
   emptyMessage: string
 }
