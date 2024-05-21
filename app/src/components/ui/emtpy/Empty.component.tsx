@@ -1,15 +1,15 @@
-import "./empty.style.scss";
+import "./empty.style.scss"
 
 interface EmtpyProps {
-	emptyMessage: string;
+  emptyMessage: string
 }
 
 function Emtpy({ emptyMessage }: EmtpyProps) {
-	return (
-		<div className="empty">
-			<h3 className="heading-3">{emptyMessage}</h3>
-		</div>
-	);
+  return (
+    <div className='h-full w-full grid justify-center mt-[6.5%]'>
+      <h3 className='heading-3 text-foreground/60'>{emptyMessage}</h3>
+    </div>
+  )
 }
 
-export default Emtpy;
+export default Emtpy
