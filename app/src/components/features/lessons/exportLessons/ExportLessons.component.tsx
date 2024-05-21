@@ -221,8 +221,12 @@ function ExportLessons() {
       </div>
       <Button
         onClick={async () => {
-          const { data, error } = await supabase.functions.invoke("export")
-          console.log(data)
+          const { data, error } = await supabase.functions.invoke("export", {
+            body: JSON.stringify({
+              name: "Test from body",
+            }),
+          })
+          console.log(data, error)
         }}
       >
         Test

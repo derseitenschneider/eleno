@@ -15,7 +15,11 @@
     }
   },
   "linter": {
-    "ignore": ["./app/coverage/*", "./app/src/scss/tailwind.css"],
+    "ignore": [
+      "./app/coverage/*",
+      "./app/src/scss/tailwind.css",
+      "./app/supabase/functions/*"
+    ],
     "enabled": true,
     "rules": {
       "recommended": true,
