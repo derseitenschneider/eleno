@@ -86,19 +86,16 @@ function AddTodo({ onCloseModal }: AddTodoProps) {
             disabled={isPending}
             studentId={selectedStudentId}
           />
-          <DayPicker
-            disabled={isPending}
-            className='border-none'
-            date={due}
-            setDate={setDue}
-          />
-          {due && (
-            <ButtonRemove
-              disabled={isPending}
-              className='translate-x-[-8px]'
-              onRemove={() => setDue(undefined)}
-            />
-          )}
+          <div className='flex items-center'>
+            <DayPicker disabled={isPending} date={due} setDate={setDue} />
+            {due && (
+              <ButtonRemove
+                disabled={isPending}
+                className='translate-x-[-8px]'
+                onRemove={() => setDue(undefined)}
+              />
+            )}
+          </div>
         </div>
         <Button
           disabled={isPending}

@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { useUserLocale } from "@/services/context/UserLocaleContext"
 
 type DayPickerProps = {
   className?: string
@@ -24,6 +25,8 @@ export function DayPicker({
   setDate,
   disabled,
 }: DayPickerProps) {
+  const { userLocale } = useUserLocale()
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,7 +41,14 @@ export function DayPicker({
           )}
         >
           {!date && <CalendarIcon className='h-4 w-4 text-primary' />}
-          {date ? format(date, "P") : null}
+          {/* {date ? format(date, "P") : null} */}
+          {date
+            ? date.toLocaleDateString(userLocale, {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+            : null}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0 border-hairline'>

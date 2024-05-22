@@ -26,6 +26,8 @@ import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 
 function ExportLessons() {
   const { getAllLessons } = useLessons()
@@ -143,32 +145,33 @@ function ExportLessons() {
         </div>
       </div>
 
-      <label htmlFor='select-all'>
-        <input
-          type='checkbox'
+      <div className='flex items-center'>
+        <Checkbox
           name='select-all'
           id='select-all'
-          onChange={() => setSelectAll((prev) => !prev)}
+          onCheckedChange={() => setSelectAll((prev) => !prev)}
           checked={selectAll}
         />
-        <span className='ml-2'>Alle Lektionen exportieren</span>
-      </label>
 
-      <div className='mt-4 mb-4'>
-        <label htmlFor='title'>
-          <p>Titel (optional) </p>
-          <Input
-            className='w-[35ch]'
-            type='text'
-            name='title'
-            id='title'
-            value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const { value } = e.target
-              setTitle(value)
-            }}
-          />
-        </label>
+        <Label htmlFor='select-all' className='ml-2'>
+          Alle Lektionen exportieren
+        </Label>
+      </div>
+
+      <div className='mt-8 mb-4'>
+        <Label htmlFor='title'>Titel (optional) </Label>
+        <Input
+          placeholder='Titel'
+          className='w-[35ch]'
+          type='text'
+          name='title'
+          id='title'
+          value={title}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const { value } = e.target
+            setTitle(value)
+          }}
+        />
       </div>
 
       <div className='flex gap-5'>
