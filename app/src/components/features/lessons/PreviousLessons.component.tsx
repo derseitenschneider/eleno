@@ -4,12 +4,12 @@ import { FiShare } from "react-icons/fi"
 import { HiPencil, HiTrash } from "react-icons/hi"
 import { Link, useNavigate } from "react-router-dom"
 
-import { useLessons } from "../../../../services/context/LessonsContext"
-import { useStudents } from "../../../../services/context/StudentContext"
+import { useLessons } from "../../../services/context/LessonsContext"
+import { useStudents } from "../../../services/context/StudentContext"
 
-import { formatDateToDisplay } from "../../../../utils/formateDate"
+import { formatDateToDisplay } from "../../../utils/formateDate"
 
-import Emtpy from "../../../ui/Empty.component"
+import Emtpy from "../../ui/Empty.component"
 
 import {
   DropdownMenu,
@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { IoEllipsisVertical } from "react-icons/io5"
-import DeleteLesson from "../deleteLesson/DeleteLesson.component"
-import EditLesson from "../editLesson/EditLesson.component"
-import ShareHomework from "../shareHomework/ShareHomework.component"
+import DeleteLesson from "./deleteLesson/DeleteLesson.component"
+import EditLesson from "./editLesson/EditLesson.component"
+import ShareHomework from "./shareHomework/ShareHomework.component"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 
 function PreviousLessons() {

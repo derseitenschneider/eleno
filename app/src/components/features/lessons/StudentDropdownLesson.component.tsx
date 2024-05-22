@@ -1,5 +1,5 @@
 import { useStudents } from "@/services/context/StudentContext"
-import { CheckSquare2, Download, Pencil } from "lucide-react"
+import { CheckSquare2, Download, File, Pencil } from "lucide-react"
 import { useState } from "react"
 import { IoEllipsisVertical } from "react-icons/io5"
 import {
@@ -46,7 +46,7 @@ export default function StudentDropdownLesson() {
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenModal("EXPORT")}>
-            <Download strokeWidth={1.5} className='mr-3 text-primary h-4' />
+            <File strokeWidth={1.5} className='mr-3 text-primary h-4' />
             <span>Lektionsliste exportieren</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

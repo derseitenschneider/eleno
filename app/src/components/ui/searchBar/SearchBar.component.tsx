@@ -1,30 +1,30 @@
-import { IoSearchOutline } from "react-icons/io5";
-import "./searchBar.style.scss";
+import { IoSearchOutline } from "react-icons/io5"
+import { Input } from "../input"
 
 interface SearchBarProps {
-	searchInput: string;
-	handlerSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	disabled?: boolean;
+  searchInput: string
+  handlerSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+  disabled?: boolean
 }
 function SearchBar({
-	searchInput,
-	handlerSearchInput,
-	disabled,
+  searchInput,
+  handlerSearchInput,
+  disabled,
 }: SearchBarProps) {
-	return (
-		<div className="search-bar">
-			<IoSearchOutline className="icon icon-search" />
-			<input
-				className="input search-bar__input"
-				type="search"
-				placeholder="suchen"
-				value={searchInput}
-				autoFocus={window.screen.width > 1366}
-				onChange={handlerSearchInput}
-				disabled={disabled}
-			/>
-		</div>
-	);
+  return (
+    <div className='relative h-fit'>
+      <IoSearchOutline className='absolute h-4 w-4 top-[30%] left-[12px]' />
+      <Input
+        className='pr-2 pl-8'
+        type='search'
+        placeholder='suchen'
+        value={searchInput}
+        autoFocus={window.screen.width > 1366}
+        onChange={handlerSearchInput}
+        disabled={disabled}
+      />
+    </div>
+  )
 }
 
-export default SearchBar;
+export default SearchBar
