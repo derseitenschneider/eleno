@@ -26,6 +26,8 @@ import {
   BookMarked,
   BookOpenCheck,
   CalendarDays,
+  CheckSquare,
+  CheckSquare2,
   Gauge,
   GaugeCircle,
   GraduationCap,
@@ -113,8 +115,9 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
-        }`}
+      bg-background50 shadow-lg transition-width duration-150 ${
+        sidebarOpen ? "w-[180px]" : "w-[50px]"
+      }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
@@ -154,7 +157,7 @@ function Sidebar() {
           handleNav={handleLogEvent}
           to='/todos'
           name='Todos'
-          icon={<ListTodo strokeWidth={1.5} />}
+          icon={<CheckSquare2 strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}

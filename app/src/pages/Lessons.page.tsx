@@ -29,7 +29,7 @@ function Lesson() {
   if (activeSortedStudentIds.length && !isLoading)
     return (
       <motion.div
-        className=' grid grid-cols-[1fr_400px] grid-rows-[auto_1fr]'
+        className='h-screen grid grid-cols-[1fr_400px] grid-rows-[auto_1fr]'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >

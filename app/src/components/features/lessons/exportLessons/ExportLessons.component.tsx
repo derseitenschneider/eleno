@@ -23,6 +23,9 @@ import {
 } from "../../../../services/api/lessons.api"
 import stripHtmlTags from "../../../../utils/stripHtmlTags"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 
 function ExportLessons() {
   const { getAllLessons } = useLessons()
@@ -67,26 +70,6 @@ function ExportLessons() {
     }
   }, [selectAll])
 
-  function b64toBlob(b64Data, contentType = "", sliceSize = 512) {
-    const byteCharacters = atob(b64Data)
-    const byteArrays = []
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize)
-
-      const byteNumbers = new Array(slice.length)
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i)
-      }
-
-      const byteArray = new Uint8Array(byteNumbers)
-      byteArrays.push(byteArray)
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType })
-    return blob
-  }
-
   useEffect(() => {
     if (startDate && endDate) {
       setIsPending(true)
@@ -126,13 +109,13 @@ function ExportLessons() {
   }, [selectAll, studentId])
 
   return (
-    <div className='text-sm'>
+    <div className=''>
       <p>
         Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
         entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
         Lektionen exportieren.
       </p>
-      <h5>Zeitraum</h5>
+      <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>
         <div className='flex flex-col gap-2 items-start grow-0'>
           <span>Von</span>
@@ -168,13 +151,14 @@ function ExportLessons() {
           onChange={() => setSelectAll((prev) => !prev)}
           checked={selectAll}
         />
-        <span>Alle Lektionen exportieren</span>
+        <span className='ml-2'>Alle Lektionen exportieren</span>
       </label>
 
-      <div>
+      <div className='mt-4 mb-4'>
         <label htmlFor='title'>
-          Titel (optional){" "}
-          <input
+          <p>Titel (optional) </p>
+          <Input
+            className='w-[35ch]'
             type='text'
             name='title'
             id='title'
@@ -187,13 +171,18 @@ function ExportLessons() {
         </label>
       </div>
 
-      <div>
+      <div className='flex gap-5'>
         {isPending && (
-          <div>
-            <FaSpinner />
+          <div className='text-primary '>
+            <MiniLoader />
           </div>
         )}
         <PDFDownloadLink
+          className={cn(
+            isPending || ((!startDate || !endDate) && !selectAll)
+              ? "opacity-0"
+              : "opacity-100",
+          )}
           document={
             <LessonPDF
               studentFullName={studentFullName}
@@ -213,6 +202,11 @@ function ExportLessons() {
         </PDFDownloadLink>
 
         <CSVLink
+          className={cn(
+            isPending || ((!startDate || !endDate) && !selectAll)
+              ? "opacity-0"
+              : "opacity-100",
+          )}
           data={lessonsCSV}
           headers={[
             {
@@ -239,32 +233,6 @@ function ExportLessons() {
           </Button>
         </CSVLink>
       </div>
-      <Button
-        onClick={async () => {
-          const { data: response, error } = await supabase.functions.invoke(
-            "export",
-            {
-              body: {
-                name: "Test from body",
-              },
-            },
-          )
-
-          console.log(response)
-          const blob = await response.arrayBuffer() // Get the response as a blob
-
-          const url = window.URL.createObjectURL(blob) // Create a temporary URL
-
-          const link = document.createElement("a")
-          link.href = url
-          link.download = "mypdf.pdf" // Set the download filename (optional)
-          link.click()
-
-          window.URL.revokeObjectURL(url)
-        }}
-      >
-        Test
-      </Button>
     </div>
   )
 }

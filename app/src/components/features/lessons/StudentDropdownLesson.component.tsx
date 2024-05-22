@@ -1,10 +1,7 @@
 import { useStudents } from "@/services/context/StudentContext"
-import { DialogDescription } from "@radix-ui/react-dialog"
-import { Pencil, Check, Download, Box, Square } from "lucide-react"
+import { CheckSquare2, Download, Pencil } from "lucide-react"
 import { useState } from "react"
-import { HiDownload } from "react-icons/hi"
-import { HiPencil } from "react-icons/hi2"
-import { IoCheckboxOutline, IoEllipsisVertical } from "react-icons/io5"
+import { IoEllipsisVertical } from "react-icons/io5"
 import {
   Dialog,
   DialogContent,
@@ -19,7 +16,6 @@ import {
 } from "../../ui/dropdown-menu"
 import StudentForm from "../students/StudentForm.component"
 
-import { toast } from "sonner"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
 import ExportLessons from "./exportLessons/ExportLessons.component"
@@ -45,7 +41,7 @@ export default function StudentDropdownLesson() {
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenModal("TODO")}>
-            <Square strokeWidth={1.5} className='mr-3 text-primary h-4' />
+            <CheckSquare2 strokeWidth={1.5} className='mr-3 text-primary h-4' />
             <span>Todo erfassen</span>
           </DropdownMenuItem>
 

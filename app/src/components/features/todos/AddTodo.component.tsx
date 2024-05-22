@@ -63,38 +63,43 @@ function AddTodo({ onCloseModal }: AddTodoProps) {
     <div>
       <form
         onSubmit={onSaveHandler}
-        className=' gap-2 w-[800px] bg-background50 flex items-center justify-stretch'
+        className='gap-1 w-[800px] flex items-center'
       >
-        <div className='shrink grow'>
-          <Input
+        <div className='flex bg-background50 grow'>
+          <div className='shrink grow'>
+            <Input
+              className='border-none'
+              type='text'
+              placeholder='Todo'
+              name='text'
+              value={text}
+              required
+              onChange={(e) => {
+                setText(e.target.value)
+                setErrorMessage("")
+              }}
+              autoComplete='off'
+              disabled={isPending}
+            />
+          </div>
+          <StudentsCombobox
+            disabled={isPending}
+            studentId={selectedStudentId}
+          />
+          <DayPicker
+            disabled={isPending}
             className='border-none'
-            type='text'
-            placeholder='Todo'
-            name='text'
-            value={text}
-            required
-            onChange={(e) => {
-              setText(e.target.value)
-              setErrorMessage("")
-            }}
-            autoComplete='off'
-            disabled={isPending}
+            date={due}
+            setDate={setDue}
           />
+          {due && (
+            <ButtonRemove
+              disabled={isPending}
+              className='translate-x-[-8px]'
+              onRemove={() => setDue(undefined)}
+            />
+          )}
         </div>
-        <StudentsCombobox disabled={isPending} studentId={selectedStudentId} />
-        <DayPicker
-          disabled={isPending}
-          className='border-none'
-          date={due}
-          setDate={setDue}
-        />
-        {due && (
-          <ButtonRemove
-            disabled={isPending}
-            className='translate-x-[-8px]'
-            onRemove={() => setDue(undefined)}
-          />
-        )}
         <Button
           disabled={isPending}
           type='submit'
