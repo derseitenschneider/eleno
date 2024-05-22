@@ -27,15 +27,18 @@ function LessonHeader() {
     <header className='sm:pr-4 sm:pl-8 sm:py-4 col-start-1 col-span-2 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div>
-          <div className='flex mb-2 items-center'>
-            <div className='mr-[4px] text-primary h-5'>
-              <UserRound strokeWidth={2} />
+          <NavLink
+            to={`/lessons/${studentId}`}
+            className='flex mb-2 items-center hover:no-underline'
+          >
+            <div className='mr-[4px] text-foreground h-4'>
+              <User strokeWidth={2} />
             </div>
             <span className='mr-2 text-lg'>
               {firstName} {lastName}
             </span>
             <StudentDropdownLesson />
-          </div>
+          </NavLink>
           <div className='text-sm'>
             <span>
               {dayOfLesson && `${dayOfLesson}`}

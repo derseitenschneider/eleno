@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import parse from "html-react-parser"
 import { FiShare } from "react-icons/fi"
 
@@ -7,7 +6,12 @@ import { HiArrowSmLeft, HiPencil, HiTrash } from "react-icons/hi"
 import { HiOutlineDocumentArrowDown } from "react-icons/hi2"
 
 import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 
@@ -20,50 +24,39 @@ import Modal from "../../../ui/modal/Modal.component"
 import Table from "../../../ui/table/Table.component"
 import EditLesson from "../editLesson/EditLesson.component"
 import ShareHomework from "../shareHomework/ShareHomework.component"
-import "./allLessons.style.scss"
 
 import SearchBar from "../../../ui/searchBar/SearchBar.component"
 
+import { Button } from "@/components/ui/button"
 import DeleteLesson from "../deleteLesson/DeleteLesson.component"
 import ExportLessons from "../exportLessons/ExportLessons.component"
 
 function AllLessons() {
-  const { students } = useStudents()
   const [isPending, setIsPending] = useState(true)
   const { lessons } = useLessons()
   const { getAllLessons, setLessons } = useLessons()
   const { setCurrentStudentIndex, activeSortedStudentIds } = useStudents()
   const [searchInput, setSearchInput] = useState("")
 
-  const navigate = useNavigate()
+  const { studentId: studentIdString } = useParams()
 
-  const [searchParams] = useSearchParams()
-
-  const studentId = Number(searchParams.get("studentId"))
+  const studentId = Number(studentIdString)
 
   const isMobile = window.innerWidth < 680
 
-  const studentsLessons = lessons.filter(
+  const studentsLessons = lessons?.filter(
     (lesson) => lesson.studentId === studentId,
   )
-
-  const { firstName, lastName } = students.find(
-    (student) => student.id === studentId,
-  )
-  const studentName = `${firstName} ${lastName}`
 
   useEffect(() => {
     const fetchAllLessons = async () => {
       try {
         const allLessons = await getAllLessons(studentId)
-        const allLessonsStudent = allLessons.filter(
-          (lesson) => lesson.studentId === studentId,
-        )
-        const lessonsStudent = lessons.filter(
+        const localLessonsStudent = lessons?.filter(
           (lesson) => lesson.studentId === studentId,
         )
 
-        if (allLessonsStudent.length > lessonsStudent.length) {
+        if (allLessons.length > (localLessonsStudent?.length || 0)) {
           setLessons((prev) => {
             const cleanedUpLessons = prev.filter(
               (lesson) => lesson.studentId !== studentId,
@@ -80,32 +73,7 @@ function AllLessons() {
     fetchAllLessons()
   }, [getAllLessons, setLessons, studentId, lessons])
 
-  const filteredLessons = studentsLessons.filter(
-    (lesson) =>
-      lesson.date
-        .toLowerCase()
-        .split(" ")
-        .join("")
-        .includes(searchInput.toLocaleLowerCase().split(" ").join("")) ||
-      lesson.lessonContent
-        .toLowerCase()
-        .split(" ")
-        .join("")
-        .includes(searchInput.toLocaleLowerCase().split(" ").join("")) ||
-      lesson.homework
-        .toLowerCase()
-        .split(" ")
-        .join("")
-        .includes(searchInput.toLocaleLowerCase().split(" ").join("")),
-  )
-
-  const handleNavigate = () => {
-    const studentIndex = activeSortedStudentIds.indexOf(studentId)
-
-    setCurrentStudentIndex(studentIndex)
-
-    navigate("/lessons")
-  }
+  const filteredLessons = studentsLessons.filter((lesson) => lesson)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value)
@@ -114,25 +82,19 @@ function AllLessons() {
   const handleDownloadPDF = () => {}
 
   return (
-    <motion.div
-      className='all-lessons'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <div className='py-5 pl-8 pr-4'>
       <div className='all-lessons__buttons'>
-        <button type='button' className='link-back' onClick={handleNavigate}>
+        <NavLink className='link-back' to={`/lessons/${studentId}`}>
           <HiArrowSmLeft />
           <span>Zurück zur Lektion</span>
-        </button>
+        </NavLink>
       </div>
       <div className='header'>
-        <h2 className='heading-2'>Lektionsliste {studentName}</h2>
         <div className='controlls'>
           <Modal>
             <Modal.Open opens='export'>
               <Button
                 type='button'
-                btnStyle='secondary'
                 onClick={handleDownloadPDF}
                 icon={<HiOutlineDocumentArrowDown />}
                 size='sm'
@@ -176,7 +138,7 @@ function AllLessons() {
               render={(lesson) => (
                 <Menus.Menu key={lesson.id}>
                   <Table.Row key={lesson.id}>
-                    <div>{formatDateToDisplay(lesson.date)}</div>
+                    <div>{lesson.date.toLocaleString()}</div>
                     <div>{parse(lesson.lessonContent)}</div>
                     <div>{parse(lesson.homework)}</div>
                     {!isMobile && <Menus.Toggle id={lesson.id} />}
@@ -224,7 +186,7 @@ function AllLessons() {
           </Menus>
         </Table>
       )}
-    </motion.div>
+    </div>
   )
 }
 

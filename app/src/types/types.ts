@@ -48,7 +48,7 @@ export type Lesson = {
 export type Draft = {
   lessonContent?: string
   homework?: string
-  date?: string
+  date?: Date
   studentId: number
 }
 

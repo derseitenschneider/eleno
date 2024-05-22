@@ -11,7 +11,7 @@ import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 
 function NewLesson() {
-  const [date, setDate] = useState("")
+  const [date, setDate] = useState<Date>()
   const [lessonContent, setLessonContent] = useState("")
   const { currentStudentId } = useStudents()
   const [homework, setHomework] = useState("")
@@ -21,21 +21,14 @@ function NewLesson() {
   // Handle drafts
   useEffect(() => {
     const today = new Date()
-      .toLocaleDateString("de-CH")
-      .split(".")
-      .map((e) => e.padStart(2, "0"))
-      .join(".")
     if (drafts.some((draft) => draft.studentId === currentStudentId)) {
       const currentDraft = drafts.find(
         (draft) => draft.studentId === currentStudentId,
       )
-      setLessonContent(currentDraft.lessonContent || "")
-      setHomework(currentDraft.homework || "")
-
-      if (currentDraft.date) {
-        setDate(currentDraft.date)
-      } else {
-        setDate(today)
+      if (currentDraft) {
+        setLessonContent(currentDraft.lessonContent || "")
+        setHomework(currentDraft.homework || "")
+        setDate(currentDraft.date || today)
       }
     } else {
       setLessonContent("")
@@ -84,7 +77,7 @@ function NewLesson() {
     })
   }
 
-  const handlerInputDate = (inputDate: string) => {
+  const handlerInputDate = (inputDate: Date | undefined) => {
     setDate(inputDate)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === currentStudentId)) {
@@ -133,7 +126,7 @@ function NewLesson() {
     <div className='sm:pr-4 sm:pl-8 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
-        <DayPicker />
+        <DayPicker setDate={handlerInputDate} date={date} />
       </div>
       <div className='grid grid-cols-2 gap-6'>
         <div>

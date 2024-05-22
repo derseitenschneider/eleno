@@ -15,7 +15,8 @@ import { useUserLocale } from "@/services/context/UserLocaleContext"
 type DayPickerProps = {
   className?: string
   date?: Date
-  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+  // setDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+  setDate: (date: Date | undefined) => void
   disabled?: boolean
 }
 

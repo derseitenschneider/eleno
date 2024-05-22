@@ -149,7 +149,7 @@ function Sidebar() {
           handleNav={handleLogEvent}
           to='/students'
           name='Schüler:innen'
-          icon={<UsersRound strokeWidth={1.5} />}
+          icon={<Users strokeWidth={1.5} />}
         />
         <SidebarElement
           notificationContent={overdueTodos?.length}
