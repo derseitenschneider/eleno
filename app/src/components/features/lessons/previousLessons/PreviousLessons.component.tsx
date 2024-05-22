@@ -22,10 +22,12 @@ import { IoEllipsisVertical } from "react-icons/io5"
 import DeleteLesson from "../deleteLesson/DeleteLesson.component"
 import EditLesson from "../editLesson/EditLesson.component"
 import ShareHomework from "../shareHomework/ShareHomework.component"
+import { useUserLocale } from "@/services/context/UserLocaleContext"
 
 function PreviousLessons() {
   const { lessons } = useLessons()
   const { currentStudentId } = useStudents()
+  const { userLocale } = useUserLocale()
   const navigate = useNavigate()
 
   const [tabIndex, setTabIndex] = useState(0)
@@ -34,10 +36,7 @@ function PreviousLessons() {
   const previousLessonsIds =
     lessons
       ?.sort((a, b) => {
-        return (
-          +b.date.split("-").reduce((acc, curr) => acc + curr) -
-          +a.date.split("-").reduce((acc, curr) => acc + curr)
-        )
+        return +b.date - +a.date
       })
       .filter((lesson) => lesson.studentId === currentStudentId)
       ?.slice(0, 3)
@@ -62,16 +61,20 @@ function PreviousLessons() {
                 className={cn(
                   "px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
                   index === tabIndex &&
-                  "bg-background50 border-primary/80 hover:bg-background50",
+                    "bg-background50 border-primary/80 hover:bg-background50",
                 )}
                 onClick={() => {
                   setTabIndex(index)
                 }}
                 key={prev}
               >
-                {formatDateToDisplay(
-                  lessons?.find((lesson) => lesson?.id === prev)?.date || "",
-                )}
+                {lessons
+                  ?.find((lesson) => lesson?.id === prev)
+                  ?.date.toLocaleDateString(userLocale, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                  }) || ""}
               </button>
             ))}
             <button

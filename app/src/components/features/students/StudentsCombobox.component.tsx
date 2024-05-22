@@ -89,7 +89,7 @@ export default function StudentsCombobox({
       {selectedStudentId && (
         <ButtonRemove
           className='translate-x-[-12px]'
-          onRemove={() => setSelectedStudentId(null)}
+          onRemove={() => setSelectedStudentId(undefined)}
         />
       )}
     </div>

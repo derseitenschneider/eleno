@@ -105,7 +105,7 @@ export const fetchLatestLessonsSupabase = async () => {
     .select()
   if (error) throw new Error(error.message)
 
-  return lessons
+  return lessons.map(lesson => ({ ...lesson, date: new Date(lesson.date || '') }))
 }
 
 export const fetchLatestLessonsPerStudentSupabase = async (
