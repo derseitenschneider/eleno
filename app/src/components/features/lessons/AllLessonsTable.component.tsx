@@ -12,7 +12,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  MoreVertical,
+  Pencil,
+  Share,
+  Share2Icon,
+  Trash,
+  Trash2,
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -34,139 +44,83 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import type { Lesson } from "@/types/types"
+import { useEffect, useState } from "react"
+import SearchBar from "@/components/ui/searchBar/SearchBar.component"
+import { fetchAllLessonsSupabase } from "@/services/api/lessons.api"
 
 type AllLessonsTableProps = {
   isPending: boolean
 }
 export default function AllLessonsTable({ isPending }: AllLessonsTableProps) {
   if (isPending) return <Loader loading={isPending} />
-  return <h1>Testing</h1>
+  return <DataTableDemo />
 }
 
-const data: Payment[] = [
+const data: Lesson[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
+    id: 1,
+    lessonContent: "trarira",
+    homework: "success",
+    date: new Date(),
+    studentId: 1,
   },
   {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
+    id: 2,
+    lessonContent: "schulimulli ",
+    homework: "slfjweröaksdjfadsf",
+    date: new Date(),
+    studentId: 1,
   },
 ]
 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Lesson>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className='capitalize'>{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className='lowercase'>{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className='text-right'>Amount</div>,
+    accessorKey: "date",
+    header: "Datum",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className='text-right font-medium'>{formatted}</div>
+      // const parsedDate = row.getValue("date").toLocaleString("de")
+      return <div className='capitalize'>{"testikng"}</div>
     },
+  },
+  {
+    accessorKey: "lessonContent",
+    header: "Lektion",
+    cell: ({ row }) => (
+      <div className='lowercase'>{row.getValue("lessonContent")}</div>
+    ),
+  },
+  {
+    accessorKey: "homework",
+    header: "Hausaufgaben",
+    cell: ({ row }) => <div>{row.getValue("homework")}</div>,
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button variant='ghost' className='h-4 w-4 p-0'>
               <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
+              <MoreVertical className='h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
+            <DropdownMenuItem>
+              <Pencil className='h-4 w-4 mr-3 text-primary' />
+              <span>Lektion bearbeiten</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Share className='h-4 w-4 mr-3 text-primary' />
+              <span>Hausaufgaben teilen</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash2 className='h-4 w-4 mr-3 text-warning' />
+              <span>Lektion löschen</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -182,9 +136,20 @@ export function DataTableDemo() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [lessons, setLessons] = useState<Array<Lesson>>()
+
+  useEffect(() => {
+    const fetchAllLessons = async () => {
+      const data = await fetchAllLessonsSupabase(1)
+      if (data) {
+        setLessons(data)
+      }
+    }
+    fetchAllLessons()
+  }, [])
 
   const table = useReactTable({
-    data,
+    lessons,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -201,15 +166,17 @@ export function DataTableDemo() {
       rowSelection,
     },
   })
-
+  console.log(lessons)
+  if (!lessons || lessons.length === 0) return null
   return (
     <div className='w-full'>
       <div className='flex items-center py-4'>
-        <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+        <SearchBar
+          searchInput={
+            (table.getColumn("lessonContent")?.getFilterValue() as string) ?? ""
+          }
+          handlerSearchInput={(event) =>
+            table.getColumn("lessonContent")?.setFilterValue(event.target.value)
           }
           className='max-w-sm'
         />
