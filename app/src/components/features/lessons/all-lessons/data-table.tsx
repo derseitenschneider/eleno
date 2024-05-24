@@ -30,8 +30,8 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className='rounded-md border'>
-      <Table>
+    <div className='py-5 pl-8 pr-4'>
+      <Table className='border border-hairline'>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className='h-24 text-center'>
-                No results.
+                Keine Lektionen vorhanden.
               </TableCell>
             </TableRow>
           )}

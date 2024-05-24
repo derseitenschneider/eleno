@@ -3,9 +3,9 @@ import { toast } from "react-toastify"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../../types/types"
-import { formatDateToDatabase } from "../../../../utils/formateDate"
 import CustomEditor from "../../../ui/CustomEditor.component"
-import "./editLesson.style.scss"
+import { DayPicker } from "@/components/ui/daypicker.component"
+import { Button } from "@/components/ui/button"
 
 interface EditLessonProps {
   lesson: Lesson
@@ -14,7 +14,6 @@ interface EditLessonProps {
 
 function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
   const { updateLesson } = useLessons()
-  // const lesson = lessons.find((l) => l.id === lessonId)
 
   const { studentId, id } = lesson
 
@@ -53,51 +52,33 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
 
   return (
     <div className='edit-lesson'>
-      <h2 className='heading-2'>Lektion bearbeiten</h2>
-      <div className='edit-lesson__date'>
-        <span>Datum</span>
-        <div className='wrapper-picker'>
-          <DatePicker
-            selectedDate={new Date(formatDateToDatabase(date))}
-            hideRemoveBtn
-            id='lesson-date'
-            setDate={setDate}
+      <div className='flex items-center mb-3 gap-2'>
+        <h5 className='mb-0'>Datum</h5>
+        <DayPicker date={date} setDate={() => setDate} />
+      </div>
+      <div className='flex items-center mb-6 gap-8'>
+        <div className='w-[450px]'>
+          <h5>Lektion</h5>
+
+          <CustomEditor
+            value={lessonContent || ""}
+            onChange={handleLessonContent}
           />
         </div>
-      </div>
-      <div className={`edit-lesson__inputs ${isPending ? "loading" : ""}`}>
-        <div className='edit-lesson__lesson'>
-          <h5 className='heading-5'>Lektion</h5>
 
-          <div className='container--editor'>
-            <CustomEditor
-              value={lessonContent}
-              onChange={handleLessonContent}
-            />
-          </div>
-        </div>
+        <div className='w-[450px]'>
+          <h5>Hausaufgaben</h5>
 
-        <div className='edit-lesson__homework'>
-          <h5 className='heading-5'>Hausaufgaben</h5>
-
-          <div className='container--editor'>
-            <CustomEditor value={homework} onChange={handleHomework} />
-          </div>
+          <CustomEditor value={homework} onChange={handleHomework} />
         </div>
       </div>
-      <div className='edit-lesson__buttons'>
-        <Button
-          type='button'
-          btnStyle='secondary'
-          handler={onCloseModal}
-          label='Abbrechen'
-        />
-        <Button
-          type='button'
-          btnStyle='primary'
-          handler={handleUpdate}
-          label='Speichern'
-        />
+      <div className='justify-end gap-4 flex items-center'>
+        <Button size='sm' variant='outline' onClick={onCloseModal}>
+          Abbrechen
+        </Button>
+        <Button size='sm' onClick={handleUpdate}>
+          Speichern
+        </Button>
       </div>
     </div>
   )

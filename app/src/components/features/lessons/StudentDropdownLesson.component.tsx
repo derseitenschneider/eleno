@@ -1,5 +1,11 @@
 import { useStudents } from "@/services/context/StudentContext"
-import { CheckSquare2, Download, File, Pencil } from "lucide-react"
+import {
+  CheckSquare2,
+  Download,
+  File,
+  MoreVertical,
+  Pencil,
+} from "lucide-react"
 import { useState } from "react"
 import { IoEllipsisVertical } from "react-icons/io5"
 import {
@@ -31,22 +37,31 @@ export default function StudentDropdownLesson() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className='text-primary h-3'>
-          <IoEllipsisVertical />
+        <DropdownMenuTrigger className='text-primary h-4'>
+          <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setOpenModal("EDIT")}>
-            <Pencil strokeWidth={1.5} className='mr-3 text-primary h-4' />
+          <DropdownMenuItem
+            className='flex items-center gap-2'
+            onClick={() => setOpenModal("EDIT")}
+          >
+            <Pencil className='text-primary h-4 w-4' />
             <span>Schüler:in bearbeiten</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={() => setOpenModal("TODO")}>
-            <CheckSquare2 strokeWidth={1.5} className='mr-3 text-primary h-4' />
+          <DropdownMenuItem
+            className='flex items-center gap-2'
+            onClick={() => setOpenModal("TODO")}
+          >
+            <CheckSquare2 className='text-primary h-4 w-4' />
             <span>Todo erfassen</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={() => setOpenModal("EXPORT")}>
-            <File strokeWidth={1.5} className='mr-3 text-primary h-4' />
+          <DropdownMenuItem
+            className='flex items-center gap-2'
+            onClick={() => setOpenModal("EXPORT")}
+          >
+            <File className='text-primary h-4 w-4' />
             <span>Lektionsliste exportieren</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
