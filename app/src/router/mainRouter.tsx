@@ -10,7 +10,7 @@ import TodosCompleted from "../pages/todos/TodosCompleted.page"
 import TodosOpen from "../pages/todos/TodosOpen.page"
 
 import Groups from "../components/features/groups/Groups.component"
-import AllLessons from "../components/features/lessons/AllLessons.component"
+import AllLessons from "../components/features/lessons/all-lessons/page"
 import Repertoire from "../components/features/repertoire/Repertoire.component"
 import ActiveStudents from "../components/features/students/activeStudents/ActiveStudents.component"
 import InactiveStudents from "../components/features/students/inActiveStudents/InactiveStudents.component"

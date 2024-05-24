@@ -4,13 +4,15 @@ import supabase from "./supabase"
 export const fetchAllLessonsSupabase = async (
   studentId: number,
 ): Promise<Lesson[]> => {
-  const { data: lessons, error } = await supabase
+  const { data, error } = await supabase
     .from("lessons")
     .select("*")
     .eq("studentId", studentId)
     .order("date", { ascending: false })
 
+
   if (error) throw new Error(error.message)
+  const lessons = data.map(lesson => ({ ...lesson, date: new Date(lesson.date || '') }))
   return lessons
 }
 
