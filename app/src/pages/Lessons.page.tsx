@@ -20,15 +20,13 @@ function Lesson() {
   const { isLoading } = useLoading()
   const { activeSortedStudentIds } = useStudents()
 
-  const navigate = useNavigate()
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
   if (activeSortedStudentIds.length && !isLoading)
     return (
-      <>
+      <div className='grid grid-cols-[1fr_400px]'>
         <main>
           <PreviousLessons />
           <NewLesson />
@@ -38,7 +36,7 @@ function Lesson() {
           <NoteList />
         </aside>
         <LessonFooter />
-      </>
+      </div>
     )
 
   return <NoStudents />

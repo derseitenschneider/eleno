@@ -25,11 +25,12 @@ import StudentForm from "../students/StudentForm.component"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
 import ExportLessons from "./exportLessons/ExportLessons.component"
+import { useParams } from "react-router-dom"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
 export default function StudentDropdownLesson() {
-  const { currentStudentId } = useStudents()
+  const { studentId } = useParams()
   const [openModal, setOpenModal] = useState<Modals>(null)
 
   const closeModal = () => setOpenModal(null)
@@ -76,7 +77,7 @@ export default function StudentDropdownLesson() {
             onSuccess={() => {
               closeModal()
             }}
-            studentId={currentStudentId}
+            studentId={Number(studentId)}
           />
         </SheetContent>
       </Sheet>
@@ -95,7 +96,7 @@ export default function StudentDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons />
+          <ExportLessons studentId={Number(studentId)} />
         </DialogContent>
       </Dialog>
     </>

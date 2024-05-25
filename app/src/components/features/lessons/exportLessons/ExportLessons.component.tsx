@@ -6,10 +6,7 @@ import { useEffect, useState } from "react"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import type { Lesson } from "../../../../types/types"
-import {
-  formatDateToDatabase,
-  formatDateToDisplay,
-} from "../../../../utils/formateDate"
+import { formatDateToDisplay } from "../../../../utils/formateDate"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 
 import { Button } from "@/components/ui/button"
@@ -29,7 +26,10 @@ import MiniLoader from "@/components/ui/MiniLoader.component"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 
-function ExportLessons() {
+type ExportLessonsProps = {
+  studentId: number
+}
+function ExportLessons({ studentId }: ExportLessonsProps) {
   const { getAllLessons } = useLessons()
   const { students } = useStudents()
   const [isPending, setIsPending] = useState(false)
@@ -38,8 +38,6 @@ function ExportLessons() {
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
-
-  const { studentId } = useParams()
 
   const currentStudent = students?.find(
     (student) => student.id === Number(studentId),

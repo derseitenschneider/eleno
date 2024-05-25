@@ -2,7 +2,7 @@ import parse from "html-react-parser"
 import { useEffect, useState } from "react"
 import { FiShare } from "react-icons/fi"
 import { HiPencil, HiTrash } from "react-icons/hi"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom"
 
 import { useLessons } from "../../../services/context/LessonsContext"
 import { useStudents } from "../../../services/context/StudentContext"
@@ -75,12 +75,13 @@ function PreviousLessons() {
                   }) || ""}
               </button>
             ))}
-            <Link
+            <NavLink
               className='px-2 hover:no-underline py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80'
               to='all'
+              end={true}
             >
               Alle
-            </Link>
+            </NavLink>
           </>
         ) : null}
       </div>

@@ -14,7 +14,7 @@ const lessonsRoutes = [
       <Suspense fallback={<p>...loading</p>}>
         {/* <LessonSkeleton /> */}
         <motion.div
-          className='h-screen grid grid-cols-[1fr_400px] grid-rows-[auto_1fr]'
+          className='h-screen grid grid-rows-[auto_1fr]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -25,23 +25,15 @@ const lessonsRoutes = [
     ),
     children: [
       {
-        path: "",
-        isindex: true,
+        index: true,
         element: <LessonsPage />,
       },
       {
+        end: true,
         path: "all",
         element: <AllLessons />,
       },
     ],
-  },
-  {
-    path: "/lessons/all",
-    element: <AllLessons />,
-  },
-  {
-    path: "/lessons/repertoire",
-    element: <Repertoire />,
   },
 ]
 export default lessonsRoutes
