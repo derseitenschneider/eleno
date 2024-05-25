@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/popover"
 import { Search } from "lucide-react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useStudents } from "../../../services/context/StudentContext"
 import { sortStudents } from "../../../utils/sortStudents"
 
@@ -21,13 +22,27 @@ export default function SearchStudentCombobox() {
   const [open, setOpen] = useState(false)
   const { activeStudents, activeSortedStudentIds, setCurrentStudentIndex } =
     useStudents()
+  const navigate = useNavigate()
 
+  if (!activeStudents) return
   const sortedActiveStudents = sortStudents(activeStudents, {
     sort: "lastName",
+    ascending: true,
   })
 
-  function handleSelect(e) {
-    console.log(e)
+  function handleSelect(e: string) {
+    const firstName = e.split(" ")[0]
+    const lastName = e.split(" ")[1]
+
+    const newStudentId = activeStudents?.find(
+      (student) =>
+        student.firstName === firstName && student.lastName === lastName,
+    )?.id
+
+    const newStudentIndex = activeSortedStudentIds.indexOf(newStudentId || 0)
+    setCurrentStudentIndex(newStudentIndex)
+    navigate(`/lessons/${newStudentId}`)
+    setOpen(false)
   }
 
   return (

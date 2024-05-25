@@ -69,34 +69,35 @@ const compareLocations = (a: Student, b: Student) => {
 }
 
 export const sortStudents = (students: Student[], sorting: Sorting) => {
+  if (!students) return
   const sortedbyTime = students.sort(compareTime)
   switch (sorting.sort) {
     case "lastName":
-      if (sorting.ascending === "false") {
+      if (!sorting.ascending) {
         return students.sort(compareLastName).reverse()
       }
       return students.sort(compareLastName)
 
     case "instrument":
-      if (sorting.ascending === "false") {
+      if (!sorting.ascending) {
         return students.sort(compareInstrument).reverse()
       }
       return students.sort(compareInstrument)
 
     case "dayOfLesson":
-      if (sorting.ascending === "false") {
+      if (!sorting.ascending) {
         return sortedbyTime.sort(compareDays).reverse()
       }
       return sortedbyTime.sort(compareDays)
 
     case "durationMinutes":
-      if (sorting.ascending === "false") {
+      if (!sorting.ascending) {
         return students.sort(compareDurations).reverse()
       }
       return students.sort(compareDurations)
 
     case "location":
-      if (sorting.ascending === "false") {
+      if (!sorting.ascending) {
         return students.sort(compareLocations).reverse()
       }
       return students.sort(compareLocations)

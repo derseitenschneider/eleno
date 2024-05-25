@@ -154,7 +154,7 @@ export type SortingMethods =
 
 export type Sorting = {
   sort: string
-  ascending: string
+  ascending: boolean
 }
 
 export type DropdownSearchButton = {
