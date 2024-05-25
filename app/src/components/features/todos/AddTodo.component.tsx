@@ -6,7 +6,7 @@ import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import type { Todo } from "../../../types/types"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
-import StudentsCombobox from "../students/StudentsCombobox.component"
+import AddStudentCombobox from "../students/AddStudentCombobox.component"
 import { Input } from "@/components/ui/input"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import MiniLoader from "@/components/ui/MiniLoader.component"
@@ -82,7 +82,7 @@ function AddTodo({ onCloseModal }: AddTodoProps) {
               disabled={isPending}
             />
           </div>
-          <StudentsCombobox
+          <AddStudentCombobox
             disabled={isPending}
             studentId={selectedStudentId}
           />

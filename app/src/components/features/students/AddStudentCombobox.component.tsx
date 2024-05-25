@@ -18,7 +18,7 @@ import { useStudents } from "@/services/context/StudentContext"
 import { UsersRound } from "lucide-react"
 import { useEffect, useState } from "react"
 
-export default function StudentsCombobox({
+export default function AddStudentCombobox({
   studentId,
   disabled,
 }: { studentId?: number; disabled?: boolean }) {

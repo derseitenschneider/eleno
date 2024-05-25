@@ -9,7 +9,7 @@ import { useStudents } from "../services/context/StudentContext"
 import LessonHeader from "../components/features/lessons/LessonHeader"
 import PreviousLessons from "../components/features/lessons/PreviousLessons.component"
 
-import LessonFooter from "../components/features/lessons/lessonFooter/LessonFooter.component"
+import LessonFooter from "../components/features/lessons/LessonFooter.component"
 import NewLesson from "../components/features/lessons/newLesson/NewLesson.component"
 
 import NoContent from "../components/ui/NoContent.component"
@@ -37,7 +37,7 @@ function Lesson() {
         <aside className='border-l border-hairline'>
           <NoteList />
         </aside>
-        {/* <LessonFooter /> */}
+        <LessonFooter />
       </>
     )
 
