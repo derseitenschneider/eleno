@@ -21,10 +21,14 @@ export default function SearchStudentCombobox() {
   const [open, setOpen] = useState(false)
   const { activeStudents, activeSortedStudentIds, setCurrentStudentIndex } =
     useStudents()
+
   const sortedActiveStudents = sortStudents(activeStudents, {
     sort: "lastName",
-    ascending: "true",
   })
+
+  function handleSelect(e) {
+    console.log(e)
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,24 +44,21 @@ export default function SearchStudentCombobox() {
       </PopoverTrigger>
       <PopoverContent className='p-0' side='bottom' align='start'>
         <Command>
-          <CommandInput placeholder='Schüler:in suchen' />
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
             <CommandGroup>
               {sortedActiveStudents?.map((student) => (
                 <CommandItem
                   key={student.id}
-                  value={String(student.id)}
-                  onSelect={() => {
-                    setSelectedStudentId(student.value)
-                    setOpen(false)
-                  }}
+                  value={`${student.firstName} ${student.lastName}`}
+                  onSelect={handleSelect}
                 >
-                  <span>{student.label}</span>
+                  <span>{`${student.firstName} ${student.lastName}`}</span>
                 </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
+          <CommandInput placeholder='Schüler:in suchen' />
         </Command>
       </PopoverContent>
     </Popover>

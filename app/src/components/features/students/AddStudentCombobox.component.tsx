@@ -32,14 +32,20 @@ export default function AddStudentCombobox({
     studentId && setSelectedStudentId(studentId)
   }, [studentId])
 
-  const studentsSelect = activeStudents?.map((student) => ({
-    value: student.id,
-    label: `${student.firstName} ${student.lastName}`,
-  }))
-
-  const selectedStudent = studentsSelect?.find(
-    (student) => student.value === selectedStudentId,
+  const selectedStudent = activeStudents?.find(
+    (student) => student.id === selectedStudentId,
   )
+  function handleSelect(e: string) {
+    const firstName = e.split(" ")[0]
+    const lastName = e.split(" ")[1]
+    const newStudentId = activeStudents?.find(
+      (student) =>
+        student.firstName === firstName && student.lastName === lastName,
+    )?.id
+    setSelectedStudentId(newStudentId)
+    setOpen(false)
+  }
+
   return (
     <div className='flex items-center'>
       <Popover open={open} onOpenChange={setOpen}>
@@ -51,9 +57,9 @@ export default function AddStudentCombobox({
             aria-expanded={open}
             className='border-none !bg-transparent justify-between'
           >
-            {selectedStudentId ? (
+            {selectedStudent ? (
               <div>
-                <Badge>{selectedStudent?.label}</Badge>
+                <Badge>{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</Badge>
               </div>
             ) : (
               <UsersRound
@@ -69,16 +75,13 @@ export default function AddStudentCombobox({
             <CommandList>
               <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
               <CommandGroup>
-                {studentsSelect?.map((student) => (
+                {activeStudents?.map((student) => (
                   <CommandItem
-                    key={String(student.value)}
-                    value={String(student.value)}
-                    onSelect={() => {
-                      setSelectedStudentId(student.value)
-                      setOpen(false)
-                    }}
+                    key={student.id}
+                    value={`${student.firstName} ${student.lastName}`}
+                    onSelect={handleSelect}
                   >
-                    <span>{student.label}</span>
+                    <span>{`${student.firstName} ${student.lastName}`}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>
