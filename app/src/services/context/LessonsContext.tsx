@@ -19,19 +19,21 @@ import mockLessons from "../api/mock-db/mockLessons"
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
 
+  lessonYears: [],
   drafts: [],
-  setDrafts: () => {},
-  setLessons: () => {},
+  setDrafts: () => { },
+  setLessons: () => { },
 
-  saveNewLesson: () => new Promise(() => {}),
-  deleteLesson: () => new Promise(() => {}),
-  updateLesson: () => new Promise(() => {}),
-  getAllLessons: () => new Promise(() => {}),
+  saveNewLesson: () => new Promise(() => { }),
+  deleteLesson: () => new Promise(() => { }),
+  updateLesson: () => new Promise(() => { }),
+  getAllLessons: () => new Promise(() => { }),
 })
 
 export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   const [lessons, setLessons] = useState<Lesson[]>([])
+  const [lessonYears, setLessonYears] = useState<Array<{ year: number }>>([])
 
   const [drafts, setDrafts] = useState<Draft[]>([])
   const mode = import.meta.env.VITE_MODE
@@ -40,7 +42,6 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     async (lesson: Lesson): Promise<void> => {
       const tempLesson: Lesson = {
         ...lesson,
-        date: formatDateToDatabase(lesson.date),
       }
 
       if (mode === "demo") {
@@ -49,13 +50,13 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const [data] = await saveNewLessonSupabase(tempLesson, user.id)
+        const [data] = await saveNewLessonSupabase(tempLesson, user?.id)
         setLessons((prev) => [...prev, data])
       } catch (error) {
         throw new Error(error)
       }
     },
-    [user?.id, mode],
+    [user?.id],
   )
 
   const deleteLesson = useCallback(
@@ -81,9 +82,9 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
           prev.map((lesson) =>
             lesson.id === updatedLesson.id
               ? {
-                  ...updatedLesson,
-                  date: formatDateToDatabase(updatedLesson.date),
-                }
+                ...updatedLesson,
+                date: formatDateToDatabase(updatedLesson.date),
+              }
               : lesson,
           ),
         )
@@ -94,9 +95,9 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
           prev.map((lesson) =>
             lesson.id === newLesson.id
               ? {
-                  ...newLesson,
-                  date: formatDateToDatabase(newLesson.date),
-                }
+                ...newLesson,
+                date: formatDateToDatabase(newLesson.date),
+              }
               : lesson,
           ),
         )

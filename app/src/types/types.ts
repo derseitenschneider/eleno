@@ -112,6 +112,8 @@ export type ContextTypeLessons = {
   lessons: Lesson[] | null
   setLessons: React.Dispatch<React.SetStateAction<Lesson[]>>
 
+  lessonYears: Array<{ year: number }>
+
   drafts: Draft[]
   setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>
 

@@ -10,9 +10,11 @@ export const fetchAllLessonsSupabase = async (
     .eq("studentId", studentId)
     .order("date", { ascending: false })
 
-
   if (error) throw new Error(error.message)
-  const lessons = data.map(lesson => ({ ...lesson, date: new Date(lesson.date || '') }))
+  const lessons = data.map((lesson) => ({
+    ...lesson,
+    date: new Date(lesson.date || ""),
+  }))
   return lessons
 }
 
@@ -107,7 +109,10 @@ export const fetchLatestLessonsSupabase = async () => {
     .select()
   if (error) throw new Error(error.message)
 
-  return lessons.map(lesson => ({ ...lesson, date: new Date(lesson.date || '') }))
+  return lessons.map((lesson) => ({
+    ...lesson,
+    date: new Date(lesson.date || ""),
+  }))
 }
 
 export const fetchLatestLessonsPerStudentSupabase = async (
@@ -123,3 +128,12 @@ export const fetchLatestLessonsPerStudentSupabase = async (
   if (error) throw new Error(error.message)
   return lessons.reverse()
 }
+
+export const fetchLessonYearsSupabase = async () => {
+  const { data: years, error } = await supabase
+    .from("available_years")
+    .select("*")
+  if (error) console.log(error)
+  console.log(years)
+}
+fetchLessonYearsSupabase()
