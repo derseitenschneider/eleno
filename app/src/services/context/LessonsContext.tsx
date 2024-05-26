@@ -50,63 +50,57 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const [data] = await saveNewLessonSupabase(tempLesson, user?.id)
-        setLessons((prev) => [...prev, data])
+        const newLesson = await saveNewLessonSupabase(lesson, user?.id || "")
+        if (newLesson) setLessons((prev) => [...prev, newLesson])
       } catch (error) {
-        throw new Error(error)
+        if (error instanceof Error) throw new Error(error.message)
       }
     },
     [user?.id],
   )
 
-  const deleteLesson = useCallback(
-    async (lessonId: number) => {
-      if (mode === "demo") {
-        setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
-        return
-      }
-      try {
-        await deleteLessonSupabase(lessonId)
-        setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
-      } catch (err) {
-        throw new Error(err)
-      }
-    },
-    [mode],
-  )
+  const deleteLesson = useCallback(async (lessonId: number) => {
+    if (mode === "demo") {
+      setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
+      return
+    }
+    try {
+      await deleteLessonSupabase(lessonId)
+      setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+    }
+  }, [])
 
-  const updateLesson = useCallback(
-    async (updatedLesson: Lesson) => {
-      if (mode === "demo") {
-        setLessons((prev) =>
-          prev.map((lesson) =>
-            lesson.id === updatedLesson.id
-              ? {
-                ...updatedLesson,
-                date: formatDateToDatabase(updatedLesson.date),
-              }
-              : lesson,
-          ),
-        )
-      }
-      try {
-        const newLesson = await updateLessonSupabase(updatedLesson)
-        setLessons((prev) =>
-          prev.map((lesson) =>
-            lesson.id === newLesson.id
-              ? {
-                ...newLesson,
-                date: formatDateToDatabase(newLesson.date),
-              }
-              : lesson,
-          ),
-        )
-      } catch (error) {
-        throw new Error(error)
-      }
-    },
-    [mode],
-  )
+  const updateLesson = useCallback(async (updatedLesson: Lesson) => {
+    if (mode === "demo") {
+      setLessons((prev) =>
+        prev.map((lesson) =>
+          lesson.id === updatedLesson.id
+            ? {
+              ...updatedLesson,
+              date: formatDateToDatabase(updatedLesson.date),
+            }
+            : lesson,
+        ),
+      )
+    }
+    try {
+      const newLesson = await updateLessonSupabase(updatedLesson)
+      setLessons((prev) =>
+        prev.map((lesson) =>
+          lesson.id === newLesson.id
+            ? {
+              ...newLesson,
+              date: formatDateToDatabase(newLesson.date),
+            }
+            : lesson,
+        ),
+      )
+    } catch (error) {
+      throw new Error(error)
+    }
+  }, [])
 
   const getAllLessons = useCallback(
     async (studentId: number) => {

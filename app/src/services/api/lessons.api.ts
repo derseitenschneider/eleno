@@ -70,17 +70,27 @@ export const fetchLessonsCSVByDateRangeSupabase = async (
 export const saveNewLessonSupabase = async (
   lesson: Lesson,
   userId: string,
-): Promise<Lesson[]> => {
+): Promise<Lesson | undefined> => {
   const { date, homework, lessonContent, studentId } = lesson
+  const utcDate = new Date(`${date.toDateString()} UTC`)
 
   const { data, error } = await supabase
     .from("lessons")
-    .insert([{ date, homework, lessonContent, studentId, user_id: userId }])
+    .insert([
+      {
+        date: utcDate.toISOString(),
+        homework,
+        lessonContent,
+        studentId,
+        user_id: userId,
+      },
+    ])
     .select()
 
   if (error) throw new Error(error.message)
-
-  return data
+  const newLesson = data[0]
+  if (newLesson) return { ...newLesson, date: new Date(newLesson.date || "") }
+  return undefined
 }
 
 export const deleteLessonSupabase = async (lessonId: number) => {
