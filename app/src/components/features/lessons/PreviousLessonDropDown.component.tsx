@@ -15,8 +15,9 @@ import { useLessons } from "@/services/context/LessonsContext"
 import { Lesson } from "@/types/types"
 import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
+import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./editLesson/EditLesson.component"
-import ShareHomework from "./shareHomework/ShareHomework.component"
+import ShareHomework from "./ShareHomework.component"
 
 type PreviousLessonDropDownProps = {
   lessonId: number
@@ -47,7 +48,7 @@ export default function PreviousLessonDropDown({
             <span>Hausaufgaben teilen</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setModalOpen("DELETE")}>
             <Trash2 className='h-4 w-4 text-warning mr-2' />
             <span>Lektion löschen</span>
           </DropdownMenuItem>
@@ -75,6 +76,21 @@ export default function PreviousLessonDropDown({
             <DialogTitle>Hausaufgaben teilen</DialogTitle>
           </DialogHeader>
           <ShareHomework lessonId={currentLesson.id} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={modalOpen === "DELETE"}
+        onOpenChange={() => setModalOpen(undefined)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Lektion löschen</DialogTitle>
+          </DialogHeader>
+          <DeleteLesson
+            onCloseModal={() => setModalOpen(undefined)}
+            lessonId={currentLesson.id}
+          />
         </DialogContent>
       </Dialog>
     </>

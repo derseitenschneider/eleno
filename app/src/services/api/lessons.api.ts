@@ -144,6 +144,5 @@ export const fetchLessonYearsSupabase = async () => {
     .from("available_years")
     .select("*")
   if (error) console.log(error)
-  console.log(years)
 }
 fetchLessonYearsSupabase()

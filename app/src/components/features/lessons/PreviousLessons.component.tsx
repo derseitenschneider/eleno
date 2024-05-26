@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { IoEllipsisVertical } from "react-icons/io5"
-import DeleteLesson from "./deleteLesson/DeleteLesson.component"
+import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./editLesson/EditLesson.component"
-import ShareHomework from "./shareHomework/ShareHomework.component"
+import ShareHomework from "./ShareHomework.component"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
 

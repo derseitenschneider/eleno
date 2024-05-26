@@ -5,10 +5,10 @@ import { SiThreema } from "react-icons/si"
 import { FaTelegramPlane } from "react-icons/fa"
 // import { BsSignal } from 'react-icons/bs'
 import { useEffect, useState } from "react"
-import { useLessons } from "../../../../services/context/LessonsContext"
-import { useStudents } from "../../../../services/context/StudentContext"
+import { useLessons } from "../../../services/context/LessonsContext"
+import { useStudents } from "../../../services/context/StudentContext"
 
-import { useUser } from "../../../../services/context/UserContext"
+import { useUser } from "../../../services/context/UserContext"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 
 interface ShareHomeworkProps {

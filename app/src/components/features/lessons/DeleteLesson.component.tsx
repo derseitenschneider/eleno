@@ -1,8 +1,8 @@
 import { useState } from "react"
+import { useLessons } from "../../../services/context/LessonsContext"
+import fetchErrorToast from "../../../hooks/fetchErrorToast"
+import { Button } from "@/components/ui/button"
 import { toast } from "react-toastify"
-import { useLessons } from "../../../../services/context/LessonsContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import "./deleteLesson.style.scss"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -17,7 +17,7 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
     try {
       setIsPending(true)
       await deleteLesson(lessonId)
-      toast("Lektion gelöscht")
+      toast.success("Lektion gelöscht.")
       onCloseModal?.()
     } catch (err) {
       fetchErrorToast()
@@ -27,22 +27,15 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
   }
 
   return (
-    <div className={`delete-lesson ${isPending ? "loading" : ""}`}>
-      <h2 className='heading-2'>Lektion löschen</h2>
+    <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
-      <div className='delete-lesson__buttons'>
-        <Button
-          type='button'
-          btnStyle='secondary'
-          handler={onCloseModal}
-          label='Abbrechen'
-        />
-        <Button
-          type='button'
-          btnStyle='danger'
-          handler={handleDelete}
-          label='Löschen'
-        />
+      <div className='flex justify-end gap-4 mt-4'>
+        <Button size='sm' variant='outline' onClick={onCloseModal}>
+          Abbrechen
+        </Button>
+        <Button size='sm' variant='destructive' onClick={handleDelete}>
+          Löschen
+        </Button>
       </div>
     </div>
   )
