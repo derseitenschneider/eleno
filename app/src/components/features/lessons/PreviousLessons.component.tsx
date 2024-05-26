@@ -23,6 +23,7 @@ import DeleteLesson from "./deleteLesson/DeleteLesson.component"
 import EditLesson from "./editLesson/EditLesson.component"
 import ShareHomework from "./shareHomework/ShareHomework.component"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
+import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
 
 function PreviousLessons() {
   const { lessons } = useLessons()
@@ -59,7 +60,7 @@ function PreviousLessons() {
                 className={cn(
                   "px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
                   index === tabIndex &&
-                  "bg-background50 border-primary/80 hover:bg-background50",
+                    "bg-background50 border-primary/80 hover:bg-background50",
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -107,25 +108,7 @@ function PreviousLessons() {
           </div>
 
           <div className='absolute bottom-4 right-5 flex gap-2'>
-            <DropdownMenu>
-              <DropdownMenuTrigger className='h-3 text-primary'>
-                <IoEllipsisVertical />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <HiPencil className='text-primary mr-3' />
-                  <span>Lektion bearbeiten</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <FiShare className='text-primary mr-3' />
-                  <span>Hausaufgaben teilen</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <HiTrash className='text-warning mr-3' />
-                  <span>Lektion löschen</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <PreviousLessonDropDown lessonId={previousLessonsIds[tabIndex]} />
           </div>
         </>
       ) : (
