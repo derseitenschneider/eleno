@@ -1,12 +1,10 @@
 import { CSVLink } from "react-csv"
-import { FaSpinner } from "react-icons/fa"
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import { useEffect, useState } from "react"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import type { Lesson } from "../../../../types/types"
-import { formatDateToDisplay } from "../../../../utils/formateDate"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 
 import { Button } from "@/components/ui/button"
@@ -25,12 +23,14 @@ import { cn } from "@/lib/utils"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useUserLocale } from "@/services/context/UserLocaleContext"
 
 type ExportLessonsProps = {
   studentId: number
 }
 function ExportLessons({ studentId }: ExportLessonsProps) {
   const { getAllLessons } = useLessons()
+  const { userLocale } = useUserLocale()
   const { students } = useStudents()
   const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
@@ -51,9 +51,13 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     const { date, lessonContent, homework } = lesson
 
     return {
-      date: formatDateToDisplay(date),
+      date: date.toLocaleDateString(userLocale, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
       lessonContent: stripHtmlTags(lessonContent || ""),
-      homework: stripHtmlTags(homework),
+      homework: stripHtmlTags(homework || ""),
     }
   })
 
@@ -151,13 +155,15 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
           checked={selectAll}
         />
 
-        <Label htmlFor='select-all' className='ml-2'>
+        <Label htmlFor='select-all' className='text-sm ml-2'>
           Alle Lektionen exportieren
         </Label>
       </div>
 
       <div className='mt-8 mb-4'>
-        <Label htmlFor='title'>Titel (optional) </Label>
+        <Label htmlFor='title' className='text-sm'>
+          Titel (optional){" "}
+        </Label>
         <Input
           placeholder='Titel'
           className='w-[35ch]'

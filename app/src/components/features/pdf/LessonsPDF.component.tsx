@@ -1,3 +1,4 @@
+import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
 import Html from "react-pdf-html"
 
@@ -34,12 +35,13 @@ export default function LessonPDF({
   studentFullName,
   title,
 }: LessonsPDFProps) {
+  const { userLocale } = useUserLocale()
   const sanitizedLessons = lessons.map((lesson) => {
-    const sanitizedContent = lesson.lessonContent
-      .replaceAll("\n", "<br></br>")
+    const sanitizedContent = lesson?.lessonContent
+      ?.replaceAll("\n", "<br></br>")
       .replaceAll("style", "")
 
-    const sanitizedHomework = lesson.homework.replaceAll("\n", "<br></br>")
+    const sanitizedHomework = lesson.homework?.replaceAll("\n", "<br></br>")
 
     const newLesson = { ...lesson, sanitizedContent, sanitizedHomework }
     return newLesson
@@ -59,14 +61,20 @@ export default function LessonPDF({
       {sanitizedLessons?.map((lesson, index) => (
         <View key={lesson.id}>
           <TablePDF index={index}>
-            <Text style={styles.col1}>{formatDateToDisplay(lesson.date)}</Text>
+            <Text style={styles.col1}>
+              {lesson.date.toLocaleDateString(userLocale, {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </Text>
             <View style={styles.col2} wrap={false}>
               <Html
                 stylesheet={contentStyles}
                 resetStyles
                 style={{ fontSize: "10px" }}
               >
-                {lesson.sanitizedContent}
+                {lesson.sanitizedContent || ""}
               </Html>
             </View>
             <View style={styles.col3}>
@@ -75,7 +83,7 @@ export default function LessonPDF({
                 stylesheet={contentStyles}
                 style={{ fontSize: "10px" }}
               >
-                {lesson.sanitizedHomework}
+                {lesson.sanitizedHomework || ""}
               </Html>
             </View>
           </TablePDF>
