@@ -17,10 +17,12 @@ import {
   Underline,
   Undo,
 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface CustomEditorProps {
   value: string
   onChange: (content: string) => void
+  disabled?: boolean
 }
 
 const BtnBold = createButton("Bold", <Bold />, "bold")
@@ -65,7 +67,7 @@ const BtnUndo = createButton("Undo", <Undo />, "undo")
 
 const BtnRedo = createButton("Redo", <Redo />, "redo")
 
-function CustomEditor({ value, onChange }: CustomEditorProps) {
+function CustomEditor({ value, onChange, disabled }: CustomEditorProps) {
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
     const inputWithoutColorTag = inputText.split("background-color:").join("")
@@ -74,8 +76,8 @@ function CustomEditor({ value, onChange }: CustomEditorProps) {
   }
   return (
     <EditorProvider>
-      <Editor value={value} onChange={onChangeEditor}>
-        <Toolbar className=''>
+      <Editor value={value} disabled={disabled} onChange={onChangeEditor}>
+        <Toolbar aria-disabled={disabled}>
           <div className='flex'>
             <BtnBold className='p-2' />
             <BtnItalic tabIndex={-1} />

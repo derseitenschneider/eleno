@@ -68,7 +68,6 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       await deleteLessonSupabase(lessonId)
       setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
     } catch (error) {
-      // toast("Etwas ist schiefgelaufen. Versuch's nochmal.")
       if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
@@ -80,7 +79,6 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
           lesson.id === updatedLesson.id
             ? {
                 ...updatedLesson,
-                date: formatDateToDatabase(updatedLesson.date),
               }
             : lesson,
         ),
@@ -93,13 +91,12 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
           lesson.id === newLesson.id
             ? {
                 ...newLesson,
-                date: formatDateToDatabase(newLesson.date),
               }
             : lesson,
         ),
       )
     } catch (error) {
-      throw new Error(error)
+      if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
 

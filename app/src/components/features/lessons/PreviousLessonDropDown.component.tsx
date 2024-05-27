@@ -17,7 +17,7 @@ import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import DeleteLesson from "./DeleteLesson.component"
-import EditLesson from "./editLesson/EditLesson.component"
+import EditLesson from "./EditLesson.component"
 import ShareHomework from "./ShareHomework.component"
 
 type PreviousLessonDropDownProps = {
@@ -30,6 +30,10 @@ export default function PreviousLessonDropDown({
 }: PreviousLessonDropDownProps) {
   const { lessons } = useLessons()
   const [modalOpen, setModalOpen] = useState<ModalOpen>()
+
+  function closeModal() {
+    setModalOpen(undefined)
+  }
 
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
   if (!currentLesson || !currentLesson.id) return null
@@ -56,22 +60,16 @@ export default function PreviousLessonDropDown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog
-        open={modalOpen === "EDIT"}
-        onOpenChange={() => setModalOpen(undefined)}
-      >
+      <Dialog open={modalOpen === "EDIT"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektion bearbeiten</DialogTitle>
           </DialogHeader>
-          <EditLesson lesson={currentLesson} />
+          <EditLesson onCloseModal={closeModal} lesson={currentLesson} />
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={modalOpen === "SHARE"}
-        onOpenChange={() => setModalOpen(undefined)}
-      >
+      <Dialog open={modalOpen === "SHARE"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Hausaufgaben teilen</DialogTitle>
@@ -80,20 +78,12 @@ export default function PreviousLessonDropDown({
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={modalOpen === "DELETE"}
-        onOpenChange={() => setModalOpen(undefined)}
-      >
+      <Dialog open={modalOpen === "DELETE"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektion löschen</DialogTitle>
           </DialogHeader>
-          <DeleteLesson
-            onCloseModal={() => {
-              setModalOpen(undefined)
-            }}
-            lessonId={currentLesson.id}
-          />
+          <DeleteLesson onCloseModal={closeModal} lessonId={currentLesson.id} />
         </DialogContent>
       </Dialog>
     </>

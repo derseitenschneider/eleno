@@ -102,15 +102,16 @@ export const deleteLessonSupabase = async (lessonId: number) => {
 }
 
 export const updateLessonSupabase = async (lesson: Lesson): Promise<Lesson> => {
+  const utcDate = new Date(`${lesson.date.toDateString()} UTC`)
   const { data, error } = await supabase
     .from("lessons")
-    .update({ ...lesson })
+    .update({ ...lesson, date: utcDate.toISOString() })
     .eq("id", lesson.id)
     .select()
     .single()
 
   if (error) throw new Error(error.message)
-  return data
+  return { ...data, date: new Date(data.date || "") }
 }
 
 export const fetchLatestLessonsSupabase = async () => {

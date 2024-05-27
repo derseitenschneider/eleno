@@ -18,7 +18,7 @@ import type { Lesson } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
-import EditLesson from "../editLesson/EditLesson.component"
+import EditLesson from "../EditLesson.component"
 
 export const columns: ColumnDef<Lesson>[] = [
   {

@@ -20,7 +20,7 @@ import {
 import { cn } from "@/lib/utils"
 import { IoEllipsisVertical } from "react-icons/io5"
 import DeleteLesson from "./DeleteLesson.component"
-import EditLesson from "./editLesson/EditLesson.component"
+import EditLesson from "./EditLesson.component"
 import ShareHomework from "./ShareHomework.component"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import PreviousLessonDropDown from "./PreviousLessonDropDown.component"

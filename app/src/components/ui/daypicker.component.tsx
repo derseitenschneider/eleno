@@ -1,5 +1,3 @@
-import { useState } from "react"
-import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -44,10 +42,10 @@ export function DayPicker({
           {/* {date ? format(date, "P") : null} */}
           {date
             ? date.toLocaleDateString(userLocale, {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
             : null}
         </Button>
       </PopoverTrigger>
