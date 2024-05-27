@@ -39,12 +39,23 @@ export const columns: ColumnDef<Lesson>[] = [
     accessorKey: "lessonContent",
     header: "Lektion",
     cell: ({ row }) => {
-      return <div>{parse(row.getValue("lessonContent"))}</div>
+      return (
+        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+          {parse(row.getValue("lessonContent"))}
+        </div>
+      )
     },
   },
   {
     accessorKey: "homework",
     header: "Hausaufgaben",
+    cell: ({ row }) => {
+      return (
+        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+          {parse(row.getValue("homework"))}
+        </div>
+      )
+    },
   },
   {
     id: "actions",
