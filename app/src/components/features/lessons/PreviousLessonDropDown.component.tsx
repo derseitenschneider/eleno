@@ -15,6 +15,7 @@ import { useLessons } from "@/services/context/LessonsContext"
 import { Lesson } from "@/types/types"
 import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./editLesson/EditLesson.component"
 import ShareHomework from "./ShareHomework.component"
@@ -88,7 +89,9 @@ export default function PreviousLessonDropDown({
             <DialogTitle>Lektion löschen</DialogTitle>
           </DialogHeader>
           <DeleteLesson
-            onCloseModal={() => setModalOpen(undefined)}
+            onCloseModal={() => {
+              setModalOpen(undefined)
+            }}
             lessonId={currentLesson.id}
           />
         </DialogContent>

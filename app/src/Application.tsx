@@ -8,8 +8,8 @@ import { DarkModeProvider } from "./services/context/DarkModeContext"
 import { LoadingProvider } from "./services/context/LoadingContext"
 import MainContext from "./services/context/MainContext"
 import { AuthProvider } from "./services/context/UserContext"
-import { Toaster } from "@/components/ui/sonner"
 import { UserLocaleProvider } from "./services/context/UserLocaleContext"
+import { Toaster as Sonner } from "@/components/ui/sonner"
 
 export default function Application() {
   return (
@@ -31,8 +31,17 @@ export default function Application() {
             </MainContext>
           </AuthProvider>
         </LoadingProvider>
-        <Toaster position='top-right' />
       </UserLocaleProvider>
+      <Sonner
+        position='top-right'
+        toastOptions={{
+          classNames: {
+            toast: "bg-background50 border-hairline",
+            title: "text-foreground",
+            icon: "text-foreground",
+          },
+        }}
+      />
     </div>
   )
 }

@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { useLessons } from "../../../services/context/LessonsContext"
-import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import { Button } from "@/components/ui/button"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
+import MiniLoader from "@/components/ui/MiniLoader.component"
+import fetchErrorToast from "@/hooks/fetchErrorToast"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -21,6 +22,7 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
       onCloseModal?.()
     } catch (err) {
       fetchErrorToast()
+      onCloseModal?.()
     } finally {
       setIsPending(false)
     }
@@ -30,12 +32,25 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
     <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
       <div className='flex justify-end gap-4 mt-4'>
-        <Button size='sm' variant='outline' onClick={onCloseModal}>
+        <Button
+          disabled={isPending}
+          size='sm'
+          variant='outline'
+          onClick={onCloseModal}
+        >
           Abbrechen
         </Button>
-        <Button size='sm' variant='destructive' onClick={handleDelete}>
-          Löschen
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isPending}
+            size='sm'
+            variant='destructive'
+            onClick={handleDelete}
+          >
+            Löschen
+          </Button>
+          {isPending && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

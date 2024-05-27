@@ -108,11 +108,13 @@ function PreviousLessons() {
           </div>
 
           <div className='absolute bottom-4 right-5 flex gap-2'>
-            <PreviousLessonDropDown lessonId={previousLessonsIds[tabIndex]} />
+            <PreviousLessonDropDown
+              lessonId={previousLessonsIds[tabIndex] || 0}
+            />
           </div>
         </>
       ) : (
-        <Emtpy emptyMessage='Noch keine Lektion erfasst' />
+        <Emtpy emptyMessage='Keine Lektionen erfasst.' />
       )}
     </div>
   )

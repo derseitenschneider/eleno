@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { toast } from "react-toastify"
 import CustomEditor from "../../../ui/CustomEditor.component"
 
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
@@ -9,6 +8,8 @@ import type { Lesson } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 
 function NewLesson() {
   const [date, setDate] = useState<Date>()
@@ -93,11 +94,11 @@ function NewLesson() {
 
   const handleSaveLesson = async () => {
     if (!date) {
-      toast("Die Lektion hat kein Datum", { type: "error" })
+      toast.error("Datum fehlt.")
       return
     }
     if (!lessonContent) {
-      toast("Die Lektion hat keinen Lektionsinhalt", { type: "error" })
+      toast.error("Lektionsinhalt fehlt.")
       return
     }
     try {
@@ -114,7 +115,7 @@ function NewLesson() {
       setDrafts((prev) =>
         prev.filter((draft) => draft.studentId !== currentStudentId),
       )
-      toast("Lektion gespeichert")
+      toast.success("Lektion gespeichert.")
     } catch (err) {
       fetchErrorToast()
     } finally {
@@ -138,13 +139,17 @@ function NewLesson() {
           <CustomEditor value={homework} onChange={handleHomework} />
         </div>
       </div>
-      <Button
-        size='sm'
-        onClick={handleSaveLesson}
-        className='block mt-4 ml-auto'
-      >
-        Speichern
-      </Button>
+      <div className='h-fit flex items-center gap-1'>
+        <Button
+          disabled={isPending}
+          size='sm'
+          onClick={handleSaveLesson}
+          className='block mt-4 ml-auto'
+        >
+          Speichern
+        </Button>
+        {isPending && <MiniLoader />}
+      </div>
     </div>
   )
 }
