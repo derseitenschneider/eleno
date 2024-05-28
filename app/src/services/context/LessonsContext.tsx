@@ -7,27 +7,26 @@ import {
 } from "react"
 import {
   deleteLessonSupabase,
-  fetchAllLessonsSupabase,
   saveNewLessonSupabase,
   updateLessonSupabase,
 } from "../api/lessons.api"
 import type { ContextTypeLessons, Draft, Lesson } from "../../types/types"
-import { formatDateToDatabase } from "../../utils/formateDate"
 import { useUser } from "./UserContext"
 import mockLessons from "../api/mock-db/mockLessons"
 
 export const LessonsContext = createContext<ContextTypeLessons>({
   lessons: [],
+  setLessons: () => {},
 
   lessonYears: [],
+  setLessonYears: () => {},
+
   drafts: [],
   setDrafts: () => {},
-  setLessons: () => {},
 
   saveNewLesson: () => new Promise(() => {}),
   deleteLesson: () => new Promise(() => {}),
   updateLesson: () => new Promise(() => {}),
-  getAllLessons: () => new Promise(() => {}),
 })
 
 export function LessonsProvider({ children }: { children: React.ReactNode }) {
@@ -100,44 +99,29 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const getAllLessons = useCallback(
-    async (studentId: number) => {
-      if (mode === "demo") {
-        return mockLessons.reverse()
-      }
-      try {
-        const allLessons = await fetchAllLessonsSupabase(studentId)
-        // setLessons(allLessons)
-        return allLessons
-      } catch (error) {
-        throw new Error(error.mesage)
-      }
-    },
-    [mode],
-  )
-
   const value = useMemo(
     () => ({
       lessons,
       setLessons,
+      lessonYears,
+      setLessonYears,
 
       drafts,
       setDrafts,
       saveNewLesson,
       deleteLesson,
       updateLesson,
-      getAllLessons,
     }),
     [
       lessons,
-      setLessons,
+      lessonYears,
+      // setLessons,
 
       drafts,
-      setDrafts,
+      // setDrafts,
       saveNewLesson,
       deleteLesson,
       updateLesson,
-      getAllLessons,
     ],
   )
 

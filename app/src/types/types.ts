@@ -109,10 +109,11 @@ export type ContextTypeStudents = {
 }
 
 export type ContextTypeLessons = {
-  lessons: Lesson[] | null
+  lessons: Lesson[]
   setLessons: React.Dispatch<React.SetStateAction<Lesson[]>>
 
   lessonYears: Array<{ year: number }>
+  setLessonYears: (lessonYears: Array<{ year: number }>) => void
 
   drafts: Draft[]
   setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>
@@ -120,7 +121,6 @@ export type ContextTypeLessons = {
   saveNewLesson: (lesson: Lesson) => Promise<void>
   deleteLesson: (id: number) => Promise<void>
   updateLesson: (lesson: Lesson) => Promise<void>
-  getAllLessons: (studentId: number) => Promise<Lesson[]>
 }
 
 export type ContextTypeLoading = {

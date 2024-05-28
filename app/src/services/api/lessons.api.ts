@@ -1,9 +1,7 @@
 import type { Lesson } from "../../types/types"
 import supabase from "./supabase"
 
-export const fetchAllLessonsSupabase = async (
-  studentId: number,
-): Promise<Lesson[]> => {
+export const fetchAllLessonsPerStudentSupabase = async (studentId: number) => {
   const { data, error } = await supabase
     .from("lessons")
     .select("*")
@@ -144,6 +142,6 @@ export const fetchLessonYearsSupabase = async () => {
   const { data: years, error } = await supabase
     .from("available_years")
     .select("*")
-  if (error) console.log(error)
+  if (error) throw new Error(error.message)
+  return years
 }
-fetchLessonYearsSupabase()

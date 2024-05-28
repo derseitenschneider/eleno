@@ -1,22 +1,35 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useEffect, useState } from "react"
-import { fetchAllLessonsSupabase } from "@/services/api/lessons.api"
+import { fetchAllLessonsPerStudentSupabase } from "@/services/api/lessons.api"
 import { NavLink, useParams } from "react-router-dom"
-import type { Lesson } from "@/types/types"
 import { ChevronLeft } from "lucide-react"
+import { useLessons } from "@/services/context/LessonsContext"
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const [lessons, setLessons] = useState<Array<Lesson>>([])
+  const { lessons, setLessons, lessonYears } = useLessons()
+  const [selectedYear, setSelectedYear] = useState(lessonYears[0]?.year)
 
   useEffect(() => {
-    async function fetch() {
-      const allLessons = await fetchAllLessonsSupabase(Number(studentId))
-      setLessons(allLessons)
+    async function fetchAllLessonsPerStudent() {
+      try {
+        const allLessonsCurrentStudent =
+          await fetchAllLessonsPerStudentSupabase(Number(studentId))
+        if (allLessonsCurrentStudent)
+          setLessons((prev) => {
+            const currentSudentExcluded = prev.filter(
+              (lesson) => lesson.studentId !== Number(studentId),
+            )
+            return [...currentSudentExcluded, ...allLessonsCurrentStudent]
+          })
+      } catch (error) {
+        if (error instanceof Error) throw new Error(error.message)
+      }
     }
-    fetch()
-  }, [studentId])
+    fetchAllLessonsPerStudent()
+  }, [studentId, setLessons])
+
   if (lessons.length === 0) return null
   return (
     <div className='py-5 pl-8 pr-4'>
@@ -32,7 +45,11 @@ export default function AllLessons() {
       <DataTable
         columns={columns}
         messageEmpty='Keine Lektionen vorhanden'
-        data={lessons}
+        data={lessons.filter(
+          (lesson) => lesson.studentId === Number(studentId),
+        )}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
       />
     </div>
   )

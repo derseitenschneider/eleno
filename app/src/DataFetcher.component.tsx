@@ -4,7 +4,10 @@ import { toast } from "react-toastify"
 import { useLoading } from "@/services/context/LoadingContext"
 import OfflineBanner from "./components/ui/offlineBanner/OfflineBanner.component"
 import { fetchGroups } from "./services/api/groups.api"
-import { fetchLatestLessonsSupabase } from "./services/api/lessons.api"
+import {
+  fetchLatestLessonsSupabase,
+  fetchLessonYearsSupabase,
+} from "./services/api/lessons.api"
 import mockLessons from "./services/api/mock-db/mockLessons"
 import mockNotes from "./services/api/mock-db/mockNotes"
 import mockStudents from "./services/api/mock-db/mockStudents"
@@ -30,7 +33,7 @@ function DataFetcher({ children }: DataFetcherProps) {
   const { setIsLoading } = useLoading()
 
   const { setStudents } = useStudents()
-  const { setLessons } = useLessons()
+  const { setLessons, setLessonYears } = useLessons()
   const { setNotes } = useNotes()
   const { setGroups } = useGroups()
   const { setTodos } = useTodos()
@@ -58,16 +61,19 @@ function DataFetcher({ children }: DataFetcherProps) {
         fetchNotes(),
         fetchTodosSupabase(user.id),
         fetchGroups(),
+        fetchLessonYearsSupabase(),
       ])
       const fetchAll = async () => {
         setErrorMessage("")
         try {
-          const [students, lessons, notes, todos, groups] = await allPromise
+          const [students, lessons, notes, todos, groups, lessonYears] =
+            await allPromise
           setStudents([...students])
           setLessons([...lessons])
           setNotes([...notes])
           setTodos([...todos])
           setGroups([...groups])
+          setLessonYears([...lessonYears])
         } catch (err) {
           setErrorMessage(
             "Etwas ist schiefgelaufen. Versuche, die Seite neu zu laden.",

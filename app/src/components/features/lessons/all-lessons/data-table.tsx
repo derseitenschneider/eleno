@@ -1,12 +1,20 @@
 import {
   type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  type ColumnFiltersState,
   getFilteredRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import SearchBar from "@/components/ui/searchBar/SearchBar.component"
 import {
   Table,
   TableBody,
@@ -15,31 +23,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useState } from "react"
-import SearchBar from "@/components/ui/searchBar/SearchBar.component"
-import { Button } from "@/components/ui/button"
 import { File } from "lucide-react"
-import {
-  Dialog,
-  DialogHeader,
-  DialogContent,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import ExportLessons from "../exportLessons/ExportLessons.component"
+import { useState } from "react"
 import { useParams } from "react-router-dom"
+import ExportLessons from "../exportLessons/ExportLessons.component"
+import { useLessons } from "@/services/context/LessonsContext"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   messageEmpty: string
+  selectedYear?: number
+  setSelectedYear: (year: number) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   messageEmpty,
+  selectedYear,
+  setSelectedYear,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const { lessonYears } = useLessons()
   const [modalOpen, setModalOpen] = useState<"EXPORT" | "">("")
   const { studentId } = useParams()
   const table = useReactTable({
@@ -64,14 +77,28 @@ export function DataTable<TData, TValue>({
             table.getColumn("lessonContent")?.setFilterValue(event.target.value)
           }
         />
-        <Button
-          size='sm'
-          variant='outline'
-          onClick={() => setModalOpen("EXPORT")}
-        >
-          <File className='h-4 w-4 text-primary mr-2' />
-          Exportieren
-        </Button>
+        <div className='flex items-center gap-4'>
+          <Button
+            size='sm'
+            variant='outline'
+            onClick={() => setModalOpen("EXPORT")}
+          >
+            <File className='h-4 w-4 text-primary mr-2' />
+            Exportieren
+          </Button>
+          <Select defaultValue={String(selectedYear)}>
+            <SelectTrigger className='-[180px]'>
+              <SelectValue placeholder='Jahr' />
+            </SelectTrigger>
+            <SelectContent>
+              {lessonYears.map((year) => (
+                <SelectItem key={year.year} value={String(year.year)}>
+                  {year.year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <Table className='border border-hairline'>
         <TableHeader>
@@ -83,9 +110,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 )
               })}
