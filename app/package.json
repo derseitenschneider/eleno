@@ -1,7 +1,7 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.120",
+  "version": "1.6.121",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
@@ -37,6 +37,8 @@
     "@supabase/auth-ui-shared": "^0.1.3",
     "@supabase/gotrue-js": "^2.57.0",
     "@supabase/supabase-js": "^2.10.0",
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-query-devtools": "^5.40.0",
     "@tanstack/react-table": "^8.17.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

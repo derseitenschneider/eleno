@@ -7,16 +7,25 @@ import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { useQuery } from "@tanstack/react-query"
+import { fetchAllLessonsPerStudentSupabase } from "@/services/api/lessons.api"
 
 interface EditLessonProps {
-  lesson: Lesson
+  studentId: number
   onCloseModal?: () => void
 }
 
-function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
-  const { updateLesson } = useLessons()
+function EditLesson({ studentId, lessonId, onCloseModal }: EditLessonProps) {
+  const {
+    data: lessons,
+    isError,
+    isPending,
+  } = useQuery({
+    queryKey: ["lessons", studentId],
+    queryFn: () => fetchAllLessonsPerStudentSupabase(studentId),
+  })
 
-  const { studentId, id } = lesson
+  const currentLesson = lessons.find((lesson) => lesson.id === lessonId)
 
   const [lessonContent, setLessonContent] = useState(lesson.lessonContent)
   const [homework, setHomework] = useState(lesson.homework)

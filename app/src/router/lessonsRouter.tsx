@@ -31,7 +31,11 @@ const lessonsRoutes = [
       {
         end: true,
         path: "all",
-        element: <AllLessons />,
+        element: (
+          <div className='py-5 pl-8 pr-4'>
+            <AllLessons />
+          </div>
+        ),
       },
     ],
   },
