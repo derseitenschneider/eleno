@@ -2,6 +2,8 @@ import { useState } from "react"
 import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../types/types"
 import CustomEditor from "../../ui/CustomEditor.component"
+import type { Database } from "../../../types/supabase"
+
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
@@ -9,7 +11,7 @@ import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { editLesson } from "@/services/api/lessons.api"
 
-interface EditLessonProps {
+type EditLessonProps = {
   lesson: Lesson
   onCloseModal?: () => void
 }
@@ -37,10 +39,14 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
         homework: homework || "",
         date: date,
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["lessons"],
-      })
+    onSuccess: (newLesson) => {
+      queryClient.setQueryData(
+        ["lessons", lesson.studentId],
+        (prev: Array<Lesson>) =>
+          prev.map((lesson) =>
+            lesson.id === newLesson.id ? newLesson : lesson,
+          ),
+      )
       toast.success("Lektion bearbeitet.")
       onCloseModal?.()
     },

@@ -35,7 +35,7 @@ export const UserContext = createContext<ContextTypeUser>({
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentSession, setCurrentSession] = useState<Session>()
+  const [currentSession, setCurrentSession] = useState<Session | null>()
   const [user, setUser] = useState<User | null>(null)
   const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const [data] = await getProfilesSupabase(userId)
       const currentUser: User = {
-        email: data.email ?? "",
-        id: data.id,
+        email: data?.email ?? "",
+        id: data?.id,
         firstName: data.first_name ?? "",
         lastName: data.last_name ?? "",
       }

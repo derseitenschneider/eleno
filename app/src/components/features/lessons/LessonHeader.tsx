@@ -1,20 +1,17 @@
 import { HiOutlineListBullet } from "react-icons/hi2"
 import { NavLink, useParams } from "react-router-dom"
 
-import { useStudents } from "../../../services/context/StudentContext"
-
 import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
-import type { Student } from "@/types/types"
-import { User, UserRound } from "lucide-react"
+import { User } from "lucide-react"
+import useStudentsQuery from "../students/studentsQuery"
 
 function LessonHeader() {
-  const { students } = useStudents()
+  const students = useStudentsQuery().data
   const { studentId } = useParams()
 
-  let currentStudent: Student | undefined
-  if (studentId !== undefined && students !== null) {
-    currentStudent = students.find((student) => student.id === +studentId)
-  }
+  if (!studentId) return null
+
+  const currentStudent = students?.find((student) => student.id === +studentId)
 
   const firstName = currentStudent?.firstName
   const lastName = currentStudent?.lastName

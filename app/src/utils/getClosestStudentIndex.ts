@@ -1,4 +1,4 @@
-import type { Student, TWeekday } from "../types/types"
+import type { Student, Weekday } from "../types/types"
 import { sortStudentsDateTime } from "./sortStudents"
 
 const calcNearestStudentIndex = (students: Student[]) => {
@@ -8,13 +8,13 @@ const calcNearestStudentIndex = (students: Student[]) => {
 
   const day = new Date().getDay()
   const now = new Date().toTimeString().slice(0, 5)
-  let today: TWeekday
-  let in1Day: TWeekday
-  let in2Days: TWeekday
-  let in3Days: TWeekday
-  let in4Days: TWeekday
-  let in5Days: TWeekday
-  let in6Days: TWeekday
+  let today: Weekday
+  let in1Day: Weekday
+  let in2Days: Weekday
+  let in3Days: Weekday
+  let in4Days: Weekday
+  let in5Days: Weekday
+  let in6Days: Weekday
   switch (day) {
     case 0:
       today = "Sonntag"
@@ -104,7 +104,7 @@ const calcNearestStudentIndex = (students: Student[]) => {
     (student) => student.dayOfLesson === today,
   )
   const todaysNextStudent = todaysStudents.filter(
-    (student) => student.endOfLesson > now,
+    (student) => student?.endOfLesson > now,
   )[0]
 
   if (todaysNextStudent) {

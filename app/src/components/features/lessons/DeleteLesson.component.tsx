@@ -18,11 +18,12 @@ function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
     error,
   } = useMutation({
     mutationFn: () => deleteLesson(lesson.id || 0),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["lessons", lesson.studentId],
-      })
-
+    onSuccess: ({ id: lessonId }) => {
+      queryClient.setQueryData(
+        ["lessons", lesson.studentId],
+        (prev: Array<Lesson>) =>
+          prev.filter((lesson) => lesson.id !== lessonId),
+      )
       onCloseModal?.()
       toast.success("Lektion gelöscht.")
     },

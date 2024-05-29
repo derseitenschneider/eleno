@@ -1,7 +1,7 @@
 import type { Lesson } from "../../types/types"
 import supabase from "./supabase"
 
-export const fetchAllLessonsPerStudentSupabase = async (studentId: number) => {
+export const fetchAllLessonsPerStudent = async (studentId: number) => {
   const { data, error } = await supabase
     .from("lessons")
     .select("*")
@@ -16,7 +16,7 @@ export const fetchAllLessonsPerStudentSupabase = async (studentId: number) => {
   return lessons
 }
 
-export const fetchAllLessonsCSVSupabase = async (
+export const fetchAllLessonsCSV = async (
   studentId: number,
 ): Promise<string> => {
   const { data: lessons, error } = await supabase
@@ -30,7 +30,7 @@ export const fetchAllLessonsCSVSupabase = async (
   return lessons
 }
 
-export const fetchLessonsByDateRangeSupabase = async (
+export const fetchLessonsByRange = async (
   startDate: Date,
   endDate: Date,
   studentId: number,
@@ -47,7 +47,7 @@ export const fetchLessonsByDateRangeSupabase = async (
   return lessons
 }
 
-export const fetchLessonsCSVByDateRangeSupabase = async (
+export const fetchLessonsCSVByRange = async (
   startDate: Date,
   endDate: Date,
   studentId: number,
@@ -65,7 +65,7 @@ export const fetchLessonsCSVByDateRangeSupabase = async (
   return lessons
 }
 
-export const saveNewLessonSupabase = async (
+export const saveNewLesson = async (
   lesson: Lesson,
   userId: string,
 ): Promise<Lesson | undefined> => {
@@ -92,11 +92,17 @@ export const saveNewLessonSupabase = async (
 }
 
 export const deleteLesson = async (lessonId: number) => {
-  const { error } = await supabase.from("lessons").delete().eq("id", lessonId)
+  const { data, error } = await supabase
+    .from("lessons")
+    .delete()
+    .eq("id", lessonId)
+    .select("id")
+    .single()
 
   if (error) {
     throw new Error(error.message)
   }
+  return data
 }
 
 export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
@@ -112,7 +118,7 @@ export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
   return { ...data, date: new Date(data.date || "") }
 }
 
-export const fetchLatestLessonsSupabase = async () => {
+export const fetchLatestLessons = async () => {
   const { data: lessons, error } = await supabase
     .from("last_3_lessons")
     .select()
@@ -124,9 +130,7 @@ export const fetchLatestLessonsSupabase = async () => {
   }))
 }
 
-export const fetchLatestLessonsPerStudentSupabase = async (
-  studentIds: number[],
-) => {
+export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
   const { data: lessons, error } = await supabase
     .from("lessons")
     .select("*")
@@ -138,7 +142,7 @@ export const fetchLatestLessonsPerStudentSupabase = async (
   return lessons.reverse()
 }
 
-export const fetchLessonYearsSupabase = async () => {
+export const fetchLessonYears = async () => {
   const { data: years, error } = await supabase
     .from("available_years")
     .select("*")

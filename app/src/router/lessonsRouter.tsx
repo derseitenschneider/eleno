@@ -4,6 +4,7 @@ import Repertoire from "@/components/features/repertoire/Repertoire.component"
 import { motion } from "framer-motion"
 import { Suspense, lazy } from "react"
 import { Outlet } from "react-router-dom"
+import NoStudents from "@/components/features/lessons/NoStudents.component"
 
 const LessonsPage = lazy(() => import("../pages/Lessons.page"))
 
@@ -38,6 +39,10 @@ const lessonsRoutes = [
         ),
       },
     ],
+  },
+  {
+    path: "/lessons/no-students",
+    element: <NoStudents />,
   },
 ]
 export default lessonsRoutes

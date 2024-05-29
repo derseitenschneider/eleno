@@ -127,7 +127,8 @@ export const compareDateString = (a: Lesson, b: Lesson) => {
   return comparison
 }
 
-export const sortStudentsDateTime = (students: Student[]) => {
+export const sortStudentsDateTime = (students: Student[] | null) => {
+  if (!students) return []
   const mo: Student[] = []
   const tue: Student[] = []
   const wed: Student[] = []

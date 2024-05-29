@@ -1,32 +1,16 @@
 import parse from "html-react-parser"
 import { useEffect, useState } from "react"
-import { FiShare } from "react-icons/fi"
-import { HiPencil, HiTrash } from "react-icons/hi"
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom"
-
-import { useLessons } from "../../../services/context/LessonsContext"
-import { useStudents } from "../../../services/context/StudentContext"
-
-import { formatDateToDisplay } from "../../../utils/formateDate"
+import { NavLink, useParams } from "react-router-dom"
 
 import Emtpy from "../../ui/Empty.component"
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { IoEllipsisVertical } from "react-icons/io5"
-import DeleteLesson from "./DeleteLesson.component"
-import EditLesson from "./EditLesson.component"
-import ShareHomework from "./ShareHomework.component"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
+import { useLatestLessonsQuery } from "./lessonsQuery"
 
 function PreviousLessons() {
-  const { lessons } = useLessons()
+  const lessons = useLatestLessonsQuery().data
   const { userLocale } = useUserLocale()
 
   const [tabIndex, setTabIndex] = useState(0)

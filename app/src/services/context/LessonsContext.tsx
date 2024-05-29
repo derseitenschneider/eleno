@@ -5,11 +5,7 @@ import {
   useMemo,
   useState,
 } from "react"
-import {
-  deleteLesson,
-  saveNewLessonSupabase,
-  editLesson,
-} from "../api/lessons.api"
+import { deleteLesson, saveNewLesson, editLesson } from "../api/lessons.api"
 import type { ContextTypeLessons, Draft, Lesson } from "../../types/types"
 import { useUser } from "./UserContext"
 import mockLessons from "../api/mock-db/mockLessons"
@@ -49,7 +45,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const newLesson = await saveNewLessonSupabase(lesson, user?.id || "")
+        const newLesson = await saveNewLesson(lesson, user?.id || "")
         if (newLesson) setLessons((prev) => [...prev, newLesson])
       } catch (error) {
         if (error instanceof Error) throw new Error(error.message)

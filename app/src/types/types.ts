@@ -1,4 +1,5 @@
 import type React from "react"
+import { Database } from "./supabase"
 
 export type Weekday =
   | "Montag"
@@ -29,7 +30,7 @@ export type Student = {
   lastName: string
   archive: boolean
   instrument: string
-  durationMinutes?: number | null
+  durationMinutes?: number
   dayOfLesson?: Weekday
   startOfLesson?: string
   endOfLesson?: string
@@ -37,12 +38,9 @@ export type Student = {
 }
 
 export type Lesson = {
-  id?: number
-  date?: Date
-  lessonContent?: string
-  homework?: string
-  studentId: number
-  homeworkKey?: string
+  [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
+    ? Date
+    : Database["public"]["Tables"]["lessons"]["Row"][P]
 }
 
 export type Draft = {
@@ -90,22 +88,12 @@ export type ContextTypeTodos = {
 }
 
 export type ContextTypeStudents = {
-  students: Student[] | null
-  setStudents: React.Dispatch<React.SetStateAction<Student[]>>
   currentStudentIndex: number
   setCurrentStudentIndex: React.Dispatch<React.SetStateAction<number>>
   currentStudentId: number
-  isPending: boolean
-  setIsPending: React.Dispatch<React.SetStateAction<boolean>>
   activeStudents: Student[] | null
   inactiveStudents: Student[] | null
   activeSortedStudentIds: number[]
-  resetLessonData: (ids: number[]) => Promise<void>
-  saveNewStudents: (students: Student[]) => Promise<void>
-  deactivateStudents: (ids: number | number[]) => Promise<void>
-  reactivateStudents: (ids: number | number[]) => Promise<void>
-  deleteStudents: (ids: number | number[]) => Promise<void>
-  updateStudents: (student: Student[]) => Promise<void>
 }
 
 export type ContextTypeLessons = {
@@ -171,7 +159,7 @@ export type TimetableDay = {
 }
 
 export type Todo = {
-  id?: number
+  id: number
   text: string
   due?: Date
   studentId?: number

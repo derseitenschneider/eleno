@@ -1,7 +1,7 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useEffect, useState } from "react"
-import { fetchAllLessonsPerStudentSupabase } from "@/services/api/lessons.api"
+import { fetchAllLessonsPerStudent } from "@/services/api/lessons.api"
 import { NavLink, useParams } from "react-router-dom"
 import { ChevronLeft } from "lucide-react"
 import { useLessons } from "@/services/context/LessonsContext"
@@ -14,7 +14,7 @@ export default function AllLessons() {
 
   const { data, isError, isPending } = useQuery({
     queryKey: ["lessons", Number(studentId)],
-    queryFn: () => fetchAllLessonsPerStudentSupabase(Number(studentId)),
+    queryFn: () => fetchAllLessonsPerStudent(Number(studentId)),
   })
 
   if (isPending) return <div>...Loading</div>

@@ -3,7 +3,6 @@ import { useStudents } from "@/services/context/StudentContext"
 import { NavLink } from "react-router-dom"
 
 export default function NoStudents() {
-  const { inactiveStudents } = useStudents()
   return (
     <NoContent>
       <h3 className=''>Keine aktiven Schüler:innen</h3>

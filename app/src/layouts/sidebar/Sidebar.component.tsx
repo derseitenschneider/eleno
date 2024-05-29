@@ -1,15 +1,5 @@
 import { logEvent } from "@firebase/analytics"
 import { useCallback, useState } from "react"
-import {
-  IoBookOutline,
-  IoCalendarOutline,
-  IoCheckboxOutline,
-  IoCompassOutline,
-  IoLogOutOutline,
-  IoPeopleCircleOutline,
-  IoSchoolOutline,
-  IoSettingsOutline,
-} from "react-icons/io5"
 import { NavLink } from "react-router-dom"
 
 import Logo from "../../components/ui/logo/Logo.component"
@@ -24,29 +14,30 @@ import SidebarToggle from "@/layouts/sidebar/SidebarToggle.component"
 import { useTodos } from "@/services/context/TodosContext"
 import {
   BookMarked,
-  BookOpenCheck,
   CalendarDays,
-  CheckSquare,
   CheckSquare2,
-  Gauge,
   GaugeCircle,
   GraduationCap,
-  LayoutDashboard,
-  ListChecks,
-  ListTodo,
   LogOut,
   Settings,
   Users,
-  UsersRound,
 } from "lucide-react"
 import analytics from "../../services/analytics/firebaseAnalytics"
+import useStudentsQuery from "@/components/features/students/studentsQuery"
+import useTodosQuery from "@/components/features/todos/todosQuery"
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { setNearestStudentIndex: setClosestStudentIndex } = useNearestStudent()
-  const { activeStudents, currentStudentId } = useStudents()
+  const students = useStudentsQuery().data
+  const activeStudents = students?.filter((student) => !student.archive)
+  const { currentStudentId } = useStudents()
+  const todos = useTodosQuery().data
   const { logout } = useUser()
-  const { overdueTodos } = useTodos()
+  const overdueTodos = todos?.filter(
+    (todo) => todo.due && todo?.due <= new Date(),
+  )
+
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
 
   const toggleSidebar = useCallback(() => {

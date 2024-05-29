@@ -11,13 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useLessons } from "@/services/context/LessonsContext"
-import { Lesson } from "@/types/types"
 import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
-import { toast } from "sonner"
 import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./EditLesson.component"
+import { useLatestLessonsQuery } from "./lessonsQuery"
 import ShareHomework from "./ShareHomework.component"
 
 type PreviousLessonDropDownProps = {
@@ -28,7 +26,7 @@ type ModalOpen = "EDIT" | "SHARE" | "DELETE" | undefined
 export default function PreviousLessonDropDown({
   lessonId,
 }: PreviousLessonDropDownProps) {
-  const { lessons } = useLessons()
+  const lessons = useLatestLessonsQuery().data
   const [modalOpen, setModalOpen] = useState<ModalOpen>()
 
   function closeModal() {
@@ -36,7 +34,9 @@ export default function PreviousLessonDropDown({
   }
 
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
+
   if (!currentLesson || !currentLesson.id) return null
+
   return (
     <>
       <DropdownMenu>

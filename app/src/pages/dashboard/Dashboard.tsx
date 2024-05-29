@@ -10,7 +10,8 @@ import { useLoading } from "../../services/context/LoadingContext"
 
 function Dashboard() {
   const { isLoading } = useLoading()
-  useScrollTo({ x: 0, y: 0 })
+  useScrollTo()
+
   if (isLoading) return <DashboardSkeleton />
 
   return (

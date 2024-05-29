@@ -2,8 +2,8 @@
 import type { Todo } from "../../types/types"
 import supabase from "./supabase"
 
-export const fetchTodosSupabase = async (userId: string): Promise<Todo[]> => {
-  const { data, error } = await supabase
+export const fetchTodos = async (userId: string) => {
+  const { data: todos, error } = await supabase
     .from("todos")
     .select("*")
     .eq("user_id", userId)
@@ -11,20 +11,13 @@ export const fetchTodosSupabase = async (userId: string): Promise<Todo[]> => {
     throw new Error(error.message)
   }
 
-  const toDos: Todo[] = data.map((todo) => {
-    return {
-      completed: todo.completed,
-      due: todo.due || null,
-      id: todo.id,
-      studentId: todo.student_id,
-      text: todo.text,
-      userId: todo.user_id,
-    }
-  })
-  return toDos
+  return todos.map((todo) => ({
+    ...todo,
+    due: todo.due ? new Date(todo.due) : null,
+  }))
 }
 
-export const saveTodoSupabase = async (todo: Todo): Promise<Todo> => {
+export const saveTodo = async (todo: Todo): Promise<Todo> => {
   const { text, due, studentId: student_id, completed, userId: user_id } = todo
   const { data, error } = await supabase
     .from("todos")
@@ -43,7 +36,7 @@ export const saveTodoSupabase = async (todo: Todo): Promise<Todo> => {
   return newTodo
 }
 
-export const completeTodoSupabase = async (todoId: number) => {
+export const completeTodo = async (todoId: number) => {
   const { error } = await supabase
     .from("todos")
     .update({ completed: true })
@@ -51,7 +44,7 @@ export const completeTodoSupabase = async (todoId: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateTodoSupabase = async (todo: Todo) => {
+export const updateTodo = async (todo: Todo) => {
   const todoDb = {
     completed: todo.completed,
     due: todo.due,
@@ -68,12 +61,12 @@ export const updateTodoSupabase = async (todo: Todo) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteCompletedTodosSupabase = async () => {
+export const deleteAllCompletedTodos = async () => {
   const { error } = await supabase.from("todos").delete().eq("completed", true)
   if (error) throw new Error(error.message)
 }
 
-export const reactivateTodoSupabase = async (id: number) => {
+export const reactivateTodo = async (id: number) => {
   const { error } = await supabase
     .from("todos")
     .update({ completed: false })
@@ -82,7 +75,7 @@ export const reactivateTodoSupabase = async (id: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteTodoSupabase = async (id: number) => {
+export const deleteTodo = async (id: number) => {
   const { error } = await supabase.from("todos").delete().eq("id", id)
   if (error) throw new Error(error.message)
 }
