@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useLessons } from "../../../services/context/LessonsContext"
 import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../types/types"
 import CustomEditor from "../../ui/CustomEditor.component"
@@ -7,30 +6,18 @@ import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useQuery } from "@tanstack/react-query"
-import { fetchAllLessonsPerStudentSupabase } from "@/services/api/lessons.api"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { editLesson } from "@/services/api/lessons.api"
 
 interface EditLessonProps {
-  studentId: number
+  lesson: Lesson
   onCloseModal?: () => void
 }
 
-function EditLesson({ studentId, lessonId, onCloseModal }: EditLessonProps) {
-  const {
-    data: lessons,
-    isError,
-    isPending,
-  } = useQuery({
-    queryKey: ["lessons", studentId],
-    queryFn: () => fetchAllLessonsPerStudentSupabase(studentId),
-  })
-
-  const currentLesson = lessons.find((lesson) => lesson.id === lessonId)
-
+function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
   const [lessonContent, setLessonContent] = useState(lesson.lessonContent)
   const [homework, setHomework] = useState(lesson.homework)
   const [date, setDate] = useState<Date | undefined>(lesson.date)
-  const [isPending, setIsPending] = useState(false)
 
   const handleLessonContent = (content: string) => {
     setLessonContent(content)
@@ -40,28 +27,28 @@ function EditLesson({ studentId, lessonId, onCloseModal }: EditLessonProps) {
     setHomework(content)
   }
 
-  const handleUpdate = async () => {
-    if (!date) return toast.error("Datum fehlt")
-    setIsPending(true)
+  const queryClient = useQueryClient()
 
-    try {
-      const newLesson: Lesson = {
-        lessonContent,
-        homework,
-        date,
-        studentId,
-        id,
-      }
-      await updateLesson(newLesson)
-      toast.success("Änderungen gespeichert")
+  const { mutate: saveLesson, isPending } = useMutation({
+    mutationFn: () =>
+      editLesson({
+        ...lesson,
+        lessonContent: lessonContent || "",
+        homework: homework || "",
+        date: date,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["lessons"],
+      })
+      toast.success("Lektion bearbeitet.")
       onCloseModal?.()
-    } catch (error) {
+    },
+    onError: () => {
+      onCloseModal?.()
       fetchErrorToast()
-      onCloseModal?.()
-    } finally {
-      setIsPending(false)
-    }
-  }
+    },
+  })
 
   return (
     <div className='edit-lesson'>
@@ -104,7 +91,7 @@ function EditLesson({ studentId, lessonId, onCloseModal }: EditLessonProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button disabled={isPending} size='sm' onClick={handleUpdate}>
+          <Button disabled={isPending} size='sm' onClick={() => saveLesson()}>
             Speichern
           </Button>
           {isPending && <MiniLoader />}

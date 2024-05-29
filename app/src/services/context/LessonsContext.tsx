@@ -6,9 +6,9 @@ import {
   useState,
 } from "react"
 import {
-  deleteLessonSupabase,
+  deleteLesson,
   saveNewLessonSupabase,
-  updateLessonSupabase,
+  editLesson,
 } from "../api/lessons.api"
 import type { ContextTypeLessons, Draft, Lesson } from "../../types/types"
 import { useUser } from "./UserContext"
@@ -64,7 +64,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       return
     }
     try {
-      await deleteLessonSupabase(lessonId)
+      await deleteLesson(lessonId)
       setLessons((prev) => prev.filter((lesson) => lesson.id !== lessonId))
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
@@ -84,7 +84,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       )
     }
     try {
-      const newLesson = await updateLessonSupabase(updatedLesson)
+      const newLesson = await editLesson(updatedLesson)
       setLessons((prev) =>
         prev.map((lesson) =>
           lesson.id === newLesson.id

@@ -1,37 +1,36 @@
-import { useState } from "react"
-import { useLessons } from "../../../services/context/LessonsContext"
+import { deleteLesson } from "@/services/api/lessons.api"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import fetchErrorToast from "@/hooks/fetchErrorToast"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import type { Lesson } from "@/types/types"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
-  lessonId: number
+  lesson: Lesson
 }
 
-function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
-  const [isPending, setIsPending] = useState(false)
-  const { deleteLesson } = useLessons()
+function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
+  const queryClient = useQueryClient()
+  const {
+    mutate: handleDelete,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: () => deleteLesson(lesson.id || 0),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["lessons", lesson.studentId],
+      })
 
-  const handleDelete = async () => {
-    try {
-      setIsPending(true)
-      await deleteLesson(lessonId)
+      onCloseModal?.()
       toast.success("Lektion gelöscht.")
-      onCloseModal?.()
-    } catch (err) {
-      fetchErrorToast()
-      onCloseModal?.()
-    } finally {
-      setIsPending(false)
-    }
-  }
-
+    },
+  })
   return (
     <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
-      <div className='flex justify-end gap-4 mt-4'>
+      <div className='flex justify-center gap-4 mt-4'>
         <Button
           disabled={isPending}
           size='sm'
@@ -45,13 +44,18 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
             disabled={isPending}
             size='sm'
             variant='destructive'
-            onClick={handleDelete}
+            onClick={() => handleDelete()}
           >
             Löschen
           </Button>
           {isPending && <MiniLoader />}
         </div>
       </div>
+      {error && (
+        <p className='mt-4 text-center text-sm text-warning'>
+          Es ist etwas schiefgelaufen. Versuch's nochmal.
+        </p>
+      )}
     </div>
   )
 }

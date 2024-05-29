@@ -1,9 +1,11 @@
 import { toast } from "sonner"
 
-const fetchErrorToast = () => {
-  return toast.error("Etwas ist schiefgelaufen. Versuch's nochmal.", {
+const fetchErrorToast = (
+  message = "Etwas ist schiefgelaufen. Versuch's nochmal.",
+) => {
+  return toast.error(message, {
     classNames: {
-      actionButton: "underline",
+      actionButton: "text-primary underline",
     },
     action: {
       label: "Fehler melden",

@@ -19,6 +19,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 import EditLesson from "../EditLesson.component"
+import DeleteLesson from "../DeleteLesson.component"
 
 export const columns: ColumnDef<Lesson>[] = [
   {
@@ -91,7 +92,10 @@ export const columns: ColumnDef<Lesson>[] = [
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem className='flex items-center gap-2'>
+                <DropdownMenuItem
+                  onClick={() => setOpenModal("DELETE")}
+                  className='flex items-center gap-2'
+                >
                   <Trash2 className='h-4 w-4 text-warning' />
                   <span>Lektion löschen</span>
                 </DropdownMenuItem>
@@ -105,6 +109,15 @@ export const columns: ColumnDef<Lesson>[] = [
                 <DialogTitle>Lektion bearbeiten</DialogTitle>
               </DialogHeader>
               <EditLesson lesson={row.original} onCloseModal={closeModal} />
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Lektion löschen</DialogTitle>
+              </DialogHeader>
+              <DeleteLesson onCloseModal={closeModal} lesson={row.original} />
             </DialogContent>
           </Dialog>
         </>

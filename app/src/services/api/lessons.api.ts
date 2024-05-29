@@ -91,7 +91,7 @@ export const saveNewLessonSupabase = async (
   return undefined
 }
 
-export const deleteLessonSupabase = async (lessonId: number) => {
+export const deleteLesson = async (lessonId: number) => {
   const { error } = await supabase.from("lessons").delete().eq("id", lessonId)
 
   if (error) {
@@ -99,8 +99,8 @@ export const deleteLessonSupabase = async (lessonId: number) => {
   }
 }
 
-export const updateLessonSupabase = async (lesson: Lesson): Promise<Lesson> => {
-  const utcDate = new Date(`${lesson.date.toDateString()} UTC`)
+export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
+  const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
     .from("lessons")
     .update({ ...lesson, date: utcDate.toISOString() })
