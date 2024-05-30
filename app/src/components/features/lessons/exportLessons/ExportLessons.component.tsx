@@ -13,7 +13,7 @@ import supabase from "@/services/api/supabase"
 import { useParams } from "react-router-dom"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import {
-  fetchAllLessonsPerStudent,
+  fetchAllLessonsAPI,
   fetchLessonsByRange,
 } from "../../../../services/api/lessons.api"
 import stripHtmlTags from "../../../../utils/stripHtmlTags"
@@ -29,9 +29,7 @@ type ExportLessonsProps = {
   studentId: number
 }
 function ExportLessons({ studentId }: ExportLessonsProps) {
-  const { getAllLessonsPerStudent: getAllLessons } = useLessons()
   const { userLocale } = useUserLocale()
-  const { students } = useStudents()
   const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [startDate, setStartDate] = useState<Date>()
@@ -100,7 +98,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       setIsPending(true)
       const fetchLessons = async () => {
         try {
-          const allLessons = await fetchAllLessonsPerStudent(Number(studentId))
+          const allLessons = await fetchAllLessonsAPI(Number(studentId))
           setLessons(allLessons)
         } catch (error) {
           fetchErrorToast()

@@ -8,7 +8,7 @@ import "./bulkExportLessons.style.scss"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 import {
   fetchAllLessonsCSV,
-  fetchAllLessonsPerStudent,
+  fetchAllLessonsAPI,
   fetchLessonsByRange,
   fetchLessonsCSVByRange,
 } from "../../../../services/api/lessons.api"
@@ -52,7 +52,7 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
     const fetchLessons = async () => {
       const lessonsAllStudents = selectedStudents.map(async (studentId) => {
         const lessons = selectAll
-          ? await fetchAllLessonsPerStudent(studentId)
+          ? await fetchAllLessonsAPI(studentId)
           : await fetchLessonsByRange(startDate, endDate, studentId)
         const { firstName, lastName } = students.find(
           (student) => student.id === studentId,

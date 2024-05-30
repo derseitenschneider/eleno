@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { editLesson } from "@/services/api/lessons.api"
+import { updateLessonAPI } from "@/services/api/lessons.api"
 
 type EditLessonProps = {
   lesson: Lesson
@@ -33,7 +33,7 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
 
   const { mutate: saveLesson, isPending } = useMutation({
     mutationFn: () =>
-      editLesson({
+      updateLessonAPI({
         ...lesson,
         lessonContent: lessonContent || "",
         homework: homework || "",

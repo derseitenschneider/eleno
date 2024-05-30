@@ -15,7 +15,7 @@ import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
 import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./EditLesson.component"
-import { useLatestLessonsQuery } from "./lessonsQuery"
+import { useLatestLessonsQuery } from "./lessonsQueries"
 import ShareHomework from "./ShareHomework.component"
 
 type PreviousLessonDropDownProps = {

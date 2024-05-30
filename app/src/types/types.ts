@@ -39,8 +39,8 @@ export type Student = {
 
 export type Lesson = {
   [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-    ? Date
-    : Database["public"]["Tables"]["lessons"]["Row"][P]
+  ? Date
+  : Database["public"]["Tables"]["lessons"]["Row"][P]
 }
 
 export type Draft = {
@@ -97,18 +97,8 @@ export type ContextTypeStudents = {
 }
 
 export type ContextTypeLessons = {
-  lessons: Lesson[]
-  setLessons: React.Dispatch<React.SetStateAction<Lesson[]>>
-
-  lessonYears: Array<{ year: number }>
-  setLessonYears: (lessonYears: Array<{ year: number }>) => void
-
   drafts: Draft[]
   setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>
-
-  saveNewLesson: (lesson: Lesson) => Promise<void>
-  deleteLesson: (id: number) => Promise<void>
-  updateLesson: (lesson: Lesson) => Promise<void>
 }
 
 export type ContextTypeLoading = {

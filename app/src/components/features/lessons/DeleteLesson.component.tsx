@@ -1,4 +1,4 @@
-import { deleteLesson } from "@/services/api/lessons.api"
+import { deleteLessonAPI } from "@/services/api/lessons.api"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
@@ -17,7 +17,7 @@ function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
     isPending,
     error,
   } = useMutation({
-    mutationFn: () => deleteLesson(lesson.id || 0),
+    mutationFn: () => deleteLessonAPI(lesson.id || 0),
     onSuccess: ({ id: lessonId }) => {
       queryClient.setQueryData(
         ["lessons", lesson.studentId],

@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useLessonYearsQuery } from "../lessonsQueries"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -42,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   messageEmpty: string
   selectedYear?: number
   setSelectedYear: (year: number) => void
+  lessonYears: Array<{ student_id: number; years: Array<number> }>
 }
 
 export function DataTable<TData, TValue>({
@@ -50,11 +52,11 @@ export function DataTable<TData, TValue>({
   messageEmpty,
   selectedYear,
   setSelectedYear,
+  lessonYears,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const { lessonYears } = useLessons()
-  const [modalOpen, setModalOpen] = useState<"EXPORT" | "">("")
   const { studentId } = useParams()
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [modalOpen, setModalOpen] = useState<"EXPORT" | "">("")
   const table = useReactTable({
     data,
     columns,
@@ -65,6 +67,9 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   })
+  const currentLessonYears = lessonYears.find(
+    (lessonYear) => lessonYear.student_id === Number(studentId),
+  )?.years
 
   return (
     <div className='w-full'>
@@ -91,9 +96,9 @@ export function DataTable<TData, TValue>({
               <SelectValue placeholder='Jahr' />
             </SelectTrigger>
             <SelectContent>
-              {lessonYears.map((year) => (
-                <SelectItem key={year.year} value={String(year.year)}>
-                  {year.year}
+              {currentLessonYears?.map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  {year}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -110,9 +115,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 )
               })}

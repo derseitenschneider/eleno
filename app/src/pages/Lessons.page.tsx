@@ -30,7 +30,6 @@ function Lesson() {
         <aside className='border-l border-hairline'>
           <NoteList />
         </aside>
-        <LessonFooter />
       </div>
     )
 

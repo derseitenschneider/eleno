@@ -1,23 +1,26 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useEffect, useState } from "react"
-import { fetchAllLessonsPerStudent } from "@/services/api/lessons.api"
+import { fetchAllLessonsAPI } from "@/services/api/lessons.api"
 import { NavLink, useParams } from "react-router-dom"
 import { ChevronLeft } from "lucide-react"
 import { useLessons } from "@/services/context/LessonsContext"
 import { useQuery } from "@tanstack/react-query"
+import { useAllLessonsPerStudent, useLessonYearsQuery } from "../lessonsQueries"
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const { lessons, setLessons, lessonYears } = useLessons()
-  const [selectedYear, setSelectedYear] = useState(lessonYears[0]?.year)
+  const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
+    Number(studentId),
+  )
+  const {
+    data: lessons,
+    isPending: isPendingLessons,
+    isError,
+  } = useAllLessonsPerStudent(2024, Number(studentId))
+  const [selectedYear, setSelectedYear] = useState(2024)
 
-  const { data, isError, isPending } = useQuery({
-    queryKey: ["lessons", Number(studentId)],
-    queryFn: () => fetchAllLessonsPerStudent(Number(studentId)),
-  })
-
-  if (isPending) return <div>...Loading</div>
+  if (isPendingLessons || isPendingYears) return <div>...Loading</div>
   if (isError) return <div>ERROR</div>
   return (
     <>
@@ -33,9 +36,10 @@ export default function AllLessons() {
       <DataTable
         columns={columns}
         messageEmpty='Keine Lektionen vorhanden'
-        data={data}
+        data={lessons}
         selectedYear={selectedYear}
         setSelectedYear={setSelectedYear}
+        lessonYears={lessonYears}
       />
     </>
   )

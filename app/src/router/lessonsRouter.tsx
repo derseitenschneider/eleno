@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Suspense, lazy } from "react"
 import { Outlet } from "react-router-dom"
 import NoStudents from "@/components/features/lessons/NoStudents.component"
+import LessonFooter from "@/components/features/lessons/LessonFooter.component"
 
 const LessonsPage = lazy(() => import("../pages/Lessons.page"))
 
@@ -21,6 +22,7 @@ const lessonsRoutes = [
         >
           <LessonHeader />
           <Outlet />
+          <LessonFooter />
         </motion.div>
       </Suspense>
     ),

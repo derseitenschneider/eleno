@@ -1,11 +1,16 @@
 import type { Lesson } from "../../types/types"
 import supabase from "./supabase"
 
-export const fetchAllLessonsPerStudent = async (studentId: number) => {
+export const fetchAllLessonsAPI = async (
+  studentId: number,
+  lessonYear: number,
+) => {
   const { data, error } = await supabase
     .from("lessons")
     .select("*")
     .eq("studentId", studentId)
+    .gte("date", `${lessonYear}-01-01`)
+    .lt("date", `${lessonYear + 1}-01-01`)
     .order("date", { ascending: false })
 
   if (error) throw new Error(error.message)
@@ -65,7 +70,7 @@ export const fetchLessonsCSVByRange = async (
   return lessons
 }
 
-export const saveNewLesson = async (
+export const createLessonAPI = async (
   lesson: Lesson,
   userId: string,
 ): Promise<Lesson | undefined> => {
@@ -91,7 +96,7 @@ export const saveNewLesson = async (
   return undefined
 }
 
-export const deleteLesson = async (lessonId: number) => {
+export const deleteLessonAPI = async (lessonId: number) => {
   const { data, error } = await supabase
     .from("lessons")
     .delete()
@@ -105,7 +110,7 @@ export const deleteLesson = async (lessonId: number) => {
   return data
 }
 
-export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
+export const updateLessonAPI = async (lesson: Lesson): Promise<Lesson> => {
   const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
     .from("lessons")
@@ -142,10 +147,11 @@ export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
   return lessons.reverse()
 }
 
-export const fetchLessonYears = async () => {
+export const fetchLessonYears = async (studentId: number) => {
   const { data: years, error } = await supabase
-    .from("available_years")
+    .from("lesson_years")
     .select("*")
+    .eq("student_id", studentId)
   if (error) throw new Error(error.message)
   return years
 }

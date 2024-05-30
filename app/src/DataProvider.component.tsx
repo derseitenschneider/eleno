@@ -3,10 +3,10 @@ import useGroupsQuery from "./components/features/groups/groupsQuery"
 import {
   useLatestLessonsQuery,
   useLessonYearsQuery,
-} from "./components/features/lessons/lessonsQuery"
+} from "./components/features/lessons/lessonsQueries"
 import useStudentsQuery from "./components/features/students/studentsQuery"
 import useTodosQuery from "./components/features/todos/todosQuery"
-import OfflineBanner from "./components/ui/offlineBanner/OfflineBanner.component"
+import OfflineBanner from "./components/ui/OfflineBanner.component"
 import { useLoading } from "./services/context/LoadingContext"
 
 interface DataProviderProps {
@@ -20,7 +20,6 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingGroups } = useGroupsQuery()
   const { isLoading: isLoadingLatestLessons } = useLatestLessonsQuery()
   const { isLoading: isLoadingTodos } = useTodosQuery()
-  const { isLoading: isLoadingLessonYears } = useLessonYearsQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -28,8 +27,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingGroups ||
       isLoadingLatestLessons ||
       isLoadingTodos ||
-      isLoadingLessonYears
-
+      false
     setIsLoading(compoundIsLoading)
   }, [
     setIsLoading,
@@ -37,7 +35,6 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingGroups,
     isLoadingLatestLessons,
     isLoadingTodos,
-    isLoadingLessonYears,
   ])
 
   return (
