@@ -6,10 +6,23 @@ import { NavLink, useParams } from "react-router-dom"
 import { ChevronLeft } from "lucide-react"
 import { useLessons } from "@/services/context/LessonsContext"
 import { useQuery } from "@tanstack/react-query"
-import { useAllLessonsPerStudent, useLessonYearsQuery } from "../lessonsQueries"
+import {
+  useAllLessonsPerStudent,
+  useLatestLessonsQuery,
+  useLessonYearsQuery,
+} from "../lessonsQueries"
 
 export default function AllLessons() {
   const { studentId } = useParams()
+  const { data } = useLatestLessonsQuery()
+  const newestLessonYear = data
+    ?.filter((lesson) => lesson?.studentId === Number(studentId))
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+    .at(0)
+    ?.date.getFullYear()
+
+  const [selectedYear, setSelectedYear] = useState(newestLessonYear)
+
   const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
     Number(studentId),
   )
@@ -17,11 +30,12 @@ export default function AllLessons() {
     data: lessons,
     isPending: isPendingLessons,
     isError,
-  } = useAllLessonsPerStudent(2024, Number(studentId))
-  const [selectedYear, setSelectedYear] = useState(2024)
+  } = useAllLessonsPerStudent(selectedYear || 0, Number(studentId))
 
   if (isPendingLessons || isPendingYears) return <div>...Loading</div>
+
   if (isError) return <div>ERROR</div>
+
   return (
     <>
       <div className='flex items-center justify-between mb-4'>
@@ -39,7 +53,7 @@ export default function AllLessons() {
         data={lessons}
         selectedYear={selectedYear}
         setSelectedYear={setSelectedYear}
-        lessonYears={lessonYears}
+        lessonYears={lessonYears?.years || []}
       />
     </>
   )

@@ -43,7 +43,7 @@ interface DataTableProps<TData, TValue> {
   messageEmpty: string
   selectedYear?: number
   setSelectedYear: (year: number) => void
-  lessonYears: Array<{ student_id: number; years: Array<number> }>
+  lessonYears: Array<number>
 }
 
 export function DataTable<TData, TValue>({
@@ -67,9 +67,10 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   })
-  const currentLessonYears = lessonYears.find(
-    (lessonYear) => lessonYear.student_id === Number(studentId),
-  )?.years
+
+  function handleSelect(e: string) {
+    setSelectedYear(Number(e))
+  }
 
   return (
     <div className='w-full'>
@@ -91,12 +92,15 @@ export function DataTable<TData, TValue>({
             <File className='h-4 w-4 text-primary mr-2' />
             Exportieren
           </Button>
-          <Select defaultValue={String(selectedYear)}>
+          <Select
+            onValueChange={handleSelect}
+            defaultValue={String(selectedYear)}
+          >
             <SelectTrigger className='-[180px]'>
               <SelectValue placeholder='Jahr' />
             </SelectTrigger>
             <SelectContent>
-              {currentLessonYears?.map((year) => (
+              {lessonYears?.map((year) => (
                 <SelectItem key={year} value={String(year)}>
                   {year}
                 </SelectItem>

@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 export function useLatestLessonsQuery() {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ["latest-lessons"],
+    queryKey: ["latest-3-lessons"],
     queryFn: () => fetchLatestLessons(),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
@@ -22,19 +22,16 @@ export function useLessonYearsQuery(studentId: number) {
   const result = useQuery({
     queryKey: ["lesson-years", { studentId }],
     queryFn: () => fetchLessonYears(studentId),
-    enabled: Boolean(studentId),
   })
 
   return result
 }
 
 export function useAllLessonsPerStudent(year: number, studentId: number) {
-  const { user } = useUser()
   const result = useQuery({
     queryKey: ["all-lessons", { year, studentId }],
     queryFn: () => fetchAllLessonsAPI(studentId, year),
     staleTime: 1000 * 60 * 60 * 24,
-    // enabled: Boolean(user),
   })
 
   return result
