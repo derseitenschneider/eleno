@@ -24,7 +24,7 @@ export default function SearchStudentCombobox() {
     useStudents()
   const navigate = useNavigate()
 
-  if (!activeStudents) return
+  if (!activeStudents) return null
   const sortedActiveStudents = sortStudents(activeStudents, {
     sort: "lastName",
     ascending: true,

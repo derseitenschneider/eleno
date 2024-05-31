@@ -16,7 +16,7 @@ const lessonsRoutes = [
       <Suspense fallback={<p>...loading</p>}>
         {/* <LessonSkeleton /> */}
         <motion.div
-          className='h-screen grid grid-rows-[auto_1fr]'
+          className='h-screen pt-[88px] grid grid-rows-[auto_1fr]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >

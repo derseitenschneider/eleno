@@ -2,7 +2,7 @@ import { useStudents } from "../../../services/context/StudentContext"
 import SearchStudentCombobox from "../students/SearchStudentCombobox.component"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 // TODO: Make Footer available on all subpages as well
 
@@ -13,11 +13,17 @@ function LessonFooter() {
     setCurrentStudentIndex,
   } = useStudents()
   const navigate = useNavigate()
+  const currentStudentId = activeSortedStudentIds[currentStudentIndex]
 
   const handlerPreviousStudent = () => {
     if (currentStudentIndex > 0) {
       const previousStudentId = activeSortedStudentIds[currentStudentIndex - 1]
-      navigate(`/lessons/${previousStudentId}`)
+      const url = window.location.pathname
+      const newUrl = url.replace(
+        String(currentStudentId),
+        String(previousStudentId),
+      )
+      navigate(newUrl)
       return setCurrentStudentIndex(currentStudentIndex - 1)
     }
     const lastStudentId =

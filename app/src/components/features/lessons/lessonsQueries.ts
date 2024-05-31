@@ -19,19 +19,23 @@ export function useLatestLessonsQuery() {
 }
 
 export function useLessonYearsQuery(studentId: number) {
+  const { user } = useUser()
   const result = useQuery({
     queryKey: ["lesson-years", { studentId }],
     queryFn: () => fetchLessonYears(studentId),
+    enabled: Boolean(user),
   })
 
   return result
 }
 
 export function useAllLessonsPerStudent(year: number, studentId: number) {
+  const { user } = useUser()
   const result = useQuery({
     queryKey: ["all-lessons", { year, studentId }],
     queryFn: () => fetchAllLessonsAPI(studentId, year),
     staleTime: 1000 * 60 * 60 * 24,
+    enabled: Boolean(user),
   })
 
   return result

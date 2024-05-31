@@ -25,13 +25,13 @@ import mockUser from "../api/mock-db/mockUser"
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

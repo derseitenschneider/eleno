@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full mb-8'>
       <div className='flex items-center justify-between mb-4'>
         <SearchBar
           searchInput={

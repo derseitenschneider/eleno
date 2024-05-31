@@ -42,7 +42,7 @@ export const columns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       return (
         <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-          {parse(row.getValue("lessonContent"))}
+          {parse(row.getValue("lessonContent") || "")}
         </div>
       )
     },
@@ -53,7 +53,7 @@ export const columns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       return (
         <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-          {parse(row.getValue("homework"))}
+          {parse(row.getValue("homework") || "")}
         </div>
       )
     },
