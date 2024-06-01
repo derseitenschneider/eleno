@@ -1,11 +1,8 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useEffect, useState } from "react"
-import { fetchAllLessonsAPI } from "@/services/api/lessons.api"
 import { NavLink, useParams } from "react-router-dom"
 import { ChevronLeft } from "lucide-react"
-import { useLessons } from "@/services/context/LessonsContext"
-import { useQuery } from "@tanstack/react-query"
 import {
   useAllLessonsPerStudent,
   useLatestLessonsQuery,
@@ -22,6 +19,12 @@ export default function AllLessons() {
     ?.date.getFullYear()
 
   const [selectedYear, setSelectedYear] = useState(newestLessonYear)
+
+  // Set newest lesson years on change of student. This is necessary so when
+  // navigating to a new student the year is set back to newest year.
+  useEffect(() => {
+    if (studentId) setSelectedYear(newestLessonYear)
+  }, [studentId, newestLessonYear])
 
   const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
     Number(studentId),

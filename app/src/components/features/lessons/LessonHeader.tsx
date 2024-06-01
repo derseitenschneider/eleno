@@ -21,7 +21,7 @@ function LessonHeader() {
   const endOfLesson = currentStudent?.endOfLesson?.slice(0, 5)
 
   return (
-    <header className='sm:pr-1 sm:pl-8 sm:py-4 z-10 bg-background100 w-[calc(100vw-50px)] fixed top-0 border-b border-hairline'>
+    <header className='sm:pr-4 sm:pl-8 sm:py-4 z-10 bg-background100 right-0 fixed left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div>
           <NavLink

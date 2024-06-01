@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/popover"
 import { Search } from "lucide-react"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useStudents } from "../../../services/context/StudentContext"
 import { sortStudents } from "../../../utils/sortStudents"
 
 export default function SearchStudentCombobox() {
+  const { studentId: currentStudentId } = useParams()
   const [open, setOpen] = useState(false)
   const { activeStudents, activeSortedStudentIds, setCurrentStudentIndex } =
     useStudents()
@@ -41,7 +42,9 @@ export default function SearchStudentCombobox() {
 
     const newStudentIndex = activeSortedStudentIds.indexOf(newStudentId || 0)
     setCurrentStudentIndex(newStudentIndex)
-    navigate(`/lessons/${newStudentId}`)
+    const url = window.location.pathname
+    const newUrl = url.replace(String(currentStudentId), String(newStudentId))
+    navigate(newUrl)
     setOpen(false)
   }
 

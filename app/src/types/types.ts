@@ -23,24 +23,25 @@ export type Profile = {
   lastName: string
 }
 
-export type Student = {
-  id: number
-  user_id: string
-  firstName: string
-  lastName: string
-  archive: boolean
-  instrument: string
-  durationMinutes?: number
-  dayOfLesson?: Weekday
-  startOfLesson?: string
-  endOfLesson?: string
-  location?: string
-}
+// export type Student = {
+//   id: number
+//   user_id: string
+//   firstName: string
+//   lastName: string
+//   archive: boolean
+//   instrument: string
+//   durationMinutes?: number
+//   dayOfLesson?: Weekday
+//   startOfLesson?: string
+//   endOfLesson?: string
+//   location?: string
+// }
+export type Student = Database["public"]["Tables"]["students"]["Row"]
 
 export type Lesson = {
   [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-  ? Date
-  : Database["public"]["Tables"]["lessons"]["Row"][P]
+    ? Date
+    : Database["public"]["Tables"]["lessons"]["Row"][P]
 }
 
 export type Draft = {
@@ -90,9 +91,9 @@ export type ContextTypeTodos = {
 export type ContextTypeStudents = {
   currentStudentIndex: number
   setCurrentStudentIndex: React.Dispatch<React.SetStateAction<number>>
-  currentStudentId: number
-  activeStudents: Student[] | null
-  inactiveStudents: Student[] | null
+  currentStudentId?: number
+  activeStudents?: Student[] | null
+  inactiveStudents?: Student[] | null
   activeSortedStudentIds: number[]
 }
 

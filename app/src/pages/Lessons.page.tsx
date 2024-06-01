@@ -5,7 +5,6 @@ import { useStudents } from "../services/context/StudentContext"
 
 import PreviousLessons from "../components/features/lessons/PreviousLessons.component"
 
-import LessonFooter from "../components/features/lessons/LessonFooter.component"
 import NewLesson from "../components/features/lessons/newLesson/NewLesson.component"
 
 import NoteList from "../components/features/notes/noteList/NoteList.component"
@@ -21,7 +20,7 @@ function Lesson() {
 
   if (activeSortedStudentIds.length && !isLoading)
     return (
-      <div className='grid grid-cols-[1fr_400px]'>
+      <div className='grid grid-cols-[1fr_400px] min-h-[calc(100vh-88px)]'>
         <main>
           <PreviousLessons />
           <NewLesson />

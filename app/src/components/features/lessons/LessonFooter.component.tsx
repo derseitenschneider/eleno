@@ -13,7 +13,8 @@ function LessonFooter() {
     setCurrentStudentIndex,
   } = useStudents()
   const navigate = useNavigate()
-  const currentStudentId = activeSortedStudentIds[currentStudentIndex]
+  const { studentId } = useParams()
+  const currentStudentId = Number(studentId)
 
   const handlerPreviousStudent = () => {
     if (currentStudentIndex > 0) {
@@ -28,18 +29,27 @@ function LessonFooter() {
     }
     const lastStudentId =
       activeSortedStudentIds[activeSortedStudentIds.length - 1]
-    navigate(`/lessons/${lastStudentId}`)
+    const url = window.location.pathname
+    const newUrl = url.replace(String(currentStudentId), String(lastStudentId))
+    navigate(newUrl)
     return setCurrentStudentIndex(activeSortedStudentIds.length - 1)
   }
 
   const handlerNextStudent = () => {
     if (currentStudentIndex < activeSortedStudentIds.length - 1) {
       const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1]
-      navigate(`/lessons/${nextStudentId}`)
+      const url = window.location.pathname
+      const newUrl = url.replace(
+        String(currentStudentId),
+        String(nextStudentId),
+      )
+      navigate(newUrl)
       return setCurrentStudentIndex(currentStudentIndex + 1)
     }
     const firstStudentId = activeSortedStudentIds[0]
-    navigate(`/lessons/${firstStudentId}`)
+    const url = window.location.pathname
+    const newUrl = url.replace(String(currentStudentId), String(firstStudentId))
+    navigate(newUrl)
     return setCurrentStudentIndex(0)
   }
 

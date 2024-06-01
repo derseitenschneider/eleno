@@ -15,8 +15,6 @@ export const StudentsContext = createContext<ContextTypeStudents>({
 
 export function StudentsProvider({ children }: { children: React.ReactNode }) {
   const students = useStudentsQuery().data
-  const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
-
   const activeStudents = students?.filter((student) => !student.archive)
   const inactiveStudents = students?.filter((student) => student.archive)
 
@@ -26,6 +24,9 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
       )
     : []
 
+  // Storing the current student index and ID is only for the app to store that
+  // state whenever the user navigates outside of lessons page.
+  const [currentStudentIndex, setCurrentStudentIndex] = useState(0)
   const currentStudentId = activeSortedStudentIds[currentStudentIndex]
 
   const value = useMemo(
