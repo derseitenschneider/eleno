@@ -25,6 +25,8 @@ export const columns: ColumnDef<Lesson>[] = [
   {
     accessorKey: "date",
     header: "Datum",
+    size: 12,
+    minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
       const date = row.getValue("date") as Date
@@ -39,6 +41,8 @@ export const columns: ColumnDef<Lesson>[] = [
   {
     accessorKey: "lessonContent",
     header: "Lektion",
+    size: 45,
+    minSize: 0,
     cell: ({ row }) => {
       return (
         <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
@@ -50,6 +54,8 @@ export const columns: ColumnDef<Lesson>[] = [
   {
     accessorKey: "homework",
     header: "Hausaufgaben",
+    size: 45,
+    minSize: 0,
     cell: ({ row }) => {
       return (
         <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
@@ -60,6 +66,8 @@ export const columns: ColumnDef<Lesson>[] = [
   },
   {
     id: "actions",
+    size: 5,
+    minSize: 0,
     cell: ({ row }) => {
       const [openModal, setOpenModal] = useState<"EDIT" | "SHARE" | "DELETE">()
       function closeModal() {

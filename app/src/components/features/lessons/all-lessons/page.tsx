@@ -11,8 +11,8 @@ import {
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const { data } = useLatestLessonsQuery()
-  const newestLessonYear = data
+  const { data: latestLessons } = useLatestLessonsQuery()
+  const newestLessonYear = latestLessons
     ?.filter((lesson) => lesson?.studentId === Number(studentId))
     .sort((a, b) => b.date.valueOf() - a.date.valueOf())
     .at(0)
@@ -33,6 +33,7 @@ export default function AllLessons() {
     data: lessons,
     isPending: isPendingLessons,
     isError,
+    isFetching,
   } = useAllLessonsPerStudent(selectedYear || 0, Number(studentId))
 
   if (isPendingLessons || isPendingYears) return <div>...Loading</div>
@@ -57,6 +58,7 @@ export default function AllLessons() {
         selectedYear={selectedYear}
         setSelectedYear={setSelectedYear}
         lessonYears={lessonYears?.years || []}
+        isFetching={isFetching}
       />
     </>
   )

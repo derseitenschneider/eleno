@@ -27,7 +27,6 @@ import { File } from "lucide-react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import ExportLessons from "../exportLessons/ExportLessons.component"
-import { useLessons } from "@/services/context/LessonsContext"
 import {
   Select,
   SelectContent,
@@ -35,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useLessonYearsQuery } from "../lessonsQueries"
+import { cn } from "@/lib/utils"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -44,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   selectedYear?: number
   setSelectedYear: (year: number) => void
   lessonYears: Array<number>
+  isFetching: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -53,6 +53,7 @@ export function DataTable<TData, TValue>({
   selectedYear,
   setSelectedYear,
   lessonYears,
+  isFetching,
 }: DataTableProps<TData, TValue>) {
   const { studentId } = useParams()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -92,7 +93,9 @@ export function DataTable<TData, TValue>({
             <File className='h-4 w-4 text-primary mr-2' />
             Exportieren
           </Button>
+
           <Select
+            disabled={isFetching}
             onValueChange={handleSelect}
             defaultValue={String(selectedYear)}
           >
@@ -109,19 +112,25 @@ export function DataTable<TData, TValue>({
           </Select>
         </div>
       </div>
-      <Table className='border border-hairline'>
+      <Table
+        className={cn(isFetching && "opacity-50", "border border-hairline")}
+      >
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
+                const widthString = `w-[${header.column.columnDef.size}%]`
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    style={{ width: `${header.column.columnDef.size}%` }}
+                    key={header.id}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 )
               })}
