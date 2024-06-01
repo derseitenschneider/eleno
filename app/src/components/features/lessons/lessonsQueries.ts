@@ -4,11 +4,7 @@ import {
   fetchLessonYears,
 } from "@/services/api/lessons.api"
 import { useUser } from "@/services/context/UserContext"
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 export function useLessonYearsQuery(studentId: number) {
   const { user } = useUser()

@@ -4,6 +4,7 @@ import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { Lesson } from "@/types/types"
+import { deleteLessonMutation } from "./lessonsMutations"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -11,23 +12,12 @@ interface DeleteLessonProps {
 }
 
 function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
-  const queryClient = useQueryClient()
   const {
     mutate: handleDelete,
     isPending,
     error,
-  } = useMutation({
-    mutationFn: () => deleteLessonAPI(lesson.id || 0),
-    onSuccess: ({ id: lessonId }) => {
-      queryClient.setQueryData(
-        ["lessons", lesson.studentId],
-        (prev: Array<Lesson>) =>
-          prev.filter((lesson) => lesson.id !== lessonId),
-      )
-      onCloseModal?.()
-      toast.success("Lektion gelöscht.")
-    },
-  })
+  } = deleteLessonMutation(lesson.id, onCloseModal)
+
   return (
     <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
