@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/table"
 import { File } from "lucide-react"
 import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import ExportLessons from "../exportLessons/ExportLessons.component"
 import {
   Select,
@@ -40,8 +40,6 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   messageEmpty: string
-  selectedYear?: number
-  setSelectedYear: (year: number) => void
   lessonYears: Array<number>
   isFetching: boolean
 }
@@ -50,12 +48,11 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   messageEmpty,
-  selectedYear,
-  setSelectedYear,
   lessonYears,
   isFetching,
 }: DataTableProps<TData, TValue>) {
   const { studentId } = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [modalOpen, setModalOpen] = useState<"EXPORT" | "">("")
   const table = useReactTable({
@@ -69,9 +66,9 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  function handleSelect(e: string) {
-    setSelectedYear(Number(e))
-  }
+  const selectedYear = searchParams.get("year")
+
+  function handleSelect(e: string) {}
 
   return (
     <div className='w-full mb-8'>
@@ -119,7 +116,6 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                const widthString = `w-[${header.column.columnDef.size}%]`
                 return (
                   <TableHead
                     style={{ width: `${header.column.columnDef.size}%` }}

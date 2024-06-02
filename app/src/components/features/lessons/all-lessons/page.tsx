@@ -1,7 +1,7 @@
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { useEffect, useState } from "react"
-import { NavLink, useParams } from "react-router-dom"
+import { NavLink, useParams, useSearchParams } from "react-router-dom"
 import { ChevronLeft } from "lucide-react"
 import {
   useAllLessonsPerStudent,
@@ -11,21 +11,11 @@ import {
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const { data: latestLessons } = useLatestLessonsQuery()
-  const newestLessonYear = latestLessons
-    ?.filter((lesson) => lesson?.studentId === Number(studentId))
-    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
-    .at(0)
-    ?.date.getFullYear()
-
-  const [selectedYear, setSelectedYear] = useState(newestLessonYear)
-
+  const [searchParams, setSearchParams] = useSearchParams()
   // Set newest lesson years on change of student. This is necessary so when
   // navigating to a new student the year is set back to newest year.
-  useEffect(() => {
-    if (studentId) setSelectedYear(newestLessonYear)
-  }, [studentId, newestLessonYear])
 
+  const selectedYear = searchParams.get("year")
   const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
     Number(studentId),
   )
@@ -34,7 +24,7 @@ export default function AllLessons() {
     isPending: isPendingLessons,
     isError,
     isFetching,
-  } = useAllLessonsPerStudent(selectedYear || 0, Number(studentId))
+  } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
 
   if (isPendingLessons || isPendingYears) return <div>...Loading</div>
 
@@ -55,8 +45,6 @@ export default function AllLessons() {
         columns={columns}
         messageEmpty='Keine Lektionen vorhanden'
         data={lessons}
-        selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
         lessonYears={lessonYears?.years || []}
         isFetching={isFetching}
       />

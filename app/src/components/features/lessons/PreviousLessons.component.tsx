@@ -16,6 +16,7 @@ function PreviousLessons() {
   const [tabIndex, setTabIndex] = useState(0)
 
   const { studentId } = useParams()
+
   const previousLessonsIds =
     lessons
       ?.sort((a, b) => {
@@ -28,6 +29,11 @@ function PreviousLessons() {
   const currentLesson = lessons?.find(
     (lesson) => lesson.id === previousLessonsIds[tabIndex],
   )
+  const newestLessonYear = lessons
+    ?.filter((lesson) => lesson?.studentId === Number(studentId))
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+    .at(0)
+    ?.date.getFullYear()
 
   useEffect(() => {
     setTabIndex(0)
@@ -44,7 +50,7 @@ function PreviousLessons() {
                 className={cn(
                   "px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
                   index === tabIndex &&
-                  "bg-background50 border-primary/80 hover:bg-background50",
+                    "bg-background50 border-primary/80 hover:bg-background50",
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -62,7 +68,7 @@ function PreviousLessons() {
             ))}
             <NavLink
               className='px-2 hover:no-underline py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80'
-              to='all'
+              to={`all/?year=${newestLessonYear}`}
               end={true}
             >
               Alle
