@@ -38,11 +38,22 @@ export type Profile = {
 // }
 export type Student = Database["public"]["Tables"]["students"]["Row"]
 
-export type Lesson = {
-  [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-  ? Date
-  : Database["public"]["Tables"]["lessons"]["Row"][P]
-}
+export type Lesson = Pick<
+  {
+    [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
+    ? Date
+    : P extends "studentId"
+    ? number | null
+    : P extends "id"
+    ? number | null
+    : P extends "homeworkKey"
+    ? string | null
+    : P extends "user_id"
+    ? string | null
+    : Database["public"]["Tables"]["lessons"]["Row"][P]
+  },
+  Exclude<keyof Database["public"]["Tables"]["lessons"]["Row"], "created_at">
+>
 
 export type Draft = {
   lessonContent?: string

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useLatestLessonsQuery } from "./lessonsQueries"
-import { Lesson } from "@/types/types"
+import type { Lesson } from "@/types/types"
 
 function LessonFooter() {
   const {
@@ -16,6 +16,8 @@ function LessonFooter() {
   const { studentId } = useParams()
   const currentStudentId = Number(studentId)
   const { data: latestLessons } = useLatestLessonsQuery()
+
+  if (!latestLessons || !studentId) return null
 
   function getNewestLessonYear(
     latestLessons: Array<Lesson>,
@@ -30,7 +32,8 @@ function LessonFooter() {
 
   const handlerPreviousStudent = () => {
     if (currentStudentIndex > 0) {
-      const previousStudentId = activeSortedStudentIds[currentStudentIndex - 1]
+      const previousStudentId =
+        activeSortedStudentIds[currentStudentIndex - 1] ?? 0
       const newestYear = getNewestLessonYear(latestLessons, previousStudentId)
       const url = window.location.pathname
       const query = `?year=${newestYear}`
@@ -42,7 +45,7 @@ function LessonFooter() {
       return setCurrentStudentIndex(currentStudentIndex - 1)
     }
     const lastStudentId =
-      activeSortedStudentIds[activeSortedStudentIds.length - 1]
+      activeSortedStudentIds[activeSortedStudentIds.length - 1] ?? 0
     const newestYear = getNewestLessonYear(latestLessons, lastStudentId)
     const url = window.location.pathname
     const query = `?year=${newestYear}`
@@ -54,7 +57,7 @@ function LessonFooter() {
 
   const handlerNextStudent = () => {
     if (currentStudentIndex < activeSortedStudentIds.length - 1) {
-      const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1]
+      const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1] ?? 0
       const newestYear = getNewestLessonYear(latestLessons, nextStudentId)
       const url = window.location.pathname
       const query = `?year=${newestYear}`
@@ -65,7 +68,7 @@ function LessonFooter() {
       navigate(newUrl + query)
       return setCurrentStudentIndex(currentStudentIndex + 1)
     }
-    const firstStudentId = activeSortedStudentIds[0]
+    const firstStudentId = activeSortedStudentIds[0] ?? 0
     const newestYear = getNewestLessonYear(latestLessons, firstStudentId)
     const url = window.location.pathname
     const query = `?year=${newestYear}`
