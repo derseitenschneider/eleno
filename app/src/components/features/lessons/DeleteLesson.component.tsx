@@ -4,7 +4,7 @@ import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { Lesson } from "@/types/types"
-import { deleteLessonMutation } from "./lessonsMutations"
+import { deleteLessonMutation } from "./mutations/deleteLessonMutation"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void

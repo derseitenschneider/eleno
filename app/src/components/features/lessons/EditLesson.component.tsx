@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateLessonAPI } from "@/services/api/lessons.api"
+import { updateLessonMutation } from "./mutations/updateLessonMutation"
 
 type EditLessonProps = {
   lesson: Lesson
@@ -29,32 +30,17 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
     setHomework(content)
   }
 
-  const queryClient = useQueryClient()
-
-  const { mutate: saveLesson, isPending } = useMutation({
-    mutationFn: () =>
-      updateLessonAPI({
-        ...lesson,
-        lessonContent: lessonContent || "",
-        homework: homework || "",
-        date: date,
-      }),
-    onSuccess: (newLesson) => {
-      queryClient.setQueryData(
-        ["lessons", lesson.studentId],
-        (prev: Array<Lesson>) =>
-          prev.map((lesson) =>
-            lesson.id === newLesson.id ? newLesson : lesson,
-          ),
-      )
-      toast.success("Lektion bearbeitet.")
-      onCloseModal?.()
+  // TODO: define datepicker to not return undefined since a lesson always has
+  // to have a date.
+  const { mutate: saveLesson, isPending } = updateLessonMutation(
+    {
+      ...lesson,
+      lessonContent,
+      homework,
+      date,
     },
-    onError: () => {
-      onCloseModal?.()
-      fetchErrorToast()
-    },
-  })
+    onCloseModal,
+  )
 
   return (
     <div className='edit-lesson'>

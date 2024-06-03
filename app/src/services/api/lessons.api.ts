@@ -75,6 +75,7 @@ export const createLessonAPI = async (
   userId: string,
 ): Promise<Lesson | undefined> => {
   const { date, homework, lessonContent, studentId } = lesson
+  if (!studentId) return
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
   const { data, error } = await supabase

@@ -1,44 +1,60 @@
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { deleteLessonAPI } from "@/services/api/lessons.api"
+import { deleteLessonAPI, updateLessonAPI } from "@/services/api/lessons.api"
 import type { Lesson } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function deleteLessonMutation(lesson: Lesson, onClose?: () => void) {
+export function updateLessonMutation(
+  updatedLesson: Lesson,
+  onClose?: () => void,
+) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => deleteLessonAPI(lesson.id),
+    mutationFn: () => updateLessonAPI(updatedLesson),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["all-lessons"] })
+
       // Snapshot in case of a rollback.
       const previousLessons = queryClient.getQueryData([
         "all-lessons",
-        { studentId: lesson.studentId, year: lesson.date.getFullYear() },
+        {
+          studentId: updatedLesson.studentId,
+          year: updatedLesson.date.getFullYear(),
+        },
       ])
+
       queryClient.setQueryData(
         [
           "all-lessons",
-          { studentId: lesson.studentId, year: lesson.date.getFullYear() },
+          {
+            studentId: updatedLesson.studentId,
+            year: updatedLesson.date.getFullYear(),
+          },
         ],
         (prev: Array<Lesson>) => {
-          return prev?.filter((oldLesson) => oldLesson.id !== lesson.id)
+          return prev.map((oldLesson) =>
+            oldLesson.id === updatedLesson.id ? updatedLesson : oldLesson,
+          )
         },
       )
       onClose?.()
       return { previousLessons }
     },
-    onSuccess: () => {
-      toast.success("Lektion gelöscht.")
+    onSuccess: async () => {
+      toast.success("Änderungen gespeichert.")
       queryClient.invalidateQueries({
         queryKey: ["latest-3-lessons"],
       })
     },
-    onError: (err, newLesson, context) => {
+    onError: (_, __, context) => {
       fetchErrorToast()
       queryClient.setQueryData(
         [
           "all-lessons",
-          { studentId: lesson.studentId, year: lesson.date.getFullYear() },
+          {
+            studentId: updatedLesson.studentId,
+            year: updatedLesson.date.getFullYear(),
+          },
         ],
         context?.previousLessons,
       )
