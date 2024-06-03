@@ -123,6 +123,7 @@ export const updateLessonAPI = async (lesson: Lesson): Promise<Lesson> => {
   return { ...data, date: new Date(data.date || "") }
 }
 
+// TODO: fetchLatestLessonsPerStudent to invalidate query after deletion
 export const fetchLatestLessons = async () => {
   const { data: lessons, error } = await supabase
     .from("last_3_lessons")

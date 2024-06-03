@@ -1,5 +1,5 @@
 import type React from "react"
-import { Database } from "./supabase"
+import type { Database } from "./supabase"
 
 export type Weekday =
   | "Montag"
@@ -45,7 +45,7 @@ export type Lesson = Pick<
     : P extends "studentId"
     ? number | null
     : P extends "id"
-    ? number | null
+    ? number
     : P extends "homeworkKey"
     ? string | null
     : P extends "user_id"

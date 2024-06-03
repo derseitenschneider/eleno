@@ -16,7 +16,7 @@ function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
     mutate: handleDelete,
     isPending,
     error,
-  } = deleteLessonMutation(lesson.id, onCloseModal)
+  } = deleteLessonMutation(lesson, onCloseModal)
 
   return (
     <div>

@@ -4,36 +4,42 @@ import type { Lesson } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-// TODO: Dynamicly set studentId and year either via props or via infos from
-// former lesson
-export function deleteLessonMutation(lessonId: number, onClose?: () => void) {
+export function deleteLessonMutation(lesson: Lesson, onClose?: () => void) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => deleteLessonAPI(lessonId),
+    mutationFn: () => deleteLessonAPI(lesson.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["all-lessons"] })
       // Snapshot in case of a rollback.
       const previousLessons = queryClient.getQueryData([
         "all-lessons",
-        { studentId: 48, year: 2024 },
+        { studentId: lesson.studentId, year: lesson.date.getFullYear() },
       ])
       queryClient.setQueryData(
-        ["all-lessons", { studentId: 48, year: 2024 }],
+        [
+          "all-lessons",
+          { studentId: lesson.studentId, year: lesson.date.getFullYear() },
+        ],
         (prev: Array<Lesson>) => {
-          return prev?.filter((lesson) => lesson.id !== lessonId)
+          return prev?.filter((oldLesson) => oldLesson.id !== lesson.id)
         },
       )
-
       onClose?.()
       return { previousLessons }
     },
     onSuccess: () => {
       toast.success("Lektion gelöscht.")
+      queryClient.invalidateQueries({
+        queryKey: ["latest-3-lessons"],
+      })
     },
     onError: (err, newLesson, context) => {
       fetchErrorToast()
       queryClient.setQueryData(
-        ["all-lessons", { studentId: 48, year: 2024 }],
+        [
+          "all-lessons",
+          { studentId: lesson.studentId, year: lesson.date.getFullYear() },
+        ],
         context?.previousLessons,
       )
     },
