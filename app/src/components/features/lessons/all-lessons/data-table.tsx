@@ -68,7 +68,9 @@ export function DataTable<TData, TValue>({
 
   const selectedYear = searchParams.get("year")
 
-  function handleSelect(e: string) {}
+  function handleSelect(year: string) {
+    setSearchParams({ year })
+  }
 
   return (
     <div className='w-full mb-8'>
@@ -124,9 +126,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 )
               })}

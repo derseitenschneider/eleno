@@ -151,7 +151,7 @@ export const fetchLessonYears = async (studentId: number) => {
   const { data: years, error } = await supabase
     .from("lesson_years")
     .select("*")
-    .eq("student_id", studentId)
+    .eq("studentId", studentId)
     .single()
   if (error) throw new Error(error.message)
   return years

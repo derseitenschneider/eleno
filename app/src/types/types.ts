@@ -40,8 +40,8 @@ export type Student = Database["public"]["Tables"]["students"]["Row"]
 
 export type Lesson = {
   [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-    ? Date
-    : Database["public"]["Tables"]["lessons"]["Row"][P]
+  ? Date
+  : Database["public"]["Tables"]["lessons"]["Row"][P]
 }
 
 export type Draft = {

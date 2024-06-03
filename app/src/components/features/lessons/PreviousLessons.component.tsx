@@ -10,7 +10,7 @@ import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
 import { useLatestLessonsQuery } from "./lessonsQueries"
 
 function PreviousLessons() {
-  const lessons = useLatestLessonsQuery().data
+  const { data: lessons } = useLatestLessonsQuery()
   const { userLocale } = useUserLocale()
 
   const [tabIndex, setTabIndex] = useState(0)
@@ -50,7 +50,7 @@ function PreviousLessons() {
                 className={cn(
                   "px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
                   index === tabIndex &&
-                    "bg-background50 border-primary/80 hover:bg-background50",
+                  "bg-background50 border-primary/80 hover:bg-background50",
                 )}
                 onClick={() => {
                   setTabIndex(index)
