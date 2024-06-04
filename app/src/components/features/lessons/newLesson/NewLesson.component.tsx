@@ -2,40 +2,37 @@ import { useEffect, useState } from "react"
 import CustomEditor from "../../../ui/CustomEditor.component"
 
 import { useLessons } from "../../../../services/context/LessonsContext"
-import { useStudents } from "../../../../services/context/StudentContext"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { createLessonMutation } from "../mutations/createLessonMutation"
 import { useUser } from "@/services/context/UserContext"
 import { cn } from "@/lib/utils"
+import { useParams } from "react-router-dom"
 
 function NewLesson() {
+  const { drafts, setDrafts } = useLessons()
+  const { studentId } = useParams()
   const [date, setDate] = useState<Date>(new Date())
   const { user } = useUser()
   const [lessonContent, setLessonContent] = useState("")
-  const { currentStudentId } = useStudents()
   const [homework, setHomework] = useState("")
-  const { drafts, setDrafts } = useLessons()
 
   // Handle drafts
   useEffect(() => {
-    const today = new Date()
-    if (drafts.some((draft) => draft.studentId === currentStudentId)) {
-      const currentDraft = drafts.find(
-        (draft) => draft.studentId === currentStudentId,
-      )
-      if (currentDraft) {
-        setLessonContent(currentDraft.lessonContent || "")
-        setHomework(currentDraft.homework || "")
-        setDate(currentDraft.date || today)
-      }
+    const currentDraft = drafts.find(
+      (draft) => draft.studentId === Number(studentId),
+    )
+    if (currentDraft) {
+      setLessonContent(currentDraft.lessonContent || "")
+      setHomework(currentDraft.homework || "")
+      setDate(currentDraft.date || new Date())
     } else {
       setLessonContent("")
       setHomework("")
-      setDate(today)
+      setDate(new Date())
     }
-  }, [currentStudentId, drafts])
+  }, [drafts, studentId])
 
   // Put Focus on input when desktop
   useEffect(() => {
@@ -48,16 +45,16 @@ function NewLesson() {
   function handleLessonContent(content: string) {
     setLessonContent(content)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === currentStudentId)) {
+      if (prev.some((draft) => draft.studentId === Number(studentId))) {
         return prev.map((draft) =>
-          draft.studentId === currentStudentId
+          draft.studentId === Number(studentId)
             ? { ...draft, lessonContent: content, date }
             : draft,
         )
       }
       return [
         ...prev,
-        { studentId: currentStudentId, lessonContent: content, date },
+        { studentId: Number(studentId), lessonContent: content, date },
       ]
     })
   }
@@ -66,14 +63,17 @@ function NewLesson() {
     setHomework(content)
 
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === currentStudentId)) {
+      if (prev.some((draft) => draft.studentId === Number(studentId))) {
         return prev.map((draft) =>
-          draft.studentId === currentStudentId
+          draft.studentId === Number(studentId)
             ? { ...draft, homework: content, date }
             : draft,
         )
       }
-      return [...prev, { studentId: currentStudentId, homework: content, date }]
+      return [
+        ...prev,
+        { studentId: Number(studentId), homework: content, date },
+      ]
     })
   }
 
@@ -81,28 +81,29 @@ function NewLesson() {
     if (!inputDate) return
     setDate(inputDate)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === currentStudentId)) {
+      if (prev.some((draft) => draft.studentId === Number(studentId))) {
         return prev.map((draft) =>
-          draft.studentId === currentStudentId
+          draft.studentId === Number(studentId)
             ? { ...draft, date: inputDate }
             : draft,
         )
       }
-      return [...prev, { studentId: currentStudentId, date: inputDate }]
+      return [...prev, { studentId: Number(studentId), date: inputDate }]
     })
   }
+
   function resetFields() {
     setHomework("")
     setLessonContent("")
     setDrafts((prev) =>
-      prev.filter((draft) => draft.studentId !== currentStudentId),
+      prev.filter((draft) => draft.studentId !== Number(studentId)),
     )
   }
 
   const { mutate: saveLesson, isPending } = createLessonMutation(
     {
       user_id: user?.id || null,
-      studentId: currentStudentId || null,
+      studentId: Number(studentId) || null,
       date,
       lessonContent,
       homework,
