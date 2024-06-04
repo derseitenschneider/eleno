@@ -3,14 +3,12 @@ import { IoLogoWhatsapp } from "react-icons/io5"
 import { MdOutlineTextsms } from "react-icons/md"
 import { SiThreema } from "react-icons/si"
 import { FaTelegramPlane } from "react-icons/fa"
-// import { BsSignal } from 'react-icons/bs'
 import { useEffect, useState } from "react"
-import { useLessons } from "../../../services/context/LessonsContext"
-import { useStudents } from "../../../services/context/StudentContext"
 
 import { useUser } from "../../../services/context/UserContext"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { useQueryClient } from "@tanstack/react-query"
+import type { Lesson, Student } from "@/types/types"
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -20,11 +18,23 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const queryClient = useQueryClient()
   const [isCopied, setIsCopied] = useState(false)
   const { userLocale } = useUserLocale()
-  const data = queryClient.getQueryData(["all-lessons"]) as Array<Lesson>
-  console.log(data)
+  const allLessons = queryClient.getQueryData(["all-lessons"]) as
+    | Array<Lesson>
+    | undefined
+  const latestLessons = queryClient.getQueryData([
+    "latest-3-lessons",
+  ]) as Array<Lesson>
+  const combinedLessons: Array<Lesson> = []
+  if (allLessons) combinedLessons.push(...allLessons)
+  if (latestLessons) combinedLessons.push(...latestLessons)
+
   const { user } = useUser()
-  const { students } = useStudents()
-  const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
+  const students = queryClient.getQueryData(["students"]) as
+    | Array<Student>
+    | undefined
+  const currentLesson = combinedLessons?.find(
+    (lesson) => lesson.id === lessonId,
+  )
   const currentStudent = students?.find(
     (student) => student.id === currentLesson?.studentId,
   )
