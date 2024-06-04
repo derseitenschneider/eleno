@@ -1,15 +1,10 @@
 import { useState } from "react"
-import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import type { Lesson } from "../../../types/types"
 import CustomEditor from "../../ui/CustomEditor.component"
-import type { Database } from "../../../types/supabase"
 
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { updateLessonAPI } from "@/services/api/lessons.api"
 import { updateLessonMutation } from "./mutations/updateLessonMutation"
 
 type EditLessonProps = {
@@ -20,7 +15,7 @@ type EditLessonProps = {
 function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
   const [lessonContent, setLessonContent] = useState(lesson.lessonContent)
   const [homework, setHomework] = useState(lesson.homework)
-  const [date, setDate] = useState<Date | undefined>(lesson.date)
+  const [date, setDate] = useState<Date>(lesson.date)
 
   const handleLessonContent = (content: string) => {
     setLessonContent(content)
@@ -30,8 +25,10 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
     setHomework(content)
   }
 
-  // TODO: define datepicker to not return undefined since a lesson always has
-  // to have a date.
+  const handleSetDate = (date: Date | undefined) => {
+    if (date) setDate(date)
+  }
+
   const { mutate: saveLesson, isPending } = updateLessonMutation(
     {
       ...lesson,
@@ -46,11 +43,7 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
     <div className='edit-lesson'>
       <div className='flex items-center mb-3 gap-2'>
         <h5 className='mb-0'>Datum</h5>
-        <DayPicker
-          disabled={isPending}
-          date={date}
-          setDate={(e) => setDate(e)}
-        />
+        <DayPicker disabled={isPending} date={date} setDate={handleSetDate} />
       </div>
       <div className='flex items-center mb-6 gap-8'>
         <div className='w-[450px]'>

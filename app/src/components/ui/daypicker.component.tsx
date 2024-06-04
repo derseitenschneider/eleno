@@ -42,10 +42,10 @@ export function DayPicker({
           {/* {date ? format(date, "P") : null} */}
           {date
             ? date.toLocaleDateString(userLocale, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
             : null}
         </Button>
       </PopoverTrigger>
