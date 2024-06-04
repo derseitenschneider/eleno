@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react"
 import CustomEditor from "../../../ui/CustomEditor.component"
 
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
-import type { Lesson } from "../../../../types/types"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { createLessonMutation } from "../mutations/createLessonMutation"
 import { useUser } from "@/services/context/UserContext"
-import { randomInt, randomUUID } from "crypto"
+import { cn } from "@/lib/utils"
 
 function NewLesson() {
   const [date, setDate] = useState<Date>(new Date())
@@ -119,16 +116,28 @@ function NewLesson() {
     <div className='sm:pr-4 sm:pl-8 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
-        <DayPicker setDate={handlerInputDate} date={date} />
+        <DayPicker
+          setDate={handlerInputDate}
+          date={date}
+          disabled={isPending}
+        />
       </div>
-      <div className='grid grid-cols-2 gap-6'>
+      <div className={cn(isPending && "opacity-50", "grid grid-cols-2 gap-6")}>
         <div>
           <p className='text-foreground/70'>Lektion</p>
-          <CustomEditor value={lessonContent} onChange={handleLessonContent} />
+          <CustomEditor
+            disabled={isPending}
+            value={lessonContent}
+            onChange={handleLessonContent}
+          />
         </div>
         <div>
           <p className='capitalize text-foreground/70'>Hausaufgaben</p>
-          <CustomEditor value={homework} onChange={handleHomework} />
+          <CustomEditor
+            disabled={isPending}
+            value={homework}
+            onChange={handleHomework}
+          />
         </div>
       </div>
       <div className='h-fit flex items-center gap-1'>
