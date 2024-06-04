@@ -10,15 +10,18 @@ import { useStudents } from "../../../services/context/StudentContext"
 
 import { useUser } from "../../../services/context/UserContext"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface ShareHomeworkProps {
   lessonId: number
 }
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
+  const queryClient = useQueryClient()
   const [isCopied, setIsCopied] = useState(false)
   const { userLocale } = useUserLocale()
-  const { lessons } = useLessons()
+  const data = queryClient.getQueryData(["all-lessons"]) as Array<Lesson>
+  console.log(data)
   const { user } = useUser()
   const { students } = useStudents()
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
