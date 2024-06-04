@@ -1,5 +1,3 @@
-import { Todo } from "@/types/types"
-import { useQuery } from "@tanstack/react-query"
 import { useNearestStudent } from "../../../../services/context/NearestStudentContext"
 
 import { useStudents } from "../../../../services/context/StudentContext"
@@ -19,7 +17,6 @@ function Overview() {
     ? sortedStudents[closestStudentIndex]
     : null
 
-  // TODO: Search student and navigate to lesson sheet
   const todos = useTodosQuery().data
   const todosOpen = todos?.filter((todo) => !todo.completed)
 

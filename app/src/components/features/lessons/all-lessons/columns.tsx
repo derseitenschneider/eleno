@@ -125,7 +125,10 @@ export const columns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Lektion löschen</DialogTitle>
               </DialogHeader>
-              <DeleteLesson onCloseModal={closeModal} lesson={row.original} />
+              <DeleteLesson
+                onCloseModal={closeModal}
+                lessonId={row.original.id}
+              />
             </DialogContent>
           </Dialog>
         </>

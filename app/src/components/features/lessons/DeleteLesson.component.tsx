@@ -1,22 +1,18 @@
-import { deleteLessonAPI } from "@/services/api/lessons.api"
 import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { Lesson } from "@/types/types"
 import { deleteLessonMutation } from "./mutations/deleteLessonMutation"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
-  lesson: Lesson
+  lessonId: number
 }
 
-function DeleteLesson({ lesson, onCloseModal }: DeleteLessonProps) {
+function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
   const {
     mutate: handleDelete,
     isPending,
     error,
-  } = deleteLessonMutation(lesson, onCloseModal)
+  } = deleteLessonMutation(lessonId, onCloseModal)
 
   return (
     <div>
