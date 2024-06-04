@@ -4,12 +4,14 @@ import type { Lesson } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function deleteLessonMutation(lesson: Lesson, onClose?: () => void) {
+// TODO: Make it work with latest-3-lessons and with all-lessons
+export function deleteLessonMutation(lessonId: number, onClose?: () => void) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => deleteLessonAPI(lesson.id),
+    mutationFn: () => deleteLessonAPI(lessonId),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["all-lessons"] })
+      const lesson = queryClient.getQueryData(["all-lessons"])
 
       // Snapshot in case of a rollback.
       const previousLessons = queryClient.getQueryData([

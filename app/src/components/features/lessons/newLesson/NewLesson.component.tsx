@@ -5,19 +5,21 @@ import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import { useLessons } from "../../../../services/context/LessonsContext"
 import { useStudents } from "../../../../services/context/StudentContext"
 import type { Lesson } from "../../../../types/types"
-import { formatDateToDatabase } from "../../../../utils/formateDate"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import MiniLoader from "@/components/ui/MiniLoader.component"
+import { createLessonMutation } from "../mutations/createLessonMutation"
+import { useUser } from "@/services/context/UserContext"
+import { randomInt, randomUUID } from "crypto"
 
 function NewLesson() {
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date>(new Date())
+  const { user } = useUser()
   const [lessonContent, setLessonContent] = useState("")
   const { currentStudentId } = useStudents()
   const [homework, setHomework] = useState("")
-  const { saveNewLesson, drafts, setDrafts } = useLessons()
-  const [isPending, setIsPending] = useState(false)
+  const { drafts, setDrafts } = useLessons()
 
   // Handle drafts
   useEffect(() => {
@@ -79,6 +81,7 @@ function NewLesson() {
   }
 
   const handlerInputDate = (inputDate: Date | undefined) => {
+    if (!inputDate) return
     setDate(inputDate)
     setDrafts((prev) => {
       if (prev.some((draft) => draft.studentId === currentStudentId)) {
@@ -91,37 +94,26 @@ function NewLesson() {
       return [...prev, { studentId: currentStudentId, date: inputDate }]
     })
   }
-
-  const handleSaveLesson = async () => {
-    if (!date) {
-      toast.error("Datum fehlt.")
-      return
-    }
-    if (!lessonContent) {
-      toast.error("Lektionsinhalt fehlt.")
-      return
-    }
-    try {
-      setIsPending(true)
-      const newLesson: Lesson = {
-        lessonContent,
-        homework,
-        date,
-        studentId: currentStudentId,
-      }
-      await saveNewLesson(newLesson)
-      setLessonContent("")
-      setHomework("")
-      setDrafts((prev) =>
-        prev.filter((draft) => draft.studentId !== currentStudentId),
-      )
-      toast.success("Lektion gespeichert.")
-    } catch (err) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
+  function resetFields() {
+    setHomework("")
+    setLessonContent("")
+    setDrafts((prev) =>
+      prev.filter((draft) => draft.studentId !== currentStudentId),
+    )
   }
+
+  const { mutate: saveLesson, isPending } = createLessonMutation(
+    {
+      user_id: user?.id || null,
+      studentId: currentStudentId || null,
+      date,
+      lessonContent,
+      homework,
+      homeworkKey: null,
+      id: new Date().getMilliseconds(),
+    },
+    resetFields,
+  )
 
   return (
     <div className='sm:pr-4 sm:pl-8 sm:py-4'>
@@ -143,7 +135,7 @@ function NewLesson() {
         <Button
           disabled={isPending}
           size='sm'
-          onClick={handleSaveLesson}
+          onClick={() => saveLesson()}
           className='block mt-4 ml-auto'
         >
           Speichern

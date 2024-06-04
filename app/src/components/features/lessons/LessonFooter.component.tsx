@@ -82,7 +82,7 @@ function LessonFooter() {
     <footer className='fixed bottom-0 right-0 flex gap-4 px-8 py-5'>
       <SearchStudentCombobox />
       <Button
-        onClick={handlerPreviousStudent}
+        onMouseDown={handlerPreviousStudent}
         size='icon'
         className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-2px] transition-transform '
       >
@@ -90,7 +90,7 @@ function LessonFooter() {
       </Button>
 
       <Button
-        onClick={handlerNextStudent}
+        onMouseDown={handlerNextStudent}
         size='icon'
         className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-2px] transition-transform '
       >
