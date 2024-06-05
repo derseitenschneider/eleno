@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import Table from "../../../ui/table/Table.component"
-import "./repertoireList.style.scss"
 
 import type { Sorting, Student } from "../../../../types/types"
 import sortRepertoire from "../../../../utils/sortRepertoire"
@@ -127,31 +126,6 @@ function RepertoireList() {
           />
         </div>
       )}
-
-      <Table columns='1fr repeat(2, 10ch) 4rem'>
-        <Table.Header>
-          <div>
-            <span>Song</span>
-            <ButtonSort name='title' direction='asc' />
-          </div>
-          <div>
-            <span>Start</span>
-            <ButtonSort name='startDate' direction='desc' />
-          </div>
-          <div>
-            <span>Ende</span>
-            <ButtonSort name='endDate' direction='desc' />
-          </div>
-          <div />
-        </Table.Header>
-        <Menus>
-          <Table.Body
-            data={sortedFilteredRepertoire}
-            emptyMessage='Keine Songs gefunden'
-            render={(item) => <RepertoireItem key={item.id} item={item} />}
-          />
-        </Menus>
-      </Table>
     </motion.div>
   )
 }

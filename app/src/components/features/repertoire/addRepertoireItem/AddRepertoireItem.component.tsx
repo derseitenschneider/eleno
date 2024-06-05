@@ -7,7 +7,6 @@ import { useUser } from "../../../../services/context/UserContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { RepertoireItem } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
-import "./addRepertoireItem.style.scss"
 import { Button } from "@/components/ui/button"
 
 interface AddRepertoireItemProps {
