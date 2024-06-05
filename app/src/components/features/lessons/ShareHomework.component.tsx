@@ -53,7 +53,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     if (isCopied) {
       setTimeout(() => {
         setIsCopied(false)
-      }, 3000)
+      }, 5000)
     }
   }, [isCopied])
 
@@ -62,8 +62,8 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     setIsCopied(true)
   }
   return (
-    <div className='share-homework'>
-      <p className='mb-2'>
+    <div className='text-sm share-homework'>
+      <p className='mb-6'>
         Mit diesem Link kann{" "}
         <b>
           {currentStudent?.firstName} {currentStudent?.lastName}

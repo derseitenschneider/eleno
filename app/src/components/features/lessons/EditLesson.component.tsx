@@ -6,16 +6,32 @@ import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { updateLessonMutation } from "./mutations/updateLessonMutation"
+import { useQueryClient } from "@tanstack/react-query"
 
 type EditLessonProps = {
-  lesson: Lesson
+  lessonId: number
   onCloseModal?: () => void
 }
 
-function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
-  const [lessonContent, setLessonContent] = useState(lesson.lessonContent)
-  const [homework, setHomework] = useState(lesson.homework)
-  const [date, setDate] = useState<Date>(lesson.date)
+function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
+  const queryClient = useQueryClient()
+  const allLessons = queryClient.getQueryData(["all-lessons"]) as
+    | Array<Lesson>
+    | undefined
+  const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
+    | Array<Lesson>
+    | undefined
+
+  const combinedLessons: Array<Lesson> = []
+  if (allLessons) combinedLessons.push(...allLessons)
+  if (latestLessons) combinedLessons.push(...latestLessons)
+
+  const lessonToEdit = combinedLessons.find((lesson) => lesson.id === lessonId)
+  const [lessonContent, setLessonContent] = useState(
+    lessonToEdit?.lessonContent || "",
+  )
+  const [homework, setHomework] = useState(lessonToEdit?.homework || "")
+  const [date, setDate] = useState<Date>(lessonToEdit?.date || new Date())
 
   const handleLessonContent = (content: string) => {
     setLessonContent(content)
@@ -28,10 +44,11 @@ function EditLesson({ lesson, onCloseModal }: EditLessonProps) {
   const handleSetDate = (date: Date | undefined) => {
     if (date) setDate(date)
   }
+  if (!lessonToEdit?.homeworkKey || !lessonToEdit.id) return null
 
   const { mutate: saveLesson, isPending } = updateLessonMutation(
     {
-      ...lesson,
+      ...lessonToEdit,
       lessonContent,
       homework,
       date,

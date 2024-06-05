@@ -35,7 +35,7 @@ export default function PreviousLessonDropDown({
 
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
 
-  if (!currentLesson || !currentLesson.id) return null
+  if (!currentLesson?.id) return null
 
   return (
     <>
@@ -65,7 +65,7 @@ export default function PreviousLessonDropDown({
           <DialogHeader>
             <DialogTitle>Lektion bearbeiten</DialogTitle>
           </DialogHeader>
-          <EditLesson onCloseModal={closeModal} lesson={currentLesson} />
+          <EditLesson onCloseModal={closeModal} lessonId={currentLesson?.id} />
         </DialogContent>
       </Dialog>
 
@@ -74,7 +74,7 @@ export default function PreviousLessonDropDown({
           <DialogHeader>
             <DialogTitle>Hausaufgaben teilen</DialogTitle>
           </DialogHeader>
-          <ShareHomework lessonId={currentLesson.id} />
+          <ShareHomework lessonId={currentLesson?.id} />
         </DialogContent>
       </Dialog>
 

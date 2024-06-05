@@ -11,17 +11,24 @@ export function updateLessonMutation(
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: () => updateLessonAPI(updatedLesson),
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ["all-lessons"] })
-
+    onMutate: () => {
       // Snapshot in case of a rollback.
-      const previousLessons = queryClient.getQueryData([
+      const allLessons = queryClient.getQueryData([
         "all-lessons",
         {
           studentId: updatedLesson.studentId,
           year: updatedLesson.date.getFullYear(),
         },
-      ])
+      ]) as Array<Lesson> | undefined
+
+      const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
+        | Array<Lesson>
+        | undefined
+
+      const combinedLessons: Array<Lesson> = []
+
+      if (allLessons) combinedLessons.push(...allLessons)
+      if (latestLessons) combinedLessons.push(...latestLessons)
 
       queryClient.setQueryData(
         [
@@ -31,23 +38,37 @@ export function updateLessonMutation(
             year: updatedLesson.date.getFullYear(),
           },
         ],
-        (prev: Array<Lesson>) => {
-          return prev.map((oldLesson) =>
+        (prev: Array<Lesson> | undefined) => {
+          return prev?.map((oldLesson) =>
             oldLesson.id === updatedLesson.id ? updatedLesson : oldLesson,
           )
         },
       )
+
+      queryClient.setQueryData(
+        ["latest-3-lessons"],
+        (prev: Array<Lesson> | undefined) => {
+          return prev?.map((oldLesson) =>
+            oldLesson.id === updatedLesson.id ? updatedLesson : oldLesson,
+          )
+        },
+      )
+
       onClose?.()
-      return { previousLessons }
+      return { allLessons, latestLessons }
     },
+
     onSuccess: async () => {
       toast.success("Änderungen gespeichert.")
       queryClient.invalidateQueries({
         queryKey: ["latest-3-lessons"],
       })
     },
-    onError: (_, __, context) => {
+
+    onError: (error, __, context) => {
       fetchErrorToast()
+
+      console.log(error)
       queryClient.setQueryData(
         [
           "all-lessons",
@@ -56,7 +77,17 @@ export function updateLessonMutation(
             year: updatedLesson.date.getFullYear(),
           },
         ],
-        context?.previousLessons,
+        context?.allLessons,
+      )
+      queryClient.setQueryData(
+        [
+          "latest-3-lessons",
+          {
+            studentId: updatedLesson.studentId,
+            year: updatedLesson.date.getFullYear(),
+          },
+        ],
+        context?.latestLessons,
       )
     },
   })
