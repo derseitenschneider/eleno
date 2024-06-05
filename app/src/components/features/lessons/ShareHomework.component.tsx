@@ -1,34 +1,50 @@
+import { useEffect, useState } from "react"
+import { FaTelegramPlane } from "react-icons/fa"
 import { HiCheck, HiOutlineClipboard, HiOutlineMail } from "react-icons/hi"
 import { IoLogoWhatsapp } from "react-icons/io5"
 import { MdOutlineTextsms } from "react-icons/md"
 import { SiThreema } from "react-icons/si"
-import { FaTelegramPlane } from "react-icons/fa"
-import { useEffect, useState } from "react"
 
-import { useUser } from "../../../services/context/UserContext"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { useQueryClient } from "@tanstack/react-query"
 import type { Lesson, Student } from "@/types/types"
+import { useQueryClient } from "@tanstack/react-query"
+import { useUser } from "../../../services/context/UserContext"
+import { useParams, useSearchParams } from "react-router-dom"
 
 interface ShareHomeworkProps {
   lessonId: number
 }
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
-  const queryClient = useQueryClient()
-  const [isCopied, setIsCopied] = useState(false)
+  const { user } = useUser()
   const { userLocale } = useUserLocale()
-  const allLessons = queryClient.getQueryData(["all-lessons"]) as
+  const { studentId } = useParams()
+  const [searchParams] = useSearchParams()
+
+  const [isCopied, setIsCopied] = useState(false)
+
+  useEffect(() => {
+    if (isCopied) {
+      setTimeout(() => {
+        setIsCopied(false)
+      }, 5000)
+    }
+  }, [isCopied])
+
+  const queryClient = useQueryClient()
+  const allLessons = queryClient.getQueryData([
+    "all-lessons",
+    { studentId: Number(studentId), year: Number(searchParams.get("year")) },
+  ]) as Array<Lesson> | undefined
+
+  const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
     | Array<Lesson>
     | undefined
-  const latestLessons = queryClient.getQueryData([
-    "latest-3-lessons",
-  ]) as Array<Lesson>
+
   const combinedLessons: Array<Lesson> = []
   if (allLessons) combinedLessons.push(...allLessons)
   if (latestLessons) combinedLessons.push(...latestLessons)
 
-  const { user } = useUser()
   const students = queryClient.getQueryData(["students"]) as
     | Array<Student>
     | undefined
@@ -36,7 +52,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     (lesson) => lesson.id === lessonId,
   )
   const currentStudent = students?.find(
-    (student) => student.id === currentLesson?.studentId,
+    (student) => student.id === Number(studentId),
   )
 
   const lessonDate = currentLesson?.date.toLocaleDateString(userLocale, {
@@ -48,14 +64,6 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
 
   const subjectText = `Hausaufgaben ${currentStudent?.instrument} vom ${lessonDate}`
   const bodyText = `Hallo ${currentStudent?.firstName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.firstName} ${user?.lastName}`
-
-  useEffect(() => {
-    if (isCopied) {
-      setTimeout(() => {
-        setIsCopied(false)
-      }, 5000)
-    }
-  }, [isCopied])
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(url)

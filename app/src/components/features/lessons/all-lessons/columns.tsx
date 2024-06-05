@@ -20,6 +20,7 @@ import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 import EditLesson from "../EditLesson.component"
 import DeleteLesson from "../DeleteLesson.component"
+import ShareHomework from "../ShareHomework.component"
 
 export const columns: ColumnDef<Lesson>[] = [
   {
@@ -93,7 +94,10 @@ export const columns: ColumnDef<Lesson>[] = [
                   <span>Lektion bearbeiten</span>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem className='flex items-center gap-2'>
+                <DropdownMenuItem
+                  onClick={() => setOpenModal("SHARE")}
+                  className='flex items-center gap-2'
+                >
                   <Upload className='h-4 w-4 text-primary' />
                   <span>Hausaufgaben teilen</span>
                 </DropdownMenuItem>
@@ -120,6 +124,15 @@ export const columns: ColumnDef<Lesson>[] = [
                 lessonId={row.original.id}
                 onCloseModal={closeModal}
               />
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={openModal === "SHARE"} onOpenChange={closeModal}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Hausaufgaben teilen</DialogTitle>
+              </DialogHeader>
+              <ShareHomework lessonId={row.original.id} />
             </DialogContent>
           </Dialog>
 
