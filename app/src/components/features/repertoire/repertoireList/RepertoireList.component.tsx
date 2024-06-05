@@ -3,11 +3,11 @@ import { HiOutlineDocumentArrowDown } from "react-icons/hi2"
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import Table from "../../../ui/table/Table.component"
 import "./repertoireList.style.scss"
 
-import type { Sorting } from "../../../../types/types"
+import type { Sorting, Student } from "../../../../types/types"
 import sortRepertoire from "../../../../utils/sortRepertoire"
 import ButtonSort from "../../../ui/buttonSort/ButtonSort.component"
 import SearchBar from "../../../ui/searchBar/SearchBar.component"
@@ -20,55 +20,56 @@ import Menus from "../../../ui/menu/Menus.component"
 import Modal from "../../../ui/modal/Modal.component"
 import AddRepertoireItem from "../addRepertoireItem/AddRepertoireItem.component"
 import ExportRepertoire from "../exportRepertoire/ExportRepertoire.component"
+import { useQueryClient } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
 
-type TRepertoireProps = {
-  studentId: number
-}
-
-function RepertoireList({ studentId }: TRepertoireProps) {
+function RepertoireList() {
   const { repertoire, isLoading, getRepertoire } = useRepertoire()
 
   const [searchParams] = useSearchParams()
   const [sorting, setSorting] = useState<Sorting>({
     sort: "startDate",
-    ascending: null,
+    ascending: false,
   })
   const [searchInput, setSearchInput] = useState("")
-  const { students, activeSortedStudentIds, setCurrentStudentIndex } =
-    useStudents()
+  const queryClient = useQueryClient()
+  const students = queryClient.getQueryData(["students"]) as
+    | Array<Student>
+    | undefined
+  const { studentId } = useParams()
+
+  const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
 
   const isActiveStudent = !!activeSortedStudentIds.find(
-    (el) => el === studentId,
+    (el) => el === Number(studentId),
   )
 
   const navigate = useNavigate()
 
-  const currentStudent = students.find((student) => student.id === studentId)
-
-  useEffect(() => {
-    getRepertoire(studentId)
-  }, [getRepertoire, studentId])
+  const currentStudent = students?.find(
+    (student) => student.id === Number(studentId),
+  )
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value)
   }
 
-  useEffect(() => {
-    const sortBy = searchParams.get("sort")
-    const ascending = searchParams.get("asc")
-
-    if (!sortBy) {
-      setSorting({
-        sort: "startDate",
-        ascending: null,
-      })
-    } else {
-      setSorting({
-        sort: sortBy,
-        ascending,
-      })
-    }
-  }, [searchParams])
+  // useEffect(() => {
+  //   const sortBy = searchParams.get("sort")
+  //   const ascending = searchParams.get("asc")
+  //
+  //   if (!sortBy) {
+  //     setSorting({
+  //       sort: "startDate",
+  //       ascending: null,
+  //     })
+  //   } else {
+  //     setSorting({
+  //       sort: sortBy,
+  //       ascending,
+  //     })
+  //   }
+  // }, [searchParams])
 
   const filteredRepertoire = repertoire.filter((song) =>
     song.title.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase()),
@@ -77,10 +78,10 @@ function RepertoireList({ studentId }: TRepertoireProps) {
   const sortedFilteredRepertoire = sortRepertoire(
     filteredRepertoire,
     sorting,
-  ).filter((item) => item.studentId === currentStudent.id)
+  ).filter((item) => item.studentId === Number(studentId))
 
   const handleNavigate = () => {
-    const studentIndex = activeSortedStudentIds.indexOf(studentId)
+    const studentIndex = activeSortedStudentIds.indexOf(Number(studentId))
     setCurrentStudentIndex(studentIndex)
     navigate("/lessons")
   }
@@ -99,24 +100,20 @@ function RepertoireList({ studentId }: TRepertoireProps) {
       )}
       <div className='header'>
         <h2 className='heading-2'>
-          Repetoire {currentStudent.firstName} {currentStudent.lastName}
+          Repetoire {currentStudent?.firstName} {currentStudent?.lastName}
         </h2>
       </div>
 
-      <AddRepertoireItem studentId={studentId} />
+      <AddRepertoireItem studentId={Number(studentId)} />
       {repertoire.length > 0 && (
         <div className='controls'>
           <span className='count'>Anzahl Songs: {repertoire.length}</span>
 
           <Modal>
             <Modal.Open opens='export'>
-              <Button
-                type='button'
-                btnStyle='secondary'
-                icon={<HiOutlineDocumentArrowDown />}
-                size='sm'
-              >
-                Exportieren
+              <Button type='button' size='sm'>
+                <HiOutlineDocumentArrowDown />
+                <span>Exportieren</span>
               </Button>
             </Modal.Open>
 
@@ -147,17 +144,13 @@ function RepertoireList({ studentId }: TRepertoireProps) {
           </div>
           <div />
         </Table.Header>
-        {isLoading ? (
-          <Loader loading={isLoading} />
-        ) : (
-          <Menus>
-            <Table.Body
-              data={sortedFilteredRepertoire}
-              emptyMessage='Keine Songs gefunden'
-              render={(item) => <RepertoireItem key={item.id} item={item} />}
-            />
-          </Menus>
-        )}
+        <Menus>
+          <Table.Body
+            data={sortedFilteredRepertoire}
+            emptyMessage='Keine Songs gefunden'
+            render={(item) => <RepertoireItem key={item.id} item={item} />}
+          />
+        </Menus>
       </Table>
     </motion.div>
   )

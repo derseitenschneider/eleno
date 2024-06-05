@@ -40,6 +40,15 @@ const lessonsRoutes = [
           </div>
         ),
       },
+      {
+        end: true,
+        path: "repertoire",
+        element: (
+          <div className='py-5 pl-8 pr-4'>
+            <Repertoire />
+          </div>
+        ),
+      },
     ],
   },
   {

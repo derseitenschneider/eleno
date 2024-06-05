@@ -8,6 +8,7 @@ import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { RepertoireItem } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
 import "./addRepertoireItem.style.scss"
+import { Button } from "@/components/ui/button"
 
 interface AddRepertoireItemProps {
   studentId: number
@@ -15,9 +16,7 @@ interface AddRepertoireItemProps {
 
 function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   const { addRepertoireItem } = useRepertoire()
-  const {
-    user: { id: user_id },
-  } = useUser()
+  const { user } = useUser()
 
   const [searchParams] = useSearchParams()
 
@@ -25,7 +24,7 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
 
   const defaultItem: RepertoireItem = {
     studentId,
-    user_id,
+    user_id: user?.id,
     title: "",
     startDate: null,
     endDate: null,
@@ -61,9 +60,8 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   return (
     <div className='repertoire-list__add'>
       <div
-        className={`repertoire-list__inputs ${isPending ? "loading" : ""} ${
-          isEditing ? "editing" : ""
-        } `}
+        className={`repertoire-list__inputs ${isPending ? "loading" : ""} ${isEditing ? "editing" : ""
+          } `}
       >
         <span>Song</span>
         <span>Start</span>
@@ -76,28 +74,27 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
           value={item.title}
           autoFocus={window.screen.width > 1366}
         />
-        <DatePicker
-          selectedDate={
-            item.startDate
-              ? new Date(formatDateToDatabase(item.startDate))
-              : null
-          }
-          setDate={handleChangeStart}
-          id='start-date'
-        />
-        <DatePicker
-          selectedDate={
-            item.endDate ? new Date(formatDateToDatabase(item.endDate)) : null
-          }
-          setDate={handleChangeEnd}
-          id='end-date'
-        />
+        {/* <DatePicker */}
+        {/*   selectedDate={ */}
+        {/*     item.startDate */}
+        {/*       ? new Date(formatDateToDatabase(item.startDate)) */}
+        {/*       : null */}
+        {/*   } */}
+        {/*   setDate={handleChangeStart} */}
+        {/*   id='start-date' */}
+        {/* /> */}
+        {/* <DatePicker */}
+        {/*   selectedDate={ */}
+        {/*     item.endDate ? new Date(formatDateToDatabase(item.endDate)) : null */}
+        {/*   } */}
+        {/*   setDate={handleChangeEnd} */}
+        {/*   id='end-date' */}
+        {/* /> */}
       </div>
       <Button
         type='button'
-        btnStyle='primary'
         className='btn-add'
-        handler={handleSave}
+        onClick={handleSave}
         disabled={isPending || isEditing || !item.title}
       >
         <span>Hinzufügen</span>
