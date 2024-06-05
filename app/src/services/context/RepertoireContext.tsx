@@ -9,19 +9,19 @@ import type { ContextTypeRepertoire, RepertoireItem } from "../../types/types"
 
 import fetchErrorToast from "../../hooks/fetchErrorToast"
 import {
-  createRepertoireItemSupabase,
-  deleteRepertoireItemSupabase,
-  getRepertoireByStudentSupabase,
-  udpateRepertoireItemSupabase,
+  createRepertoireItemAPI,
+  deleteRepertoireItemAPI,
+  fetchRepertoireAPI,
+  updateRepertoireItemAPI,
 } from "../api/repertoire.api"
 
 export const RepertoireContext = createContext<ContextTypeRepertoire>({
   repertoire: [],
   isLoading: true,
-  getRepertoire: () => new Promise(() => {}),
-  addRepertoireItem: () => new Promise(() => {}),
-  updateRepertoireItem: () => new Promise(() => {}),
-  deleteRepertoireItem: () => new Promise(() => {}),
+  getRepertoire: () => new Promise(() => { }),
+  addRepertoireItem: () => new Promise(() => { }),
+  updateRepertoireItem: () => new Promise(() => { }),
+  deleteRepertoireItem: () => new Promise(() => { }),
 })
 
 export function RepertoireProvider({
@@ -34,7 +34,7 @@ export function RepertoireProvider({
 
   const getRepertoire = useCallback(async (studentId: number) => {
     try {
-      const rep = await getRepertoireByStudentSupabase(studentId)
+      const rep = await fetchRepertoireAPI(studentId)
       setRepertoire(rep)
     } catch {
       fetchErrorToast()
@@ -45,7 +45,7 @@ export function RepertoireProvider({
 
   const addRepertoireItem = useCallback(async (item: RepertoireItem) => {
     try {
-      const [newItem] = await createRepertoireItemSupabase(item)
+      const [newItem] = await createRepertoireItemAPI(item)
 
       setRepertoire((prev) => [...prev, newItem])
     } catch (error) {
@@ -55,7 +55,7 @@ export function RepertoireProvider({
 
   const updateRepertoireItem = useCallback(async (newItem: RepertoireItem) => {
     try {
-      await udpateRepertoireItemSupabase(newItem)
+      await updateRepertoireItemAPI(newItem)
       setRepertoire((prev) =>
         prev.map((item) => (item.id === newItem.id ? newItem : item)),
       )
@@ -66,7 +66,7 @@ export function RepertoireProvider({
 
   const deleteRepertoireItem = useCallback(async (id: number) => {
     try {
-      await deleteRepertoireItemSupabase(id)
+      await deleteRepertoireItemAPI(id)
       setRepertoire((prev) => prev.filter((item) => item.id !== id))
     } catch (error) {
       throw new Error(error.message)

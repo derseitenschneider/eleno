@@ -1,7 +1,7 @@
 import type { RepertoireItem } from "../../types/types"
 import supabase from "./supabase"
 
-export const getRepertoireByStudentSupabase = async (
+export const fetchRepertoireAPI = async (
   studentId: number,
 ): Promise<RepertoireItem[]> => {
   const { data: repertoire, error } = await supabase
@@ -14,7 +14,7 @@ export const getRepertoireByStudentSupabase = async (
   return repertoire as RepertoireItem[]
 }
 
-export const createRepertoireItemSupabase = async (
+export const createRepertoireItemAPI = async (
   item: RepertoireItem,
 ): Promise<RepertoireItem[]> => {
   const { data: repertoireItem, error } = await supabase
@@ -26,7 +26,7 @@ export const createRepertoireItemSupabase = async (
   return repertoireItem as RepertoireItem[]
 }
 
-export const udpateRepertoireItemSupabase = async (item: RepertoireItem) => {
+export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
   const { error } = await supabase
     .from("repertoire")
     .update({ ...item })
@@ -35,7 +35,7 @@ export const udpateRepertoireItemSupabase = async (item: RepertoireItem) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteRepertoireItemSupabase = async (itemId: number) => {
+export const deleteRepertoireItemAPI = async (itemId: number) => {
   const { error } = await supabase.from("repertoire").delete().eq("id", itemId)
   if (error) throw new Error(error.message)
 }
