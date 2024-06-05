@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import parse from "html-react-parser"
 import {
   Dialog,
   DialogContent,
@@ -14,24 +13,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
-import type { Lesson } from "@/types/types"
+import type { RepertoireItem } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
-import EditLesson from "../EditLesson.component"
-import DeleteLesson from "../DeleteLesson.component"
-import ShareHomework from "../ShareHomework.component"
 
-export const columns: ColumnDef<Lesson>[] = [
+export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
-    accessorKey: "date",
-    header: "Datum",
-    size: 12,
+    accessorKey: "title",
+    header: "Titel",
+    size: 60,
+    minSize: 0,
+  },
+  {
+    accessorKey: "startDate",
+    header: "Start",
+    size: 20,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
-      const date = row.getValue("date") as Date
-      const formatted = date.toLocaleDateString(userLocale, {
+      const date = row.getValue("startDate") as string
+      const formatted = new Date(date)?.toLocaleDateString(userLocale, {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
@@ -40,36 +42,26 @@ export const columns: ColumnDef<Lesson>[] = [
     },
   },
   {
-    accessorKey: "lessonContent",
-    header: "Lektion",
-    size: 45,
+    accessorKey: "endDate",
+    header: "Ende",
+    size: 20,
     minSize: 0,
     cell: ({ row }) => {
-      return (
-        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-          {parse(row.getValue("lessonContent") || "")}
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "homework",
-    header: "Hausaufgaben",
-    size: 45,
-    minSize: 0,
-    cell: ({ row }) => {
-      return (
-        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-          {parse(row.getValue("homework") || "")}
-        </div>
-      )
+      const { userLocale } = useUserLocale()
+      const date = row.getValue("endDate") as string
+      const formatted = new Date(date)?.toLocaleDateString(userLocale, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+      return <div>{formatted}</div>
     },
   },
   {
     id: "actions",
     size: 5,
     minSize: 0,
-    cell: ({ row }) => {
+    cell: () => {
       const [openModal, setOpenModal] = useState<"EDIT" | "SHARE" | "DELETE">()
       function closeModal() {
         setOpenModal(undefined)
@@ -120,10 +112,6 @@ export const columns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Lektion bearbeiten</DialogTitle>
               </DialogHeader>
-              <EditLesson
-                lessonId={row.original.id}
-                onCloseModal={closeModal}
-              />
             </DialogContent>
           </Dialog>
 
@@ -132,7 +120,6 @@ export const columns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Hausaufgaben teilen</DialogTitle>
               </DialogHeader>
-              <ShareHomework lessonId={row.original.id} />
             </DialogContent>
           </Dialog>
 
@@ -141,10 +128,6 @@ export const columns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Lektion löschen</DialogTitle>
               </DialogHeader>
-              <DeleteLesson
-                onCloseModal={closeModal}
-                lessonId={row.original.id}
-              />
             </DialogContent>
           </Dialog>
         </>

@@ -2,16 +2,12 @@ import { CSVLink } from "react-csv"
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import { useEffect, useState } from "react"
-import { useLessons } from "../../../../services/context/LessonsContext"
-import { useStudents } from "../../../../services/context/StudentContext"
-import type { Lesson } from "../../../../types/types"
+import type { Lesson, Student } from "../../../../types/types"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 
 import { Button } from "@/components/ui/button"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import supabase from "@/services/api/supabase"
-import { useParams } from "react-router-dom"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import {
   fetchAllLessonsAPI,
   fetchLessonsByRange,
@@ -24,12 +20,16 @@ import MiniLoader from "@/components/ui/MiniLoader.component"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
+import { useQueryClient } from "@tanstack/react-query"
+import fetchErrorToast from "@/hooks/fetchErrorToast"
 
 type ExportLessonsProps = {
   studentId: number
 }
 function ExportLessons({ studentId }: ExportLessonsProps) {
+  const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
+  const students = queryClient.getQueryData(["students"]) as Array<Student>
   const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [startDate, setStartDate] = useState<Date>()
@@ -42,7 +42,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   )
   const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
   const studentFullNameDashes = `${currentStudent?.firstName
-    .split(" ")
+    ?.split(" ")
     .join("-")}-${currentStudent?.lastName}`
 
   const lessonsCSV = lessons.map((lesson) => {

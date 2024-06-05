@@ -1,19 +1,21 @@
-import { DataTable } from "./data-table"
-import { columns } from "./columns"
-import { useEffect, useState } from "react"
-import { NavLink, useParams, useSearchParams } from "react-router-dom"
-import { ChevronLeft } from "lucide-react"
 import {
-  useAllLessonsPerStudent,
-  useLatestLessonsQuery,
-  useLessonYearsQuery,
-} from "../lessonsQueries"
+  type ColumnFiltersState,
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel,
+} from "@tanstack/react-table"
+import { ChevronLeft } from "lucide-react"
+import { useState } from "react"
+import { NavLink, useParams, useSearchParams } from "react-router-dom"
+import { DataTable } from "../../../ui/data-table"
+import { useAllLessonsPerStudent, useLessonYearsQuery } from "../lessonsQueries"
+import { allLessonsColumns } from "./allLessonsColumns"
+import AllLessonsControl from "./allLessonsControl.component"
 
 export default function AllLessons() {
   const { studentId } = useParams()
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [searchParams, setSearchParams] = useSearchParams()
-  // Set newest lesson years on change of student. This is necessary so when
-  // navigating to a new student the year is set back to newest year.
 
   const selectedYear = searchParams.get("year")
   const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
@@ -25,6 +27,17 @@ export default function AllLessons() {
     isError,
     isFetching,
   } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
+
+  const table = useReactTable({
+    data: lessons,
+    columns: allLessonsColumns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
+  })
 
   if (isPendingLessons || isPendingYears) return <div>...Loading</div>
 
@@ -41,8 +54,10 @@ export default function AllLessons() {
           <span>Zur Lektion</span>
         </NavLink>
       </div>
+      <AllLessonsControl table={table} isFetchin={isFetching} />
       <DataTable
-        columns={columns}
+        table={table}
+        columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
         data={lessons}
         lessonYears={lessonYears?.years || []}

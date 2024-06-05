@@ -1,5 +1,5 @@
 import LessonHeader from "@/components/features/lessons/LessonHeader"
-import AllLessons from "@/components/features/lessons/all-lessons/page"
+import AllLessons from "@/components/features/lessons/all-lessons/allLessonsTable"
 import Repertoire from "@/components/features/repertoire/Repertoire.component"
 import { motion } from "framer-motion"
 import { Suspense, lazy } from "react"
