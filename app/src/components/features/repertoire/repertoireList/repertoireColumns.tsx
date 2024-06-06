@@ -15,46 +15,82 @@ import {
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import type { RepertoireItem } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
-import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
+import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
     accessorKey: "title",
-    header: "Titel",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Titel
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
     size: 60,
     minSize: 0,
   },
   {
     accessorKey: "startDate",
-    header: "Start",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Start
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
     size: 20,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
       const date = row.getValue("startDate") as string
-      const formatted = new Date(date)?.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-      return <div>{formatted}</div>
+      let formatted: string | "" = ""
+      if (date) {
+        formatted = new Date(date)?.toLocaleDateString(userLocale, {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+      }
+      return <div>{formatted || "-"}</div>
     },
   },
   {
     accessorKey: "endDate",
-    header: "Ende",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Ende
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
     size: 20,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
       const date = row.getValue("endDate") as string
-      const formatted = new Date(date)?.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-      return <div>{formatted}</div>
+      let formatted: string | "" = ""
+      if (date) {
+        formatted = new Date(date)?.toLocaleDateString(userLocale, {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+      }
+      return <div>{formatted || "-"}</div>
     },
   },
   {

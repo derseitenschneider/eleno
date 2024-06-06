@@ -9,8 +9,11 @@ import { repertoireColumns } from "./repertoireColumns"
 import {
   getCoreRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table"
+import { useState } from "react"
 
 function RepertoireList() {
   const { studentId } = useParams()
@@ -20,16 +23,17 @@ function RepertoireList() {
     isError,
     isFetching,
   } = useRepertoireQuery(Number(studentId))
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
     data: repertoire,
     columns: repertoireColumns,
     getCoreRowModel: getCoreRowModel(),
-    // onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    // state: {
-    //   columnFilters,
-    // },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   })
 
   if (isPending) return <p>...loading</p>

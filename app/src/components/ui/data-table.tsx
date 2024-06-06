@@ -41,6 +41,7 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
+                  className='text-foreground/75'
                 >
                   {header.isPlaceholder
                     ? null
@@ -70,7 +71,10 @@ export function DataTable<TData, TValue>({
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={columns.length} className='h-24 text-center'>
+            <TableCell
+              colSpan={columns.length}
+              className='p-10 text-foreground/75 text-center'
+            >
               {messageEmpty}
             </TableCell>
           </TableRow>
