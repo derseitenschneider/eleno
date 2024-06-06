@@ -22,12 +22,16 @@ import {
 import ExportLessons from "../exportLessons/ExportLessons.component"
 
 type AllLessonsControlPros = {
-  table: Table<Array<Lesson>>
+  table: Table<Lesson>
   isFetching: boolean
+  globalFilter: string
+  setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
 }
 export default function AllLessonsControl({
   table,
   isFetching,
+  globalFilter,
+  setGlobalFilter,
 }: AllLessonsControlPros) {
   const queryClient = useQueryClient()
   const { studentId } = useParams()
@@ -47,10 +51,12 @@ export default function AllLessonsControl({
     <div className='flex items-center justify-between mb-4'>
       <SearchBar
         searchInput={
-          (table.getColumn("lessonContent")?.getFilterValue() as string) ?? ""
+          // (table.getColumn("lessonContent")?.getFilterValue() as string) ?? ""
+          globalFilter || ""
         }
         handlerSearchInput={(event) =>
-          table.getColumn("lessonContent")?.setFilterValue(event.target.value)
+          // table.getColumn("lessonContent")?.setFilterValue(event.target.value)
+          setGlobalFilter(event.target.value)
         }
       />
       <div className='flex items-center gap-4'>

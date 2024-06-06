@@ -3,6 +3,7 @@ import {
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
+  FilterFn,
 } from "@tanstack/react-table"
 import { ChevronLeft } from "lucide-react"
 import { useState } from "react"
@@ -15,6 +16,7 @@ import AllLessonsControl from "./allLessonsControl.component"
 export default function AllLessons() {
   const { studentId } = useParams()
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState("")
   const [searchParams, setSearchParams] = useSearchParams()
 
   const selectedYear = searchParams.get("year")
@@ -28,14 +30,28 @@ export default function AllLessons() {
     isFetching,
   } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
 
+  const fuzzyFilter: FilterFn<Lesson> = (row, columnId, filterValue) => {
+    const searchableRowContent = `${row.original.lessonContent} ${row.original.homework} ${row.original.date}`
+
+    return searchableRowContent
+      .toLowerCase()
+      .includes(filterValue.toLowerCase())
+  }
+
   const table = useReactTable({
     data: lessons,
+    filterFns: {
+      fuzzy: fuzzyFilter,
+    },
     columns: allLessonsColumns,
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "fuzzy",
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       columnFilters,
+      globalFilter,
     },
   })
 
@@ -54,7 +70,12 @@ export default function AllLessons() {
           <span>Zur Lektion</span>
         </NavLink>
       </div>
-      <AllLessonsControl table={table} isFetchin={isFetching} />
+      <AllLessonsControl
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        table={table}
+        isFetching={isFetching}
+      />
       <DataTable
         table={table}
         columns={allLessonsColumns}

@@ -8,6 +8,8 @@ import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import type { RepertoireItem } from "../../../../types/types"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
 import { Button } from "@/components/ui/button"
+import { DayPicker } from "@/components/ui/daypicker.component"
+import { Input } from "@/components/ui/input"
 
 interface AddRepertoireItemProps {
   studentId: number
@@ -25,8 +27,6 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
     studentId,
     user_id: user?.id,
     title: "",
-    startDate: null,
-    endDate: null,
   }
   const [item, setItem] = useState<RepertoireItem>(defaultItem)
   const [isPending, setIsPending] = useState(false)
@@ -35,11 +35,11 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
     setItem((prev) => ({ ...prev, title: e.target.value }))
   }
 
-  const handleChangeStart = (date: string) => {
+  const handleChangeStart = (date: Date | undefined) => {
     setItem((prev) => ({ ...prev, startDate: date }))
   }
 
-  const handleChangeEnd = (date: string) => {
+  const handleChangeEnd = (date: Date | undefined) => {
     setItem((prev) => ({ ...prev, endDate: date }))
   }
 
@@ -57,46 +57,41 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   }
 
   return (
-    <div className='repertoire-list__add'>
-      <div
-        className={`repertoire-list__inputs ${isPending ? "loading" : ""} ${isEditing ? "editing" : ""
-          } `}
-      >
-        <span>Song</span>
-        <span>Start</span>
-        <span>Ende</span>
+    <div className='flex items-end gap-5 mb-12'>
+      <div className='grid  grid-cols-[1fr_auto_auto] flex-1'>
+        <div>
+          <span className='text-sm'>Song</span>
+          <Input
+            type='text'
+            name='title'
+            onChange={handleChangeTitle}
+            value={item.title}
+          />
+        </div>
 
-        <input
-          type='text'
-          name='title'
-          onChange={handleChangeTitle}
-          value={item.title}
-          autoFocus={window.screen.width > 1366}
-        />
-        {/* <DatePicker */}
-        {/*   selectedDate={ */}
-        {/*     item.startDate */}
-        {/*       ? new Date(formatDateToDatabase(item.startDate)) */}
-        {/*       : null */}
-        {/*   } */}
-        {/*   setDate={handleChangeStart} */}
-        {/*   id='start-date' */}
-        {/* /> */}
-        {/* <DatePicker */}
-        {/*   selectedDate={ */}
-        {/*     item.endDate ? new Date(formatDateToDatabase(item.endDate)) : null */}
-        {/*   } */}
-        {/*   setDate={handleChangeEnd} */}
-        {/*   id='end-date' */}
-        {/* /> */}
+        <div>
+          <span className='text-sm'>Start</span>
+          <DayPicker
+            className='block'
+            date={item.startDate}
+            setDate={handleChangeStart}
+          />
+        </div>
+        <div>
+          <span>Ende</span>
+          <DayPicker
+            className='block'
+            date={item.endDate}
+            setDate={handleChangeEnd}
+          />
+        </div>
       </div>
       <Button
-        type='button'
-        className='btn-add'
         onClick={handleSave}
+        size='sm'
         disabled={isPending || isEditing || !item.title}
       >
-        <span>Hinzufügen</span>
+        Hinzufügen
       </Button>
     </div>
   )

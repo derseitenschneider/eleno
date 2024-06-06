@@ -50,7 +50,7 @@ function RepertoireList() {
           <span>Zur Lektion</span>
         </NavLink>
       </div>
-      {/* <AddRepertoireItem studentId={Number(studentId)} /> */}
+      <AddRepertoireItem studentId={Number(studentId)} />
       <DataTable
         table={table}
         columns={repertoireColumns}

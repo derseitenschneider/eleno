@@ -32,7 +32,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         </Button>
       )
     },
-    size: 60,
+    size: 75,
     minSize: 0,
   },
   {
@@ -48,7 +48,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         </Button>
       )
     },
-    size: 20,
+    size: 5,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
@@ -77,7 +77,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         </Button>
       )
     },
-    size: 20,
+    size: 5,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
