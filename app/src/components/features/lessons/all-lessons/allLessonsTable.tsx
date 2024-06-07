@@ -1,10 +1,12 @@
+import { Lesson } from "@/types/types"
 import {
   type ColumnFiltersState,
-  useReactTable,
+  type FilterFn,
   getCoreRowModel,
   getFilteredRowModel,
-  FilterFn,
+  useReactTable,
 } from "@tanstack/react-table"
+
 import { ChevronLeft } from "lucide-react"
 import { useState } from "react"
 import { NavLink, useParams, useSearchParams } from "react-router-dom"
@@ -15,14 +17,13 @@ import AllLessonsControl from "./allLessonsControl.component"
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState("")
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   const selectedYear = searchParams.get("year")
-  const { data: lessonYears, isPending: isPendingYears } = useLessonYearsQuery(
-    Number(studentId),
-  )
+
+  const { isPending: isPendingYears } = useLessonYearsQuery(Number(studentId))
+
   const {
     data: lessons,
     isPending: isPendingLessons,
@@ -30,27 +31,24 @@ export default function AllLessons() {
     isFetching,
   } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
 
-  const fuzzyFilter: FilterFn<Lesson> = (row, columnId, filterValue) => {
-    const searchableRowContent = `${row.original.lessonContent} ${row.original.homework} ${row.original.date}`
+  const fuzzyFilter: FilterFn<Lesson> = (row, columnId, value) => {
+    const lessonContent = row.getValue("lessonContent") as string
+    const homework = row.getValue("homework") as string
 
-    return searchableRowContent
-      .toLowerCase()
-      .includes(filterValue.toLowerCase())
+    return (
+      lessonContent?.toLowerCase().includes(value?.toLowerCase()) ||
+      homework?.toLowerCase().includes(value?.toLowerCase())
+    )
   }
 
   const table = useReactTable({
     data: lessons,
-    filterFns: {
-      fuzzy: fuzzyFilter,
-    },
+    globalFilterFn: fuzzyFilter,
     columns: allLessonsColumns,
     getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: "fuzzy",
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-      columnFilters,
       globalFilter,
     },
   })
@@ -81,7 +79,6 @@ export default function AllLessons() {
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
         data={lessons}
-        lessonYears={lessonYears?.years || []}
         isFetching={isFetching}
       />
     </>

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import type { Lesson } from "@/types/types"
-import type { ColumnDef, FilterFn } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table"
 import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 import EditLesson from "../EditLesson.component"
@@ -41,7 +41,6 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
   },
   {
     accessorKey: "lessonContent",
-    filterFn: "fuzzy",
     header: "Lektion",
     size: 45,
     minSize: 0,
@@ -55,7 +54,6 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
   },
   {
     accessorKey: "homework",
-    filterFn: "includesString",
     header: "Hausaufgaben",
     size: 45,
     minSize: 0,

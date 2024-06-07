@@ -28,7 +28,6 @@ type AllLessonsControlPros = {
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
 }
 export default function AllLessonsControl({
-  table,
   isFetching,
   globalFilter,
   setGlobalFilter,
@@ -51,12 +50,10 @@ export default function AllLessonsControl({
     <div className='flex items-center justify-between mb-4'>
       <SearchBar
         searchInput={
-          // (table.getColumn("lessonContent")?.getFilterValue() as string) ?? ""
           globalFilter || ""
         }
-        handlerSearchInput={(event) =>
-          // table.getColumn("lessonContent")?.setFilterValue(event.target.value)
-          setGlobalFilter(event.target.value)
+        setSearchInput={(value) =>
+          setGlobalFilter(value)
         }
       />
       <div className='flex items-center gap-4'>
