@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import SearchBar from "@/components/ui/searchBar/SearchBar.component"
+import SearchBar from "@/components/ui/SearchBar.component"
 import type { Lesson, RepertoireItem } from "@/types/types"
 import { File } from "lucide-react"
 import type { Table } from "@tanstack/react-table"
@@ -31,27 +31,40 @@ export default function RepertoireControl({
   globalFilter,
   setGlobalFilter,
 }: RepertoireControlProps) {
-  const queryClient = useQueryClient()
   const { studentId } = useParams()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const queryClient = useQueryClient()
+  const repertoireItems = queryClient.getQueryData([
+    "repertoire",
+    { studentId: Number(studentId) },
+  ]) as Array<RepertoireItem>
+
   const [modalOpen, setModalOpen] = useState<"EXPORT" | undefined>()
 
+  const hasRepertoireItems = repertoireItems.length > 0
+
   return (
-    <div className='flex items-center justify-between mb-4'>
+    <div className='flex items-center gap-4 mb-4'>
+      <div className='mr-auto'>
+        {hasRepertoireItems && (
+          <p>
+            Anzahl Songs: <span>{repertoireItems.length}</span>
+          </p>
+        )}
+      </div>
+      <Button
+        size='sm'
+        variant='outline'
+        onClick={() => setModalOpen("EXPORT")}
+        disabled={!hasRepertoireItems}
+      >
+        <File className='h-4 w-4 text-primary mr-2' />
+        Exportieren
+      </Button>
       <SearchBar
         searchInput={globalFilter || ""}
         setSearchInput={(value) => setGlobalFilter(value)}
+        disabled={!hasRepertoireItems}
       />
-      <div className='flex items-center gap-4'>
-        <Button
-          size='sm'
-          variant='outline'
-          onClick={() => setModalOpen("EXPORT")}
-        >
-          <File className='h-4 w-4 text-primary mr-2' />
-          Exportieren
-        </Button>
-      </div>
       <Dialog
         open={modalOpen === "EXPORT"}
         onOpenChange={() => setModalOpen(undefined)}

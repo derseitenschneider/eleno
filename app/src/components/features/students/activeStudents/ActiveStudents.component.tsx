@@ -16,7 +16,7 @@ import type { Sorting } from "../../../../types/types"
 import { sortStudents } from "../../../../utils/sortStudents"
 
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import SearchBar from "../../../ui/searchBar/SearchBar.component"
+import SearchBar from "../../../ui/SearchBar.component"
 
 import Menus from "../../../ui/menu/Menus.component"
 import Modal from "../../../ui/modal/Modal.component"

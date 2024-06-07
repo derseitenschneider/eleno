@@ -16,7 +16,7 @@ import StudentsTable from "../studentsTable/StudentsTable.component"
 
 import { useStudents } from "../../../../services/context/StudentContext"
 import Modal from "../../../ui/modal/Modal.component"
-import SearchBar from "../../../ui/searchBar/SearchBar.component"
+import SearchBar from "../../../ui/SearchBar.component"
 import DeleteStudents from "../deleteStudents/DeleteStudents.component"
 import InachtiveStudentRow from "./InactiveStudentRow.component"
 
@@ -56,8 +56,7 @@ function InactiveStudents() {
       try {
         await reactivateStudents(selectedStudents)
         toast(
-          `Schüler:in${
-            selectedStudents.length > 1 ? "nen" : ""
+          `Schüler:in${selectedStudents.length > 1 ? "nen" : ""
           } wiederhergestellt`,
         )
         setAction("")

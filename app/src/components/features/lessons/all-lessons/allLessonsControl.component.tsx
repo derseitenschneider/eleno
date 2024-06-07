@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import SearchBar from "@/components/ui/searchBar/SearchBar.component"
+import SearchBar from "@/components/ui/SearchBar.component"
 import type { Lesson } from "@/types/types"
 import { File } from "lucide-react"
 import type { Table } from "@tanstack/react-table"
