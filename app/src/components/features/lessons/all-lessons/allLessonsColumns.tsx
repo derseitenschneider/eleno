@@ -16,7 +16,7 @@ import {
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import type { Lesson } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
-import { MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
+import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 import EditLesson from "../EditLesson.component"
 import DeleteLesson from "../DeleteLesson.component"
@@ -25,7 +25,17 @@ import ShareHomework from "../ShareHomework.component"
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {
     accessorKey: "date",
-    header: "Datum",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Datum
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
     size: 12,
     minSize: 0,
     cell: ({ row }) => {

@@ -8,7 +8,6 @@ import { DataTable } from "../../../ui/data-table"
 import { repertoireColumns } from "./repertoireColumns"
 import {
   getCoreRowModel,
-  getFilteredRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
