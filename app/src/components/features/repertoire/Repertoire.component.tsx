@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import { RepertoireProvider } from "../../../services/context/RepertoireContext"
-import RepertoireList from "./repertoireList/repertoireTable.component"
+import RepertoireList from "./repertoireTable/repertoireTable.component"
 
 function Repertoire() {
   const [searchParams] = useSearchParams()

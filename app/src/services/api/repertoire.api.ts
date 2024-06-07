@@ -4,13 +4,24 @@ import supabase from "./supabase"
 export const fetchRepertoireAPI = async (
   studentId: number,
 ): Promise<RepertoireItem[]> => {
-  const { data: repertoire, error } = await supabase
+  const { data, error } = await supabase
     .from("repertoire")
     .select("*")
     .eq("studentId", studentId)
     .order("startDate", { ascending: false, nullsFirst: true })
 
   if (error) throw new Error(error.message)
+
+  const repertoire = data.map((repertoireItem) => {
+    const startDate = repertoireItem.startDate
+      ? new Date(repertoireItem.startDate)
+      : null
+    const endDate = repertoireItem.endDate
+      ? new Date(repertoireItem.endDate)
+      : null
+
+    return { ...repertoireItem, startDate, endDate }
+  })
   return repertoire as RepertoireItem[]
 }
 
