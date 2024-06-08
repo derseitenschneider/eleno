@@ -119,15 +119,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
                   className='flex items-center gap-2'
                 >
                   <Pencil className='h-4 w-4 text-primary' />
-                  <span>Lektion bearbeiten</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem
-                  onClick={() => setOpenModal("SHARE")}
-                  className='flex items-center gap-2'
-                >
-                  <Upload className='h-4 w-4 text-primary' />
-                  <span>Hausaufgaben teilen</span>
+                  <span>Song bearbeiten</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
@@ -137,7 +129,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
                   className='flex items-center gap-2'
                 >
                   <Trash2 className='h-4 w-4 text-warning' />
-                  <span>Lektion löschen</span>
+                  <span>Song löschen</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -146,15 +138,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
           <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Lektion bearbeiten</DialogTitle>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-
-          <Dialog open={openModal === "SHARE"} onOpenChange={closeModal}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Hausaufgaben teilen</DialogTitle>
+                <DialogTitle>Song bearbeiten</DialogTitle>
               </DialogHeader>
             </DialogContent>
           </Dialog>
@@ -162,7 +146,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
           <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Lektion löschen</DialogTitle>
+                <DialogTitle>Song löschen</DialogTitle>
               </DialogHeader>
             </DialogContent>
           </Dialog>

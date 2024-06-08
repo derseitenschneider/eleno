@@ -1,8 +1,8 @@
-interface EmtpyProps {
+interface EmptyProps {
   emptyMessage: string
 }
 
-function Emtpy({ emptyMessage }: EmtpyProps) {
+function Empty({ emptyMessage }: EmptyProps) {
   return (
     <div className='h-full w-full grid justify-center mt-[6.5%]'>
       <h3 className='heading-3 text-foreground/60'>{emptyMessage}</h3>
@@ -10,4 +10,4 @@ function Emtpy({ emptyMessage }: EmtpyProps) {
   )
 }
 
-export default Emtpy
+export default Empty

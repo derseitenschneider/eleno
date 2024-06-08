@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import ExportRepertoire from "../ExportRepertoire.component"
 
 type RepertoireControlProps = {
   table: Table<RepertoireItem>
@@ -71,7 +72,8 @@ export default function RepertoireControl({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Lektionsliste exportieren</DialogTitle>
+            <DialogTitle>Repertoire exportieren</DialogTitle>
+            <ExportRepertoire studentId={Number(studentId)} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

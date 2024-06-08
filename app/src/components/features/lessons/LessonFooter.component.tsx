@@ -36,7 +36,8 @@ function LessonFooter() {
         activeSortedStudentIds[currentStudentIndex - 1] ?? 0
       const newestYear = getNewestLessonYear(latestLessons, previousStudentId)
       const url = window.location.pathname
-      const query = `?year=${newestYear}`
+      const query = url.includes("all") ? `?year=${newestYear}` : ""
+
       const newUrl = url.replace(
         String(currentStudentId),
         String(previousStudentId),
@@ -48,7 +49,7 @@ function LessonFooter() {
       activeSortedStudentIds[activeSortedStudentIds.length - 1] ?? 0
     const newestYear = getNewestLessonYear(latestLessons, lastStudentId)
     const url = window.location.pathname
-    const query = `?year=${newestYear}`
+    const query = url.includes("all") ? `?year=${newestYear}` : ""
     const newUrl = url.replace(String(currentStudentId), String(lastStudentId))
     navigate(newUrl)
     navigate(newUrl + query)
@@ -60,7 +61,7 @@ function LessonFooter() {
       const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1] ?? 0
       const newestYear = getNewestLessonYear(latestLessons, nextStudentId)
       const url = window.location.pathname
-      const query = `?year=${newestYear}`
+      const query = url.includes("all") ? `?year=${newestYear}` : ""
       const newUrl = url.replace(
         String(currentStudentId),
         String(nextStudentId),
@@ -71,7 +72,7 @@ function LessonFooter() {
     const firstStudentId = activeSortedStudentIds[0] ?? 0
     const newestYear = getNewestLessonYear(latestLessons, firstStudentId)
     const url = window.location.pathname
-    const query = `?year=${newestYear}`
+    const query = url.includes("all") ? `?year=${newestYear}` : ""
     const newUrl = url.replace(String(currentStudentId), String(firstStudentId))
     navigate(newUrl)
     navigate(newUrl + query)

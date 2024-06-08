@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react"
-import Emtpy from "../Empty.component"
+import EmptyProps from "../Empty.component"
 import "./table.style.scss"
 
 interface TableProps {
@@ -63,7 +63,7 @@ function Body<T>({
   className,
   alternateColor = false,
 }: BodyProps<T>) {
-  if (!data.length) return <Emtpy emptyMessage={emptyMessage} />
+  if (!data.length) return <Empty emptyMessage={emptyMessage} />
 
   return (
     <div
