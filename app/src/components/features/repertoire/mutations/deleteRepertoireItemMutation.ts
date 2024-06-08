@@ -1,74 +1,50 @@
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { deleteLessonAPI } from "@/services/api/lessons.api"
-import type { Lesson } from "@/types/types"
+import { deleteRepertoireItemAPI } from "@/services/api/repertoire.api"
+import type { Lesson, RepertoireItem } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function deleteLessonMutation(lessonId: number, onClose?: () => void) {
+export function deleteRepertoireItemMutation(
+  itemId: number,
+  studentId: number,
+  onClose?: () => void,
+) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => deleteLessonAPI(lessonId),
+    mutationFn: () => deleteRepertoireItemAPI(itemId),
     onMutate: () => {
-      const previousAllLessons = queryClient.getQueryData([
-        "all-lessons",
-      ]) as Array<Lesson>
-      const previousLatestLessons = queryClient.getQueryData([
-        "latest-3-lessons",
+      const previousRepertoire = queryClient.getQueryData([
+        "repertoire",
+        { studentId },
       ]) as Array<Lesson>
 
-      // Since we dont know if the lesson is in one or the other or both caches
-      // we search until we find it.
-      const lessonToDelete =
-        previousAllLessons?.find((lesson) => lesson.id === lessonId) ||
-        previousLatestLessons?.find((lesson) => lesson.id === lessonId)
-
-      // Remove lesson from all lessons cache. This cache might still be empty
-      // when the user hasn't previously visited that page but that should'nt
-      // be an issue
       queryClient.setQueryData(
         [
-          "all-lessons",
+          "repertoire",
           {
-            studentId: lessonToDelete?.studentId,
-            year: lessonToDelete?.date.getFullYear(),
+            studentId,
           },
         ],
-        (prev: Array<Lesson>) =>
-          prev?.filter((lesson) => lesson.id !== lessonId),
+        (prev: Array<RepertoireItem>) =>
+          prev?.filter((item) => item.id !== itemId),
       )
 
-      // Remove lessons from latest-3-lessons cache. This cache migth be empty
-      // when the user deletes a lesson from the all lessons page that is not
-      // currently part of the latest-3-lessons.
-      queryClient.setQueryData(["latest-3-lessons"], (prev: Array<Lesson>) =>
-        prev?.filter((lesson) => lesson.id !== lessonId),
-      )
       onClose?.()
-      return { previousAllLessons, previousLatestLessons, lessonToDelete }
+      return { previousRepertoire }
     },
 
-    onSuccess: async (_, __, context) => {
-      toast.success("Lektion gelöscht.")
+    onSuccess: async () => {
+      toast.success("Song gelöscht.")
       queryClient.invalidateQueries({
-        queryKey: ["latest-3-lessons"],
-      })
-      queryClient.invalidateQueries({
-        queryKey: [
-          "all-lessons",
-          {
-            studentId: context.lessonToDelete?.studentId,
-            year: context.lessonToDelete?.date.getFullYear(),
-          },
-        ],
+        queryKey: ["repertoire", { studentId }],
       })
     },
 
-    onError: (error, __, context) => {
+    onError: (_, __, context) => {
       fetchErrorToast()
-      queryClient.setQueryData(["all-lessons"], context?.previousAllLessons)
       queryClient.setQueryData(
-        ["latest-3-lessons"],
-        context?.previousLatestLessons,
+        ["repertoire", { studentId }],
+        context?.previousRepertoire,
       )
     },
   })

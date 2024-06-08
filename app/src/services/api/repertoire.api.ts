@@ -55,9 +55,19 @@ export const createRepertoireItemAPI = async (item: RepertoireItem) => {
 }
 
 export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
+  const utcStartDate =
+    item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
+
+  const utcEndDate =
+    item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
+
   const { error } = await supabase
     .from("repertoire")
-    .update({ ...item })
+    .update({
+      ...item,
+      startDate: utcStartDate?.toISOString() || null,
+      endDate: utcEndDate?.toISOString() || null,
+    })
     .eq("id", item.id)
 
   if (error) throw new Error(error.message)

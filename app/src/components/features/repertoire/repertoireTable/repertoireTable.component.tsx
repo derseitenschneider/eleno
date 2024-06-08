@@ -95,7 +95,7 @@ function RepertoireList() {
       <DataTable
         table={table}
         columns={repertoireColumns}
-        messageEmpty='Keine Stücke vorhanden'
+        messageEmpty='Keine Songs vorhanden.'
         data={repertoire}
         isFetching={isFetching}
       />

@@ -41,16 +41,16 @@ export type Student = Database["public"]["Tables"]["students"]["Row"]
 export type Lesson = Pick<
   {
     [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-      ? Date
-      : P extends "studentId"
-        ? number | null
-        : P extends "id"
-          ? number
-          : P extends "homeworkKey"
-            ? string | null
-            : P extends "user_id"
-              ? string | null
-              : Database["public"]["Tables"]["lessons"]["Row"][P]
+    ? Date
+    : P extends "studentId"
+    ? number | null
+    : P extends "id"
+    ? number
+    : P extends "homeworkKey"
+    ? string | null
+    : P extends "user_id"
+    ? string | null
+    : Database["public"]["Tables"]["lessons"]["Row"][P]
   },
   Exclude<keyof Database["public"]["Tables"]["lessons"]["Row"], "created_at">
 >
@@ -178,7 +178,7 @@ export type News = {
 export type ModalsActiveStudents = "add-student" | "reset"
 
 export type RepertoireItem = {
-  id?: number
+  id: number
   title: string
   startDate?: Date
   endDate?: Date

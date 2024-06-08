@@ -17,7 +17,7 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
   return (
     <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
-      <div className='flex justify-center gap-4 mt-4'>
+      <div className='flex justify-end gap-4 mt-4'>
         <Button
           disabled={isPending}
           size='sm'

@@ -17,6 +17,8 @@ import type { RepertoireItem } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
+import DeleteRepertoireItem from "../DeleteRepertoireItem.component"
+import EditRepertoireItem from "../EditRepertoireItem.component"
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
@@ -97,7 +99,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     id: "actions",
     size: 5,
     minSize: 0,
-    cell: () => {
+    cell: ({ row }) => {
       const [openModal, setOpenModal] = useState<"EDIT" | "SHARE" | "DELETE">()
       function closeModal() {
         setOpenModal(undefined)
@@ -139,6 +141,11 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song bearbeiten</DialogTitle>
+                <EditRepertoireItem
+                  studentId={row.original.studentId}
+                  itemId={row.original.id}
+                  onCloseModal={closeModal}
+                />
               </DialogHeader>
             </DialogContent>
           </Dialog>
@@ -147,6 +154,11 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song löschen</DialogTitle>
+                <DeleteRepertoireItem
+                  studentId={row.original.studentId}
+                  itemId={row.original.id}
+                  onCloseModal={closeModal}
+                />
               </DialogHeader>
             </DialogContent>
           </Dialog>
