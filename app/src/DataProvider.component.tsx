@@ -1,9 +1,7 @@
 import { useEffect } from "react"
 import useGroupsQuery from "./components/features/groups/groupsQuery"
-import {
-  useLatestLessonsQuery,
-  useLessonYearsQuery,
-} from "./components/features/lessons/lessonsQueries"
+import { useLatestLessonsQuery } from "./components/features/lessons/lessonsQueries"
+import { useActiveNotesQuery } from "./components/features/notes/notesQueries"
 import useStudentsQuery from "./components/features/students/studentsQuery"
 import useTodosQuery from "./components/features/todos/todosQuery"
 import OfflineBanner from "./components/ui/OfflineBanner.component"
@@ -20,6 +18,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingGroups } = useGroupsQuery()
   const { isLoading: isLoadingLatestLessons } = useLatestLessonsQuery()
   const { isLoading: isLoadingTodos } = useTodosQuery()
+  const { isLoading: isLoadingNotes } = useActiveNotesQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -27,6 +26,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingGroups ||
       isLoadingLatestLessons ||
       isLoadingTodos ||
+      isLoadingNotes ||
       false
     setIsLoading(compoundIsLoading)
   }, [
@@ -35,6 +35,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingGroups,
     isLoadingLatestLessons,
     isLoadingTodos,
+    isLoadingNotes,
   ])
 
   return (

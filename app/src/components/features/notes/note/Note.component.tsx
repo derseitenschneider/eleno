@@ -10,6 +10,7 @@ import DeleteNote from "../deleteNote/DeleteNote.component"
 import EditNote from "../editNote/EditNote.component"
 import type { Note } from "../../../../types/types"
 import { useNotes } from "../../../../services/context/NotesContext"
+import { cn } from "@/lib/utils"
 
 interface NoteProps {
   note: Note
@@ -17,8 +18,8 @@ interface NoteProps {
 }
 
 function Note({ note, index }: NoteProps) {
-  const { duplicateNote } = useNotes()
   const { id, title, text, backgroundColor } = note
+  const border = `border-${"red"}-400`
 
   return (
     <Draggable key={id} draggableId={String(id)} index={index}>
@@ -26,53 +27,21 @@ function Note({ note, index }: NoteProps) {
         return (
           <li
             data-dragging={snapshot.isDragging}
-            className={`note${snapshot.isDragging ? " dragged" : ""} ${
-              backgroundColor || ""
-            }`}
+            className={cn(
+              "relative mb-6 rounded-sm leading-8 p-4 bg-background50 border-l-4",
+              border,
+            )}
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div className='container--edit-button'>
-              <Modal>
-                <Menus.Toggle id={`note-${id}`} />
-                <Menus.Menu>
-                  <Menus.List id={`note-${id}`}>
-                    <Modal.Open opens='edit-note'>
-                      <Menus.Button icon={<HiPencil />}>
-                        Notiz bearbeiten
-                      </Menus.Button>
-                    </Modal.Open>
-
-                    <Menus.Button
-                      icon={<HiDocumentDuplicate />}
-                      onClick={() => duplicateNote(note)}
-                    >
-                      Notiz duplizieren
-                    </Menus.Button>
-
-                    <Modal.Open opens='delete-note'>
-                      <Menus.Button
-                        iconColor='var(--clr-warning)'
-                        icon={<HiTrash />}
-                      >
-                        Notiz löschen
-                      </Menus.Button>
-                    </Modal.Open>
-                  </Menus.List>
-                </Menus.Menu>
-
-                <Modal.Window name='edit-note'>
-                  <EditNote noteId={id} />
-                </Modal.Window>
-
-                <Modal.Window name='delete-note'>
-                  <DeleteNote noteId={id} />
-                </Modal.Window>
-              </Modal>
-            </div>
-            {title && <h5 className='heading-5'>{title}</h5>}
-            <div>{parse(text)}</div>
+            <div className='absolute top-3 right-3'>trigger</div>
+            {title && (
+              <h4 className='text-base font-medium mb-4 max-w-[25ch] leading-3'>
+                {title}
+              </h4>
+            )}
+            <div className='text-sm'>{parse(text || "")}</div>
           </li>
         )
       }}

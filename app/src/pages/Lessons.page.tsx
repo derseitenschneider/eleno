@@ -7,7 +7,7 @@ import PreviousLessons from "../components/features/lessons/PreviousLessons.comp
 
 import NewLesson from "../components/features/lessons/newLesson/NewLesson.component"
 
-import NoteList from "../components/features/notes/noteList/NoteList.component"
+import NoteList from "../components/features/notes/NoteList.component"
 import NoStudents from "@/components/features/lessons/NoStudents.component"
 
 function Lesson() {

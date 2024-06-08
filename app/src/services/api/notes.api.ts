@@ -1,7 +1,7 @@
 import supabase from "./supabase"
 import type { Note } from "../../types/types"
 
-export const fetchNotes = async () => {
+export const fetchActiveNotesAPI = async () => {
   const { data: notes, error } = await supabase
     .from("only_active_notes")
     .select("*")
