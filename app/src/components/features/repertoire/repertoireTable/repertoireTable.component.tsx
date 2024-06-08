@@ -1,7 +1,7 @@
 import { NavLink, useParams } from "react-router-dom"
 
 import RepertoireControl from "./repertoireControl"
-import AddRepertoireItem from "../addRepertoireItem/AddRepertoireItem.component"
+import AddRepertoireItem from "../AddRepertoireItem.component"
 import { ChevronLeft } from "lucide-react"
 import { useRepertoireQuery } from "../repertoireQueries"
 import { DataTable } from "../../../ui/data-table"

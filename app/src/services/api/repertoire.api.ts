@@ -25,16 +25,33 @@ export const fetchRepertoireAPI = async (
   return repertoire as RepertoireItem[]
 }
 
-export const createRepertoireItemAPI = async (
-  item: RepertoireItem,
-): Promise<RepertoireItem[]> => {
+export const createRepertoireItemAPI = async (item: RepertoireItem) => {
+  const utcStartDate =
+    item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
+
+  const utcEndDate =
+    item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
+
   const { data: repertoireItem, error } = await supabase
     .from("repertoire")
-    .insert({ ...item })
+    .insert({
+      ...item,
+      startDate: utcStartDate?.toISOString(),
+      endDate: utcEndDate?.toISOString(),
+    })
     .select()
+    .single()
 
   if (error) throw new Error(error.message)
-  return repertoireItem as RepertoireItem[]
+  return {
+    ...repertoireItem,
+    startDate: repertoireItem.startDate
+      ? new Date(repertoireItem.startDate)
+      : undefined,
+    endDate: repertoireItem.endDate
+      ? new Date(repertoireItem.endDate)
+      : undefined,
+  }
 }
 
 export const updateRepertoireItemAPI = async (item: RepertoireItem) => {

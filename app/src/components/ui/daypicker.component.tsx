@@ -39,13 +39,12 @@ export function DayPicker({
           )}
         >
           {!date && <CalendarIcon className='h-4 w-4 text-primary' />}
-          {/* {date ? format(date, "P") : null} */}
           {date
             ? date.toLocaleDateString(userLocale, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "2-digit",
-              })
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+            })
             : null}
         </Button>
       </PopoverTrigger>
