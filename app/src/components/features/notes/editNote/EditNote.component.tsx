@@ -18,9 +18,9 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
   const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
   const currentNote = notes?.find((note) => note.id === noteId)
   const [text, setText] = useState(currentNote?.text || "")
-  const [backgroundColor, setBackgroundColor] = useState<
-    NotesBackgrounds | undefined
-  >(currentNote?.backgroundColor)
+  const [backgroundColor, setBackgroundColor] = useState<NotesBackgrounds>(
+    currentNote?.backgroundColor || "none",
+  )
 
   const [title, setTitle] = useState(currentNote?.title || "")
 
@@ -66,15 +66,15 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-          // disabled={isPending}
+            disabled={isPending}
           >
             Abbrechen
           </Button>
           <Button
             type='button'
-            onClick={() => handleUpdate}
+            onClick={() => handleUpdate()}
             size='sm'
-          // disabled={isPending}
+            disabled={isPending}
           >
             Speichern
           </Button>
