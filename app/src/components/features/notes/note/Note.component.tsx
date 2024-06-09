@@ -1,25 +1,23 @@
-import "./note.style.scss"
-// import { lazy, Suspense } from 'react'
 import { Draggable } from "react-beautiful-dnd"
 
 import parse from "html-react-parser"
-import { HiPencil, HiTrash, HiDocumentDuplicate } from "react-icons/hi"
-import Menus from "../../../ui/menu/Menus.component"
-import Modal from "../../../ui/modal/Modal.component"
-import DeleteNote from "../deleteNote/DeleteNote.component"
-import EditNote from "../editNote/EditNote.component"
-import type { Note } from "../../../../types/types"
-import { useNotes } from "../../../../services/context/NotesContext"
+import type { Note as TNote } from "../../../../types/types"
 import { cn } from "@/lib/utils"
+import NoteDropdown from "../NoteDropdown.component"
 
 interface NoteProps {
-  note: Note
+  note: TNote
   index: number
 }
 
 function Note({ note, index }: NoteProps) {
   const { id, title, text, backgroundColor } = note
-  const border = `border-${"red"}-400`
+  const borderVariants = {
+    red: "border-noteRed",
+    blue: "border-noteBlue",
+    yellow: "border-noteYellow",
+    green: "border-noteGreen",
+  }
 
   return (
     <Draggable key={id} draggableId={String(id)} index={index}>
@@ -28,20 +26,24 @@ function Note({ note, index }: NoteProps) {
           <li
             data-dragging={snapshot.isDragging}
             className={cn(
-              "relative mb-6 rounded-sm leading-8 p-4 bg-background50 border-l-4",
-              border,
+              "relative mb-6 rounded-sm shadow leading-8 p-4 bg-background50 border-l-4",
+              borderVariants[backgroundColor],
             )}
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div className='absolute top-3 right-3'>trigger</div>
+            <div className='absolute top-3 right-3'>
+              <NoteDropdown id={id} />
+            </div>
             {title && (
-              <h4 className='text-base font-medium mb-4 max-w-[25ch] leading-3'>
+              <h4 className='text-lg text-foreground mb-4 max-w-[25ch] leading-3'>
                 {title}
               </h4>
             )}
-            <div className='text-sm'>{parse(text || "")}</div>
+            <div className='[&_*]:!text-foreground has-list text-sm'>
+              {parse(text || "")}
+            </div>
           </li>
         )
       }}

@@ -32,6 +32,12 @@ export const theme = {
       background50: "hsl(var(--background-50))",
       background100: "hsl(var(--background-100))",
       background200: "hsl(var(--background-200))",
+
+      noteGreen: "hsl(var(--border-notes-green))",
+      noteYellow: "hsl(var(--border-notes-yellow))",
+      noteBlue: "hsl(var(--border-notes-blue))",
+      noteRed: "hsl(var(--border-notes-red))",
+
       hairline: "hsl(var(--hairline))",
       foreground: "hsl(var(--foreground))",
       warning: "hsl(var(--clr-warning))",

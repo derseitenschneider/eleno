@@ -58,13 +58,10 @@
   // --clr-text-400: #454545;
   // --clr-text-600: #202020;
 
-  --bg-notes-red: #f38181;
-  --bg-notes-red: hsl(0, 100%, 75%);
-  --bg-notes-blue: #95e1d3;
-  --bg-notes-blue: hsl(203, 100%, 60%);
-  --bg-notes-yellow: #fce38a;
-  --bg-notes-green: #d6f7ad;
-  --bg-notes-green: hsla(118, 50%, 50%, 0.552);
+  --border-notes-red: hsl(0, 100%, 75%);
+  --border-notes-blue: hsl(203, 100%, 60%);
+  --border-notes-yellow: hsl(47, 95%, 76%);
+  --border-notes-green: hsla(118, 50%, 50%, 0.552);
 }
 
 html.dark-mode {
@@ -78,10 +75,10 @@ html.dark-mode {
   --clr-bg-50: #484e53;
   --clr-text: #e4e4e7;
 
-  --bg-notes-red: hsl(0, 20%, 50%);
-  --bg-notes-blue: hsl(203, 25%, 50%);
-  --bg-notes-yellow: hsl(49, 36%, 50%);
-  --bg-notes-green: hsla(118, 25%, 50%, 0.552);
+  --border-notes-red: hsl(0, 20%, 50%);
+  --border-notes-blue: hsl(203, 25%, 50%);
+  --border-notes-yellow: hsl(49, 36%, 50%);
+  --border-notes-green: hsla(118, 25%, 50%, 0.552);
 }
 
 html.light-mode {

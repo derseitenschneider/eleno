@@ -81,6 +81,11 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 195 42% 75%;
 
+    --border-notes-red: 0, 100%, 75%;
+    --border-notes-blue: 203, 100%, 60%;
+    --border-notes-yellow: 47, 95%, 76%;
+    --border-notes-green: 118, 50%, 50%, .552;
+
     --radius: 0.5rem;
   }
 
@@ -111,6 +116,11 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
+    --border-notes-red: 0, 20%, 50%;
+    --border-notes-blue: 203, 25%, 50%;
+    --border-notes-yellow: 49, 36%, 50%;
+    --border-notes-green: 118, 25%, 50%, 0.552;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
@@ -202,5 +212,8 @@ h5 {
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
+}
 
+.has-list {
+  @apply [&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px]
 }

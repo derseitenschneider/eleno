@@ -3,6 +3,11 @@
   "organizeImports": {
     "enabled": true
   },
+  "css": {
+    "formatter": {
+      "enabled": false
+    }
+  },
   "formatter": {
     "indentStyle": "space",
     "lineWidth": 80,

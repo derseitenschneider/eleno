@@ -46,7 +46,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
         month: "2-digit",
         year: "numeric",
       })
-      return <div>{formatted}</div>
+      return <div className='[&_*]:!text-foreground'>{formatted}</div>
     },
   },
   {
@@ -56,7 +56,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     minSize: 0,
     cell: ({ row }) => {
       return (
-        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+        <div className='[&_*]:!text-foreground has-list'>
           {parse(row.getValue("lessonContent") || "")}
         </div>
       )
@@ -69,7 +69,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     minSize: 0,
     cell: ({ row }) => {
       return (
-        <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+        <div className='![&>*]text-foreground has-list'>
           {parse(row.getValue("homework") || "")}
         </div>
       )

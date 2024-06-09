@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { LegacyRef, useEffect, useRef, useState } from "react"
 import { DragDropContext } from "react-beautiful-dnd"
 
 import Menus from "../../ui/menu/Menus.component"
@@ -10,19 +10,23 @@ import StrictModeDroppable from "../../../utils/StrictModeDroppable"
 import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import { useParams } from "react-router-dom"
 import { useActiveNotesQuery } from "./notesQueries"
+import type { Note as TNote } from "@/types/types"
 
 function NoteList() {
   const { studentId } = useParams()
 
   const { data } = useActiveNotesQuery()
 
-  const currentNotes = data?.filter(
-    (note) => note.studentId === Number(studentId),
-  )
+  const [notes, setNotes] = useState<Array<TNote>>()
 
-  const [notes, setNotes] = useState(currentNotes)
+  useEffect(() => {
+    const currentNotes = data?.filter(
+      (note) => note.studentId === Number(studentId),
+    )
+    setNotes(currentNotes)
+  }, [studentId, data])
 
-  const notesContainer = useRef<HTMLDivElement>()
+  const notesContainer = useRef<LegacyRef<HTMLDivElement>>()
 
   async function handleOnDragend(result) {
     if (!result.destination) return
@@ -50,7 +54,7 @@ function NoteList() {
 
   return (
     <div className='sm:p-4' ref={notesContainer}>
-      <div className='h-full'>
+      <div className='h-full mb-6'>
         <h5 className=''>Notizen</h5>
       </div>
       {sortedNotes?.length > 0 ? (
@@ -64,11 +68,9 @@ function NoteList() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  <Menus>
-                    {sortedNotes.map((note, index) => (
-                      <Note note={note} index={index} key={note.id} />
-                    ))}
-                  </Menus>
+                  {sortedNotes.map((note, index) => (
+                    <Note note={note} index={index} key={note.id} />
+                  ))}
                   {provided.placeholder}
                 </ul>
               )
