@@ -7,7 +7,7 @@ import {
 } from "react"
 import {
   deleteNoteSupabase,
-  updateNotesSupabase,
+  updateNoteAPI,
   postNotesSupabase,
 } from "../api/notes.api"
 import type { ContextTypeNotes, Note } from "../../types/types"
@@ -15,11 +15,11 @@ import { useUser } from "./UserContext"
 
 export const NotesContext = createContext<ContextTypeNotes>({
   notes: [],
-  setNotes: () => {},
-  saveNote: () => new Promise(() => {}),
-  deleteNote: () => new Promise(() => {}),
-  updateNotes: () => new Promise(() => {}),
-  duplicateNote: () => new Promise(() => {}),
+  setNotes: () => { },
+  saveNote: () => new Promise(() => { }),
+  deleteNote: () => new Promise(() => { }),
+  updateNotes: () => new Promise(() => { }),
+  duplicateNote: () => new Promise(() => { }),
 })
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
@@ -70,7 +70,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
 
   const updateNotes = useCallback(async (updatedNotes: Note[]) => {
     try {
-      await updateNotesSupabase(updatedNotes)
+      await updateNoteAPI(updatedNotes)
       setNotes((prev) =>
         prev
           .map(

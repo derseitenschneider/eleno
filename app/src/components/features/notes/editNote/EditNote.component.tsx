@@ -1,10 +1,12 @@
 import { useState } from "react"
-import { toast } from "react-toastify"
-import { useNotes } from "../../../../services/context/NotesContext"
 import CustomEditor from "../../../ui/CustomEditor.component"
-import "./editNote.style.scss"
-import type { NotesBackgrounds } from "../../../../types/types"
+import type { Note, NotesBackgrounds } from "../../../../types/types"
 import NoteColor from "../noteColor/NoteColor.component"
+import { useQueryClient } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { updateNoteMutation } from "../mutations/updateNoteMutation"
 
 interface EditNoteProps {
   onCloseModal?: () => void
@@ -12,14 +14,15 @@ interface EditNoteProps {
 }
 
 function EditNote({ onCloseModal, noteId }: EditNoteProps) {
-  const { notes, updateNotes } = useNotes()
-  const [isPending, setIsPending] = useState(false)
-  const currentNote = notes.find((note) => note.id === noteId)
-  const [text, setText] = useState(currentNote.text)
-  const [backgroundColor, setBackgroundColor] =
-    useState<NotesBackgrounds | null>(currentNote.backgroundColor)
+  const queryClient = useQueryClient()
+  const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
+  const currentNote = notes?.find((note) => note.id === noteId)
+  const [text, setText] = useState(currentNote?.text || "")
+  const [backgroundColor, setBackgroundColor] = useState<
+    NotesBackgrounds | undefined
+  >(currentNote?.backgroundColor)
 
-  const [title, setTitle] = useState(currentNote.title)
+  const [title, setTitle] = useState(currentNote?.title || "")
 
   const handleText = (inputText: string) => {
     setText(inputText)
@@ -29,65 +32,52 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
     setTitle(e.target.value)
   }
 
-  const handleUpdate = async () => {
-    if (!title && !text) {
-      toast("Titel oder Inhalt fehlt.", { type: "error" })
-      return
-    }
-    setIsPending(true)
-    try {
-      const updatedNote = {
-        ...currentNote,
-        text,
-        title,
-        backgroundColor,
-      }
+  const { mutate: handleUpdate, isPending } = updateNoteMutation(
+    {
+      ...currentNote,
+      text,
+      backgroundColor,
+      title,
+    },
+    onCloseModal,
+  )
 
-      await updateNotes([updatedNote])
-      toast("Anpassungen gespeichert")
-      onCloseModal?.()
-    } catch (error) {
-      toast("Etwas ist schiefgelaufen. Versuchs nochmal!", { type: "error" })
-    } finally {
-      setIsPending(false)
-    }
-  }
   return (
-    <div
-      className={`edit-note ${isPending ? "loading" : ""}`}
-      style={{
-        boxShadow: `inset 12px 0 0  var(--bg-notes-${backgroundColor})`,
-      }}
-    >
-      <h2 className='heading-2'>Notiz bearbeiten</h2>
-      <input
-        autoFocus={window.screen.width > 1000}
+    <div className='min-w-[500px] text-sm'>
+      <Label htmlFor='title'>Titel</Label>
+      <Input
+        id='title'
+        className='text-base'
         type='text'
         name='title'
         placeholder='Titel'
-        className='edit-note__title'
         value={title}
         onChange={handleTitle}
       />
 
-      <div className='container--editor'>
-        <CustomEditor value={text} onChange={handleText} />
+      <div className='mt-5 mb-6'>
+        <CustomEditor value={text || ""} onChange={handleText} />
       </div>
-      <div className='edit-note__buttons'>
+      <div className='flex justify-between items-end'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
-        <div className='buttons-right'>
+        <div className='flex  gap-4 items-center'>
           <Button
             type='button'
-            btnStyle='secondary'
-            handler={onCloseModal}
-            label='Abbrechen'
-          />
+            onClick={onCloseModal}
+            size='sm'
+            variant='outline'
+          // disabled={isPending}
+          >
+            Abbrechen
+          </Button>
           <Button
             type='button'
-            btnStyle='primary'
-            handler={handleUpdate}
-            label='Speichern'
-          />
+            onClick={() => handleUpdate}
+            size='sm'
+          // disabled={isPending}
+          >
+            Speichern
+          </Button>
         </div>
       </div>
     </div>

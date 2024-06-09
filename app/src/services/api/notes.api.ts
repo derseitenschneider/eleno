@@ -43,7 +43,10 @@ export const deleteNoteSupabase = async (noteId: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateNotesSupabase = async (notes: Note[]) => {
-  const { error } = await supabase.from("notes").upsert([...notes])
+export const updateNoteAPI = async (note: Note) => {
+  const { error } = await supabase
+    .from("notes")
+    .update({ ...note })
+    .eq("id", note.id)
   if (error) throw new Error(error.message)
 }

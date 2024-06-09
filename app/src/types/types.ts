@@ -62,10 +62,10 @@ export type Draft = {
   studentId: number
 }
 
-export type NotesBackgrounds = "red" | "blue" | "yellow" | "green"
+export type NotesBackgrounds = "red" | "blue" | "yellow" | "green" | "none"
 
 export type Note = {
-  id?: number
+  id: number
   studentId: number
   title?: string
   text?: string

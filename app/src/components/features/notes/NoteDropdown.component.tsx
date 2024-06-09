@@ -13,12 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Layers2, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import { useState } from "react"
+import EditNote from "./editNote/EditNote.component"
 
 type NoteDropdownProps = {
-  id: number
+  noteId: number
 }
 
-export default function NoteDropdown({ id }: NoteDropdownProps) {
+export default function NoteDropdown({ noteId }: NoteDropdownProps) {
   const [openModal, setOpenModal] = useState<
     "EDIT" | "DUPLICATE" | "DELETE" | undefined
   >()
@@ -65,6 +66,7 @@ export default function NoteDropdown({ id }: NoteDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
+            <EditNote noteId={noteId} onCloseModal={closeModal} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

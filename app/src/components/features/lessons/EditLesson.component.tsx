@@ -57,7 +57,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   )
 
   return (
-    <div className='edit-lesson'>
+    <div>
       <div className='flex items-center mb-3 gap-2'>
         <h5 className='mb-0'>Datum</h5>
         <DayPicker disabled={isPending} date={date} setDate={handleSetDate} />

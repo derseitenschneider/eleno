@@ -11,7 +11,7 @@ interface NoteProps {
 }
 
 function Note({ note, index }: NoteProps) {
-  const { id, title, text, backgroundColor } = note
+  const { id, title, text, backgroundColor, studentId } = note
   const borderVariants = {
     red: "border-noteRed",
     blue: "border-noteBlue",
@@ -34,14 +34,14 @@ function Note({ note, index }: NoteProps) {
             {...provided.dragHandleProps}
           >
             <div className='absolute top-3 right-3'>
-              <NoteDropdown id={id} />
+              <NoteDropdown noteId={id} />
             </div>
             {title && (
               <h4 className='text-lg text-foreground mb-4 max-w-[25ch] leading-3'>
                 {title}
               </h4>
             )}
-            <div className='[&_*]:!text-foreground has-list text-sm'>
+            <div className='[&_*]:!text-foreground text-foreground has-list text-sm'>
               {parse(text || "")}
             </div>
           </li>
