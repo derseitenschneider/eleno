@@ -1,8 +1,6 @@
-import { useState } from "react"
-import { toast } from "react-toastify"
-import { useNotes } from "../../../services/context/NotesContext"
-import fetchErrorToast from "../../../hooks/fetchErrorToast"
-import "./deleteNote.style.scss"
+import { Button } from "@/components/ui/button"
+import MiniLoader from "@/components/ui/MiniLoader.component"
+import { deleteNoteMutation } from "./mutations/deleteNoteMutation"
 
 interface DeleteNoteProps {
   onCloseModal?: () => void
@@ -10,40 +8,41 @@ interface DeleteNoteProps {
 }
 
 function DeleteNote({ onCloseModal, noteId }: DeleteNoteProps) {
-  const [isPending, setIsPending] = useState(false)
-  const { deleteNote } = useNotes()
-
-  const handleDelete = async () => {
-    setIsPending(true)
-    try {
-      await deleteNote(noteId)
-      toast("Notitz gelöscht.")
-      onCloseModal?.()
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
-  }
+  const {
+    mutate: handleDelete,
+    isPending,
+    error,
+  } = deleteNoteMutation(noteId, onCloseModal)
 
   return (
-    <div className={`delete-note ${isPending ? "loading" : ""}`}>
-      <h2 className='heading-2'>Notiz löschen</h2>
+    <div>
       <p>Möchtest du diese Notiz wirklich löschen?</p>
-      <div className='delete-note__buttons'>
+      <div className='flex justify-end gap-4 mt-4'>
         <Button
-          type='button'
-          btnStyle='secondary'
-          handler={onCloseModal}
-          label='Abbrechen'
-        />
-        <Button
-          type='button'
-          btnStyle='danger'
-          handler={handleDelete}
-          label='Löschen'
-        />
+          disabled={isPending}
+          size='sm'
+          variant='outline'
+          onClick={onCloseModal}
+        >
+          Abbrechen
+        </Button>
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isPending}
+            size='sm'
+            variant='destructive'
+            onClick={() => handleDelete()}
+          >
+            Löschen
+          </Button>
+          {isPending && <MiniLoader />}
+        </div>
       </div>
+      {error && (
+        <p className='mt-4 text-center text-sm text-warning'>
+          Es ist etwas schiefgelaufen. Versuch's nochmal.
+        </p>
+      )}
     </div>
   )
 }

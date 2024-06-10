@@ -5,11 +5,7 @@ import {
   useMemo,
   useState,
 } from "react"
-import {
-  deleteNoteSupabase,
-  updateNoteAPI,
-  createNoteAPI,
-} from "../api/notes.api"
+import { deleteNoteAPI, updateNoteAPI, createNoteAPI } from "../api/notes.api"
 import type { ContextTypeNotes, Note } from "../../types/types"
 import { useUser } from "./UserContext"
 
@@ -46,7 +42,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
 
   const deleteNote = useCallback(async (id: number) => {
     try {
-      await deleteNoteSupabase(id)
+      await deleteNoteAPI(id)
       setNotes((prev) => prev.filter((note) => note.id !== id))
     } catch (error) {
       throw new Error(error.message)

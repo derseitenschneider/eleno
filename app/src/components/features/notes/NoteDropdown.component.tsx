@@ -15,6 +15,7 @@ import type { Note } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
 import { Layers2, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import { useState } from "react"
+import DeleteNote from "./DeleteNote.component"
 import EditNote from "./EditNote.component"
 import { duplicateNoteMutation } from "./mutations/duplicateNoteMutation"
 
@@ -80,6 +81,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz löschen</DialogTitle>
+            <DeleteNote noteId={noteId} onCloseModal={closeModal} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

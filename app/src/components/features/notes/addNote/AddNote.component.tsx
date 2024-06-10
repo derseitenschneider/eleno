@@ -1,5 +1,3 @@
-import "./addNote.style.scss"
-
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { useNotes } from "../../../../services/context/NotesContext"

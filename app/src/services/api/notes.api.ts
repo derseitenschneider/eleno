@@ -31,7 +31,7 @@ export const createNoteAPI = async (note: Note): Promise<Note[]> => {
   return data
 }
 
-export const deleteNoteSupabase = async (noteId: number) => {
+export const deleteNoteAPI = async (noteId: number) => {
   const { error } = await supabase.from("notes").delete().eq("id", noteId)
 
   if (error) throw new Error(error.message)
