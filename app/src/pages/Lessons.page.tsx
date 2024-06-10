@@ -5,7 +5,7 @@ import { useStudents } from "../services/context/StudentContext"
 
 import PreviousLessons from "../components/features/lessons/PreviousLessons.component"
 
-import NewLesson from "../components/features/lessons/newLesson/NewLesson.component"
+import CreateLesson from "../components/features/lessons/CreateLesson.component"
 
 import NoteList from "../components/features/notes/NoteList.component"
 import NoStudents from "@/components/features/lessons/NoStudents.component"
@@ -23,7 +23,7 @@ function Lesson() {
       <div className='grid grid-cols-[1fr_400px] min-h-[calc(100vh-88px)]'>
         <main>
           <PreviousLessons />
-          <NewLesson />
+          <CreateLesson />
         </main>
 
         <aside className='border-l border-hairline'>

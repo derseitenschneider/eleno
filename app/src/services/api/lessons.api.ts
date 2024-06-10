@@ -1,4 +1,4 @@
-import type { Lesson } from "../../types/types"
+import type { Lesson, LessonPartial } from "../../types/types"
 import supabase from "./supabase"
 
 export const fetchAllLessonsAPI = async (
@@ -71,8 +71,7 @@ export const fetchLessonsCSVByRange = async (
 }
 
 export const createLessonAPI = async (
-  lesson: Lesson,
-  userId: string,
+  lesson: LessonPartial,
 ): Promise<Lesson | undefined> => {
   const { date, homework, lessonContent, studentId } = lesson
   if (!studentId) return
@@ -82,11 +81,8 @@ export const createLessonAPI = async (
     .from("lessons")
     .insert([
       {
+        ...lesson,
         date: utcDate.toISOString(),
-        homework,
-        lessonContent,
-        studentId,
-        user_id: userId,
       },
     ])
     .select()

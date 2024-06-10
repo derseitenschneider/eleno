@@ -38,6 +38,8 @@ export type Profile = {
 // }
 export type Student = Database["public"]["Tables"]["students"]["Row"]
 
+export type LessonPartial = Partial<Omit<Lesson, "id" | "homework" | "user_id">>
+
 export type Lesson = Pick<
   {
     [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
@@ -47,7 +49,7 @@ export type Lesson = Pick<
     : P extends "id"
     ? number
     : P extends "homeworkKey"
-    ? string | null
+    ? string | undefined
     : P extends "user_id"
     ? string | null
     : Database["public"]["Tables"]["lessons"]["Row"][P]

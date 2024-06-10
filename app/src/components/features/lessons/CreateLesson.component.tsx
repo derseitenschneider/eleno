@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react"
-import CustomEditor from "../../../ui/CustomEditor.component"
+import CustomEditor from "../../ui/CustomEditor.component"
 
-import { useLessons } from "../../../../services/context/LessonsContext"
+import { useLessons } from "../../../services/context/LessonsContext"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { createLessonMutation } from "../mutations/createLessonMutation"
+import { useCreateLesson } from "./useCreateLesson"
 import { useUser } from "@/services/context/UserContext"
 import { cn } from "@/lib/utils"
 import { useParams } from "react-router-dom"
 
-function NewLesson() {
+function CreateLesson() {
   const { drafts, setDrafts } = useLessons()
   const { studentId } = useParams()
   const [date, setDate] = useState<Date>(new Date())
   const { user } = useUser()
   const [lessonContent, setLessonContent] = useState("")
   const [homework, setHomework] = useState("")
+
+  const { createLesson, isCreating } = useCreateLesson()
 
   // Handle drafts
   useEffect(() => {
@@ -100,18 +102,21 @@ function NewLesson() {
     )
   }
 
-  const { mutate: saveLesson, isPending } = createLessonMutation(
-    {
-      user_id: user?.id || null,
-      studentId: Number(studentId) || null,
-      date,
-      lessonContent,
-      homework,
-      homeworkKey: null,
-      id: new Date().getMilliseconds(),
-    },
-    resetFields,
-  )
+  function handleSave() {
+    if (!studentId || !user?.id) return
+    createLesson(
+      {
+        homework,
+        lessonContent,
+        studentId: Number(studentId),
+        user_id: user.id,
+        date,
+      },
+      {
+        onSuccess: resetFields,
+      },
+    )
+  }
 
   return (
     <div className='sm:pr-4 sm:pl-8 sm:py-4'>
@@ -120,14 +125,14 @@ function NewLesson() {
         <DayPicker
           setDate={handlerInputDate}
           date={date}
-          disabled={isPending}
+          disabled={isCreating}
         />
       </div>
-      <div className={cn(isPending && "opacity-50", "grid grid-cols-2 gap-6")}>
+      <div className={cn(isCreating && "opacity-50", "grid grid-cols-2 gap-6")}>
         <div>
           <p className='text-foreground/70'>Lektion</p>
           <CustomEditor
-            disabled={isPending}
+            disabled={isCreating}
             value={lessonContent}
             onChange={handleLessonContent}
           />
@@ -135,7 +140,7 @@ function NewLesson() {
         <div>
           <p className='capitalize text-foreground/70'>Hausaufgaben</p>
           <CustomEditor
-            disabled={isPending}
+            disabled={isCreating}
             value={homework}
             onChange={handleHomework}
           />
@@ -143,17 +148,17 @@ function NewLesson() {
       </div>
       <div className='h-fit flex items-center gap-1'>
         <Button
-          disabled={isPending}
+          disabled={isCreating}
           size='sm'
-          onClick={() => saveLesson()}
+          onClick={handleSave}
           className='block mt-4 ml-auto'
         >
           Speichern
         </Button>
-        {isPending && <MiniLoader />}
+        {isCreating && <MiniLoader />}
       </div>
     </div>
   )
 }
 
-export default NewLesson
+export default CreateLesson

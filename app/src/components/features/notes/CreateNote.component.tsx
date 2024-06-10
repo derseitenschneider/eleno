@@ -30,7 +30,7 @@ function CreateNote({ onCloseModal, studentId }: CreateNoteProps) {
       text,
       backgroundColor: color,
       user_id: user?.id,
-      id: new Date().getMilliseconds(),
+      id: new Date().valueOf(),
       order: 0,
     }
     createNote(newNote, {
