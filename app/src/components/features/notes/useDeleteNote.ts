@@ -4,11 +4,15 @@ import type { Note } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function deleteNoteMutation(noteId: number, onClose?: () => void) {
+export function useDeleteNote() {
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => deleteNoteAPI(noteId),
-    onMutate: async () => {
+  const {
+    mutate: deleteNote,
+    isPending: isDeleting,
+    isError,
+  } = useMutation({
+    mutationFn: deleteNoteAPI,
+    onMutate: async (noteId) => {
       await queryClient.cancelQueries({ queryKey: ["notes"] })
       const previousNotes = queryClient.getQueryData(["notes"]) as Array<Note>
 
@@ -16,7 +20,6 @@ export function deleteNoteMutation(noteId: number, onClose?: () => void) {
         prev?.filter((note) => note.id !== noteId),
       )
 
-      onClose?.()
       return { previousNotes }
     },
 
@@ -32,4 +35,5 @@ export function deleteNoteMutation(noteId: number, onClose?: () => void) {
       queryClient.setQueryData(["notes"], context?.previousNotes)
     },
   })
+  return { deleteNote, isDeleting, isError }
 }

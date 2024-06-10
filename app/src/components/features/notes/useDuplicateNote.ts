@@ -5,19 +5,11 @@ import type { Note } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function duplicateNoteMutation(
-  noteToDuplicate: Note,
-  onClose?: () => void,
-) {
+export function useDuplicateNote() {
   const queryClient = useQueryClient()
-  const newNote: Note = {
-    ...noteToDuplicate,
-    id: new Date().getMilliseconds(),
-    title: `Kopie ${noteToDuplicate?.title}`,
-  }
-  return useMutation({
-    mutationFn: () => createNoteAPI(newNote),
-    onMutate: async () => {
+  const { mutate: duplicateNote, isPending: isDuplicating } = useMutation({
+    mutationFn: createNoteAPI,
+    onMutate: async (newNote) => {
       // Cancel outgoing refetches so they dont overwrite optimistic update.
       await queryClient.cancelQueries({ queryKey: ["notes"] })
 
@@ -30,7 +22,6 @@ export function duplicateNoteMutation(
         if (!prev) return [newNote]
         return [...prev, newNote]
       })
-      onClose?.()
       return { oldNotes }
     },
 
@@ -47,4 +38,6 @@ export function duplicateNoteMutation(
       queryClient.setQueryData(["notes"], context?.oldNotes)
     },
   })
+
+  return { duplicateNote, isDuplicating }
 }

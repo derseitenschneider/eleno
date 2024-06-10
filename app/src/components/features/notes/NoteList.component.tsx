@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd"
 
 import Menus from "../../ui/menu/Menus.component"
 import Modal from "../../ui/modal/Modal.component"
-import AddNote from "./AddNote.component"
+import CreateNote from "./CreateNote.component"
 import Note from "./Note.component"
 import StrictModeDroppable from "../../../utils/StrictModeDroppable"
 
@@ -70,10 +70,10 @@ function NoteList() {
             size='sm'
             title='Neue Notiz erstellen'
             onClick={() => setOpenModal("ADD")}
-            className='flex gap-1 items-center pr-0'
+            className='flex gap-1 items-center'
           >
             <Plus className='h-4 w-4 text-primary' />
-            <span className='text-xs uppercase text-foreground/70'>Notiz</span>
+            <span className='text-xs uppercase text-foreground/75'>Neu</span>
           </Button>
         </div>
       </div>
@@ -105,7 +105,7 @@ function NoteList() {
       >
         <DialogContent>
           <DialogTitle>Neue Notiz erstellen</DialogTitle>
-          <AddNote
+          <CreateNote
             studentId={Number(studentId)}
             onCloseModal={() => setOpenModal(undefined)}
           />

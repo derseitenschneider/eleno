@@ -6,30 +6,37 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/services/context/UserContext"
-import { createNoteMutation } from "./mutations/createNoteMutation"
+import { useCreateNote } from "./useCreateNote"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 
-interface AddNoteProps {
+interface CreateNoteProps {
   onCloseModal?: () => void
   studentId: number
 }
 
-function AddNote({ onCloseModal, studentId }: AddNoteProps) {
+function CreateNote({ onCloseModal, studentId }: CreateNoteProps) {
   const { user } = useUser()
   const [title, setTitle] = useState("")
   const [text, setText] = useState("")
   const [color, setColor] = useState<NotesBackgrounds>(null)
 
-  const newNote: Note = {
-    studentId,
-    title,
-    text,
-    backgroundColor: color,
-    user_id: user?.id,
-    id: new Date().getMilliseconds(),
-    order: 0,
-  }
+  const { createNote, isCreating } = useCreateNote()
 
-  const { mutate: handleCreateNote, isPending } = createNoteMutation(newNote)
+  function handleSave() {
+    if (!user?.id) return
+    const newNote: Note = {
+      studentId,
+      title,
+      text,
+      backgroundColor: color,
+      user_id: user?.id,
+      id: new Date().getMilliseconds(),
+      order: 0,
+    }
+    createNote(newNote, {
+      onSuccess: () => onCloseModal?.(),
+    })
+  }
 
   const handleText = (inputText: string) => {
     setText(inputText)
@@ -62,22 +69,25 @@ function AddNote({ onCloseModal, studentId }: AddNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-            disabled={isPending}
+            disabled={isCreating}
           >
             Abbrechen
           </Button>
-          <Button
-            type='button'
-            onClick={() => handleCreateNote()}
-            size='sm'
-            disabled={isPending}
-          >
-            Speichern
-          </Button>
+          <div className='flex items-center gap-2'>
+            <Button
+              type='button'
+              onClick={handleSave}
+              size='sm'
+              disabled={isCreating}
+            >
+              Speichern
+            </Button>
+            {isCreating && <MiniLoader />}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default AddNote
+export default CreateNote

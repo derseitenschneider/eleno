@@ -16,8 +16,8 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Layers2, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import { useState } from "react"
 import DeleteNote from "./DeleteNote.component"
-import EditNote from "./EditNote.component"
-import { duplicateNoteMutation } from "./mutations/duplicateNoteMutation"
+import UpdateNote from "./UpdateNote.component"
+import { useDuplicateNote } from "./useDuplicateNote"
 
 type NoteDropdownProps = {
   noteId: number
@@ -28,8 +28,17 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
   const [openModal, setOpenModal] = useState<"EDIT" | "DELETE" | undefined>()
   const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
   const currentNote = notes?.find((note) => note.id === noteId)
-  const { mutate: handleDuplication } = duplicateNoteMutation(currentNote)
 
+  const { duplicateNote } = useDuplicateNote()
+
+  function handleDuplication() {
+    if (!currentNote) return
+    duplicateNote({
+      ...currentNote,
+      id: new Date().getMilliseconds(),
+      title: `Kopie ${currentNote.title}`,
+    })
+  }
   function closeModal() {
     setOpenModal(undefined)
   }
@@ -72,7 +81,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
-            <EditNote noteId={noteId} onCloseModal={closeModal} />
+            <UpdateNote noteId={noteId} onCloseModal={closeModal} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

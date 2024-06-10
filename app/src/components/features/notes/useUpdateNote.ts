@@ -1,31 +1,29 @@
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { createNoteAPI, updateNoteAPI } from "@/services/api/notes.api"
+import { updateNoteAPI } from "@/services/api/notes.api"
 import type { Note } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function createNoteMutation(newNote: Note, onClose?: () => void) {
+export function useUpdateNote() {
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => createNoteAPI(newNote),
-    onMutate: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["notes"] })
-
+  const { mutate: updateNote, isPending: isUpdating } = useMutation({
+    mutationFn: updateNoteAPI,
+    onMutate: (updatedNote) => {
       // Snapshot in case of a rollback.
       const oldNotes = queryClient.getQueryData(["notes"]) as
         | Array<Note>
         | undefined
 
       queryClient.setQueryData(["notes"], (prev: Array<Note> | undefined) => {
-        if (!prev) return [newNote]
-        return [...prev, newNote]
+        return prev?.map((prevNote) =>
+          prevNote.id === updatedNote.id ? updatedNote : prevNote,
+        )
       })
-      onClose?.()
       return { oldNotes }
     },
 
     onSuccess: async () => {
-      toast.success("Neue Notiz gespeichert.")
+      toast.success("Änderungen gespeichert.")
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       })
@@ -37,4 +35,6 @@ export function createNoteMutation(newNote: Note, onClose?: () => void) {
       queryClient.setQueryData(["notes"], context?.oldNotes)
     },
   })
+
+  return { updateNote, isUpdating }
 }

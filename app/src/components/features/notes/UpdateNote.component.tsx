@@ -6,23 +6,26 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { updateNoteMutation } from "./mutations/updateNoteMutation"
+import { useUpdateNote } from "./useUpdateNote"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 
-interface EditNoteProps {
+interface UpdateNoteProps {
   onCloseModal?: () => void
   noteId: number
 }
 
-function EditNote({ onCloseModal, noteId }: EditNoteProps) {
+function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   const queryClient = useQueryClient()
   const notes = queryClient.getQueryData(["notes"]) as Array<Note>
   const currentNote = notes.find((note) => note.id === noteId)
+
+  const [title, setTitle] = useState(currentNote?.title || "")
   const [text, setText] = useState(currentNote?.text || "")
   const [backgroundColor, setBackgroundColor] = useState<NotesBackgrounds>(
     currentNote?.backgroundColor || null,
   )
 
-  const [title, setTitle] = useState(currentNote?.title || "")
+  const { updateNote, isUpdating } = useUpdateNote()
 
   const handleText = (inputText: string) => {
     setText(inputText)
@@ -32,15 +35,15 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
     setTitle(e.target.value)
   }
 
-  const { mutate: handleUpdate, isPending } = updateNoteMutation(
-    {
-      ...currentNote,
-      text,
-      backgroundColor,
-      title,
-    },
-    onCloseModal,
-  )
+  function handleSave() {
+    if (!currentNote) return
+    updateNote(
+      { ...currentNote, title, text, backgroundColor },
+      {
+        onSuccess: () => onCloseModal?.(),
+      },
+    )
+  }
 
   return (
     <div className='min-w-[500px] text-sm'>
@@ -66,22 +69,25 @@ function EditNote({ onCloseModal, noteId }: EditNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-            disabled={isPending}
+            disabled={isUpdating}
           >
             Abbrechen
           </Button>
-          <Button
-            type='button'
-            onClick={() => handleUpdate()}
-            size='sm'
-            disabled={isPending}
-          >
-            Speichern
-          </Button>
+          <div className='flex items-center gap-2'>
+            <Button
+              type='button'
+              onClick={handleSave}
+              size='sm'
+              disabled={isUpdating}
+            >
+              Speichern
+            </Button>
+            {isUpdating && <MiniLoader />}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default EditNote
+export default UpdateNote
