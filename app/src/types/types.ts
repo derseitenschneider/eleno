@@ -1,6 +1,36 @@
 import type React from "react"
 import type { Database } from "./supabase"
 
+/**
+ * Helper Types
+ */
+
+// Get easier access to generated types.
+export type DBTypes = {
+  [P in keyof Database["public"]["Tables"]]: Database["public"]["Tables"][P]["Row"]
+} & {
+    [P in keyof Database["public"]["Views"]]: Database["public"]["Views"][P]["Row"]
+  }
+
+// Removes null except for defined fields
+type RemoveNullExcept<T, E extends keyof T = never> = {
+  [P in keyof T]: P extends E ? T[P] : Exclude<T[P], null>
+}
+
+export type DBLesson = RemoveNullExcept<
+  DBTypes["lessons"],
+  "homework" | "lessonContent"
+>
+
+export type Lesson<T extends DBLesson> = {
+  [P in keyof T]: P extends "date" ? Date : T[P] // Conditional type for birthDate
+}
+
+export type LessonPartial = Omit<
+  Lesson,
+  "id" | "homework" | "user_id" | "created_at"
+>
+
 export type Weekday =
   | "Montag"
   | "Dienstag"
@@ -23,39 +53,7 @@ export type Profile = {
   lastName: string
 }
 
-// export type Student = {
-//   id: number
-//   user_id: string
-//   firstName: string
-//   lastName: string
-//   archive: boolean
-//   instrument: string
-//   durationMinutes?: number
-//   dayOfLesson?: Weekday
-//   startOfLesson?: string
-//   endOfLesson?: string
-//   location?: string
-// }
 export type Student = Database["public"]["Tables"]["students"]["Row"]
-
-export type LessonPartial = Partial<Omit<Lesson, "id" | "homework" | "user_id">>
-
-export type Lesson = Pick<
-  {
-    [P in keyof Database["public"]["Tables"]["lessons"]["Row"]]: P extends "date"
-    ? Date
-    : P extends "studentId"
-    ? number | null
-    : P extends "id"
-    ? number
-    : P extends "homeworkKey"
-    ? string | undefined
-    : P extends "user_id"
-    ? string | null
-    : Database["public"]["Tables"]["lessons"]["Row"][P]
-  },
-  Exclude<keyof Database["public"]["Tables"]["lessons"]["Row"], "created_at">
->
 
 export type Draft = {
   lessonContent?: string

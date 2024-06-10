@@ -73,8 +73,7 @@ export const fetchLessonsCSVByRange = async (
 export const createLessonAPI = async (
   lesson: LessonPartial,
 ): Promise<Lesson | undefined> => {
-  const { date, homework, lessonContent, studentId } = lesson
-  if (!studentId) return
+  const { date } = lesson
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
   const { data, error } = await supabase
@@ -83,7 +82,8 @@ export const createLessonAPI = async (
       {
         ...lesson,
         date: utcDate.toISOString(),
-      },
+        // typecaset Lesson since some fields are created by supabase itself
+      } as Lesson,
     ])
     .select()
 
