@@ -39,7 +39,7 @@ function Note({ note, index }: NoteProps) {
               <NoteDropdown noteId={id} />
             </div>
             {title && (
-              <h4 className='text-lg text-foreground mb-4 max-w-[25ch] leading-3'>
+              <h4 className='text-lg text-foreground max-w-[25ch] leading-1'>
                 {title}
               </h4>
             )}
