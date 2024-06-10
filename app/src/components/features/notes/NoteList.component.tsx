@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd"
 
 import Menus from "../../ui/menu/Menus.component"
 import Modal from "../../ui/modal/Modal.component"
-import AddNote from "./addNote/AddNote.component"
+import AddNote from "./AddNote.component"
 import Note from "./Note.component"
 import StrictModeDroppable from "../../../utils/StrictModeDroppable"
 
@@ -11,9 +11,14 @@ import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import { useParams } from "react-router-dom"
 import { useActiveNotesQuery } from "./notesQueries"
 import type { Note as TNote } from "@/types/types"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { DialogTitle } from "@radix-ui/react-dialog"
 
 function NoteList() {
   const { studentId } = useParams()
+  const [openModal, setOpenModal] = useState<"ADD" | undefined>()
 
   const { data } = useActiveNotesQuery()
 
@@ -58,7 +63,13 @@ function NoteList() {
   return (
     <div className='sm:p-4' ref={notesContainer}>
       <div className='h-full mb-6'>
-        <h5 className=''>Notizen</h5>
+        <div className='flex justify-between items-center'>
+          <h4 className=''>Notizen</h4>
+
+          <Button variant='ghost' size='sm' onClick={() => setOpenModal("ADD")}>
+            <Plus className='h-4 w-4 text-primary' />
+          </Button>
+        </div>
       </div>
       {sortedNotes?.length > 0 ? (
         <DragDropContext onDragEnd={handleOnDragend}>
@@ -81,6 +92,19 @@ function NoteList() {
           </StrictModeDroppable>
         </DragDropContext>
       ) : null}
+
+      <Dialog
+        open={openModal === "ADD"}
+        onOpenChange={() => setOpenModal(undefined)}
+      >
+        <DialogContent>
+          <DialogTitle>Neue Notiz erstellen</DialogTitle>
+          <AddNote
+            studentId={Number(studentId)}
+            onCloseModal={() => setOpenModal(undefined)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
