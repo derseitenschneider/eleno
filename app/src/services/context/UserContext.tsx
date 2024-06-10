@@ -36,7 +36,7 @@ export const UserContext = createContext<ContextTypeUser>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>()
   const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
@@ -156,7 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <UserContext.Provider value={value}>
-      {currentSession && children}
+      {user && children}
       {!currentSession && !isLoading && (
         <LoginPage className='min-h-screen grid-rows-[auto_1fr] bg-zinc-100 sm:grid' />
       )}

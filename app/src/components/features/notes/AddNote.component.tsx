@@ -1,10 +1,12 @@
 import { useState } from "react"
 import CustomEditor from "../../ui/CustomEditor.component"
 import NoteColor from "./NoteColor.component"
-import type { NotesBackgrounds } from "../../../types/types"
+import type { Note, NotesBackgrounds } from "../../../types/types"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useUser } from "@/services/context/UserContext"
+import { createNoteMutation } from "./mutations/createNoteMutation"
 
 interface AddNoteProps {
   onCloseModal?: () => void
@@ -12,9 +14,22 @@ interface AddNoteProps {
 }
 
 function AddNote({ onCloseModal, studentId }: AddNoteProps) {
+  const { user } = useUser()
   const [title, setTitle] = useState("")
   const [text, setText] = useState("")
   const [color, setColor] = useState<NotesBackgrounds>(null)
+
+  const newNote: Note = {
+    studentId,
+    title,
+    text,
+    backgroundColor: color,
+    user_id: user?.id,
+    id: new Date().getMilliseconds(),
+    order: 0,
+  }
+
+  const { mutate: handleCreateNote, isPending } = createNoteMutation(newNote)
 
   const handleText = (inputText: string) => {
     setText(inputText)
@@ -47,15 +62,15 @@ function AddNote({ onCloseModal, studentId }: AddNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-          // disabled={isPending}
+            disabled={isPending}
           >
             Abbrechen
           </Button>
           <Button
             type='button'
-            // onClick={() => handleUpdate()}
+            onClick={() => handleCreateNote()}
             size='sm'
-          // disabled={isPending}
+            disabled={isPending}
           >
             Speichern
           </Button>

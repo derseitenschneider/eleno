@@ -51,7 +51,6 @@ function NoteList() {
 
     try {
       setNotes(newNotes)
-      // await updateNotes(newNotes)
     } catch (error) {
       fetchErrorToast()
       setNotes(preservedNotes)
@@ -63,11 +62,18 @@ function NoteList() {
   return (
     <div className='sm:p-4' ref={notesContainer}>
       <div className='h-full mb-6'>
-        <div className='flex justify-between items-center'>
-          <h4 className=''>Notizen</h4>
+        <div className='flex justify-between items-baseline'>
+          <h4 className='mb-0'>Notizen</h4>
 
-          <Button variant='ghost' size='sm' onClick={() => setOpenModal("ADD")}>
+          <Button
+            variant='ghost'
+            size='sm'
+            title='Neue Notiz erstellen'
+            onClick={() => setOpenModal("ADD")}
+            className='flex gap-1 items-center pr-0'
+          >
             <Plus className='h-4 w-4 text-primary' />
+            <span className='text-xs uppercase text-foreground/70'>Notiz</span>
           </Button>
         </div>
       </div>
