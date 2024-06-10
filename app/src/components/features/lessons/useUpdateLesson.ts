@@ -1,17 +1,14 @@
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { deleteLessonAPI, updateLessonAPI } from "@/services/api/lessons.api"
+import { updateLessonAPI } from "@/services/api/lessons.api"
 import type { Lesson } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function updateLessonMutation(
-  updatedLesson: Lesson,
-  onClose?: () => void,
-) {
+export function useUpdateLesson() {
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => updateLessonAPI(updatedLesson),
-    onMutate: () => {
+  const { mutate: updateLesson, isPending: isUpdating } = useMutation({
+    mutationFn: updateLessonAPI,
+    onMutate: (updatedLesson) => {
       // Snapshot in case of a rollback.
       const allLessons = queryClient.getQueryData([
         "all-lessons",
@@ -54,21 +51,19 @@ export function updateLessonMutation(
         },
       )
 
-      onClose?.()
       return { allLessons, latestLessons }
     },
 
-    onSuccess: async () => {
+    onSuccess: () => {
       toast.success("Änderungen gespeichert.")
       queryClient.invalidateQueries({
         queryKey: ["latest-3-lessons"],
       })
     },
 
-    onError: (error, __, context) => {
+    onError: (_, updatedLesson, context) => {
       fetchErrorToast()
 
-      console.log(error)
       queryClient.setQueryData(
         [
           "all-lessons",
@@ -91,4 +86,5 @@ export function updateLessonMutation(
       )
     },
   })
+  return { updateLesson, isUpdating }
 }

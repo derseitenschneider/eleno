@@ -5,8 +5,9 @@ import CustomEditor from "../../ui/CustomEditor.component"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { updateLessonMutation } from "./mutations/updateLessonMutation"
 import { useQueryClient } from "@tanstack/react-query"
+import { useUpdateLesson } from "./useUpdateLesson"
+import { useParams, useSearchParams } from "react-router-dom"
 
 type EditLessonProps = {
   lessonId: number
@@ -15,9 +16,15 @@ type EditLessonProps = {
 
 function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   const queryClient = useQueryClient()
-  const allLessons = queryClient.getQueryData(["all-lessons"]) as
-    | Array<Lesson>
-    | undefined
+  const { studentId } = useParams()
+  const [searchParams] = useSearchParams()
+  const allLessons = queryClient.getQueryData([
+    "all-lessons",
+    {
+      studentId: Number(studentId || 0),
+      year: Number(searchParams.get("year")),
+    },
+  ]) as Array<Lesson> | undefined
   const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
     | Array<Lesson>
     | undefined
@@ -26,12 +33,17 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   if (allLessons) combinedLessons.push(...allLessons)
   if (latestLessons) combinedLessons.push(...latestLessons)
 
-  const lessonToEdit = combinedLessons.find((lesson) => lesson.id === lessonId)
-  const [lessonContent, setLessonContent] = useState(
-    lessonToEdit?.lessonContent || "",
+  const lessonToUpdate = combinedLessons.find(
+    (lesson) => lesson.id === lessonId,
   )
-  const [homework, setHomework] = useState(lessonToEdit?.homework || "")
-  const [date, setDate] = useState<Date>(lessonToEdit?.date || new Date())
+
+  const [lessonContent, setLessonContent] = useState(
+    lessonToUpdate?.lessonContent || "",
+  )
+  const [homework, setHomework] = useState(lessonToUpdate?.homework || "")
+  const [date, setDate] = useState<Date>(lessonToUpdate?.date || new Date())
+
+  const { updateLesson, isUpdating } = useUpdateLesson()
 
   const handleLessonContent = (content: string) => {
     setLessonContent(content)
@@ -44,30 +56,29 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   const handleSetDate = (date: Date | undefined) => {
     if (date) setDate(date)
   }
-  if (!lessonToEdit?.homeworkKey || !lessonToEdit.id) return null
 
-  const { mutate: saveLesson, isPending } = updateLessonMutation(
-    {
-      ...lessonToEdit,
-      lessonContent,
-      homework,
-      date,
-    },
-    onCloseModal,
-  )
+  function handleSave() {
+    if (!lessonToUpdate) return
+    updateLesson(
+      { ...lessonToUpdate, lessonContent, homework, date },
+      {
+        onSuccess: () => onCloseModal?.(),
+      },
+    )
+  }
 
   return (
     <div>
       <div className='flex items-center mb-3 gap-2'>
         <h5 className='mb-0'>Datum</h5>
-        <DayPicker disabled={isPending} date={date} setDate={handleSetDate} />
+        <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />
       </div>
       <div className='flex items-center mb-6 gap-8'>
         <div className='w-[450px]'>
           <h5>Lektion</h5>
 
           <CustomEditor
-            disabled={isPending}
+            disabled={isUpdating}
             value={lessonContent || ""}
             onChange={handleLessonContent}
           />
@@ -77,7 +88,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           <h5>Hausaufgaben</h5>
 
           <CustomEditor
-            disabled={isPending}
+            disabled={isUpdating}
             value={homework || ""}
             onChange={handleHomework}
           />
@@ -85,7 +96,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
       </div>
       <div className='justify-end gap-4 flex items-center'>
         <Button
-          disabled={isPending}
+          disabled={isUpdating}
           size='sm'
           variant='outline'
           onClick={onCloseModal}
@@ -93,10 +104,10 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button disabled={isPending} size='sm' onClick={() => saveLesson()}>
+          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
             Speichern
           </Button>
-          {isPending && <MiniLoader />}
+          {isUpdating && <MiniLoader />}
         </div>
       </div>
     </div>

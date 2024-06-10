@@ -14,7 +14,7 @@ import {
 import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
 import DeleteLesson from "./DeleteLesson.component"
-import EditLesson from "./EditLesson.component"
+import EditLesson from "./UpdateLesson.component"
 import { useLatestLessonsQuery } from "./lessonsQueries"
 import ShareHomework from "./ShareHomework.component"
 
