@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
-import { useNotes } from "../../../../services/context/NotesContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
+import { useNotes } from "../../../services/context/NotesContext"
+import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import "./deleteNote.style.scss"
 
 interface DeleteNoteProps {

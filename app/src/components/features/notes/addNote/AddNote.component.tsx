@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import { useNotes } from "../../../../services/context/NotesContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 import CustomEditor from "../../../ui/CustomEditor.component"
-import NoteColor from "../noteColor/NoteColor.component"
+import NoteColor from "../NoteColor.component"
 import type { NotesBackgrounds } from "../../../../types/types"
 import { useUser } from "../../../../services/context/UserContext"
 

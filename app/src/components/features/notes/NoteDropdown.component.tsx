@@ -11,18 +11,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import type { Note } from "@/types/types"
+import { useQueryClient } from "@tanstack/react-query"
 import { Layers2, MoreVertical, Pencil, Trash2 } from "lucide-react"
 import { useState } from "react"
-import EditNote from "./editNote/EditNote.component"
+import EditNote from "./EditNote.component"
+import { duplicateNoteMutation } from "./mutations/duplicateNoteMutation"
 
 type NoteDropdownProps = {
   noteId: number
 }
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
-  const [openModal, setOpenModal] = useState<
-    "EDIT" | "DUPLICATE" | "DELETE" | undefined
-  >()
+  const queryClient = useQueryClient()
+  const [openModal, setOpenModal] = useState<"EDIT" | "DELETE" | undefined>()
+  const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
+  const currentNote = notes?.find((note) => note.id === noteId)
+  const { mutate: handleDuplication } = duplicateNoteMutation(currentNote)
 
   function closeModal() {
     setOpenModal(undefined)
@@ -43,7 +48,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => setOpenModal("DUPLICATE")}
+            onClick={() => handleDuplication()}
             className='flex items-center gap-2'
           >
             <Layers2 className='h-4 w-4 text-primary' />
@@ -67,14 +72,6 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
             <EditNote noteId={noteId} onCloseModal={closeModal} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={openModal === "DUPLICATE"} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Notiz duplizieren</DialogTitle>
           </DialogHeader>
         </DialogContent>
       </Dialog>

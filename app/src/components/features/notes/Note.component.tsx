@@ -1,9 +1,9 @@
 import { Draggable } from "react-beautiful-dnd"
 
 import parse from "html-react-parser"
-import type { Note as TNote } from "../../../../types/types"
+import type { Note as TNote } from "../../../types/types"
 import { cn } from "@/lib/utils"
-import NoteDropdown from "../NoteDropdown.component"
+import NoteDropdown from "./NoteDropdown.component"
 
 interface NoteProps {
   note: TNote
@@ -26,8 +26,10 @@ function Note({ note, index }: NoteProps) {
           <li
             data-dragging={snapshot.isDragging}
             className={cn(
-              "relative mb-6 rounded-sm shadow leading-8 p-4 bg-background50 border-l-4",
-              borderVariants[backgroundColor],
+              "relative mb-6 rounded-sm shadow leading-8 p-4 bg-background50 border-l-[5px]",
+              backgroundColor
+                ? borderVariants[backgroundColor]
+                : "border-transparent",
             )}
             ref={provided.innerRef}
             {...provided.draggableProps}

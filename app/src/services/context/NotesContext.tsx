@@ -8,7 +8,7 @@ import {
 import {
   deleteNoteSupabase,
   updateNoteAPI,
-  postNotesSupabase,
+  createNoteAPI,
 } from "../api/notes.api"
 import type { ContextTypeNotes, Note } from "../../types/types"
 import { useUser } from "./UserContext"
@@ -31,7 +31,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
       try {
         const [
           { text, user_id, title, order, backgroundColor, studentId, id },
-        ] = await postNotesSupabase(note, user.id)
+        ] = await createNoteAPI(note, user.id)
 
         setNotes((prev) => [
           ...prev,

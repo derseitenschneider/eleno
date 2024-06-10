@@ -4,7 +4,7 @@ import { DragDropContext } from "react-beautiful-dnd"
 import Menus from "../../ui/menu/Menus.component"
 import Modal from "../../ui/modal/Modal.component"
 import AddNote from "./addNote/AddNote.component"
-import Note from "./note/Note.component"
+import Note from "./Note.component"
 import StrictModeDroppable from "../../../utils/StrictModeDroppable"
 
 import fetchErrorToast from "../../../hooks/fetchErrorToast"
@@ -29,9 +29,12 @@ function NoteList() {
   const notesContainer = useRef<LegacyRef<HTMLDivElement>>()
 
   async function handleOnDragend(result) {
+    console.log(result)
     if (!result.destination) return
     const origin = result.source.index
     const destination = result.destination.index
+
+    if (!notes) return
 
     const items = [...notes]
 

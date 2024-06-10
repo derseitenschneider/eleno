@@ -20,16 +20,10 @@ export const fetchNotesByStudent = async (studentIds: number[]) => {
   return notes as Note[]
 }
 
-export const postNotesSupabase = async (
-  note: Note,
-  userId: string,
-): Promise<Note[]> => {
-  const { studentId, title, text, order, backgroundColor } = note
+export const createNoteAPI = async (note: Note): Promise<Note[]> => {
   const { data, error } = await supabase
     .from("notes")
-    .insert([
-      { studentId, title, text, user_id: userId, order, backgroundColor },
-    ])
+    .insert([{ ...note }])
     .select()
 
   if (error) throw new Error(error.message)

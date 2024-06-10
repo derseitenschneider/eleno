@@ -49,9 +49,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     try {
       const [data] = await getProfilesSupabase(userId)
+      if (!data) throw new Error("No user found.")
       const currentUser: User = {
-        email: data?.email ?? "",
-        id: data?.id,
+        email: data.email ?? "",
+        id: data.id,
         firstName: data.first_name ?? "",
         lastName: data.last_name ?? "",
       }

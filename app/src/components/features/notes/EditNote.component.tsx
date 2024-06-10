@@ -1,12 +1,12 @@
 import { useState } from "react"
-import CustomEditor from "../../../ui/CustomEditor.component"
-import type { Note, NotesBackgrounds } from "../../../../types/types"
-import NoteColor from "../noteColor/NoteColor.component"
+import CustomEditor from "../../ui/CustomEditor.component"
+import type { Note, NotesBackgrounds } from "../../../types/types"
+import NoteColor from "./NoteColor.component"
 import { useQueryClient } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { updateNoteMutation } from "../mutations/updateNoteMutation"
+import { updateNoteMutation } from "./mutations/updateNoteMutation"
 
 interface EditNoteProps {
   onCloseModal?: () => void
@@ -15,11 +15,11 @@ interface EditNoteProps {
 
 function EditNote({ onCloseModal, noteId }: EditNoteProps) {
   const queryClient = useQueryClient()
-  const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
-  const currentNote = notes?.find((note) => note.id === noteId)
+  const notes = queryClient.getQueryData(["notes"]) as Array<Note>
+  const currentNote = notes.find((note) => note.id === noteId)
   const [text, setText] = useState(currentNote?.text || "")
   const [backgroundColor, setBackgroundColor] = useState<NotesBackgrounds>(
-    currentNote?.backgroundColor || "none",
+    currentNote?.backgroundColor || null,
   )
 
   const [title, setTitle] = useState(currentNote?.title || "")

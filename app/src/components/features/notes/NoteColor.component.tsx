@@ -1,5 +1,5 @@
 import type { SetStateAction } from "react"
-import type { NotesBackgrounds } from "../../../../types/types"
+import type { NotesBackgrounds } from "../../../types/types"
 import { cn } from "@/lib/utils"
 
 type TNoteColorProps = {
@@ -15,11 +15,11 @@ export default function NoteColor({ color, setColor }: TNoteColorProps) {
         <button
           className={cn(
             "size-5 border-foreground relative rounded-sm border",
-            color === "none" && "ring",
+            color === null && "ring",
             "after:absolute after:h-[140%] after:w-px after:bg-foreground after:top-[-20%] after:left-[50%] after:rotate-[45deg] after:origin-center",
           )}
           type='button'
-          onClick={() => setColor("none")}
+          onClick={() => setColor(null)}
           aria-label='Farbauswahl standard'
           title='Keine Farbe'
         />
