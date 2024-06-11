@@ -103,13 +103,12 @@ function CreateLesson() {
   }
 
   function handleSave() {
-    if (!studentId || !user?.id) return
+    if (!studentId) return
     createLesson(
       {
         homework,
         lessonContent,
         studentId: Number(studentId),
-        user_id: user.id,
         date,
       },
       {
