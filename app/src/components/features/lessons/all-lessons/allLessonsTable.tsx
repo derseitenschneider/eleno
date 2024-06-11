@@ -36,12 +36,19 @@ export default function AllLessons() {
   } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
-    const date = row.getValue('date') as Date
+    const date = row.getValue("date") as Date
     const lessonContent = row.getValue("lessonContent") as string
     const homework = row.getValue("homework") as string
 
     return (
-      date?.toLocaleDateString(userLocale, { day: '2-digit', month: '2-digit', year: 'numeric' }).toLowerCase().includes(value?.toLowerCase()) ||
+      date
+        ?.toLocaleDateString(userLocale, {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        .toLowerCase()
+        .includes(value?.toLowerCase()) ||
       lessonContent?.toLowerCase().includes(value?.toLowerCase()) ||
       homework?.toLowerCase().includes(value?.toLowerCase())
     )
@@ -58,7 +65,7 @@ export default function AllLessons() {
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       globalFilter,
-      sorting
+      sorting,
     },
   })
 
@@ -67,7 +74,7 @@ export default function AllLessons() {
   if (isError) return <div>ERROR</div>
 
   return (
-    <>
+    <div className='mb-10'>
       <div className='flex items-center justify-between mb-4'>
         <NavLink
           to={`/lessons/${studentId}`}
@@ -90,6 +97,6 @@ export default function AllLessons() {
         data={lessons}
         isFetching={isFetching}
       />
-    </>
+    </div>
   )
 }

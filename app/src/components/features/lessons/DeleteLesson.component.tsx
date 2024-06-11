@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
-import { deleteLessonMutation } from "./mutations/deleteLessonMutation"
+import { useDeleteLesson } from "./useDeleteLesson"
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -8,18 +8,19 @@ interface DeleteLessonProps {
 }
 
 function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
-  const {
-    mutate: handleDelete,
-    isPending,
-    error,
-  } = deleteLessonMutation(lessonId, onCloseModal)
+  const { deleteLesson, isDeleting, isError } = useDeleteLesson()
 
+  function handleDelete() {
+    deleteLesson(lessonId, {
+      onSuccess: () => onCloseModal?.(),
+    })
+  }
   return (
     <div>
       <p>Möchtest du diese Lektion wirklich löschen?</p>
       <div className='flex justify-end gap-4 mt-4'>
         <Button
-          disabled={isPending}
+          disabled={isDeleting}
           size='sm'
           variant='outline'
           onClick={onCloseModal}
@@ -28,17 +29,17 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
         </Button>
         <div className='flex items-center gap-2'>
           <Button
-            disabled={isPending}
+            disabled={isDeleting}
             size='sm'
             variant='destructive'
-            onClick={() => handleDelete()}
+            onClick={handleDelete}
           >
             Löschen
           </Button>
-          {isPending && <MiniLoader />}
+          {isDeleting && <MiniLoader />}
         </div>
       </div>
-      {error && (
+      {isError && (
         <p className='mt-4 text-center text-sm text-warning'>
           Es ist etwas schiefgelaufen. Versuch's nochmal.
         </p>

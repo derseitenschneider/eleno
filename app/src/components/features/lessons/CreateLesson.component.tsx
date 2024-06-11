@@ -6,7 +6,6 @@ import { DayPicker } from "@/components/ui/daypicker.component"
 import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useCreateLesson } from "./useCreateLesson"
-import { useUser } from "@/services/context/UserContext"
 import { cn } from "@/lib/utils"
 import { useParams } from "react-router-dom"
 
@@ -14,7 +13,6 @@ function CreateLesson() {
   const { drafts, setDrafts } = useLessons()
   const { studentId } = useParams()
   const [date, setDate] = useState<Date>(new Date())
-  const { user } = useUser()
   const [lessonContent, setLessonContent] = useState("")
   const [homework, setHomework] = useState("")
 

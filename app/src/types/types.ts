@@ -45,9 +45,8 @@ export type LessonPartial = Omit<
 >
 
 // Draft type derived from Lesson type.
-export type Draft = Omit<
-  Lesson,
-  "created_at" | "homeworkKey" | "id" | "user_id"
+export type Draft = Partial<
+  Omit<Lesson, "created_at" | "homeworkKey" | "id" | "user_id">
 >
 
 /*
