@@ -4,41 +4,38 @@ import type { RepertoireItem } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-export function createRepertoireItemMutation(
-  newRepertoireItem: RepertoireItem,
-  onSuccess: () => void,
-) {
+export function useCreateRepertoireItem() {
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => createRepertoireItemAPI(newRepertoireItem),
+  const { mutate: createRepertoireItem, isPending: isCreating } = useMutation({
+    mutationFn: createRepertoireItemAPI,
 
-    onMutate: async () => {
+    onMutate: (newItem) => {
       // Snapshot in case of a rollback.
       const previousRepertoire = queryClient.getQueryData([
         "repertoire",
-        { studentId: newRepertoireItem.studentId },
+        { studentId: newItem.studentId },
       ])
       queryClient.setQueryData(
-        ["repertoire", { studentId: newRepertoireItem.studentId }],
-        (prev: Array<RepertoireItem>) => [...prev, newRepertoireItem],
+        ["repertoire", { studentId: newItem.studentId }],
+        (prev: Array<RepertoireItem>) => [...prev, newItem],
       )
       return { previousRepertoire }
     },
 
-    onSuccess: async () => {
+    onSuccess: (newItem) => {
       toast.success("Song hinzugefügt.")
-      onSuccess()
       queryClient.invalidateQueries({
-        queryKey: ["repertoire", { studentId: newRepertoireItem.studentId }],
+        queryKey: ["repertoire", { studentId: newItem.studentId }],
       })
     },
 
-    onError: (_, __, context) => {
+    onError: (_, newItem, context) => {
       fetchErrorToast()
       queryClient.setQueryData(
-        ["repertoire", { studentId: newRepertoireItem.studentId }],
+        ["repertoire", { studentId: newItem.studentId }],
         context?.previousRepertoire,
       )
     },
   })
+  return { createRepertoireItem, isCreating }
 }

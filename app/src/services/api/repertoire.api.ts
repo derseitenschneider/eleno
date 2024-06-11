@@ -1,4 +1,4 @@
-import type { RepertoireItem } from "../../types/types"
+import type { PartialRepertoireItem, RepertoireItem } from "../../types/types"
 import supabase from "./supabase"
 
 export const fetchRepertoireAPI = async (
@@ -25,7 +25,7 @@ export const fetchRepertoireAPI = async (
   return repertoire as RepertoireItem[]
 }
 
-export const createRepertoireItemAPI = async (item: RepertoireItem) => {
+export const createRepertoireItemAPI = async (item: PartialRepertoireItem) => {
   const utcStartDate =
     item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
 

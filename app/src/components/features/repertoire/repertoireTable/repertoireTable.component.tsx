@@ -1,7 +1,7 @@
 import { NavLink, useParams } from "react-router-dom"
 
 import RepertoireControl from "./repertoireControl"
-import AddRepertoireItem from "../AddRepertoireItem.component"
+import CreateRepertoireItem from "../CreateRepertoireItem.component"
 import { ChevronLeft } from "lucide-react"
 import { useRepertoireQuery } from "../repertoireQueries"
 import { DataTable } from "../../../ui/data-table"
@@ -75,7 +75,7 @@ function RepertoireList() {
   if (isError) return <p>ERROR</p>
 
   return (
-    <div>
+    <div className='mb-10'>
       <div className='flex items-center justify-between mb-4'>
         <NavLink
           to={`/lessons/${studentId}`}
@@ -85,7 +85,7 @@ function RepertoireList() {
           <span>Zur Lektion</span>
         </NavLink>
       </div>
-      <AddRepertoireItem studentId={Number(studentId)} />
+      <CreateRepertoireItem studentId={Number(studentId)} />
       <RepertoireControl
         table={table}
         globalFilter={globalFilter}

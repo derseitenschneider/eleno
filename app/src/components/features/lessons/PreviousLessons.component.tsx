@@ -2,8 +2,6 @@ import parse from "html-react-parser"
 import { useEffect, useState } from "react"
 import { NavLink, useParams } from "react-router-dom"
 
-import EmptyProps from "../../ui/Empty.component"
-
 import { cn } from "@/lib/utils"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import PreviousLessonDropDown from "./PreviousLessonDropDown.component"

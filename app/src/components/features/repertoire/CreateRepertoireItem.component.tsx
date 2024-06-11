@@ -1,27 +1,29 @@
-import { useState } from "react"
-import { useUser } from "../../../services/context/UserContext"
-import type { RepertoireItem } from "../../../types/types"
+import type {
+  PartialRepertoireItem,
+  RepertoireItem,
+} from "../../../types/types"
 import { Button } from "@/components/ui/button"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Input } from "@/components/ui/input"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
-import { createRepertoireItemMutation } from "./mutations/createRepertoireItemMutation"
+import { useCreateRepertoireItem } from "./useCreateRepertoireItem"
+import { useState } from "react"
 
 interface AddRepertoireItemProps {
   studentId: number
 }
 
-function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
-  const { user } = useUser()
+function CreateRepertoireItem({ studentId }: AddRepertoireItemProps) {
+  const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
 
-  const defaultItem: RepertoireItem = {
-    id: new Date().getMilliseconds(),
+  const defaultItem: PartialRepertoireItem = {
     studentId,
-    user_id: user?.id,
     title: "",
+    startDate: undefined,
+    endDate: undefined,
   }
 
-  const [item, setItem] = useState<RepertoireItem>(defaultItem)
+  const [item, setItem] = useState(defaultItem)
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem((prev) => ({ ...prev, title: e.target.value }))
@@ -38,14 +40,15 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   function resetFields() {
     setItem(defaultItem)
   }
-  const { mutate: handleSave, isPending } = createRepertoireItemMutation(
-    item,
-    resetFields,
-  )
 
+  function handleSave() {
+    createRepertoireItem(item, {
+      onSuccess: () => resetFields(),
+    })
+  }
   return (
-    <div className='flex  gap-1 mb-12 mt-6'>
-      <div className='flex bg-background50 gap-4 grow'>
+    <div className='flex  gap-2 mb-12 mt-6'>
+      <div className='flex bg-background50 gap-2 grow'>
         <div className='shrink grow'>
           <Input
             placeholder='Song'
@@ -69,7 +72,7 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
             />
             {item.startDate && (
               <ButtonRemove
-                disabled={isPending}
+                disabled={isCreating}
                 className='translate-x-[-8px]'
                 onRemove={() => handleChangeStart(undefined)}
               />
@@ -87,7 +90,7 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
           />
           {item.endDate && (
             <ButtonRemove
-              disabled={isPending}
+              disabled={isCreating}
               className='translate-x-[-8px]'
               onRemove={() => handleChangeEnd(undefined)}
             />
@@ -95,9 +98,9 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
         </div>
       </div>
       <Button
-        onClick={() => handleSave()}
+        onClick={handleSave}
         size='sm'
-        disabled={isPending || !item.title}
+        disabled={isCreating || !item.title}
       >
         Hinzufügen
       </Button>
@@ -105,4 +108,4 @@ function AddRepertoireItem({ studentId }: AddRepertoireItemProps) {
   )
 }
 
-export default AddRepertoireItem
+export default CreateRepertoireItem
