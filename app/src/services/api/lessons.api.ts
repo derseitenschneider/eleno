@@ -82,8 +82,7 @@ export const createLessonAPI = async (
       {
         ...lesson,
         date: utcDate.toISOString(),
-        // typecaset Lesson since some fields are created by supabase itself
-      } as Lesson,
+      },
     ])
     .select()
 
