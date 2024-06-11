@@ -18,7 +18,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
 import { useState } from "react"
 import DeleteRepertoireItem from "../DeleteRepertoireItem.component"
-import EditRepertoireItem from "../EditRepertoireItem.component"
+import EditRepertoireItem from "../UpdateRepertoireItem.component"
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {

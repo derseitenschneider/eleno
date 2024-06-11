@@ -61,7 +61,7 @@ export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
   const utcEndDate =
     item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
 
-  const { error } = await supabase
+  const { data: updatedItem, error } = await supabase
     .from("repertoire")
     .update({
       ...item,
@@ -69,8 +69,11 @@ export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
       endDate: utcEndDate?.toISOString() || null,
     })
     .eq("id", item.id)
+    .select()
+    .single()
 
   if (error) throw new Error(error.message)
+  return updatedItem
 }
 
 export const deleteRepertoireItemAPI = async (itemId: number) => {

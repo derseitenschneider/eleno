@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import MiniLoader from "@/components/ui/MiniLoader.component"
 import type { RepertoireItem } from "@/types/types"
 import { useQueryClient } from "@tanstack/react-query"
-import { deleteRepertoireItemMutation } from "./mutations/deleteRepertoireItemMutation"
+import { useDeleteRepertoireItem } from "./useDeleteRepertoireItem"
 
 interface DeleteRepertoireItemProps {
   itemId: number
@@ -21,12 +21,14 @@ function DeleteRepertoireItem({
     | undefined
   const itemToDelete = repertoire?.find((item) => item.id === itemId)
 
-  const { mutate: handleDelete, isPending } = deleteRepertoireItemMutation(
-    itemId,
-    studentId,
-    onCloseModal,
-  )
+  const { deleteRepertoireItem, isDeleting, isError } =
+    useDeleteRepertoireItem()
 
+  function handleDelete() {
+    deleteRepertoireItem(itemId, {
+      onSuccess: () => onCloseModal?.(),
+    })
+  }
   if (!itemToDelete) return null
 
   return (
@@ -39,21 +41,26 @@ function DeleteRepertoireItem({
         <Button
           variant='outline'
           size='sm'
-          disabled={isPending}
+          disabled={isDeleting}
           onClick={onCloseModal}
         >
           Abbrechen
         </Button>
         <Button
-          disabled={isPending}
+          disabled={isDeleting}
           size='sm'
           variant='destructive'
-          onClick={() => handleDelete()}
+          onClick={handleDelete}
         >
           Löschen
         </Button>
-        {isPending && <MiniLoader />}
+        {isDeleting && <MiniLoader />}
       </div>
+      {isError && (
+        <p className='mt-4 text-center text-sm text-warning'>
+          Es ist etwas schiefgelaufen. Versuch's nochmal.
+        </p>
+      )}
     </div>
   )
 }

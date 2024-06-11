@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import { Input } from "@/components/ui/input"
-import { useUser } from "@/services/context/UserContext"
+import MiniLoader from "@/components/ui/MiniLoader.component"
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import type { RepertoireItem } from "../../../types/types"
-import { updateRepertoireItemMutation } from "./mutations/updateRepertoireItemMutation"
+import { useUpdateRepertoireItem } from "./useUpdateRepertoireItem"
 
 interface EditRepertoireItemProps {
   itemId: number
@@ -19,25 +19,19 @@ function EditRepertoireItem({
   studentId,
   onCloseModal,
 }: EditRepertoireItemProps) {
-  const { user } = useUser()
   const queryClient = useQueryClient()
-  const defaultItem: RepertoireItem = {
-    id: new Date().getMilliseconds(),
-    studentId,
-    user_id: user?.id,
-    title: "",
-  }
+
   const repertoire = queryClient.getQueryData(["repertoire", { studentId }]) as
     | Array<RepertoireItem>
     | undefined
 
   const itemToEdit = repertoire?.find((item) => item.id === itemId)
-  const [item, setItem] = useState(itemToEdit || defaultItem)
 
-  const { mutate: handleSave, isPending } = updateRepertoireItemMutation(
-    item,
-    onCloseModal,
-  )
+  const [item, setItem] = useState<RepertoireItem | undefined>(itemToEdit)
+
+  const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
+
+  if (!item) return null
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem((prev) => ({ ...prev, title: e.target.value }))
@@ -51,9 +45,16 @@ function EditRepertoireItem({
     setItem((prev) => ({ ...prev, endDate: date }))
   }
 
+  function handleSave() {
+    if (!item) return
+    updateRepertoireItem(item, {
+      onSuccess: () => onCloseModal?.(),
+    })
+  }
+
   return (
-    <div className='flex gap-1 py-4'>
-      <div className='flex bg-background50 gap-4 grow'>
+    <div className='flex gap-2 py-4'>
+      <div className='flex bg-background50 gap-2 grow'>
         <div className='shrink grow'>
           <Input
             placeholder='Song'
@@ -77,7 +78,7 @@ function EditRepertoireItem({
             />
             {item.startDate && (
               <ButtonRemove
-                disabled={isPending}
+                disabled={isUpdating}
                 className='translate-x-[-8px]'
                 onRemove={() => handleChangeStart(undefined)}
               />
@@ -95,20 +96,19 @@ function EditRepertoireItem({
           />
           {item.endDate && (
             <ButtonRemove
-              disabled={isPending}
+              disabled={isUpdating}
               className='translate-x-[-8px]'
               onRemove={() => handleChangeEnd(undefined)}
             />
           )}
         </div>
       </div>
-      <Button
-        onClick={() => handleSave()}
-        size='sm'
-        disabled={isPending || !item.title}
-      >
-        Speichern
-      </Button>
+      <div className='flex items-center gap-2'>
+        <Button disabled={isUpdating} size='sm' onClick={handleSave}>
+          Speichern
+        </Button>
+        {isUpdating && <MiniLoader />}
+      </div>
     </div>
   )
 }

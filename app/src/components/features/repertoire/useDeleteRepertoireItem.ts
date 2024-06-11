@@ -2,34 +2,30 @@ import fetchErrorToast from "@/hooks/fetchErrorToast"
 import { deleteRepertoireItemAPI } from "@/services/api/repertoire.api"
 import type { Lesson, RepertoireItem } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useParams } from "react-router-dom"
 import { toast } from "sonner"
 
-export function deleteRepertoireItemMutation(
-  itemId: number,
-  studentId: number,
-  onClose?: () => void,
-) {
+export function useDeleteRepertoireItem() {
   const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: () => deleteRepertoireItemAPI(itemId),
-    onMutate: () => {
+  const { studentId } = useParams()
+  const {
+    mutate: deleteRepertoireItem,
+    isPending: isDeleting,
+    isError,
+  } = useMutation({
+    mutationFn: deleteRepertoireItemAPI,
+    onMutate: (itemId) => {
       const previousRepertoire = queryClient.getQueryData([
         "repertoire",
-        { studentId },
+        { studentId: Number(studentId) },
       ]) as Array<Lesson>
 
       queryClient.setQueryData(
-        [
-          "repertoire",
-          {
-            studentId,
-          },
-        ],
+        ["repertoire", { studentId: Number(studentId) }],
         (prev: Array<RepertoireItem>) =>
           prev?.filter((item) => item.id !== itemId),
       )
 
-      onClose?.()
       return { previousRepertoire }
     },
 
@@ -43,9 +39,10 @@ export function deleteRepertoireItemMutation(
     onError: (_, __, context) => {
       fetchErrorToast()
       queryClient.setQueryData(
-        ["repertoire", { studentId }],
+        ["repertoire", { studentId: Number(studentId) }],
         context?.previousRepertoire,
       )
     },
   })
+  return { deleteRepertoireItem, isDeleting, isError }
 }
