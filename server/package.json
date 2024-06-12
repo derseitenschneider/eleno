@@ -10,7 +10,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js & npm run scss",
     "scss": "sass --watch src/views/styles/main.scss public/css/main.css",
-    "vercel-build": "echo hello"
+    "vercel-build": "echo hello",
+    "build": "echo 'Hello from build"
   },
   "keywords": [],
   "author": "",
