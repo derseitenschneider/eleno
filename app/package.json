@@ -1,12 +1,12 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "1.6.176",
+  "version": "1.6.177",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
   "scripts": {
-    "dev": "vite --open --host",
+    "dev": "supabase start && vite --open --host",
     "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",
