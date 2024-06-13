@@ -19,5 +19,6 @@
     "baseUrl": "./"
   },
   "include": [".eslintrc.cjs", "src", "vite.config.ts", "scripts"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -64,7 +64,7 @@
     "prettier": "^3.0.3",
     "sass": "^1.62.1",
     "supabase": "^1.142.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "vite": "^4.3.9",
     "vite-plugin-preload": "^0.3.1",
     "vite-plugin-pwa": "^0.15.0"
