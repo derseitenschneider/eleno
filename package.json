@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "update-version": "node ./scripts/update-version.js",
     "dev:app": "cd app && npm run dev",
     "build:app": "cd app && npm run build",
-    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -20,6 +18,5 @@
   },
   "homepage": "https://github.com/derseitenschneider/eleno#readme",
   "dependencies": {
-    "parse-version-string": "^1.0.1"
   }
 }
