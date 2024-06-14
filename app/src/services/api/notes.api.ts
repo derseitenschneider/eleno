@@ -6,6 +6,7 @@ export const fetchActiveNotesAPI = async () => {
     .from("only_active_notes")
     .select("*")
     .order("order")
+    .returns<Array<Note> | undefined>()
   if (error) throw new Error(error.message)
   return notes
 }
@@ -37,10 +38,7 @@ export const deleteNoteAPI = async (noteId: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateNoteAPI = async (note: Note) => {
-  const { error } = await supabase
-    .from("notes")
-    .update({ ...note })
-    .eq("id", note.id)
+export const updateNoteAPI = async (notes: Array<Note>) => {
+  const { error } = await supabase.from("notes").upsert(notes)
   if (error) throw new Error(error.message)
 }

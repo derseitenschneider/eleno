@@ -6,19 +6,21 @@ import { toast } from "sonner"
 
 export function useUpdateNote() {
   const queryClient = useQueryClient()
-  const { mutate: updateNote, isPending: isUpdating } = useMutation({
+  const { mutate: updateNotes, isPending: isUpdating } = useMutation({
     mutationFn: updateNoteAPI,
-    onMutate: (updatedNote) => {
+    onMutate: (updatedNotes) => {
       // Snapshot in case of a rollback.
       const oldNotes = queryClient.getQueryData(["notes"]) as
         | Array<Note>
         | undefined
 
-      queryClient.setQueryData(["notes"], (prev: Array<Note> | undefined) => {
-        return prev?.map((prevNote) =>
-          prevNote.id === updatedNote.id ? updatedNote : prevNote,
-        )
-      })
+      for (const updatedNote of updatedNotes) {
+        queryClient.setQueryData(["notes"], (prev: Array<Note> | undefined) => {
+          return prev?.map((prevNote) =>
+            prevNote.id === updatedNote.id ? updatedNote : prevNote,
+          )
+        })
+      }
       return { oldNotes }
     },
 
@@ -36,5 +38,5 @@ export function useUpdateNote() {
     },
   })
 
-  return { updateNote, isUpdating }
+  return { updateNotes, isUpdating }
 }

@@ -1,13 +1,9 @@
-import { LegacyRef, useEffect, useRef, useState } from "react"
-import { DragDropContext } from "react-beautiful-dnd"
+import { useEffect, useState } from "react"
+import { DragDropContext, Droppable } from "@hello-pangea/dnd"
 
-import Menus from "../../ui/menu/Menus.component"
-import Modal from "../../ui/modal/Modal.component"
 import CreateNote from "./CreateNote.component"
 import Note from "./Note.component"
-import StrictModeDroppable from "../../../utils/StrictModeDroppable"
 
-import fetchErrorToast from "../../../hooks/fetchErrorToast"
 import { useParams } from "react-router-dom"
 import { useActiveNotesQuery } from "./notesQueries"
 import type { Note as TNote } from "@/types/types"
@@ -15,10 +11,13 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
+import { useUpdateNote } from "./useUpdateNote"
+import { cn } from "@/lib/utils"
 
 function NoteList() {
   const { studentId } = useParams()
   const [openModal, setOpenModal] = useState<"ADD" | undefined>()
+  const { updateNotes, isUpdating } = useUpdateNote()
 
   const { data } = useActiveNotesQuery()
 
@@ -28,40 +27,34 @@ function NoteList() {
     const currentNotes = data?.filter(
       (note) => note.studentId === Number(studentId),
     )
+    if (!currentNotes) return
     setNotes(currentNotes)
   }, [studentId, data])
 
-  const notesContainer = useRef<LegacyRef<HTMLDivElement>>()
-
+  /*@ts-ignore*/
   async function handleOnDragend(result) {
-    console.log(result)
     if (!result.destination) return
     const origin = result.source.index
     const destination = result.destination.index
-
+    //
     if (!notes) return
 
     const items = [...notes]
 
-    const preservedNotes = [...notes]
     const [reorderedItem] = items.splice(origin, 1)
+    if (!reorderedItem) return
     items.splice(destination, 0, reorderedItem)
 
     const newNotes = items.map((item, index) => ({ ...item, order: index }))
-
-    try {
-      setNotes(newNotes)
-    } catch (error) {
-      fetchErrorToast()
-      setNotes(preservedNotes)
-    }
+    setNotes(newNotes)
+    updateNotes(newNotes)
   }
 
   const sortedNotes = notes?.sort((a, b) => a?.order - b?.order) || []
 
   return (
-    <div className='sm:p-4' ref={notesContainer}>
-      <div className='h-full mb-6'>
+    <div className='sm:p-4 h-[calc(100vh-88px)]'>
+      <div className='mb-6'>
         <div className='flex justify-between items-baseline'>
           <h4 className='mb-0'>Notizen</h4>
 
@@ -79,12 +72,15 @@ function NoteList() {
       </div>
       {sortedNotes?.length > 0 ? (
         <DragDropContext onDragEnd={handleOnDragend}>
-          <StrictModeDroppable droppableId='notes'>
+          <Droppable droppableId='notes'>
             {(provided, snapshot) => {
               return (
                 <ul
                   data-isdraggingover={snapshot.isDraggingOver}
-                  className='min-h-8 h-full overflow-y-auto pb-20'
+                  className={cn(
+                    "h-full overflow-auto min-h-8 pb-20 no-scrollbar",
+                    isUpdating && "opacity-75",
+                  )}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
@@ -95,7 +91,7 @@ function NoteList() {
                 </ul>
               )
             }}
-          </StrictModeDroppable>
+          </Droppable>
         </DragDropContext>
       ) : null}
 

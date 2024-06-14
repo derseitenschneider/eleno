@@ -20,13 +20,13 @@ function Lesson() {
 
   if (activeSortedStudentIds.length && !isLoading)
     return (
-      <div className='grid grid-cols-[1fr_400px] min-h-[calc(100vh-88px)]'>
-        <main>
+      <div className='grid grid-cols-[1fr_400px] h-[calc(100vh-88px)] overflow-hidden'>
+        <main className='h-full'>
           <PreviousLessons />
           <CreateLesson />
         </main>
 
-        <aside className='border-l border-hairline'>
+        <aside className='border-l h-full border-hairline'>
           <NoteList />
         </aside>
       </div>

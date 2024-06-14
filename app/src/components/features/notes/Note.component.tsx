@@ -1,9 +1,8 @@
-import { Draggable } from "react-beautiful-dnd"
-
 import parse from "html-react-parser"
-import type { Note as TNote } from "../../../types/types"
+import type { NotesBackgrounds, Note as TNote } from "../../../types/types"
 import { cn } from "@/lib/utils"
 import NoteDropdown from "./NoteDropdown.component"
+import { Draggable } from "@hello-pangea/dnd"
 
 interface NoteProps {
   note: TNote
@@ -11,12 +10,13 @@ interface NoteProps {
 }
 
 function Note({ note, index }: NoteProps) {
-  const { id, title, text, backgroundColor, studentId } = note
-  const borderVariants = {
+  const { id, title, text, backgroundColor } = note
+  const borderVariants: Record<Exclude<NotesBackgrounds, null>, string> = {
     red: "border-noteRed",
     blue: "border-noteBlue",
     yellow: "border-noteYellow",
     green: "border-noteGreen",
+    none: "border-transparent",
   }
 
   return (
@@ -30,6 +30,7 @@ function Note({ note, index }: NoteProps) {
               backgroundColor
                 ? borderVariants[backgroundColor]
                 : "border-transparent",
+              snapshot.isDragging && "outline outline-ring",
             )}
             ref={provided.innerRef}
             {...provided.draggableProps}

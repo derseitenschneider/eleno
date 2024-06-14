@@ -25,7 +25,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
     currentNote?.backgroundColor || null,
   )
 
-  const { updateNote, isUpdating } = useUpdateNote()
+  const { updateNotes, isUpdating } = useUpdateNote()
 
   const handleText = (inputText: string) => {
     setText(inputText)
@@ -37,12 +37,9 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
 
   function handleSave() {
     if (!currentNote) return
-    updateNote(
-      { ...currentNote, title, text, backgroundColor },
-      {
-        onSuccess: () => onCloseModal?.(),
-      },
-    )
+    updateNotes([{ ...currentNote, title, text, backgroundColor }], {
+      onSuccess: () => onCloseModal?.(),
+    })
   }
 
   return (

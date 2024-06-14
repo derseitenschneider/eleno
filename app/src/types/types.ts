@@ -15,8 +15,8 @@ import type { Database } from "./supabase"
 export type DBTypes = {
   [P in keyof Database["public"]["Tables"]]: Database["public"]["Tables"][P]["Row"]
 } & {
-    [P in keyof Database["public"]["Views"]]: Database["public"]["Views"][P]["Row"]
-  }
+  [P in keyof Database["public"]["Views"]]: Database["public"]["Views"][P]["Row"]
+}
 
 // Removes null except for defined fields
 type RemoveNullExcept<T, E extends keyof T = never> = {
@@ -78,17 +78,19 @@ export type Profile = Pick<User, "first_name" | "last_name">
 |--------------------------------------------------------------------------
 */
 
-export type NotesBackgrounds = "red" | "blue" | "yellow" | "green" | null
+export type NotesBackgrounds = DBTypes["notes"]["backgroundColor"]
 
-export type Note = {
-  id: number
-  studentId: number
-  title?: string
-  text?: string
-  order: number
-  user_id: string
-  backgroundColor: NotesBackgrounds
-}
+export type Note = DBTypes["notes"]
+
+// export type Note = {
+//   id: number
+//   studentId: number
+//   title?: string
+//   text?: string
+//   order: number
+//   user_id: string
+//   backgroundColor: NotesBackgrounds
+// }
 
 // CONTEXT TYPES
 export type ContextTypeUser = {
