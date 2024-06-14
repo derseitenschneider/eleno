@@ -10,6 +10,7 @@ import { AuthProvider } from "./services/context/UserContext"
 import { UserLocaleProvider } from "./services/context/UserLocaleContext"
 import { Toaster as Sonner } from "@/components/ui/sonner"
 import MainContext from "./services/context/MainContext"
+import { CheckCircle, CheckCircle2, Info } from "lucide-react"
 
 export default function Application() {
   return (
@@ -33,12 +34,20 @@ export default function Application() {
       </UserLocaleProvider>
       <Sonner
         position='top-right'
+        duration={4000}
+        closeButton
         toastOptions={{
           classNames: {
             toast: "bg-background50 border-hairline",
             title: "text-foreground",
             icon: "text-foreground",
+            closeButton:
+              "text-foreground/50 bg-background50 border-foreground/30 size-4 hover:!bg-background50 hover:text-foreground/50 hover:!border-foreground/30",
           },
+        }}
+        icons={{
+          info: <Info />,
+          success: <CheckCircle2 className='size-4 text-noteGreen' />,
         }}
       />
     </div>
