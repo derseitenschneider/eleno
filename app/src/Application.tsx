@@ -34,8 +34,8 @@ export default function Application() {
       </UserLocaleProvider>
       <Sonner
         position='top-right'
-        duration={4000}
-        closeButton
+        duration={2500}
+        // closeButton
         toastOptions={{
           classNames: {
             toast: "bg-background50 border-hairline",
@@ -47,7 +47,7 @@ export default function Application() {
         }}
         icons={{
           info: <Info />,
-          success: <CheckCircle2 className='size-4 text-noteGreen' />,
+          // success: <CheckCircle2 className='size-4 text-noteGreen' />,
         }}
       />
     </div>

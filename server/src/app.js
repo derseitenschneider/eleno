@@ -24,8 +24,6 @@ app.get("/", (_, res) => {
 
 app.use("/homework", homeworkRouter)
 
-app.use("/pdf", pdfRouter)
-
 app.get("*", (_, res) => {
   res.status(404).render("error")
 })

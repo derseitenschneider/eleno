@@ -5,6 +5,7 @@ const fetchErrorToast = (
   message = "Etwas ist schiefgelaufen, versuch's nochmal.",
 ) => {
   return toast.error(message, {
+    closeButton: true,
     classNames: {
       actionButton: "underline !text-foreground !bg-background50",
     },
