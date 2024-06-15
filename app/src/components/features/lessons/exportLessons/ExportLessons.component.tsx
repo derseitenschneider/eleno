@@ -7,10 +7,9 @@ import LessonPDF from "../../pdf/LessonsPDF.component"
 
 import { Button } from "@/components/ui/button"
 import { DayPicker } from "@/components/ui/daypicker.component"
-import supabase from "@/services/api/supabase"
 import {
-  fetchAllLessonsAPI,
-  fetchLessonsByRange,
+  fetchLessonsByYearApi,
+  fetchLessonsByRangeApi,
 } from "../../../../services/api/lessons.api"
 import stripHtmlTags from "../../../../utils/stripHtmlTags"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
@@ -22,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { useQueryClient } from "@tanstack/react-query"
 import fetchErrorToast from "@/hooks/fetchErrorToast"
+import { useAllLessons } from "../lessonsQueries"
 
 type ExportLessonsProps = {
   studentId: number
@@ -30,12 +30,17 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
-  const [isPending, setIsPending] = useState(false)
+  // const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
+  const { data: allLessons, isLoading } = useAllLessons(studentId, selectAll)
+
+  useEffect(() => {
+    if (allLessons) setLessons(allLessons)
+  }, [allLessons])
 
   const currentStudent = students?.find(
     (student) => student.id === Number(studentId),
@@ -58,57 +63,6 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       homework: stripHtmlTags(homework || ""),
     }
   })
-
-  useEffect(() => {
-    if (startDate || endDate) {
-      setSelectAll(false)
-    }
-  }, [endDate, startDate])
-
-  useEffect(() => {
-    if (selectAll) {
-      setStartDate(undefined)
-      setEndDate(undefined)
-    }
-  }, [selectAll])
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      setIsPending(true)
-      const fetchLessons = async () => {
-        try {
-          const allLessons = await fetchLessonsByRange(
-            startDate,
-            endDate,
-            Number(studentId),
-          )
-          setLessons(allLessons)
-        } catch (error) {
-          fetchErrorToast()
-        } finally {
-          setIsPending(false)
-        }
-      }
-      fetchLessons()
-    }
-  }, [endDate, startDate, studentId])
-
-  useEffect(() => {
-    if (selectAll) {
-      setIsPending(true)
-      const fetchLessons = async () => {
-        try {
-          const allLessons = await fetchAllLessonsAPI(Number(studentId))
-          setLessons(allLessons)
-        } catch (error) {
-          fetchErrorToast()
-        } finally {
-          setIsPending(false)
-        }
-      }
-      fetchLessons()
-    }
-  }, [selectAll, studentId])
 
   return (
     <div className=''>
@@ -177,14 +131,14 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       </div>
 
       <div className='flex gap-5'>
-        {isPending && (
+        {isLoading && (
           <div className='text-primary '>
             <MiniLoader />
           </div>
         )}
         <PDFDownloadLink
           className={cn(
-            isPending || ((!startDate || !endDate) && !selectAll)
+            isLoading || ((!startDate || !endDate) && !selectAll)
               ? "opacity-0"
               : "opacity-100",
           )}
@@ -201,14 +155,15 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
               : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}`
           }
         >
-          <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}>
-            PDF herunterladen
-          </Button>
+          {/* <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}> */}
+          {/*   PDF herunterladen */}
+          {/* </Button> */}
+          testing
         </PDFDownloadLink>
 
         <CSVLink
           className={cn(
-            isPending || ((!startDate || !endDate) && !selectAll)
+            isLoading || ((!startDate || !endDate) && !selectAll)
               ? "opacity-0"
               : "opacity-100",
           )}

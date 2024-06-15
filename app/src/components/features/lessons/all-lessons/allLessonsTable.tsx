@@ -13,7 +13,7 @@ import { ChevronLeft } from "lucide-react"
 import { useState } from "react"
 import { NavLink, useParams, useSearchParams } from "react-router-dom"
 import { DataTable } from "../../../ui/data-table"
-import { useAllLessonsPerStudent, useLessonYearsQuery } from "../lessonsQueries"
+import { useAllLessonsPerYear, useLessonYearsQuery } from "../lessonsQueries"
 import { allLessonsColumns } from "./allLessonsColumns"
 import AllLessonsControl from "./allLessonsControl.component"
 
@@ -33,7 +33,7 @@ export default function AllLessons() {
     isPending: isPendingLessons,
     isError,
     isFetching,
-  } = useAllLessonsPerStudent(Number(selectedYear) || 0, Number(studentId))
+  } = useAllLessonsPerYear(Number(selectedYear) || 0, Number(studentId))
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
     const date = row.getValue("date") as Date

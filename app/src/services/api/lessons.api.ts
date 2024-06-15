@@ -1,7 +1,7 @@
 import type { Lesson, LessonPartial } from "../../types/types"
 import supabase from "./supabase"
 
-export const fetchAllLessonsAPI = async (
+export const fetchLessonsByYearApi = async (
   studentId: number,
   lessonYear: number,
 ) => {
@@ -21,7 +21,7 @@ export const fetchAllLessonsAPI = async (
   return lessons
 }
 
-export const fetchAllLessonsCSV = async (
+export const fetchAllLessonsCSVApi = async (
   studentId: number,
 ): Promise<string> => {
   const { data: lessons, error } = await supabase
@@ -35,7 +35,18 @@ export const fetchAllLessonsCSV = async (
   return lessons
 }
 
-export const fetchLessonsByRange = async (
+export const fetchAllLessonsApi = async (studentId: number) => {
+  const { data: lessons, error } = await supabase
+    .from("lessons")
+    .select("date, lessonContent, homework")
+    .eq("studentId", studentId)
+    .order("date", { ascending: false })
+
+  if (error) throw new Error(error.message)
+  return lessons.map((lesson) => ({ ...lesson, date: new Date(lesson.date) }))
+}
+
+export const fetchLessonsByRangeApi = async (
   startDate: Date,
   endDate: Date,
   studentId: number,
@@ -52,7 +63,7 @@ export const fetchLessonsByRange = async (
   return lessons
 }
 
-export const fetchLessonsCSVByRange = async (
+export const fetchLessonsCSVByRangeApi = async (
   startDate: Date,
   endDate: Date,
   studentId: number,

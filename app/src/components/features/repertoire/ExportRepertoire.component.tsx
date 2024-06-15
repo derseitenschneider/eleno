@@ -77,7 +77,7 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
           />
         </label>
       </div>
-      <div className='flex gap-4 justify-between'>
+      <div className='flex gap-4 justify-end'>
         <PDFDownloadLink
           document={
             <RepertoirePDF

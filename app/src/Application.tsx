@@ -10,7 +10,7 @@ import { AuthProvider } from "./services/context/UserContext"
 import { UserLocaleProvider } from "./services/context/UserLocaleContext"
 import { Toaster as Sonner } from "@/components/ui/sonner"
 import MainContext from "./services/context/MainContext"
-import { CheckCircle, CheckCircle2, Info } from "lucide-react"
+import { Info } from "lucide-react"
 
 export default function Application() {
   return (

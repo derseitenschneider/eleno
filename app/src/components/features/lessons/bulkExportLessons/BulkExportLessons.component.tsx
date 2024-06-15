@@ -7,10 +7,10 @@ import { useActiveStudents } from "../../students/activeStudents/ActiveStudents.
 import "./bulkExportLessons.style.scss"
 import LessonPDF from "../../pdf/LessonsPDF.component"
 import {
-  fetchAllLessonsCSV,
-  fetchAllLessonsAPI,
-  fetchLessonsByRange,
-  fetchLessonsCSVByRange,
+  fetchAllLessonsCSVApi,
+  fetchLessonsByYearApi,
+  fetchLessonsByRangeApi,
+  fetchLessonsCSVByRangeApi,
 } from "../../../../services/api/lessons.api"
 import { useStudents } from "../../../../services/context/StudentContext"
 import { formatDateToDatabase } from "../../../../utils/formateDate"
@@ -52,15 +52,15 @@ function BulkExportLessons({ onCloseModal }: BulkExportLessonsProps) {
     const fetchLessons = async () => {
       const lessonsAllStudents = selectedStudents.map(async (studentId) => {
         const lessons = selectAll
-          ? await fetchAllLessonsAPI(studentId)
-          : await fetchLessonsByRange(startDate, endDate, studentId)
+          ? await fetchLessonsByYearApi(studentId)
+          : await fetchLessonsByRangeApi(startDate, endDate, studentId)
         const { firstName, lastName } = students.find(
           (student) => student.id === studentId,
         )
 
         const lessonsStrings = selectAll
-          ? await fetchAllLessonsCSV(studentId)
-          : await fetchLessonsCSVByRange(startDate, endDate, studentId)
+          ? await fetchAllLessonsCSVApi(studentId)
+          : await fetchLessonsCSVByRangeApi(startDate, endDate, studentId)
 
         const lessonsCSV = stripHtmlTags(lessonsStrings)
           .replaceAll("date", "Datum")

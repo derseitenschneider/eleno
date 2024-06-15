@@ -1,7 +1,8 @@
 import {
-  fetchAllLessonsAPI,
+  fetchLessonsByYearApi,
   fetchLatestLessons,
   fetchLessonYears,
+  fetchAllLessonsApi,
 } from "@/services/api/lessons.api"
 import { useUser } from "@/services/context/UserContext"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
@@ -29,13 +30,25 @@ export function useLatestLessonsQuery() {
   return result
 }
 
-export function useAllLessonsPerStudent(year: number, studentId: number) {
+export function useAllLessonsPerYear(year: number, studentId: number) {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ["all-lessons", { year, studentId }],
-    queryFn: () => fetchAllLessonsAPI(studentId, year),
+    queryFn: () => fetchLessonsByYearApi(studentId, year),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
+    placeholderData: keepPreviousData,
+  })
+
+  return result
+}
+
+export function useAllLessons(studentId: number, enabled: boolean) {
+  const result = useQuery({
+    queryKey: ["all-lessons", { studentId }],
+    queryFn: () => fetchAllLessonsApi(studentId),
+    staleTime: 0,
+    enabled,
     placeholderData: keepPreviousData,
   })
 
