@@ -48,52 +48,64 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DropdownMenuTrigger>
           <MoreVertical className='h-4 w-4 text-primary' />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent
           <DropdownMenuItem
             onClick={() => setOpenModal("EDIT")}
-            className='flex items-center gap-2'
-          >
-            <Pencil className='h-4 w-4 text-primary' />
-            <span>Notiz bearbeiten</span>
-          </DropdownMenuItem>
+          className='flex items-center gap-2'
+        >
+          <Pencil className='h-4 w-4 text-primary' />
+          <span>Notiz bearbeiten</span>
+        </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => handleDuplication()}
-            className='flex items-center gap-2'
-          >
-            <Layers2 className='h-4 w-4 text-primary' />
-            <span>Notiz duplizieren</span>
-          </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => handleDuplication()}
+          className='flex items-center gap-2'
+        >
+          <Layers2 className='h-4 w-4 text-primary' />
+          <span>Notiz duplizieren</span>
+        </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            onClick={() => setOpenModal("DELETE")}
-            className='flex items-center gap-2'
-          >
-            <Trash2 className='h-4 w-4 text-warning' />
-            <span>Notiz löschen</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenuItem
+          onClick={() => setOpenModal("DELETE")}
+          className='flex items-center gap-2'
+        >
+          <Trash2 className='h-4 w-4 text-warning' />
+          <span>Notiz löschen</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu >
 
-      <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Notiz bearbeiten</DialogTitle>
-            <UpdateNote noteId={noteId} onCloseModal={closeModal} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <Dialog
+  open={openModal === "EDIT"}
+  onOpenChange =
+    { closeModal } >
+    (
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Notiz bearbeiten</DialogTitle>
+          <UpdateNote noteId={noteId} onCloseModal={closeModal} />
+        </DialogHeader>
+      </DialogContent>
+    )
+  </Dialog>
 
-      <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Notiz löschen</DialogTitle>
-            <DeleteNote noteId={noteId} onCloseModal={closeModal} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <Dialog open=
+  {
+    openModal === "DELETE"
+  }
+  onOpenChange =
+    { closeModal } >
+    (
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Notiz löschen</DialogTitle>
+          <DeleteNote noteId={noteId} onCloseModal={closeModal} />
+        </DialogHeader>
+      </DialogContent>
+    )
+  </Dialog>
     </>
   )
 }

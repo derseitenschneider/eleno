@@ -9,11 +9,9 @@
 *::-webkit-scrollbar {
   width: 1rem;
 }
-
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-
 *::-webkit-scrollbar-thumb {
   background-color: var(--clr-bg-200);
 }
@@ -133,7 +131,6 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "DM Sans";
   src: url("../fonts/DM_Sans/DMSans-Medium.eot");
@@ -142,7 +139,6 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: "DM Sans";
   src: url("../fonts/DM_Sans/DMSans-Bold.eot");
@@ -151,7 +147,6 @@ label textarea {
   font-style: normal;
   font-display: swap;
 }
-
 .App {
   display: flex;
   height: 100%;
@@ -166,7 +161,6 @@ label textarea {
   width: 100%;
   max-width: calc(100vw - 6.5rem);
 }
-
 @media screen and (max-width: 42.5em) {
   #main {
     max-width: unset;
@@ -176,7 +170,6 @@ label textarea {
 .container {
   padding: 2rem 3.2rem;
 }
-
 @media screen and (max-width: 64em) {
   .container {
     padding: 2rem;
@@ -217,36 +210,30 @@ label textarea {
 }
 
 @media screen and (max-width: 42.5em) {
-
   *::-webkit-scrollbar,
   *::-webkit-scrollbar-track,
   *::-webkit-scrollbar-thumb {
     width: 0 !important;
     color: transparent;
   }
-
   .App {
     display: block;
     overflow-x: hidden;
     height: fit-content;
   }
-
   #main {
     margin-left: 0;
     display: block;
     margin-bottom: 6rem;
   }
-
   .container {
     padding: 2rem 1.4rem;
   }
-
   .container--loader:not(:empty) {
     height: 100vw;
     width: 100vw;
   }
 }
-
 .heading-1 {
   font-size: 3.2rem;
   margin-bottom: 0.8em;
@@ -287,41 +274,53 @@ label textarea {
 }
 
 :root {
-  --clr-primary-800: #387589;
-  --clr-primary-600: #4794ae;
-  --clr-primary-400: #92c3d3;
-  --clr-text-200: #b7b8b8;
-  --clr-text-400: #d5d6d7;
-  --clr-text-600: #f1f1f1;
-  --clr-warning: rgb(193, 70, 70);
-  --clr-darkgrey: #aaa;
-  --clr-grey-400: #f0f0f0;
-  --clr-grey-300: #f3f3f3;
-  --clr-grey-200: #f8f9fa;
-  --clr-white: #ffffff;
-  --clr-bg-600: #2f343a;
-  --clr-bg-500: #343a40;
-  --clr-bg-400: #484e53;
-  --toastify-color-dark: var(--clr-bg-50) !important;
-  --toastify-text-color-dark: var(--clr-text) !important;
-  --toastify-color-progress-dark: var(--clr-primary-600) !important;
-  --box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
-  --box-shadow-cards: 0 1px 5px rgba(0, 0, 0, 0.08),
-    0 2px 2px rgba(0, 0, 0, 0.14);
+  --clr-bg-50: hsl(207, 7%, 30%);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --clr-primary-800: #387589;
-    --clr-primary-600: #4794ae;
-    --clr-primary-400: hsl(195, 42%, 70%);
-    --clr-bg-400: #faf9f9;
-    --clr-bg-500: #eeeeee;
-    --clr-bg-600: #e7e7e7;
-    --clr-text-200: #6f6f6f;
-    --clr-text-400: #454545;
-    --clr-text-600: #202020;
+    --clr-bg-50: hsl(0, 0%, 98%);
   }
+}
+:root.light-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: hsl(195, 42%, 70%);
+  --clr-lines: hsl(240, 6%, 90%);
+  --clr-bg-50: #fafafa;
+  --clr-bg-100: #f4f4f5;
+  --clr-bg-200: #e4e4e7;
+  --clr-text: #3f3f46;
+  --border-notes-red: hsl(0, 100%, 75%);
+  --border-notes-blue: hsl(203, 100%, 60%);
+  --border-notes-yellow: hsl(47, 95%, 76%);
+  --border-notes-green: hsla(118, 50%, 50%, 0.552);
+}
+
+html.dark-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: #92c3d3;
+  --clr-lines: hsl(207, 7%, 30%);
+  --clr-bg-200: #2f343a;
+  --clr-bg-100: #343a40;
+  --clr-bg-50: #484e53;
+  --clr-text: #e4e4e7;
+  --border-notes-red: hsl(0, 20%, 50%);
+  --border-notes-blue: hsl(203, 25%, 50%);
+  --border-notes-yellow: hsl(49, 36%, 50%);
+  --border-notes-green: hsla(118, 25%, 50%, 0.552);
+}
+
+html.light-mode {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: hsl(195, 42%, 70%);
+  --clr-lines: #fff;
+  --clr-bg-50: #fafafa;
+  --clr-bg-100: #f4f4f5;
+  --clr-bg-200: #e4e4e7;
+  --clr-text: #3f3f46;
 }
 
 p {
@@ -353,7 +352,6 @@ body {
 .header {
   padding: 2rem;
 }
-
 .header .logo img {
   height: 4.8rem;
   width: 4.8rem;
@@ -370,24 +368,20 @@ body {
   align-self: center;
   transform: translateY(-5vh);
 }
-
 .section .homework {
   padding: 2.4rem;
   border: 1px solid var(--clr-bg-200);
   margin-top: 0.8rem;
   margin-bottom: 2.4rem;
 }
-
 .section.error {
   text-align: center;
 }
-
 @media screen and (max-width: 42.5em) {
   .section.error {
     text-align: left;
   }
 }
-
 .section.error p {
   line-height: 1.6;
   margin-bottom: 1.6rem;

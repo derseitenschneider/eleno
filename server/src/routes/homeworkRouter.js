@@ -1,8 +1,8 @@
-const express = require('express');
-const { getHomework } = require('../controllers/homeworkController');
+import { Router } from "express"
+import getHomework from "../controllers/homeworkController.js"
 
-const router = express.Router();
+const router = Router()
 
-router.route('/:studentId/:homeworkKey').get(getHomework);
+router.route("/:studentId/:homeworkKey").get(getHomework)
 
-module.exports = router;
+export default router
