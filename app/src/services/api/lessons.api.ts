@@ -35,12 +35,29 @@ export const fetchAllLessonsCSVApi = async (
   return lessons
 }
 
-export const fetchAllLessonsApi = async (studentId: number) => {
-  const { data: lessons, error } = await supabase
+export type FetchAllLessonProps = {
+  studentId: number
+  startDate?: Date
+  endDate?: Date
+}
+export const fetchAllLessonsApi = async ({
+  studentId,
+  startDate,
+  endDate,
+}: FetchAllLessonProps) => {
+  const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
+  const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
+  let query = supabase
     .from("lessons")
     .select("date, lessonContent, homework, id")
     .eq("studentId", studentId)
-    .order("date", { ascending: false })
+
+  query = startDate
+    ? query
+      .gte("date", uctStartDate.toISOString())
+      .lte("date", uctEndDate?.toISOString())
+    : query
+  const { data: lessons, error } = await query
 
   if (error) throw new Error(error.message)
   return lessons.map((lesson) => ({ ...lesson, date: new Date(lesson.date) }))

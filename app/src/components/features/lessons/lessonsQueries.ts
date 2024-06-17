@@ -43,10 +43,14 @@ export function useAllLessonsPerYear(year: number, studentId: number) {
   return result
 }
 
-export function useAllLessons(studentId: number) {
+export function useAllLessons(
+  studentId: number,
+  startDate?: Date,
+  endDate?: Date,
+) {
   const result = useQuery({
     queryKey: ["all-lessons", { studentId }],
-    queryFn: () => fetchAllLessonsApi(studentId),
+    queryFn: () => fetchAllLessonsApi({ studentId, startDate, endDate }),
     staleTime: 0,
     enabled: false,
     placeholderData: keepPreviousData,

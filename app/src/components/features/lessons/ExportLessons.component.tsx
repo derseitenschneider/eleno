@@ -39,7 +39,13 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
-  const { refetch: fetchAllLessons } = useAllLessons(studentId)
+  const { refetch: fetchAllLessons } = useAllLessons(
+    studentId,
+    startDate,
+    endDate,
+  )
+
+  const canDownload = (startDate && endDate) || selectAll
 
   const currentStudent = students?.find(
     (student) => student.id === Number(studentId),
@@ -63,7 +69,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     }
   })
 
-  async function handleFetchAll() {
+  async function handleFetchLessons() {
     try {
       setIsLoading(true)
 
@@ -100,9 +106,19 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       setIsLoading(false)
     }
   }
+  function handleSelectAll() {
+    setSelectAll((prev) => {
+      if (!prev) {
+        setStartDate(undefined)
+        setEndDate(undefined)
+      }
+
+      return !prev
+    })
+  }
 
   return (
-    <div className=''>
+    <div className='w-[500px]'>
       <p>
         Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
         entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
@@ -140,7 +156,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         <Checkbox
           name='select-all'
           id='select-all'
-          onCheckedChange={() => setSelectAll((prev) => !prev)}
+          onCheckedChange={handleSelectAll}
           checked={selectAll}
         />
 
@@ -168,39 +184,22 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       </div>
 
       <div className='flex gap-5'>
-        {isLoading && (
-          <div className='text-primary '>
-            <MiniLoader />
-          </div>
-        )}
-        <Button onClick={handleFetchAll}>Download test</Button>
-        {/* <PDFDownloadLink */}
-        {/*   ref={ref} */}
-        {/*   className={cn( */}
-        {/*     isLoading || ((!startDate || !endDate) && !selectAll) */}
-        {/*       ? "opacity-0" */}
-        {/*       : "opacity-100", */}
-        {/*   )} */}
-        {/*   document={ */}
-        {/*     <LessonPDF */}
-        {/*       studentFullName={studentFullName} */}
-        {/*       lessons={allLessons} */}
-        {/*       title={title} */}
-        {/*     /> */}
-        {/*   } */}
-        {/*   fileName={ */}
-        {/*     title */}
-        {/*       ? title.split(" ").join("-").toLowerCase() */}
-        {/*       : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}` */}
-        {/*   } */}
-        {/* /> */}
+        <div className='flex items-center gap-2'>
+          <Button
+            size='sm'
+            disabled={!canDownload}
+            onClick={handleFetchLessons}
+          >
+            PDF herunterladen
+          </Button>
+          {isLoading && (
+            <div className='text-primary '>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
 
         <CSVLink
-          className={cn(
-            isLoading || ((!startDate || !endDate) && !selectAll)
-              ? "opacity-0"
-              : "opacity-100",
-          )}
           data={lessonsCSV}
           headers={[
             {
@@ -222,7 +221,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
               : `lektionsliste-${studentFullNameDashes.toLowerCase()}.csv`
           }
         >
-          <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}>
+          <Button size='sm' disabled={!canDownload}>
             CSV herunterladen
           </Button>
         </CSVLink>
