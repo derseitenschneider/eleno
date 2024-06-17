@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { pdf } from "@react-pdf/renderer"
 import { useActiveStudents } from "../../students/activeStudents/ActiveStudents.component"
 import "./bulkExportLessons.style.scss"
-import LessonPDF from "../LessonsPDF.component"
+import { LessonsPDF } from "../LessonsPDF"
 import {
   fetchAllLessonsCSVApi,
   fetchLessonsByYearApi,

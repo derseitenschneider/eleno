@@ -31,15 +31,7 @@ export default function SearchStudentCombobox() {
     ascending: true,
   })
 
-  function handleSelect(e: string) {
-    const firstName = e.split(" ")[0]
-    const lastName = e.split(" ")[1]
-
-    const newStudentId = activeStudents?.find(
-      (student) =>
-        student.firstName === firstName && student.lastName === lastName,
-    )?.id
-
+  function handleSelect(newStudentId: number) {
     const newStudentIndex = activeSortedStudentIds.indexOf(newStudentId || 0)
     setCurrentStudentIndex(newStudentIndex)
     const url = window.location.pathname
@@ -69,7 +61,7 @@ export default function SearchStudentCombobox() {
                 <CommandItem
                   key={student.id}
                   value={`${student.firstName} ${student.lastName}`}
-                  onSelect={handleSelect}
+                  onSelect={() => handleSelect(student.id)}
                 >
                   <span>{`${student.firstName} ${student.lastName}`}</span>
                 </CommandItem>

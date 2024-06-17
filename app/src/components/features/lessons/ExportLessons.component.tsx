@@ -22,7 +22,7 @@ import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { useQueryClient } from "@tanstack/react-query"
 import fetchErrorToast from "@/hooks/fetchErrorToast"
 import { useAllLessons } from "./lessonsQueries"
-import { PDFProps } from "./TestPDF"
+import { PDFProps } from "./LessonsPDF"
 
 type ExportLessonsProps = {
   studentId: number
@@ -45,10 +45,10 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     (student) => student.id === Number(studentId),
   )
   const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
-  const studentFullNameDashes = `${currentStudent?.firstName
-    ?.split(" ")
-    .join("-")}-${currentStudent?.lastName}`
-
+  const studentFullNameDashes = studentFullName
+    .split(" ")
+    .map((part) => part.toLowerCase())
+    .join("-")
   const lessonsCSV = lessons.map((lesson) => {
     const { date, lessonContent, homework } = lesson
 
@@ -64,29 +64,41 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   })
 
   async function handleFetchAll() {
-    const { pdf } = await import("@react-pdf/renderer")
-    const { PDF } = await import("./TestPDF")
+    try {
+      setIsLoading(true)
 
-    const { data: allLessons } = await fetchAllLessons()
+      const { pdf } = await import("@react-pdf/renderer")
+      const { LessonsPDF } = await import("./LessonsPDF")
 
-    if (!allLessons) return
-    const props: PDFProps = {
-      title: "gehts jetzt",
-      lessons: allLessons,
+      const { data: allLessons } = await fetchAllLessons()
+
+      if (!allLessons) return
+      const props: PDFProps = {
+        title,
+        lessons: allLessons,
+        studentFullName,
+      }
+      const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute(
+        "download",
+        title ? `${title}.pdf` : `lektionsliste-${studentFullNameDashes}.pdf`,
+      )
+      link.style.display = "none"
+
+      document.body.appendChild(link)
+      link.click()
+
+      URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (e) {
+      fetchErrorToast()
+    } finally {
+      setIsLoading(false)
     }
-    const blob = await pdf(createElement(PDF, props)).toBlob()
-
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.href = url
-    link.setAttribute("download", "my-pdf.pdf")
-    link.style.display = "none"
-
-    document.body.appendChild(link)
-    link.click()
-
-    URL.revokeObjectURL(url)
-    document.body.removeChild(link)
   }
 
   return (

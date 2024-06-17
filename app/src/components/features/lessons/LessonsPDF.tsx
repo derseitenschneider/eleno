@@ -1,12 +1,12 @@
 import { useUserLocale } from "@/services/context/UserLocaleContext"
-import type { Lesson } from "@/types/types"
-import { Page, Document, Text, StyleSheet, View } from "@react-pdf/renderer"
+import { Text, StyleSheet, View } from "@react-pdf/renderer"
 import Html from "react-pdf-html"
 import BaseLayoutPDF from "../pdf/BaseLayoutPDF.component"
 import TablePDF from "../pdf/TablePDF.component"
 
 export type PDFProps = {
   title: string
+  studentFullName: string
   lessons: Array<{
     lessonContent: string | null
     homework: string | null
@@ -30,7 +30,7 @@ const contentStyles = {
   },
 }
 
-export const PDF = ({ title, lessons }: PDFProps) => {
+export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
   const { userLocale } = useUserLocale()
   const sanitizedLessons = lessons?.map((lesson) => {
     const sanitizedContent = lesson?.lessonContent
@@ -52,7 +52,10 @@ export const PDF = ({ title, lessons }: PDFProps) => {
     return newLesson
   })
   return (
-    <BaseLayoutPDF title={title} orientation={"portrait"}>
+    <BaseLayoutPDF
+      title={title || `Lektionsliste ${studentFullName}`}
+      orientation={"portrait"}
+    >
       <TablePDF.Head>
         <Text style={styles.col1}>Datum</Text>
         <Text style={styles.col2}>Lektionsinhalt</Text>
