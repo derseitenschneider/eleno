@@ -18,7 +18,7 @@ import { useStudents } from "../../../../services/context/StudentContext"
 
 import DeleteStudents from "../deleteStudents/DeleteStudents.component"
 import { useInactiveStudents } from "./InactiveStudents.component"
-import ExportLessons from "../../lessons/exportLessons/ExportLessons.component"
+import ExportLessons from "../../lessons/ExportLessons.component"
 
 interface InactiveStudentRowProps {
   student: Student
@@ -64,10 +64,10 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
       styles={
         openId === student.id
           ? {
-              color: "var(--clr-primary-600)",
-              boxShadow:
-                "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
-            }
+            color: "var(--clr-primary-600)",
+            boxShadow:
+              "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
+          }
           : null
       }
     >

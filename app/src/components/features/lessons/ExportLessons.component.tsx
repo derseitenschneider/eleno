@@ -1,17 +1,17 @@
 import { CSVLink } from "react-csv"
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
-import { useEffect, useState } from "react"
-import type { Lesson, Student } from "../../../../types/types"
-import LessonPDF from "../../pdf/LessonsPDF.component"
+import { createElement, useEffect, useRef, useState } from "react"
+import type { Lesson, Student } from "../../../types/types"
+import LessonPDF from "./LessonsPDF.component"
 
 import { Button } from "@/components/ui/button"
 import { DayPicker } from "@/components/ui/daypicker.component"
 import {
   fetchLessonsByYearApi,
   fetchLessonsByRangeApi,
-} from "../../../../services/api/lessons.api"
-import stripHtmlTags from "../../../../utils/stripHtmlTags"
+} from "../../../services/api/lessons.api"
+import stripHtmlTags from "../../../utils/stripHtmlTags"
 import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -21,26 +21,25 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { useQueryClient } from "@tanstack/react-query"
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { useAllLessons } from "../lessonsQueries"
+import { useAllLessons } from "./lessonsQueries"
+import { PDFProps } from "./TestPDF"
 
 type ExportLessonsProps = {
   studentId: number
 }
 function ExportLessons({ studentId }: ExportLessonsProps) {
   const queryClient = useQueryClient()
+
   const { userLocale } = useUserLocale()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
+  const [isLoading, setIsLoading] = useState(false)
   // const [isPending, setIsPending] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
-  const { data: allLessons, isLoading } = useAllLessons(studentId, selectAll)
-
-  useEffect(() => {
-    if (allLessons) setLessons(allLessons)
-  }, [allLessons])
+  const { refetch: fetchAllLessons } = useAllLessons(studentId)
 
   const currentStudent = students?.find(
     (student) => student.id === Number(studentId),
@@ -63,6 +62,33 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       homework: stripHtmlTags(homework || ""),
     }
   })
+
+  async function handleFetchAll() {
+    const { pdf } = await import("@react-pdf/renderer")
+    const { PDF } = await import("./TestPDF")
+
+    const { data: allLessons } = await fetchAllLessons()
+    console.log(allLessons)
+
+    if (!allLessons) return
+    const props: PDFProps = {
+      title: "gehts jetzt",
+      sanitizedLessons: allLessons,
+    }
+    const blob = await pdf(createElement(PDF, props)).toBlob()
+
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.setAttribute("download", "my-pdf.pdf")
+    link.style.display = "none"
+
+    document.body.appendChild(link)
+    link.click()
+
+    URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
 
   return (
     <div className=''>
@@ -136,30 +162,27 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
             <MiniLoader />
           </div>
         )}
-        <PDFDownloadLink
-          className={cn(
-            isLoading || ((!startDate || !endDate) && !selectAll)
-              ? "opacity-0"
-              : "opacity-100",
-          )}
-          document={
-            <LessonPDF
-              studentFullName={studentFullName}
-              lessons={lessons}
-              title={title}
-            />
-          }
-          fileName={
-            title
-              ? title.split(" ").join("-").toLowerCase()
-              : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}`
-          }
-        >
-          {/* <Button size='sm' disabled={(!startDate || !endDate) && !selectAll}> */}
-          {/*   PDF herunterladen */}
-          {/* </Button> */}
-          testing
-        </PDFDownloadLink>
+        <Button onClick={handleFetchAll}>Download test</Button>
+        {/* <PDFDownloadLink */}
+        {/*   ref={ref} */}
+        {/*   className={cn( */}
+        {/*     isLoading || ((!startDate || !endDate) && !selectAll) */}
+        {/*       ? "opacity-0" */}
+        {/*       : "opacity-100", */}
+        {/*   )} */}
+        {/*   document={ */}
+        {/*     <LessonPDF */}
+        {/*       studentFullName={studentFullName} */}
+        {/*       lessons={allLessons} */}
+        {/*       title={title} */}
+        {/*     /> */}
+        {/*   } */}
+        {/*   fileName={ */}
+        {/*     title */}
+        {/*       ? title.split(" ").join("-").toLowerCase() */}
+        {/*       : `lektionsliste-${studentFullNameDashes.toLocaleLowerCase()}` */}
+        {/*   } */}
+        {/* /> */}
 
         <CSVLink
           className={cn(

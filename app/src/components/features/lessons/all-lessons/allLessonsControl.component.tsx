@@ -19,7 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import ExportLessons from "../exportLessons/ExportLessons.component"
+import ExportLessons from "../ExportLessons.component"
 
 type AllLessonsControlPros = {
   table: Table<Lesson>

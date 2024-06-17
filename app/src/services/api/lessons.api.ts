@@ -38,7 +38,7 @@ export const fetchAllLessonsCSVApi = async (
 export const fetchAllLessonsApi = async (studentId: number) => {
   const { data: lessons, error } = await supabase
     .from("lessons")
-    .select("date, lessonContent, homework")
+    .select("date, lessonContent, homework, id")
     .eq("studentId", studentId)
     .order("date", { ascending: false })
 

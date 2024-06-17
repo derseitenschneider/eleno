@@ -19,7 +19,7 @@ import Modal from "../../../ui/modal/Modal.component"
 import AddTodo from "../../todos/AddTodo.component"
 import EditStudent from "../editStudents/EditStudents.component"
 import { useActiveStudents } from "./ActiveStudents.component"
-import ExportLessons from "../../lessons/exportLessons/ExportLessons.component"
+import ExportLessons from "../../lessons/ExportLessons.component"
 
 interface ActiveStudentRowProps {
   student: Student

@@ -24,7 +24,7 @@ import StudentForm from "../students/StudentForm.component"
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
-import ExportLessons from "./exportLessons/ExportLessons.component"
+import ExportLessons from "./ExportLessons.component"
 import { useParams } from "react-router-dom"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null

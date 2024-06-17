@@ -43,12 +43,12 @@ export function useAllLessonsPerYear(year: number, studentId: number) {
   return result
 }
 
-export function useAllLessons(studentId: number, enabled: boolean) {
+export function useAllLessons(studentId: number) {
   const result = useQuery({
     queryKey: ["all-lessons", { studentId }],
     queryFn: () => fetchAllLessonsApi(studentId),
     staleTime: 0,
-    enabled,
+    enabled: false,
     placeholderData: keepPreviousData,
   })
 
