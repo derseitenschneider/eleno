@@ -68,12 +68,11 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     const { PDF } = await import("./TestPDF")
 
     const { data: allLessons } = await fetchAllLessons()
-    console.log(allLessons)
 
     if (!allLessons) return
     const props: PDFProps = {
       title: "gehts jetzt",
-      sanitizedLessons: allLessons,
+      lessons: allLessons,
     }
     const blob = await pdf(createElement(PDF, props)).toBlob()
 
