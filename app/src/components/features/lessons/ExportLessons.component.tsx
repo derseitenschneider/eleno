@@ -1,7 +1,8 @@
 import { CSVDownload, CSVLink } from "react-csv"
+import CsvDownloader from 'react-csv-downloader';
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
-import { createElement, MouseEventHandler, useEffect, useRef, useState } from "react"
+import { createElement, MouseEventHandler, Ref, RefObject, useEffect, useRef, useState } from "react"
 import type { Lesson, Student } from "../../../types/types"
 import LessonPDF from "./LessonsPDF.component"
 
@@ -24,6 +25,7 @@ import fetchErrorToast from "@/hooks/fetchErrorToast"
 import { useAllLessons, useAllLessonsCSV } from "./lessonsQueries"
 import { PDFProps } from "./LessonsPDF"
 import { render } from "react-dom"
+import Link from "react-csv/components/Link"
 
 type ExportLessonsProps = {
   studentId: number
@@ -35,7 +37,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const students = queryClient.getQueryData(["students"]) as Array<Student>
   const [isLoading, setIsLoading] = useState(false)
   const [startDate, setStartDate] = useState<Date>()
-  const [lessons, setLessons] = useState()
+  const [lessonsCSV, setLessonsCSV] = useState([])
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
@@ -44,21 +46,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     startDate,
     endDate,
   )
-  const lessonsCSV = lessons?.map((lesson) => {
-    const { date, lessonContent, homework } = lesson
 
-    return {
-      date: date.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      }),
-      lessonContent: stripHtmlTags(lessonContent || ""),
-      homework: stripHtmlTags(homework || ""),
-    }
-  })
-
-  const csvRef = useRef(null)
 
   const canDownload = (startDate && endDate) || selectAll
 
@@ -93,18 +81,32 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     })
   }
 
-  async function handleDownloadCSV() {
+  async function handleDownloadCSV(event, done) {
     try {
-      setIsLoading(true)
       const { data: allLessons } = await fetchAllLessons()
-      if (!lessons) return
-      setLessons(allLessons)
+
+      console.log('test')
+
+      done()
+      if (!allLessons) return
+      const newLessonCSV = allLessons.map((lesson) => {
+        const { date, lessonContent, homework } = lesson
+        return {
+          date: date.toLocaleDateString(userLocale, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }),
+          lessonContent: stripHtmlTags(lessonContent || ""),
+          homework: stripHtmlTags(homework || ""),
+        }
+      })
+      setLessonsCSV(newLessonCSV)
       if (csvRef.current) {
         window.location.href = csvRef.current.link.href
       }
 
     } catch (e) {
-      console.log(e)
       fetchErrorToast()
     } finally {
 
@@ -228,21 +230,25 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
           )}
         </div>
 
-        <Button onClick={handleDownloadCSV} size='sm' disabled={!canDownload}>
-          CSV herunterladen
-        </Button>
-        <CSVLink data={lessonsCSV || ''}
-          headers={
-            [{
-              label: 'Datum', key: 'date'
-            },
-            {
-              label: 'Lektionsinhalt', key: 'lessonContent'
-            },
-            { label: 'Hausaufgaben', key: 'homework' }]}
-          ref={csvRef}
-          className='hidden'
-          filename={'test.csv'} />
+        {/* <Button onClick={handleDownloadCSV} size='sm' disabled={!canDownload}> */}
+        {/*   CSV herunterladen */}
+        {/* </Button> */}
+        <CsvDownloader datas={async () => {
+          return fetchAllLessons
+        }}>test</CsvDownloader>
+        {/* <CSVLink data={lessonsCSV} */}
+        {/*   headers={ */}
+        {/*     [{ */}
+        {/*       label: 'Datum', key: 'date' */}
+        {/*     }, */}
+        {/*     { */}
+        {/*       label: 'Lektionsinhalt', key: 'lessonContent' */}
+        {/*     }, */}
+        {/*     { label: 'Hausaufgaben', key: 'homework' }]} */}
+        {/*   filename={"my-file.csv"} */}
+        {/*   asyncOnClick={true} */}
+        {/*   onClick={handleDownloadCSV} */}
+        {/* >click</CSVLink> */}
       </div>
     </div>
   )

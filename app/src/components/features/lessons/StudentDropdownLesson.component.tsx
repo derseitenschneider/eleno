@@ -25,15 +25,16 @@ import StudentForm from "../students/StudentForm.component"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
 import ExportLessons from "./ExportLessons.component"
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
 export default function StudentDropdownLesson() {
   const { studentId } = useParams()
   const [openModal, setOpenModal] = useState<Modals>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const closeModal = () => setOpenModal(null)
+  const closeModal = () => {}
 
   return (
     <>
@@ -44,7 +45,10 @@ export default function StudentDropdownLesson() {
         <DropdownMenuContent>
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => setOpenModal("EDIT")}
+            onClick={() => {
+              searchParams.set("action", "edit")
+              setSearchParams(searchParams)
+            }}
           >
             <Pencil className='text-primary h-4 w-4' />
             <span>Schüler:in bearbeiten</span>
@@ -52,7 +56,10 @@ export default function StudentDropdownLesson() {
 
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => setOpenModal("TODO")}
+            onClick={() => {
+              searchParams.set("action", "todo")
+              setSearchParams(searchParams)
+            }}
           >
             <CheckSquare2 className='text-primary h-4 w-4' />
             <span>Todo erfassen</span>
@@ -68,7 +75,13 @@ export default function StudentDropdownLesson() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
+      <Sheet
+        open={searchParams.get("action") === "edit"}
+        // onOpenChange={() => {
+        //   searchParams.delete("action")
+        //   setSearchParams(searchParams)
+        // }}
+      >
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
@@ -82,7 +95,10 @@ export default function StudentDropdownLesson() {
         </SheetContent>
       </Sheet>
 
-      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
+      <Dialog
+        open={searchParams.get("action") === "todo"}
+        onOpenChange={closeModal}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
