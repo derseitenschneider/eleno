@@ -69,7 +69,28 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     }
   })
 
-  async function handleFetchLessons() {
+  function handleStartDate(date: Date | undefined) {
+    setStartDate(date)
+    setSelectAll(false)
+  }
+
+  function handleEndDate(date: Date | undefined) {
+    setEndDate(date)
+    setSelectAll(false)
+  }
+
+  function handleSelectAll() {
+    setSelectAll((prev) => {
+      if (!prev) {
+        setStartDate(undefined)
+        setEndDate(undefined)
+      }
+
+      return !prev
+    })
+  }
+
+  async function handleDownloadPDF() {
     try {
       setIsLoading(true)
 
@@ -106,16 +127,6 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       setIsLoading(false)
     }
   }
-  function handleSelectAll() {
-    setSelectAll((prev) => {
-      if (!prev) {
-        setStartDate(undefined)
-        setEndDate(undefined)
-      }
-
-      return !prev
-    })
-  }
 
   return (
     <div className='w-[500px]'>
@@ -129,7 +140,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         <div className='flex flex-col gap-2 items-start grow-0'>
           <span>Von</span>
           <div className='flex items-center'>
-            <DayPicker setDate={setStartDate} date={startDate} />
+            <DayPicker setDate={handleStartDate} date={startDate} />
             {startDate && (
               <ButtonRemove
                 className='translate-x-[-50%]'
@@ -141,7 +152,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
         <div className='flex flex-col gap-2 items-start grow-0'>
           <span>Bis</span>
           <div className='flex items-center'>
-            <DayPicker setDate={setEndDate} date={endDate} />
+            <DayPicker setDate={handleEndDate} date={endDate} />
             {endDate && (
               <ButtonRemove
                 className='translate-x-[-50%]'
@@ -185,11 +196,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
       <div className='flex gap-5'>
         <div className='flex items-center gap-2'>
-          <Button
-            size='sm'
-            disabled={!canDownload}
-            onClick={handleFetchLessons}
-          >
+          <Button size='sm' disabled={!canDownload} onClick={handleDownloadPDF}>
             PDF herunterladen
           </Button>
           {isLoading && (
