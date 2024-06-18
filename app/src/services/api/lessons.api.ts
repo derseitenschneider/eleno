@@ -21,20 +21,6 @@ export const fetchLessonsByYearApi = async (
   return lessons
 }
 
-export const fetchAllLessonsCSVApi = async (
-  studentId: number,
-): Promise<string> => {
-  const { data: lessons, error } = await supabase
-    .from("lessons")
-    .select("date, lessonContent, homework")
-    .eq("studentId", studentId)
-    .order("date", { ascending: false })
-    .csv()
-
-  if (error) throw new Error(error.message)
-  return lessons
-}
-
 export type FetchAllLessonProps = {
   studentId: number
   startDate?: Date
@@ -54,30 +40,47 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-      .gte("date", uctStartDate.toISOString())
-      .lte("date", uctEndDate?.toISOString())
-    : query
+        .gte("date", uctStartDate.toISOString())
+        .lte("date", uctEndDate?.toISOString())
+        .order("date", { ascending: false })
+    : query.order("date", { ascending: false })
+
   const { data: lessons, error } = await query
 
   if (error) throw new Error(error.message)
   return lessons.map((lesson) => ({ ...lesson, date: new Date(lesson.date) }))
 }
 
-export const fetchLessonsByRangeApi = async (
-  startDate: Date,
-  endDate: Date,
-  studentId: number,
-) => {
-  const { data: lessons, error } = await supabase
-    .from("lessons")
-    .select("*")
-    .eq("studentId", studentId)
-    .gte("date", startDate)
-    .lte("date", endDate)
-    .order("date", { ascending: false })
+export type FetchAllLessonsCSVProps = {
+  studentId: number
+  startDate?: Date
+  endDate?: Date
+}
 
+export const fetchAllLessonsCSVApi = async ({
+  studentId,
+  startDate,
+  endDate,
+}: FetchAllLessonsCSVProps) => {
+  const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
+  const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
+
+  let query = supabase
+    .from("lessons")
+    .select("date, lessonContent, homework, id")
+    .eq("studentId", studentId)
+
+  query = startDate
+    ? query
+        .gte("date", uctStartDate?.toISOString())
+        .lte("date", uctEndDate?.toISOString())
+        .order("date", { ascending: false })
+        .csv()
+    : query.order("date", { ascending: false }).csv()
+
+  const { data: lessonsCSV, error } = await query
   if (error) throw new Error(error.message)
-  return lessons
+  return lessonsCSV
 }
 
 export const fetchLessonsCSVByRangeApi = async (

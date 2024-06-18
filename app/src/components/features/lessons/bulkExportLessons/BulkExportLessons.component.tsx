@@ -9,7 +9,6 @@ import { LessonsPDF } from "../LessonsPDF"
 import {
   fetchAllLessonsCSVApi,
   fetchLessonsByYearApi,
-  fetchLessonsByRangeApi,
   fetchLessonsCSVByRangeApi,
 } from "../../../../services/api/lessons.api"
 import { useStudents } from "../../../../services/context/StudentContext"

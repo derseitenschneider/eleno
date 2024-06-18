@@ -3,6 +3,7 @@ import {
   fetchLatestLessons,
   fetchLessonYears,
   fetchAllLessonsApi,
+  fetchAllLessonsCSVApi,
 } from "@/services/api/lessons.api"
 import { useUser } from "@/services/context/UserContext"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
@@ -53,7 +54,21 @@ export function useAllLessons(
     queryFn: () => fetchAllLessonsApi({ studentId, startDate, endDate }),
     staleTime: 0,
     enabled: false,
-    placeholderData: keepPreviousData,
+  })
+
+  return result
+}
+
+export function useAllLessonsCSV(
+  studentId: number,
+  startDate?: Date,
+  endDate?: Date,
+) {
+  const result = useQuery({
+    queryKey: ["all-lessons-csv", { studentId }],
+    queryFn: () => fetchAllLessonsCSVApi({ studentId, startDate, endDate }),
+    staleTime: 0,
+    // enabled: false,
   })
 
   return result

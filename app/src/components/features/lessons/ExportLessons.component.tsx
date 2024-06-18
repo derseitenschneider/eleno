@@ -1,4 +1,4 @@
-import { CSVLink } from "react-csv"
+import { CSVDownload, CSVLink } from "react-csv"
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import { createElement, MouseEventHandler, useEffect, useRef, useState } from "react"
@@ -21,8 +21,9 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import { useQueryClient } from "@tanstack/react-query"
 import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { useAllLessons } from "./lessonsQueries"
+import { useAllLessons, useAllLessonsCSV } from "./lessonsQueries"
 import { PDFProps } from "./LessonsPDF"
+import { render } from "react-dom"
 
 type ExportLessonsProps = {
   studentId: number
@@ -33,29 +34,16 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const { userLocale } = useUserLocale()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
   const [isLoading, setIsLoading] = useState(false)
-  // const [isPending, setIsPending] = useState(false)
-  const [lessons, setLessons] = useState<Lesson[]>([])
   const [startDate, setStartDate] = useState<Date>()
+  const [lessons, setLessons] = useState()
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
-  const { data: allLessons, refetch: fetchAllLessons } = useAllLessons(
+  const { data, refetch: fetchAllLessons } = useAllLessons(
     studentId,
     startDate,
     endDate,
   )
-
-  const canDownload = (startDate && endDate) || selectAll
-
-  const currentStudent = students?.find(
-    (student) => student.id === Number(studentId),
-  )
-  const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
-  const studentFullNameDashes = studentFullName
-    .split(" ")
-    .map((part) => part.toLowerCase())
-    .join("-")
-
   const lessonsCSV = lessons?.map((lesson) => {
     const { date, lessonContent, homework } = lesson
 
@@ -68,7 +56,21 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       lessonContent: stripHtmlTags(lessonContent || ""),
       homework: stripHtmlTags(homework || ""),
     }
-  }) || ''
+  })
+
+  const csvRef = useRef(null)
+
+  const canDownload = (startDate && endDate) || selectAll
+
+  const currentStudent = students?.find(
+    (student) => student.id === Number(studentId),
+  )
+  const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
+  const studentFullNameDashes = studentFullName
+    .split(" ")
+    .map((part) => part.toLowerCase())
+    .join("-")
+
 
   function handleStartDate(date: Date | undefined) {
     setStartDate(date)
@@ -91,15 +93,18 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     })
   }
 
-  async function handleDownloadCSV(event: MouseEventHandler<HTMLAnchorElement>, done: (s: boolean) => void) {
+  async function handleDownloadCSV() {
     try {
       setIsLoading(true)
-      const { data } = await fetchAllLessons()
-      setLessons(data)
-      // if (!data) return done(false)
-      console.log(done)
-      done(true)
-    } catch {
+      const { data: allLessons } = await fetchAllLessons()
+      if (!lessons) return
+      setLessons(allLessons)
+      if (csvRef.current) {
+        window.location.href = csvRef.current.link.href
+      }
+
+    } catch (e) {
+      console.log(e)
       fetchErrorToast()
     } finally {
 
@@ -223,34 +228,21 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
           )}
         </div>
 
-        <CSVLink
-          data={lessonsCSV}
-          asyncOnClick={true}
-          onClick={(e, d) => handleDownloadCSV(e, d)}
-          headers={[
-            {
-              label: "Datum",
-              key: "date",
+        <Button onClick={handleDownloadCSV} size='sm' disabled={!canDownload}>
+          CSV herunterladen
+        </Button>
+        <CSVLink data={lessonsCSV || ''}
+          headers={
+            [{
+              label: 'Datum', key: 'date'
             },
             {
-              label: "Lektionsinhalt",
-              key: "lessonContent",
+              label: 'Lektionsinhalt', key: 'lessonContent'
             },
-            {
-              label: "Hausaufgaben",
-              key: "homework",
-            },
-          ]}
-          filename={
-            title
-              ? title.split(" ").join("-").toLowerCase()
-              : `lektionsliste-${studentFullNameDashes.toLowerCase()}.csv`
-          }
-        >
-          <Button size='sm' disabled={!canDownload}>
-            CSV herunterladen
-          </Button>
-        </CSVLink>
+            { label: 'Hausaufgaben', key: 'homework' }]}
+          ref={csvRef}
+          className='hidden'
+          filename={'test.csv'} />
       </div>
     </div>
   )
