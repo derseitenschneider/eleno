@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
+import { useState } from "react"
 
 type DayPickerProps = {
   className?: string
@@ -24,14 +25,16 @@ export function DayPicker({
   disabled,
 }: DayPickerProps) {
   const { userLocale } = useUserLocale()
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   return (
-    <Popover>
+    <Popover open={isCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
           disabled={disabled}
           size='sm'
           variant={"outline"}
+          onClick={() => setIsCalendarOpen((prev) => !prev)}
           className={cn(
             "w-auto gap-2 justify-start text-left text-foreground font-normal border-hairline",
             !date && "text-muted-foreground",
@@ -50,6 +53,7 @@ export function DayPicker({
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0 border-hairline'>
         <Calendar
+          onDayClick={() => setIsCalendarOpen(false)}
           mode='single'
           selected={date}
           onSelect={setDate}
