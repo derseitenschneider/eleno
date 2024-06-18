@@ -1,7 +1,7 @@
 import { CSVLink } from "react-csv"
 
 import { PDFDownloadLink } from "@react-pdf/renderer"
-import { createElement, useEffect, useRef, useState } from "react"
+import { createElement, MouseEventHandler, useEffect, useRef, useState } from "react"
 import type { Lesson, Student } from "../../../types/types"
 import LessonPDF from "./LessonsPDF.component"
 
@@ -39,7 +39,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
   const [title, setTitle] = useState("")
-  const { refetch: fetchAllLessons } = useAllLessons(
+  const { data: allLessons, refetch: fetchAllLessons } = useAllLessons(
     studentId,
     startDate,
     endDate,
@@ -55,7 +55,8 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     .split(" ")
     .map((part) => part.toLowerCase())
     .join("-")
-  const lessonsCSV = lessons.map((lesson) => {
+
+  const lessonsCSV = lessons?.map((lesson) => {
     const { date, lessonContent, homework } = lesson
 
     return {
@@ -67,7 +68,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       lessonContent: stripHtmlTags(lessonContent || ""),
       homework: stripHtmlTags(homework || ""),
     }
-  })
+  }) || ''
 
   function handleStartDate(date: Date | undefined) {
     setStartDate(date)
@@ -88,6 +89,22 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
       return !prev
     })
+  }
+
+  async function handleDownloadCSV(event: MouseEventHandler<HTMLAnchorElement>, done: (s: boolean) => void) {
+    try {
+      setIsLoading(true)
+      const { data } = await fetchAllLessons()
+      setLessons(data)
+      // if (!data) return done(false)
+      console.log(done)
+      done(true)
+    } catch {
+      fetchErrorToast()
+    } finally {
+
+      setIsLoading(false)
+    }
   }
 
   async function handleDownloadPDF() {
@@ -208,6 +225,8 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
         <CSVLink
           data={lessonsCSV}
+          asyncOnClick={true}
+          onClick={(e, d) => handleDownloadCSV(e, d)}
           headers={[
             {
               label: "Datum",
