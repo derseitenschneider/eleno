@@ -24,6 +24,9 @@ import { useEffect } from "react"
 import calcTimeDifference from "@/utils/calcTimeDifference"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
+import { useQueryClient } from "@tanstack/react-query"
+import type { Student } from "@/types/types"
+import { useUpdateStudents } from "./useUpdateStudents"
 
 const studentSchema = z.object({
   firstName: z.string().min(1, {
@@ -44,13 +47,21 @@ const studentSchema = z.object({
         z.literal("none"),
       ]),
     )
-    .transform((val) => (val === "none" ? null : val)),
-  startOfLesson: z.optional(z.string()),
-  endOfLesson: z.optional(z.string()),
+    .transform((val) => (val === "none" ? null : val))
+    .nullable(),
+  startOfLesson: z
+    .optional(z.string())
+    .transform((val) => (val === "" ? null : val))
+    .nullable(),
+  endOfLesson: z
+    .optional(z.string())
+    .transform((val) => (val === "" ? null : val))
+    .nullable(),
   durationMinutes: z
     .optional(z.coerce.number().min(0, { message: "Ungültiger Wert." }))
-    .transform((val) => (val === 0 ? null : val)),
-  location: z.optional(z.string()),
+    .transform((val) => (val === 0 ? null : val))
+    .nullable(),
+  location: z.optional(z.string()).nullable(),
 })
 
 type StudentInput = z.infer<typeof studentSchema>
@@ -64,8 +75,12 @@ export default function StudentForm({
   studentId,
   onSuccess,
 }: EditStudentProps) {
-  const { students, updateStudents } = useStudents()
+  const queryClient = useQueryClient()
+  const students = queryClient.getQueryData(["students"]) as
+    | Array<Student>
+    | undefined
   const currentStudent = students?.find((student) => student.id === studentId)
+  const { updateStudents, isUpdating } = useUpdateStudents()
 
   const form = useForm<StudentInput>({
     resolver: zodResolver(studentSchema),
@@ -104,21 +119,15 @@ export default function StudentForm({
 
   async function onSubmit(values: StudentInput) {
     if (!currentStudent) return
-    try {
-      await updateStudents([
-        {
-          ...values,
-          id: currentStudent.id,
-          archive: currentStudent.archive,
-          user_id: currentStudent.user_id,
-        },
-      ])
-      toast.success("Änderungen gespeichert.")
-    } catch (err) {
-      form.setError("root", {
-        message: "Es ist etwas schiefgelaufen. Bitte versuch's nochmal.",
-      })
-    }
+    updateStudents([
+      {
+        ...values,
+        created_at: currentStudent.created_at,
+        id: currentStudent.id,
+        archive: currentStudent.archive,
+        user_id: currentStudent.user_id,
+      },
+    ])
   }
   return (
     <Form {...form}>

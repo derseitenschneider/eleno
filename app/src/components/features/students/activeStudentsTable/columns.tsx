@@ -84,6 +84,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => <div>{row.getValue("dayOfLesson") || "–"}</div>,
   },
   {
     accessorKey: "startOfLesson",
@@ -102,7 +103,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("startOfLesson") as string
-      return <div className='text-right'>{time.slice(0, 5)}</div>
+      return <div className='text-right'>{time?.slice(0, 5) || "—"}</div>
     },
   },
   {
@@ -122,7 +123,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("endOfLesson") as string
-      return <div className='text-right'>{time.slice(0, 5)}</div>
+      return <div className='text-right'>{time?.slice(0, 5) || "–"}</div>
     },
   },
   {
@@ -162,6 +163,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => <div>{row.getValue("location") || "–"}</div>,
   },
   {
     id: "actions",

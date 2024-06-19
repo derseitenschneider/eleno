@@ -53,10 +53,16 @@ export const deleteStudentSupabase = async (studentIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateStudentsSupabase = async (students: Student[]) => {
-  const { error } = await supabase.from("students").upsert(students)
+export const updateStudentsApi = async (students: Array<Student>) => {
+  const { data: updatedStudents, error } = await supabase
+    .from("students")
+    .upsert(students)
+    .select()
 
+  console.log(error)
   if (error) throw new Error(error.message)
+
+  return updatedStudents
 }
 
 export const resetStudentSupabase = async (studentIds: number[]) => {

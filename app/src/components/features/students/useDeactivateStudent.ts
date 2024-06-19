@@ -30,12 +30,9 @@ export function useDeactivateStudent(studentIds: Array<number>) {
     },
 
     onSuccess: () => {
-      toast.success("Lektion gelöscht.")
+      toast.success("Schüler:in archiviert.")
       queryClient.invalidateQueries({
-        queryKey: ["latest-3-lessons"],
-      })
-      queryClient.invalidateQueries({
-        queryKey: ["all-lessons"],
+        queryKey: ["students"],
       })
     },
 

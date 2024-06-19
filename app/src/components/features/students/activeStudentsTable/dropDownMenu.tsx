@@ -163,29 +163,6 @@ export default function StudentRowDropdown({
           <ExportLessons studentId={studentId} />
         </DialogContent>
       </Dialog>
-      {/* <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}> */}
-      {/*   <DialogContent> */}
-      {/*     <DialogHeader> */}
-      {/*       <DialogTitle>Lektion bearbeiten</DialogTitle> */}
-      {/*     </DialogHeader> */}
-      {/*   </DialogContent> */}
-      {/* </Dialog> */}
-      {/**/}
-      {/* <Dialog open={openModal === "SHARE"} onOpenChange={closeModal}> */}
-      {/*   <DialogContent> */}
-      {/*     <DialogHeader> */}
-      {/*       <DialogTitle>Hausaufgaben teilen</DialogTitle> */}
-      {/*     </DialogHeader> */}
-      {/*   </DialogContent> */}
-      {/* </Dialog> */}
-      {/**/}
-      {/* <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}> */}
-      {/*   <DialogContent> */}
-      {/*     <DialogHeader> */}
-      {/*       <DialogTitle>Lektion löschen</DialogTitle> */}
-      {/*     </DialogHeader> */}
-      {/*   </DialogContent> */}
-      {/* </Dialog> */}
     </>
   )
 }
