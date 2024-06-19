@@ -26,11 +26,11 @@ export const createNewStudentSupabase = async (
   return data
 }
 
-export const deactivateStudentsupabase = async (studentId: number[]) => {
+export const deactivateStudentApi = async (studentIds: number[]) => {
   const { error } = await supabase
     .from("students")
     .update({ archive: true })
-    .in("id", studentId)
+    .in("id", studentIds)
 
   if (error) throw new Error(error.message)
 }

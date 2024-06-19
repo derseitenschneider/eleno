@@ -2,7 +2,7 @@ import { HiOutlineListBullet } from "react-icons/hi2"
 import { NavLink, useParams } from "react-router-dom"
 
 import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
-import { User } from "lucide-react"
+import { ScrollText, TableProperties, User } from "lucide-react"
 import useStudentsQuery from "../students/studentsQueries"
 
 function LessonHeader() {
@@ -53,7 +53,7 @@ function LessonHeader() {
           className='gap-2 text-sm p-2 bg-background50 flex items-center'
           to='repertoire'
         >
-          <HiOutlineListBullet className='text-primary' />
+          <TableProperties className='size-4 text-primary' />
           <span>Repertoire</span>
         </NavLink>
       </div>

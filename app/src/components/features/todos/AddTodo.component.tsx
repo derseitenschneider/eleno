@@ -14,9 +14,10 @@ import { useParams } from "react-router-dom"
 
 interface AddTodoProps {
   onCloseModal?: () => void
+  studentId: number
 }
 
-function AddTodo({ onCloseModal }: AddTodoProps) {
+function AddTodo({ onCloseModal, studentId }: AddTodoProps) {
   const { user } = useUser()
   const { saveTodo } = useTodos()
   const [errorMessage, setErrorMessage] = useState("")
@@ -24,7 +25,6 @@ function AddTodo({ onCloseModal }: AddTodoProps) {
   const [due, setDue] = useState<Date>()
   const [selectedStudentId, setSelectedStudentId] = useState<number>()
   const [isPending, setIsPending] = useState(false)
-  const { studentId } = useParams()
 
   useEffect(() => {
     studentId && setSelectedStudentId(Number(studentId))

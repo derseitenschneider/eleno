@@ -3,6 +3,7 @@ import {
   CheckSquare2,
   Download,
   File,
+  FileDown,
   MoreVertical,
   Pencil,
 } from "lucide-react"
@@ -22,10 +23,10 @@ import {
 } from "../../ui/dropdown-menu"
 import StudentForm from "../students/StudentForm.component"
 
+import { useParams, useSearchParams } from "react-router-dom"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
 import AddTodo from "../todos/AddTodo.component"
 import ExportLessons from "./ExportLessons.component"
-import { useParams, useSearchParams } from "react-router-dom"
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | null
 
@@ -67,7 +68,7 @@ export default function StudentDropdownLesson() {
             className='flex items-center gap-2'
             onClick={() => setOpenModal("EXPORT")}
           >
-            <File className='text-primary h-4 w-4' />
+            <FileDown className='text-primary h-4 w-4' />
             <span>Lektionsliste exportieren</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -92,9 +93,7 @@ export default function StudentDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo
-          // onCloseModal={closeModal}
-          />
+          <AddTodo studentId={Number(studentId)} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 

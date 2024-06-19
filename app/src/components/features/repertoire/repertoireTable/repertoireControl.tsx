@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import SearchBar from "@/components/ui/SearchBar.component"
 import type { Lesson, RepertoireItem } from "@/types/types"
-import { File } from "lucide-react"
+import { File, FileDown } from "lucide-react"
 import type { Table } from "@tanstack/react-table"
 import { useState } from "react"
 import {
@@ -58,7 +58,7 @@ export default function RepertoireControl({
         onClick={() => setModalOpen("EXPORT")}
         disabled={!hasRepertoireItems}
       >
-        <File className='h-4 w-4 text-primary mr-2' />
+        <FileDown className='h-4 w-4 text-primary mr-2' />
         Exportieren
       </Button>
       <SearchBar

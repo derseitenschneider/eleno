@@ -1,9 +1,26 @@
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import type { Student } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
+import StudentRowDropdown from "./dropDownMenu"
 
 export const studentsColumns: ColumnDef<Student>[] = [
+  {
+    id: "checkbox",
+    header: ({ column }) => {
+      return (
+        <Checkbox
+        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      )
+    },
+    size: 10,
+    minSize: 0,
+    cell: () => {
+      return <Checkbox />
+    },
+  },
   {
     accessorKey: "firstName",
     header: ({ column }) => {
@@ -83,6 +100,10 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => {
+      const time = row.getValue("startOfLesson") as string
+      return <div className='text-right'>{time.slice(0, 5)}</div>
+    },
   },
   {
     accessorKey: "endOfLesson",
@@ -99,6 +120,10 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => {
+      const time = row.getValue("endOfLesson") as string
+      return <div className='text-right'>{time.slice(0, 5)}</div>
+    },
   },
   {
     accessorKey: "durationMinutes",
@@ -115,6 +140,12 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => {
+      const duration = row.getValue("durationMinutes") as number
+      return (
+        <div className='text-right'>{duration ? `${duration} Min.` : "–"}</div>
+      )
+    },
   },
   {
     accessorKey: "location",
@@ -131,5 +162,11 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 75,
     minSize: 0,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return <StudentRowDropdown studentId={row.original.id} />
+    },
   },
 ]
