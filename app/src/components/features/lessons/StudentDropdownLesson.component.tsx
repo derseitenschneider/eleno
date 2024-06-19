@@ -32,9 +32,9 @@ type Modals = "EDIT" | "TODO" | "EXPORT" | null
 export default function StudentDropdownLesson() {
   const { studentId } = useParams()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams({})
 
-  const closeModal = () => setOpenModal(undefined)
+  const closeModal = () => setOpenModal(null)
 
   return (
     <>
@@ -46,8 +46,7 @@ export default function StudentDropdownLesson() {
           <DropdownMenuItem
             className='flex items-center gap-2'
             onClick={() => {
-              searchParams.set("action", "edit")
-              setSearchParams(searchParams)
+              setOpenModal("EDIT")
             }}
           >
             <Pencil className='text-primary h-4 w-4' />
@@ -57,8 +56,7 @@ export default function StudentDropdownLesson() {
           <DropdownMenuItem
             className='flex items-center gap-2'
             onClick={() => {
-              searchParams.set("action", "todo")
-              setSearchParams(searchParams)
+              setOpenModal("TODO")
             }}
           >
             <CheckSquare2 className='text-primary h-4 w-4' />
@@ -75,13 +73,7 @@ export default function StudentDropdownLesson() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet
-        open={searchParams.get("action") === "edit"}
-        // onOpenChange={() => {
-        //   searchParams.delete("action")
-        //   setSearchParams(searchParams)
-        // }}
-      >
+      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
@@ -95,15 +87,14 @@ export default function StudentDropdownLesson() {
         </SheetContent>
       </Sheet>
 
-      <Dialog
-        open={searchParams.get("action") === "todo"}
-        onOpenChange={closeModal}
-      >
+      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo onCloseModal={closeModal} />
+          <AddTodo
+          // onCloseModal={closeModal}
+          />
         </DialogContent>
       </Dialog>
 
