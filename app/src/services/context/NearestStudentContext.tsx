@@ -1,4 +1,4 @@
-import useStudentsQuery from "@/components/features/students/studentsQuery"
+import useStudentsQuery from "@/components/features/students/studentsQueries"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import type { ContextTypeClosestStudent as ContextTypeNearestStudent } from "../../types/types"
 import calcNearestStudentIndex from "../../utils/getClosestStudentIndex"
@@ -6,7 +6,7 @@ import { useStudents } from "./StudentContext"
 
 export const NearestStudentContext = createContext<ContextTypeNearestStudent>({
   nearestStudentIndex: 0,
-  setNearestStudentIndex: () => {},
+  setNearestStudentIndex: () => { },
 })
 
 export function NearestStudentProvider({

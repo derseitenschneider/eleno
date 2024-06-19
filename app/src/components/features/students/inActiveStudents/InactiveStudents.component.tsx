@@ -12,7 +12,7 @@ import type { Sorting } from "../../../../types/types"
 import { sortStudents } from "../../../../utils/sortStudents"
 import Menus from "../../../ui/menu/Menus.component"
 import Table from "../../../ui/table/Table.component"
-import StudentsTable from "../studentsTable/StudentsTable.component"
+import StudentsTable from "../activeStudentsTable/StudentsTable.component"
 
 import { useStudents } from "../../../../services/context/StudentContext"
 import Modal from "../../../ui/modal/Modal.component"
@@ -56,7 +56,8 @@ function InactiveStudents() {
       try {
         await reactivateStudents(selectedStudents)
         toast(
-          `Schüler:in${selectedStudents.length > 1 ? "nen" : ""
+          `Schüler:in${
+            selectedStudents.length > 1 ? "nen" : ""
           } wiederhergestellt`,
         )
         setAction("")

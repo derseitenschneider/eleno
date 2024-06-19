@@ -22,21 +22,21 @@ const studentsRoutes = [
         <Students />
       </Suspense>
     ),
-    // children: [
-    //   {
-    //     index: true,
-    //     path: "",
-    //     element: <ActiveStudents />,
-    //   },
-    //   {
-    //     path: "archive",
-    //     element: <InactiveStudents />,
-    //   },
-    //   {
-    //     path: "groups",
-    //     element: <Groups />,
-    //   },
-    // ],
+    children: [
+      {
+        index: true,
+        path: "",
+        element: <ActiveStudents />,
+      },
+      // {
+      //   path: "archive",
+      //   element: <InactiveStudents />,
+      // },
+      // {
+      //   path: "groups",
+      //   element: <Groups />,
+      // },
+    ],
   },
 ]
 export default studentsRoutes

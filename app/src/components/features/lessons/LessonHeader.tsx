@@ -3,7 +3,7 @@ import { NavLink, useParams } from "react-router-dom"
 
 import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
 import { User } from "lucide-react"
-import useStudentsQuery from "../students/studentsQuery"
+import useStudentsQuery from "../students/studentsQueries"
 
 function LessonHeader() {
   const students = useStudentsQuery().data

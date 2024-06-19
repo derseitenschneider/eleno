@@ -2,11 +2,11 @@ import { createContext, useContext, useMemo, useState } from "react"
 import type { ContextTypeStudents } from "../../types/types"
 
 import { sortStudentsDateTime } from "../../utils/sortStudents"
-import useStudentsQuery from "@/components/features/students/studentsQuery"
+import useStudentsQuery from "@/components/features/students/studentsQueries"
 
 export const StudentsContext = createContext<ContextTypeStudents>({
   currentStudentIndex: 0,
-  setCurrentStudentIndex: () => {},
+  setCurrentStudentIndex: () => { },
   currentStudentId: 0,
   activeStudents: [],
   activeSortedStudentIds: [],
@@ -20,8 +20,8 @@ export function StudentsProvider({ children }: { children: React.ReactNode }) {
 
   const activeSortedStudentIds: number[] = students
     ? sortStudentsDateTime(students?.filter((student) => !student.archive)).map(
-        (student) => student.id || 0,
-      )
+      (student) => student.id || 0,
+    )
     : []
 
   // Storing the current student index and ID is only for the app to store that

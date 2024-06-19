@@ -13,8 +13,10 @@ export default function Students() {
 
   if (isLoading) return <StudentsSkeleton />
   return (
-    <div className=''>
-      <h1 className='heading-1'>Schüler:innen</h1>
+    <div className='sm:*:px-5 sm:*:pr-4 sm:*:pl-8 sm:py-5'>
+      <header>
+        <h1 className='heading-1'>Schüler:innen</h1>
+      </header>
       <Navbar navLinks={navLinks} />
       <Outlet />
     </div>

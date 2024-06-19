@@ -23,7 +23,7 @@ import {
   Users,
 } from "lucide-react"
 import analytics from "../../services/analytics/firebaseAnalytics"
-import useStudentsQuery from "@/components/features/students/studentsQuery"
+import useStudentsQuery from "@/components/features/students/studentsQueries"
 import useTodosQuery from "@/components/features/todos/todosQuery"
 
 function Sidebar() {
@@ -106,9 +106,8 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${
-        sidebarOpen ? "w-[180px]" : "w-[50px]"
-      }`}
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
+        }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink

@@ -1,11 +1,10 @@
 import supabase from "./supabase"
 import type { Student } from "../../types/types"
 
-export const fetchStudents = async (userId: string) => {
+export const fetchStudentsApi = async () => {
   const { data: students, error } = await supabase
     .from("students")
     .select("*")
-    .eq("user_id", userId)
     .order("lastName", { ascending: false })
   if (error) throw new Error(error.message)
   return students

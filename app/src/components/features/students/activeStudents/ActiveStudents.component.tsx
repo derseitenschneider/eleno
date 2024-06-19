@@ -1,10 +1,10 @@
-import StudentsTable from "../studentsTable/studentsTable"
+import ActiveStudentsTable from "../activeStudentsTable/table"
 import "./studentsActive.style.scss"
 
 export default function ActiveStudents() {
   return (
     <>
-      <StudentsTable />
+      <ActiveStudentsTable />
     </>
   )
 }
