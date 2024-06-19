@@ -34,7 +34,7 @@ export default function StudentDropdownLesson() {
   const [openModal, setOpenModal] = useState<Modals>(null)
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const closeModal = () => {}
+  const closeModal = () => setOpenModal(undefined)
 
   return (
     <>

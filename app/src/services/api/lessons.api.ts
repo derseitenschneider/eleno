@@ -67,18 +67,18 @@ export const fetchAllLessonsCSVApi = async ({
 
   let query = supabase
     .from("lessons")
-    .select("date, lessonContent, homework, id")
+    .select("Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework")
     .eq("studentId", studentId)
 
   query = startDate
     ? query
         .gte("date", uctStartDate?.toISOString())
         .lte("date", uctEndDate?.toISOString())
-        .order("date", { ascending: false })
-        .csv()
-    : query.order("date", { ascending: false }).csv()
+    : query
 
   const { data: lessonsCSV, error } = await query
+    .order("date", { ascending: false })
+    .csv()
   if (error) throw new Error(error.message)
   return lessonsCSV
 }

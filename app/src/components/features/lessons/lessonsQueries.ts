@@ -68,7 +68,7 @@ export function useAllLessonsCSV(
     queryKey: ["all-lessons-csv", { studentId }],
     queryFn: () => fetchAllLessonsCSVApi({ studentId, startDate, endDate }),
     staleTime: 0,
-    // enabled: false,
+    enabled: false,
   })
 
   return result
