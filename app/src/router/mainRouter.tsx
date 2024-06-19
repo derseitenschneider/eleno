@@ -20,6 +20,7 @@ import StudentsSkeleton from "@/components/ui/skeletons/StudentsSkeleton.compone
 import LessonSkeleton from "@/components/ui/skeletons/LessonSkeleton.component"
 import Logout from "@/components/features/user/Logout.component"
 import lessonsRoutes from "./lessonsRouter"
+import studentsRoutes from "./studentsRouter"
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
 const Students = lazy(() => import("../pages/students/Students"))
@@ -44,29 +45,6 @@ const mainRouter = createBrowserRouter(
           ),
         },
         {
-          path: "students",
-          element: (
-            <Suspense fallback={<StudentsSkeleton />}>
-              <Students />
-            </Suspense>
-          ),
-          children: [
-            {
-              index: true,
-              path: "",
-              element: <ActiveStudents />,
-            },
-            {
-              path: "archive",
-              element: <InactiveStudents />,
-            },
-            {
-              path: "groups",
-              element: <Groups />,
-            },
-          ],
-        },
-        {
           path: "timetable",
           element: (
             <Suspense>
@@ -75,6 +53,7 @@ const mainRouter = createBrowserRouter(
           ),
         },
         ...lessonsRoutes,
+        ...studentsRoutes,
         {
           path: "todos",
           element: (
