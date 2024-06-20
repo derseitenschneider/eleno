@@ -7,18 +7,29 @@ import StudentRowDropdown from "./dropDownMenu"
 
 export const studentsColumns: ColumnDef<Student>[] = [
   {
-    id: "checkbox",
-    header: ({ column }) => {
+    id: "select",
+    header: ({ table }) => {
       return (
         <Checkbox
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        // checked={
+        //   table.getIsAllPageRowsSelected() ||
+        //   (table.getIsSomePageRowsSelected() && "indeterminate")
+        // }
+        // onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        // aria-label='Select all'
         />
       )
     },
     size: 10,
     minSize: 0,
-    cell: () => {
-      return <Checkbox />
+    cell: ({ row }) => {
+      return (
+        <Checkbox
+        // checked={row.getIsSelected()}
+        // onCheckedChange={(value) => row.toggleSelected(!!value)}
+        // aria-label='Select row'
+        />
+      )
     },
   },
   {
@@ -26,6 +37,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -34,7 +46,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
   },
   {
@@ -42,6 +54,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -50,7 +63,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
   },
   {
@@ -58,6 +71,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -66,7 +80,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
   },
   {
@@ -74,6 +88,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -82,7 +97,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
     cell: ({ row }) => <div>{row.getValue("dayOfLesson") || "–"}</div>,
   },
@@ -91,6 +106,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -99,7 +115,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("startOfLesson") as string
@@ -111,6 +127,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -119,7 +136,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("endOfLesson") as string
@@ -132,6 +149,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
       return (
         <Button
           variant='ghost'
+          className='p-0'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Dauer
@@ -139,7 +157,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
     cell: ({ row }) => {
       const duration = row.getValue("durationMinutes") as number
@@ -153,6 +171,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
         // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -161,7 +180,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 75,
+    size: 12,
     minSize: 0,
     cell: ({ row }) => <div>{row.getValue("location") || "–"}</div>,
   },

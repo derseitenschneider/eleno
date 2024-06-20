@@ -30,13 +30,10 @@ import {
 type StudentsControlProps = {
   table: Table<Student>
   isFetching: boolean
-  globalFilter: string
-  setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
+  // globalFilter: string
+  // setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
 }
-export default function StudentsControl({
-  globalFilter,
-  setGlobalFilter,
-}: StudentsControlProps) {
+export default function StudentsControl() {
   const queryClient = useQueryClient()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
 
@@ -105,11 +102,11 @@ export default function StudentsControl({
         <File className='h-4 w-4 text-primary mr-2' />
         Exportieren
       </Button>
-      <SearchBar
-        searchInput={globalFilter || ""}
-        setSearchInput={(value) => setGlobalFilter(value)}
-        disabled={!hasStudents}
-      />
+      {/* <SearchBar */}
+      {/*   searchInput={globalFilter || ""} */}
+      {/*   setSearchInput={(value) => setGlobalFilter(value)} */}
+      {/*   disabled={!hasStudents} */}
+      {/* /> */}
       <Dialog
         open={modalOpen === "EXPORT"}
         onOpenChange={() => setModalOpen(undefined)}

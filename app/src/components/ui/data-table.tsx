@@ -41,14 +41,14 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
-                  className='text-foreground/75'
+                  className='text-foreground bg-background200'
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                 </TableHead>
               )
             })}
@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
           <TableRow>
             <TableCell
               colSpan={columns.length}
-              className='p-10 text-foreground/75 text-center'
+              className='p-8 text-foreground/75 text-center'
             >
               {messageEmpty}
             </TableCell>
