@@ -59,7 +59,6 @@ export const updateStudentsApi = async (students: Array<Student>) => {
     .upsert(students)
     .select()
 
-  console.log(error)
   if (error) throw new Error(error.message)
 
   return updatedStudents

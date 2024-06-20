@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table"
 import useStudentsQuery from "../studentsQueries"
 import { studentsColumns } from "./columns"
+import StudentsControl from "./control"
 
 export default function ActiveStudentsTable() {
   const { data: students, isPending } = useStudentsQuery()
@@ -29,7 +30,8 @@ export default function ActiveStudentsTable() {
   })
   if (isPending) return <p>...loading</p>
   return (
-    <div className='mb-10'>
+    <div className=''>
+      <StudentsControl table={table} isFetching={isPending} />
       <DataTable
         table={table}
         columns={studentsColumns}

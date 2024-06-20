@@ -16,14 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useStudents } from "@/services/context/StudentContext"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useEffect } from "react"
 import calcTimeDifference from "@/utils/calcTimeDifference"
 import { cn } from "@/lib/utils"
-import { toast } from "sonner"
 import { useQueryClient } from "@tanstack/react-query"
 import type { Student } from "@/types/types"
 import { useUpdateStudents } from "./useUpdateStudents"
@@ -47,23 +45,25 @@ const studentSchema = z.object({
         z.literal("none"),
       ]),
     )
-    .transform((val) => (val === "none" ? null : val))
+    .transform((val) => (val === "none" || !val ? null : val))
     .nullable(),
   startOfLesson: z
     .optional(z.string())
-    .transform((val) => (val === "" ? null : val))
+    .transform((val) => (val === "" || !val ? null : val))
     .nullable(),
   endOfLesson: z
     .optional(z.string())
-    .transform((val) => (val === "" ? null : val))
+    .transform((val) => (val === "" || !val ? null : val))
     .nullable(),
   durationMinutes: z
     .optional(z.coerce.number().min(0, { message: "Ungültiger Wert." }))
-    .transform((val) => (val === 0 ? null : val))
+    .transform((val) => (val === 0 || !val ? null : val))
     .nullable(),
-  location: z.optional(z.string()).nullable(),
+  location: z
+    .optional(z.string())
+    .transform((val) => (val === "" || !val ? null : val))
+    .nullable(),
 })
-
 type StudentInput = z.infer<typeof studentSchema>
 
 type EditStudentProps = {
@@ -80,7 +80,7 @@ export default function StudentForm({
     | Array<Student>
     | undefined
   const currentStudent = students?.find((student) => student.id === studentId)
-  const { updateStudents, isUpdating } = useUpdateStudents()
+  const { updateStudents, isUpdating, isSuccess } = useUpdateStudents()
 
   const form = useForm<StudentInput>({
     resolver: zodResolver(studentSchema),
@@ -103,8 +103,8 @@ export default function StudentForm({
   })
 
   useEffect(() => {
-    if (form.formState.isSubmitSuccessful) onSuccess()
-  }, [onSuccess, form.formState.isSubmitSuccessful])
+    if (isSuccess) onSuccess()
+  }, [onSuccess, isSuccess])
 
   function calculateMinutes() {
     if (form.getValues("startOfLesson") && form.getValues("endOfLesson")) {
@@ -325,14 +325,10 @@ export default function StudentForm({
           )}
         />
         <div className='flex gap-2 items-center'>
-          <Button
-            size='sm'
-            type='submit'
-            disabled={form.formState.isSubmitting}
-          >
+          <Button size='sm' type='submit' disabled={isUpdating}>
             Speichern
           </Button>
-          {form.formState.isSubmitting && <MiniLoader />}
+          {isUpdating && <MiniLoader />}
         </div>
       </form>
       {form.formState.errors.root && (

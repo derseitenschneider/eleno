@@ -6,7 +6,11 @@ import { toast } from "sonner"
 
 export function useUpdateStudents() {
   const queryClient = useQueryClient()
-  const { mutate: updateStudents, isPending: isUpdating } = useMutation({
+  const {
+    mutate: updateStudents,
+    isPending: isUpdating,
+    isSuccess,
+  } = useMutation({
     mutationFn: updateStudentsApi,
     onMutate: (updatedStudents) => {
       // Snapshot in case of a rollback.
@@ -46,5 +50,5 @@ export function useUpdateStudents() {
       queryClient.setQueryData(["students"], context?.previousStudents)
     },
   })
-  return { updateStudents, isUpdating }
+  return { updateStudents, isUpdating, isSuccess }
 }

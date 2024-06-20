@@ -15,7 +15,7 @@ export function DebouncedInput({
   onChange,
   debounce = 500,
   disabled = false,
-  className = '',
+  className = "",
   ...props
 }: DebounceInputProps) {
   const [value, setValue] = useState(initialValue)
@@ -35,7 +35,7 @@ export function DebouncedInput({
   return (
     <Input
       {...props}
-      className={cn("pr-2 pl-8 w-sm", className)}
+      className={cn("pr-2 pl-8 w-sm h-8", className)}
       type='search'
       placeholder='suchen'
       value={value}

@@ -50,7 +50,7 @@ function LessonHeader() {
           </div>
         </div>
         <NavLink
-          className='gap-2 text-sm p-2 bg-background50 flex items-center'
+          className='gap-1 text-sm p-2 bg-background50 flex items-center'
           to='repertoire'
         >
           <TableProperties className='size-4 text-primary' />

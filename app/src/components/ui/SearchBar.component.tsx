@@ -28,7 +28,13 @@ function SearchBar({
       {/*   disabled={disabled} */}
       {/* /> */}
       <DebouncedInput
-        value={searchInput} onChange={value => setSearchInput(value)} className={cn('pr-2 pl-8 w-sm', className)} type='search' placeholder="suchen" disabled={disabled} />
+        value={searchInput}
+        onChange={(value) => setSearchInput(value)}
+        className={cn("pr-2 pl-8 w-sm", className)}
+        type='search'
+        placeholder='suchen'
+        disabled={disabled}
+      />
     </div>
   )
 }
