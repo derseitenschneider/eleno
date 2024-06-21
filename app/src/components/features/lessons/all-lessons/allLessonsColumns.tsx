@@ -32,7 +32,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Datum
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-4' />
         </Button>
       )
     },

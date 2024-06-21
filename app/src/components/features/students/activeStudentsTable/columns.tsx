@@ -3,33 +3,18 @@ import { Checkbox } from "@/components/ui/checkbox"
 import type { Student } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
-import StudentRowDropdown from "./dropDownMenu"
+import ActiveStudentRowDropdown from "./rowDropdown"
 
 export const studentsColumns: ColumnDef<Student>[] = [
   {
     id: "select",
     header: ({ table }) => {
-      return (
-        <Checkbox
-        // checked={
-        //   table.getIsAllPageRowsSelected() ||
-        //   (table.getIsSomePageRowsSelected() && "indeterminate")
-        // }
-        // onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        // aria-label='Select all'
-        />
-      )
+      return <Checkbox />
     },
     size: 10,
     minSize: 0,
     cell: ({ row }) => {
-      return (
-        <Checkbox
-        // checked={row.getIsSelected()}
-        // onCheckedChange={(value) => row.toggleSelected(!!value)}
-        // aria-label='Select row'
-        />
-      )
+      return <Checkbox />
     },
   },
   {
@@ -39,10 +24,10 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Vorname
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-4' />
         </Button>
       )
     },
@@ -56,7 +41,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nachname
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -73,7 +58,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Instrument
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -90,7 +75,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Tag
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -108,7 +93,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Von
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -129,7 +114,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Bis
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -150,7 +135,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           variant='ghost'
           className='p-0'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Dauer
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -173,7 +158,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Unterrichtsort
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -187,7 +172,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return <StudentRowDropdown studentId={row.original.id} />
+      return <ActiveStudentRowDropdown studentId={row.original.id} />
     },
   },
 ]

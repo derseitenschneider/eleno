@@ -1,12 +1,12 @@
 import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { Lesson } from "@/types/types"
+import type { Lesson } from "@/types/types"
 import {
   type FilterFn,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
-  useReactTable,
-  SortingState,
   getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 
 import { ChevronLeft } from "lucide-react"
@@ -94,7 +94,6 @@ export default function AllLessons() {
         table={table}
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
-        data={lessons}
         isFetching={isFetching}
       />
     </div>

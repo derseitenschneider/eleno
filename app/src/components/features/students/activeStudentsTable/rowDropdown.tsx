@@ -41,7 +41,7 @@ type StudentRowDropdownProps = {
 
 type Modals = "EDIT" | "TODO" | "EXPORT" | "ARCHIVE" | null
 
-export default function StudentRowDropdown({
+export default function ActiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()

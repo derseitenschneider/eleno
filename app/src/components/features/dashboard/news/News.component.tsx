@@ -9,7 +9,11 @@ function News() {
   )
 
   return (
-    <aside className='sm:row-start-2 border-t overflow-hidden min-[900px]:border-t-0 min-[900px]:border-l border-hairline row-end-4 col-start-2'>
+    <aside
+      className='sm:row-start-2 border-t overflow-hidden 
+      min-[900px]:border-t-0 min-[900px]:border-l border-hairline 
+      row-end-4 col-start-2'
+    >
       <h2>News</h2>
       {/* <div className='h-[500px] min-[900px]:h-full w-full overflow-y-auto no-scrollbar'>
         {sortedNews
