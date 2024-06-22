@@ -16,6 +16,7 @@ import { DataTable } from "@/components/ui/data-table"
 import { useAllLessonsPerYear, useLessonYears } from "../lessonsQueries"
 import { allLessonsColumns } from "./allLessonsColumns"
 import AllLessonsControl from "./allLessonsControl.component"
+import Empty from "@/components/ui/Empty.component"
 
 export default function AllLessons() {
   const { studentId } = useParams()
@@ -26,12 +27,14 @@ export default function AllLessons() {
 
   const selectedYear = searchParams.get("year")
 
-  const { isPending: isPendingYears } = useLessonYears(Number(studentId))
+  const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
+    Number(studentId),
+  )
 
   const {
     data: lessons,
     isPending: isPendingLessons,
-    isError,
+    isError: isErrorLessons,
     isFetching,
   } = useAllLessonsPerYear(Number(selectedYear) || 0, Number(studentId))
 
@@ -72,7 +75,7 @@ export default function AllLessons() {
 
   if (isPendingLessons || isPendingYears) return <div>...Loading</div>
 
-  if (isError) return <div>ERROR</div>
+  if (isErrorLessons || isErrorYears) return <div>ERROR</div>
 
   return (
     <div className='mb-10'>

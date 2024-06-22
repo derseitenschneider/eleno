@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { useUserLocale } from "@/services/context/UserLocaleContext"
 import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
 import { useLatestLessons } from "./lessonsQueries"
+import Empty from "@/components/ui/Empty.component"
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
