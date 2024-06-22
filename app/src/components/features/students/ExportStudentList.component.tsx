@@ -2,11 +2,13 @@ import { useState } from "react"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import { CSVLink } from "react-csv"
 
-import type { Student } from "../../../../types/types"
-import "./exportStudents.style.scss"
+import type { Student } from "../../../types/types"
 
-import { useUser } from "../../../../services/context/UserContext"
-import StudentListPDF from "../../pdf/StudentlistPDF.component"
+import { useUser } from "../../../services/context/UserContext"
+import StudentListPDF from "../pdf/StudentlistPDF.component"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface ExportStudentListProps {
   students: Student[]
@@ -14,11 +16,10 @@ interface ExportStudentListProps {
 
 function ExportStudentList({ students }: ExportStudentListProps) {
   const [title, setTitle] = useState("")
-  const {
-    user: { firstName, lastName },
-  } = useUser()
+  const { user } = useUser()
+  console.log(user)
 
-  const userName = `${firstName} ${lastName}`
+  const userName = `${user?.firstName} ${user?.lastName}`
 
   const studentsCSV = students.map((student, index) => ({
     index: index + 1,
@@ -35,25 +36,21 @@ function ExportStudentList({ students }: ExportStudentListProps) {
   const userNameDashes = userName.toLowerCase().split(" ").join("-")
 
   return (
-    <div className='export-student-list'>
-      <h2 className='heading-2'>Schüler:innen exportieren</h2>
+    <div className='space-y-8'>
       <p>Exportiere eine Liste mit allen aktiven Schüler:innen.</p>
-      <div className='export-student-list__input-title'>
-        <label htmlFor='title'>
+      <div>
+        <Label htmlFor='title'>
           Titel (optional){" "}
-          <input
+          <Input
             type='text'
             name='title'
             id='title'
             value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const { value } = e.target
-              setTitle(value)
-            }}
+            onChange={(e) => setTitle(e.target.value)}
           />
-        </label>
+        </Label>
       </div>
-      <div className='export-student-list__buttons'>
+      <div className='flex gap-4 justify-end'>
         <PDFDownloadLink
           document={
             <StudentListPDF
@@ -68,9 +65,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
               : `schüler:innen-${userNameDashes}.pdf`
           }
         >
-          <Button type='button' btnStyle='primary'>
-            PDF herunterladen
-          </Button>
+          <Button>PDF herunterladen</Button>
         </PDFDownloadLink>
 
         <CSVLink
@@ -88,9 +83,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
           ]}
           filename={`schüler:innen-${userNameDashes}.csv`}
         >
-          <Button type='button' btnStyle='primary'>
-            CSV herunterladen
-          </Button>
+          <Button>CSV herunterladen</Button>
         </CSVLink>
       </div>
     </div>

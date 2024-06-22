@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     padding: "8px 5px ",
   },
   col8: {
-    width: "5%%",
+    width: "8%",
     padding: "8px 5px ",
   },
   col9: { width: "26%", padding: "8px 5px" },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 function StudentListPDF({ students, userName, title }: StudentListPDFProps) {
   return (
     <BaseLayoutPDF
-      title={title || `Schüler:innen-Liste ${userName}`}
+      title={title || `Schüler:innen ${userName}`}
       orientation='landscape'
     >
       <TablePDF.Head>
@@ -71,9 +71,13 @@ function StudentListPDF({ students, userName, title }: StudentListPDFProps) {
             <Text style={styles.col3}>{student.lastName}</Text>
             <Text style={styles.col4}>{student.instrument}</Text>
             <Text style={styles.col5}>{student.dayOfLesson}</Text>
-            <Text style={styles.col6}>{student.startOfLesson}</Text>
-            <Text style={styles.col7}>{student.endOfLesson}</Text>
-            <Text style={styles.col8}>{student.durationMinutes}</Text>
+            <Text style={styles.col6}>
+              {student.startOfLesson?.substring(0, 5)}
+            </Text>
+            <Text style={styles.col7}>
+              {student.endOfLesson?.substring(0, 5)}
+            </Text>
+            <Text style={styles.col8}>{student.durationMinutes} Min.</Text>
             <Text style={styles.col9}>{student.location}</Text>
           </TablePDF>
         </View>

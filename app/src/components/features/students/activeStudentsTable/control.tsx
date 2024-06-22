@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import SearchBar from "@/components/ui/SearchBar.component"
 import type { Student } from "@/types/types"
 import { File, Plus } from "lucide-react"
-import type { Table } from "@tanstack/react-table"
+import type { RowSelectionState, Table } from "@tanstack/react-table"
 import { useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import {
@@ -12,16 +12,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { ActiveStudentsActionDropdown } from "./actionDropdown"
+import ExportStudentList from "../ExportStudentList.component"
 
 type StudentsControlProps = {
   isFetching: boolean
   globalFilter: string
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
+  selected: RowSelectionState
 }
 export default function StudentsControl({
   globalFilter,
   setGlobalFilter,
   isFetching,
+  selected,
 }: StudentsControlProps) {
   const queryClient = useQueryClient()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
@@ -34,13 +37,13 @@ export default function StudentsControl({
 
   return (
     <div className='flex items-end gap-4 mb-4'>
-      <div className='mr-auto'>
+      <div className='mr-auto items-baseline flex gap-4'>
+        <ActiveStudentsActionDropdown selected={selected} />
         {hasActiveStudents && (
-          <p className='text-sm mb-3'>
+          <p className='text-sm'>
             Aktive Schüler:innen: <span>{activeStudents.length}</span>
           </p>
         )}
-        <ActiveStudentsActionDropdown />
       </div>
       <Button
         size='sm'
@@ -70,8 +73,8 @@ export default function StudentsControl({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Repertoire exportieren</DialogTitle>
-            {/* <ExportRepertoire studentId={Number(studentId)} /> */}
+            <DialogTitle>Schülerliste exportieren</DialogTitle>
+            <ExportStudentList students={activeStudents} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

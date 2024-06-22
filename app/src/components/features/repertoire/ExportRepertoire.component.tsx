@@ -35,17 +35,17 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
     title: item.title,
     startDate: item.startDate
       ? item.startDate.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      })
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })
       : "",
     endDate: item.endDate
       ? item.endDate.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      })
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })
       : "",
   }))
 
@@ -58,11 +58,11 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
 
   return (
     <div className='space-y-8'>
-      <p className=''>
+      <p>
         Exportiere die Repertoireliste von <b>{studentFullName}</b>.
       </p>
 
-      <div className=''>
+      <div>
         <label htmlFor='title'>
           Titel (optional)
           <Input
