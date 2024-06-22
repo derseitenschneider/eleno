@@ -51,6 +51,7 @@ export default function ActiveStudentsTable() {
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
+    getRowId: (row) => String(row.id),
     state: {
       sorting,
       rowSelection,

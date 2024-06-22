@@ -7,7 +7,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { RowSelectionState } from "@tanstack/react-table"
+import type { Student } from "@/types/types"
+import { useQueryClient } from "@tanstack/react-query"
+import type { RowSelectionState, Table } from "@tanstack/react-table"
 import {
   Archive,
   ChevronsUpDown,
@@ -16,23 +18,32 @@ import {
   Pencil,
 } from "lucide-react"
 import { useState } from "react"
+import BulkEditStudents from "../BulkEditStudents.component"
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
+  table: Table<Student>
 }
 
 export function ActiveStudentsActionDropdown({
   selected,
+  table,
 }: ActiveStudentsActionDropdownProps) {
+  const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
     "EDIT" | "EXPORT" | "RESET" | "ARCHIVE" | null
   >(null)
+  const students = queryClient.getQueryData(["students"]) as Array<Student>
+
+  const isDisabledAction = Object.entries(selected).length === 0
+  const selectedStudents = Object.keys(selected).map((id) =>
+    students?.find((student) => student.id === Number(id)),
+  ) as Array<Student>
 
   function closeModal() {
     setOpenModal(null)
   }
-  const isDisabledAction = Object.entries(selected).length === 0
-
+  if (!students) return null
   return (
     <>
       <DropdownMenu>
@@ -82,6 +93,10 @@ export function ActiveStudentsActionDropdown({
       <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          <BulkEditStudents
+            students={selectedStudents}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
 

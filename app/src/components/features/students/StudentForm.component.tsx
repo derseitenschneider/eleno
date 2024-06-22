@@ -26,7 +26,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import type { Student } from "@/types/types"
 import { useUpdateStudents } from "./useUpdateStudents"
 
-const studentSchema = z.object({
+export const studentSchema = z.object({
   firstName: z.string().min(1, {
     message: "Vorname fehlt.",
   }),
@@ -42,10 +42,8 @@ const studentSchema = z.object({
         z.literal("Freitag"),
         z.literal("Samstag"),
         z.literal("Sonntag"),
-        z.literal("none"),
       ]),
     )
-    .transform((val) => (val === "none" || !val ? null : val))
     .nullable(),
   startOfLesson: z
     .optional(z.string())
@@ -64,14 +62,14 @@ const studentSchema = z.object({
     .transform((val) => (val === "" || !val ? null : val))
     .nullable(),
 })
-type StudentInput = z.infer<typeof studentSchema>
+export type StudentInput = z.infer<typeof studentSchema>
 
 type EditStudentProps = {
   studentId?: number
   onSuccess: () => void
 }
 
-export default function StudentForm({
+export default function EditStudent({
   studentId,
   onSuccess,
 }: EditStudentProps) {
@@ -214,7 +212,7 @@ export default function StudentForm({
                   <SelectTrigger
                     className={cn(
                       form.formState.errors.dayOfLesson &&
-                      "border-warning text-warning",
+                        "border-warning text-warning",
                     )}
                   >
                     <SelectValue placeholder='Unterrichtstag' />
