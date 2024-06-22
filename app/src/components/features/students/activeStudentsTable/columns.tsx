@@ -9,12 +9,27 @@ export const studentsColumns: ColumnDef<Student>[] = [
   {
     id: "select",
     header: ({ table }) => {
-      return <Checkbox />
+      return (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      )
     },
     size: 4,
     minSize: 0,
     cell: ({ row }) => {
-      return <Checkbox />
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      )
     },
   },
   {
