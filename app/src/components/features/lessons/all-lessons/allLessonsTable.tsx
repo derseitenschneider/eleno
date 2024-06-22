@@ -12,8 +12,8 @@ import {
 import { ChevronLeft } from "lucide-react"
 import { useState } from "react"
 import { NavLink, useParams, useSearchParams } from "react-router-dom"
-import { DataTable } from "../../../ui/data-table"
-import { useAllLessonsPerYear, useLessonYearsQuery } from "../lessonsQueries"
+import { DataTable } from "@/components/ui/data-table"
+import { useAllLessonsPerYear, useLessonYears } from "../lessonsQueries"
 import { allLessonsColumns } from "./allLessonsColumns"
 import AllLessonsControl from "./allLessonsControl.component"
 
@@ -26,7 +26,7 @@ export default function AllLessons() {
 
   const selectedYear = searchParams.get("year")
 
-  const { isPending: isPendingYears } = useLessonYearsQuery(Number(studentId))
+  const { isPending: isPendingYears } = useLessonYears(Number(studentId))
 
   const {
     data: lessons,

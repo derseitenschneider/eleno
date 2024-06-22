@@ -11,7 +11,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ table }) => {
       return <Checkbox />
     },
-    size: 10,
+    size: 4,
     minSize: 0,
     cell: ({ row }) => {
       return <Checkbox />
@@ -41,7 +41,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nachname
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -58,7 +58,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Instrument
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -75,7 +75,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Tag
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -84,48 +84,30 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <div>{row.getValue("dayOfLesson") || "–"}</div>,
+    cell: ({ row }) => <span>{row.getValue("dayOfLesson") || "–"}</span>,
   },
   {
     accessorKey: "startOfLesson",
-    header: ({ column }) => {
-      return (
-        <Button
-          className='p-0'
-          variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Von
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      )
+    header: () => {
+      return <span>Von</span>
     },
     size: 12,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("startOfLesson") as string
-      return <div className='text-right'>{time?.slice(0, 5) || "—"}</div>
+      return <span className='text-right'>{time?.slice(0, 5) || "—"}</span>
     },
   },
   {
     accessorKey: "endOfLesson",
-    header: ({ column }) => {
-      return (
-        <Button
-          className='p-0'
-          variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Bis
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      )
+    header: () => {
+      return <span>Bis</span>
     },
     size: 12,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue("endOfLesson") as string
-      return <div className='text-right'>{time?.slice(0, 5) || "–"}</div>
+      return <span className='text-right'>{time?.slice(0, 5) || "–"}</span>
     },
   },
   {
@@ -135,7 +117,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           variant='ghost'
           className='p-0'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Dauer
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -147,7 +129,9 @@ export const studentsColumns: ColumnDef<Student>[] = [
     cell: ({ row }) => {
       const duration = row.getValue("durationMinutes") as number
       return (
-        <div className='text-right'>{duration ? `${duration} Min.` : "–"}</div>
+        <span className='text-right'>
+          {duration ? `${duration} Min.` : "–"}
+        </span>
       )
     },
   },
@@ -158,7 +142,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
         <Button
           className='p-0'
           variant='ghost'
-          // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Unterrichtsort
           <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -167,7 +151,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <div>{row.getValue("location") || "–"}</div>,
+    cell: ({ row }) => <span>{row.getValue("location") || "–"}</span>,
   },
   {
     id: "actions",

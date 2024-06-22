@@ -15,7 +15,7 @@ import { MoreVertical, Pencil, Share, Trash2 } from "lucide-react"
 import { useState } from "react"
 import DeleteLesson from "./DeleteLesson.component"
 import EditLesson from "./UpdateLesson.component"
-import { useLatestLessonsQuery } from "./lessonsQueries"
+import { useLatestLessons } from "./lessonsQueries"
 import ShareHomework from "./ShareHomework.component"
 
 type PreviousLessonDropDownProps = {
@@ -26,7 +26,7 @@ type ModalOpen = "EDIT" | "SHARE" | "DELETE" | undefined
 export default function PreviousLessonDropDown({
   lessonId,
 }: PreviousLessonDropDownProps) {
-  const lessons = useLatestLessonsQuery().data
+  const lessons = useLatestLessons().data
   const [modalOpen, setModalOpen] = useState<ModalOpen>()
 
   function closeModal() {

@@ -5,7 +5,7 @@ export const fetchStudentsApi = async () => {
   const { data: students, error } = await supabase
     .from("students")
     .select("*")
-    .order("lastName", { ascending: false })
+    .order("lastName", { ascending: true })
   if (error) throw new Error(error.message)
   return students
 }

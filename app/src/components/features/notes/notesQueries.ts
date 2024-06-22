@@ -8,6 +8,7 @@ export function useActiveNotesQuery() {
     queryKey: ["notes"],
     queryFn: () => fetchActiveNotesAPI(),
     enabled: Boolean(user),
+    staleTime: 1000 * 60 * 60 * 24,
   })
 
   return result

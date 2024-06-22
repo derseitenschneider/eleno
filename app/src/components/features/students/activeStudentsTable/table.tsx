@@ -6,7 +6,7 @@ import {
   useReactTable,
   type SortingState,
 } from "@tanstack/react-table"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import useStudentsQuery from "../studentsQueries"
 import { studentsColumns } from "./columns"
 import StudentsControl from "./control"
@@ -14,8 +14,11 @@ import StudentsControl from "./control"
 export default function ActiveStudentsTable() {
   const { data: students, isPending, isError, isFetching } = useStudentsQuery()
   const [sorting, setSorting] = useState<SortingState>([])
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const activeStudents = students?.filter((student) => !student.archive)
+  // const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const activeStudents = useMemo(
+    () => students?.filter((student) => !student.archive),
+    [students],
+  )
 
   const table = useReactTable({
     data: activeStudents,
@@ -29,13 +32,14 @@ export default function ActiveStudentsTable() {
   })
   if (isPending) return <p>...loading</p>
   if (isError) return <p>...ERROR</p>
+  console.log("render")
   return (
     <div className=''>
       <StudentsControl />
       <DataTable
         table={table}
         columns={studentsColumns}
-        messageEmpty='Keine Songs vorhanden.'
+        messageEmpty='Kein Schüler:innen vorhanden'
         isFetching={isFetching}
       />
     </div>

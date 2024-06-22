@@ -22,17 +22,18 @@ type StudentsControlProps = {
 export default function StudentsControl() {
   const queryClient = useQueryClient()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
+  const activeStudents = students.filter((student) => !student.archive)
 
-  const [modalOpen, setModalOpen] = useState<"EXPORT" | undefined>()
+  const [modalOpen, setModalOpen] = useState<"EXPORT" | "NEW" | undefined>()
 
-  const hasStudents = students.length > 0
+  const hasActiveStudents = activeStudents.length > 0
 
   return (
     <div className='flex items-end gap-4 mb-4'>
       <div className='mr-auto'>
-        {hasStudents && (
+        {hasActiveStudents && (
           <p className='text-sm mb-3'>
-            Aktive Schüler:innen: <span>{students.length}</span>
+            Aktive Schüler:innen: <span>{activeStudents.length}</span>
           </p>
         )}
         <ActiveStudentsActionDropdown />
@@ -41,7 +42,7 @@ export default function StudentsControl() {
         size='sm'
         variant='outline'
         onClick={() => setModalOpen("EXPORT")}
-        disabled={!hasStudents}
+        disabled={!hasActiveStudents}
       >
         <File className='h-4 w-4 text-primary mr-1' />
         Exportieren
@@ -49,7 +50,7 @@ export default function StudentsControl() {
       <SearchBar
         searchInput={""}
         setSearchInput={() => {}}
-        disabled={!hasStudents}
+        disabled={!hasActiveStudents}
       />
       <Button size='sm' onClick={() => setModalOpen("NEW")}>
         <Plus className='size-4 mr-1' />

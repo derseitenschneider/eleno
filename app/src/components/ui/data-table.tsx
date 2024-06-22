@@ -1,9 +1,6 @@
 import {
   type ColumnDef,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  useReactTable,
   type Table as TTable,
 } from "@tanstack/react-table"
 

@@ -3,7 +3,7 @@ import SearchStudentCombobox from "../students/SearchStudentCombobox.component"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useLatestLessonsQuery } from "./lessonsQueries"
+import { useLatestLessons } from "./lessonsQueries"
 import type { Lesson } from "@/types/types"
 
 function LessonFooter() {
@@ -15,7 +15,7 @@ function LessonFooter() {
   const navigate = useNavigate()
   const { studentId } = useParams()
   const currentStudentId = Number(studentId)
-  const { data: latestLessons } = useLatestLessonsQuery()
+  const { data: latestLessons } = useLatestLessons()
 
   if (!latestLessons || !studentId) return null
 

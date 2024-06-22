@@ -8,7 +8,7 @@ import {
 import { useUser } from "@/services/context/UserContext"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
-export function useLessonYearsQuery(studentId: number) {
+export function useLessonYears(studentId: number) {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ["lesson-years", { studentId }],
@@ -19,7 +19,7 @@ export function useLessonYearsQuery(studentId: number) {
   return result
 }
 
-export function useLatestLessonsQuery() {
+export function useLatestLessons() {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ["latest-3-lessons"],
