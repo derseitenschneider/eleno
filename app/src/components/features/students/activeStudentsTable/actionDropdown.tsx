@@ -18,7 +18,10 @@ import {
   Pencil,
 } from "lucide-react"
 import { useState } from "react"
+import BulkExportLessons from "../../lessons/bulkExportLessons/BulkExportLessons.component"
 import BulkEditStudents from "../BulkEditStudents.component"
+import ResetStudents from "../resetStudents/ResetStudents.component"
+import { useDeactivateStudents } from "../useDeactivateStudents"
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -31,13 +34,16 @@ export function ActiveStudentsActionDropdown({
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
-    "EDIT" | "EXPORT" | "RESET" | "ARCHIVE" | null
+    "EDIT" | "EXPORT" | "RESET" | null
   >(null)
   const students = queryClient.getQueryData(["students"]) as Array<Student>
+  const { deactivateStudents, isDeactivating, isError } =
+    useDeactivateStudents()
 
   const isDisabledAction = Object.entries(selected).length === 0
-  const selectedStudents = Object.keys(selected).map((id) =>
-    students?.find((student) => student.id === Number(id)),
+  const selectedStudentIds = Object.keys(selected).map((id) => Number(id))
+  const selectedStudents = selectedStudentIds.map((id) =>
+    students?.find((student) => student.id === id),
   ) as Array<Student>
 
   function closeModal() {
@@ -81,7 +87,7 @@ export function ActiveStudentsActionDropdown({
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => setOpenModal("ARCHIVE")}
+            onClick={() => deactivateStudents(selectedStudentIds)}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />
@@ -103,18 +109,17 @@ export function ActiveStudentsActionDropdown({
       <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          {/* <BulkExportLessons /> */}
         </DialogContent>
       </Dialog>
 
       <Dialog open={openModal === "RESET"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={openModal === "ARCHIVE"} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogTitle>Schüler:innen archivieren</DialogTitle>
+          <ResetStudents
+            selectedStudentIds={selectedStudentIds}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
     </>

@@ -33,7 +33,7 @@ import { useNavigate } from "react-router-dom"
 import ExportLessons from "../../lessons/ExportLessons.component"
 import AddTodo from "../../todos/AddTodo.component"
 import StudentForm from "../StudentForm.component"
-import { useDeactivateStudent } from "../useDeactivateStudent"
+import { useDeactivateStudents } from "../useDeactivateStudents"
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -46,9 +46,8 @@ export default function ActiveStudentRowDropdown({
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const { deactivateStudent, isDeactivating, isError } = useDeactivateStudent([
-    studentId,
-  ])
+  const { deactivateStudents, isDeactivating, isError } =
+    useDeactivateStudents()
   const navigate = useNavigate()
 
   function closeModal() {
@@ -122,7 +121,7 @@ export default function ActiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => deactivateStudent()}
+              onClick={() => deactivateStudents([studentId])}
               className='flex items-center gap-2'
             >
               <Archive className='h-4 w-4 text-primary' />

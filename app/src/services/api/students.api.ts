@@ -64,8 +64,8 @@ export const updateStudentsApi = async (students: Array<Student>) => {
   return updatedStudents
 }
 
-export const resetStudentSupabase = async (studentIds: number[]) => {
-  const { error } = await supabase
+export const resetStudentsApi = async (studentIds: number[]) => {
+  const { data, error } = await supabase
     .from("students")
     .update({
       dayOfLesson: null,
@@ -75,6 +75,8 @@ export const resetStudentSupabase = async (studentIds: number[]) => {
       location: null,
     })
     .in("id", studentIds)
+    .select("id")
 
   if (error) throw new Error(error.message)
+  return data
 }

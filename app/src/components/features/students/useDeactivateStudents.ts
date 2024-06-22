@@ -6,22 +6,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useParams, useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 
-export function useDeactivateStudent(studentIds: Array<number>) {
+export function useDeactivateStudents() {
   const queryClient = useQueryClient()
   const {
-    mutate: deactivateStudent,
+    mutate: deactivateStudents,
     isPending: isDeactivating,
     isError,
   } = useMutation({
-    mutationFn: () => deactivateStudentApi(studentIds),
-    onMutate: () => {
+    mutationFn: deactivateStudentApi,
+    onMutate: (data) => {
       const previousStudents = queryClient.getQueryData([
         "students",
       ]) as Array<Student>
 
       queryClient.setQueryData(["students"], (prev: Array<Student>) =>
         prev.map((student) => {
-          if (student.id in studentIds) return { ...student, archive: true }
+          if (student.id in data) return { ...student, archive: true }
           return student
         }),
       )
@@ -41,5 +41,5 @@ export function useDeactivateStudent(studentIds: Array<number>) {
       queryClient.setQueryData(["students"], context?.previousStudents)
     },
   })
-  return { deactivateStudent, isDeactivating, isError }
+  return { deactivateStudents, isDeactivating, isError }
 }
