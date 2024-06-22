@@ -48,11 +48,22 @@ export default function AllLessonsControl({
   }
   return (
     <div className='flex items-center justify-between mb-4'>
-      <SearchBar
-        searchInput={globalFilter || ""}
-        setSearchInput={(value) => setGlobalFilter(value)}
+      <Select
         disabled={isFetching}
-      />
+        onValueChange={handleSelect}
+        defaultValue={String(selectedYear)}
+      >
+        <SelectTrigger className='w-fit'>
+          <SelectValue placeholder='Jahr' />
+        </SelectTrigger>
+        <SelectContent>
+          {lessonYears?.map((year) => (
+            <SelectItem key={year} value={String(year)}>
+              {year}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       <div className='flex items-center gap-4'>
         <Button
           size='sm'
@@ -63,22 +74,11 @@ export default function AllLessonsControl({
           Exportieren
         </Button>
 
-        <Select
+        <SearchBar
+          searchInput={globalFilter || ""}
+          setSearchInput={(value) => setGlobalFilter(value)}
           disabled={isFetching}
-          onValueChange={handleSelect}
-          defaultValue={String(selectedYear)}
-        >
-          <SelectTrigger className='-[180px]'>
-            <SelectValue placeholder='Jahr' />
-          </SelectTrigger>
-          <SelectContent>
-            {lessonYears?.map((year) => (
-              <SelectItem key={year} value={String(year)}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        />
       </div>
       <Dialog
         open={modalOpen === "EXPORT"}

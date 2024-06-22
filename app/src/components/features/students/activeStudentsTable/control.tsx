@@ -14,12 +14,15 @@ import {
 import { ActiveStudentsActionDropdown } from "./actionDropdown"
 
 type StudentsControlProps = {
-  table: Table<Student>
   isFetching: boolean
-  // globalFilter: string
-  // setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
+  globalFilter: string
+  setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
 }
-export default function StudentsControl() {
+export default function StudentsControl({
+  globalFilter,
+  setGlobalFilter,
+  isFetching,
+}: StudentsControlProps) {
   const queryClient = useQueryClient()
   const students = queryClient.getQueryData(["students"]) as Array<Student>
   const activeStudents = students.filter((student) => !student.archive)
@@ -27,6 +30,7 @@ export default function StudentsControl() {
   const [modalOpen, setModalOpen] = useState<"EXPORT" | "NEW" | undefined>()
 
   const hasActiveStudents = activeStudents.length > 0
+  const isDisabledControls = activeStudents.length === 0 || isFetching
 
   return (
     <div className='flex items-end gap-4 mb-4'>
@@ -42,17 +46,21 @@ export default function StudentsControl() {
         size='sm'
         variant='outline'
         onClick={() => setModalOpen("EXPORT")}
-        disabled={!hasActiveStudents}
+        disabled={isDisabledControls}
       >
         <File className='h-4 w-4 text-primary mr-1' />
         Exportieren
       </Button>
       <SearchBar
-        searchInput={""}
-        setSearchInput={() => {}}
-        disabled={!hasActiveStudents}
+        searchInput={globalFilter}
+        setSearchInput={(input) => setGlobalFilter(input)}
+        disabled={isDisabledControls}
       />
-      <Button size='sm' onClick={() => setModalOpen("NEW")}>
+      <Button
+        disabled={isFetching}
+        size='sm'
+        onClick={() => setModalOpen("NEW")}
+      >
         <Plus className='size-4 mr-1' />
         <span className='text-white'>Neu</span>
       </Button>

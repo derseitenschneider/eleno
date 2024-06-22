@@ -87,7 +87,6 @@ function RepertoireList() {
       </div>
       <CreateRepertoireItem studentId={Number(studentId)} />
       <RepertoireControl
-        table={table}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}

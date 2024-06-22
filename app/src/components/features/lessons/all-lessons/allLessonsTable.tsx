@@ -36,9 +36,9 @@ export default function AllLessons() {
   } = useAllLessonsPerYear(Number(selectedYear) || 0, Number(studentId))
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
-    const date = row.getValue("date") as Date
-    const lessonContent = row.getValue("lessonContent") as string
-    const homework = row.getValue("homework") as string
+    const date = row.original.date as Date
+    const lessonContent = row.original.lessonContent as string
+    const homework = row.original.homework
 
     return (
       date
@@ -50,7 +50,8 @@ export default function AllLessons() {
         .toLowerCase()
         .includes(value?.toLowerCase()) ||
       lessonContent?.toLowerCase().includes(value?.toLowerCase()) ||
-      homework?.toLowerCase().includes(value?.toLowerCase())
+      homework?.toLowerCase().includes(value?.toLowerCase()) ||
+      false
     )
   }
 

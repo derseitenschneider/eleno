@@ -12,7 +12,7 @@ export default function SidebarToggle({
   return (
     <button
       type='button'
-      className={`absolute right-[-8px] top-[51.444px] flex aspect-auto h-[1em] translate-y-[-50%]
+      className={`absolute right-[-8px] top-[55px] flex aspect-auto h-[1em] translate-y-[-50%]
       items-center justify-center rounded-full bg-primary p-0.5 text-white transition
       duration-150 ${sidebarOpen ? "rotate-[-180deg]" : ""}`}
       onClick={toggleSidebar}

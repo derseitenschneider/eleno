@@ -22,15 +22,14 @@ import {
 import ExportRepertoire from "../ExportRepertoire.component"
 
 type RepertoireControlProps = {
-  table: Table<RepertoireItem>
-  isFetching: boolean
   globalFilter: string
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
+  isFetching: boolean
 }
 export default function RepertoireControl({
-  isFetching,
   globalFilter,
   setGlobalFilter,
+  isFetching,
 }: RepertoireControlProps) {
   const { studentId } = useParams()
   const queryClient = useQueryClient()
@@ -47,7 +46,7 @@ export default function RepertoireControl({
     <div className='flex items-center gap-4 mb-4'>
       <div className='mr-auto'>
         {hasRepertoireItems && (
-          <p>
+          <p className='text-sm'>
             Anzahl Songs: <span>{repertoireItems.length}</span>
           </p>
         )}
@@ -56,7 +55,7 @@ export default function RepertoireControl({
         size='sm'
         variant='outline'
         onClick={() => setModalOpen("EXPORT")}
-        disabled={!hasRepertoireItems}
+        disabled={!hasRepertoireItems || isFetching}
       >
         <FileDown className='h-4 w-4 text-primary mr-2' />
         Exportieren
@@ -64,7 +63,7 @@ export default function RepertoireControl({
       <SearchBar
         searchInput={globalFilter || ""}
         setSearchInput={(value) => setGlobalFilter(value)}
-        disabled={!hasRepertoireItems}
+        disabled={!hasRepertoireItems || isFetching}
       />
       <Dialog
         open={modalOpen === "EXPORT"}
