@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Student } from "@/types/types"
 import { useState } from "react"
-import EditStudentRow from "./editStudentRow/EditStudentRow.component"
+import StudentFormRow from "./StudentFormRow.component"
 import { useUpdateStudents } from "./useUpdateStudents"
 
 type BulkEditStudentsProps = {
@@ -36,7 +36,7 @@ export default function BulkEditStudents({
       </div>
       <div className='max-h-[75vh] w-full overflow-auto p-1'>
         {students.map((student) => (
-          <EditStudentRow
+          <StudentFormRow
             grid={grid}
             key={student.id}
             setStudents={setEditedStudents}

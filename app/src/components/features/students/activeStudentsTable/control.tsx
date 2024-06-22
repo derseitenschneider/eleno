@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { ActiveStudentsActionDropdown } from "./actionDropdown"
 import ExportStudentList from "../ExportStudentList.component"
+import CreateStudents from "../CreateStudents.component"
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -30,7 +31,7 @@ export default function StudentsControl({
   const students = queryClient.getQueryData(["students"]) as Array<Student>
   const activeStudents = students.filter((student) => !student.archive)
 
-  const [modalOpen, setModalOpen] = useState<"EXPORT" | "NEW" | undefined>()
+  const [modalOpen, setModalOpen] = useState<"EXPORT" | "CREATE" | undefined>()
 
   const hasActiveStudents = activeStudents.length > 0
   const isDisabledControls = activeStudents.length === 0 || isFetching
@@ -62,11 +63,12 @@ export default function StudentsControl({
       <Button
         disabled={isFetching}
         size='sm'
-        onClick={() => setModalOpen("NEW")}
+        onClick={() => setModalOpen("CREATE")}
       >
         <Plus className='size-4 mr-1' />
         <span className='text-white'>Neu</span>
       </Button>
+
       <Dialog
         open={modalOpen === "EXPORT"}
         onOpenChange={() => setModalOpen(undefined)}
@@ -75,6 +77,18 @@ export default function StudentsControl({
           <DialogHeader>
             <DialogTitle>Schülerliste exportieren</DialogTitle>
             <ExportStudentList students={activeStudents} />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={modalOpen === "CREATE"}
+        onOpenChange={() => setModalOpen(undefined)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Schüler:innen erfassen</DialogTitle>
+            <CreateStudents />
           </DialogHeader>
         </DialogContent>
       </Dialog>

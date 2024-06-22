@@ -4,7 +4,7 @@ import { useStudents } from "../../../../services/context/StudentContext"
 import fetchErrorToast from "../../../../hooks/fetchErrorToast"
 
 import "./editStudent.style.scss"
-import EditStudentRow from "../editStudentRow/EditStudentRow.component"
+import StudentFormRow from "../StudentFormRow.component"
 
 interface EditStudentsProps {
   onCloseModal?: () => void
@@ -68,7 +68,7 @@ function StudentForm({
         </div>
 
         {inputStudents.map((student) => (
-          <EditStudentRow
+          <StudentFormRow
             student={student}
             setInputStudents={setInputStudents}
             key={student.id}

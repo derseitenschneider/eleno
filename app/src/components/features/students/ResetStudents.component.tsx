@@ -1,10 +1,5 @@
-import "./resetStudents.style.scss"
-
-import { toast } from "react-toastify"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import type { Student } from "@/types/types"
 import { Button } from "@/components/ui/button"
-import { useResetStudents } from "../useResetStudents"
+import { useResetStudents } from "./useResetStudents"
 
 interface ResetStudentsProps {
   selectedStudentIds: Array<number>

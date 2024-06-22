@@ -20,17 +20,15 @@ import {
 import { useState } from "react"
 import BulkExportLessons from "../../lessons/bulkExportLessons/BulkExportLessons.component"
 import BulkEditStudents from "../BulkEditStudents.component"
-import ResetStudents from "../resetStudents/ResetStudents.component"
+import ResetStudents from "../ResetStudents.component"
 import { useDeactivateStudents } from "../useDeactivateStudents"
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
-  table: Table<Student>
 }
 
 export function ActiveStudentsActionDropdown({
   selected,
-  table,
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
