@@ -70,15 +70,19 @@ function StudentListPDF({ students, userName, title }: StudentListPDFProps) {
             <Text style={styles.col2}>{student.firstName}</Text>
             <Text style={styles.col3}>{student.lastName}</Text>
             <Text style={styles.col4}>{student.instrument}</Text>
-            <Text style={styles.col5}>{student.dayOfLesson}</Text>
+            <Text style={styles.col5}>{student.dayOfLesson ?? "–"}</Text>
             <Text style={styles.col6}>
-              {student.startOfLesson?.substring(0, 5)}
+              {student.startOfLesson?.substring(0, 5) ?? "–"}
             </Text>
             <Text style={styles.col7}>
-              {student.endOfLesson?.substring(0, 5)}
+              {student.endOfLesson?.substring(0, 5) ?? "–"}
             </Text>
-            <Text style={styles.col8}>{student.durationMinutes} Min.</Text>
-            <Text style={styles.col9}>{student.location}</Text>
+            <Text style={styles.col8}>
+              {student.durationMinutes
+                ? `${student.durationMinutes} Min.`
+                : "–"}
+            </Text>
+            <Text style={styles.col9}>{student.location ?? "–"}</Text>
           </TablePDF>
         </View>
       ))}

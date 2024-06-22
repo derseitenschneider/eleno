@@ -26,11 +26,11 @@ function ExportStudentList({ students }: ExportStudentListProps) {
     firstName: student.firstName,
     lastName: student.lastName,
     instrument: student.instrument,
-    dayOfLesson: student.dayOfLesson,
-    startOfLesson: student.startOfLesson,
-    endOfLesson: student.endOfLesson,
-    durationMinutes: student.durationMinutes,
-    location: student.location,
+    dayOfLesson: student.dayOfLesson ?? "–",
+    startOfLesson: student.startOfLesson?.substring(0, 5) ?? "–",
+    endOfLesson: student.endOfLesson?.substring(0, 5) ?? "–",
+    durationMinutes: student.durationMinutes ?? "–",
+    location: student.location ?? "–",
   }))
 
   const userNameDashes = userName.toLowerCase().split(" ").join("-")
@@ -65,7 +65,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
               : `schüler:innen-${userNameDashes}.pdf`
           }
         >
-          <Button>PDF herunterladen</Button>
+          <Button size='sm'>PDF herunterladen</Button>
         </PDFDownloadLink>
 
         <CSVLink
@@ -81,9 +81,13 @@ function ExportStudentList({ students }: ExportStudentListProps) {
             { label: "Dauer", key: "durationMinutes" },
             { label: "Unterrichtsort", key: "location" },
           ]}
-          filename={`schüler:innen-${userNameDashes}.csv`}
+          filename={
+            title
+              ? title.split(" ").join("-").toLowerCase()
+              : `schüler:innen-${userNameDashes}.csv`
+          }
         >
-          <Button>CSV herunterladen</Button>
+          <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
       </div>
     </div>
