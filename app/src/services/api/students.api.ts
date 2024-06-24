@@ -1,5 +1,5 @@
 import supabase from "./supabase"
-import type { Student } from "../../types/types"
+import type { Student, StudentPartial } from "../../types/types"
 
 export const fetchStudentsApi = async () => {
   const { data: students, error } = await supabase
@@ -10,13 +10,12 @@ export const fetchStudentsApi = async () => {
   return students
 }
 
-export const createNewStudentSupabase = async (
-  students: Student[],
-  userId: string,
+export const createNewStudentsApi = async (
+  newStudents: StudentPartial[],
 ): Promise<Student[]> => {
-  const newStudents = students.map((student) => {
-    return { ...student, user_id: userId }
-  })
+  // const newStudents = students.map((student) => {
+  //   return { ...student, user_id: userId }
+  // })
 
   const { data, error } = await supabase
     .from("students")

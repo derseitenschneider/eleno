@@ -5,6 +5,7 @@ import type { Student, StudentPartial } from "@/types/types"
 import { Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import StudentFormRow from "./StudentFormRow.component"
+import { useCreateStudents } from "./useCreateStudents"
 
 type CreateStudentsProps = {
   onSuccess: () => void
@@ -23,6 +24,13 @@ const defaultStudent = {
   durationMinutes: null,
 }
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
+  const { user } = useUser()
+  const {
+    createStudents,
+    isCreating,
+    isError: isErrorCreating,
+  } = useCreateStudents()
+
   const [isError, setIsError] = useState(false)
   const [newStudents, setNewStudents] = useState<Array<RowStudent>>([
     {
@@ -43,13 +51,22 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
     setNewStudents((prev) => [...prev, ...additionalStudents])
     setNumStudents(1)
   }
+
   function deleteRow(tempId: number) {
     if (newStudents.length === 1) return
     setNewStudents((prev) =>
       prev.filter((student) => student.tempId !== tempId),
     )
   }
-  function handleSubmit() {}
+  function handleSubmit() {
+    if (!user) return
+    createStudents(
+      newStudents.map((student) => {
+        const { tempId, ...newStudent } = student
+        return { ...newStudent, id: new Date().valueOf(), user_id: user.id }
+      }),
+    )
+  }
 
   return (
     <div className='w-[90vw] pt-2 pl-1'>

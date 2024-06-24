@@ -15,8 +15,8 @@ import type { Database } from "./supabase"
 export type DBTypes = {
   [P in keyof Database["public"]["Tables"]]: Database["public"]["Tables"][P]["Row"]
 } & {
-    [P in keyof Database["public"]["Views"]]: Database["public"]["Views"][P]["Row"]
-  }
+  [P in keyof Database["public"]["Views"]]: Database["public"]["Views"][P]["Row"]
+}
 
 // Removes null except for defined fields
 type RemoveNullExcept<T, E extends keyof T = never> = {
