@@ -9,8 +9,9 @@ import StudentFormRow from "./StudentFormRow.component"
 type CreateStudentsProps = {
   onSuccess: () => void
 }
+export type RowStudent = Omit<StudentPartial & { tempId: number }, "user_id">
 
-const defaultStudent: StudentPartial = {
+const defaultStudent = {
   firstName: "",
   lastName: "",
   archive: false,
@@ -22,20 +23,38 @@ const defaultStudent: StudentPartial = {
   durationMinutes: null,
 }
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
-  const { user } = useUser()
   const [isError, setIsError] = useState(false)
-  const [newStudents, setNewStudents] = useState<Array<Student>>()
+  const [newStudents, setNewStudents] = useState<Array<RowStudent>>([
+    {
+      ...defaultStudent,
+      tempId: Math.round(Math.random() * 1_000_000),
+    },
+  ])
   const [numStudents, setNumStudents] = useState(1)
-  const [input, setInput] = useState(1)
 
-  const arr = Array.from(Array(numStudents).keys())
   const grid =
-    "grid gap-2 items-stretch grid-cols-[1fr_1fr_1fr_1fr_80px_80px_60px_1fr]"
+    "grid gap-2 items-stretch grid-cols-[8px_1fr_1fr_1fr_1fr_80px_80px_65px_1fr_16px]"
 
+  function addStudents() {
+    const additionalStudents = Array.from(Array(numStudents)).map(() => ({
+      ...defaultStudent,
+      tempId: Math.round(Math.random() * 1_000_000),
+    }))
+    setNewStudents((prev) => [...prev, ...additionalStudents])
+    setNumStudents(1)
+  }
+  function deleteRow(tempId: number) {
+    if (newStudents.length === 1) return
+    setNewStudents((prev) =>
+      prev.filter((student) => student.tempId !== tempId),
+    )
+  }
   function handleSubmit() {}
+
   return (
     <div className='w-[90vw] pt-2 pl-1'>
       <div className={grid}>
+        <span />
         <span className='text-sm ml-3'>Vorname*</span>
         <span className='text-sm ml-3'>Nachname*</span>
         <span className='text-sm ml-3'>Instrument*</span>
@@ -45,14 +64,16 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
         <span className='text-sm ml-3'>Dauer</span>
         <span className='text-sm ml-3'>Unterrichtsort</span>
       </div>
-      <div className='max-h-[75vh] w-full overflow-auto p-1'>
-        {arr.map((el) => (
+      <div className='max-h-[75vh] no-scrollbar w-full overflow-auto p-1'>
+        {newStudents.map((newStudent, index) => (
           <StudentFormRow
+            onDeleteRow={deleteRow}
+            index={index}
             grid={grid}
-            key={el}
+            key={newStudent.tempId}
             setStudents={setNewStudents}
+            student={newStudent}
             setIsError={setIsError}
-            indexStudent={el}
           />
         ))}
       </div>
@@ -61,17 +82,14 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
           <Input
             type='number'
             className='w-[60px]'
-            value={input}
-            onChange={(e) => setInput(Number(e.target.value))}
+            value={numStudents}
+            onChange={(e) => setNumStudents(Number(e.target.value))}
           />
           <Button
             variant='ghost'
             size='sm'
             className='flex gap-1'
-            onClick={() => {
-              setNumStudents((prev) => prev + input)
-              setInput(1)
-            }}
+            onClick={addStudents}
           >
             <Plus className='size-4 text-primary' />
             <span>Zeilen hinzufügen</span>

@@ -31,10 +31,14 @@ export default function StudentsControl({
   const students = queryClient.getQueryData(["students"]) as Array<Student>
   const activeStudents = students.filter((student) => !student.archive)
 
-  const [modalOpen, setModalOpen] = useState<"EXPORT" | "CREATE" | undefined>()
+  const [modalOpen, setModalOpen] = useState<"EXPORT" | "CREATE" | null>()
 
   const hasActiveStudents = activeStudents.length > 0
   const isDisabledControls = activeStudents.length === 0 || isFetching
+
+  function closeModal() {
+    setModalOpen(null)
+  }
 
   return (
     <div className='flex items-end gap-4 mb-4'>
@@ -69,10 +73,7 @@ export default function StudentsControl({
         <span className='text-white'>Neu</span>
       </Button>
 
-      <Dialog
-        open={modalOpen === "EXPORT"}
-        onOpenChange={() => setModalOpen(undefined)}
-      >
+      <Dialog open={modalOpen === "EXPORT"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schülerliste exportieren</DialogTitle>
@@ -81,14 +82,11 @@ export default function StudentsControl({
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={modalOpen === "CREATE"}
-        onOpenChange={() => setModalOpen(undefined)}
-      >
+      <Dialog open={modalOpen === "CREATE"} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schüler:innen erfassen</DialogTitle>
-            <CreateStudents />
+            <CreateStudents onSuccess={closeModal} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

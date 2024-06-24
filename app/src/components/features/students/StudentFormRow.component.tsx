@@ -15,28 +15,33 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import type { Student } from "@/types/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Trash2 } from "lucide-react"
 import type { FormEvent } from "react"
 import { useForm } from "react-hook-form"
-import type { Student } from "../../../types/types"
 import calcTimeDifference from "../../../utils/calcTimeDifference"
+import type { RowStudent } from "./CreateStudents.component"
 import { type StudentInput, studentSchema } from "./StudentForm.component"
 
-interface EditStudentRowProps {
-  student?: Student
-  setStudents: React.Dispatch<React.SetStateAction<Array<Student> | undefined>>
+type EditStudentRowProps = {
+  index?: number
+  onDeleteRow?: (tempId: number) => void
+  student: RowStudent & Student
+  setStudents: React.Dispatch<
+    React.SetStateAction<Array<Student & RowStudent> | undefined>
+  >
   setIsError: React.Dispatch<React.SetStateAction<boolean>>
   grid: string
-  indexStudent?: number
 }
 
 function StudentFormRow({
+  onDeleteRow,
+  index,
   student,
   setStudents,
   setIsError,
   grid,
-  indexStudent,
 }: EditStudentRowProps) {
   const form = useForm<StudentInput>({
     resolver: zodResolver(studentSchema),
@@ -69,23 +74,43 @@ function StudentFormRow({
     }
   }
 
+  function deleteRow(e) {
+    e.preventDefault()
+    onDeleteRow?.(student.tempId)
+  }
+
   const onChange = (e: FormEvent<HTMLFormElement>) => {
     const target = e.target as HTMLInputElement
     const name = target.name
     const value = target.value
     setStudents((prev) => {
       if (!prev || !student) return
-      return prev.map((prevStudent) =>
-        prevStudent.id === student.id
-          ? { ...student, [name]: value }
-          : prevStudent,
-      )
+      // When student has no tempId, we are editing a student.
+      if (!student.tempId) {
+        return prev.map((prevStudent) =>
+          prevStudent.id === student.id
+            ? { ...student, [name]: value }
+            : prevStudent,
+        )
+      }
+      // When student has tempId, we are creating a student.
+      if (student.tempId)
+        return prev.map((prevStudent) =>
+          prevStudent.tempId === student.tempId
+            ? { ...student, [name]: value }
+            : prevStudent,
+        )
     })
   }
   return (
     <Form {...form}>
-      <div className='flex w-full gap-1'>
+      <div className='flex relative w-full gap-1'>
         <form onChange={onChange} className={cn(grid, "mb-2 grow")}>
+          {index !== undefined ? (
+            <span className='text-xs text-foreground/75 self-center justify-self-center'>
+              {index + 1}.
+            </span>
+          ) : null}
           <FormField
             control={form.control}
             name='firstName'
@@ -240,6 +265,7 @@ function StudentFormRow({
               <FormItem className='ml-auto grow-1'>
                 <FormControl>
                   <Input
+                    placeholder='45'
                     type='number'
                     className={cn(
                       form.formState.errors.durationMinutes && "border-warning",
@@ -274,17 +300,17 @@ function StudentFormRow({
               </FormItem>
             )}
           />
+          {student.tempId && (
+            <Button
+              variant='ghost'
+              size='icon'
+              className='w-fit justify-self-end'
+              onClick={deleteRow}
+            >
+              <Trash2 className='size-4 text-warning' />
+            </Button>
+          )}
         </form>
-        {!student && (
-          <Button
-            variant='ghost'
-            size='icon'
-            className='w-fit justify-self-end'
-            onClick={() => console.log(indexStudent)}
-          >
-            <Trash2 className='size-4 text-warning' />
-          </Button>
-        )}
         {form.formState.errors.root && (
           <p className='mt-2 text-sm text-warning'>
             {form.formState.errors.root.message}
