@@ -34,7 +34,7 @@ export const deactivateStudentApi = async (studentIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const reactivateStudentSupabase = async (studentIds: number[]) => {
+export const reactivateStudentsApi = async (studentIds: number[]) => {
   const { error } = await supabase
     .from("students")
     .update({ archive: false })
@@ -43,7 +43,7 @@ export const reactivateStudentSupabase = async (studentIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteStudentSupabase = async (studentIds: number[]) => {
+export const deletestudentsApi = async (studentIds: number[]) => {
   const { error } = await supabase
     .from("students")
     .delete()

@@ -28,10 +28,10 @@ const studentsRoutes = [
         path: "",
         element: <ActiveStudents />,
       },
-      // {
-      //   path: "archive",
-      //   element: <InactiveStudents />,
-      // },
+      {
+        path: "archive",
+        element: <InactiveStudents />,
+      },
       // {
       //   path: "groups",
       //   element: <Groups />,

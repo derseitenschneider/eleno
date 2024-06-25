@@ -1,5 +1,4 @@
-import ActiveStudentsTable from "../activeStudentsTable/table"
-import "./studentsActive.style.scss"
+import ActiveStudentsTable from "./activeStudentsTable/table"
 
 export default function ActiveStudents() {
   return (

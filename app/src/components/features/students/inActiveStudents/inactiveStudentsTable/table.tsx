@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table"
-import { Student } from "@/types/types"
+import type { Student } from "@/types/types"
 import {
   type RowSelectionState,
   type SortingState,
@@ -10,17 +10,19 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
-import useStudentsQuery from "../studentsQueries"
-import { studentsColumns } from "./columns"
-import StudentsControl from "./control"
+import useStudentsQuery from "../../studentsQueries"
+import { inactiveStudentscolumns } from "./columns"
+import InactiveStudentsControl from "./control"
+// import { studentsColumns } from "./columns"
+// import StudentsControl from "./control"
 
-export default function ActiveStudentsTable() {
+export default function InactiveStudentsTable() {
   const { data: students, isPending, isError, isFetching } = useStudentsQuery()
   const [globalFilter, setGlobalFilter] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const activeStudents = useMemo(
-    () => students?.filter((student) => !student.archive),
+  const inactiveStudents = useMemo(
+    () => students?.filter((student) => student.archive),
     [students],
   )
 
@@ -42,8 +44,8 @@ export default function ActiveStudentsTable() {
   }
 
   const table = useReactTable({
-    data: activeStudents,
-    columns: studentsColumns,
+    data: inactiveStudents,
+    columns: inactiveStudentscolumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -63,7 +65,7 @@ export default function ActiveStudentsTable() {
 
   return (
     <div className=''>
-      <StudentsControl
+      <InactiveStudentsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}
@@ -71,7 +73,7 @@ export default function ActiveStudentsTable() {
       />
       <DataTable
         table={table}
-        columns={studentsColumns}
+        columns={inactiveStudentscolumns}
         messageEmpty='Kein Schüler:innen vorhanden'
         isFetching={isFetching}
       />

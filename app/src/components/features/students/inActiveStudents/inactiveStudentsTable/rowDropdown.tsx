@@ -26,25 +26,31 @@ import {
   GraduationCap,
   MoreVertical,
   Pencil,
+  StepBack,
   TableProperties,
+  Trash2,
+  Undo2,
 } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import ExportLessons from "../../lessons/ExportLessons.component"
-import AddTodo from "../../todos/AddTodo.component"
-import StudentForm from "../StudentForm.component"
-import { useDeactivateStudents } from "../useDeactivateStudents"
+import ExportLessons from "../../../lessons/ExportLessons.component"
+import AddTodo from "../../../todos/AddTodo.component"
+import DeleteStudents from "../../deleteStudents/DeleteStudents.component"
+import StudentForm from "../../StudentForm.component"
+import { useDeactivateStudents } from "../../useDeactivateStudents"
+import { useReactivateStudents } from "../../useReactivateStudents"
 
 type StudentRowDropdownProps = {
   studentId: number
 }
 
-type Modals = "EDIT" | "TODO" | "EXPORT" | "ARCHIVE" | null
+type Modals = "EXPORT" | "DELETE" | null
 
-export default function ActiveStudentRowDropdown({
+export default function InactiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
+  const { reactivateStudents } = useReactivateStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateStudents, isDeactivating, isError } =
     useDeactivateStudents()
@@ -67,42 +73,19 @@ export default function ActiveStudentRowDropdown({
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => setOpenModal("EDIT")}
+              onClick={() => reactivateStudents([studentId])}
               className='flex items-center gap-2'
             >
-              <Pencil className='h-4 w-4 text-primary' />
-              <span>Bearbeiten</span>
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              onClick={() => setOpenModal("TODO")}
-              className='flex items-center gap-2'
-            >
-              <CheckSquare2 className='h-4 w-4 text-primary' />
-              <span>Todo erfassen</span>
+              <Undo2 className='size-4 text-primary' />
+              <span>Wiederherstellen</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem
               onClick={() => setOpenModal("EXPORT")}
               className='flex items-center gap-2'
             >
-              <FileDown className='h-4 w-4 text-primary' />
+              <FileDown className='size-4 text-primary' />
               <span>Lektionsliste exportieren</span>
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              onClick={() => {
-                const newStudentIndex =
-                  activeSortedStudentIds.indexOf(studentId)
-                setCurrentStudentIndex(newStudentIndex)
-                navigate(`/lessons/${studentId}`)
-              }}
-              className='flex items-center gap-2'
-            >
-              <GraduationCap className='h-4 w-4 text-primary' />
-              <span>Zum Unterrichtsblatt</span>
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -114,45 +97,22 @@ export default function ActiveStudentRowDropdown({
               }}
               className='flex items-center gap-2'
             >
-              <TableProperties className='h-4 w-4 text-primary' />
+              <TableProperties className='size-4 text-primary' />
               <span>Zum Repertoire</span>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => deactivateStudents([studentId])}
+              onClick={() => setOpenModal("DELETE")}
               className='flex items-center gap-2'
             >
-              <Archive className='h-4 w-4 text-primary' />
-              <span>Archivieren</span>
+              <Trash2 className='size-4 text-warning' />
+              <span>Löschen</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-
-      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Schüler:in bearbeiten</SheetTitle>
-          </SheetHeader>
-          <StudentForm
-            onSuccess={() => {
-              closeModal()
-            }}
-            studentId={studentId}
-          />
-        </SheetContent>
-      </Sheet>
-
-      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Neue Todo erstellen</DialogTitle>
-          </DialogHeader>
-          <AddTodo onCloseModal={closeModal} studentId={studentId} />
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
         <DialogContent>
@@ -160,6 +120,15 @@ export default function ActiveStudentRowDropdown({
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
           <ExportLessons studentId={studentId} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Schüler:in löschen</DialogTitle>
+          </DialogHeader>
+          <DeleteStudents onSuccess={closeModal} studentIds={[studentId]} />
         </DialogContent>
       </Dialog>
     </>

@@ -1,51 +1,37 @@
-import { useState } from "react"
-import { toast } from "react-toastify"
-import { useStudents } from "../../../../services/context/StudentContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import { useInactiveStudents } from "../inActiveStudents/InactiveStudents.component"
-import "./deleteStudents.style.scss"
+import { useQueryClient } from "@tanstack/react-query"
+import type { Student } from "@/types/types"
+import { Button } from "@/components/ui/button"
+import { useDeleteStudents } from "../useDeleteStudents"
 
 interface DeleteStudentsProps {
-  onCloseModal?: () => void
-  studentIds?: number[]
+  onSuccess: () => void
+  studentIds: number[]
 }
 
-function DeleteStudents({ onCloseModal, studentIds }: DeleteStudentsProps) {
-  const [isPending, setIsPending] = useState(false)
-  const { inactiveStudents, deleteStudents } = useStudents()
-  const { selectedStudents, setSelectedStudents } = useInactiveStudents()
+function DeleteStudents({ onSuccess, studentIds }: DeleteStudentsProps) {
+  const { deleteStudents, isDeleting, isError } = useDeleteStudents()
+  const queryClient = useQueryClient()
 
-  const studentsToDelete = studentIds || selectedStudents
+  const students = queryClient.getQueryData(["students"]) as
+    | Array<Student>
+    | undefined
 
-  const { firstName, lastName } = inactiveStudents.find(
-    (student) => student.id === studentsToDelete[0],
+  const studentsToDelete = studentIds.map((id) =>
+    students?.find((student) => student.id === id),
   )
 
-  const handleDeleteStudents = async () => {
-    setIsPending(true)
-    try {
-      await deleteStudents(studentsToDelete)
-      onCloseModal?.()
-      toast(`Schüler:in${selectedStudents.length > 1 ? "nen" : ""} gelöscht`)
-      setSelectedStudents([])
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
+  function handleDeleteStudents() {
+    deleteStudents(studentIds, {
+      onSuccess,
+    })
   }
   return (
-    <div className={`delete-students${isPending ? " loading" : ""}`}>
-      <h2 className='heading-2'>
-        {studentsToDelete.length === 1
-          ? "Schüler:in löschen"
-          : "Schüler:innen löschen"}
-      </h2>
+    <div>
       {studentsToDelete.length === 1 ? (
         <p>
           Möchtest du{" "}
-          <span className='delete-students__name'>
-            {firstName} {lastName}
+          <span className='font-semibold text-primary'>
+            {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName}
           </span>{" "}
           und alle zugehörigen Daten endgültig löschen?
         </p>
@@ -56,11 +42,11 @@ function DeleteStudents({ onCloseModal, studentIds }: DeleteStudentsProps) {
         </p>
       )}
 
-      <div className='delete-students__buttons'>
-        <Button type='button' btnStyle='secondary' onClick={onCloseModal}>
+      <div className='flex justify-end gap-4 mt-4'>
+        <Button size='sm' variant='outline' onClick={onSuccess}>
           Abbrechen
         </Button>
-        <Button type='button' btnStyle='danger' onClick={handleDeleteStudents}>
+        <Button size='sm' variant='destructive' onClick={handleDeleteStudents}>
           Löschen
         </Button>
       </div>

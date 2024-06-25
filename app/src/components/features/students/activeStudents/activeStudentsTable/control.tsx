@@ -12,8 +12,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { ActiveStudentsActionDropdown } from "./actionDropdown"
-import ExportStudentList from "../ExportStudentList.component"
-import CreateStudents from "../CreateStudents.component"
+import ExportStudentList from "../../ExportStudentList.component"
+import CreateStudents from "../../CreateStudents.component"
 
 type StudentsControlProps = {
   isFetching: boolean

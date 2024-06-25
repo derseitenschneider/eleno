@@ -1,9 +1,14 @@
 import { Button } from "@/components/ui/button"
+import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { useUser } from "@/services/context/UserContext"
 import type { Student, StudentPartial } from "@/types/types"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { StudentInput, studentSchema } from "./StudentForm.component"
 import StudentFormRow from "./StudentFormRow.component"
 import { useCreateStudents } from "./useCreateStudents"
 
@@ -40,6 +45,26 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   ])
   const [numStudents, setNumStudents] = useState(1)
 
+  const form = useForm<StudentInput>({
+    resolver: zodResolver(studentSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      instrument: "",
+      dayOfLesson: null,
+      startOfLesson: "",
+      endOfLesson: "",
+      durationMinutes: null,
+      location: "",
+    },
+    mode: "all",
+    resetOptions: {
+      keepDirtyValues: true,
+      keepErrors: false,
+    },
+    shouldFocusError: true,
+  })
+
   const grid =
     "grid gap-2 items-stretch grid-cols-[8px_1fr_1fr_1fr_1fr_80px_80px_65px_1fr_16px]"
 
@@ -58,14 +83,15 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       prev.filter((student) => student.tempId !== tempId),
     )
   }
-  function handleSubmit() {
+  async function onSubmit(data) {
     if (!user) return
-    createStudents(
-      newStudents.map((student) => {
-        const { tempId, ...newStudent } = student
-        return { ...newStudent, id: new Date().valueOf(), user_id: user.id }
-      }),
-    )
+    console.log(data)
+    // createStudents(
+    //   newStudents.map((student) => {
+    //     const { tempId, ...newStudent } = student
+    //     return { ...newStudent, id: new Date().valueOf(), user_id: user.id }
+    //   }),
+    // )
   }
 
   return (
@@ -81,44 +107,49 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
         <span className='text-sm ml-3'>Dauer</span>
         <span className='text-sm ml-3'>Unterrichtsort</span>
       </div>
-      <div className='max-h-[75vh] no-scrollbar w-full overflow-auto p-1'>
-        {newStudents.map((newStudent, index) => (
-          <StudentFormRow
-            onDeleteRow={deleteRow}
-            index={index}
-            grid={grid}
-            key={newStudent.tempId}
-            setStudents={setNewStudents}
-            student={newStudent}
-            setIsError={setIsError}
-          />
-        ))}
-      </div>
-      <div className='flex gap-4 items-center mt-4 justify-end'>
-        <div className='mr-auto flex items-center'>
-          <Input
-            type='number'
-            className='w-[60px]'
-            value={numStudents}
-            onChange={(e) => setNumStudents(Number(e.target.value))}
-          />
-          <Button
-            variant='ghost'
-            size='sm'
-            className='flex gap-1'
-            onClick={addStudents}
-          >
-            <Plus className='size-4 text-primary' />
-            <span>Zeilen hinzufügen</span>
-          </Button>
-        </div>
-        <Button size='sm' variant='outline' onClick={onSuccess}>
-          Abbrechen
-        </Button>
-        <Button size='sm' onClick={handleSubmit}>
-          Speichern
-        </Button>
-      </div>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Form {...form}>
+          <div className='max-h-[75vh] no-scrollbar w-full overflow-auto p-1'>
+            {newStudents.map((newStudent, index) => (
+              <StudentFormRow
+                form={form}
+                onDeleteRow={deleteRow}
+                index={index}
+                grid={grid}
+                key={newStudent.tempId}
+                setStudents={setNewStudents}
+                student={newStudent}
+                setIsError={setIsError}
+              />
+            ))}
+          </div>
+          <div className='flex gap-4 items-center mt-4 justify-end'>
+            <div className='mr-auto flex items-center'>
+              <Input
+                type='number'
+                className='w-[60px]'
+                value={numStudents}
+                onChange={(e) => setNumStudents(Number(e.target.value))}
+              />
+              <Button
+                variant='ghost'
+                size='sm'
+                className='flex gap-1'
+                onClick={addStudents}
+              >
+                <Plus className='size-4 text-primary' />
+                <span>Zeilen hinzufügen</span>
+              </Button>
+            </div>
+            <Button size='sm' variant='outline' onClick={onSuccess}>
+              Abbrechen
+            </Button>
+            <Button size='sm' onClick={onSubmit}>
+              Speichern
+            </Button>
+          </div>
+        </Form>
+      </form>
     </div>
   )
 }
