@@ -1,17 +1,11 @@
 import { Button } from "@/components/ui/button"
-import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { useUser } from "@/services/context/UserContext"
-import type { Student, StudentPartial } from "@/types/types"
-import { zodResolver } from "@hookform/resolvers/zod"
+import type { StudentPartial } from "@/types/types"
 import { Plus, Trash2 } from "lucide-react"
-import { useEffect, useState } from "react"
-import { FieldApi, useForm } from "@tanstack/react-form"
-import { StudentInput, studentSchema } from "./StudentForm.component"
-import StudentFormRow from "./StudentFormRow.component"
+import { useState } from "react"
+import { useForm } from "@tanstack/react-form"
 import { useCreateStudents } from "./useCreateStudents"
-import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -19,6 +13,7 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select"
+import { useUser } from "@/services/context/UserContext"
 
 type CreateStudentsProps = {
   onSuccess: () => void
@@ -34,10 +29,10 @@ const defaultStudent = {
   startOfLesson: "",
   endOfLesson: "",
   durationMinutes: null,
-  tempId: new Date().valueOf(),
 }
 
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
+  const { user } = useUser()
   const {
     createStudents,
     isCreating,
@@ -46,10 +41,17 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const form = useForm({
     defaultValues: {
-      students: [defaultStudent],
+      students: [] as Array<StudentPartial>,
     },
     onSubmit({ value }) {
-      console.log(value)
+      if (!user) return
+      const newStudents = value.students.map((student) => ({
+        ...student,
+        startOfLesson: student.startOfLesson || null,
+        endOfLesson: student.endOfLesson || null,
+        user_id: user.id,
+      }))
+      console.log(newStudents)
     },
   })
 
@@ -61,7 +63,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   function addRow(field) {
     const additionalStudents = Array.from(Array(numStudents)).map(() => ({
       ...defaultStudent,
+      tempId: Math.trunc(Math.random() * 1_000_000),
     }))
+    console.log(additionalStudents)
     for (const additionalStudent in additionalStudents) {
       field.pushValue(additionalStudent)
     }
@@ -70,18 +74,19 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   return (
     <div className='w-[90vw] pt-2 pl-1'>
-      <div className={grid}>
+      <div className={cn(grid, "p-1")}>
+        <p />
+        <p className='text-sm pl-3'>Vorname*</p>
+        <span className='text-sm pl-3'>Nachname*</span>
+        <span className='text-sm pl-3'>Instrument*</span>
+        <span className='text-sm pl-3'>Tag</span>
+        <span className='text-sm pl-3'>Von</span>
+        <span className='text-sm pl-3'>Bis</span>
+        <span className='text-sm pl-3'>Dauer</span>
+        <span className='text-sm pl-3'>Unterrichtsort</span>
         <span />
-        <span className='text-sm ml-3'>Vorname*</span>
-        <span className='text-sm ml-3'>Nachname*</span>
-        <span className='text-sm ml-3'>Instrument*</span>
-        <span className='text-sm ml-3'>Tag</span>
-        <span className='text-sm ml-3'>Von</span>
-        <span className='text-sm ml-3'>Bis</span>
-        <span className='text-sm ml-3'>Dauer</span>
-        <span className='text-sm ml-3'>Unterrichtsort</span>
       </div>
-      <div className='max-h-[75vh] no-scrollbar w-full overflow-auto p-1'>
+      <div className='w-full overflow-auto p-1'>
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -93,59 +98,52 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             {(field) => {
               return (
                 <div>
-                  {field.state.value.map((value, i) => {
-                    return (
-                      <div className={cn(grid, "mb-1")} key={i}>
-                        <span className='text-xs text-foreground/75 self-center'>
-                          {i + 1}
-                        </span>
-                        <form.Field name={`students[${i}].firstName`}>
-                          {(subField) => {
-                            return (
-                              <div>
-                                <Input
-                                  className='h-full'
-                                  value={subField.state.value}
-                                  onChange={(e) =>
-                                    subField.handleChange(e.target.value)
-                                  }
-                                />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].lastName`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                  <div className='h-[60vh] overflow-auto no-scrollbar p-1'>
+                    {field.state.value.map((value, i) => {
+                      return (
+                        <div className={cn(grid, "mb-1")} key={value.tempId}>
+                          <span className='text-xs text-foreground/75 self-center'>
+                            {i + 1}
+                          </span>
+                          <form.Field name={`students[${i}].firstName`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   value={subField.state.value}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].instrument`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].lastName`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   value={subField.state.value}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].dayOfLesson`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].instrument`}>
+                            {(subField) => {
+                              return (
+                                <Input
+                                  value={subField.state.value}
+                                  onChange={(e) =>
+                                    subField.handleChange(e.target.value)
+                                  }
+                                />
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].dayOfLesson`}>
+                            {(subField) => {
+                              return (
                                 <Select
                                   onValueChange={(e) => {
                                     subField.handleChange(e)
@@ -153,7 +151,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                   defaultValue={subField.state.value || ""}
                                   // disabled={form.formState.isSubmitting}
                                 >
-                                  <SelectTrigger>
+                                  <SelectTrigger className='h-9'>
                                     <SelectValue placeholder='Unterrichtstag' />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -181,14 +179,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                     <SelectItem value='none'>-</SelectItem>
                                   </SelectContent>
                                 </Select>
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].startOfLesson`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].startOfLesson`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   type='time'
                                   value={subField.state.value}
@@ -196,14 +192,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].endOfLesson`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].endOfLesson`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   type='time'
                                   value={subField.state.value}
@@ -211,14 +205,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].durationMinutes`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].durationMinutes`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   type='number'
                                   value={subField.state.value || ""}
@@ -226,35 +218,34 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <form.Field name={`students[${i}].location`}>
-                          {(subField) => {
-                            return (
-                              <div>
+                              )
+                            }}
+                          </form.Field>
+                          <form.Field name={`students[${i}].location`}>
+                            {(subField) => {
+                              return (
                                 <Input
                                   value={subField.state.value}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
                                 />
-                              </div>
-                            )
-                          }}
-                        </form.Field>
-                        <Button
-                          variant='ghost'
-                          size='icon'
-                          className='w-fit justify-self-end'
-                          onClick={() => field.removeValue(i)}
-                        >
-                          <Trash2 className='size-4 text-warning' />
-                        </Button>
-                      </div>
-                    )
-                  })}
+                              )
+                            }}
+                          </form.Field>
+                          <Button
+                            variant='ghost'
+                            type='button'
+                            size='icon'
+                            className='w-fit justify-self-end'
+                            onClick={() => field.removeValue(i)}
+                          >
+                            <Trash2 className='size-4 text-warning' />
+                          </Button>
+                        </div>
+                      )
+                    })}
+                  </div>
                   <div className='flex gap-4 items-center mt-4 justify-end'>
                     <div className='mr-auto flex items-center'>
                       <Input
@@ -266,6 +257,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                       <Button
                         variant='ghost'
                         size='sm'
+                        type='button'
                         className='flex gap-1'
                         onClick={() => addRow(field)}
                       >

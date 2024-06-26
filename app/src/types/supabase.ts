@@ -319,7 +319,7 @@ export type Database = {
           lastName: string
           location?: string | null
           startOfLesson?: string | null
-          user_id: string
+          user_id?: string
         }
         Update: {
           archive?: boolean

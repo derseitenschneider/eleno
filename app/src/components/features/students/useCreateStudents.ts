@@ -1,6 +1,6 @@
 import fetchErrorToast from "@/hooks/fetchErrorToast"
 import {
-  createNewStudentsApi,
+  createStudentsApi,
   resetStudentsApi,
 } from "@/services/api/students.api"
 import type { Student } from "@/types/types"
@@ -14,7 +14,7 @@ export function useCreateStudents() {
     isPending: isCreating,
     isError,
   } = useMutation({
-    mutationFn: createNewStudentsApi,
+    mutationFn: createStudentsApi,
     onMutate: (newStudents) => {
       const previousStudents = queryClient.getQueryData([
         "students",

@@ -10,7 +10,7 @@ export const fetchStudentsApi = async () => {
   return students
 }
 
-export const createNewStudentsApi = async (
+export const createStudentsApi = async (
   newStudents: StudentPartial[],
 ): Promise<Student[]> => {
   // const newStudents = students.map((student) => {
