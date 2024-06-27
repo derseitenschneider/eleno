@@ -85,6 +85,7 @@ function RepertoireList() {
           <span>Zur Lektion</span>
         </NavLink>
       </div>
+      <h2>Repertoire</h2>
       <CreateRepertoireItem studentId={Number(studentId)} />
       <RepertoireControl
         globalFilter={globalFilter}

@@ -1,3 +1,4 @@
+import useGroupsQuery from "@/components/features/groups/groupsQuery"
 import useStudentsQuery from "@/components/features/students/studentsQueries"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import type { ContextTypeClosestStudent as ContextTypeNearestStudent } from "../../types/types"
@@ -6,8 +7,12 @@ import { useStudents } from "./StudentContext"
 
 export const NearestStudentContext = createContext<ContextTypeNearestStudent>({
   nearestStudentIndex: 0,
-  setNearestStudentIndex: () => { },
+  setNearestStudentIndex: () => {},
 })
+
+// export type CanHaveLesson = {
+//   dayOfLesson?:
+// }
 
 export function NearestStudentProvider({
   children,
@@ -15,6 +20,7 @@ export function NearestStudentProvider({
   children: React.ReactNode
 }) {
   const students = useStudentsQuery().data
+  const groups = useGroupsQuery().data
   const [nearestStudentIndex, setNearestStudentIndex] = useState(0)
 
   useEffect(() => {

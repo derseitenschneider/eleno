@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import type { StudentPartial } from "@/types/types"
+import type { Student, StudentPartial } from "@/types/types"
 import { Plus, Trash2 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "@tanstack/react-form"
 import { useCreateStudents } from "./useCreateStudents"
 import {
@@ -18,11 +18,12 @@ import { useUser } from "@/services/context/UserContext"
 type CreateStudentsProps = {
   onSuccess: () => void
 }
-export type RowStudent = Omit<StudentPartial & { tempId: number }, "user_id">
-const defaultStudent = {
+export type RowStudent = Omit<StudentPartial, "user_id" | "archive"> & {
+  tempId?: number
+}
+const defaultStudent: RowStudent = {
   firstName: "",
   lastName: "",
-  archive: false,
   location: "",
   instrument: "",
   dayOfLesson: null,
@@ -41,16 +42,21 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const form = useForm({
     defaultValues: {
-      students: [] as Array<StudentPartial>,
+      students: [
+        { ...defaultStudent, tempId: Math.trunc(Math.random() * 1_000_000) },
+      ] as Array<RowStudent>,
     },
+
     onSubmit({ value }) {
       if (!user) return
-      const newStudents = value.students.map((student) => ({
+      const newStudents = value.students.map(({ tempId, ...student }) => ({
         ...student,
+        archive: false,
+        user_id: user.id,
         startOfLesson: student.startOfLesson || null,
         endOfLesson: student.endOfLesson || null,
-        user_id: user.id,
       }))
+      createStudents(newStudents)
       console.log(newStudents)
     },
   })
@@ -65,9 +71,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       ...defaultStudent,
       tempId: Math.trunc(Math.random() * 1_000_000),
     }))
-    console.log(additionalStudents)
-    for (const additionalStudent in additionalStudents) {
-      field.pushValue(additionalStudent)
+
+    for (const additionalStudent of additionalStudents) {
+      field.pushValue({ ...additionalStudent })
     }
     setNumStudents(1)
   }
@@ -98,14 +104,17 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             {(field) => {
               return (
                 <div>
-                  <div className='h-[60vh] overflow-auto no-scrollbar p-1'>
+                  <div className='max-h-[60vh] overflow-auto no-scrollbar p-1'>
                     {field.state.value.map((value, i) => {
                       return (
                         <div className={cn(grid, "mb-1")} key={value.tempId}>
                           <span className='text-xs text-foreground/75 self-center'>
                             {i + 1}
                           </span>
-                          <form.Field name={`students[${i}].firstName`}>
+                          <form.Field
+                            name={`students[${i}].firstName`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -117,7 +126,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].lastName`}>
+                          <form.Field
+                            name={`students[${i}].lastName`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -129,7 +141,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].instrument`}>
+                          <form.Field
+                            name={`students[${i}].instrument`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -141,7 +156,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].dayOfLesson`}>
+                          <form.Field
+                            name={`students[${i}].dayOfLesson`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Select
@@ -182,7 +200,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].startOfLesson`}>
+                          <form.Field
+                            name={`students[${i}].startOfLesson`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -195,7 +216,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].endOfLesson`}>
+                          <form.Field
+                            name={`students[${i}].endOfLesson`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -208,7 +232,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].durationMinutes`}>
+                          <form.Field
+                            name={`students[${i}].durationMinutes`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -221,7 +248,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               )
                             }}
                           </form.Field>
-                          <form.Field name={`students[${i}].location`}>
+                          <form.Field
+                            name={`students[${i}].location`}
+                            preserveValue
+                          >
                             {(subField) => {
                               return (
                                 <Input
@@ -234,6 +264,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                             }}
                           </form.Field>
                           <Button
+                            tabIndex={-1}
                             variant='ghost'
                             type='button'
                             size='icon'

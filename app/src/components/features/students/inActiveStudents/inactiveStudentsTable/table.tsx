@@ -74,7 +74,7 @@ export default function InactiveStudentsTable() {
       <DataTable
         table={table}
         columns={inactiveStudentscolumns}
-        messageEmpty='Kein Schüler:innen vorhanden'
+        messageEmpty='Keine Schüler:innen vorhanden'
         isFetching={isFetching}
       />
     </div>

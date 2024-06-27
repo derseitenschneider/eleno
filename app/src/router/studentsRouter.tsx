@@ -1,11 +1,4 @@
-import LessonHeader from "@/components/features/lessons/LessonHeader"
-import AllLessons from "@/components/features/lessons/all-lessons/allLessonsTable"
-import Repertoire from "@/components/features/repertoire/Repertoire.component"
-import { motion } from "framer-motion"
 import { Suspense, lazy } from "react"
-import { Outlet } from "react-router-dom"
-import NoStudents from "@/components/features/lessons/NoStudents.component"
-import LessonFooter from "@/components/features/lessons/LessonFooter.component"
 import StudentsSkeleton from "@/components/ui/skeletons/StudentsSkeleton.component"
 import Students from "@/pages/students/Students"
 import ActiveStudents from "@/components/features/students/activeStudents/ActiveStudents.component"
@@ -32,10 +25,10 @@ const studentsRoutes = [
         path: "archive",
         element: <InactiveStudents />,
       },
-      // {
-      //   path: "groups",
-      //   element: <Groups />,
-      // },
+      {
+        path: "groups",
+        element: <Groups />,
+      },
     ],
   },
 ]

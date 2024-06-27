@@ -1,0 +1,64 @@
+import { DataTable } from "@/components/ui/data-table"
+import type { Group, Student } from "@/types/types"
+import {
+  type RowSelectionState,
+  type SortingState,
+  type FilterFn,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+import { useMemo, useState } from "react"
+import useGroupsQuery from "../groupsQuery"
+import { groupsColumns } from "./columns"
+
+export default function GroupsTable() {
+  const { data: groups, isPending, isError, isFetching } = useGroupsQuery()
+  const [globalFilter, setGlobalFilter] = useState("")
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
+  const fuzzyFilter: FilterFn<Group> = (row, _, searchValue) => {
+    const name = row.original.name
+
+    return name.toLowerCase().includes(searchValue.toLowerCase()) || false
+  }
+
+  const table = useReactTable({
+    data: groups,
+    columns: groupsColumns,
+    globalFilterFn: fuzzyFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    getFilteredRowModel: getFilteredRowModel(),
+    getRowId: (row) => String(row.id),
+    state: {
+      sorting,
+      rowSelection,
+      globalFilter,
+    },
+  })
+  if (isPending) return <p>...loading</p>
+  if (isError) return <p>...ERROR</p>
+
+  return (
+    <div className=''>
+      {/* <StudentsControl */}
+      {/*   globalFilter={globalFilter} */}
+      {/*   setGlobalFilter={setGlobalFilter} */}
+      {/*   isFetching={isFetching} */}
+      {/*   selected={rowSelection} */}
+      {/* /> */}
+      <DataTable
+        table={table}
+        columns={groupsColumns}
+        messageEmpty='Keine Gruppen vorhanden'
+        isFetching={isFetching}
+      />
+    </div>
+  )
+}

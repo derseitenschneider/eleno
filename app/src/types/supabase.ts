@@ -36,45 +36,45 @@ export type Database = {
     Tables: {
       groups: {
         Row: {
-          archive: boolean
-          createdAt: string
-          dayOfLesson: string | null
+          created_at: string
+          dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes: number | null
           endOfLesson: string | null
-          groupName: string
-          id: string
+          id: number
+          location: string | null
+          name: string
           startOfLesson: string | null
           students: string[] | null
-          userId: string
+          user_id: string | null
         }
         Insert: {
-          archive?: boolean
-          createdAt?: string
-          dayOfLesson?: string | null
+          created_at?: string
+          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
-          groupName: string
-          id?: string
+          id?: number
+          location?: string | null
+          name: string
           startOfLesson?: string | null
           students?: string[] | null
-          userId: string
+          user_id?: string | null
         }
         Update: {
-          archive?: boolean
-          createdAt?: string
-          dayOfLesson?: string | null
+          created_at?: string
+          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
-          groupName?: string
-          id?: string
+          id?: number
+          location?: string | null
+          name?: string
           startOfLesson?: string | null
           students?: string[] | null
-          userId?: string
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "public_groups_userId_fkey"
-            columns: ["userId"]
+            foreignKeyName: "groups_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
