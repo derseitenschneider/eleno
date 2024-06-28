@@ -147,11 +147,11 @@ span {
 }
 
 h1 {
-  @apply mb-[.75em] text-3xl font-bold text-foreground/95 tracking-tighter;
+  @apply mb-[.75em] text-2xl font-semibold text-foreground/90 tracking-tighter;
 }
 
 h2 {
-  @apply mb-[.5em] text-2xl font-medium leading-relaxed tracking-tight text-foreground;
+  @apply mb-[.5em] text-xl font-medium leading-relaxed tracking-tight text-foreground;
 }
 
 h3 {

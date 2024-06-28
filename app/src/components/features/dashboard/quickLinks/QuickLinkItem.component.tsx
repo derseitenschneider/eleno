@@ -15,9 +15,11 @@ export default function QuickLinkItem({
   icon,
   title,
   className,
+  target = "_self",
 }: TQuickLinkItemProps) {
   return (
     <Link
+      target={target}
       to={link}
       className={`${className || ""} flex items-center gap-[6px]`}
       onClick={onClick}

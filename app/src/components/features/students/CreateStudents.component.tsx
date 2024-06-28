@@ -301,10 +301,16 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                             variant='ghost'
                             type='button'
                             size='icon'
-                            className='w-fit justify-self-end'
+                            className={cn(
+                              i === 0 && "hidden",
+                              "w-fit justify-self-end",
+                            )}
                             onClick={() => field.removeValue(i)}
                           >
-                            <Trash2 className='size-4 text-warning' />
+                            <Trash2
+                              strokeWidth={1.5}
+                              className='size-[14px] text-warning'
+                            />
                           </Button>
                         </div>
                       )
