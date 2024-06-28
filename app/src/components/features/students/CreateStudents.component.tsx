@@ -1,10 +1,11 @@
+import { zodValidator } from "@tanstack/zod-form-adapter"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import type { Student, StudentPartial } from "@/types/types"
 import { Plus, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useForm } from "@tanstack/react-form"
+import { FieldApi, useForm } from "@tanstack/react-form"
 import { useCreateStudents } from "./useCreateStudents"
 import {
   Select,
@@ -14,6 +15,7 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 import { useUser } from "@/services/context/UserContext"
+import { z } from "zod"
 
 type CreateStudentsProps = {
   onSuccess: () => void
@@ -34,11 +36,7 @@ const defaultStudent: RowStudent = {
 
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   const { user } = useUser()
-  const {
-    createStudents,
-    isCreating,
-    isError: isErrorCreating,
-  } = useCreateStudents()
+  const { createStudents, isCreating } = useCreateStudents()
 
   const form = useForm({
     defaultValues: {
@@ -56,17 +54,27 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
         startOfLesson: student.startOfLesson || null,
         endOfLesson: student.endOfLesson || null,
       }))
-      createStudents(newStudents)
-      console.log(newStudents)
+      createStudents(newStudents, {
+        onSuccess,
+      })
     },
+    validatorAdapter: zodValidator(),
   })
 
   const [numStudents, setNumStudents] = useState(1)
 
-  const grid =
+  const GRID =
     "grid gap-2 items-stretch grid-cols-[8px_1fr_1fr_1fr_1fr_80px_80px_65px_1fr_16px]"
 
-  function addRow(field) {
+  function addRow(
+    field: FieldApi<
+      { students: Array<RowStudent> },
+      "students",
+      undefined,
+      undefined,
+      Array<RowStudent>
+    >,
+  ) {
     const additionalStudents = Array.from(Array(numStudents)).map(() => ({
       ...defaultStudent,
       tempId: Math.trunc(Math.random() * 1_000_000),
@@ -80,7 +88,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   return (
     <div className='w-[90vw] pt-2 pl-1'>
-      <div className={cn(grid, "p-1")}>
+      <div className={cn(GRID, "p-1")}>
         <p />
         <p className='text-sm pl-3'>Vorname*</p>
         <span className='text-sm pl-3'>Nachname*</span>
@@ -107,13 +115,16 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   <div className='max-h-[60vh] overflow-auto no-scrollbar p-1'>
                     {field.state.value.map((value, i) => {
                       return (
-                        <div className={cn(grid, "mb-1")} key={value.tempId}>
+                        <div className={cn(GRID, "mb-1")} key={value.tempId}>
                           <span className='text-xs text-foreground/75 self-center'>
                             {i + 1}
                           </span>
                           <form.Field
                             name={`students[${i}].firstName`}
                             preserveValue
+                            validators={{
+                              onSubmit: z.string().min(2).max(25),
+                            }}
                           >
                             {(subField) => {
                               return (
@@ -122,6 +133,11 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
+                                  className={cn(
+                                    subField.state.meta.errors.length
+                                      ? "border-warning"
+                                      : null,
+                                  )}
                                 />
                               )
                             }}
@@ -129,6 +145,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                           <form.Field
                             name={`students[${i}].lastName`}
                             preserveValue
+                            validators={{
+                              onSubmit: z.string().min(2).max(25),
+                            }}
                           >
                             {(subField) => {
                               return (
@@ -137,6 +156,11 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
+                                  className={cn(
+                                    subField.state.meta.errors.length
+                                      ? "border-warning"
+                                      : null,
+                                  )}
                                 />
                               )
                             }}
@@ -144,6 +168,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                           <form.Field
                             name={`students[${i}].instrument`}
                             preserveValue
+                            validators={{
+                              onSubmit: z.string().min(2).max(25),
+                            }}
                           >
                             {(subField) => {
                               return (
@@ -152,6 +179,11 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
+                                  className={cn(
+                                    subField.state.meta.errors.length
+                                      ? "border-warning"
+                                      : null,
+                                  )}
                                 />
                               )
                             }}
@@ -167,7 +199,6 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                     subField.handleChange(e)
                                   }}
                                   defaultValue={subField.state.value || ""}
-                                  // disabled={form.formState.isSubmitting}
                                 >
                                   <SelectTrigger className='h-9'>
                                     <SelectValue placeholder='Unterrichtstag' />
@@ -208,7 +239,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               return (
                                 <Input
                                   type='time'
-                                  value={subField.state.value}
+                                  value={subField.state.value || ""}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
@@ -224,7 +255,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                               return (
                                 <Input
                                   type='time'
-                                  value={subField.state.value}
+                                  value={subField.state.value || ""}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
@@ -242,7 +273,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                                   type='number'
                                   value={subField.state.value || ""}
                                   onChange={(e) =>
-                                    subField.handleChange(e.target.value)
+                                    subField.handleChange(
+                                      e.target.valueAsNumber,
+                                    )
                                   }
                                 />
                               )
@@ -255,7 +288,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                             {(subField) => {
                               return (
                                 <Input
-                                  value={subField.state.value}
+                                  value={subField.state.value || ""}
                                   onChange={(e) =>
                                     subField.handleChange(e.target.value)
                                   }
@@ -277,8 +310,8 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                       )
                     })}
                   </div>
-                  <div className='flex gap-4 items-center mt-4 justify-end'>
-                    <div className='mr-auto flex items-center'>
+                  <div className='flex gap-4 items-center mt-4 justify-between'>
+                    <div className='flex items-center'>
                       <Input
                         type='number'
                         className='w-[60px]'
@@ -296,12 +329,19 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                         <span>Zeilen hinzufügen</span>
                       </Button>
                     </div>
-                    <Button size='sm' variant='outline' onClick={onSuccess}>
-                      Abbrechen
-                    </Button>
-                    <Button size='sm' type='submit'>
-                      Speichern
-                    </Button>
+                    {field.state.meta.errors.length ? (
+                      <span className='text-sm text-warning'>
+                        {field.state.meta.errors.join(", ")}
+                      </span>
+                    ) : null}
+                    <div className='flex gap-4 items-center'>
+                      <Button size='sm' variant='outline' onClick={onSuccess}>
+                        Abbrechen
+                      </Button>
+                      <Button size='sm' type='submit'>
+                        Speichern
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )

@@ -1,5 +1,6 @@
 import { DataTable } from "@/components/ui/data-table"
 import type { Student } from "@/types/types"
+import { compareLastName } from "@/utils/sortStudents"
 import {
   type RowSelectionState,
   type SortingState,
@@ -19,8 +20,8 @@ export default function ActiveStudentsTable() {
   const [globalFilter, setGlobalFilter] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const activeStudents = useMemo(
-    () => students?.filter((student) => !student.archive),
+  const activeSortedStudents = useMemo(
+    () => students?.filter((student) => !student.archive).sort(compareLastName),
     [students],
   )
 
@@ -42,7 +43,7 @@ export default function ActiveStudentsTable() {
   }
 
   const table = useReactTable({
-    data: activeStudents,
+    data: activeSortedStudents,
     columns: studentsColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),

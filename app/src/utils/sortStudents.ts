@@ -1,6 +1,6 @@
 import type { Lesson, Sorting, Student } from "../types/types"
 
-const compareLastName = (a: Student, b: Student) => {
+export const compareLastName = (a: Student, b: Student) => {
   const studentA = a.lastName
   const studentB = b.lastName
 

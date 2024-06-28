@@ -15,29 +15,17 @@ export function useCreateStudents() {
     isError,
   } = useMutation({
     mutationFn: createStudentsApi,
-    onMutate: (newStudents) => {
-      const previousStudents = queryClient.getQueryData([
-        "students",
-      ]) as Array<Student>
 
+    onSuccess: (newStudents) => {
+      toast.success("Neue Schüler:innen hinzugefügt")
       queryClient.setQueryData(["students"], (prev: Array<Student>) => [
         ...prev,
         ...newStudents,
       ])
-
-      return { previousStudents }
     },
 
-    onSuccess: () => {
-      toast.success("Neue Schüler:innen hinzugefügt")
-      queryClient.invalidateQueries({
-        queryKey: ["students"],
-      })
-    },
-
-    onError: (_, __, context) => {
+    onError: () => {
       fetchErrorToast()
-      queryClient.setQueryData(["students"], context?.previousStudents)
     },
   })
   return { createStudents, isCreating, isError }
