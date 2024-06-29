@@ -19,6 +19,7 @@ interface DataTableProps<TData, TValue> {
   messageEmpty: string
   isFetching: boolean
   table: TTable<TData>
+  className?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -26,9 +27,16 @@ export function DataTable<TData, TValue>({
   messageEmpty,
   isFetching,
   table,
+  className,
 }: DataTableProps<TData, TValue>) {
   return (
-    <Table className={cn(isFetching && "opacity-50", "border border-hairline")}>
+    <Table
+      className={cn(
+        isFetching && "opacity-50",
+        "pb-4 h-full border-none",
+        className,
+      )}
+    >
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
@@ -37,21 +45,21 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
-                  className='text-foreground bg-background200'
+                  className='text-foreground/75 py-2'
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                 </TableHead>
               )
             })}
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody>
+      <TableBody className='h-full mb-4 overflow-scroll'>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <TableRow
@@ -66,7 +74,7 @@ export function DataTable<TData, TValue>({
             </TableRow>
           ))
         ) : (
-          <TableRow>
+          <TableRow >
             <TableCell
               colSpan={columns.length}
               className='p-8 text-foreground/75 text-center'

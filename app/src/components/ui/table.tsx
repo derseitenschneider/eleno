@@ -10,7 +10,7 @@ const Table = React.forwardRef<
     <table
       ref={ref}
       className={cn(
-        "w-full border border-hairline caption-bottom text-sm",
+        "w-full border bg-background50 rounded-2xl border-hairline caption-bottom text-sm",
         className,
       )}
       {...props}
@@ -26,7 +26,7 @@ const TableHeader = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      "[&_tr]:border-b-hairline ![&_tr]:hover:bg-background50 ",
+      "![&_tr]:hover:bg-background50 ",
       className,
     )}
     {...props}
@@ -68,7 +68,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "text-foreground transition-colors hover:bg-muted/10 bg-background50 border-b border-hairline data-[state=selected]:bg-muted/10",
+      "text-foreground transition-colors hover:bg-muted/10 data-[state=selected]:bg-muted/10",
       className,
     )}
     {...props}
