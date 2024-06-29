@@ -15,6 +15,7 @@
   },
   "javascript": {
     "formatter": {
+      "quoteStyle": "single",
       "jsxQuoteStyle": "single",
       "semicolons": "asNeeded"
     }
@@ -29,7 +30,7 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noConsoleLog": "error"
+        "noConsoleLog": "warn"
       }
     }
   }
