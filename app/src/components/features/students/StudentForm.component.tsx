@@ -1,5 +1,5 @@
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { Button } from "@/components/ui/button"
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -7,59 +7,59 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { useEffect } from "react"
-import calcTimeDifference from "@/utils/calcTimeDifference"
-import { cn } from "@/lib/utils"
-import { useQueryClient } from "@tanstack/react-query"
-import type { Student } from "@/types/types"
-import { useUpdateStudents } from "./useUpdateStudents"
+} from '@/components/ui/select'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useEffect } from 'react'
+import calcTimeDifference from '@/utils/calcTimeDifference'
+import { cn } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
+import type { Student } from '@/types/types'
+import { useUpdateStudents } from './useUpdateStudents'
 
 export const studentSchema = z.object({
   firstName: z.string().min(1, {
-    message: "Vorname fehlt.",
+    message: 'Vorname fehlt.',
   }),
-  lastName: z.string().min(1, { message: "Nachname fehlt." }),
-  instrument: z.string().min(1, { message: "Instrument fehlt." }),
+  lastName: z.string().min(1, { message: 'Nachname fehlt.' }),
+  instrument: z.string().min(1, { message: 'Instrument fehlt.' }),
   dayOfLesson: z
     .optional(
       z.union([
-        z.literal("Montag"),
-        z.literal("Dienstag"),
-        z.literal("Mittwoch"),
-        z.literal("Donnerstag"),
-        z.literal("Freitag"),
-        z.literal("Samstag"),
-        z.literal("Sonntag"),
+        z.literal('Montag'),
+        z.literal('Dienstag'),
+        z.literal('Mittwoch'),
+        z.literal('Donnerstag'),
+        z.literal('Freitag'),
+        z.literal('Samstag'),
+        z.literal('Sonntag'),
       ]),
     )
     .nullable(),
   startOfLesson: z
     .optional(z.string())
-    .transform((val) => (val === "" || !val ? null : val))
+    .transform((val) => (val === '' || !val ? null : val))
     .nullable(),
   endOfLesson: z
     .optional(z.string())
-    .transform((val) => (val === "" || !val ? null : val))
+    .transform((val) => (val === '' || !val ? null : val))
     .nullable(),
   durationMinutes: z
-    .optional(z.coerce.number().min(0, { message: "Ungültiger Wert." }))
+    .optional(z.coerce.number().min(0, { message: 'Ungültiger Wert.' }))
     .transform((val) => (val === 0 || !val ? null : val))
     .nullable(),
   location: z
     .optional(z.string())
-    .transform((val) => (val === "" || !val ? null : val))
+    .transform((val) => (val === '' || !val ? null : val))
     .nullable(),
 })
 export type StudentInput = z.infer<typeof studentSchema>
@@ -74,7 +74,7 @@ export default function EditStudent({
   onSuccess,
 }: EditStudentProps) {
   const queryClient = useQueryClient()
-  const students = queryClient.getQueryData(["students"]) as
+  const students = queryClient.getQueryData(['students']) as
     | Array<Student>
     | undefined
   const currentStudent = students?.find((student) => student.id === studentId)
@@ -92,7 +92,7 @@ export default function EditStudent({
       durationMinutes: currentStudent?.durationMinutes,
       location: currentStudent?.location,
     },
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resetOptions: {
       keepDirtyValues: true,
       keepErrors: false,
@@ -105,13 +105,13 @@ export default function EditStudent({
   }, [onSuccess, isSuccess])
 
   function calculateMinutes() {
-    if (form.getValues("startOfLesson") && form.getValues("endOfLesson")) {
+    if (form.getValues('startOfLesson') && form.getValues('endOfLesson')) {
       const difference = calcTimeDifference(
-        form.getValues("startOfLesson") || "",
-        form.getValues("endOfLesson") || "",
+        form.getValues('startOfLesson') || '',
+        form.getValues('endOfLesson') || '',
       )
       if (difference && difference > 0)
-        form.setValue("durationMinutes", difference)
+        form.setValue('durationMinutes', difference)
     }
   }
 
@@ -141,11 +141,11 @@ export default function EditStudent({
                 <FormControl>
                   <Input
                     className={cn(
-                      form.formState.errors.firstName && "border-warning",
+                      form.formState.errors.firstName && 'border-warning',
                     )}
                     placeholder='Vorname'
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -164,10 +164,10 @@ export default function EditStudent({
                   <Input
                     placeholder='Nachname'
                     className={cn(
-                      form.formState.errors.lastName && "border-warning",
+                      form.formState.errors.lastName && 'border-warning',
                     )}
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -186,10 +186,10 @@ export default function EditStudent({
                 <Input
                   placeholder='Instrument'
                   className={cn(
-                    form.formState.errors.instrument && "border-warning",
+                    form.formState.errors.instrument && 'border-warning',
                   )}
                   {...field}
-                  value={field.value || ""}
+                  value={field.value || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -205,14 +205,14 @@ export default function EditStudent({
               <FormLabel className='text-foreground'>Unterrichtstag</FormLabel>
               <Select
                 onValueChange={field.onChange}
-                defaultValue={field.value || "none"}
+                defaultValue={field.value || 'none'}
                 disabled={form.formState.isSubmitting}
               >
                 <FormControl>
                   <SelectTrigger
                     className={cn(
                       form.formState.errors.dayOfLesson &&
-                        "border-warning text-warning",
+                        'border-warning text-warning',
                     )}
                   >
                     <SelectValue placeholder='Unterrichtstag' />
@@ -244,12 +244,12 @@ export default function EditStudent({
                 <FormControl>
                   <Input
                     className={cn(
-                      form.formState.errors.startOfLesson && "border-warning",
+                      form.formState.errors.startOfLesson && 'border-warning',
                     )}
                     type='time'
                     {...field}
                     onBlur={calculateMinutes}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -268,10 +268,10 @@ export default function EditStudent({
                   <Input
                     type='time'
                     className={cn(
-                      form.formState.errors.endOfLesson && "border-warning",
+                      form.formState.errors.endOfLesson && 'border-warning',
                     )}
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                     onBlur={calculateMinutes}
                   />
                 </FormControl>
@@ -290,10 +290,10 @@ export default function EditStudent({
                   <Input
                     type='number'
                     className={cn(
-                      form.formState.errors.durationMinutes && "border-warning",
+                      form.formState.errors.durationMinutes && 'border-warning',
                     )}
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -313,10 +313,10 @@ export default function EditStudent({
                 <Input
                   placeholder='Ort'
                   className={cn(
-                    form.formState.errors.location && "border-warning",
+                    form.formState.errors.location && 'border-warning',
                   )}
                   {...field}
-                  value={field.value || ""}
+                  value={field.value || ''}
                 />
               </FormControl>
             </FormItem>
