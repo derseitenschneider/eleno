@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom"
+import { cn } from '@/lib/utils'
+import { NavLink } from 'react-router-dom'
 
 interface IProps {
   navLinks: {
@@ -15,7 +16,14 @@ function Navbar({ navLinks }: IProps) {
       <ul className='p-0 flex justify-start gap-6'>
         {navLinks.map((link) => (
           <li key={link.key} className='px-1 relative overflow-hidden'>
-            <NavLink to={link.path} end={link.end} className='text-foreground'>
+            <NavLink
+              to={link.path}
+              end={link.end}
+              className={cn(
+                'aria-[current=page]:border-b-4 border-primary',
+                'text-foreground hover:no-underline',
+              )}
+            >
               {link.label}
             </NavLink>
           </li>

@@ -1,22 +1,22 @@
-import type { Lesson, LessonPartial } from "../../types/types"
-import supabase from "./supabase"
+import type { Lesson, LessonPartial } from '../../types/types'
+import supabase from './supabase'
 
 export const fetchLessonsByYearApi = async (
   studentId: number,
   lessonYear: number,
 ) => {
   const { data, error } = await supabase
-    .from("lessons")
-    .select("*")
-    .eq("studentId", studentId)
-    .gte("date", `${lessonYear}-01-01`)
-    .lt("date", `${lessonYear + 1}-01-01`)
-    .order("date", { ascending: false })
+    .from('lessons')
+    .select('*')
+    .eq('studentId', studentId)
+    .gte('date', `${lessonYear}-01-01`)
+    .lt('date', `${lessonYear + 1}-01-01`)
+    .order('date', { ascending: false })
 
   if (error) throw new Error(error.message)
   const lessons = data.map((lesson) => ({
     ...lesson,
-    date: new Date(lesson.date || ""),
+    date: new Date(lesson.date || ''),
   }))
   return lessons
 }
@@ -34,16 +34,16 @@ export const fetchAllLessonsApi = async ({
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
   let query = supabase
-    .from("lessons")
-    .select("date, lessonContent, homework, id")
-    .eq("studentId", studentId)
+    .from('lessons')
+    .select('date, lessonContent, homework, id')
+    .eq('studentId', studentId)
 
   query = startDate
     ? query
-        .gte("date", uctStartDate.toISOString())
-        .lte("date", uctEndDate?.toISOString())
-        .order("date", { ascending: false })
-    : query.order("date", { ascending: false })
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
+        .order('date', { ascending: false })
+    : query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
 
@@ -66,18 +66,18 @@ export const fetchAllLessonsCSVApi = async ({
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
 
   let query = supabase
-    .from("lessons")
-    .select("Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework")
-    .eq("studentId", studentId)
+    .from('lessons')
+    .select('Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework')
+    .eq('studentId', studentId)
 
   query = startDate
     ? query
-        .gte("date", uctStartDate?.toISOString())
-        .lte("date", uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
-    .order("date", { ascending: false })
+    .order('date', { ascending: false })
     .csv()
   if (error) throw new Error(error.message)
   return lessonsCSV
@@ -89,12 +89,12 @@ export const fetchLessonsCSVByRangeApi = async (
   studentId: number,
 ) => {
   const { data: lessons, error } = await supabase
-    .from("lessons")
-    .select("date, lessonContent, homework")
-    .eq("studentId", studentId)
-    .gte("date", startDate)
-    .lte("date", endDate)
-    .order("date", { ascending: false })
+    .from('lessons')
+    .select('date, lessonContent, homework')
+    .eq('studentId', studentId)
+    .gte('date', startDate)
+    .lte('date', endDate)
+    .order('date', { ascending: false })
     .csv()
 
   if (error) throw new Error(error.message)
@@ -108,7 +108,7 @@ export const createLessonAPI = async (
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
   const { data, error } = await supabase
-    .from("lessons")
+    .from('lessons')
     .insert([
       {
         ...lesson,
@@ -119,16 +119,16 @@ export const createLessonAPI = async (
 
   if (error) throw new Error(error.message)
   const newLesson = data[0]
-  if (newLesson) return { ...newLesson, date: new Date(newLesson.date || "") }
+  if (newLesson) return { ...newLesson, date: new Date(newLesson.date || '') }
   return undefined
 }
 
 export const deleteLessonAPI = async (lessonId: number) => {
   const { data, error } = await supabase
-    .from("lessons")
+    .from('lessons')
     .delete()
-    .eq("id", lessonId)
-    .select("id")
+    .eq('id', lessonId)
+    .select('id')
     .single()
 
   if (error) {
@@ -140,35 +140,35 @@ export const deleteLessonAPI = async (lessonId: number) => {
 export const updateLessonAPI = async (lesson: Lesson): Promise<Lesson> => {
   const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
-    .from("lessons")
+    .from('lessons')
     .update({ ...lesson, date: utcDate.toISOString() })
-    .eq("id", lesson.id)
+    .eq('id', lesson.id)
     .select()
     .single()
 
   if (error) throw new Error(error.message)
-  return { ...data, date: new Date(data.date || "") }
+  return { ...data, date: new Date(data.date || '') }
 }
 
 // TODO: fetchLatestLessonsPerStudent to invalidate query after deletion
 export const fetchLatestLessons = async () => {
   const { data: lessons, error } = await supabase
-    .from("last_3_lessons")
+    .from('last_3_lessons')
     .select()
   if (error) throw new Error(error.message)
 
   return lessons.map((lesson) => ({
     ...lesson,
-    date: new Date(lesson.date || ""),
+    date: new Date(lesson.date || ''),
   }))
 }
 
 export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
   const { data: lessons, error } = await supabase
-    .from("lessons")
-    .select("*")
-    .in("studentId", [...studentIds])
-    .order("date", { ascending: false })
+    .from('lessons')
+    .select('*')
+    .in('studentId', [...studentIds])
+    .order('date', { ascending: false })
     .limit(3)
 
   if (error) throw new Error(error.message)
@@ -177,10 +177,9 @@ export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
 
 export const fetchLessonYears = async (studentId: number) => {
   const { data: years, error } = await supabase
-    .from("lesson_years")
-    .select("*")
-    .eq("studentId", studentId)
-    .single()
+    .from('lesson_years')
+    .select('*')
+    .eq('studentId', studentId)
   if (error) throw new Error(error.message)
   return years
 }

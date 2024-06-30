@@ -2,7 +2,7 @@ import {
   type ColumnDef,
   flexRender,
   type Table as TTable,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table'
 
 import {
   Table,
@@ -11,8 +11,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { cn } from "@/lib/utils"
+} from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -32,8 +32,8 @@ export function DataTable<TData, TValue>({
   return (
     <Table
       className={cn(
-        isFetching && "opacity-50",
-        "pb-4 h-full border-none",
+        isFetching && 'opacity-50',
+        'pb-4 border-none overflow-hidden',
         className,
       )}
     >
@@ -50,21 +50,22 @@ export function DataTable<TData, TValue>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                 </TableHead>
               )
             })}
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody className='h-full mb-4 overflow-scroll'>
+      <TableBody className='w-full mb-4'>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}
+              data-state={row.getIsSelected() && 'selected'}
+              className='odd:bg-background200/50'
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
@@ -74,7 +75,7 @@ export function DataTable<TData, TValue>({
             </TableRow>
           ))
         ) : (
-          <TableRow >
+          <TableRow>
             <TableCell
               colSpan={columns.length}
               className='p-8 text-foreground/75 text-center'

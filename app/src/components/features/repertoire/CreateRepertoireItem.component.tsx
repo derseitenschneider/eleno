@@ -1,13 +1,13 @@
 import type {
   PartialRepertoireItem,
   RepertoireItem,
-} from "../../../types/types"
-import { Button } from "@/components/ui/button"
-import { DayPicker } from "@/components/ui/daypicker.component"
-import { Input } from "@/components/ui/input"
-import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
-import { useCreateRepertoireItem } from "./useCreateRepertoireItem"
-import { useState } from "react"
+} from '../../../types/types'
+import { Button } from '@/components/ui/button'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Input } from '@/components/ui/input'
+import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import { useCreateRepertoireItem } from './useCreateRepertoireItem'
+import { useState } from 'react'
 
 interface AddRepertoireItemProps {
   studentId: number
@@ -18,7 +18,7 @@ function CreateRepertoireItem({ studentId }: AddRepertoireItemProps) {
 
   const defaultItem: PartialRepertoireItem = {
     studentId,
-    title: "",
+    title: '',
     startDate: undefined,
     endDate: undefined,
   }
@@ -48,7 +48,7 @@ function CreateRepertoireItem({ studentId }: AddRepertoireItemProps) {
   }
   return (
     <div className='flex  gap-2 mb-12 mt-6'>
-      <div className='flex bg-background50 gap-2 grow'>
+      <div className='flex rounded-md items-center pr-1 bg-background50 gap-2 grow'>
         <div className='shrink grow'>
           <Input
             placeholder='Song'

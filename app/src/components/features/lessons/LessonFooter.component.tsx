@@ -1,10 +1,10 @@
-import { useStudents } from "../../../services/context/StudentContext"
-import SearchStudentCombobox from "../students/SearchStudentCombobox.component"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import { useNavigate, useParams } from "react-router-dom"
-import { useLatestLessons } from "./lessonsQueries"
-import type { Lesson } from "@/types/types"
+import { useStudents } from '../../../services/context/StudentContext'
+import SearchStudentCombobox from '../students/SearchStudentCombobox.component'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useLatestLessons } from './lessonsQueries'
+import type { Lesson } from '@/types/types'
 
 function LessonFooter() {
   const {
@@ -34,9 +34,11 @@ function LessonFooter() {
     if (currentStudentIndex > 0) {
       const previousStudentId =
         activeSortedStudentIds[currentStudentIndex - 1] ?? 0
-      const newestYear = getNewestLessonYear(latestLessons, previousStudentId)
+      const newestYear =
+        getNewestLessonYear(latestLessons, previousStudentId) ||
+        new Date().getFullYear()
       const url = window.location.pathname
-      const query = url.includes("all") ? `?year=${newestYear}` : ""
+      const query = url.includes('all') ? `?year=${newestYear}` : ''
 
       const newUrl = url.replace(
         String(currentStudentId),
@@ -47,9 +49,11 @@ function LessonFooter() {
     }
     const lastStudentId =
       activeSortedStudentIds[activeSortedStudentIds.length - 1] ?? 0
-    const newestYear = getNewestLessonYear(latestLessons, lastStudentId)
+    const newestYear =
+      getNewestLessonYear(latestLessons, lastStudentId) ||
+      new Date().getFullYear()
     const url = window.location.pathname
-    const query = url.includes("all") ? `?year=${newestYear}` : ""
+    const query = url.includes('all') ? `?year=${newestYear}` : ''
     const newUrl = url.replace(String(currentStudentId), String(lastStudentId))
     navigate(newUrl)
     navigate(newUrl + query)
@@ -59,9 +63,11 @@ function LessonFooter() {
   const handlerNextStudent = () => {
     if (currentStudentIndex < activeSortedStudentIds.length - 1) {
       const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1] ?? 0
-      const newestYear = getNewestLessonYear(latestLessons, nextStudentId)
+      const newestYear =
+        getNewestLessonYear(latestLessons, nextStudentId) ||
+        new Date().getFullYear()
       const url = window.location.pathname
-      const query = url.includes("all") ? `?year=${newestYear}` : ""
+      const query = url.includes('all') ? `?year=${newestYear}` : ''
       const newUrl = url.replace(
         String(currentStudentId),
         String(nextStudentId),
@@ -70,9 +76,11 @@ function LessonFooter() {
       return setCurrentStudentIndex(currentStudentIndex + 1)
     }
     const firstStudentId = activeSortedStudentIds[0] ?? 0
-    const newestYear = getNewestLessonYear(latestLessons, firstStudentId)
+    const newestYear =
+      getNewestLessonYear(latestLessons, firstStudentId) ||
+      new Date().getFullYear()
     const url = window.location.pathname
-    const query = url.includes("all") ? `?year=${newestYear}` : ""
+    const query = url.includes('all') ? `?year=${newestYear}` : ''
     const newUrl = url.replace(String(currentStudentId), String(firstStudentId))
     navigate(newUrl)
     navigate(newUrl + query)

@@ -1,5 +1,5 @@
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import type { Lesson } from "@/types/types"
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson } from '@/types/types'
 import {
   type FilterFn,
   type SortingState,
@@ -7,25 +7,25 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table'
 
-import { ChevronLeft } from "lucide-react"
-import { useState } from "react"
-import { NavLink, useParams, useSearchParams } from "react-router-dom"
-import { DataTable } from "@/components/ui/data-table"
-import { useAllLessonsPerYear, useLessonYears } from "../lessonsQueries"
-import { allLessonsColumns } from "./allLessonsColumns"
-import AllLessonsControl from "./allLessonsControl.component"
-import Empty from "@/components/ui/Empty.component"
+import { ChevronLeft } from 'lucide-react'
+import { useState } from 'react'
+import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import { DataTable } from '@/components/ui/data-table'
+import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
+import { allLessonsColumns } from './allLessonsColumns'
+import AllLessonsControl from './allLessonsControl.component'
+import Empty from '@/components/ui/Empty.component'
 
 export default function AllLessons() {
   const { studentId } = useParams()
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [globalFilter, setGlobalFilter] = useState('')
   const [searchParams] = useSearchParams()
   const [sorting, setSorting] = useState<SortingState>([])
   const { userLocale } = useUserLocale()
 
-  const selectedYear = searchParams.get("year")
+  const selectedYear = searchParams.get('year')
 
   const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
     Number(studentId),
@@ -46,9 +46,9 @@ export default function AllLessons() {
     return (
       date
         ?.toLocaleDateString(userLocale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
         })
         .toLowerCase()
         .includes(value?.toLowerCase()) ||
@@ -79,15 +79,6 @@ export default function AllLessons() {
 
   return (
     <div className='mb-10'>
-      <div className='flex items-center justify-between mb-4'>
-        <NavLink
-          to={`/lessons/${studentId}`}
-          className='flex items-center gap-2'
-        >
-          <ChevronLeft className='h-4 w-4 text-primary' />
-          <span>Zur Lektion</span>
-        </NavLink>
-      </div>
       <AllLessonsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

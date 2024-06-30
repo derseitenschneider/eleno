@@ -42,7 +42,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Vorname
-          <ArrowUpDown className='ml-2 size-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
@@ -59,7 +59,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nachname
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
@@ -76,7 +76,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Instrument
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
@@ -93,7 +93,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Tag
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
@@ -135,7 +135,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Dauer
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
@@ -160,7 +160,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Unterrichtsort
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-2 size-[14px]' />
         </Button>
       )
     },
