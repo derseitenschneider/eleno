@@ -1,11 +1,11 @@
-import supabase from "./supabase"
-import type { Student, StudentPartial } from "../../types/types"
+import supabase from './supabase'
+import type { Student, StudentPartial } from '../../types/types'
 
 export const fetchStudentsApi = async () => {
   const { data: students, error } = await supabase
-    .from("students")
-    .select("*")
-    .order("lastName", { ascending: true })
+    .from('students')
+    .select('*')
+    .order('lastName', { ascending: true })
   if (error) throw new Error(error.message)
   return students
 }
@@ -13,12 +13,8 @@ export const fetchStudentsApi = async () => {
 export const createStudentsApi = async (
   newStudents: StudentPartial[],
 ): Promise<Student[]> => {
-  // const newStudents = students.map((student) => {
-  //   return { ...student, user_id: userId }
-  // })
-
   const { data, error } = await supabase
-    .from("students")
+    .from('students')
     .insert(newStudents)
     .select()
   if (error) throw new Error(error.message)
@@ -27,34 +23,34 @@ export const createStudentsApi = async (
 
 export const deactivateStudentApi = async (studentIds: number[]) => {
   const { error } = await supabase
-    .from("students")
+    .from('students')
     .update({ archive: true })
-    .in("id", studentIds)
+    .in('id', studentIds)
 
   if (error) throw new Error(error.message)
 }
 
 export const reactivateStudentsApi = async (studentIds: number[]) => {
   const { error } = await supabase
-    .from("students")
+    .from('students')
     .update({ archive: false })
-    .in("id", studentIds)
+    .in('id', studentIds)
 
   if (error) throw new Error(error.message)
 }
 
 export const deletestudentsApi = async (studentIds: number[]) => {
   const { error } = await supabase
-    .from("students")
+    .from('students')
     .delete()
-    .in("id", studentIds)
+    .in('id', studentIds)
 
   if (error) throw new Error(error.message)
 }
 
 export const updateStudentsApi = async (students: Array<Student>) => {
   const { data: updatedStudents, error } = await supabase
-    .from("students")
+    .from('students')
     .upsert(students)
     .select()
 
@@ -65,7 +61,7 @@ export const updateStudentsApi = async (students: Array<Student>) => {
 
 export const resetStudentsApi = async (studentIds: number[]) => {
   const { data, error } = await supabase
-    .from("students")
+    .from('students')
     .update({
       dayOfLesson: null,
       startOfLesson: null,
@@ -73,8 +69,8 @@ export const resetStudentsApi = async (studentIds: number[]) => {
       durationMinutes: null,
       location: null,
     })
-    .in("id", studentIds)
-    .select("id")
+    .in('id', studentIds)
+    .select('id')
 
   if (error) throw new Error(error.message)
   return data

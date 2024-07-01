@@ -1,303 +1,215 @@
-import { Button } from "@/components/ui/button"
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-  Form,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { cn } from "@/lib/utils"
-import type { Student, StudentPartial } from "@/types/types"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Trash2 } from "lucide-react"
-import type { FormEvent } from "react"
-import { useForm, UseFormReturn } from "react-hook-form"
-import calcTimeDifference from "../../../utils/calcTimeDifference"
-import type { RowStudent } from "./CreateStudents.component"
-import { type StudentInput, studentSchema } from "./StudentForm.component"
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
+import { Trash2 } from 'lucide-react'
+import type { UseFieldArrayRemove, UseFormReturn } from 'react-hook-form'
+import type { StudentSchema } from './CreateStudents.component'
 
-type EditStudentRowProps = {
-  form: UseFormReturn<StudentPartial>
-  index?: number
-  onDeleteRow?: (tempId: number) => void
-  student: RowStudent & Student
-  setStudents: React.Dispatch<
-    React.SetStateAction<Array<Student & RowStudent> | undefined>
-  >
-  setIsError: React.Dispatch<React.SetStateAction<boolean>>
+type StudentFormRowProps = {
+  index: number
   grid: string
+  form: UseFormReturn<{ students: StudentSchema[] }, unknown, undefined>
+  remove?: UseFieldArrayRemove
 }
-
-function StudentFormRow({
-  form,
-  onDeleteRow,
+export default function StudentFormRow({
   index,
-  student,
-  setStudents,
-  setIsError,
+  form,
   grid,
-}: EditStudentRowProps) {
-  function calculateMinutes() {
-    if (form.getValues("startOfLesson") && form.getValues("endOfLesson")) {
-      const difference = calcTimeDifference(
-        form.getValues("startOfLesson") || "",
-        form.getValues("endOfLesson") || "",
-      )
-      if (difference && difference > 0)
-        form.setValue("durationMinutes", difference)
-    }
-  }
-
-  function deleteRow(e) {
-    e.preventDefault()
-    onDeleteRow?.(student.tempId)
-  }
-
-  const onChange = (e: FormEvent<HTMLFormElement>) => {
-    const target = e.target as HTMLInputElement
-    const name = target.name
-    const value = target.value
-    setStudents((prev) => {
-      if (!prev || !student) return
-      // When student has no tempId, we are editing a student.
-      if (!student.tempId) {
-        return prev.map((prevStudent) =>
-          prevStudent.id === student.id
-            ? { ...student, [name]: value }
-            : prevStudent,
-        )
-      }
-      // When student has tempId, we are creating a student.
-      if (student.tempId)
-        return prev.map((prevStudent) =>
-          prevStudent.tempId === student.tempId
-            ? { ...student, [name]: value }
-            : prevStudent,
-        )
-    })
-  }
+  remove,
+}: StudentFormRowProps) {
   return (
-    <div className={cn(grid, "w-full")}>
-      {index !== undefined ? (
-        <span className='text-xs text-foreground/75 self-center justify-self-center'>
-          {index + 1}.
-        </span>
-      ) : null}
+    <div className={cn(grid, 'mb-2')}>
+      <span className='self-center text-sm text-foreground/75'>
+        {index + 1}
+      </span>
       <FormField
-        // control={form.control}
-        // name='firstName'
-        {...form.register(`students[${student.tempId}].firstName`)}
-        disabled={form.formState.isSubmitting}
+        control={form.control}
+        name={`students.${index}.firstName`}
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <Input
-                className={cn(
-                  form.formState.errors.firstName && "border-warning",
-                  "h-full",
-                )}
                 placeholder='Vorname'
                 {...field}
-                value={field.value || ""}
+                className={cn(
+                  form.formState.errors.students?.[index]?.firstName &&
+                    'border-warning',
+                )}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
-        name='lastName'
-        disabled={form.formState.isSubmitting}
+        name={`students.${index}.lastName`}
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <Input
                 placeholder='Nachname'
-                className={cn(
-                  form.formState.errors.lastName && "border-warning",
-                  "h-full",
-                )}
                 {...field}
-                value={field.value || ""}
+                className={cn(
+                  form.formState.errors.students?.[index]?.lastName &&
+                    'border-warning',
+                )}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
       <FormField
         control={form.control}
-        name='instrument'
-        disabled={form.formState.isSubmitting}
+        name={`students.${index}.instrument`}
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <Input
                 placeholder='Instrument'
-                className={cn(
-                  form.formState.errors.instrument && "border-warning",
-                  "h-full",
-                )}
                 {...field}
-                value={field.value || ""}
+                className={cn(
+                  form.formState.errors.students?.[index]?.instrument &&
+                    'border-warning',
+                )}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
-        name='dayOfLesson'
+        name={`students.${index}.dayOfLesson`}
         render={({ field }) => (
           <FormItem>
-            <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value || ""}
-              disabled={form.formState.isSubmitting}
-              name='dayOfLesson'
-            >
-              <FormControl>
-                <SelectTrigger
-                  className={cn(
-                    form.formState.errors.dayOfLesson &&
-                      "border-warning text-warning",
-                  )}
-                >
-                  <SelectValue placeholder='Unterrichtstag' />
+            <FormControl>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value || ''}
+              >
+                <SelectTrigger className='h-[36px]'>
+                  <SelectValue
+                    defaultValue='none'
+                    placeholder='Unterrichtstag'
+                  />
                 </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value='Montag'>Montag</SelectItem>
-                <SelectItem value='Dienstag'>Dienstag</SelectItem>
-                <SelectItem value='Mittwoch'>Mittwoch</SelectItem>
-                <SelectItem value='Donnerstag'>Donnerstag</SelectItem>
-                <SelectItem value='Freitag'>Freitag</SelectItem>
-                <SelectItem value='Samstag'>Samstag</SelectItem>
-                <SelectItem value='Sonntag'>Sonntag</SelectItem>
-                <SelectItem value='none'>-</SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='startOfLesson'
-        disabled={form.formState.isSubmitting}
-        render={({ field }) => (
-          <FormItem className='grow-0'>
-            <FormControl>
-              <Input
-                className={cn(
-                  form.formState.errors.startOfLesson && "border-warning",
-                  "h-full",
-                )}
-                type='time'
-                {...field}
-                onBlur={calculateMinutes}
-                value={field.value || ""}
-              />
+                <SelectContent>
+                  <SelectItem value='Montag'>Montag</SelectItem>
+                  <SelectItem value='Dienstag'>Dienstag</SelectItem>
+                  <SelectItem value='Mittwoch'>Mittwoch</SelectItem>
+                  <SelectItem value='Donnerstag'>Donnerstag</SelectItem>
+                  <SelectItem value='Freitag'>Freitag</SelectItem>
+                  <SelectItem value='Samstag'>Samstag</SelectItem>
+                  <SelectItem value='Sonntag'>Sonntag</SelectItem>
+                  <SelectItem value='none'>–</SelectItem>
+                </SelectContent>
+              </Select>
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
-        name='endOfLesson'
-        disabled={form.formState.isSubmitting}
+        name={`students.${index}.startOfLesson`}
         render={({ field }) => (
-          <FormItem className='grow-0'>
+          <FormItem>
             <FormControl>
               <Input
                 type='time'
-                className={cn(
-                  form.formState.errors.endOfLesson && "border-warning",
-                  "h-full",
-                )}
                 {...field}
-                value={field.value || ""}
-                onBlur={calculateMinutes}
+                value={field.value || undefined}
+                className={cn(
+                  form.formState.errors.students?.[index]?.startOfLesson &&
+                    'border-warning',
+                )}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
       <FormField
         control={form.control}
-        name='durationMinutes'
-        disabled={form.formState.isSubmitting}
+        name={`students.${index}.endOfLesson`}
         render={({ field }) => (
-          <FormItem className='ml-auto grow-1'>
+          <FormItem>
+            <FormControl>
+              <Input
+                type='time'
+                {...field}
+                value={field.value || undefined}
+                className={cn(
+                  form.formState.errors.students?.[index]?.endOfLesson &&
+                    'border-warning',
+                )}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`students.${index}.durationMinutes`}
+        render={({ field }) => (
+          <FormItem>
             <FormControl>
               <Input
                 placeholder='45'
                 type='number'
-                className={cn(
-                  form.formState.errors.durationMinutes && "border-warning",
-                  "h-full",
-                )}
                 {...field}
-                value={field.value || ""}
+                value={field.value || undefined}
+                className={cn(
+                  form.formState.errors.students?.[index]?.durationMinutes &&
+                    'border-warning',
+                )}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
-        name='location'
-        disabled={form.formState.isSubmitting}
+        name={`students.${index}.location`}
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <Input
-                placeholder='Ort'
-                className={cn(
-                  form.formState.errors.location && "border-warning",
-                  "h-full",
-                )}
+                placeholder='Unterrichtsort'
                 {...field}
-                value={field.value || ""}
+                value={field.value || undefined}
+                className={cn(
+                  form.formState.errors.students?.[index]?.location &&
+                    'border-warning',
+                )}
               />
             </FormControl>
           </FormItem>
         )}
       />
-      {student.tempId && (
+      <input
+        type='hidden'
+        name={`students.${index}.id`}
+        value={form.getValues('students')[index]?.id || ''}
+        readOnly
+      />
+      {remove && (
         <Button
+          type='button'
           variant='ghost'
-          size='icon'
-          className='w-fit justify-self-end'
-          onClick={deleteRow}
+          className={cn(index === 0 && 'hidden', 'p-0')}
+          onClick={() => remove(index)}
+          tabIndex={-1}
+          disabled={index === 0}
         >
-          <Trash2 className='size-4 text-warning' />
+          <Trash2 strokeWidth={1.5} className='size-4 text-warning' />
         </Button>
-      )}
-      {form.formState.errors.root && (
-        <p className='mt-2 text-sm text-warning'>
-          {form.formState.errors.root.message}
-        </p>
       )}
     </div>
   )
 }
-
-export default StudentFormRow

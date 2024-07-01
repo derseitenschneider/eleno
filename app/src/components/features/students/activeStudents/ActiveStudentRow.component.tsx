@@ -1,25 +1,25 @@
-import { useState } from "react"
-import { HiArchive, HiPencil } from "react-icons/hi"
+import { useState } from 'react'
+import { HiArchive, HiPencil } from 'react-icons/hi'
 
 import {
   HiOutlineListBullet,
   HiOutlineDocumentArrowDown,
-} from "react-icons/hi2"
-import { IoCheckboxOutline, IoSchool } from "react-icons/io5"
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import type { Student } from "../../../../types/types"
-import Menus from "../../../ui/menu/Menus.component"
-import Table from "../../../ui/table/Table.component"
+} from 'react-icons/hi2'
+import { IoCheckboxOutline, IoSchool } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import type { Student } from '../../../../types/types'
+import Menus from '../../../ui/menu/Menus.component'
+import Table from '../../../ui/table/Table.component'
 
-import { useStudents } from "../../../../services/context/StudentContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import Modal from "../../../ui/modal/Modal.component"
+import { useStudents } from '../../../../services/context/StudentContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import Modal from '../../../ui/modal/Modal.component'
 
-import AddTodo from "../../todos/AddTodo.component"
-import EditStudent from "../editStudents/EditStudents.component"
-import { useActiveStudents } from "./ActiveStudents.component"
-import ExportLessons from "../../lessons/ExportLessons.component"
+import AddTodo from '../../todos/AddTodo.component'
+import EditStudent from '../UpdateStudents.component'
+import { useActiveStudents } from './ActiveStudents.component'
+import ExportLessons from '../../lessons/ExportLessons.component'
 
 interface ActiveStudentRowProps {
   student: Student
@@ -39,14 +39,14 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
   const handleNavigateToStudent = () => {
     const studentIndex = activeSortedStudentIds.indexOf(student.id)
     setCurrentStudentIndex(studentIndex)
-    navigate("/lessons")
+    navigate('/lessons')
   }
 
   const handleArchivate = async () => {
     setIsPending(true)
     try {
       await deactivateStudents([student.id])
-      toast("Schüler:in archiviert")
+      toast('Schüler:in archiviert')
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -71,14 +71,14 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
 
   return (
     <Table.Row
-      className={isPending ? "loading" : ""}
+      className={isPending ? 'loading' : ''}
       styles={
         openId === student.id
           ? {
-            color: "var(--clr-primary-600)",
-            boxShadow:
-              "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
-          }
+              color: 'var(--clr-primary-600)',
+              boxShadow:
+                'inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)',
+            }
           : null
       }
     >
