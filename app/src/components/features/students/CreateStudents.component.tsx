@@ -25,26 +25,39 @@ export const studentsValidationSchema = z.object({
       firstName: z.string().min(2),
       lastName: z.string().min(2),
       instrument: z.string().min(2),
-      dayOfLesson: z.optional(
-        z
-          .union([
-            z.literal('Montag'),
-            z.literal('Dienstag'),
-            z.literal('Mittwoch'),
-            z.literal('Donnerstag'),
-            z.literal('Freitag'),
-            z.literal('Samstag'),
-            z.literal('Sonntag'),
-            z.literal('none'),
-          ])
-          .transform((val) => (val === 'none' ? null : val)),
-      ),
-      startOfLesson: z.optional(z.string()).nullable(),
-      endOfLesson: z.optional(z.string()).nullable(),
+      dayOfLesson: z
+        .optional(
+          z
+            .union([
+              z.literal('Montag'),
+              z.literal('Dienstag'),
+              z.literal('Mittwoch'),
+              z.literal('Donnerstag'),
+              z.literal('Freitag'),
+              z.literal('Samstag'),
+              z.literal('Sonntag'),
+              z.literal('none'),
+            ])
+            .nullable()
+            .transform((val) => (val === 'none' ? null : val)),
+        )
+        .transform((val) => (val === undefined ? null : val)),
+      startOfLesson: z
+        .optional(z.string())
+        .transform((val) => (val === '' || val === undefined ? null : val))
+        .nullable(),
+      endOfLesson: z
+        .optional(z.string())
+        .transform((val) => (val === '' || val === undefined ? null : val))
+        .nullable(),
       durationMinutes: z
         .optional(z.coerce.number().min(0, { message: 'Ungültiger Wert.' }))
+        .transform((val) => (val === undefined ? null : val))
         .nullable(),
-      location: z.optional(z.string()).nullable(),
+      location: z
+        .optional(z.string())
+        .transform((val) => (val === undefined ? null : val))
+        .nullable(),
     }),
   ),
 })
@@ -57,6 +70,11 @@ const defaultStudent: StudentSchema = {
   firstName: '',
   lastName: '',
   instrument: '',
+  startOfLesson: '',
+  dayOfLesson: null,
+  endOfLesson: '',
+  durationMinutes: null,
+  location: '',
 }
 
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {

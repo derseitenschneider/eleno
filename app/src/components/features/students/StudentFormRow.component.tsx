@@ -92,13 +92,10 @@ export default function StudentFormRow({
             <FormControl>
               <Select
                 onValueChange={field.onChange}
-                defaultValue={field.value || ''}
+                defaultValue={field.value || undefined}
               >
                 <SelectTrigger className='h-[36px]'>
-                  <SelectValue
-                    defaultValue='none'
-                    placeholder='Unterrichtstag'
-                  />
+                  <SelectValue placeholder='Unterrichtstag' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value='Montag'>Montag</SelectItem>
@@ -124,7 +121,7 @@ export default function StudentFormRow({
               <Input
                 type='time'
                 {...field}
-                value={field.value || undefined}
+                value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.startOfLesson &&
                     'border-warning',
@@ -143,7 +140,7 @@ export default function StudentFormRow({
               <Input
                 type='time'
                 {...field}
-                value={field.value || undefined}
+                value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.endOfLesson &&
                     'border-warning',

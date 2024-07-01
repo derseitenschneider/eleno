@@ -28,7 +28,7 @@ export default function UpdateStudents({
     | undefined
 
   const studentsToUpdate = studentIds.map((id) =>
-    students?.find((student) => student.id === id),
+    students?.find((student) => student?.id === id),
   )
 
   const form = useForm<{ students: StudentSchema[] }>({

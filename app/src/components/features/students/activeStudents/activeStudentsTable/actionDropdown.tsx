@@ -1,27 +1,28 @@
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import type { Student } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
-import type { RowSelectionState, Table } from "@tanstack/react-table"
+} from '@/components/ui/dropdown-menu'
+import type { Student } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState, Table } from '@tanstack/react-table'
 import {
   Archive,
   ChevronsUpDown,
   FileDown,
   History,
   Pencil,
-} from "lucide-react"
-import { useState } from "react"
-import BulkExportLessons from "../../../lessons/bulkExportLessons/BulkExportLessons.component"
-import BulkEditStudents from "../../BulkEditStudents.component"
-import ResetStudents from "../../ResetStudents.component"
-import { useDeactivateStudents } from "../../useDeactivateStudents"
+} from 'lucide-react'
+import { useState } from 'react'
+import BulkExportLessons from '../../../lessons/bulkExportLessons/BulkExportLessons.component'
+import BulkEditStudents from '../../BulkEditStudents.component'
+import ResetStudents from '../../ResetStudents.component'
+import UpdateStudents from '../../UpdateStudents.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -32,9 +33,9 @@ export function ActiveStudentsActionDropdown({
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
-    "EDIT" | "EXPORT" | "RESET" | null
+    'EDIT' | 'EXPORT' | 'RESET' | null
   >(null)
-  const students = queryClient.getQueryData(["students"]) as Array<Student>
+  const students = queryClient.getQueryData(['students']) as Array<Student>
   const { deactivateStudents, isDeactivating, isError } =
     useDeactivateStudents()
 
@@ -59,7 +60,7 @@ export function ActiveStudentsActionDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            onClick={() => setOpenModal("EDIT")}
+            onClick={() => setOpenModal('EDIT')}
             className='flex items-center gap-2'
           >
             <Pencil className='h-4 w-4 text-primary' />
@@ -67,7 +68,7 @@ export function ActiveStudentsActionDropdown({
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => setOpenModal("EXPORT")}
+            onClick={() => setOpenModal('EXPORT')}
             className='flex items-center gap-2'
           >
             <FileDown className='h-4 w-4 text-primary' />
@@ -75,7 +76,7 @@ export function ActiveStudentsActionDropdown({
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => setOpenModal("RESET")}
+            onClick={() => setOpenModal('RESET')}
             className='flex items-center gap-2'
           >
             <History className='h-4 w-4 text-primary' />
@@ -94,24 +95,24 @@ export function ActiveStudentsActionDropdown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
-          <BulkEditStudents
-            students={selectedStudents}
+          <UpdateStudents
+            studentIds={selectedStudentIds}
             onSuccess={closeModal}
           />
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
           {/* <BulkExportLessons /> */}
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "RESET"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'RESET'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
           <ResetStudents
