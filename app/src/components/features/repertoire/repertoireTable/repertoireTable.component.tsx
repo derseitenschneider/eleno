@@ -1,11 +1,11 @@
-import { NavLink, useParams } from "react-router-dom"
+import { NavLink, useParams } from 'react-router-dom'
 
-import RepertoireControl from "./repertoireControl"
-import CreateRepertoireItem from "../CreateRepertoireItem.component"
-import { ChevronLeft } from "lucide-react"
-import { useRepertoireQuery } from "../repertoireQueries"
-import { DataTable } from "../../../ui/data-table"
-import { repertoireColumns } from "./repertoireColumns"
+import RepertoireControl from './repertoireControl'
+import CreateRepertoireItem from '../CreateRepertoireItem.component'
+import { ChevronLeft } from 'lucide-react'
+import { useRepertoireQuery } from '../repertoireQueries'
+import { DataTable } from '../../../ui/data-table'
+import { repertoireColumns } from './repertoireColumns'
 import {
   getCoreRowModel,
   getSortedRowModel,
@@ -13,10 +13,10 @@ import {
   useReactTable,
   type FilterFn,
   getFilteredRowModel,
-} from "@tanstack/react-table"
-import { useState } from "react"
-import type { RepertoireItem } from "@/types/types"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
+} from '@tanstack/react-table'
+import { useState } from 'react'
+import type { RepertoireItem } from '@/types/types'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 
 function RepertoireList() {
   const { studentId } = useParams()
@@ -28,28 +28,28 @@ function RepertoireList() {
     isFetching,
   } = useRepertoireQuery(Number(studentId))
   const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [globalFilter, setGlobalFilter] = useState('')
 
   const fuzzyFilter: FilterFn<RepertoireItem> = (row, _, value) => {
-    const title = row.getValue("title") as string
-    const startDate = row.getValue("startDate") as Date
-    const endDate = row.getValue("endDate") as Date
+    const title = row.getValue('title') as string
+    const startDate = row.getValue('startDate') as Date
+    const endDate = row.getValue('endDate') as Date
 
     return (
       title?.toLowerCase().includes(value?.toLowerCase()) ||
       startDate
         ?.toLocaleDateString(userLocale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
         })
         .toLowerCase()
         .includes(value?.toLowerCase()) ||
       endDate
         ?.toLocaleDateString(userLocale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
         })
         .toLowerCase()
         .includes(value?.toLowerCase())
@@ -93,6 +93,7 @@ function RepertoireList() {
         isFetching={isFetching}
       />
       <DataTable
+        isSelectable={false}
         table={table}
         columns={repertoireColumns}
         messageEmpty='Keine Songs vorhanden.'

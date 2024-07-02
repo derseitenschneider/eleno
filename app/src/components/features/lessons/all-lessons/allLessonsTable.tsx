@@ -90,6 +90,7 @@ export default function AllLessons() {
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
         isFetching={isFetching}
+        isSelectable={false}
       />
     </div>
   )

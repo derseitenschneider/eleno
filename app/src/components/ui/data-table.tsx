@@ -2,6 +2,7 @@ import {
   type ColumnDef,
   flexRender,
   type Table as TTable,
+  type Row,
 } from '@tanstack/react-table'
 
 import {
@@ -20,6 +21,7 @@ interface DataTableProps<TData, TValue> {
   isFetching: boolean
   table: TTable<TData>
   className?: string
+  isSelectable?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -28,7 +30,12 @@ export function DataTable<TData, TValue>({
   isFetching,
   table,
   className,
+  isSelectable = true,
 }: DataTableProps<TData, TValue>) {
+  function toggleSelection(row: Row<TData>) {
+    if (!isSelectable) return
+    row.toggleSelected()
+  }
   return (
     <Table
       className={cn(
@@ -50,9 +57,9 @@ export function DataTable<TData, TValue>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                 </TableHead>
               )
             })}
@@ -65,7 +72,11 @@ export function DataTable<TData, TValue>({
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && 'selected'}
-              className='odd:bg-background200/50'
+              className={cn(
+                'odd:bg-background200/50',
+                isSelectable && 'cursor-pointer',
+              )}
+              onClick={() => toggleSelection(row)}
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
