@@ -1,5 +1,5 @@
-import { DataTable } from "@/components/ui/data-table"
-import type { Student } from "@/types/types"
+import { DataTable } from '@/components/ui/data-table'
+import type { Student } from '@/types/types'
 import {
   type RowSelectionState,
   type SortingState,
@@ -8,17 +8,17 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { useMemo, useState } from "react"
-import useStudentsQuery from "../../studentsQueries"
-import { inactiveStudentscolumns } from "./columns"
-import InactiveStudentsControl from "./control"
+} from '@tanstack/react-table'
+import { useMemo, useState } from 'react'
+import useStudentsQuery from '../../studentsQueries'
+import { inactiveStudentscolumns } from './columns'
+import InactiveStudentsControl from './control'
 // import { studentsColumns } from "./columns"
 // import StudentsControl from "./control"
 
 export default function InactiveStudentsTable() {
   const { data: students, isPending, isError, isFetching } = useStudentsQuery()
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const inactiveStudents = useMemo(
@@ -70,6 +70,7 @@ export default function InactiveStudentsTable() {
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}
         selected={rowSelection}
+        setSelected={setRowSelection}
       />
       <DataTable
         table={table}

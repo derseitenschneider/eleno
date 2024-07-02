@@ -69,6 +69,7 @@ export default function ActiveStudentsTable() {
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}
         selected={rowSelection}
+        setSelected={setRowSelection}
       />
       <DataTable
         table={table}

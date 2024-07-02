@@ -26,15 +26,18 @@ import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
+  setSelected: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
 
 export function ActiveStudentsActionDropdown({
   selected,
+  setSelected,
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
     'EDIT' | 'EXPORT' | 'RESET' | null
   >(null)
+
   const students = queryClient.getQueryData(['students']) as Array<Student>
   const { deactivateStudents, isDeactivating, isError } =
     useDeactivateStudents()
@@ -46,6 +49,7 @@ export function ActiveStudentsActionDropdown({
   ) as Array<Student>
 
   function closeModal() {
+    setSelected({})
     setOpenModal(null)
   }
   if (!students) return null
@@ -108,7 +112,6 @@ export function ActiveStudentsActionDropdown({
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
-          {/* <BulkExportLessons /> */}
         </DialogContent>
       </Dialog>
 
