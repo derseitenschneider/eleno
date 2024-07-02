@@ -1,17 +1,17 @@
-import { logEvent } from "@firebase/analytics"
-import { useCallback, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { logEvent } from '@firebase/analytics'
+import { useCallback, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
-import Logo from "../../components/ui/logo/Logo.component"
-import { useNearestStudent } from "../../services/context/NearestStudentContext"
-import { useStudents } from "../../services/context/StudentContext"
-import { useUser } from "../../services/context/UserContext"
-import calcNearestStudentIndex from "../../utils/getClosestStudentIndex"
+import Logo from '../../components/ui/logo/Logo.component'
+import { useLessonPointer } from '../../services/context/LessonPointerContext'
+import { useStudents } from '../../services/context/StudentContext'
+import { useUser } from '../../services/context/UserContext'
+import calcNearestStudentIndex from '../../utils/getClosestStudentIndex'
 
-import useOutsideClick from "@/hooks/useOutsideClick"
-import SidebarElement from "@/layouts/sidebar/SidebarElement.component"
-import SidebarToggle from "@/layouts/sidebar/SidebarToggle.component"
-import { useTodos } from "@/services/context/TodosContext"
+import useOutsideClick from '@/hooks/useOutsideClick'
+import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
+import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
+import { useTodos } from '@/services/context/TodosContext'
 import {
   BookMarked,
   CalendarDays,
@@ -21,14 +21,14 @@ import {
   LogOut,
   Settings,
   Users,
-} from "lucide-react"
-import analytics from "../../services/analytics/firebaseAnalytics"
-import useStudentsQuery from "@/components/features/students/studentsQueries"
-import useTodosQuery from "@/components/features/todos/todosQuery"
+} from 'lucide-react'
+import analytics from '../../services/analytics/firebaseAnalytics'
+import useStudentsQuery from '@/components/features/students/studentsQueries'
+import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { setNearestStudentIndex: setClosestStudentIndex } = useNearestStudent()
+  const { setNearestStudentIndex: setClosestStudentIndex } = useLessonPointer()
   const students = useStudentsQuery().data
   const activeStudents = students?.filter((student) => !student.archive)
   const { currentStudentId } = useStudents()
@@ -46,56 +46,56 @@ function Sidebar() {
 
   const handleLogEvent = (e: React.MouseEvent): void | Promise<void> => {
     const target = e.target as HTMLElement
-    const path = target.closest("a")?.pathname
+    const path = target.closest('a')?.pathname
 
     switch (path) {
-      case "/":
-        if (target.closest("a")?.target === "_blank") {
+      case '/':
+        if (target.closest('a')?.target === '_blank') {
           setSidebarOpen(false)
-          return logEvent(analytics, "page_view", { page_title: "manual" })
+          return logEvent(analytics, 'page_view', { page_title: 'manual' })
         }
         setSidebarOpen(false)
         setClosestStudentIndex(calcNearestStudentIndex(activeStudents ?? []))
-        return logEvent(analytics, "page_view", {
-          page_title: "dashboard",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'dashboard',
         })
 
-      case "/lessons":
+      case '/lessons':
         setSidebarOpen(false)
-        return logEvent(analytics, "page_view", {
-          page_title: "lessons",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'lessons',
         })
 
-      case "/students":
+      case '/students':
         setSidebarOpen(false)
-        return logEvent(analytics, "page_view", {
-          page_title: "students",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'students',
         })
 
-      case "/timetable":
+      case '/timetable':
         setSidebarOpen(false)
-        return logEvent(analytics, "page_view", {
-          page_title: "timetable",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'timetable',
         })
 
-      case "/todos":
+      case '/todos':
         setSidebarOpen(false)
-        return logEvent(analytics, "page_view", {
-          page_title: "todos",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'todos',
         })
 
-      case "/settings":
+      case '/settings':
         setSidebarOpen(false)
-        return logEvent(analytics, "page_view", {
-          page_title: "todos",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'todos',
         })
 
-      case "/logout":
+      case '/logout':
         return logout()
 
       default:
-        return logEvent(analytics, "page_view", {
-          page_title: "undefined",
+        return logEvent(analytics, 'page_view', {
+          page_title: 'undefined',
         })
     }
   }
@@ -106,7 +106,7 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? "w-[180px]" : "w-[50px]"
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
         }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -130,7 +130,7 @@ function Sidebar() {
         <SidebarElement
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
-          to={`/lessons/${currentStudentId || "no-students"}`}
+          to={`/lessons/${currentStudentId || 'no-students'}`}
           name='Unterrichten'
           icon={<GraduationCap strokeWidth={1.5} />}
         />
@@ -163,7 +163,7 @@ function Sidebar() {
           sidebarOpen={sidebarOpen}
           handleNav={handleLogEvent}
           to='https://manual.eleno.net'
-          target={"_blank"}
+          target={'_blank'}
           name='Anleitung'
           icon={<BookMarked strokeWidth={1.5} />}
         />

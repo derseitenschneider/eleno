@@ -36,6 +36,7 @@ export type Database = {
     Tables: {
       groups: {
         Row: {
+          archive: boolean
           created_at: string
           dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes: number | null
@@ -48,6 +49,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          archive?: boolean
           created_at?: string
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
@@ -60,6 +62,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          archive?: boolean
           created_at?: string
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null

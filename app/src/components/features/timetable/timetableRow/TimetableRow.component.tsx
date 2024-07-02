@@ -1,8 +1,8 @@
-import { IoArrowForwardOutline } from "react-icons/io5"
-import { useNavigate } from "react-router-dom"
-import { useStudents } from "../../../../services/context/StudentContext"
-import type { Student } from "../../../../types/types"
-import { sortStudentsDateTime } from "../../../../utils/sortStudents"
+import { IoArrowForwardOutline } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { useStudents } from '../../../../services/context/StudentContext'
+import type { Student } from '../../../../types/types'
+import { sortLessonHolders } from '../../../../utils/sortStudents'
 
 interface TimeTableRowProps {
   currentStudent: Student
@@ -15,7 +15,7 @@ function TimeTableRow({ currentStudent }: TimeTableRowProps) {
   function navigateTolesson() {
     if (!students) return
 
-    const filteredSortedStudents = sortStudentsDateTime(students).filter(
+    const filteredSortedStudents = sortLessonHolders(students).filter(
       (student) => !student.archive,
     )
     const index = filteredSortedStudents.findIndex(
@@ -23,7 +23,7 @@ function TimeTableRow({ currentStudent }: TimeTableRowProps) {
     )
     setCurrentStudentIndex(index)
 
-    navigate("/lessons")
+    navigate('/lessons')
   }
 
   return (

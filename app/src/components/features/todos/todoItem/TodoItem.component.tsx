@@ -1,28 +1,28 @@
-import { useState } from "react"
-import { HiPencil, HiTrash } from "react-icons/hi"
-import { IoReturnDownBackOutline } from "react-icons/io5"
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import { useDateToday } from "../../../../services/context/DateTodayContext"
-import { useStudents } from "../../../../services/context/StudentContext"
-import type { Todo } from "../../../../types/types"
+import { useState } from 'react'
+import { HiPencil, HiTrash } from 'react-icons/hi'
+import { IoReturnDownBackOutline } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useDateToday } from '../../../../services/context/DateTodayContext'
+import { useStudents } from '../../../../services/context/StudentContext'
+import type { Todo } from '../../../../types/types'
 import {
   formatDateToDatabase,
   formatDateToDisplay,
-} from "../../../../utils/formateDate"
-import { sortStudentsDateTime } from "../../../../utils/sortStudents"
-import "./todoItem.style.scss"
+} from '../../../../utils/formateDate'
+import { sortLessonHolders } from '../../../../utils/sortStudents'
+import './todoItem.style.scss'
 
-import { useTodos } from "../../../../services/context/TodosContext"
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import Menus from "../../../ui/menu/Menus.component"
-import Modal from "../../../ui/modal/Modal.component"
-import DeleteTodos from "../deleteTodos/DeleteTodos.component"
-import EditTodo from "../editTodo/EditTodo.component"
+import { useTodos } from '../../../../services/context/TodosContext'
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import Menus from '../../../ui/menu/Menus.component'
+import Modal from '../../../ui/modal/Modal.component'
+import DeleteTodos from '../deleteTodos/DeleteTodos.component'
+import EditTodo from '../editTodo/EditTodo.component'
 
 interface TodoItemProps {
   todo: Todo
-  type: "open" | "completed"
+  type: 'open' | 'completed'
   children?: React.ReactNode
 }
 
@@ -38,7 +38,7 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
     (student) => student.id === todo.studentId,
   )
   const navigateToLesson = () => {
-    const filteredSortedStudents = sortStudentsDateTime(students).filter(
+    const filteredSortedStudents = sortLessonHolders(students).filter(
       (student) => !student.archive,
     )
     const index = filteredSortedStudents.findIndex(
@@ -47,7 +47,7 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
 
     setCurrentStudentIndex(index)
 
-    navigate("/lessons")
+    navigate('/lessons')
   }
 
   const overdue = todo.due < formatDateToDatabase(dateToday)
@@ -56,7 +56,7 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
     setIsPending(true)
     try {
       await completeTodo(todo.id)
-      toast("Todo erledigt.")
+      toast('Todo erledigt.')
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -68,7 +68,7 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
     setIsPending(true)
     try {
       await reactivateTodo(todo.id)
-      toast("Todo wiederhergestellt")
+      toast('Todo wiederhergestellt')
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -78,12 +78,11 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
 
   return (
     <li
-      className={`todo-item${overdue ? " overdue" : ""} ${
-        isPending ? " loading" : ""
-      } `}
+      className={`todo-item${overdue ? ' overdue' : ''} ${isPending ? ' loading' : ''
+        } `}
     >
       {children}
-      {type === "open" ? (
+      {type === 'open' ? (
         <input
           type='checkbox'
           className='checkbox'
@@ -105,13 +104,13 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
       </div>
       <div className='wrapper-due'>
         {todo.due && (
-          <span className={`${overdue ? "overdue" : null}`}>
+          <span className={`${overdue ? 'overdue' : null}`}>
             {formatDateToDisplay(todo.due)}
           </span>
         )}
       </div>
       <div className='container--button'>
-        {type === "open" && (
+        {type === 'open' && (
           <>
             <Menus.Toggle id={todo.id} />
             <Menus.Menu>
@@ -123,13 +122,13 @@ function TodoItem({ todo, type, children }: TodoItemProps) {
             </Menus.Menu>
             <Modal.Window
               name={`edit-todo-${todo.id}`}
-              styles={{ overflowY: "visible" }}
+              styles={{ overflowY: 'visible' }}
             >
               <EditTodo todoId={todo.id} />
             </Modal.Window>
           </>
         )}
-        {type === "completed" && (
+        {type === 'completed' && (
           <>
             <Menus.Toggle id={todo.id} />
             <Menus.Menu>

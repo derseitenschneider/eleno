@@ -1,14 +1,14 @@
-import { HiOutlineDocumentArrowDown } from "react-icons/hi2"
+import { HiOutlineDocumentArrowDown } from 'react-icons/hi2'
 
-import { useEffect } from "react"
-import NoContent from "../../components/ui/NoContent.component"
-import TimeTableDay from "../../components/features/timetable/timeTableDay/TimetableDay.component"
-import { useStudents } from "../../services/context/StudentContext"
-import type { TimetableDay } from "../../types/types"
-import { sortStudentsDateTime } from "../../utils/sortStudents"
-import "./timetable.style.scss"
-import Modal from "../../components/ui/modal/Modal.component"
-import ExportTimetable from "../../components/features/timetable/exportTimetable/ExportTimetable"
+import { useEffect } from 'react'
+import NoContent from '../../components/ui/NoContent.component'
+import TimeTableDay from '../../components/features/timetable/timeTableDay/TimetableDay.component'
+import { useStudents } from '../../services/context/StudentContext'
+import type { TimetableDay } from '../../types/types'
+import { sortLessonHolders } from '../../utils/sortStudents'
+import './timetable.style.scss'
+import Modal from '../../components/ui/modal/Modal.component'
+import ExportTimetable from '../../components/features/timetable/exportTimetable/ExportTimetable'
 
 function Timetable() {
   const { students } = useStudents()
@@ -17,69 +17,69 @@ function Timetable() {
     window.scrollTo(0, 0)
   }, [])
 
-  const sortedStudents = sortStudentsDateTime(
+  const sortedStudents = sortLessonHolders(
     students.filter((student) => !student.archive),
   )
   const monday: TimetableDay = {
-    day: "Montag",
+    day: 'Montag',
     students: [],
   }
   const tuesday: TimetableDay = {
-    day: "Dienstag",
+    day: 'Dienstag',
     students: [],
   }
   const wednesday: TimetableDay = {
-    day: "Mittwoch",
+    day: 'Mittwoch',
     students: [],
   }
   const thursday: TimetableDay = {
-    day: "Donnerstag",
+    day: 'Donnerstag',
     students: [],
   }
   const friday: TimetableDay = {
-    day: "Freitag",
+    day: 'Freitag',
     students: [],
   }
   const saturday: TimetableDay = {
-    day: "Samstag",
+    day: 'Samstag',
     students: [],
   }
   const sunday: TimetableDay = {
-    day: "Sonntag",
+    day: 'Sonntag',
     students: [],
   }
   const noDayAssigned: TimetableDay = {
-    day: "Kein Tag angegeben",
+    day: 'Kein Tag angegeben',
     students: [],
   }
 
   sortedStudents.forEach((student) => {
     switch (student.dayOfLesson) {
-      case "Montag":
+      case 'Montag':
         monday.students.push(student)
         break
 
-      case "Dienstag":
+      case 'Dienstag':
         tuesday.students.push(student)
         break
 
-      case "Mittwoch":
+      case 'Mittwoch':
         wednesday.students.push(student)
         break
 
-      case "Donnerstag":
+      case 'Donnerstag':
         thursday.students.push(student)
         break
 
-      case "Freitag":
+      case 'Freitag':
         friday.students.push(student)
         break
 
-      case "Samstag":
+      case 'Samstag':
         saturday.students.push(student)
         break
 
-      case "Sonntag":
+      case 'Sonntag':
         sunday.students.push(student)
         break
 

@@ -1,18 +1,18 @@
-import { useNearestStudent } from "../../../../services/context/NearestStudentContext"
+import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
 
-import { useStudents } from "../../../../services/context/StudentContext"
-import { useTodos } from "../../../../services/context/TodosContext"
-import { sortStudentsDateTime } from "../../../../utils/sortStudents"
-import useTodosQuery from "../../todos/todosQuery"
-import OverviewCard from "./OverviewCard.component"
+import { useStudents } from '../../../../services/context/StudentContext'
+import { useTodos } from '../../../../services/context/TodosContext'
+import { sortLessonHolders } from '../../../../utils/sortStudents'
+import useTodosQuery from '../../todos/todosQuery'
+import OverviewCard from './OverviewCard.component'
 
 function Overview() {
   const { activeStudents, inactiveStudents } = useStudents()
-  const { nearestStudentIndex: closestStudentIndex } = useNearestStudent()
+  const { nearestStudentIndex: closestStudentIndex } = useLessonPointer()
   const { overdueTodos } = useTodos()
 
   const sortedStudents =
-    (activeStudents && sortStudentsDateTime(activeStudents)) || null
+    (activeStudents && sortLessonHolders(activeStudents)) || null
   const closestStudent = sortedStudents
     ? sortedStudents[closestStudentIndex]
     : null
@@ -29,7 +29,7 @@ function Overview() {
             {activeStudents && activeStudents?.length > 0 ? (
               <>
                 <p className='mb-2'>
-                  Nächste Lektion:{" "}
+                  Nächste Lektion:{' '}
                   <b>
                     {closestStudent?.firstName} {closestStudent?.lastName}
                   </b>

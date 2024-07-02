@@ -6,21 +6,21 @@ import {
   Settings,
   UserPlus,
   UserRoundPlus,
-} from "lucide-react"
+} from 'lucide-react'
 import {
   IoBookOutline,
   IoCheckboxOutline,
   IoPeopleCircleOutline,
   IoSchoolSharp,
   IoSettingsOutline,
-} from "react-icons/io5"
-import { useNearestStudent } from "../../../../services/context/NearestStudentContext"
-import { useStudents } from "../../../../services/context/StudentContext"
-import QuickLinkItem from "./QuickLinkItem.component"
+} from 'react-icons/io5'
+import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
+import { useStudents } from '../../../../services/context/StudentContext'
+import QuickLinkItem from './QuickLinkItem.component'
 
 function QuickLinks() {
   const { setCurrentStudentIndex, currentStudentId } = useStudents()
-  const { nearestStudentIndex } = useNearestStudent()
+  const { nearestStudentIndex } = useLessonPointer()
 
   const navigateToClosestStudent = () => {
     setCurrentStudentIndex(nearestStudentIndex)
@@ -34,7 +34,7 @@ function QuickLinks() {
           title='Unterricht starten'
           icon={<GraduationCap strokeWidth={1.5} />}
           onClick={navigateToClosestStudent}
-          link={`/lessons/${currentStudentId || "no-students"}`}
+          link={`/lessons/${currentStudentId || 'no-students'}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'

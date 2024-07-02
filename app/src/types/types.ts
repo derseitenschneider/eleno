@@ -15,8 +15,8 @@ import type { Database } from './supabase'
 export type DBTypes = {
   [P in keyof Database['public']['Tables']]: Database['public']['Tables'][P]['Row']
 } & {
-  [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
-}
+    [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
+  }
 
 // Removes null except for defined fields
 type RemoveNullExcept<T, E extends keyof T = never> = {
@@ -63,6 +63,7 @@ export type StudentPartial = Omit<
   Student,
   'id' | 'created_at' | 'user_id' | 'archive'
 >
+export type Weekday = DBTypes['students']['dayOfLesson']
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,14 @@ export type StudentPartial = Omit<
 |--------------------------------------------------------------------------
 */
 export type Group = DBTypes['groups']
+
+/*
+|--------------------------------------------------------------------------
+| Lessonholder Types
+|--------------------------------------------------------------------------
+*/
+
+export type LessonHolder = Student | Group
 
 /*
 |--------------------------------------------------------------------------
@@ -152,11 +161,6 @@ export type ContextTypeNotes = {
   deleteNote: (id: number) => Promise<void>
   updateNotes: (notes: Note[]) => Promise<void>
   duplicateNote: (original: Note) => Promise<void>
-}
-
-export type ContextTypeClosestStudent = {
-  nearestStudentIndex: number
-  setNearestStudentIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
 export type ContextTypeDateToday = {

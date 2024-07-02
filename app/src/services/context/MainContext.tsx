@@ -1,10 +1,10 @@
-import { NearestStudentProvider } from "./NearestStudentContext"
-import { DateTodayProvider } from "./DateTodayContext"
-import { GroupsProvider } from "./GroupsContext"
-import { LessonsProvider } from "./LessonsContext"
-import { NotesProvider } from "./NotesContext"
-import { StudentsProvider } from "./StudentContext"
-import { TodosProvider } from "./TodosContext"
+import { LessonPointerProvider } from './LessonPointerContext'
+import { DateTodayProvider } from './DateTodayContext'
+import { GroupsProvider } from './GroupsContext'
+import { LessonsProvider } from './LessonsContext'
+import { NotesProvider } from './NotesContext'
+import { StudentsProvider } from './StudentContext'
+import { TodosProvider } from './TodosContext'
 
 interface MainContextProps {
   children: React.ReactNode
@@ -18,7 +18,7 @@ function MainContext({ children }: MainContextProps) {
           <StudentsProvider>
             <GroupsProvider>
               <TodosProvider>
-                <NearestStudentProvider>{children}</NearestStudentProvider>
+                <LessonPointerProvider>{children}</LessonPointerProvider>
               </TodosProvider>
             </GroupsProvider>
           </StudentsProvider>

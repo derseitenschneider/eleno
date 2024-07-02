@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { useUpdateStudents } from './useUpdateStudents'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface UpdateStudentsProps {
   onSuccess?: () => void
@@ -83,22 +84,25 @@ export default function UpdateStudents({
                 grid={grid}
                 index={i}
                 form={form}
+                disabled={isUpdating}
               />
             ))}
           </div>
-          <div className='flex items-center justify-between mt-4'>
-            <div className='flex items-center gap-4'>
-              <Button
-                size='sm'
-                variant='outline'
-                type='button'
-                onClick={onSuccess}
-              >
-                Abbrechen
-              </Button>
-              <Button size='sm' type='submit'>
+          <div className='flex items-center justify-end gap-4 mt-4'>
+            <Button
+              size='sm'
+              variant='outline'
+              type='button'
+              onClick={onSuccess}
+              disabled={isUpdating}
+            >
+              Abbrechen
+            </Button>
+            <div className='flex items-center gap-2'>
+              <Button size='sm' disabled={isUpdating} type='submit'>
                 Speichern
               </Button>
+              {isUpdating && <MiniLoader />}
             </div>
           </div>
         </form>

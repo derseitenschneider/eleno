@@ -10,6 +10,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import StudentFormRow from './StudentFormRow.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 type CreateStudentsProps = {
   onSuccess: () => void
@@ -136,18 +137,21 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                 remove={remove}
                 index={i}
                 form={form}
+                disabled={isCreating}
               />
             ))}
           </div>
           <div className='flex items-center justify-between mt-4'>
             <div className='flex items-center'>
               <Input
+                disabled={isCreating}
                 className='w-[60px]'
                 type='number'
                 value={numAdd}
                 onChange={(e) => setNumAdd(e.target.valueAsNumber)}
               />
               <Button
+                disabled={isCreating}
                 type='button'
                 variant='ghost'
                 size='sm'
@@ -158,6 +162,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             </div>
             <div className='flex items-center gap-4'>
               <Button
+                disabled={isCreating}
                 size='sm'
                 variant='outline'
                 type='button'
@@ -165,9 +170,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
               >
                 Abbrechen
               </Button>
-              <Button size='sm' type='submit'>
-                Speichern
-              </Button>
+              <div className='flex items-center gap-2'>
+                <Button disabled={isCreating} size='sm' type='submit'>
+                  Speichern
+                </Button>
+                {isCreating && <MiniLoader />}
+              </div>
             </div>
           </div>
         </form>

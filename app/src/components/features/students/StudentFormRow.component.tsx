@@ -18,11 +18,13 @@ type StudentFormRowProps = {
   grid: string
   form: UseFormReturn<{ students: StudentSchema[] }, unknown, undefined>
   remove?: UseFieldArrayRemove
+  disabled: boolean
 }
 export default function StudentFormRow({
   index,
   form,
   grid,
+  disabled,
   remove,
 }: StudentFormRowProps) {
   return (
@@ -37,11 +39,12 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 placeholder='Vorname'
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.firstName &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -55,11 +58,12 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 placeholder='Nachname'
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.lastName &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -73,11 +77,12 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 placeholder='Instrument'
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.instrument &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -91,6 +96,7 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Select
+                disabled={disabled}
                 onValueChange={field.onChange}
                 defaultValue={field.value || undefined}
               >
@@ -119,12 +125,13 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 type='time'
                 {...field}
                 value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.startOfLesson &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -138,12 +145,13 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 type='time'
                 {...field}
                 value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.endOfLesson &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -157,13 +165,14 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 placeholder='45'
                 type='number'
                 {...field}
                 value={field.value || undefined}
                 className={cn(
                   form.formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -177,12 +186,13 @@ export default function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                disabled={disabled}
                 placeholder='Unterrichtsort'
                 {...field}
                 value={field.value || undefined}
                 className={cn(
                   form.formState.errors.students?.[index]?.location &&
-                    'border-warning',
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -202,7 +212,7 @@ export default function StudentFormRow({
           className={cn(index === 0 && 'hidden', 'p-0')}
           onClick={() => remove(index)}
           tabIndex={-1}
-          disabled={index === 0}
+          disabled={index === 0 || disabled}
         >
           <Trash2 strokeWidth={1.5} className='size-4 text-warning' />
         </Button>
