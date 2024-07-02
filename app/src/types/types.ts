@@ -78,7 +78,9 @@ export type Group = DBTypes['groups']
 |--------------------------------------------------------------------------
 */
 
-export type LessonHolder = Student | Group
+export type LessonHolder =
+  | (Student & { typeID: string })
+  | (Group & { typeID: string })
 
 /*
 |--------------------------------------------------------------------------

@@ -1,24 +1,36 @@
-import { HiOutlineListBullet } from "react-icons/hi2"
-import { NavLink, useParams } from "react-router-dom"
+import { HiOutlineListBullet } from 'react-icons/hi2'
+import { NavLink, useParams } from 'react-router-dom'
 
-import StudentDropdownLesson from "@/components/features/lessons/StudentDropdownLesson.component"
-import { ScrollText, TableProperties, User } from "lucide-react"
-import useStudentsQuery from "../students/studentsQueries"
+import StudentDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
+import { ScrollText, TableProperties, User } from 'lucide-react'
+import useStudentsQuery from '../students/studentsQueries'
+import useGroupsQuery from '../groups/groupsQuery'
+import { Group, LessonHolder, Student } from '@/types/types'
 
 function LessonHeader() {
   const students = useStudentsQuery().data
+  const groups = useGroupsQuery().data
   const { studentId } = useParams()
 
-  if (!studentId) return null
+  const type = studentId?.split('-').at(0)
+  const id = Number(studentId?.split('-').at(1))
 
-  const currentStudent = students?.find((student) => student.id === +studentId)
+  function findLessonHolder(
+    type: 's' | 'g',
+    id: number,
+    students: Array<Student>,
+    groups: Array<Group>,
+  ) {
+    switch (type) {
+      case 's':
+        return students.find((student) => student.id === id)
+      case 'g':
+        return groups.find((group) => group.id === id)
+    }
+  }
+  const currentLessonHolder = findLessonHolder(type, id, students, groups)
 
-  const firstName = currentStudent?.firstName
-  const lastName = currentStudent?.lastName
-  const dayOfLesson = currentStudent?.dayOfLesson
-  const durationMinutes = currentStudent?.durationMinutes
-  const startOfLesson = currentStudent?.startOfLesson?.slice(0, 5)
-  const endOfLesson = currentStudent?.endOfLesson?.slice(0, 5)
+  if (!currentLessonHolder) return null
 
   return (
     <header className='sm:pr-4 sm:pl-8 sm:py-4 z-10 bg-background100 right-0 fixed left-[50px] top-0 border-b border-hairline'>
@@ -32,20 +44,28 @@ function LessonHeader() {
               <User strokeWidth={2} />
             </div>
             <span className='mr-2 text-lg'>
-              {firstName} {lastName}
+              {type === 's'
+                ? `${currentLessonHolder.firstName} ${currentLessonHolder.lastName}`
+                : currentLessonHolder.name}
             </span>
             <StudentDropdownLesson />
           </NavLink>
           <div className='text-sm'>
             <span>
-              {dayOfLesson && `${dayOfLesson}`}
-              {startOfLesson && `, ${startOfLesson}`}
-              {endOfLesson && ` - ${endOfLesson}`}
+              {currentLessonHolder.dayOfLesson &&
+                `${currentLessonHolder.dayOfLesson}`}
+              {currentLessonHolder.startOfLesson &&
+                `, ${currentLessonHolder.startOfLesson}`}
+              {currentLessonHolder.endOfLesson &&
+                ` - ${currentLessonHolder.endOfLesson}`}
             </span>
-            {dayOfLesson && durationMinutes && <span> | </span>}
+            {currentLessonHolder.dayOfLesson &&
+              currentLessonHolder.durationMinutes && <span> | </span>}
 
             <span>
-              {durationMinutes && <span> {durationMinutes} Minuten</span>}
+              {currentLessonHolder.durationMinutes && (
+                <span> {currentLessonHolder.durationMinutes} Minuten</span>
+              )}
             </span>
           </div>
         </div>

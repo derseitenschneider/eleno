@@ -20,11 +20,11 @@ import QuickLinkItem from './QuickLinkItem.component'
 
 function QuickLinks() {
   const { setCurrentStudentIndex, currentStudentId } = useStudents()
-  const { nearestStudentIndex } = useLessonPointer()
+  const { lessonHolderTypeIds, lessonPointer } = useLessonPointer()
 
-  const navigateToClosestStudent = () => {
-    setCurrentStudentIndex(nearestStudentIndex)
-  }
+  // const navigateToClosestStudent = () => {
+  //   setCurrentStudentIndex(nearestStudentIndex)
+  // }
 
   return (
     <div className='col-span-1 row-start-2 row-end-3 p-3 border-b border-hairline'>
@@ -33,8 +33,8 @@ function QuickLinks() {
         <QuickLinkItem
           title='Unterricht starten'
           icon={<GraduationCap strokeWidth={1.5} />}
-          onClick={navigateToClosestStudent}
-          link={`/lessons/${currentStudentId || 'no-students'}`}
+          // onClick={navigateToClosestStudent}
+          link={`/lessons/${lessonHolderTypeIds[lessonPointer] || 'no-students'}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'
