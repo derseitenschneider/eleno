@@ -36,13 +36,14 @@ export default function AllLessonsControl({
   const { studentId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const [modalOpen, setModalOpen] = useState<'EXPORT' | undefined>()
-  const { years: lessonYears } = queryClient.getQueryData([
+  const yearsData = queryClient.getQueryData([
     'lesson-years',
     { studentId: Number(studentId) },
-  ]) as { studentId: number; years: Array<number> }
+  ]) as Array<{ studentId: number; years: Array<number> }> | undefined
 
+  const lessonYears = yearsData?.[0]?.years
   const selectedYear = searchParams.get('year')
-  const hasLessonYears = lessonYears?.length > 0
+  const hasLessonYears = lessonYears?.length ? lessonYears.length > 0 : false
 
   function handleSelect(year: string) {
     setSearchParams({ year })
