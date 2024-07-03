@@ -2,7 +2,7 @@ import { HiOutlineListBullet } from 'react-icons/hi2'
 import { NavLink, useParams } from 'react-router-dom'
 
 import StudentDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { ScrollText, TableProperties, User } from 'lucide-react'
+import { ScrollText, TableProperties, User, Users } from 'lucide-react'
 import useStudentsQuery from '../students/studentsQueries'
 import useGroupsQuery from '../groups/groupsQuery'
 import { Group, LessonHolder, Student } from '@/types/types'
@@ -41,7 +41,8 @@ function LessonHeader() {
             className='flex mb-2 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
-              <User strokeWidth={2} />
+              {type === 's' && <User strokeWidth={2} />}{' '}
+              {type === 'g' && <Users strokeWidth={2} />}
             </div>
             <span className='mr-2 text-lg'>
               {type === 's'

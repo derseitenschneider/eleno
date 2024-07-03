@@ -13,10 +13,11 @@ function LessonFooter() {
     currentStudentIndex,
     setCurrentStudentIndex,
   } = useStudents()
-  const { lessonPointer, lessonHolderTypeIds } = useLessonPointer()
+  const { lessonPointer, setLessonPointer, lessonHolderTypeIds } =
+    useLessonPointer()
   const navigate = useNavigate()
   const { studentId } = useParams()
-  const currentStudentId = Number(studentId)
+  const currentStudentId = studentId
   const { data: latestLessons } = useLatestLessons()
 
   if (!latestLessons || !studentId) return null
@@ -34,24 +35,25 @@ function LessonFooter() {
 
   const handlerPreviousStudent = () => {
     if (lessonPointer > 0) {
-      const previousStudentId = lessonHolderTypeIds[lessonPointer - 1] ?? 0
+      setLessonPointer((prev) => prev - 1)
+      const previousStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
       const newestYear =
         getNewestLessonYear(latestLessons, previousStudentId) ||
         new Date().getFullYear()
+
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
-      console.log(lessonHolderTypeIds)
-
       const newUrl = url.replace(
         String(currentStudentId),
         String(previousStudentId),
       )
+
       navigate(newUrl + query)
       return setCurrentStudentIndex(currentStudentIndex - 1)
     }
     if (lessonPointer === 0) {
-      const lastStudentId =
-        lessonHolderTypeIds[lessonHolderTypeIds.length - 1] ?? 0
+      setLessonPointer(lessonHolderTypeIds.length - 1)
+      const lastStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
       const newestYear =
         getNewestLessonYear(latestLessons, lastStudentId) ||
         new Date().getFullYear()
@@ -68,8 +70,9 @@ function LessonFooter() {
   }
 
   const handlerNextStudent = () => {
-    if (currentStudentIndex < activeSortedStudentIds.length - 1) {
-      const nextStudentId = activeSortedStudentIds[currentStudentIndex + 1] ?? 0
+    if (lessonPointer < lessonHolderTypeIds.length - 1) {
+      setLessonPointer((prev) => prev + 1)
+      const nextStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
       const newestYear =
         getNewestLessonYear(latestLessons, nextStudentId) ||
         new Date().getFullYear()
@@ -82,16 +85,22 @@ function LessonFooter() {
       navigate(newUrl + query)
       return setCurrentStudentIndex(currentStudentIndex + 1)
     }
-    const firstStudentId = activeSortedStudentIds[0] ?? 0
-    const newestYear =
-      getNewestLessonYear(latestLessons, firstStudentId) ||
-      new Date().getFullYear()
-    const url = window.location.pathname
-    const query = url.includes('all') ? `?year=${newestYear}` : ''
-    const newUrl = url.replace(String(currentStudentId), String(firstStudentId))
-    navigate(newUrl)
-    navigate(newUrl + query)
-    return setCurrentStudentIndex(0)
+    if (lessonPointer === lessonHolderTypeIds.length - 1) {
+      setLessonPointer(0)
+      const firstStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+      const newestYear =
+        getNewestLessonYear(latestLessons, firstStudentId) ||
+        new Date().getFullYear()
+      const url = window.location.pathname
+      const query = url.includes('all') ? `?year=${newestYear}` : ''
+      const newUrl = url.replace(
+        String(currentStudentId),
+        String(firstStudentId),
+      )
+      navigate(newUrl)
+      navigate(newUrl + query)
+      return setCurrentStudentIndex(0)
+    }
   }
 
   return (

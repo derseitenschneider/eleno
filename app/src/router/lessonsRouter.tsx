@@ -1,17 +1,17 @@
-import LessonHeader from "@/components/features/lessons/LessonHeader"
-import AllLessons from "@/components/features/lessons/all-lessons/allLessonsTable"
-import Repertoire from "@/components/features/repertoire/Repertoire.component"
-import { motion } from "framer-motion"
-import { Suspense, lazy } from "react"
-import { Outlet } from "react-router-dom"
-import NoStudents from "@/components/features/lessons/NoStudents.component"
-import LessonFooter from "@/components/features/lessons/LessonFooter.component"
+import LessonHeader from '@/components/features/lessons/LessonHeader'
+import AllLessons from '@/components/features/lessons/all-lessons/allLessonsTable'
+import Repertoire from '@/components/features/repertoire/Repertoire.component'
+import { motion } from 'framer-motion'
+import { Suspense, lazy } from 'react'
+import { Outlet } from 'react-router-dom'
+import NoStudents from '@/components/features/lessons/NoStudents.component'
+import LessonFooter from '@/components/features/lessons/LessonFooter.component'
 
-const LessonsPage = lazy(() => import("../pages/Lessons.page"))
+const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 
 const lessonsRoutes = [
   {
-    path: "/lessons/:studentId",
+    path: '/lessons/:holderId',
     element: (
       <Suspense fallback={<p>...loading</p>}>
         {/* <LessonSkeleton /> */}
@@ -33,7 +33,7 @@ const lessonsRoutes = [
       },
       {
         end: true,
-        path: "all",
+        path: 'all',
         element: (
           <div className='py-5 pl-8 pr-4'>
             <AllLessons />
@@ -42,7 +42,7 @@ const lessonsRoutes = [
       },
       {
         end: true,
-        path: "repertoire",
+        path: 'repertoire',
         element: (
           <div className='py-5 pl-8 pr-4'>
             <Repertoire />
@@ -52,7 +52,7 @@ const lessonsRoutes = [
     ],
   },
   {
-    path: "/lessons/no-students",
+    path: '/lessons/no-students',
     element: <NoStudents />,
   },
 ]

@@ -43,11 +43,11 @@ export function LessonPointerProvider({
     (lessonHolder) => lessonHolder.typeID,
   )
 
-  useEffect(() => {
-    if (lessonHolders) {
-      setLessonPointer(calcNearestLessonIndex(lessonHolders))
-    }
-  }, [lessonHolders])
+  // useEffect(() => {
+  //   if (lessonHolders) {
+  //     setLessonPointer(calcNearestLessonIndex(lessonHolders))
+  //   }
+  // }, [lessonHolders])
 
   const value = useMemo(
     () => ({
