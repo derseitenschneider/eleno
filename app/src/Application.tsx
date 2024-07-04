@@ -35,7 +35,6 @@ export default function Application() {
       <Sonner
         position='top-right'
         duration={2500}
-        // closeButton
         toastOptions={{
           classNames: {
             toast: 'bg-background50 border-hairline',

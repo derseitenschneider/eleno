@@ -9,15 +9,19 @@
     }
   },
   "formatter": {
+    "enabled": true,
     "indentStyle": "space",
     "lineWidth": 80,
+    "indentWidth": 2,
     "formatWithErrors": true
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
       "jsxQuoteStyle": "single",
-      "semicolons": "asNeeded"
+      "semicolons": "asNeeded",
+      "lineWidth": 80,
+      "indentWidth": 2
     }
   },
   "linter": {

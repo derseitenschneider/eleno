@@ -8,14 +8,12 @@ import OverviewCard from './OverviewCard.component'
 
 function Overview() {
   const { activeStudents, inactiveStudents } = useStudents()
-  const { nearestStudentIndex: closestStudentIndex } = useLessonPointer()
+  const { lessonPointer } = useLessonPointer()
   const { overdueTodos } = useTodos()
 
   const sortedStudents =
     (activeStudents && sortLessonHolders(activeStudents)) || null
-  const closestStudent = sortedStudents
-    ? sortedStudents[closestStudentIndex]
-    : null
+  const closestStudent = sortedStudents ? sortedStudents[lessonPointer] : null
 
   const todos = useTodosQuery().data
   const todosOpen = todos?.filter((todo) => !todo.completed)
