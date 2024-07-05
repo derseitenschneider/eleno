@@ -47,6 +47,7 @@ export type Database = {
           startOfLesson: string | null
           students: string[] | null
           user_id: string | null
+          uuid: string
         }
         Insert: {
           archive?: boolean
@@ -60,6 +61,7 @@ export type Database = {
           startOfLesson?: string | null
           students?: string[] | null
           user_id?: string | null
+          uuid?: string
         }
         Update: {
           archive?: boolean
@@ -73,6 +75,7 @@ export type Database = {
           startOfLesson?: string | null
           students?: string[] | null
           user_id?: string | null
+          uuid?: string
         }
         Relationships: [
           {
@@ -117,13 +120,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "lessons_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -140,6 +136,7 @@ export type Database = {
           created_at: string | null
           id: number
           order: number
+          student_uuid: string | null
           studentId: number | null
           text: string | null
           title: string | null
@@ -152,6 +149,7 @@ export type Database = {
           created_at?: string | null
           id?: number
           order?: number
+          student_uuid?: string | null
           studentId?: number | null
           text?: string | null
           title?: string | null
@@ -164,6 +162,7 @@ export type Database = {
           created_at?: string | null
           id?: number
           order?: number
+          student_uuid?: string | null
           studentId?: number | null
           text?: string | null
           title?: string | null
@@ -408,13 +407,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "lessons_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -428,15 +420,7 @@ export type Database = {
           studentId: number | null
           years: number[] | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       only_active_notes: {
         Row: {
@@ -473,6 +457,19 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      get_student_uuid:
+        | {
+            Args: {
+              student_id: number
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              student_id: number
+            }
+            Returns: string
+          }
     }
     Enums: {
       background_colors: "blue" | "red" | "green" | "yellow" | "none"

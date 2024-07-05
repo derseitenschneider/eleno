@@ -25,13 +25,13 @@ export function LessonPointerProvider({
   children: React.ReactNode
 }) {
   const [lessonPointer, setLessonPointer] = useState(0)
-  const activeStudents = useStudentsQuery()
+  const activeStudents: Array<LessonHolder> | undefined = useStudentsQuery()
     .data?.filter((student) => !student.archive)
-    .map((student) => ({ ...student, typeID: `s-${student.id}` }))
+    .map((student) => ({ type: 's', holder: student }))
 
-  const activeGroups = useGroupsQuery()
+  const activeGroups: Array<LessonHolder> | undefined = useGroupsQuery()
     .data?.filter((group) => !group.archive)
-    .map((group) => ({ ...group, typeID: `g-${group.id}` }))
+    .map((group) => ({ type: 'g', holder: group }))
 
   const lessonHolders: Array<LessonHolder> = useMemo(
     () =>
@@ -40,7 +40,7 @@ export function LessonPointerProvider({
   )
 
   const lessonHolderTypeIds = lessonHolders.map(
-    (lessonHolder) => lessonHolder.typeID,
+    (lessonHolder) => `${lessonHolder.type}-${lessonHolder.holder.id}`,
   )
 
   // useEffect(() => {

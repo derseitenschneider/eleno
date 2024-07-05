@@ -1,35 +1,11 @@
-import { HiOutlineListBullet } from 'react-icons/hi2'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import StudentDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { ScrollText, TableProperties, User, Users } from 'lucide-react'
-import useStudentsQuery from '../students/studentsQueries'
-import useGroupsQuery from '../groups/groupsQuery'
-import { Group, LessonHolder, Student } from '@/types/types'
+import { TableProperties, User, Users } from 'lucide-react'
+import useCurrentHolder from './useCurrentHolder'
 
 function LessonHeader() {
-  const students = useStudentsQuery().data
-  const groups = useGroupsQuery().data
-  const { studentId } = useParams()
-
-  const type = studentId?.split('-').at(0)
-  const id = Number(studentId?.split('-').at(1))
-
-  function findLessonHolder(
-    type: 's' | 'g',
-    id: number,
-    students: Array<Student>,
-    groups: Array<Group>,
-  ) {
-    switch (type) {
-      case 's':
-        return students.find((student) => student.id === id)
-      case 'g':
-        return groups.find((group) => group.id === id)
-    }
-  }
-  const currentLessonHolder = findLessonHolder(type, id, students, groups)
-
+  const { currentLessonHolder } = useCurrentHolder()
   if (!currentLessonHolder) return null
 
   return (
@@ -37,35 +13,41 @@ function LessonHeader() {
       <div className='flex items-end justify-between'>
         <div>
           <NavLink
-            to={`/lessons/${studentId}`}
+            to={`/lessons/${currentLessonHolder.type === 's'
+                ? `s-${currentLessonHolder.holder.id}`
+                : `g-${currentLessonHolder.holder.id}`
+              }`}
             className='flex mb-2 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
-              {type === 's' && <User strokeWidth={2} />}{' '}
-              {type === 'g' && <Users strokeWidth={2} />}
+              {currentLessonHolder.type === 's' && <User strokeWidth={2} />}{' '}
+              {currentLessonHolder.type === 'g' && <Users strokeWidth={2} />}
             </div>
             <span className='mr-2 text-lg'>
-              {type === 's'
-                ? `${currentLessonHolder.firstName} ${currentLessonHolder.lastName}`
-                : currentLessonHolder.name}
+              {currentLessonHolder.type === 's'
+                ? `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
+                : currentLessonHolder.holder.name}
             </span>
             <StudentDropdownLesson />
           </NavLink>
           <div className='text-sm'>
             <span>
-              {currentLessonHolder.dayOfLesson &&
-                `${currentLessonHolder.dayOfLesson}`}
-              {currentLessonHolder.startOfLesson &&
-                `, ${currentLessonHolder.startOfLesson}`}
-              {currentLessonHolder.endOfLesson &&
-                ` - ${currentLessonHolder.endOfLesson}`}
+              {currentLessonHolder.holder.dayOfLesson &&
+                `${currentLessonHolder.holder.dayOfLesson}`}
+              {currentLessonHolder.holder.startOfLesson &&
+                `, ${currentLessonHolder.holder.startOfLesson}`}
+              {currentLessonHolder.holder.endOfLesson &&
+                ` - ${currentLessonHolder.holder.endOfLesson}`}
             </span>
-            {currentLessonHolder.dayOfLesson &&
-              currentLessonHolder.durationMinutes && <span> | </span>}
+            {currentLessonHolder.holder.dayOfLesson &&
+              currentLessonHolder.holder.durationMinutes && <span> | </span>}
 
             <span>
-              {currentLessonHolder.durationMinutes && (
-                <span> {currentLessonHolder.durationMinutes} Minuten</span>
+              {currentLessonHolder.holder.durationMinutes && (
+                <span>
+                  {' '}
+                  {currentLessonHolder.holder.durationMinutes} Minuten
+                </span>
               )}
             </span>
           </div>

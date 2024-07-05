@@ -1,5 +1,5 @@
-import type { Profile } from "../../types/types"
-import supabase from "./supabase"
+import type { Profile } from '../../types/types'
+import supabase from './supabase'
 
 export const signUpSupabase = async (inputData: {
   email: string
@@ -27,6 +27,7 @@ export const loginSupabase = async (email: string, password: string) => {
     email,
     password,
   })
+  console.log(error)
   if (error) throw new Error(error.message)
 }
 
@@ -37,9 +38,9 @@ export const recoverPasswordSupabase = async (email: string) => {
 
 export const getProfilesSupabase = async (uid: string) => {
   const { data: profiles, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", uid)
+    .from('profiles')
+    .select('*')
+    .eq('id', uid)
   if (error) throw new Error(error.message)
   return profiles
 }
@@ -62,7 +63,7 @@ export const updatePasswordSupabase = async (password: string) => {
 }
 
 export const deleteAccountSupabase = async () => {
-  const { error } = await supabase.rpc("delete_user")
+  const { error } = await supabase.rpc('delete_user')
 
   supabase.auth.signOut()
 

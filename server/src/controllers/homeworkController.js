@@ -1,4 +1,3 @@
-// const supabase = require("../db")
 import supabase from '../db.js'
 
 export default async function getHomework(req, res) {
