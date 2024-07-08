@@ -16,18 +16,22 @@ function LessonFooter() {
   const { lessonPointer, setLessonPointer, lessonHolderTypeIds } =
     useLessonPointer()
   const navigate = useNavigate()
-  const { studentId } = useParams()
-  const currentStudentId = studentId
+  const { holderId } = useParams()
   const { data: latestLessons } = useLatestLessons()
 
-  if (!latestLessons || !studentId) return null
+  if (!latestLessons || !holderId) return null
 
-  function getNewestLessonYear(
-    latestLessons: Array<Lesson>,
-    studentId: number,
-  ) {
+  function getNewestLessonYear(latestLessons: Array<Lesson>, holderId: string) {
+    const [type, id] = holderId.split('-')
+
+    if (!type || !id) return null
+
+    let field: 'studentId' | 'groupId'
+    if (type === 's') field = 'studentId'
+    if (type === 'g') field = 'groupId'
+
     return latestLessons
-      ?.filter((lesson) => lesson?.studentId === Number(studentId))
+      ?.filter((lesson) => lesson?.[field] === Number(id))
       .sort((a, b) => b.date.valueOf() - a.date.valueOf())
       .at(0)
       ?.date.getFullYear()
@@ -36,67 +40,60 @@ function LessonFooter() {
   const handlerPreviousStudent = () => {
     if (lessonPointer > 0) {
       setLessonPointer((prev) => prev - 1)
-      const previousStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+      const prevHolderId = lessonHolderTypeIds[lessonPointer]
+      if (!prevHolderId) return
       const newestYear =
-        getNewestLessonYear(latestLessons, previousStudentId) ||
+        getNewestLessonYear(latestLessons, prevHolderId) ||
         new Date().getFullYear()
 
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(
-        String(currentStudentId),
-        String(previousStudentId),
-      )
+      const newUrl = url.replace(String(holderId), String(prevHolderId))
 
       navigate(newUrl + query)
-      return setCurrentStudentIndex(currentStudentIndex - 1)
+      // return setCurrentStudentIndex(currentStudentIndex - 1)
     }
+
     if (lessonPointer === 0) {
       setLessonPointer(lessonHolderTypeIds.length - 1)
-      const lastStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+      const lastHolderId = lessonHolderTypeIds[lessonPointer]
+      if (!lastHolderId) return
       const newestYear =
-        getNewestLessonYear(latestLessons, lastStudentId) ||
+        getNewestLessonYear(latestLessons, lastHolderId) ||
         new Date().getFullYear()
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(
-        String(currentStudentId),
-        String(lastStudentId),
-      )
+      const newUrl = url.replace(String(holderId), String(lastHolderId))
       navigate(newUrl)
       navigate(newUrl + query)
-      return setCurrentStudentIndex(activeSortedStudentIds.length - 1)
+      // return setCurrentStudentIndex(activeSortedStudentIds.length - 1)
     }
   }
 
   const handlerNextStudent = () => {
     if (lessonPointer < lessonHolderTypeIds.length - 1) {
       setLessonPointer((prev) => prev + 1)
-      const nextStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+      const nextHolderId = lessonHolderTypeIds[lessonPointer]
+      if (!nextHolderId) return
       const newestYear =
-        getNewestLessonYear(latestLessons, nextStudentId) ||
+        getNewestLessonYear(latestLessons, nextHolderId) ||
         new Date().getFullYear()
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(
-        String(currentStudentId),
-        String(nextStudentId),
-      )
+      const newUrl = url.replace(String(holderId), String(nextHolderId))
       navigate(newUrl + query)
       return setCurrentStudentIndex(currentStudentIndex + 1)
     }
     if (lessonPointer === lessonHolderTypeIds.length - 1) {
       setLessonPointer(0)
-      const firstStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+      const firstHolderId = lessonHolderTypeIds[lessonPointer]
+      if (!firstHolderId) return
       const newestYear =
-        getNewestLessonYear(latestLessons, firstStudentId) ||
+        getNewestLessonYear(latestLessons, firstHolderId) ||
         new Date().getFullYear()
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(
-        String(currentStudentId),
-        String(firstStudentId),
-      )
+      const newUrl = url.replace(String(holderId), String(firstHolderId))
       navigate(newUrl)
       navigate(newUrl + query)
       return setCurrentStudentIndex(0)

@@ -1,4 +1,4 @@
-import type { Lesson, LessonPartial } from '../../types/types'
+import type { Lesson, LessonPartial, Student } from '../../types/types'
 import supabase from './supabase'
 
 export const fetchLessonsByYearApi = async (
@@ -40,9 +40,9 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate.toISOString())
-        .lte('date', uctEndDate?.toISOString())
-        .order('date', { ascending: false })
+      .gte('date', uctStartDate.toISOString())
+      .lte('date', uctEndDate?.toISOString())
+      .order('date', { ascending: false })
     : query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
@@ -72,8 +72,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate?.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate?.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
@@ -155,6 +155,7 @@ export const fetchLatestLessons = async () => {
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')
     .select()
+    .returns<Array<Lesson>>()
   if (error) throw new Error(error.message)
 
   return lessons.map((lesson) => ({

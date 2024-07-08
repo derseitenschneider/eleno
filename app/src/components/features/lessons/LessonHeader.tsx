@@ -35,9 +35,9 @@ function LessonHeader() {
               {currentLessonHolder.holder.dayOfLesson &&
                 `${currentLessonHolder.holder.dayOfLesson}`}
               {currentLessonHolder.holder.startOfLesson &&
-                `, ${currentLessonHolder.holder.startOfLesson}`}
+                `, ${currentLessonHolder.holder.startOfLesson.slice(0, 5)}`}
               {currentLessonHolder.holder.endOfLesson &&
-                ` - ${currentLessonHolder.holder.endOfLesson}`}
+                ` - ${currentLessonHolder.holder.endOfLesson.slice(0, 5)}`}
             </span>
             {currentLessonHolder.holder.dayOfLesson &&
               currentLessonHolder.holder.durationMinutes && <span> | </span>}
@@ -45,7 +45,6 @@ function LessonHeader() {
             <span>
               {currentLessonHolder.holder.durationMinutes && (
                 <span>
-                  {' '}
                   {currentLessonHolder.holder.durationMinutes} Minuten
                 </span>
               )}

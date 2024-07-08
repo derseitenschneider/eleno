@@ -91,34 +91,44 @@ export type Database = {
         Row: {
           created_at: string
           date: string
+          groupId: number | null
           homework: string | null
           homeworkKey: string
           id: number
           lessonContent: string | null
-          studentId: number
+          studentId: number | null
           user_id: string
         }
         Insert: {
           created_at?: string
           date: string
+          groupId?: number | null
           homework?: string | null
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
-          studentId: number
+          studentId?: number | null
           user_id?: string
         }
         Update: {
           created_at?: string
           date?: string
+          groupId?: number | null
           homework?: string | null
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
-          studentId?: number
+          studentId?: number | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "lessons_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "lessons_user_id_fkey"
             columns: ["user_id"]

@@ -34,8 +34,8 @@ const compareDays = (a: Student, b: Student) => {
 }
 
 const compareTime = (a: LessonHolder, b: LessonHolder) => {
-  const studentA = a.startOfLesson
-  const studentB = b.startOfLesson
+  const studentA = a.holder?.startOfLesson
+  const studentB = b.holder?.startOfLesson
 
   let comparison = 0
   if (!studentA || !studentB) return comparison
@@ -53,19 +53,13 @@ const compareDurations = (a: Student, b: Student) => {
   const durationB = b.durationMinutes
 
   let comparison = 0
+  if (!durationA || !durationB) return 0
   if (durationA > durationB) {
     comparison = 1
   } else if (durationA < durationB) {
     comparison = -1
   }
   return comparison
-}
-
-const compareLocations = (a: Student, b: Student) => {
-  const locationA = a.location
-  const locationB = b.location
-
-  return locationA?.localeCompare(locationB, 'de', { sensitivity: 'variant' })
 }
 
 export const sortStudents = (students: Student[], sorting: Sorting) => {
@@ -129,7 +123,7 @@ export const sortLessonHolders = (
   const undef: LessonHolder[] = []
 
   for (const lessonHolder of lessonHolders) {
-    switch (lessonHolder.dayOfLesson?.toLowerCase()) {
+    switch (lessonHolder.holder?.dayOfLesson?.toLowerCase()) {
       case 'montag':
         mo.push(lessonHolder)
         break
