@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom'
 
-import StudentDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
+import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
 import { TableProperties, User, Users } from 'lucide-react'
 import useCurrentHolder from './useCurrentHolder'
+import { Badge } from '@/components/ui/badge'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -13,10 +14,11 @@ function LessonHeader() {
       <div className='flex items-end justify-between'>
         <div>
           <NavLink
-            to={`/lessons/${currentLessonHolder.type === 's'
+            to={`/lessons/${
+              currentLessonHolder.type === 's'
                 ? `s-${currentLessonHolder.holder.id}`
                 : `g-${currentLessonHolder.holder.id}`
-              }`}
+            }`}
             className='flex mb-2 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
@@ -28,9 +30,9 @@ function LessonHeader() {
                 ? `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
                 : currentLessonHolder.holder.name}
             </span>
-            <StudentDropdownLesson />
+            <HolderDropdownLesson />
           </NavLink>
-          <div className='text-sm'>
+          <div className='text-sm flex items-center gap-1'>
             <span>
               {currentLessonHolder.holder.dayOfLesson &&
                 `${currentLessonHolder.holder.dayOfLesson}`}
@@ -39,9 +41,11 @@ function LessonHeader() {
               {currentLessonHolder.holder.endOfLesson &&
                 ` - ${currentLessonHolder.holder.endOfLesson.slice(0, 5)}`}
             </span>
-            {currentLessonHolder.holder.dayOfLesson &&
-              currentLessonHolder.holder.durationMinutes && <span> | </span>}
-
+            <span>
+              {currentLessonHolder.holder.dayOfLesson &&
+                currentLessonHolder.holder.durationMinutes &&
+                ' | '}
+            </span>
             <span>
               {currentLessonHolder.holder.durationMinutes && (
                 <span>
@@ -49,6 +53,7 @@ function LessonHeader() {
                 </span>
               )}
             </span>
+            {currentLessonHolder.type === 'g' && <Badge>Gruppe</Badge>}
           </div>
         </div>
         <NavLink

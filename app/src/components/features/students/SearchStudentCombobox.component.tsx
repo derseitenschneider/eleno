@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -6,36 +6,37 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Search } from "lucide-react"
-import { useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { useStudents } from "../../../services/context/StudentContext"
-import { sortStudents } from "../../../utils/sortStudents"
+} from '@/components/ui/popover'
+import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { Search } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Badge } from '@/components/ui/badge'
+import type { LessonHolder } from '@/types/types'
 
 export default function SearchStudentCombobox() {
-  const { studentId: currentStudentId } = useParams()
+  const { setLessonPointer, lessonHolders } = useLessonPointer()
+  const { holderId } = useParams()
   const [open, setOpen] = useState(false)
-  const { activeStudents, activeSortedStudentIds, setCurrentStudentIndex } =
-    useStudents()
   const navigate = useNavigate()
 
-  if (!activeStudents) return null
-  const sortedActiveStudents = sortStudents(activeStudents, {
-    sort: "lastName",
-    ascending: true,
-  })
+  if (!lessonHolders) return null
 
-  function handleSelect(newStudentId: number) {
-    const newStudentIndex = activeSortedStudentIds.indexOf(newStudentId || 0)
-    setCurrentStudentIndex(newStudentIndex)
+  function handleSelect(newLessonHolder: LessonHolder) {
+    if (!holderId) return
+    const newTypeId = `${newLessonHolder.type}-${newLessonHolder.holder.id}`
     const url = window.location.pathname
-    const newUrl = url.replace(String(currentStudentId), String(newStudentId))
+    const newUrl = url.replace(holderId, newTypeId)
+    setLessonPointer(
+      lessonHolders.findIndex(
+        (lessonHolder) => lessonHolder.holder.id === newLessonHolder.holder.id,
+      ),
+    )
     navigate(newUrl)
     setOpen(false)
   }
@@ -57,13 +58,26 @@ export default function SearchStudentCombobox() {
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
             <CommandGroup>
-              {sortedActiveStudents?.map((student) => (
+              {lessonHolders.map((lessonHolder) => (
                 <CommandItem
-                  key={student.id}
-                  value={`${student.firstName} ${student.lastName}`}
-                  onSelect={() => handleSelect(student.id)}
+                  key={lessonHolder.holder.id}
+                  value={
+                    lessonHolder.type === 's'
+                      ? `${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`
+                      : lessonHolder.holder.name
+                  }
+                  className='flex justify-between'
+                  onSelect={() => handleSelect(lessonHolder)}
                 >
-                  <span>{`${student.firstName} ${student.lastName}`}</span>
+                  {lessonHolder.type === 's' && (
+                    <span>{`${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`}</span>
+                  )}
+                  {lessonHolder.type === 'g' && (
+                    <>
+                      <span>{lessonHolder.holder.name} </span>
+                      <Badge>Gruppe</Badge>
+                    </>
+                  )}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -1,24 +1,24 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet"
-import { useStudents } from "@/services/context/StudentContext"
+} from '@/components/ui/sheet'
+import { useStudents } from '@/services/context/StudentContext'
 import {
   Archive,
   CheckSquare2,
@@ -30,21 +30,21 @@ import {
   TableProperties,
   Trash2,
   Undo2,
-} from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import ExportLessons from "../../../lessons/ExportLessons.component"
-import AddTodo from "../../../todos/AddTodo.component"
-import DeleteStudents from "../../deleteStudents/DeleteStudents.component"
-import StudentForm from "../../StudentForm.component"
-import { useDeactivateStudents } from "../../useDeactivateStudents"
-import { useReactivateStudents } from "../../useReactivateStudents"
+} from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ExportLessons from '../../../lessons/ExportLessons.component'
+import AddTodo from '../../../todos/AddTodo.component'
+import DeleteStudents from '../../deleteStudents/DeleteStudents.component'
+import StudentForm from '../../StudentForm.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
+import { useReactivateStudents } from '../../useReactivateStudents'
 
 type StudentRowDropdownProps = {
   studentId: number
 }
 
-type Modals = "EXPORT" | "DELETE" | null
+type Modals = 'EXPORT' | 'DELETE' | null
 
 export default function InactiveStudentRowDropdown({
   studentId,
@@ -81,7 +81,7 @@ export default function InactiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal("EXPORT")}
+              onClick={() => setOpenModal('EXPORT')}
               className='flex items-center gap-2'
             >
               <FileDown className='size-4 text-primary' />
@@ -104,7 +104,7 @@ export default function InactiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => setOpenModal("DELETE")}
+              onClick={() => setOpenModal('DELETE')}
               className='flex items-center gap-2'
             >
               <Trash2 className='size-4 text-warning' />
@@ -114,16 +114,16 @@ export default function InactiveStudentRowDropdown({
         </DropdownMenu>
       </div>
 
-      <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons studentId={studentId} />
+          <ExportLessons holderId={studentId} />
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schüler:in löschen</DialogTitle>

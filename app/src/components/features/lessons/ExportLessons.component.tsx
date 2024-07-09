@@ -1,50 +1,48 @@
+import { createElement, useState } from 'react'
+import type { Student } from '../../../types/types'
 
-import { createElement, useState } from "react"
-import type { Student } from "../../../types/types"
-
-import { Button } from "@/components/ui/button"
-import { DayPicker } from "@/components/ui/daypicker.component"
-import stripHtmlTags from "../../../utils/stripHtmlTags"
-import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
-import { Input } from "@/components/ui/input"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { useQueryClient } from "@tanstack/react-query"
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { useAllLessons, useAllLessonsCSV } from "./lessonsQueries"
-import type { PDFProps } from "./LessonsPDF"
-import { toast } from "sonner";
+import { Button } from '@/components/ui/button'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import stripHtmlTags from '../../../utils/stripHtmlTags'
+import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import { Input } from '@/components/ui/input'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { useQueryClient } from '@tanstack/react-query'
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
+import type { PDFProps } from './LessonsPDF'
+import { toast } from 'sonner'
 
 type ExportLessonsProps = {
-  studentId: number
+  holderId: number
 }
 
-function ExportLessons({ studentId }: ExportLessonsProps) {
+function ExportLessons({ holderId }: ExportLessonsProps) {
   const queryClient = useQueryClient()
-  const students = queryClient.getQueryData(["students"]) as Array<Student>
+  const students = queryClient.getQueryData(['students']) as Array<Student>
 
   const { userLocale } = useUserLocale()
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState('')
 
   const [isLoading, setIsLoading] = useState(false)
 
   const { refetch: fetchAllLessons } = useAllLessons(
-    studentId,
+    holderId,
     startDate,
     endDate,
   )
   const { refetch: fetchAllLessonsCSV } = useAllLessonsCSV(
-    studentId,
+    holderId,
     startDate,
     endDate,
   )
-
 
   const canDownload = (startDate && endDate) || selectAll
 
@@ -53,10 +51,9 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
   )
   const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
   const studentFullNameDashes = studentFullName
-    .split(" ")
+    .split(' ')
     .map((part) => part.toLowerCase())
-    .join("-")
-
+    .join('-')
 
   function handleStartDate(date: Date | undefined) {
     setStartDate(date)
@@ -84,10 +81,14 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       const { data } = await fetchAllLessonsCSV()
       if (!data) throw new Error()
 
-      const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g;
+      const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g
       function localizeDate(match: string) {
         const date = new Date(match)
-        return date.toLocaleString(userLocale, { day: '2-digit', month: '2-digit', year: '2-digit' })
+        return date.toLocaleString(userLocale, {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        })
       }
 
       const localizedCsv = data.replace(dateRegex, localizeDate)
@@ -98,7 +99,8 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
       link.href = url
       link.setAttribute(
-        'download', title ? `${title}.csv` : `lektionsliste-${studentFullNameDashes}.csv`
+        'download',
+        title ? `${title}.csv` : `lektionsliste-${studentFullNameDashes}.csv`,
       )
       link.style.display = 'none'
       document.body.appendChild(link)
@@ -107,12 +109,10 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       toast.success('Datei heruntergeladen.')
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
-
     } catch (e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
-
     }
   }
 
@@ -120,8 +120,8 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
     try {
       setIsLoading(true)
 
-      const { pdf } = await import("@react-pdf/renderer")
-      const { LessonsPDF } = await import("./LessonsPDF")
+      const { pdf } = await import('@react-pdf/renderer')
+      const { LessonsPDF } = await import('./LessonsPDF')
 
       const { data: allLessons } = await fetchAllLessons()
 
@@ -134,13 +134,13 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
 
       const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
+      const link = document.createElement('a')
       link.href = url
       link.setAttribute(
-        "download",
+        'download',
         title ? `${title}.pdf` : `lektionsliste-${studentFullNameDashes}.pdf`,
       )
-      link.style.display = "none"
+      link.style.display = 'none'
 
       document.body.appendChild(link)
       link.click()
@@ -205,7 +205,7 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
 
       <div className='mt-8 mb-4'>
         <Label htmlFor='title' className='text-sm'>
-          Titel (optional){" "}
+          Titel (optional){' '}
         </Label>
         <Input
           placeholder='Titel'
@@ -222,11 +222,19 @@ function ExportLessons({ studentId }: ExportLessonsProps) {
       </div>
 
       <div className='flex items-center gap-5'>
-        <Button size='sm' disabled={!canDownload || isLoading} onClick={handleDownloadPDF}>
+        <Button
+          size='sm'
+          disabled={!canDownload || isLoading}
+          onClick={handleDownloadPDF}
+        >
           PDF herunterladen
         </Button>
 
-        <Button onClick={handleDownloadCSV} size='sm' disabled={!canDownload || isLoading}>
+        <Button
+          onClick={handleDownloadCSV}
+          size='sm'
+          disabled={!canDownload || isLoading}
+        >
           CSV herunterladen
         </Button>
         {isLoading && (

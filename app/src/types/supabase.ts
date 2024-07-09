@@ -130,6 +130,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "lessons_studentId_fkey"
+            columns: ["studentId"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "lessons_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -144,6 +151,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at: string | null
+          groupId: number | null
           id: number
           order: number
           student_uuid: string | null
@@ -157,6 +165,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
+          groupId?: number | null
           id?: number
           order?: number
           student_uuid?: string | null
@@ -170,6 +179,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
+          groupId?: number | null
           id?: number
           order?: number
           student_uuid?: string | null
@@ -179,6 +189,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "notes_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]
@@ -408,6 +425,7 @@ export type Database = {
         Row: {
           created_at: string | null
           date: string | null
+          groupId: number | null
           homework: string | null
           homeworkKey: string | null
           id: number | null
@@ -416,6 +434,20 @@ export type Database = {
           user_id: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "lessons_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_studentId_fkey"
+            columns: ["studentId"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "lessons_user_id_fkey"
             columns: ["user_id"]
@@ -427,7 +459,8 @@ export type Database = {
       }
       lesson_years: {
         Row: {
-          studentId: number | null
+          entity_id: number | null
+          entity_type: string | null
           years: number[] | null
         }
         Relationships: []

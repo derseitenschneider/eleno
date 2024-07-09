@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useQueryClient } from '@tanstack/react-query'
-import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import ExportLessons from '../ExportLessons.component'
+import useCurrentHolder from '../useCurrentHolder'
 
 type AllLessonsControlPros = {
   table: Table<Lesson>
@@ -33,13 +34,13 @@ export default function AllLessonsControl({
   setGlobalFilter,
 }: AllLessonsControlPros) {
   const queryClient = useQueryClient()
-  const { studentId } = useParams()
+  const { currentLessonHolder } = useCurrentHolder()
   const [searchParams, setSearchParams] = useSearchParams()
   const [modalOpen, setModalOpen] = useState<'EXPORT' | undefined>()
   const yearsData = queryClient.getQueryData([
     'lesson-years',
-    { studentId: Number(studentId) },
-  ]) as Array<{ studentId: number; years: Array<number> }> | undefined
+    { holderId: currentLessonHolder?.holder.id },
+  ]) as Array<{ entity_id: number; years: Array<number> }> | undefined
 
   const lessonYears = yearsData?.[0]?.years
   const selectedYear = searchParams.get('year')
@@ -48,11 +49,13 @@ export default function AllLessonsControl({
   function handleSelect(year: string) {
     setSearchParams({ year })
   }
+
+  if (!currentLessonHolder) return null
   return (
     <div className='flex items-center justify-between mb-4'>
       <div className='flex items-center justify-between mb-4'>
         <NavLink
-          to={`/lessons/${studentId}`}
+          to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
           className='flex items-center gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
@@ -101,7 +104,7 @@ export default function AllLessonsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
-            <ExportLessons studentId={Number(studentId)} />
+            <ExportLessons holderId={currentLessonHolder.holder.id} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

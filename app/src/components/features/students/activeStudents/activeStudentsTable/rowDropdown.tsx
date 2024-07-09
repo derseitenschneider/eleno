@@ -166,7 +166,7 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons studentId={studentId} />
+          <ExportLessons holderId={studentId} />
         </DialogContent>
       </Dialog>
     </>

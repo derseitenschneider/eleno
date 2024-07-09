@@ -1,4 +1,3 @@
-import { useStudents } from '../../../services/context/StudentContext'
 import SearchStudentCombobox from '../students/SearchStudentCombobox.component'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
@@ -8,11 +7,6 @@ import type { Lesson } from '@/types/types'
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
 
 function LessonFooter() {
-  const {
-    activeSortedStudentIds,
-    currentStudentIndex,
-    setCurrentStudentIndex,
-  } = useStudents()
   const { lessonPointer, setLessonPointer, lessonHolderTypeIds } =
     useLessonPointer()
   const navigate = useNavigate()
@@ -39,8 +33,9 @@ function LessonFooter() {
 
   const handlerPreviousStudent = () => {
     if (lessonPointer > 0) {
+      const newPointer = lessonPointer - 1
+      const prevHolderId = lessonHolderTypeIds[newPointer]
       setLessonPointer((prev) => prev - 1)
-      const prevHolderId = lessonHolderTypeIds[lessonPointer]
       if (!prevHolderId) return
       const newestYear =
         getNewestLessonYear(latestLessons, prevHolderId) ||
@@ -51,12 +46,13 @@ function LessonFooter() {
       const newUrl = url.replace(String(holderId), String(prevHolderId))
 
       navigate(newUrl + query)
-      // return setCurrentStudentIndex(currentStudentIndex - 1)
     }
 
     if (lessonPointer === 0) {
-      setLessonPointer(lessonHolderTypeIds.length - 1)
-      const lastHolderId = lessonHolderTypeIds[lessonPointer]
+      const newPointer = lessonHolderTypeIds.length - 1
+      const lastHolderId = lessonHolderTypeIds[newPointer]
+      setLessonPointer(newPointer)
+
       if (!lastHolderId) return
       const newestYear =
         getNewestLessonYear(latestLessons, lastHolderId) ||
@@ -66,14 +62,14 @@ function LessonFooter() {
       const newUrl = url.replace(String(holderId), String(lastHolderId))
       navigate(newUrl)
       navigate(newUrl + query)
-      // return setCurrentStudentIndex(activeSortedStudentIds.length - 1)
     }
   }
 
   const handlerNextStudent = () => {
     if (lessonPointer < lessonHolderTypeIds.length - 1) {
+      const newPointer = lessonPointer + 1
+      const nextHolderId = lessonHolderTypeIds[newPointer]
       setLessonPointer((prev) => prev + 1)
-      const nextHolderId = lessonHolderTypeIds[lessonPointer]
       if (!nextHolderId) return
       const newestYear =
         getNewestLessonYear(latestLessons, nextHolderId) ||
@@ -82,11 +78,11 @@ function LessonFooter() {
       const query = url.includes('all') ? `?year=${newestYear}` : ''
       const newUrl = url.replace(String(holderId), String(nextHolderId))
       navigate(newUrl + query)
-      return setCurrentStudentIndex(currentStudentIndex + 1)
     }
     if (lessonPointer === lessonHolderTypeIds.length - 1) {
-      setLessonPointer(0)
-      const firstHolderId = lessonHolderTypeIds[lessonPointer]
+      const newPointer = 0
+      const firstHolderId = lessonHolderTypeIds[newPointer]
+      setLessonPointer(newPointer)
       if (!firstHolderId) return
       const newestYear =
         getNewestLessonYear(latestLessons, firstHolderId) ||
@@ -96,7 +92,6 @@ function LessonFooter() {
       const newUrl = url.replace(String(holderId), String(firstHolderId))
       navigate(newUrl)
       navigate(newUrl + query)
-      return setCurrentStudentIndex(0)
     }
   }
 

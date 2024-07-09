@@ -1,4 +1,4 @@
-import { useStudents } from "@/services/context/StudentContext"
+import { useStudents } from '@/services/context/StudentContext'
 import {
   CheckSquare2,
   Download,
@@ -6,34 +6,33 @@ import {
   FileDown,
   MoreVertical,
   Pencil,
-} from "lucide-react"
-import { useState } from "react"
-import { IoEllipsisVertical } from "react-icons/io5"
+} from 'lucide-react'
+import { useState } from 'react'
+import { IoEllipsisVertical } from 'react-icons/io5'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "../../ui/dialog"
+} from '../../ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu"
-import StudentForm from "../students/StudentForm.component"
+} from '../../ui/dropdown-menu'
+import StudentForm from '../students/StudentForm.component'
 
-import { useParams, useSearchParams } from "react-router-dom"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet"
-import AddTodo from "../todos/AddTodo.component"
-import ExportLessons from "./ExportLessons.component"
+import { useParams, useSearchParams } from 'react-router-dom'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../../ui/sheet'
+import AddTodo from '../todos/AddTodo.component'
+import ExportLessons from './ExportLessons.component'
 
-type Modals = "EDIT" | "TODO" | "EXPORT" | null
+type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 
-export default function StudentDropdownLesson() {
+export default function HolderDropdownLesson() {
   const { studentId } = useParams()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const [searchParams, setSearchParams] = useSearchParams({})
 
   const closeModal = () => setOpenModal(null)
 
@@ -47,17 +46,17 @@ export default function StudentDropdownLesson() {
           <DropdownMenuItem
             className='flex items-center gap-2'
             onClick={() => {
-              setOpenModal("EDIT")
+              setOpenModal('EDIT')
             }}
           >
             <Pencil className='text-primary h-4 w-4' />
-            <span>Schüler:in bearbeiten</span>
+            <span>Bearbeiten</span>
           </DropdownMenuItem>
 
           <DropdownMenuItem
             className='flex items-center gap-2'
             onClick={() => {
-              setOpenModal("TODO")
+              setOpenModal('TODO')
             }}
           >
             <CheckSquare2 className='text-primary h-4 w-4' />
@@ -66,7 +65,7 @@ export default function StudentDropdownLesson() {
 
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => setOpenModal("EXPORT")}
+            onClick={() => setOpenModal('EXPORT')}
           >
             <FileDown className='text-primary h-4 w-4' />
             <span>Lektionsliste exportieren</span>
@@ -74,7 +73,7 @@ export default function StudentDropdownLesson() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
+      <Sheet open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Schüler:in bearbeiten</SheetTitle>
@@ -88,7 +87,7 @@ export default function StudentDropdownLesson() {
         </SheetContent>
       </Sheet>
 
-      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
@@ -97,12 +96,12 @@ export default function StudentDropdownLesson() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons studentId={Number(studentId)} />
+          <ExportLessons holderId={Number(studentId)} />
         </DialogContent>
       </Dialog>
     </>

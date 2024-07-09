@@ -1,24 +1,24 @@
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { HiTrash } from "react-icons/hi"
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { HiTrash } from 'react-icons/hi'
 import {
   HiOutlineDocumentArrowDown,
   HiOutlineListBullet,
-} from "react-icons/hi2"
-import { IoReturnDownBackOutline } from "react-icons/io5"
-import { toast } from "react-toastify"
-import type { Student } from "../../../../types/types"
-import Menus from "../../../ui/menu/Menus.component"
-import Table from "../../../ui/table/Table.component"
+} from 'react-icons/hi2'
+import { IoReturnDownBackOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
+import type { Student } from '../../../../types/types'
+import Menus from '../../../ui/menu/Menus.component'
+import Table from '../../../ui/table/Table.component'
 
-import Modal from "../../../ui/modal/Modal.component"
+import Modal from '../../../ui/modal/Modal.component'
 
-import fetchErrorToast from "../../../../hooks/fetchErrorToast"
-import { useStudents } from "../../../../services/context/StudentContext"
+import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import { useStudents } from '../../../../services/context/StudentContext'
 
-import DeleteStudents from "../deleteStudents/DeleteStudents.component"
-import { useInactiveStudents } from "./InactiveStudents.component"
-import ExportLessons from "../../lessons/ExportLessons.component"
+import DeleteStudents from '../deleteStudents/DeleteStudents.component'
+import { useInactiveStudents } from './InactiveStudents.component'
+import ExportLessons from '../../lessons/ExportLessons.component'
 
 interface InactiveStudentRowProps {
   student: Student
@@ -35,7 +35,7 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
     setIsPending(true)
     try {
       await reactivateStudents([student.id])
-      toast("Schüler:in wiederhergestellt")
+      toast('Schüler:in wiederhergestellt')
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -60,14 +60,14 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
 
   return (
     <Table.Row
-      className={isPending ? "loading" : ""}
+      className={isPending ? 'loading' : ''}
       styles={
         openId === student.id
           ? {
-            color: "var(--clr-primary-600)",
-            boxShadow:
-              "inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)",
-          }
+              color: 'var(--clr-primary-600)',
+              boxShadow:
+                'inset 3px 0 0 var(--clr-primary-400), inset -3px 0 0 var(--clr-primary-400)',
+            }
           : null
       }
     >
@@ -137,7 +137,7 @@ function InachtiveStudentRow({ student, openId }: InactiveStudentRowProps) {
           </Menus.List>
 
           <Modal.Window name='export-lessons'>
-            <ExportLessons studentId={student.id} />
+            <ExportLessons holderId={student.id} />
           </Modal.Window>
 
           <Modal.Window name='delete-student'>

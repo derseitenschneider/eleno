@@ -159,7 +159,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
           </Modal.Window>
 
           <Modal.Window name='export-lessons'>
-            <ExportLessons studentId={student.id} />
+            <ExportLessons holderId={student.id} />
           </Modal.Window>
         </Modal>
       </div>

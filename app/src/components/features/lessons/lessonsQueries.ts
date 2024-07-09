@@ -4,15 +4,15 @@ import {
   fetchLessonYears,
   fetchAllLessonsApi,
   fetchAllLessonsCSVApi,
-} from "@/services/api/lessons.api"
-import { useUser } from "@/services/context/UserContext"
-import { keepPreviousData, useQuery } from "@tanstack/react-query"
+} from '@/services/api/lessons.api'
+import { useUser } from '@/services/context/UserContext'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
-export function useLessonYears(studentId: number) {
+export function useLessonYears(holderId: number) {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ["lesson-years", { studentId }],
-    queryFn: () => fetchLessonYears(studentId),
+    queryKey: ['lesson-years', { holderId }],
+    queryFn: () => fetchLessonYears(holderId),
     enabled: Boolean(user),
   })
 
@@ -22,7 +22,7 @@ export function useLessonYears(studentId: number) {
 export function useLatestLessons() {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ["latest-3-lessons"],
+    queryKey: ['latest-3-lessons'],
     queryFn: () => fetchLatestLessons(),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
@@ -31,11 +31,15 @@ export function useLatestLessons() {
   return result
 }
 
-export function useAllLessonsPerYear(year: number, studentId: number) {
+export function useAllLessonsPerYear(
+  year: number,
+  holderId: number,
+  holderType: 's' | 'g',
+) {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ["all-lessons", { year, studentId }],
-    queryFn: () => fetchLessonsByYearApi(studentId, year),
+    queryKey: ['all-lessons', { year, holderId }],
+    queryFn: () => fetchLessonsByYearApi(holderId, year, holderType),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
     placeholderData: keepPreviousData,
@@ -50,7 +54,7 @@ export function useAllLessons(
   endDate?: Date,
 ) {
   const result = useQuery({
-    queryKey: ["all-lessons", { studentId }],
+    queryKey: ['all-lessons', { studentId }],
     queryFn: () => fetchAllLessonsApi({ studentId, startDate, endDate }),
     staleTime: 0,
     enabled: false,
@@ -65,7 +69,7 @@ export function useAllLessonsCSV(
   endDate?: Date,
 ) {
   const result = useQuery({
-    queryKey: ["all-lessons-csv", { studentId }],
+    queryKey: ['all-lessons-csv', { studentId }],
     queryFn: () => fetchAllLessonsCSVApi({ studentId, startDate, endDate }),
     staleTime: 0,
     enabled: false,

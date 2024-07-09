@@ -2,13 +2,15 @@ import type { Lesson, LessonPartial, Student } from '../../types/types'
 import supabase from './supabase'
 
 export const fetchLessonsByYearApi = async (
-  studentId: number,
+  holderId: number,
   lessonYear: number,
+  holderType: 's' | 'g',
 ) => {
+  const idField = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
     .from('lessons')
     .select('*')
-    .eq('studentId', studentId)
+    .eq(idField, holderId)
     .gte('date', `${lessonYear}-01-01`)
     .lt('date', `${lessonYear + 1}-01-01`)
     .order('date', { ascending: false })
@@ -40,9 +42,9 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate.toISOString())
-      .lte('date', uctEndDate?.toISOString())
-      .order('date', { ascending: false })
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
+        .order('date', { ascending: false })
     : query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
@@ -72,8 +74,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate?.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
@@ -176,11 +178,11 @@ export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
   return lessons.reverse()
 }
 
-export const fetchLessonYears = async (studentId: number) => {
+export const fetchLessonYears = async (holderId: number) => {
   const { data: years, error } = await supabase
     .from('lesson_years')
     .select('*')
-    .eq('studentId', studentId)
+    .eq('entity_id', holderId)
   if (error) throw new Error(error.message)
   return years
 }

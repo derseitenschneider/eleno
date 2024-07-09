@@ -9,26 +9,25 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { ChevronLeft } from 'lucide-react'
 import { useState } from 'react'
-import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { DataTable } from '@/components/ui/data-table'
 import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
 import { allLessonsColumns } from './allLessonsColumns'
 import AllLessonsControl from './allLessonsControl.component'
-import Empty from '@/components/ui/Empty.component'
+import useCurrentHolder from '../useCurrentHolder'
 
 export default function AllLessons() {
-  const { studentId } = useParams()
   const [globalFilter, setGlobalFilter] = useState('')
   const [searchParams] = useSearchParams()
   const [sorting, setSorting] = useState<SortingState>([])
   const { userLocale } = useUserLocale()
+  const { currentLessonHolder } = useCurrentHolder()
 
   const selectedYear = searchParams.get('year')
 
   const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
-    Number(studentId),
+    currentLessonHolder?.holder.id || 0,
   )
 
   const {
@@ -36,7 +35,11 @@ export default function AllLessons() {
     isPending: isPendingLessons,
     isError: isErrorLessons,
     isFetching,
-  } = useAllLessonsPerYear(Number(selectedYear) || 0, Number(studentId))
+  } = useAllLessonsPerYear(
+    Number(selectedYear) || 0,
+    currentLessonHolder?.holder.id || 0,
+    currentLessonHolder?.type || 's',
+  )
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
     const date = row.original.date as Date

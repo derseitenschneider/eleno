@@ -1,27 +1,32 @@
-import parse from "html-react-parser"
-import { useEffect, useState } from "react"
-import { NavLink, useParams } from "react-router-dom"
+import parse from 'html-react-parser'
+import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
-import { cn } from "@/lib/utils"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import PreviousLessonDropDown from "./PreviousLessonDropDown.component"
-import { useLatestLessons } from "./lessonsQueries"
-import Empty from "@/components/ui/Empty.component"
+import { cn } from '@/lib/utils'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import PreviousLessonDropDown from './PreviousLessonDropDown.component'
+import { useLatestLessons } from './lessonsQueries'
+import Empty from '@/components/ui/Empty.component'
+import useCurrentHolder from './useCurrentHolder'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
   const { userLocale } = useUserLocale()
+  const { currentLessonHolder } = useCurrentHolder()
 
   const [tabIndex, setTabIndex] = useState(0)
 
-  const { studentId } = useParams()
+  const lessonField =
+    currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
   const previousLessonsIds =
     lessons
       ?.sort((a, b) => {
         return +b.date - +a.date
       })
-      .filter((lesson) => lesson.studentId === Number(studentId))
+      .filter(
+        (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
+      )
       ?.slice(0, 3)
       .map((lesson) => lesson.id) || []
 
@@ -29,7 +34,9 @@ function PreviousLessons() {
     (lesson) => lesson.id === previousLessonsIds[tabIndex],
   )
   const newestLessonYear = lessons
-    ?.filter((lesson) => lesson?.studentId === Number(studentId))
+    ?.filter(
+      (lesson) => lesson?.[lessonField] === currentLessonHolder?.holder.id,
+    )
     .sort((a, b) => b.date.valueOf() - a.date.valueOf())
     .at(0)
     ?.date.getFullYear()
@@ -47,9 +54,9 @@ function PreviousLessons() {
               <button
                 type='button'
                 className={cn(
-                  "px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80",
+                  'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
                   index === tabIndex &&
-                    "bg-background50 border-primary/80 hover:bg-background50",
+                    'bg-background50 border-primary/80 hover:bg-background50',
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -59,15 +66,15 @@ function PreviousLessons() {
                 {lessons
                   ?.find((lesson) => lesson?.id === prev)
                   ?.date.toLocaleDateString(userLocale, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "2-digit",
-                  }) || ""}
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                  }) || ''}
               </button>
             ))}
             <NavLink
               className='px-2 hover:no-underline py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80'
-              to={`all/?year=${newestLessonYear}`}
+              to={`all?year=${newestLessonYear}`}
               end={true}
             >
               Alle
@@ -77,11 +84,11 @@ function PreviousLessons() {
       </div>
       {previousLessonsIds.length > 0 ? (
         <>
-          <div className={cn("grid grid-cols-2 gap-6")}>
+          <div className={cn('grid grid-cols-2 gap-6')}>
             <div>
               <p className='text-foreground/70'>Lektion</p>
               <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                {parse(currentLesson?.lessonContent || "")}
+                {parse(currentLesson?.lessonContent || '')}
               </div>
             </div>
             <div>
@@ -90,7 +97,7 @@ function PreviousLessons() {
                 {parse(
                   lessons?.find(
                     (lesson) => lesson.id === previousLessonsIds[tabIndex],
-                  )?.homework || "",
+                  )?.homework || '',
                 )}
               </div>
             </div>
