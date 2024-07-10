@@ -154,7 +154,6 @@ export type Database = {
           groupId: number | null
           id: number
           order: number
-          student_uuid: string | null
           studentId: number | null
           text: string | null
           title: string | null
@@ -168,7 +167,6 @@ export type Database = {
           groupId?: number | null
           id?: number
           order?: number
-          student_uuid?: string | null
           studentId?: number | null
           text?: string | null
           title?: string | null
@@ -182,7 +180,6 @@ export type Database = {
           groupId?: number | null
           id?: number
           order?: number
-          student_uuid?: string | null
           studentId?: number | null
           text?: string | null
           title?: string | null

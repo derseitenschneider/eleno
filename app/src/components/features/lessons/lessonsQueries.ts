@@ -8,10 +8,10 @@ import {
 import { useUser } from '@/services/context/UserContext'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
-export function useLessonYears(holderId: number) {
+export function useLessonYears(holderId: number, holderType: 's' | 'g') {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ['lesson-years', { holderId }],
+    queryKey: ['lesson-years', { holder: `${holderType}-${holderId}` }],
     queryFn: () => fetchLessonYears(holderId),
     enabled: Boolean(user),
   })
@@ -38,7 +38,7 @@ export function useAllLessonsPerYear(
 ) {
   const { user } = useUser()
   const result = useQuery({
-    queryKey: ['all-lessons', { year, holderId }],
+    queryKey: ['all-lessons', { year, holder: `${holderType}-${holderId}` }],
     queryFn: () => fetchLessonsByYearApi(holderId, year, holderType),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),

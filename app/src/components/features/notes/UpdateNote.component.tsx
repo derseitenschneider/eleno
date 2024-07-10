@@ -1,13 +1,13 @@
-import { useState } from "react"
-import CustomEditor from "../../ui/CustomEditor.component"
-import type { Note, NotesBackgrounds } from "../../../types/types"
-import NoteColor from "./NoteColor.component"
-import { useQueryClient } from "@tanstack/react-query"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useUpdateNote } from "./useUpdateNote"
-import MiniLoader from "@/components/ui/MiniLoader.component"
+import { useState } from 'react'
+import CustomEditor from '../../ui/CustomEditor.component'
+import type { Note, NotesBackgrounds } from '../../../types/types'
+import NoteColor from './NoteColor.component'
+import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useUpdateNote } from './useUpdateNote'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface UpdateNoteProps {
   onCloseModal?: () => void
@@ -16,11 +16,11 @@ interface UpdateNoteProps {
 
 function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   const queryClient = useQueryClient()
-  const notes = queryClient.getQueryData(["notes"]) as Array<Note>
+  const notes = queryClient.getQueryData(['notes']) as Array<Note>
   const currentNote = notes.find((note) => note.id === noteId)
 
-  const [title, setTitle] = useState(currentNote?.title || "")
-  const [text, setText] = useState(currentNote?.text || "")
+  const [title, setTitle] = useState(currentNote?.title || '')
+  const [text, setText] = useState(currentNote?.text || '')
   const [backgroundColor, setBackgroundColor] = useState<NotesBackgrounds>(
     currentNote?.backgroundColor || null,
   )
@@ -56,7 +56,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
       />
 
       <div className='mt-5 mb-6'>
-        <CustomEditor value={text || ""} onChange={handleText} />
+        <CustomEditor value={text || ''} onChange={handleText} />
       </div>
       <div className='flex justify-between items-end'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />

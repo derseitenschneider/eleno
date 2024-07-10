@@ -1,31 +1,33 @@
-import { useState } from "react"
-import CustomEditor from "../../ui/CustomEditor.component"
-import NoteColor from "./NoteColor.component"
-import type { Note, NotesBackgrounds } from "../../../types/types"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { useUser } from "@/services/context/UserContext"
-import { useCreateNote } from "./useCreateNote"
-import MiniLoader from "@/components/ui/MiniLoader.component"
+import { useState } from 'react'
+import CustomEditor from '../../ui/CustomEditor.component'
+import NoteColor from './NoteColor.component'
+import type { Note, NotesBackgrounds, PartialNote } from '../../../types/types'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useUser } from '@/services/context/UserContext'
+import { useCreateNote } from './useCreateNote'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface CreateNoteProps {
   onCloseModal?: () => void
-  studentId: number
+  holderId: number
+  holderType: 's' | 'g'
 }
 
-function CreateNote({ onCloseModal, studentId }: CreateNoteProps) {
+function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   const { user } = useUser()
-  const [title, setTitle] = useState("")
-  const [text, setText] = useState("")
+  const [title, setTitle] = useState('')
+  const [text, setText] = useState('')
   const [color, setColor] = useState<NotesBackgrounds>(null)
 
   const { createNote, isCreating } = useCreateNote()
+  const typeField = holderType === 's' ? 'studentId' : 'groupId'
 
   function handleSave() {
     if (!user?.id) return
-    const newNote: Note = {
-      studentId,
+    const newNote: PartialNote = {
+      [typeField]: holderId,
       title,
       text,
       backgroundColor: color,
@@ -59,7 +61,7 @@ function CreateNote({ onCloseModal, studentId }: CreateNoteProps) {
       />
 
       <div className='mt-5 mb-6'>
-        <CustomEditor value={text || ""} onChange={handleText} />
+        <CustomEditor value={text || ''} onChange={handleText} />
       </div>
       <div className='flex justify-between items-end'>
         <NoteColor color={color} setColor={setColor} />

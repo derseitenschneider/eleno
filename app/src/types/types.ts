@@ -112,17 +112,20 @@ export type Profile = Pick<User, 'first_name' | 'last_name'>
 
 export type NotesBackgrounds = DBTypes['notes']['backgroundColor']
 
-export type Note = DBTypes['notes']
+export type DbNote = DBTypes['notes']
 
-// export type Note = {
-//   id: number
-//   studentId: number
-//   title?: string
-//   text?: string
-//   order: number
-//   user_id: string
-//   backgroundColor: NotesBackgrounds
-// }
+type NoteWithStudentId = Omit<DbNote, 'studentId' | 'groupId'> & {
+  studentId: number
+  groupId?: never
+}
+type NoteWithGroupId = Omit<DbNote, 'studentId' | 'groupId'> & {
+  studentId?: never
+  groupId: number
+}
+
+export type Note = NoteWithStudentId | NoteWithGroupId
+
+export type PartialNote = Omit<Note, 'created_at'>
 
 // CONTEXT TYPES
 export type ContextTypeUser = {

@@ -28,6 +28,7 @@ export default function AllLessons() {
 
   const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
     currentLessonHolder?.holder.id || 0,
+    currentLessonHolder?.type || 's',
   )
 
   const {

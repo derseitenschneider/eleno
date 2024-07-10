@@ -18,6 +18,7 @@ function CreateLesson() {
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
+
   const { createLesson, isCreating } = useCreateLesson()
 
   useEffect(() => {

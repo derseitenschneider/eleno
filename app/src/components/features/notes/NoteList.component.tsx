@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react"
-import { DragDropContext, Droppable } from "@hello-pangea/dnd"
+import { useEffect, useState } from 'react'
+import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 
-import CreateNote from "./CreateNote.component"
-import Note from "./Note.component"
+import CreateNote from './CreateNote.component'
+import Note from './Note.component'
 
-import { useParams } from "react-router-dom"
-import { useActiveNotesQuery } from "./notesQueries"
-import type { Note as TNote } from "@/types/types"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { DialogTitle } from "@radix-ui/react-dialog"
-import { useUpdateNote } from "./useUpdateNote"
-import { cn } from "@/lib/utils"
+import { useActiveNotesQuery } from './notesQueries'
+import type { Note as TNote } from '@/types/types'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { useUpdateNote } from './useUpdateNote'
+import { cn } from '@/lib/utils'
+import useCurrentHolder from '../lessons/useCurrentHolder'
 
 function NoteList() {
-  const { studentId } = useParams()
-  const [openModal, setOpenModal] = useState<"ADD" | undefined>()
+  const { currentLessonHolder } = useCurrentHolder()
+  const [openModal, setOpenModal] = useState<'ADD' | undefined>()
   const { updateNotes, isUpdating } = useUpdateNote()
 
   const { data } = useActiveNotesQuery()
 
   const [notes, setNotes] = useState<Array<TNote>>()
+  const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
   useEffect(() => {
     const currentNotes = data?.filter(
-      (note) => note.studentId === Number(studentId),
+      (note) => note[fieldType] === currentLessonHolder?.holder.id,
     )
     if (!currentNotes) return
     setNotes(currentNotes)
-  }, [studentId, data])
+  }, [data, fieldType, currentLessonHolder?.holder.id])
 
   /*@ts-ignore*/
   async function handleOnDragend(result) {
@@ -51,6 +52,7 @@ function NoteList() {
   }
 
   const sortedNotes = notes?.sort((a, b) => a?.order - b?.order) || []
+  if (!currentLessonHolder?.holder) return null
 
   return (
     <div className='sm:p-4 h-[calc(100vh-88px)]'>
@@ -62,7 +64,7 @@ function NoteList() {
             variant='ghost'
             size='sm'
             title='Neue Notiz erstellen'
-            onClick={() => setOpenModal("ADD")}
+            onClick={() => setOpenModal('ADD')}
             className='flex gap-1 items-center'
           >
             <Plus className='h-4 w-4 text-primary' />
@@ -78,8 +80,8 @@ function NoteList() {
                 <ul
                   data-isdraggingover={snapshot.isDraggingOver}
                   className={cn(
-                    "h-full overflow-auto min-h-8 pb-20 no-scrollbar",
-                    isUpdating && "opacity-75",
+                    'h-full overflow-auto min-h-8 pb-20 no-scrollbar',
+                    isUpdating && 'opacity-75',
                   )}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
@@ -96,13 +98,14 @@ function NoteList() {
       ) : null}
 
       <Dialog
-        open={openModal === "ADD"}
+        open={openModal === 'ADD'}
         onOpenChange={() => setOpenModal(undefined)}
       >
         <DialogContent>
           <DialogTitle>Neue Notiz erstellen</DialogTitle>
           <CreateNote
-            studentId={Number(studentId)}
+            holderType={currentLessonHolder.type}
+            holderId={currentLessonHolder.holder.id}
             onCloseModal={() => setOpenModal(undefined)}
           />
         </DialogContent>

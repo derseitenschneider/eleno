@@ -61,7 +61,7 @@ function PreviousLessons() {
                 onClick={() => {
                   setTabIndex(index)
                 }}
-                key={prev}
+                key={prev || Math.trunc(Math.random() * 1_000_000)}
               >
                 {lessons
                   ?.find((lesson) => lesson?.id === prev)
