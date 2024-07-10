@@ -1,42 +1,43 @@
-import { useEffect, useState } from "react"
-import CustomEditor from "../../ui/CustomEditor.component"
+import { useEffect, useState } from 'react'
+import CustomEditor from '../../ui/CustomEditor.component'
 
-import { useLessons } from "../../../services/context/LessonsContext"
-import { DayPicker } from "@/components/ui/daypicker.component"
-import { Button } from "@/components/ui/button"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useCreateLesson } from "./useCreateLesson"
-import { cn } from "@/lib/utils"
-import { useParams } from "react-router-dom"
+import { useLessons } from '../../../services/context/LessonsContext'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useCreateLesson } from './useCreateLesson'
+import { cn } from '@/lib/utils'
+import useCurrentHolder from './useCurrentHolder'
 
 function CreateLesson() {
   const { drafts, setDrafts } = useLessons()
-  const { studentId } = useParams()
+  const { currentLessonHolder } = useCurrentHolder()
   const [date, setDate] = useState<Date>(new Date())
-  const [lessonContent, setLessonContent] = useState("")
-  const [homework, setHomework] = useState("")
+  const [lessonContent, setLessonContent] = useState('')
+  const [homework, setHomework] = useState('')
 
+  const typeField: 'studentId' | 'groupId' =
+    currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
   const { createLesson, isCreating } = useCreateLesson()
 
-  // Handle drafts
   useEffect(() => {
     const currentDraft = drafts.find(
-      (draft) => draft.studentId === Number(studentId),
+      (draft) => draft[typeField] === currentLessonHolder?.holder.id,
     )
     if (currentDraft) {
-      setLessonContent(currentDraft.lessonContent || "")
-      setHomework(currentDraft.homework || "")
+      setLessonContent(currentDraft.lessonContent || '')
+      setHomework(currentDraft.homework || '')
       setDate(currentDraft.date || new Date())
     } else {
-      setLessonContent("")
-      setHomework("")
+      setLessonContent('')
+      setHomework('')
       setDate(new Date())
     }
-  }, [drafts, studentId])
+  }, [drafts, typeField, currentLessonHolder?.holder.id])
 
   // Put Focus on input when desktop
   useEffect(() => {
-    const input = [...document.querySelectorAll(".rsw-ce")].at(0) as HTMLElement
+    const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
     if (input && window.innerWidth > 1366) {
       input.focus()
     }
@@ -45,16 +46,24 @@ function CreateLesson() {
   function handleLessonContent(content: string) {
     setLessonContent(content)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === Number(studentId))) {
+      if (
+        prev.some(
+          (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+        )
+      ) {
         return prev.map((draft) =>
-          draft.studentId === Number(studentId)
+          draft[typeField] === currentLessonHolder?.holder.id
             ? { ...draft, lessonContent: content, date }
             : draft,
         )
       }
       return [
         ...prev,
-        { studentId: Number(studentId), lessonContent: content, date },
+        {
+          [typeField]: currentLessonHolder?.holder.id,
+          lessonContent: content,
+          date,
+        },
       ]
     })
   }
@@ -63,16 +72,24 @@ function CreateLesson() {
     setHomework(content)
 
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === Number(studentId))) {
+      if (
+        prev.some(
+          (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+        )
+      ) {
         return prev.map((draft) =>
-          draft.studentId === Number(studentId)
+          draft[typeField] === currentLessonHolder?.holder.id
             ? { ...draft, homework: content, date }
             : draft,
         )
       }
       return [
         ...prev,
-        { studentId: Number(studentId), homework: content, date },
+        {
+          [typeField]: currentLessonHolder?.holder.id,
+          homework: content,
+          date,
+        },
       ]
     })
   }
@@ -81,32 +98,41 @@ function CreateLesson() {
     if (!inputDate) return
     setDate(inputDate)
     setDrafts((prev) => {
-      if (prev.some((draft) => draft.studentId === Number(studentId))) {
+      if (
+        prev.some(
+          (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+        )
+      ) {
         return prev.map((draft) =>
-          draft.studentId === Number(studentId)
+          draft[typeField] === currentLessonHolder?.holder.id
             ? { ...draft, date: inputDate }
             : draft,
         )
       }
-      return [...prev, { studentId: Number(studentId), date: inputDate }]
+      return [
+        ...prev,
+        { [typeField]: currentLessonHolder?.holder.id, date: inputDate },
+      ]
     })
   }
 
   function resetFields() {
-    setHomework("")
-    setLessonContent("")
+    setHomework('')
+    setLessonContent('')
     setDrafts((prev) =>
-      prev.filter((draft) => draft.studentId !== Number(studentId)),
+      prev.filter(
+        (draft) => draft[typeField] !== currentLessonHolder?.holder.id,
+      ),
     )
   }
 
   function handleSave() {
-    if (!studentId) return
+    if (!currentLessonHolder?.holder.id) return
     createLesson(
       {
         homework,
         lessonContent,
-        studentId: Number(studentId),
+        [typeField]: currentLessonHolder.holder.id,
         date,
       },
       {
@@ -125,7 +151,7 @@ function CreateLesson() {
           disabled={isCreating}
         />
       </div>
-      <div className={cn(isCreating && "opacity-50", "grid grid-cols-2 gap-6")}>
+      <div className={cn(isCreating && 'opacity-50', 'grid grid-cols-2 gap-6')}>
         <div>
           <p className='text-foreground/70'>Lektion</p>
           <CustomEditor

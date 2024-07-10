@@ -4,7 +4,7 @@ import {
   EditorProvider,
   Toolbar,
   createButton,
-} from "react-simple-wysiwyg"
+} from 'react-simple-wysiwyg'
 import {
   Bold,
   Italic,
@@ -16,8 +16,7 @@ import {
   Strikethrough,
   Underline,
   Undo,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
+} from 'lucide-react'
 
 interface CustomEditorProps {
   value: string
@@ -26,47 +25,47 @@ interface CustomEditorProps {
   placeholder?: string
 }
 
-const BtnBold = createButton("Bold", <Bold />, "bold")
+const BtnBold = createButton('Bold', <Bold />, 'bold')
 
-const BtnItalic = createButton("Italic", <Italic />, "italic")
+const BtnItalic = createButton('Italic', <Italic />, 'italic')
 
-const BtnUnderline = createButton("Underline", <Underline />, "underline")
+const BtnUnderline = createButton('Underline', <Underline />, 'underline')
 
 const BtnStrikeThrough = createButton(
-  "Strike Through",
+  'Strike Through',
   <Strikethrough />,
-  "strikeThrough",
+  'strikeThrough',
 )
 
 const BtnBulletList = createButton(
-  "Bullet list",
+  'Bullet list',
   <List />,
-  "insertUnorderedList",
+  'insertUnorderedList',
 )
 
 const BtnNumberedList = createButton(
-  "Numbered list",
+  'Numbered list',
   <ListOrdered />,
-  "insertOrderedList",
+  'insertOrderedList',
 )
 
-const BtnLink = createButton("Link", <Link />, ({ $selection }) => {
-  if ($selection?.nodeName === "A") {
-    document.execCommand("unlink")
+const BtnLink = createButton('Link', <Link />, ({ $selection }) => {
+  if ($selection?.nodeName === 'A') {
+    document.execCommand('unlink')
   } else {
-    document.execCommand("createLink", false, prompt("URL", "") || undefined)
+    document.execCommand('createLink', false, prompt('URL', '') || undefined)
   }
 })
 
 const BtnClearFormatting = createButton(
-  "Clear Formatting",
+  'Clear Formatting',
   <RemoveFormatting />,
-  "removeFormat",
+  'removeFormat',
 )
 
-const BtnUndo = createButton("Undo", <Undo />, "undo")
+const BtnUndo = createButton('Undo', <Undo />, 'undo')
 
-const BtnRedo = createButton("Redo", <Redo />, "redo")
+const BtnRedo = createButton('Redo', <Redo />, 'redo')
 
 function CustomEditor({
   placeholder,
@@ -76,7 +75,7 @@ function CustomEditor({
 }: CustomEditorProps) {
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
-    const inputWithoutColorTag = inputText.split("background-color:").join("")
+    const inputWithoutColorTag = inputText.split('background-color:').join('')
 
     onChange(inputWithoutColorTag)
   }
@@ -88,9 +87,9 @@ function CustomEditor({
         disabled={disabled}
         onChange={onChangeEditor}
       >
-        <Toolbar aria-disabled={disabled}>
+        <Toolbar tabIndex={-1} aria-disabled={disabled}>
           <div className='flex'>
-            <BtnBold className='p-2' />
+            <BtnBold tabIndex={-1} className='p-2' />
             <BtnItalic tabIndex={-1} />
             <BtnUnderline tabIndex={-1} />
             <BtnStrikeThrough tabIndex={-1} />
