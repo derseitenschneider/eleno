@@ -170,12 +170,12 @@ function CreateLesson() {
           />
         </div>
       </div>
-      <div className='h-fit flex items-center gap-1'>
+      <div className='flex mt-4 items-center gap-1'>
         <Button
           disabled={isCreating}
           size='sm'
           onClick={handleSave}
-          className='block mt-4 ml-auto'
+          className='block ml-auto'
         >
           Speichern
         </Button>

@@ -467,6 +467,7 @@ export type Database = {
           backgroundColor:
             | Database["public"]["Enums"]["background_colors"]
             | null
+          groupId: number | null
           id: number | null
           order: number | null
           studentId: number | null
@@ -475,6 +476,13 @@ export type Database = {
           user_id: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "notes_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
 import type { Lesson } from '@/types/types'
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import getNewestLessonYear from '@/utils/getNewestLessonYear'
 
 function LessonFooter() {
   const { lessonPointer, setLessonPointer, lessonHolderTypeIds } =
@@ -14,22 +15,6 @@ function LessonFooter() {
   const { data: latestLessons } = useLatestLessons()
 
   if (!latestLessons || !holderId) return null
-
-  function getNewestLessonYear(latestLessons: Array<Lesson>, holderId: string) {
-    const [type, id] = holderId.split('-')
-
-    if (!type || !id) return null
-
-    let field: 'studentId' | 'groupId'
-    if (type === 's') field = 'studentId'
-    if (type === 'g') field = 'groupId'
-
-    return latestLessons
-      ?.filter((lesson) => lesson?.[field] === Number(id))
-      .sort((a, b) => b.date.valueOf() - a.date.valueOf())
-      .at(0)
-      ?.date.getFullYear()
-  }
 
   const handlerPreviousStudent = () => {
     if (lessonPointer > 0) {
@@ -60,7 +45,6 @@ function LessonFooter() {
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
       const newUrl = url.replace(String(holderId), String(lastHolderId))
-      navigate(newUrl)
       navigate(newUrl + query)
     }
   }
@@ -90,7 +74,6 @@ function LessonFooter() {
       const url = window.location.pathname
       const query = url.includes('all') ? `?year=${newestYear}` : ''
       const newUrl = url.replace(String(holderId), String(firstHolderId))
-      navigate(newUrl)
       navigate(newUrl + query)
     }
   }

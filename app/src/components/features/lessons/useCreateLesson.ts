@@ -9,17 +9,11 @@ export function useCreateLesson() {
   const { mutate: createLesson, isPending: isCreating } = useMutation({
     mutationFn: createLessonAPI,
 
-    onMutate: (newLesson) => {
-      // Snapshot in case of a rollback.
-      const previousLessons = queryClient.getQueryData(['latest-3-lessons'])
+    onSuccess: (newLesson) => {
       queryClient.setQueryData(['latest-3-lessons'], (prev: Array<Lesson>) => [
         ...prev,
         newLesson,
       ])
-      return { previousLessons }
-    },
-
-    onSuccess: (newLesson) => {
       toast.success('Lektion gespeichert.')
       queryClient.invalidateQueries({
         queryKey: ['latest-3-lessons'],
@@ -49,9 +43,8 @@ export function useCreateLesson() {
       })
     },
 
-    onError: (_, __, context) => {
+    onError: () => {
       fetchErrorToast()
-      queryClient.setQueryData(['latest-3-lessons'], context?.previousLessons)
     },
   })
   return { createLesson, isCreating }

@@ -15,12 +15,15 @@ import {
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import type { LessonHolder } from '@/types/types'
+import getNewestLessonYear from '@/utils/getNewestLessonYear'
+import { useLatestLessons } from '../lessons/lessonsQueries'
 
 export default function SearchStudentCombobox() {
   const { setLessonPointer, lessonHolders } = useLessonPointer()
+  const { data: latestLessons } = useLatestLessons()
   const { holderId } = useParams()
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
@@ -28,16 +31,19 @@ export default function SearchStudentCombobox() {
   if (!lessonHolders) return null
 
   function handleSelect(newLessonHolder: LessonHolder) {
-    if (!holderId) return
+    if (!holderId || !latestLessons) return
     const newTypeId = `${newLessonHolder.type}-${newLessonHolder.holder.id}`
     const url = window.location.pathname
     const newUrl = url.replace(holderId, newTypeId)
+    const newestYear =
+      getNewestLessonYear(latestLessons, newTypeId) || new Date().getFullYear()
+    const query = url.includes('all') ? `?year=${newestYear}` : ''
     setLessonPointer(
       lessonHolders.findIndex(
         (lessonHolder) => lessonHolder.holder.id === newLessonHolder.holder.id,
       ),
     )
-    navigate(newUrl)
+    navigate(newUrl + query)
     setOpen(false)
   }
 

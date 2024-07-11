@@ -40,10 +40,10 @@ export type DbLesson = TransformFields<DBTypes['lessons'], Date, 'date'>
 // Create helper types for lessons to have either studentId or groupId
 type LessonWithStudentId = Omit<DbLesson, 'studentId' | 'groupId'> & {
   studentId: number
-  groupId?: never
+  groupId?: null
 }
 type LessonWithGroupId = Omit<DbLesson, 'studentId' | 'groupId'> & {
-  studentId?: never
+  studentId?: null
   groupId: number
 }
 

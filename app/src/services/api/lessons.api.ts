@@ -103,13 +103,11 @@ export const fetchLessonsCSVByRangeApi = async (
   return lessons
 }
 
-export const createLessonAPI = async (
-  lesson: LessonPartial,
-): Promise<Lesson | undefined> => {
+export const createLessonAPI = async (lesson: LessonPartial) => {
   const { date } = lesson
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
-  const { data, error } = await supabase
+  const { data: newLesson, error } = await supabase
     .from('lessons')
     .insert([
       {
@@ -118,11 +116,10 @@ export const createLessonAPI = async (
       },
     ])
     .select()
+    .single()
 
   if (error) throw new Error(error.message)
-  const newLesson = data[0]
   if (newLesson) return { ...newLesson, date: new Date(newLesson.date || '') }
-  return undefined
 }
 
 export const deleteLessonAPI = async (lessonId: number) => {

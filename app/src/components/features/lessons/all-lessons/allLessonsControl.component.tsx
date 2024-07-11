@@ -39,7 +39,9 @@ export default function AllLessonsControl({
   const [modalOpen, setModalOpen] = useState<'EXPORT' | undefined>()
   const yearsData = queryClient.getQueryData([
     'lesson-years',
-    { holderId: currentLessonHolder?.holder.id },
+    {
+      holder: `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`,
+    },
   ]) as Array<{ entity_id: number; years: Array<number> }> | undefined
 
   const lessonYears = yearsData?.[0]?.years
