@@ -1,52 +1,63 @@
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import { useState } from "react"
-import { CSVLink } from "react-csv"
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { useState } from 'react'
+import { CSVLink } from 'react-csv'
 
-import type { RepertoireItem, Student } from "../../../types/types"
+import type { Group, RepertoireItem, Student } from '../../../types/types'
 
-import Empty from "@/components/ui/Empty.component"
-import { Button } from "@/components/ui/button"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { useQueryClient } from "@tanstack/react-query"
-import RepertoirePDF from "../pdf/RepertoirePDF.component"
-import { Input } from "@/components/ui/input"
+import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { useQueryClient } from '@tanstack/react-query'
+import RepertoirePDF from '../pdf/RepertoirePDF.component'
+import { Input } from '@/components/ui/input'
 
-type ExportRepertoireProps = { studentId: number }
+type ExportRepertoireProps = { holderId: number; holderType: 's' | 'g' }
 
-function ExportRepertoire({ studentId }: ExportRepertoireProps) {
+function ExportRepertoire({ holderId, holderType }: ExportRepertoireProps) {
   const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState('')
 
   const repertoire = queryClient.getQueryData([
-    "repertoire",
-    { studentId: studentId },
+    'repertoire',
+    { holder: `${holderType}-${holderId}` },
   ]) as Array<RepertoireItem> | undefined
 
-  const students = queryClient.getQueryData(["students"]) as
+  const students = queryClient.getQueryData(['students']) as
     | Array<Student>
     | undefined
-  const currentStudent = students?.find((student) => student.id === studentId)
-  const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
-  const studentFullNameDashes = `${currentStudent?.firstName?.split(" ").join("-")}-${currentStudent?.lastName}`
+  const groups = queryClient.getQueryData(['groups']) as
+    | Array<Group>
+    | undefined
+
+  const currentHolder: Student | Group | undefined =
+    holderType === 's'
+      ? students?.find((student) => student.id === holderId)
+      : groups?.find((group) => group.id === holderId)
+
+  const holderName =
+    holderType === 's'
+      ? `${currentHolder?.firstName} ${currentHolder?.lastName}`
+      : currentHolder.name
+  const studentFullNameDashes = `${currentHolder?.firstName?.split(' ').join('-')}-${currentHolder?.lastName}`
 
   const repertoireCSV = repertoire?.map((item, index) => ({
     index: index + 1,
     title: item.title,
     startDate: item.startDate
       ? item.startDate.toLocaleDateString(userLocale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
         })
-      : "",
+      : '',
     endDate: item.endDate
       ? item.endDate.toLocaleDateString(userLocale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
         })
-      : "",
+      : '',
   }))
 
   if (!repertoire || repertoire.length === 0)
@@ -59,7 +70,7 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
   return (
     <div className='space-y-8'>
       <p>
-        Exportiere die Repertoireliste von <b>{studentFullName}</b>.
+        Exportiere die Repertoireliste von <b>{holderName}</b>.
       </p>
 
       <div>
@@ -88,7 +99,7 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
           }
           fileName={
             title
-              ? title.split(" ").join("-").toLowerCase()
+              ? title.split(' ').join('-').toLowerCase()
               : `repertoire-${studentFullNameDashes.toLocaleLowerCase()}`
           }
         >
@@ -98,23 +109,23 @@ function ExportRepertoire({ studentId }: ExportRepertoireProps) {
         <CSVLink
           data={repertoireCSV}
           headers={[
-            { label: "", key: "index" },
+            { label: '', key: 'index' },
             {
-              label: "Song",
-              key: "title",
+              label: 'Song',
+              key: 'title',
             },
             {
-              label: "Start",
-              key: "startDate",
+              label: 'Start',
+              key: 'startDate',
             },
             {
-              label: "Ende",
-              key: "endDate",
+              label: 'Ende',
+              key: 'endDate',
             },
           ]}
           filename={
             title
-              ? title.split(" ").join("-").toLowerCase()
+              ? title.split(' ').join('-').toLowerCase()
               : `repertoire-${studentFullNameDashes.toLowerCase()}.csv`
           }
         >

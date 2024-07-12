@@ -20,6 +20,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import ExportRepertoire from '../ExportRepertoire.component'
+import useCurrentHolder from '../../lessons/useCurrentHolder'
 
 type RepertoireControlProps = {
   globalFilter: string
@@ -31,11 +32,13 @@ export default function RepertoireControl({
   setGlobalFilter,
   isFetching,
 }: RepertoireControlProps) {
-  const { studentId } = useParams()
+  const { currentLessonHolder } = useCurrentHolder()
   const queryClient = useQueryClient()
   const repertoireItems = queryClient.getQueryData([
     'repertoire',
-    { studentId: Number(studentId) },
+    {
+      holder: `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`,
+    },
   ]) as Array<RepertoireItem>
 
   const [modalOpen, setModalOpen] = useState<'EXPORT' | undefined>()
@@ -72,7 +75,10 @@ export default function RepertoireControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Repertoire exportieren</DialogTitle>
-            <ExportRepertoire studentId={Number(studentId)} />
+            <ExportRepertoire
+              holderId={currentLessonHolder?.holder.id || 0}
+              holderType={currentLessonHolder?.type || 's'}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>
