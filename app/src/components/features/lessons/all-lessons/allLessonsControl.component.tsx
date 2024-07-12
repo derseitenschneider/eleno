@@ -68,7 +68,7 @@ export default function AllLessonsControl({
         <Select
           disabled={isFetching}
           onValueChange={handleSelect}
-          defaultValue={String(selectedYear)}
+          value={String(selectedYear)}
         >
           <SelectTrigger className='w-fit'>
             <SelectValue placeholder='Jahr' />

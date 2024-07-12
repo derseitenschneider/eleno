@@ -1,14 +1,16 @@
-import type { PartialRepertoireItem, RepertoireItem } from "../../types/types"
-import supabase from "./supabase"
+import type { PartialRepertoireItem, RepertoireItem } from '../../types/types'
+import supabase from './supabase'
 
 export const fetchRepertoireAPI = async (
-  studentId: number,
+  holderId: number,
+  holderType: 's' | 'g',
 ): Promise<RepertoireItem[]> => {
+  const fieldType = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
-    .from("repertoire")
-    .select("*")
-    .eq("studentId", studentId)
-    .order("startDate", { ascending: false, nullsFirst: true })
+    .from('repertoire')
+    .select('*')
+    .eq(fieldType, holderId)
+    .order('startDate', { ascending: false, nullsFirst: true })
 
   if (error) throw new Error(error.message)
 
@@ -33,7 +35,7 @@ export const createRepertoireItemAPI = async (item: PartialRepertoireItem) => {
     item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
 
   const { data: repertoireItem, error } = await supabase
-    .from("repertoire")
+    .from('repertoire')
     .insert({
       ...item,
       startDate: utcStartDate?.toISOString(),
@@ -62,13 +64,13 @@ export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
     item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
 
   const { data: updatedItem, error } = await supabase
-    .from("repertoire")
+    .from('repertoire')
     .update({
       ...item,
       startDate: utcStartDate?.toISOString() || null,
       endDate: utcEndDate?.toISOString() || null,
     })
-    .eq("id", item.id)
+    .eq('id', item.id)
     .select()
     .single()
 
@@ -77,6 +79,6 @@ export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
 }
 
 export const deleteRepertoireItemAPI = async (itemId: number) => {
-  const { error } = await supabase.from("repertoire").delete().eq("id", itemId)
+  const { error } = await supabase.from('repertoire').delete().eq('id', itemId)
   if (error) throw new Error(error.message)
 }

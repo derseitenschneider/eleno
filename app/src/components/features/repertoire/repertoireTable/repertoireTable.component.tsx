@@ -17,16 +17,20 @@ import {
 import { useState } from 'react'
 import type { RepertoireItem } from '@/types/types'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import useCurrentHolder from '../../lessons/useCurrentHolder'
 
 function RepertoireList() {
-  const { studentId } = useParams()
+  const { currentLessonHolder } = useCurrentHolder()
   const { userLocale } = useUserLocale()
   const {
     data: repertoire,
     isPending,
     isError,
     isFetching,
-  } = useRepertoireQuery(Number(studentId))
+  } = useRepertoireQuery(
+    currentLessonHolder?.holder?.id || 0,
+    currentLessonHolder?.type || 's',
+  )
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -78,7 +82,7 @@ function RepertoireList() {
     <div className='mb-10'>
       <div className='flex items-center justify-between mb-4'>
         <NavLink
-          to={`/lessons/${studentId}`}
+          to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
           className='flex items-center gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
@@ -86,7 +90,10 @@ function RepertoireList() {
         </NavLink>
       </div>
       <h2>Repertoire</h2>
-      <CreateRepertoireItem studentId={Number(studentId)} />
+      <CreateRepertoireItem
+        holderType={currentLessonHolder?.type || 's'}
+        holderId={currentLessonHolder?.holder.id || 0}
+      />
       <RepertoireControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

@@ -251,31 +251,41 @@ export type Database = {
         Row: {
           created_at: string
           endDate: string | null
+          groupId: number | null
           id: number
           startDate: string | null
-          studentId: number
+          studentId: number | null
           title: string
           user_id: string | null
         }
         Insert: {
           created_at?: string
           endDate?: string | null
+          groupId?: number | null
           id?: number
           startDate?: string | null
-          studentId: number
+          studentId?: number | null
           title: string
           user_id?: string | null
         }
         Update: {
           created_at?: string
           endDate?: string | null
+          groupId?: number | null
           id?: number
           startDate?: string | null
-          studentId?: number
+          studentId?: number | null
           title?: string
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "repertoire_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "repertoire_studentId_fkey"
             columns: ["studentId"]

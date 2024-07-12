@@ -10,14 +10,20 @@ import { useCreateRepertoireItem } from './useCreateRepertoireItem'
 import { useState } from 'react'
 
 interface AddRepertoireItemProps {
-  studentId: number
+  holderId: number
+  holderType: 's' | 'g'
 }
 
-function CreateRepertoireItem({ studentId }: AddRepertoireItemProps) {
+function CreateRepertoireItem({
+  holderId,
+  holderType,
+}: AddRepertoireItemProps) {
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
 
+  const fieldType = holderType === 's' ? 'studentId' : 'groupId'
+
   const defaultItem: PartialRepertoireItem = {
-    studentId,
+    [fieldType]: holderId,
     title: '',
     startDate: undefined,
     endDate: undefined,
