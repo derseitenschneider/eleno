@@ -1,5 +1,5 @@
-import { DataTable } from "@/components/ui/data-table"
-import type { Group, Student } from "@/types/types"
+import { DataTable } from '@/components/ui/data-table'
+import type { Group, Student } from '@/types/types'
 import {
   type RowSelectionState,
   type SortingState,
@@ -8,14 +8,15 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { useMemo, useState } from "react"
-import useGroupsQuery from "../groupsQuery"
-import { groupsColumns } from "./columns"
+} from '@tanstack/react-table'
+import { useState } from 'react'
+import useGroupsQuery from '../groupsQuery'
+import { groupsColumns } from './columns'
+import GroupsControl from './control'
 
 export default function GroupsTable() {
   const { data: groups, isPending, isError, isFetching } = useGroupsQuery()
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
@@ -47,6 +48,12 @@ export default function GroupsTable() {
 
   return (
     <div className=''>
+      <GroupsControl
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        isFetching={isFetching}
+        selected={rowSelection}
+      />
       {/* <StudentsControl */}
       {/*   globalFilter={globalFilter} */}
       {/*   setGlobalFilter={setGlobalFilter} */}

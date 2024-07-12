@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { Group, Student } from '@/types/types'
+import type { Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState, Table } from '@tanstack/react-table'
 import {
@@ -18,28 +18,41 @@ import {
   Pencil,
 } from 'lucide-react'
 import { useState } from 'react'
+import BulkExportLessons from '../../../lessons/bulkExportLessons/BulkExportLessons.component'
+import BulkEditStudents from '../../BulkEditStudents.component'
+import ResetStudents from '../../ResetStudents.component'
+import UpdateStudents from '../../UpdateStudents.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
-type GroupsActionDropdownProps = {
+type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
+  setSelected: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
 
-export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
+export function ActiveStudentsActionDropdown({
+  selected,
+  setSelected,
+}: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
     'EDIT' | 'EXPORT' | 'RESET' | null
   >(null)
-  const groups = queryClient.getQueryData(['groups']) as Array<Group>
+
+  const students = queryClient.getQueryData(['students']) as Array<Student>
+  const { deactivateStudents, isDeactivating, isError } =
+    useDeactivateStudents()
 
   const isDisabledAction = Object.entries(selected).length === 0
-  const selectedGroupsIds = Object.keys(selected).map((id) => Number(id))
-  const selectedGroups = selectedGroupsIds.map((id) =>
-    groups?.find((group) => group.id === id),
-  ) as Array<Group>
+  const selectedStudentIds = Object.keys(selected).map((id) => Number(id))
+  const selectedStudents = selectedStudentIds.map((id) =>
+    students?.find((student) => student.id === id),
+  ) as Array<Student>
 
   function closeModal() {
+    setSelected({})
     setOpenModal(null)
   }
-  if (!groups) return null
+  if (!students) return null
   return (
     <>
       <DropdownMenu>
@@ -77,7 +90,7 @@ export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => deactivateStudents(selectedStudentIds)}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />
@@ -88,20 +101,27 @@ export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
 
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Gruppen bearbeiten</DialogTitle>
+          <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          <UpdateStudents
+            studentIds={selectedStudentIds}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
-          {/* <BulkExportLessons /> */}
         </DialogContent>
       </Dialog>
 
       <Dialog open={openModal === 'RESET'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
+          <ResetStudents
+            selectedStudentIds={selectedStudentIds}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
     </>

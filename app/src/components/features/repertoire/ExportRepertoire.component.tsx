@@ -2,7 +2,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
-import type { Group, RepertoireItem, Student } from '../../../types/types'
+import type { LessonHolder, RepertoireItem } from '../../../types/types'
 
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
@@ -11,35 +11,24 @@ import { useQueryClient } from '@tanstack/react-query'
 import RepertoirePDF from '../pdf/RepertoirePDF.component'
 import { Input } from '@/components/ui/input'
 
-type ExportRepertoireProps = { holderId: number; holderType: 's' | 'g' }
+type ExportRepertoireProps = { lessonHolder: LessonHolder }
 
-function ExportRepertoire({ holderId, holderType }: ExportRepertoireProps) {
+function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
   const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
   const [title, setTitle] = useState('')
 
   const repertoire = queryClient.getQueryData([
     'repertoire',
-    { holder: `${holderType}-${holderId}` },
+    { holder: `${lessonHolder.type}-${lessonHolder.holder.id}` },
   ]) as Array<RepertoireItem> | undefined
 
-  const students = queryClient.getQueryData(['students']) as
-    | Array<Student>
-    | undefined
-  const groups = queryClient.getQueryData(['groups']) as
-    | Array<Group>
-    | undefined
-
-  const currentHolder: Student | Group | undefined =
-    holderType === 's'
-      ? students?.find((student) => student.id === holderId)
-      : groups?.find((group) => group.id === holderId)
-
   const holderName =
-    holderType === 's'
-      ? `${currentHolder?.firstName} ${currentHolder?.lastName}`
-      : currentHolder.name
-  const studentFullNameDashes = `${currentHolder?.firstName?.split(' ').join('-')}-${currentHolder?.lastName}`
+    lessonHolder.type === 's'
+      ? `${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`
+      : lessonHolder.holder.name
+
+  const holderNameDashes = holderName.split(' ').join('-').toLowerCase()
 
   const repertoireCSV = repertoire?.map((item, index) => ({
     index: index + 1,
@@ -88,11 +77,11 @@ function ExportRepertoire({ holderId, holderType }: ExportRepertoireProps) {
           />
         </label>
       </div>
-      <div className='flex gap-4 justify-end'>
+      <div className='flex gap-4 justify-center'>
         <PDFDownloadLink
           document={
             <RepertoirePDF
-              studentFullName={studentFullName}
+              studentFullName={holderName}
               repertoire={repertoire}
               title={title}
             />
@@ -100,7 +89,7 @@ function ExportRepertoire({ holderId, holderType }: ExportRepertoireProps) {
           fileName={
             title
               ? title.split(' ').join('-').toLowerCase()
-              : `repertoire-${studentFullNameDashes.toLocaleLowerCase()}`
+              : `repertoire-${holderNameDashes}`
           }
         >
           <Button size='sm'> PDF Herunterladen</Button>
@@ -126,7 +115,7 @@ function ExportRepertoire({ holderId, holderType }: ExportRepertoireProps) {
           filename={
             title
               ? title.split(' ').join('-').toLowerCase()
-              : `repertoire-${studentFullNameDashes.toLowerCase()}.csv`
+              : `repertoire-${holderNameDashes}.csv`
           }
         >
           <Button size='sm'>CSV herunterladen</Button>

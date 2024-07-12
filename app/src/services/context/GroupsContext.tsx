@@ -5,21 +5,21 @@ import {
   useContext,
   useMemo,
   useState,
-} from "react"
+} from 'react'
 
-import type { Tables } from "../../types/supabase"
+import type { Tables } from '../../types/supabase'
 import {
-  createGroupsApi,
+  createGroupApi,
   deleteGroupsSupabase,
   updateGroupSupabase,
-} from "../api/groups.api"
+} from '../api/groups.api'
 
 export interface IGroupsContext {
-  groups: Array<Tables<"groups">>
-  setGroups: React.Dispatch<SetStateAction<Array<Tables<"groups">>>>
-  createNewGroup: (group: Tables<"groups">) => void
+  groups: Array<Tables<'groups'>>
+  setGroups: React.Dispatch<SetStateAction<Array<Tables<'groups'>>>>
+  createNewGroup: (group: Tables<'groups'>) => void
   deleteGroups: (id: number[]) => void
-  editGroup: (group: Tables<"groups">) => void
+  editGroup: (group: Tables<'groups'>) => void
 }
 
 export const GroupsContext = createContext<IGroupsContext>({
@@ -31,19 +31,19 @@ export const GroupsContext = createContext<IGroupsContext>({
 })
 
 export function GroupsProvider({ children }: { children: React.ReactNode }) {
-  const [groups, setGroups] = useState<Array<Tables<"groups">>>([])
+  const [groups, setGroups] = useState<Array<Tables<'groups'>>>([])
 
   // const mode = import.meta.env.VITE_MODE
 
   const createNewGroup = useCallback(
-    async (group: Tables<"groups">): Promise<void> => {
+    async (group: Tables<'groups'>): Promise<void> => {
       // if (mode === 'demo') {
       //   setLessons((prev) => [...prev, tempLesson])
       //   return
       // }
 
       try {
-        const [data] = await createGroupsApi(group)
+        const [data] = await createGroupApi(group)
         setGroups((prev) => [...prev, data])
       } catch (error) {
         throw new Error(error)
@@ -65,7 +65,7 @@ export function GroupsProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const editGroup = useCallback(async (group: Tables<"groups">) => {
+  const editGroup = useCallback(async (group: Tables<'groups'>) => {
     // if (mode === 'demo') {
     //   setLessons((prev) =>
     //     prev.map((lesson) =>

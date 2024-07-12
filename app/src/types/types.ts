@@ -83,6 +83,10 @@ export type Weekday = DBTypes['students']['dayOfLesson']
 |--------------------------------------------------------------------------
 */
 export type Group = DBTypes['groups']
+export type GroupPartial = Omit<
+  Group,
+  'id' | 'created_at' | 'user_id' | 'archive'
+>
 
 /*
 |--------------------------------------------------------------------------

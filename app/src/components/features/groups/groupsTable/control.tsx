@@ -1,19 +1,18 @@
-import { Button } from "@/components/ui/button"
-import SearchBar from "@/components/ui/SearchBar.component"
-import type { Student } from "@/types/types"
-import { File, Plus } from "lucide-react"
-import type { RowSelectionState, Table } from "@tanstack/react-table"
-import { useState } from "react"
-import { useQueryClient } from "@tanstack/react-query"
+import { Button } from '@/components/ui/button'
+import SearchBar from '@/components/ui/SearchBar.component'
+import type { Group, Student } from '@/types/types'
+import { File, Plus } from 'lucide-react'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { ActiveStudentsActionDropdown } from "./actionDropdown"
-import ExportStudentList from "../../ExportStudentList.component"
-import CreateStudents from "../../CreateStudents.component"
+} from '@/components/ui/dialog'
+import { GroupsActionDropdown } from './actionDropdown'
+import CreateGroup from '../CreateGroup.component'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -21,20 +20,20 @@ type StudentsControlProps = {
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
   selected: RowSelectionState
 }
-export default function StudentsControl({
+export default function GroupsControl({
   globalFilter,
   setGlobalFilter,
   isFetching,
   selected,
 }: StudentsControlProps) {
   const queryClient = useQueryClient()
-  const students = queryClient.getQueryData(["students"]) as Array<Student>
-  const activeStudents = students.filter((student) => !student.archive)
+  const groups = queryClient.getQueryData(['groups']) as Array<Group>
+  const activeGroups = groups.filter((group) => !group.archive)
 
-  const [modalOpen, setModalOpen] = useState<"EXPORT" | "CREATE" | null>()
+  const [modalOpen, setModalOpen] = useState<'EXPORT' | 'CREATE' | null>()
 
-  const hasActiveStudents = activeStudents.length > 0
-  const isDisabledControls = activeStudents.length === 0 || isFetching
+  const hasActiveGroups = activeGroups.length > 0
+  const isDisabledControls = activeGroups.length === 0 || isFetching
 
   function closeModal() {
     setModalOpen(null)
@@ -43,17 +42,17 @@ export default function StudentsControl({
   return (
     <div className='flex items-end gap-4 mb-4'>
       <div className='mr-auto items-baseline flex gap-4'>
-        <ActiveStudentsActionDropdown selected={selected} />
-        {hasActiveStudents && (
+        <GroupsActionDropdown selected={selected} />
+        {hasActiveGroups && (
           <p className='text-sm'>
-            Aktive Schüler:innen: <span>{activeStudents.length}</span>
+            Aktive Gruppen: <span>{activeGroups.length}</span>
           </p>
         )}
       </div>
       <Button
         size='sm'
         variant='outline'
-        onClick={() => setModalOpen("EXPORT")}
+        onClick={() => setModalOpen('EXPORT')}
         disabled={isDisabledControls}
       >
         <File className='h-4 w-4 text-primary mr-1' />
@@ -67,26 +66,27 @@ export default function StudentsControl({
       <Button
         disabled={isFetching}
         size='sm'
-        onClick={() => setModalOpen("CREATE")}
+        onClick={() => setModalOpen('CREATE')}
       >
         <Plus className='size-4 mr-1' />
         <span className='text-white'>Neu</span>
       </Button>
 
-      <Dialog open={modalOpen === "EXPORT"} onOpenChange={closeModal}>
+      <Dialog open={modalOpen === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Schülerliste exportieren</DialogTitle>
-            <ExportStudentList students={activeStudents} />
+            <DialogTitle>Gruppenliste exportieren</DialogTitle>
+            {/* <ExportStudentList students={activeGroups} /> */}
           </DialogHeader>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={modalOpen === "CREATE"} onOpenChange={closeModal}>
+      <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Schüler:innen erfassen</DialogTitle>
-            <CreateStudents onSuccess={closeModal} />
+            <DialogTitle>Gruppe erfassen</DialogTitle>
+            <CreateGroup onSuccess={closeModal} />
+            {/* <CreateStudents onSuccess={closeModal} /> */}
           </DialogHeader>
         </DialogContent>
       </Dialog>

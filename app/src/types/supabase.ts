@@ -47,7 +47,6 @@ export type Database = {
           startOfLesson: string | null
           students: string[] | null
           user_id: string | null
-          uuid: string
         }
         Insert: {
           archive?: boolean
@@ -61,7 +60,6 @@ export type Database = {
           startOfLesson?: string | null
           students?: string[] | null
           user_id?: string | null
-          uuid?: string
         }
         Update: {
           archive?: boolean
@@ -75,7 +73,6 @@ export type Database = {
           startOfLesson?: string | null
           students?: string[] | null
           user_id?: string | null
-          uuid?: string
         }
         Relationships: [
           {

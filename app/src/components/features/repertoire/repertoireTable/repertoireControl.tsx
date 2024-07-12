@@ -1,18 +1,9 @@
 import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { Lesson, RepertoireItem } from '@/types/types'
-import { File, FileDown } from 'lucide-react'
-import type { Table } from '@tanstack/react-table'
+import type { RepertoireItem } from '@/types/types'
+import { FileDown } from 'lucide-react'
 import { useState } from 'react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
 import {
   Dialog,
   DialogContent,
@@ -45,6 +36,8 @@ export default function RepertoireControl({
 
   const hasRepertoireItems = repertoireItems?.length > 0
 
+  if (!currentLessonHolder) return null
+
   return (
     <div className='flex items-center gap-4 mb-4'>
       <div className='mr-auto'>
@@ -75,10 +68,7 @@ export default function RepertoireControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Repertoire exportieren</DialogTitle>
-            <ExportRepertoire
-              holderId={currentLessonHolder?.holder.id || 0}
-              holderType={currentLessonHolder?.type || 's'}
-            />
+            <ExportRepertoire lessonHolder={currentLessonHolder} />
           </DialogHeader>
         </DialogContent>
       </Dialog>
