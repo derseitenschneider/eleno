@@ -10,12 +10,22 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import useGroupsQuery from '../groupsQuery'
 import { groupsColumns } from './columns'
 import GroupsControl from './control'
 
-export default function GroupsTable() {
-  const { data: groups, isPending, isError, isFetching } = useGroupsQuery()
+type TGroupsTable = {
+  groups: Array<Group>
+  isPending: boolean
+  isError: boolean
+  isFetching: boolean
+}
+
+export default function GroupsTable({
+  groups,
+  isPending,
+  isError,
+  isFetching,
+}: TGroupsTable) {
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -53,13 +63,8 @@ export default function GroupsTable() {
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}
         selected={rowSelection}
+        setSelected={setRowSelection}
       />
-      {/* <StudentsControl */}
-      {/*   globalFilter={globalFilter} */}
-      {/*   setGlobalFilter={setGlobalFilter} */}
-      {/*   isFetching={isFetching} */}
-      {/*   selected={rowSelection} */}
-      {/* /> */}
       <DataTable
         table={table}
         columns={groupsColumns}

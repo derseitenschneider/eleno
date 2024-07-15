@@ -1,13 +1,13 @@
-import { useState } from "react"
-import type { Lesson } from "../../../types/types"
-import CustomEditor from "../../ui/CustomEditor.component"
+import { useState } from 'react'
+import type { Lesson } from '../../../types/types'
+import CustomEditor from '../../ui/CustomEditor.component'
 
-import { DayPicker } from "@/components/ui/daypicker.component"
-import { Button } from "@/components/ui/button"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useQueryClient } from "@tanstack/react-query"
-import { useUpdateLesson } from "./useUpdateLesson"
-import { useParams, useSearchParams } from "react-router-dom"
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useQueryClient } from '@tanstack/react-query'
+import { useUpdateLesson } from './useUpdateLesson'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 type EditLessonProps = {
   lessonId: number
@@ -16,16 +16,16 @@ type EditLessonProps = {
 
 function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   const queryClient = useQueryClient()
-  const { studentId } = useParams()
+  const { holderId } = useParams()
   const [searchParams] = useSearchParams()
   const allLessons = queryClient.getQueryData([
-    "all-lessons",
+    'all-lessons',
     {
-      studentId: Number(studentId || 0),
-      year: Number(searchParams.get("year")),
+      holder: holderId || '',
+      year: Number(searchParams.get('year')),
     },
   ]) as Array<Lesson> | undefined
-  const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
+  const latestLessons = queryClient.getQueryData(['latest-3-lessons']) as
     | Array<Lesson>
     | undefined
 
@@ -38,9 +38,9 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   )
 
   const [lessonContent, setLessonContent] = useState(
-    lessonToUpdate?.lessonContent || "",
+    lessonToUpdate?.lessonContent || '',
   )
-  const [homework, setHomework] = useState(lessonToUpdate?.homework || "")
+  const [homework, setHomework] = useState(lessonToUpdate?.homework || '')
   const [date, setDate] = useState<Date>(lessonToUpdate?.date || new Date())
 
   const { updateLesson, isUpdating } = useUpdateLesson()
@@ -79,7 +79,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
 
           <CustomEditor
             disabled={isUpdating}
-            value={lessonContent || ""}
+            value={lessonContent || ''}
             onChange={handleLessonContent}
           />
         </div>
@@ -89,7 +89,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
 
           <CustomEditor
             disabled={isUpdating}
-            value={homework || ""}
+            value={homework || ''}
             onChange={handleHomework}
           />
         </div>

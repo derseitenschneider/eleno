@@ -19,12 +19,14 @@ type StudentsControlProps = {
   globalFilter: string
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>
   selected: RowSelectionState
+  setSelected: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
 export default function GroupsControl({
   globalFilter,
   setGlobalFilter,
   isFetching,
   selected,
+  setSelected,
 }: StudentsControlProps) {
   const queryClient = useQueryClient()
   const groups = queryClient.getQueryData(['groups']) as Array<Group>
@@ -42,7 +44,7 @@ export default function GroupsControl({
   return (
     <div className='flex items-end gap-4 mb-4'>
       <div className='mr-auto items-baseline flex gap-4'>
-        <GroupsActionDropdown selected={selected} />
+        <GroupsActionDropdown setSelected={setSelected} selected={selected} />
         {hasActiveGroups && (
           <p className='text-sm'>
             Aktive Gruppen: <span>{activeGroups.length}</span>

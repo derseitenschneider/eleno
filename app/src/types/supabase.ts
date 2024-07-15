@@ -45,7 +45,7 @@ export type Database = {
           location: string | null
           name: string
           startOfLesson: string | null
-          students: string[] | null
+          students: Json[] | null
           user_id: string | null
         }
         Insert: {
@@ -58,7 +58,7 @@ export type Database = {
           location?: string | null
           name: string
           startOfLesson?: string | null
-          students?: string[] | null
+          students?: Json[] | null
           user_id?: string | null
         }
         Update: {
@@ -71,7 +71,7 @@ export type Database = {
           location?: string | null
           name?: string
           startOfLesson?: string | null
-          students?: string[] | null
+          students?: Json[] | null
           user_id?: string | null
         }
         Relationships: [

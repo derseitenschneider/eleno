@@ -9,34 +9,33 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { Group, Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState, Table } from '@tanstack/react-table'
-import {
-  Archive,
-  ChevronsUpDown,
-  FileDown,
-  History,
-  Pencil,
-} from 'lucide-react'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
+// import ResetStudents from '../../ResetStudents.component'
+// import { useDeactivateStudents } from '../../useDeactivateStudents'
 
-type GroupsActionDropdownProps = {
+type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
+  setSelected: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
 
-export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
+export function GroupsActionDropdown({
+  selected,
+  setSelected,
+}: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<
     'EDIT' | 'EXPORT' | 'RESET' | null
   >(null)
+
   const groups = queryClient.getQueryData(['groups']) as Array<Group>
 
   const isDisabledAction = Object.entries(selected).length === 0
-  const selectedGroupsIds = Object.keys(selected).map((id) => Number(id))
-  const selectedGroups = selectedGroupsIds.map((id) =>
-    groups?.find((group) => group.id === id),
-  ) as Array<Group>
+  const selectedGroupIds = Object.keys(selected).map((id) => Number(id))
 
   function closeModal() {
+    setSelected({})
     setOpenModal(null)
   }
   if (!groups) return null
@@ -50,14 +49,6 @@ export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem
-            onClick={() => setOpenModal('EDIT')}
-            className='flex items-center gap-2'
-          >
-            <Pencil className='h-4 w-4 text-primary' />
-            <span>Bearbeiten</span>
-          </DropdownMenuItem>
-
           <DropdownMenuItem
             onClick={() => setOpenModal('EXPORT')}
             className='flex items-center gap-2'
@@ -77,7 +68,7 @@ export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => { }}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />
@@ -86,16 +77,9 @@ export function GroupsActionDropdown({ selected }: GroupsActionDropdownProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogTitle>Gruppen bearbeiten</DialogTitle>
-        </DialogContent>
-      </Dialog>
-
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
-          {/* <BulkExportLessons /> */}
         </DialogContent>
       </Dialog>
 

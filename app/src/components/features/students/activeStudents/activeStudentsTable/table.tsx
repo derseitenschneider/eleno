@@ -11,12 +11,22 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useMemo, useState } from 'react'
-import useStudentsQuery from '../../studentsQueries'
 import { studentsColumns } from './columns'
 import StudentsControl from './control'
 
-export default function ActiveStudentsTable() {
-  const { data: students, isPending, isError, isFetching } = useStudentsQuery()
+type TActiveStudentsTable = {
+  students: Array<Student>
+  isError: boolean
+  isFetching: boolean
+  isPending: boolean
+}
+
+export default function ActiveStudentsTable({
+  students,
+  isError,
+  isPending,
+  isFetching,
+}: TActiveStudentsTable) {
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})

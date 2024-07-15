@@ -1,9 +1,14 @@
 import { NavLink } from 'react-router-dom'
 
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { TableProperties, User, Users } from 'lucide-react'
+import { Group, TableProperties, User, Users } from 'lucide-react'
 import useCurrentHolder from './useCurrentHolder'
 import { Badge } from '@/components/ui/badge'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -14,11 +19,10 @@ function LessonHeader() {
       <div className='flex items-end justify-between'>
         <div>
           <NavLink
-            to={`/lessons/${
-              currentLessonHolder.type === 's'
+            to={`/lessons/${currentLessonHolder.type === 's'
                 ? `s-${currentLessonHolder.holder.id}`
                 : `g-${currentLessonHolder.holder.id}`
-            }`}
+              }`}
             className='flex mb-2 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
@@ -46,14 +50,30 @@ function LessonHeader() {
                 currentLessonHolder.holder.durationMinutes &&
                 ' | '}
             </span>
-            <span>
-              {currentLessonHolder.holder.durationMinutes && (
-                <span>
-                  {currentLessonHolder.holder.durationMinutes} Minuten
-                </span>
+            {currentLessonHolder.holder.durationMinutes && (
+              <span>{currentLessonHolder.holder.durationMinutes} Minuten</span>
+            )}
+            {currentLessonHolder.type === 'g' &&
+              currentLessonHolder.holder.students?.length !== 0 && (
+                <Popover>
+                  <PopoverTrigger>
+                    <Badge className='ml-2'>
+                      <Users className='size-3 mr-1' />
+                      Gruppe
+                    </Badge>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <h4>Schüler:innen</h4>
+                    <ul>
+                      {currentLessonHolder.holder.students?.map((student) => (
+                        <li className='text-sm' key={student?.name}>
+                          {student?.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </PopoverContent>
+                </Popover>
               )}
-            </span>
-            {currentLessonHolder.type === 'g' && <Badge>Gruppe</Badge>}
           </div>
         </div>
         <NavLink

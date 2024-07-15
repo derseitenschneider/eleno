@@ -1,24 +1,28 @@
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { updateLessonAPI } from "@/services/api/lessons.api"
-import type { Lesson } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { updateLessonAPI } from '@/services/api/lessons.api'
+import type { Lesson } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function useUpdateLesson() {
   const queryClient = useQueryClient()
   const { mutate: updateLesson, isPending: isUpdating } = useMutation({
     mutationFn: updateLessonAPI,
     onMutate: (updatedLesson) => {
+      const holder = updatedLesson.studentId
+        ? `s-${updatedLesson.studentId}`
+        : `g-${updatedLesson.groupId}`
+
       // Snapshot in case of a rollback.
       const allLessons = queryClient.getQueryData([
-        "all-lessons",
+        'all-lessons',
         {
-          studentId: updatedLesson.studentId,
+          holder,
           year: updatedLesson.date.getFullYear(),
         },
       ]) as Array<Lesson> | undefined
 
-      const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
+      const latestLessons = queryClient.getQueryData(['latest-3-lessons']) as
         | Array<Lesson>
         | undefined
 
@@ -29,9 +33,9 @@ export function useUpdateLesson() {
 
       queryClient.setQueryData(
         [
-          "all-lessons",
+          'all-lessons',
           {
-            studentId: updatedLesson.studentId,
+            holder,
             year: updatedLesson.date.getFullYear(),
           },
         ],
@@ -43,7 +47,7 @@ export function useUpdateLesson() {
       )
 
       queryClient.setQueryData(
-        ["latest-3-lessons"],
+        ['latest-3-lessons'],
         (prev: Array<Lesson> | undefined) => {
           return prev?.map((oldLesson) =>
             oldLesson.id === updatedLesson.id ? updatedLesson : oldLesson,
@@ -51,13 +55,13 @@ export function useUpdateLesson() {
         },
       )
 
-      return { allLessons, latestLessons }
+      return { allLessons, latestLessons, holder }
     },
 
     onSuccess: () => {
-      toast.success("Änderungen gespeichert.")
+      toast.success('Änderungen gespeichert.')
       queryClient.invalidateQueries({
-        queryKey: ["latest-3-lessons"],
+        queryKey: ['latest-3-lessons'],
       })
     },
 
@@ -66,24 +70,15 @@ export function useUpdateLesson() {
 
       queryClient.setQueryData(
         [
-          "all-lessons",
+          'all-lessons',
           {
-            studentId: updatedLesson.studentId,
+            holder: context.holder,
             year: updatedLesson.date.getFullYear(),
           },
         ],
         context?.allLessons,
       )
-      queryClient.setQueryData(
-        [
-          "latest-3-lessons",
-          {
-            studentId: updatedLesson.studentId,
-            year: updatedLesson.date.getFullYear(),
-          },
-        ],
-        context?.latestLessons,
-      )
+      queryClient.setQueryData(['latest-3-lessons'], context?.latestLessons)
     },
   })
   return { updateLesson, isUpdating }
