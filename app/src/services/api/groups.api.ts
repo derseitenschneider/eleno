@@ -1,12 +1,11 @@
 import supabase from './supabase'
-import type { Tables } from '../../types/supabase'
-import type { GroupPartial } from '@/types/types'
+import type { Group, GroupPartial } from '@/types/types'
 
-export const fetchGroupsApi = async () => {
+export const fetchGroupsApi = async (): Promise<Array<Group>> => {
   const { data: groups, error } = await supabase.from('groups').select('*')
 
   if (error) throw new Error(error.message)
-  return groups
+  return groups as Array<Group>
 }
 
 export const createGroupApi = async (group: GroupPartial) => {
@@ -18,7 +17,7 @@ export const createGroupApi = async (group: GroupPartial) => {
   return newGroup
 }
 
-export const deactivateGroupSupabase = async (groupIds: number[]) => {
+export const deactivateGroupApi = async (groupIds: number[]) => {
   const { error } = await supabase
     .from('groups')
     .update({ archive: true })
@@ -27,7 +26,7 @@ export const deactivateGroupSupabase = async (groupIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const reactivateGroupsSupabase = async (groupIds: number[]) => {
+export const reactivateGroupsApi = async (groupIds: number[]) => {
   const { error } = await supabase
     .from('groups')
     .update({ archive: false })
@@ -36,14 +35,17 @@ export const reactivateGroupsSupabase = async (groupIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteGroupsSupabase = async (groupIds: number[]) => {
+export const deleteGroupsApi = async (groupIds: number[]) => {
   const { error } = await supabase.from('groups').delete().in('id', groupIds)
 
   if (error) throw new Error(error.message)
 }
 
-export const updateGroupSupabase = async (group: Tables<'groups'>) => {
-  const { error } = await supabase.from('groups').upsert(group)
+export const updateGroupApi = async (group: Group) => {
+  const { data: updatedGroup, error } = await supabase
+    .from('groups')
+    .upsert(group)
 
   if (error) throw new Error(error.message)
+  return updatedGroup
 }

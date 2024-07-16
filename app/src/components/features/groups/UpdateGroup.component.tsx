@@ -9,14 +9,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import type { GroupPartial, StudentPartial } from '@/types/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import StudentFormRow from './StudentFormRow.component'
-import { useCreateGroup, useCreateStudents } from './useCreateGroup'
+import { useCreateGroup } from './useCreateGroup'
 import {
   Select,
   SelectContent,
@@ -25,70 +21,29 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import {
+  type GroupSchema,
+  groupValidationSchema,
+} from './CreateGroup.component'
+import { useQueryClient } from '@tanstack/react-query'
+import { useUpdateGroup } from './useUpdateGroup'
+import type { Group } from '@/types/types'
 
-type CreateGroupsProps = {
-  onSuccess: () => void
-}
-export type RowGroup = Omit<GroupPartial, 'user_id' | 'archive'> & {
-  tempId?: number
-}
-
-export const groupValidationSchema = z.object({
-  id: z.optional(z.number()).nullable(),
-  name: z.string().min(2, { message: 'Ungültiger Gruppenname' }),
-  students: z.array(z.object({ name: z.string() })),
-  dayOfLesson: z
-    .optional(
-      z
-        .union([
-          z.literal('Montag'),
-          z.literal('Dienstag'),
-          z.literal('Mittwoch'),
-          z.literal('Donnerstag'),
-          z.literal('Freitag'),
-          z.literal('Samstag'),
-          z.literal('Sonntag'),
-          z.literal('none'),
-        ])
-        .nullable()
-        .transform((val) => (val === 'none' ? null : val)),
-    )
-    .transform((val) => (val === undefined ? null : val)),
-  startOfLesson: z
-    .optional(z.string())
-    .transform((val) => (val === '' || val === undefined ? null : val))
-    .nullable(),
-  endOfLesson: z
-    .optional(z.string())
-    .transform((val) => (val === '' || val === undefined ? null : val))
-    .nullable(),
-  durationMinutes: z
-    .optional(z.coerce.number().min(0, { message: 'Ungültiger Wert.' }))
-    .transform((val) => (val === undefined ? null : val))
-    .nullable(),
-  location: z
-    .optional(z.string())
-    .transform((val) => (val === undefined ? null : val))
-    .nullable(),
-})
-
-export type GroupSchema = z.infer<typeof groupValidationSchema>
-
-const defaultGroup: GroupSchema = {
-  name: '',
-  students: [{ name: '' }, { name: '' }, { name: '' }],
-  startOfLesson: '',
-  dayOfLesson: null,
-  endOfLesson: '',
-  durationMinutes: null,
-  location: '',
+type UpdateGroupProps = {
+  onSuccess?: () => void
+  groupId: number
 }
 
-export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
-  const { createGroup, isCreating } = useCreateGroup()
+export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
+  const queryClient = useQueryClient()
+  const { updateGroup, isUpdating } = useUpdateGroup()
+
+  const groups = queryClient.getQueryData(['groups']) as Array<Group>
+  const updatingGroup = groups.find((group) => group.id === groupId)
+
   const form = useForm<GroupSchema>({
     resolver: zodResolver(groupValidationSchema),
-    defaultValues: defaultGroup,
+    defaultValues: updatingGroup,
     mode: 'onSubmit',
     resetOptions: {
       keepDirtyValues: true,
@@ -105,11 +60,13 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
   })
 
   function onSubmit(group: GroupSchema) {
-    const newGroup = {
+    const updatedGroup = {
+      ...updatingGroup,
       ...group,
       students: group.students?.filter((student) => student.name) || null,
-    }
-    createGroup(newGroup, {
+    } as Group
+
+    updateGroup(updatedGroup, {
       onSuccess,
     })
   }
@@ -239,7 +196,9 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
 
           <div className='mt-8'>
             <div className='flex items-center gap-5'>
-              <p className='font-medium mb-2'>Schüler:innen</p>
+              <p className='font-medium mb-2'>
+                {fields.length > 0 ? fields.length : ''} Schüler:innen
+              </p>
             </div>
             <div className='grid gap-3 grid-cols-5'>
               {fields.map((field, index) => (
@@ -282,7 +241,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
           <div className='flex items-center justify-end mt-4'>
             <div className='flex items-center gap-4'>
               <Button
-                disabled={isCreating}
+                disabled={isUpdating}
                 size='sm'
                 variant='outline'
                 type='button'
@@ -291,10 +250,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 Abbrechen
               </Button>
               <div className='flex items-center gap-2'>
-                <Button disabled={isCreating} size='sm' type='submit'>
+                <Button disabled={isUpdating} size='sm' type='submit'>
                   Speichern
                 </Button>
-                {isCreating && <MiniLoader />}
+                {isUpdating && <MiniLoader />}
               </div>
             </div>
           </div>

@@ -10,8 +10,8 @@ import {
 import type { Tables } from '../../types/supabase'
 import {
   createGroupApi,
-  deleteGroupsSupabase,
-  updateGroupSupabase,
+  deleteGroupsApi,
+  updateGroupApi,
 } from '../api/groups.api'
 
 export interface IGroupsContext {
@@ -24,10 +24,10 @@ export interface IGroupsContext {
 
 export const GroupsContext = createContext<IGroupsContext>({
   groups: [],
-  setGroups: () => {},
-  createNewGroup: () => {},
-  deleteGroups: () => {},
-  editGroup: () => {},
+  setGroups: () => { },
+  createNewGroup: () => { },
+  deleteGroups: () => { },
+  editGroup: () => { },
 })
 
 export function GroupsProvider({ children }: { children: React.ReactNode }) {
@@ -58,7 +58,7 @@ export function GroupsProvider({ children }: { children: React.ReactNode }) {
     //   return
     // }
     try {
-      await deleteGroupsSupabase(ids)
+      await deleteGroupsApi(ids)
       setGroups((prev) => prev.filter((group) => !ids.includes(group.id)))
     } catch (err) {
       throw new Error(err)
@@ -79,7 +79,7 @@ export function GroupsProvider({ children }: { children: React.ReactNode }) {
     //   )
     // }
     try {
-      await updateGroupSupabase(group)
+      await updateGroupApi(group)
       setGroups((prev) =>
         prev.map((oldGroup) => (oldGroup.id === group.id ? group : oldGroup)),
       )

@@ -27,11 +27,14 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../../ui/sheet'
 import AddTodo from '../todos/AddTodo.component'
 import ExportLessons from './ExportLessons.component'
+import useCurrentHolder from './useCurrentHolder'
+import UpdateStudents from '../students/UpdateStudents.component'
+import UpdateGroup from '../groups/UpdateGroup.component'
 
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 
 export default function HolderDropdownLesson() {
-  const { studentId } = useParams()
+  const { currentLessonHolder } = useCurrentHolder()
   const [openModal, setOpenModal] = useState<Modals>(null)
 
   const closeModal = () => setOpenModal(null)
@@ -73,26 +76,35 @@ export default function HolderDropdownLesson() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Schüler:in bearbeiten</SheetTitle>
-          </SheetHeader>
-          <StudentForm
-            onSuccess={() => {
-              closeModal()
-            }}
-            studentId={Number(studentId)}
-          />
-        </SheetContent>
-      </Sheet>
+      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {currentLessonHolder?.type === 's'
+                ? 'Schüler:in bearbeiten'
+                : 'Gruppe bearbeiten'}
+            </DialogTitle>
+          </DialogHeader>
+          {currentLessonHolder?.type === 's' ? (
+            <UpdateStudents
+              studentIds={[currentLessonHolder.holder.id]}
+              onSuccess={closeModal}
+            />
+          ) : (
+            <UpdateGroup
+              groupId={currentLessonHolder?.holder.id || 0}
+              onSuccess={closeModal}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo studentId={Number(studentId)} onCloseModal={closeModal} />
+          {/* <AddTodo studentId={Number(studentId)} onCloseModal={closeModal} /> */}
         </DialogContent>
       </Dialog>
 
@@ -101,7 +113,7 @@ export default function HolderDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons holderId={Number(studentId)} />
+          {/* <ExportLessons holderId={Number(studentId)} /> */}
         </DialogContent>
       </Dialog>
     </>

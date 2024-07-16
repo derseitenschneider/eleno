@@ -63,7 +63,9 @@ function LessonHeader() {
                     </Badge>
                   </PopoverTrigger>
                   <PopoverContent>
-                    <h4>Schüler:innen</h4>
+                    <h4>
+                      {currentLessonHolder.holder.students.length} Schüler:innen
+                    </h4>
                     <ul>
                       {currentLessonHolder.holder.students?.map((student) => (
                         <li className='text-sm' key={student?.name}>

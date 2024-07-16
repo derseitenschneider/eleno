@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
-import { Search } from 'lucide-react'
+import { Search, Users } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
@@ -29,6 +29,12 @@ export default function SearchStudentCombobox() {
   const navigate = useNavigate()
 
   if (!lessonHolders) return null
+
+  const sortedLessonHolders = lessonHolders.sort((a, b) => {
+    const nameA = a.type === 's' ? a.holder.lastName : a.holder.name
+    const nameB = b.type === 's' ? b.holder.lastName : b.holder.name
+    return nameA.localeCompare(nameB)
+  })
 
   function handleSelect(newLessonHolder: LessonHolder) {
     if (!holderId || !latestLessons) return
@@ -64,7 +70,7 @@ export default function SearchStudentCombobox() {
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
             <CommandGroup>
-              {lessonHolders.map((lessonHolder) => (
+              {sortedLessonHolders.map((lessonHolder) => (
                 <CommandItem
                   key={lessonHolder.holder.id}
                   value={
@@ -81,7 +87,10 @@ export default function SearchStudentCombobox() {
                   {lessonHolder.type === 'g' && (
                     <>
                       <span>{lessonHolder.holder.name} </span>
-                      <Badge>Gruppe</Badge>
+                      <Badge>
+                        <Users className='size-3 mr-1' />
+                        Gruppe
+                      </Badge>
                     </>
                   )}
                 </CommandItem>

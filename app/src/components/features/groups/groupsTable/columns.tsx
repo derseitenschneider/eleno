@@ -3,10 +3,22 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Group } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from 'lucide-react'
+import {
+  ArrowUpDown,
+  MoreVertical,
+  Pencil,
+  Trash2,
+  Upload,
+  Users,
+} from 'lucide-react'
 import { GroupsActionDropdown } from './actionDropdown'
 import GroupRowDropdown from './rowDropdown'
 import ActiveStudentRowDropdown from './rowDropdown'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 
 export const groupsColumns: ColumnDef<Group>[] = [
   {
@@ -145,12 +157,29 @@ export const groupsColumns: ColumnDef<Group>[] = [
     size: 12,
     minSize: 0,
     cell: ({ row }) => (
-      <div className='flex gap-0 flex-wrap'>
-        {row.getValue('students').map((student: { name: string }) => (
-          <Badge variant='outline' key={student.name}>
-            {student.name}
-          </Badge>
-        ))}
+      <div className=''>
+        {row.original.students.length === 0 ? (
+          '—'
+        ) : (
+          <Popover>
+            <PopoverTrigger>
+              <Badge>
+                {row.original.students.length}
+                <Users className='size-3 ml-1' />
+              </Badge>
+            </PopoverTrigger>
+            <PopoverContent>
+              <h4>{row.original.students.length} Schüler:innen</h4>
+              <ul>
+                {row.original.students.map((student) => (
+                  <li className='text-sm' key={student?.name}>
+                    {student?.name}
+                  </li>
+                ))}
+              </ul>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     ),
   },

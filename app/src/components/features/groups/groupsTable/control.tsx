@@ -86,7 +86,7 @@ export default function GroupsControl({
       <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Gruppe erfassen</DialogTitle>
+            <DialogTitle>Gruppe erstellen</DialogTitle>
             <CreateGroup onSuccess={closeModal} />
             {/* <CreateStudents onSuccess={closeModal} /> */}
           </DialogHeader>

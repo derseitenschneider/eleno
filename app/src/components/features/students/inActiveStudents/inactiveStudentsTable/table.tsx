@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/ui/data-table'
-import type { Student } from '@/types/types'
+import type { LessonHolder, Student } from '@/types/types'
 import {
   type RowSelectionState,
   type SortingState,
@@ -9,22 +9,25 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo, useState } from 'react'
-import useStudentsQuery from '../../studentsQueries'
+import { useState } from 'react'
 import { inactiveStudentscolumns } from './columns'
 import InactiveStudentsControl from './control'
-// import { studentsColumns } from "./columns"
-// import StudentsControl from "./control"
+type TInactiveHoldersTable = {
+  inactiveHolders: Array<LessonHolder>
+  isPending: boolean
+  isFetching: boolean
+  isError: boolean
+}
 
-export default function InactiveStudentsTable() {
-  const { data: students, isPending, isError, isFetching } = useStudentsQuery()
+export default function InactiveHoldersTable({
+  inactiveHolders,
+  isPending,
+  isFetching,
+  isError,
+}: TInactiveHoldersTable) {
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const inactiveStudents = useMemo(
-    () => students?.filter((student) => student.archive),
-    [students],
-  )
 
   const fuzzyFilter: FilterFn<Student> = (row, _, searchValue) => {
     const firstName = row.original.firstName
@@ -44,7 +47,7 @@ export default function InactiveStudentsTable() {
   }
 
   const table = useReactTable({
-    data: inactiveStudents,
+    data: inactiveHolders,
     columns: inactiveStudentscolumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),

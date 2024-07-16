@@ -1,23 +1,23 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet"
+} from '@/components/ui/sheet'
 import {
   Archive,
   CheckSquare2,
@@ -26,18 +26,21 @@ import {
   MoreVertical,
   Pencil,
   TableProperties,
-} from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+} from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import UpdateGroup from '../UpdateGroup.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
 
 type StudentRowDropdownProps = {
   groupId: number
 }
 
-type Modals = "EDIT" | "TODO" | "EXPORT" | "ARCHIVE" | null
+type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 
 export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
   const [openModal, setOpenModal] = useState<Modals>(null)
+  const { deactivateGroups, isDeactivating } = useDeactivateGroups()
   const navigate = useNavigate()
 
   function closeModal() {
@@ -57,7 +60,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => setOpenModal("EDIT")}
+              onClick={() => setOpenModal('EDIT')}
               className='flex items-center gap-2'
             >
               <Pencil className='h-4 w-4 text-primary' />
@@ -65,7 +68,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal("TODO")}
+              onClick={() => setOpenModal('TODO')}
               className='flex items-center gap-2'
             >
               <CheckSquare2 className='h-4 w-4 text-primary' />
@@ -73,7 +76,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal("EXPORT")}
+              onClick={() => setOpenModal('EXPORT')}
               className='flex items-center gap-2'
             >
               <FileDown className='h-4 w-4 text-primary' />
@@ -83,7 +86,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => { }}
               className='flex items-center gap-2'
             >
               <GraduationCap className='h-4 w-4 text-primary' />
@@ -91,7 +94,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => { }}
               className='flex items-center gap-2'
             >
               <TableProperties className='h-4 w-4 text-primary' />
@@ -101,7 +104,9 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => {
+                deactivateGroups([groupId])
+              }}
               className='flex items-center gap-2'
             >
               <Archive className='h-4 w-4 text-primary' />
@@ -111,15 +116,16 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         </DropdownMenu>
       </div>
 
-      <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Schüler:in bearbeiten</SheetTitle>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
+      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Gruppe bearbeiten</DialogTitle>
+          </DialogHeader>
+          <UpdateGroup groupId={groupId} onSuccess={closeModal} />
+        </DialogContent>
+      </Dialog>
 
-      <Dialog open={openModal === "TODO"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
@@ -127,7 +133,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "EXPORT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>

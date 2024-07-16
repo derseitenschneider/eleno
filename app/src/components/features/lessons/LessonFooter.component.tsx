@@ -79,23 +79,25 @@ function LessonFooter() {
   }
 
   return (
-    <footer className='fixed bottom-0 right-0 flex gap-4 px-8 py-5'>
-      <SearchStudentCombobox />
-      <Button
-        onMouseDown={handlerPreviousStudent}
-        size='icon'
-        className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-2px] transition-transform '
-      >
-        <ArrowLeft className='h-5 w-5 text-primary' />
-      </Button>
+    <footer className='fixed bottom-0 right-0 px-5 py-3'>
+      <div className='shadow-xl bg-background200/50 flex gap-3 p-2 backdrop-blur-sm rounded-full'>
+        <SearchStudentCombobox />
+        <Button
+          onMouseDown={handlerPreviousStudent}
+          size='icon'
+          className='bg-background50 rounded-full hover:bg-background50 hover:translate-y-[-1px] shadow-md transition-transform '
+        >
+          <ArrowLeft className='h-5 w-5 text-primary' />
+        </Button>
 
-      <Button
-        onMouseDown={handlerNextStudent}
-        size='icon'
-        className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-2px] transition-transform '
-      >
-        <ArrowRight className='h-5 w-5 text-primary' />
-      </Button>
+        <Button
+          onMouseDown={handlerNextStudent}
+          size='icon'
+          className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-1px] transition-transform '
+        >
+          <ArrowRight className='h-5 w-5 text-primary' />
+        </Button>
+      </div>
     </footer>
   )
 }
