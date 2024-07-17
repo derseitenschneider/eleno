@@ -1,7 +1,7 @@
 import type { LessonHolder } from '@/types/types'
-import useGroupsQuery from '../../groups/groupsQuery'
-import useStudentsQuery from '../studentsQueries'
-import InactiveHoldersTable from './inactiveStudentsTable/table'
+import useGroupsQuery from '../groups/groupsQuery'
+import useStudentsQuery from './studentsQueries'
+import InactiveHoldersTable from './inactiveLessonHolders/inactiveHoldersTable/table'
 
 export default function InactiveLessonHolders() {
   const {
@@ -31,7 +31,6 @@ export default function InactiveLessonHolders() {
 
   const allHolders = [...(studentHolders || []), ...groupHolders]
   const inactiveHolders = allHolders.filter((holder) => holder.holder.archive)
-  console.log(inactiveHolders)
 
   const isPending = isPendingStudents && isPendingGroups
   const isFetching = isFetchingStudents && isFetchingGroups

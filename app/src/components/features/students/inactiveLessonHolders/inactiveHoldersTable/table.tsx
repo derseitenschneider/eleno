@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { inactiveStudentscolumns } from './columns'
+import { inactiveHoldersColumns } from './columns'
 import InactiveStudentsControl from './control'
 type TInactiveHoldersTable = {
   inactiveHolders: Array<LessonHolder>
@@ -29,7 +29,7 @@ export default function InactiveHoldersTable({
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
-  const fuzzyFilter: FilterFn<Student> = (row, _, searchValue) => {
+  const fuzzyFilter: FilterFn<LessonHolder> = (row, _, searchValue) => {
     const firstName = row.original.firstName
     const lastName = row.original.lastName
     const instrument = row.original.instrument
@@ -48,7 +48,7 @@ export default function InactiveHoldersTable({
 
   const table = useReactTable({
     data: inactiveHolders,
-    columns: inactiveStudentscolumns,
+    columns: inactiveHoldersColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -56,7 +56,8 @@ export default function InactiveHoldersTable({
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
-    getRowId: (row) => String(row.id),
+    getRowId: (row) =>
+      row.type === 's' ? `s-${row.holder.id}` : `g-${row.holder.id}`,
     state: {
       sorting,
       rowSelection,
@@ -77,7 +78,7 @@ export default function InactiveHoldersTable({
       />
       <DataTable
         table={table}
-        columns={inactiveStudentscolumns}
+        columns={inactiveHoldersColumns}
         messageEmpty='Keine Schüler:innen vorhanden'
         isFetching={isFetching}
       />

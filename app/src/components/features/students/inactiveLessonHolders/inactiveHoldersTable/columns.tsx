@@ -1,17 +1,12 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import type { Group } from '@/types/types'
+import type { LessonHolder, Student } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, Users } from 'lucide-react'
-import GroupRowDropdown from './rowDropdown'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import InactiveStudentRowDropdown from './rowDropdown'
+import { Badge } from '@/components/ui/badge'
 
-export const groupsColumns: ColumnDef<Group>[] = [
+export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   {
     id: 'select',
     header: ({ table }) => {
@@ -39,7 +34,10 @@ export const groupsColumns: ColumnDef<Group>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    id: 'firstName',
+    accessorFn: (row) =>
+      row.type === 's' ? row.holder.firstName : row.holder.name,
+
     header: ({ column }) => {
       return (
         <Button
@@ -47,8 +45,74 @@ export const groupsColumns: ColumnDef<Group>[] = [
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Gruppennamen
+          Vorname
           <ArrowUpDown className='ml-2 size-4' />
+        </Button>
+      )
+    },
+    size: 12,
+    minSize: 0,
+    cell: ({ row, getValue }) => {
+      const isGroup = row.original.type === 'g'
+      const name =
+        row.original.type === 's'
+          ? row.original.holder.firstName
+          : row.original.holder.name
+
+      if (!isGroup) return getValue()
+
+      return (
+        <div className='col-span-2 flex gap-2 items-center'>
+          <Badge>
+            <Users className='size-3 mr-1' />
+            Gruppe
+          </Badge>
+          <span>{name}</span>
+        </div>
+      )
+    },
+  },
+  {
+    id: 'lastName',
+    accessorFn: (row) => (row.type === 's' ? row.holder.lastName : ''),
+    header: ({ column }) => {
+      return (
+        <Button
+          className='p-0'
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Nachname
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
+    size: 12,
+    minSize: 0,
+    cell: ({ row, getValue }) => {
+      const isGroup = row.original.type === 'g'
+      const name =
+        row.original.type === 's'
+          ? row.original.holder.firstName
+          : row.original.holder.name
+
+      if (!isGroup) return getValue()
+
+      return null
+    },
+  },
+  {
+    id: 'instrument',
+    accessorFn: (row) => (row.type === 's' ? row.holder.instrument : ''),
+    header: ({ column }) => {
+      return (
+        <Button
+          className='p-0'
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Instrument
+          <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       )
     },
@@ -71,7 +135,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <span>{row.getValue('dayOfLesson') || '–'}</span>,
+    cell: ({ row }) => <span>{row.original.holder.dayOfLesson || '–'}</span>,
   },
   {
     accessorKey: 'startOfLesson',
@@ -81,7 +145,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     size: 12,
     minSize: 0,
     cell: ({ row }) => {
-      const time = row.getValue('startOfLesson') as string
+      const time = row.original.holder.startOfLesson as string
       return <span className='text-right'>{time?.slice(0, 5) || '—'}</span>
     },
   },
@@ -93,7 +157,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     size: 12,
     minSize: 0,
     cell: ({ row }) => {
-      const time = row.getValue('endOfLesson') as string
+      const time = row.original.holder.endOfLesson as string
       return <span className='text-right'>{time?.slice(0, 5) || '–'}</span>
     },
   },
@@ -114,7 +178,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     size: 12,
     minSize: 0,
     cell: ({ row }) => {
-      const duration = row.getValue('durationMinutes') as number
+      const duration = row.original.holder.durationMinutes as number
       return (
         <span className='text-right'>
           {duration ? `${duration} Min.` : '–'}
@@ -138,50 +202,21 @@ export const groupsColumns: ColumnDef<Group>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <span>{row.getValue('location') || '–'}</span>,
-  },
-  {
-    accessorKey: 'students',
-    header: () => {
-      return <span>Schüler:innen</span>
-    },
-    size: 12,
-    minSize: 0,
-    cell: ({ row }) => (
-      <div className=''>
-        {row.original.students.length === 0 ? (
-          '—'
-        ) : (
-          <Popover>
-            <PopoverTrigger
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-            >
-              <Badge>
-                {row.original.students.length} Schüler:innen
-                {/* <Users className='size-3 ml-1' /> */}
-              </Badge>
-            </PopoverTrigger>
-            <PopoverContent>
-              <h4>{row.original.students.length} Schüler:innen</h4>
-              <ul>
-                {row.original.students.map((student) => (
-                  <li className='text-sm' key={student?.name}>
-                    {student?.name}
-                  </li>
-                ))}
-              </ul>
-            </PopoverContent>
-          </Popover>
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <span>{row.original.holder.location || '–'}</span>,
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      return <GroupRowDropdown groupId={row.original.id} />
+      return (
+        <InactiveStudentRowDropdown
+          holderId={
+            row.original.type === 's'
+              ? `s-${row.original.holder.id}`
+              : `g-${row.original.holder.id}`
+          }
+          studentId={row.original.id}
+        />
+      )
     },
   },
 ]

@@ -79,8 +79,8 @@ function LessonFooter() {
   }
 
   return (
-    <footer className='fixed bottom-0 right-0 px-5 py-3'>
-      <div className='shadow-xl bg-background200/50 flex gap-3 p-2 backdrop-blur-sm rounded-full'>
+    <footer className='fixed bottom-0 right-0 px-3 py-3'>
+      <div className='shadow-xl bg-background100/70 border border-background200 flex gap-3 p-2 backdrop-blur-sm rounded-full'>
         <SearchStudentCombobox />
         <Button
           onMouseDown={handlerPreviousStudent}

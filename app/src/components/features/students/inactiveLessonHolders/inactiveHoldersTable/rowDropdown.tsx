@@ -42,6 +42,7 @@ import { useReactivateStudents } from '../../useReactivateStudents'
 
 type StudentRowDropdownProps = {
   studentId: number
+  holderId: string
 }
 
 type Modals = 'EXPORT' | 'DELETE' | null
