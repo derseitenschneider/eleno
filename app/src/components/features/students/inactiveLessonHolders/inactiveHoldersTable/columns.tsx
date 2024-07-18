@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { LessonHolder } from '@/types/types'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, Row } from '@tanstack/react-table'
 import { ArrowUpDown, Users } from 'lucide-react'
 import InactiveStudentRowDropdown from './rowDropdown'
 import { Badge } from '@/components/ui/badge'
@@ -52,6 +52,9 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     },
     size: 12,
     minSize: 0,
+    meta: {
+      colSpan: (row: Row<LessonHolder>) => (row.original.type === 'g' ? 2 : 1),
+    },
     cell: ({ row, getValue }) => {
       const isGroup = row.original.type === 'g'
       const name =
@@ -210,7 +213,6 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
               ? `s-${row.original.holder.id}`
               : `g-${row.original.holder.id}`
           }
-          studentId={row.original.id}
         />
       )
     },

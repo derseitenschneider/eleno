@@ -12,21 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
 import { useStudents } from '@/services/context/StudentContext'
 import {
-  Archive,
-  CheckSquare2,
   FileDown,
-  GraduationCap,
   MoreVertical,
-  Pencil,
-  StepBack,
   TableProperties,
   Trash2,
   Undo2,
@@ -34,33 +23,36 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
-import AddTodo from '../../../todos/AddTodo.component'
 import DeleteStudents from '../../deleteStudents/DeleteStudents.component'
-import StudentForm from '../../StudentForm.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { useReactivateStudents } from '../../useReactivateStudents'
+import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 
 type StudentRowDropdownProps = {
-  studentId: number
   holderId: string
 }
 
 type Modals = 'EXPORT' | 'DELETE' | null
 
 export default function InactiveStudentRowDropdown({
-  studentId,
+  holderId,
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
   const { reactivateStudents } = useReactivateStudents()
+  const { reactivateGroups } = useReactivateGroups()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const { deactivateStudents, isDeactivating, isError } =
-    useDeactivateStudents()
   const navigate = useNavigate()
+  const isGroup = holderId.includes('g')
+  const id = Number.parseInt(holderId.split('-').at(1) || '')
 
   function closeModal() {
     setOpenModal(null)
   }
 
+  function reactivateHolder() {
+    if (!isGroup) reactivateStudents([id])
+    if (isGroup) reactivateGroups([id])
+  }
   return (
     <>
       <div className='text-right'>
@@ -74,7 +66,7 @@ export default function InactiveStudentRowDropdown({
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => reactivateStudents([studentId])}
+              onClick={reactivateHolder}
               className='flex items-center gap-2'
             >
               <Undo2 className='size-4 text-primary' />
@@ -87,19 +79,6 @@ export default function InactiveStudentRowDropdown({
             >
               <FileDown className='size-4 text-primary' />
               <span>Lektionsliste exportieren</span>
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              onClick={() => {
-                const newStudentIndex =
-                  activeSortedStudentIds.indexOf(studentId)
-                setCurrentStudentIndex(newStudentIndex)
-                navigate(`/lessons/${studentId}/repertoire`)
-              }}
-              className='flex items-center gap-2'
-            >
-              <TableProperties className='size-4 text-primary' />
-              <span>Zum Repertoire</span>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -120,7 +99,7 @@ export default function InactiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons holderId={studentId} />
+          {/* <ExportLessons holderId={holderId} /> */}
         </DialogContent>
       </Dialog>
 
@@ -129,7 +108,7 @@ export default function InactiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Schüler:in löschen</DialogTitle>
           </DialogHeader>
-          <DeleteStudents onSuccess={closeModal} studentIds={[studentId]} />
+          {/* <DeleteStudents onSuccess={closeModal} studentIds={[studentId]} /> */}
         </DialogContent>
       </Dialog>
     </>
