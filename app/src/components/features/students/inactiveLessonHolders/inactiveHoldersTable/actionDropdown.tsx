@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { ChevronsUpDown, Trash2, Undo2 } from 'lucide-react'
 import { useState } from 'react'
-import DeleteStudents from '../../deleteStudents/DeleteStudents.component'
+import DeleteHolders from '../../DeleteHolders.component'
 import { useReactivateStudents } from '../../useReactivateStudents'
 
 type ActiveStudentsActionDropdownProps = {
@@ -67,7 +67,7 @@ export function InactiveStudentsActionDropdown({
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Schüler:innen löschen</DialogTitle>
-          <DeleteStudents
+          <DeleteHolders
             studentIds={selectedStudentIds}
             onSuccess={closeModal}
           />

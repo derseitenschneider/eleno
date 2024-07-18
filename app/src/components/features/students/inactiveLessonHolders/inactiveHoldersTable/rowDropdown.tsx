@@ -23,7 +23,7 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
-import DeleteStudents from '../../deleteStudents/DeleteStudents.component'
+import DeleteHolders from '../../DeleteHolders.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { useReactivateStudents } from '../../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
@@ -49,7 +49,7 @@ export default function InactiveStudentRowDropdown({
     setOpenModal(null)
   }
 
-  function reactivateHolder() {
+  function reactivateHolders() {
     if (!isGroup) reactivateStudents([id])
     if (isGroup) reactivateGroups([id])
   }
@@ -66,7 +66,7 @@ export default function InactiveStudentRowDropdown({
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={reactivateHolder}
+              onClick={reactivateHolders}
               className='flex items-center gap-2'
             >
               <Undo2 className='size-4 text-primary' />
@@ -105,10 +105,7 @@ export default function InactiveStudentRowDropdown({
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Schüler:in löschen</DialogTitle>
-          </DialogHeader>
-          {/* <DeleteStudents onSuccess={closeModal} studentIds={[studentId]} /> */}
+          <DeleteHolders onSuccess={closeModal} holderIds={[holderId]} />
         </DialogContent>
       </Dialog>
     </>
