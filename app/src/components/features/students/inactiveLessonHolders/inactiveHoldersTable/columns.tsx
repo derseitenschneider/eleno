@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import type { LessonHolder, Student } from '@/types/types'
+import type { LessonHolder } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, Users } from 'lucide-react'
 import InactiveStudentRowDropdown from './rowDropdown'
@@ -91,10 +91,6 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     minSize: 0,
     cell: ({ row, getValue }) => {
       const isGroup = row.original.type === 'g'
-      const name =
-        row.original.type === 's'
-          ? row.original.holder.firstName
-          : row.original.holder.name
 
       if (!isGroup) return getValue()
 
