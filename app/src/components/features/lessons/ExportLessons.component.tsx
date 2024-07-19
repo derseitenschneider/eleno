@@ -1,5 +1,5 @@
 import { createElement, useState } from 'react'
-import type { Student } from '../../../types/types'
+import type { LessonHolder } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
@@ -10,20 +10,16 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useQueryClient } from '@tanstack/react-query'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 
 type ExportLessonsProps = {
-  holderId: number
+  holder: LessonHolder
 }
 
-function ExportLessons({ holderId }: ExportLessonsProps) {
-  const queryClient = useQueryClient()
-  const students = queryClient.getQueryData(['students']) as Array<Student>
-
+function ExportLessons({ holder }: ExportLessonsProps) {
   const { userLocale } = useUserLocale()
 
   const [startDate, setStartDate] = useState<Date>()
@@ -34,23 +30,26 @@ function ExportLessons({ holderId }: ExportLessonsProps) {
   const [isLoading, setIsLoading] = useState(false)
 
   const { refetch: fetchAllLessons } = useAllLessons(
-    holderId,
+    holder.holder.id,
+    holder.type,
     startDate,
     endDate,
   )
   const { refetch: fetchAllLessonsCSV } = useAllLessonsCSV(
-    holderId,
+    holder.holder.id,
+    holder.type,
     startDate,
     endDate,
   )
 
   const canDownload = (startDate && endDate) || selectAll
 
-  const currentStudent = students?.find(
-    (student) => student.id === Number(studentId),
-  )
-  const studentFullName = `${currentStudent?.firstName} ${currentStudent?.lastName}`
-  const studentFullNameDashes = studentFullName
+  const holderFullName =
+    holder.type === 's'
+      ? `${holder.holder.firstName} ${holder.holder.lastName}`
+      : holder.holder.name
+
+  const holderFullNameDashes = holderFullName
     .split(' ')
     .map((part) => part.toLowerCase())
     .join('-')
@@ -100,7 +99,7 @@ function ExportLessons({ holderId }: ExportLessonsProps) {
       link.href = url
       link.setAttribute(
         'download',
-        title ? `${title}.csv` : `lektionsliste-${studentFullNameDashes}.csv`,
+        title ? `${title}.csv` : `lektionsliste-${holderFullNameDashes}.csv`,
       )
       link.style.display = 'none'
       document.body.appendChild(link)
@@ -129,7 +128,7 @@ function ExportLessons({ holderId }: ExportLessonsProps) {
       const props: PDFProps = {
         title,
         lessons: allLessons,
-        studentFullName,
+        studentFullName: holderFullName,
       }
       const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
 
@@ -138,7 +137,7 @@ function ExportLessons({ holderId }: ExportLessonsProps) {
       link.href = url
       link.setAttribute(
         'download',
-        title ? `${title}.pdf` : `lektionsliste-${studentFullNameDashes}.pdf`,
+        title ? `${title}.pdf` : `lektionsliste-${holderFullNameDashes}.pdf`,
       )
       link.style.display = 'none'
 
@@ -158,9 +157,10 @@ function ExportLessons({ holderId }: ExportLessonsProps) {
   return (
     <div className='w-[500px]'>
       <p>
-        Exportiere die Lektionsliste von <b>{studentFullName}</b>. Du kannst
-        entweder einen bestimmten Zeitraum wählen oder sämtliche erfassten
-        Lektionen exportieren.
+        Exportiere die Lektionsliste von{' '}
+        <b className='text-primary'>{holderFullName}</b>. Du kannst entweder
+        einen bestimmten Zeitraum wählen oder sämtliche erfassten Lektionen
+        exportieren.
       </p>
       <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>

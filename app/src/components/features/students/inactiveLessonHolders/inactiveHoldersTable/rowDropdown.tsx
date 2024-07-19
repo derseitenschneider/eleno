@@ -27,23 +27,24 @@ import DeleteHolders from '../../DeleteHolders.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { useReactivateStudents } from '../../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
+import { LessonHolder } from '@/types/types'
 
 type StudentRowDropdownProps = {
-  holderId: string
+  holder: LessonHolder
 }
 
 type Modals = 'EXPORT' | 'DELETE' | null
 
 export default function InactiveStudentRowDropdown({
-  holderId,
+  holder,
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
   const { reactivateStudents } = useReactivateStudents()
   const { reactivateGroups } = useReactivateGroups()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const navigate = useNavigate()
-  const isGroup = holderId.includes('g')
-  const id = Number.parseInt(holderId.split('-').at(1) || '')
+  const isGroup = holder.type === 'g'
+  const id = holder.holder.id
 
   function closeModal() {
     setOpenModal(null)
@@ -99,13 +100,16 @@ export default function InactiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          {/* <ExportLessons holderId={holderId} /> */}
+          <ExportLessons holder={holder} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
-          <DeleteHolders onSuccess={closeModal} holderIds={[holderId]} />
+          <DeleteHolders
+            onSuccess={closeModal}
+            holderIds={[`${holder.type}-${holder.holder.id}`]}
+          />
         </DialogContent>
       </Dialog>
     </>

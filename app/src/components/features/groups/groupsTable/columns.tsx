@@ -48,7 +48,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Gruppennamen
-          <ArrowUpDown className='ml-2 size-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -65,7 +65,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Tag
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -107,7 +107,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Dauer
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -132,7 +132,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Unterrichtsort
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -158,10 +158,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
                 e.stopPropagation()
               }}
             >
-              <Badge>
-                {row.original.students.length} Schüler:innen
-                {/* <Users className='size-3 ml-1' /> */}
-              </Badge>
+              <Badge>{row.original.students.length} Schüler:innen</Badge>
             </PopoverTrigger>
             <PopoverContent>
               <h4>{row.original.students.length} Schüler:innen</h4>

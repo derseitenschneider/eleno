@@ -49,13 +49,15 @@ export function useAllLessonsPerYear(
 }
 
 export function useAllLessons(
-  studentId: number,
+  holderId: number,
+  holderType: 's' | 'g',
   startDate?: Date,
   endDate?: Date,
 ) {
   const result = useQuery({
-    queryKey: ['all-lessons', { studentId }],
-    queryFn: () => fetchAllLessonsApi({ studentId, startDate, endDate }),
+    queryKey: ['all-lessons', { holder: `${holderType}-${holderId}` }],
+    queryFn: () =>
+      fetchAllLessonsApi({ holderId, holderType, startDate, endDate }),
     staleTime: 0,
     enabled: false,
   })
@@ -64,13 +66,15 @@ export function useAllLessons(
 }
 
 export function useAllLessonsCSV(
-  studentId: number,
+  holderId: number,
+  holderType: 's' | 'g',
   startDate?: Date,
   endDate?: Date,
 ) {
   const result = useQuery({
-    queryKey: ['all-lessons-csv', { studentId }],
-    queryFn: () => fetchAllLessonsCSVApi({ studentId, startDate, endDate }),
+    queryKey: ['all-lessons-csv', { holder: `${holderType}-${holderId}` }],
+    queryFn: () =>
+      fetchAllLessonsCSVApi({ holderId, holderType, startDate, endDate }),
     staleTime: 0,
     enabled: false,
   })

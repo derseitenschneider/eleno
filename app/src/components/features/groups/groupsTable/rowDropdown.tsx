@@ -86,7 +86,9 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => { }}
+              onClick={() => {
+                navigate(`/lessons/g-${groupId}`)
+              }}
               className='flex items-center gap-2'
             >
               <GraduationCap className='h-4 w-4 text-primary' />
@@ -94,7 +96,9 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => { }}
+              onClick={() => {
+                navigate(`/lessons/g-${groupId}/repertoire`)
+              }}
               className='flex items-center gap-2'
             >
               <TableProperties className='h-4 w-4 text-primary' />

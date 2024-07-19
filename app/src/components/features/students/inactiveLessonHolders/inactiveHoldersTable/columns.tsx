@@ -46,14 +46,14 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Vorname
-          <ArrowUpDown className='ml-2 size-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
     size: 12,
     minSize: 0,
     meta: {
-      colSpan: (row: Row<LessonHolder>) => (row.original.type === 'g' ? 2 : 1),
+      colSpan: (row: Row<LessonHolder>) => (row.original.type === 'g' ? 3 : 1),
     },
     cell: ({ row, getValue }) => {
       const isGroup = row.original.type === 'g'
@@ -86,7 +86,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nachname
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -114,12 +114,15 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Instrument
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
     size: 12,
     minSize: 0,
+    meta: {
+      colSpan: (row: Row<LessonHolder>) => (row.original.type === 'g' ? 0 : 1),
+    },
   },
   {
     accessorKey: 'dayOfLesson',
@@ -131,7 +134,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Tag
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -173,7 +176,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Dauer
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -198,7 +201,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Unterrichtsort
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -209,15 +212,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      return (
-        <InactiveStudentRowDropdown
-          holderId={
-            row.original.type === 's'
-              ? `s-${row.original.holder.id}`
-              : `g-${row.original.holder.id}`
-          }
-        />
-      )
+      return <InactiveStudentRowDropdown holder={row.original} />
     },
   },
 ]

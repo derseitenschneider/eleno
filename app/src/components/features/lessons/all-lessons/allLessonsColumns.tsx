@@ -1,38 +1,39 @@
-import { Button } from "@/components/ui/button"
-import parse from "html-react-parser"
+import { Button } from '@/components/ui/button'
+import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import type { Lesson } from "@/types/types"
-import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from "lucide-react"
-import { useState } from "react"
-import EditLesson from "../UpdateLesson.component"
-import DeleteLesson from "../DeleteLesson.component"
-import ShareHomework from "../ShareHomework.component"
+} from '@/components/ui/dropdown-menu'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson } from '@/types/types'
+import type { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from 'lucide-react'
+import { useState } from 'react'
+import EditLesson from '../UpdateLesson.component'
+import DeleteLesson from '../DeleteLesson.component'
+import ShareHomework from '../ShareHomework.component'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {
-    accessorKey: "date",
+    accessorKey: 'date',
     header: ({ column }) => {
       return (
         <Button
+          className='p-0'
           variant='ghost'
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Datum
-          <ArrowUpDown className='ml-2 size-4' />
+          <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
@@ -40,47 +41,47 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
-      const date = row.getValue("date") as Date
+      const date = row.getValue('date') as Date
       const formatted = date.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
       })
       return <div className='[&_*]:!text-foreground'>{formatted}</div>
     },
   },
   {
-    accessorKey: "lessonContent",
-    header: "Lektion",
+    accessorKey: 'lessonContent',
+    header: 'Lektion',
     size: 45,
     minSize: 0,
     cell: ({ row }) => {
       return (
         <div className='[&_*]:!text-foreground has-list'>
-          {parse(row.getValue("lessonContent") || "")}
+          {parse(row.getValue('lessonContent') || '')}
         </div>
       )
     },
   },
   {
-    accessorKey: "homework",
-    header: "Hausaufgaben",
+    accessorKey: 'homework',
+    header: 'Hausaufgaben',
     size: 45,
     minSize: 0,
     cell: ({ row }) => {
       return (
         <div className='![&>*]text-foreground has-list'>
-          {parse(row.getValue("homework") || "")}
+          {parse(row.getValue('homework') || '')}
         </div>
       )
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     size: 5,
     minSize: 0,
     cell: ({ row }) => {
-      const [openModal, setOpenModal] = useState<"EDIT" | "SHARE" | "DELETE">()
+      const [openModal, setOpenModal] = useState<'EDIT' | 'SHARE' | 'DELETE'>()
       function closeModal() {
         setOpenModal(undefined)
       }
@@ -97,7 +98,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
 
               <DropdownMenuContent>
                 <DropdownMenuItem
-                  onClick={() => setOpenModal("EDIT")}
+                  onClick={() => setOpenModal('EDIT')}
                   className='flex items-center gap-2'
                 >
                   <Pencil className='h-4 w-4 text-primary' />
@@ -105,7 +106,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
-                  onClick={() => setOpenModal("SHARE")}
+                  onClick={() => setOpenModal('SHARE')}
                   className='flex items-center gap-2'
                 >
                   <Upload className='h-4 w-4 text-primary' />
@@ -115,7 +116,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem
-                  onClick={() => setOpenModal("DELETE")}
+                  onClick={() => setOpenModal('DELETE')}
                   className='flex items-center gap-2'
                 >
                   <Trash2 className='h-4 w-4 text-warning' />
@@ -125,7 +126,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
             </DropdownMenu>
           </div>
 
-          <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
+          <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Lektion bearbeiten</DialogTitle>
@@ -137,7 +138,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
             </DialogContent>
           </Dialog>
 
-          <Dialog open={openModal === "SHARE"} onOpenChange={closeModal}>
+          <Dialog open={openModal === 'SHARE'} onOpenChange={closeModal}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Hausaufgaben teilen</DialogTitle>
@@ -146,7 +147,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
             </DialogContent>
           </Dialog>
 
-          <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
+          <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Lektion löschen</DialogTitle>

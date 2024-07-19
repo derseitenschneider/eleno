@@ -24,27 +24,30 @@ export const fetchLessonsByYearApi = async (
 }
 
 export type FetchAllLessonProps = {
-  studentId: number
+  holderId: number
+  holderType: 's' | 'g'
   startDate?: Date
   endDate?: Date
 }
 export const fetchAllLessonsApi = async ({
-  studentId,
+  holderId,
+  holderType,
   startDate,
   endDate,
 }: FetchAllLessonProps) => {
+  const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
   let query = supabase
     .from('lessons')
     .select('date, lessonContent, homework, id')
-    .eq('studentId', studentId)
+    .eq(idField, holderId)
 
   query = startDate
     ? query
-        .gte('date', uctStartDate.toISOString())
-        .lte('date', uctEndDate?.toISOString())
-        .order('date', { ascending: false })
+      .gte('date', uctStartDate.toISOString())
+      .lte('date', uctEndDate?.toISOString())
+      .order('date', { ascending: false })
     : query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
@@ -54,28 +57,31 @@ export const fetchAllLessonsApi = async ({
 }
 
 export type FetchAllLessonsCSVProps = {
-  studentId: number
+  holderId: number
+  holderType: string
   startDate?: Date
   endDate?: Date
 }
 
 export const fetchAllLessonsCSVApi = async ({
-  studentId,
+  holderId,
+  holderType,
   startDate,
   endDate,
 }: FetchAllLessonsCSVProps) => {
+  const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
 
   let query = supabase
     .from('lessons')
     .select('Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework')
-    .eq('studentId', studentId)
+    .eq(idField, holderId)
 
   query = startDate
     ? query
-        .gte('date', uctStartDate?.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate?.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
