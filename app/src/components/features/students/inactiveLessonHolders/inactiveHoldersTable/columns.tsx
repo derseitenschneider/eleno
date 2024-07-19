@@ -65,7 +65,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
       if (!isGroup) return getValue()
 
       return (
-        <div className='col-span-2 flex gap-2 items-center'>
+        <div className='flex gap-2 items-center'>
           <Badge>
             <Users className='size-3 mr-1' />
             Gruppe
@@ -92,12 +92,15 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     },
     size: 12,
     minSize: 0,
+    meta: {
+      colSpan: (row: Row<LessonHolder>) => (row.original.type === 'g' ? 0 : 1),
+    },
     cell: ({ row, getValue }) => {
       const isGroup = row.original.type === 'g'
 
-      if (!isGroup) return getValue()
+      if (isGroup) return null
 
-      return null
+      return getValue()
     },
   },
   {

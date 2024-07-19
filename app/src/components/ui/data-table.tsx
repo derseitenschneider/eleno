@@ -57,9 +57,9 @@ export function DataTable<TData, TValue>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                 </TableHead>
               )
             })}
@@ -78,14 +78,18 @@ export function DataTable<TData, TValue>({
               )}
               onClick={() => toggleSelection(row)}
             >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  colSpan={cell.column.columnDef.meta?.colSpan?.(row) ?? 1}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+              {row.getVisibleCells().map((cell) => {
+                if (cell.column.columnDef.meta?.colSpan?.(row) === 0)
+                  return null
+                return (
+                  <TableCell
+                    key={cell.id}
+                    colSpan={cell.column.columnDef.meta?.colSpan?.(row) ?? 1}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                )
+              })}
             </TableRow>
           ))
         ) : (
