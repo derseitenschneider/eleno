@@ -106,6 +106,28 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
           löschen?
         </p>
       )}
+      {hasOnlyStudents && isSingularStudent && (
+        <p>
+          Möchtest du{' '}
+          <span className='font-semibold text-primary'>
+            {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName}
+          </span>{' '}
+          und alle zugehörigen Daten löschen?
+        </p>
+      )}
+      {hasOnlyStudents && !isSingularStudent && (
+        <p>
+          Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten
+          löschen?
+        </p>
+      )}
+
+      {hasStudentsAndGroups && (
+        <p>
+          Möchtest du die ausgewählten Schüler:innen und Gruppen und alle
+          zugehörigen Daten löschen?
+        </p>
+      )}
       <div className='flex justify-end gap-4 mt-4'>
         <Button size='sm' variant='outline' onClick={onSuccess}>
           Abbrechen
