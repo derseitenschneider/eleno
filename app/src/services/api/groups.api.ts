@@ -2,7 +2,10 @@ import supabase from './supabase'
 import type { Group, GroupPartial } from '@/types/types'
 
 export const fetchGroupsApi = async (): Promise<Array<Group>> => {
-  const { data: groups, error } = await supabase.from('groups').select('*')
+  const { data: groups, error } = await supabase
+    .from('groups')
+    .select('*')
+    .order('name')
 
   if (error) throw new Error(error.message)
   return groups as Array<Group>

@@ -12,22 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useStudents } from '@/services/context/StudentContext'
-import {
-  FileDown,
-  MoreVertical,
-  TableProperties,
-  Trash2,
-  Undo2,
-} from 'lucide-react'
+import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import DeleteHolders from '../../DeleteHolders.component'
-import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { useReactivateStudents } from '../../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
-import { LessonHolder } from '@/types/types'
+import type { LessonHolder } from '@/types/types'
 import { toast } from 'sonner'
 
 type StudentRowDropdownProps = {
@@ -105,7 +96,11 @@ export default function InactiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons holder={holder} />
+          <ExportLessons
+            onSuccess={closeModal}
+            holderId={holder.holder.id}
+            holderType={holder.type}
+          />
         </DialogContent>
       </Dialog>
 

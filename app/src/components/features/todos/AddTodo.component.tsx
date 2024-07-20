@@ -1,63 +1,37 @@
-import { useEffect, useState } from "react"
-import { toast } from "react-toastify"
-import { useTodos } from "../../../services/context/TodosContext"
-import { useUser } from "../../../services/context/UserContext"
-import fetchErrorToast from "../../../hooks/fetchErrorToast"
-import type { Todo } from "../../../types/types"
-import { DayPicker } from "@/components/ui/daypicker.component"
-import { Button } from "@/components/ui/button"
-import AddStudentCombobox from "../students/AddStudentCombobox.component"
-import { Input } from "@/components/ui/input"
-import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useParams } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { useTodos } from '../../../services/context/TodosContext'
+import { useUser } from '../../../services/context/UserContext'
+import fetchErrorToast from '../../../hooks/fetchErrorToast'
+import type { TodoItem } from '../../../types/types'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Button } from '@/components/ui/button'
+import AddHolderCombobox from '../students/AddHolderCombobox.component'
+import { Input } from '@/components/ui/input'
+import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useCreateTodoItem } from './useCreateTodoItem'
 
 interface AddTodoProps {
   onCloseModal?: () => void
-  studentId: number
+  holderId?: number
+  holderType?: 's' | 'g'
 }
 
-function AddTodo({ onCloseModal, studentId }: AddTodoProps) {
-  const { user } = useUser()
+function AddTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
+  const { createTodoItem, isCreating } = useCreateTodoItem()
   const { saveTodo } = useTodos()
-  const [errorMessage, setErrorMessage] = useState("")
-  const [text, setText] = useState("")
+  const [errorMessage, setErrorMessage] = useState('')
+  const [text, setText] = useState('')
   const [due, setDue] = useState<Date>()
-  const [selectedStudentId, setSelectedStudentId] = useState<number>()
+  const [selectedHolderId, setSelectedHolderId] = useState<string>()
   const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
-    studentId && setSelectedStudentId(Number(studentId))
-  }, [studentId])
+    holderId && setSelectedHolderId(`${holderType}-${holderId}`)
+  }, [holderType, holderId])
 
-  const onSaveHandler = async () => {
-    if (!text) {
-      setErrorMessage("Text fehlt.")
-      return
-    }
-    setIsPending(true)
-    const newTodo: Todo = {
-      text,
-      due,
-      studentId: selectedStudentId,
-      userId: user?.id || "",
-      completed: false,
-    }
-    try {
-      await saveTodo(newTodo)
-      toast("Todo erstellt")
-      setText("")
-      setDue(undefined)
-      setSelectedStudentId(undefined)
-      toast.success("Änderungen gespeichert.")
-      onCloseModal?.()
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-      onCloseModal?.()
-    }
-  }
+  const onSaveHandler = async () => { }
 
   return (
     <div>
@@ -76,15 +50,15 @@ function AddTodo({ onCloseModal, studentId }: AddTodoProps) {
               required
               onChange={(e) => {
                 setText(e.target.value)
-                setErrorMessage("")
+                setErrorMessage('')
               }}
               autoComplete='off'
               disabled={isPending}
             />
           </div>
-          <AddStudentCombobox
+          <AddHolderCombobox
             disabled={isPending}
-            studentId={selectedStudentId}
+            studentId={selectedHolderId}
           />
           <div className='flex items-center'>
             <DayPicker disabled={isPending} date={due} setDate={setDue} />

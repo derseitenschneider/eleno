@@ -1,5 +1,5 @@
 import { createElement, useState } from 'react'
-import type { LessonHolder } from '../../../types/types'
+import type { Group, LessonHolder, Student } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
@@ -14,13 +14,24 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ExportLessonsProps = {
-  holder: LessonHolder
+  holderId: number
+  holderType: 's' | 'g'
+  onSuccess: () => void
 }
 
-function ExportLessons({ holder }: ExportLessonsProps) {
+function ExportLessons({
+  holderId,
+  holderType,
+  onSuccess,
+}: ExportLessonsProps) {
+  const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
+
+  const allStudents = queryClient.getQueryData(['students']) as Array<Student>
+  const allGroups = queryClient.getQueryData(['groups']) as Array<Group>
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
@@ -29,25 +40,37 @@ function ExportLessons({ holder }: ExportLessonsProps) {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const selectedHolder =
+    holderType === 's'
+      ? ({
+        type: 's',
+        holder: allStudents.find((student) => student.id === holderId),
+      } as LessonHolder)
+      : ({
+        type: 'g',
+        holder: allGroups.find((group) => group.id === holderId),
+      } as LessonHolder)
+
   const { refetch: fetchAllLessons } = useAllLessons(
-    holder.holder.id,
-    holder.type,
+    holderId,
+    holderType,
     startDate,
     endDate,
   )
   const { refetch: fetchAllLessonsCSV } = useAllLessonsCSV(
-    holder.holder.id,
-    holder.type,
+    holderId,
+    holderType,
     startDate,
     endDate,
   )
 
   const canDownload = (startDate && endDate) || selectAll
+  if (!selectedHolder) return null
 
   const holderFullName =
-    holder.type === 's'
-      ? `${holder.holder.firstName} ${holder.holder.lastName}`
-      : holder.holder.name
+    selectedHolder.type === 's'
+      ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
+      : selectedHolder.holder.name
 
   const holderFullNameDashes = holderFullName
     .split(' ')
@@ -108,6 +131,7 @@ function ExportLessons({ holder }: ExportLessonsProps) {
       toast.success('Datei heruntergeladen.')
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
+      onSuccess()
     } catch (e) {
       fetchErrorToast()
     } finally {
@@ -147,6 +171,7 @@ function ExportLessons({ holder }: ExportLessonsProps) {
       toast.success('Datei heruntergeladen.')
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
+      onSuccess()
     } catch (e) {
       fetchErrorToast()
     } finally {

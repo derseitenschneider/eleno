@@ -1,10 +1,9 @@
-import { fetchGroupsApi } from "@/services/api/groups.api"
-import { useUser } from "@/services/context/UserContext"
-import { useQuery } from "@tanstack/react-query"
+import { fetchGroupsApi } from '@/services/api/groups.api'
+import { useQuery } from '@tanstack/react-query'
 
 export default function useGroupsQuery() {
   const result = useQuery({
-    queryKey: ["groups"],
+    queryKey: ['groups'],
     queryFn: fetchGroupsApi,
     staleTime: 1000 * 60 * 60 * 24,
   })

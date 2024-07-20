@@ -52,7 +52,7 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
-                  className='text-foreground/75 py-2'
+                  className='[&_*]:text-foreground/75 py-2'
                 >
                   {header.isPlaceholder
                     ? null

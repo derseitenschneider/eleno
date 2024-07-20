@@ -380,36 +380,46 @@ export type Database = {
       }
       todos: {
         Row: {
-          completed: boolean | null
+          completed: boolean
           created_at: string | null
           due: string | null
+          groupId: number | null
           id: number
-          student_id: number | null
+          studentId: number | null
           text: string
           user_id: string
         }
         Insert: {
-          completed?: boolean | null
+          completed?: boolean
           created_at?: string | null
           due?: string | null
+          groupId?: number | null
           id?: number
-          student_id?: number | null
+          studentId?: number | null
           text: string
-          user_id: string
+          user_id?: string
         }
         Update: {
-          completed?: boolean | null
+          completed?: boolean
           created_at?: string | null
           due?: string | null
+          groupId?: number | null
           id?: number
-          student_id?: number | null
+          studentId?: number | null
           text?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "todos_student_id_fkey"
-            columns: ["student_id"]
+            foreignKeyName: "todos_groupid_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "todos_studentId_fkey"
+            columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
             referencedColumns: ["id"]

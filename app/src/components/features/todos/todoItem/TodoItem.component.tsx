@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDateToday } from '../../../../services/context/DateTodayContext'
 import { useStudents } from '../../../../services/context/StudentContext'
-import type { Todo } from '../../../../types/types'
+import type { TodoItem } from '../../../../types/types'
 import {
   formatDateToDatabase,
   formatDateToDisplay,
@@ -21,7 +21,7 @@ import DeleteTodos from '../deleteTodos/DeleteTodos.component'
 import EditTodo from '../editTodo/EditTodo.component'
 
 interface TodoItemProps {
-  todo: Todo
+  todo: TodoItem
   type: 'open' | 'completed'
   children?: React.ReactNode
 }

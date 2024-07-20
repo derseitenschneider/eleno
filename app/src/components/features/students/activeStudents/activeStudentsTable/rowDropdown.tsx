@@ -12,12 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
 import { useStudents } from '@/services/context/StudentContext'
 import {
   Archive,
@@ -32,7 +26,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import AddTodo from '../../../todos/AddTodo.component'
-import StudentForm from '../../StudentForm.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 
@@ -47,8 +40,7 @@ export default function ActiveStudentRowDropdown({
 }: StudentRowDropdownProps) {
   const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const { deactivateStudents, isDeactivating, isError } =
-    useDeactivateStudents()
+  const { deactivateStudents } = useDeactivateStudents()
   const navigate = useNavigate()
 
   function closeModal() {
@@ -138,19 +130,6 @@ export default function ActiveStudentRowDropdown({
           <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
-      {/* <Sheet open={openModal === "EDIT"} onOpenChange={closeModal}> */}
-      {/*   <SheetContent> */}
-      {/*     <SheetHeader> */}
-      {/*       <SheetTitle>Schüler:in bearbeiten</SheetTitle> */}
-      {/*     </SheetHeader> */}
-      {/*     <StudentForm */}
-      {/*       onSuccess={() => { */}
-      {/*         closeModal() */}
-      {/*       }} */}
-      {/*       studentId={studentId} */}
-      {/*     /> */}
-      {/*   </SheetContent> */}
-      {/* </Sheet> */}
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent>
@@ -166,7 +145,11 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons holderId={studentId} />
+          <ExportLessons
+            onSuccess={closeModal}
+            holderId={studentId}
+            holderType='s'
+          />
         </DialogContent>
       </Dialog>
     </>

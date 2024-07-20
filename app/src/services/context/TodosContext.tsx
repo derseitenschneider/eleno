@@ -4,7 +4,7 @@ import {
   useContext,
   useMemo,
   useState,
-} from "react"
+} from 'react'
 import {
   completeTodo,
   deleteAllCompletedTodos,
@@ -12,32 +12,32 @@ import {
   reactivateTodo,
   saveTodo,
   updateTodo,
-} from "../api/todos.api"
-import type { ContextTypeTodos, Todo } from "../../types/types"
-import { useDateToday } from "./DateTodayContext"
-import { formatDateToDatabase } from "../../utils/formateDate"
+} from '../api/todos.api'
+import type { ContextTypeTodos, TodoItem } from '../../types/types'
+import { useDateToday } from './DateTodayContext'
+import { formatDateToDatabase } from '../../utils/formateDate'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
-  setTodos: () => {},
+  setTodos: () => { },
   overdueTodos: [],
-  saveTodo: () => new Promise(() => {}),
-  deleteTodo: () => new Promise(() => {}),
-  completeTodo: () => new Promise(() => {}),
-  reactivateTodo: () => new Promise(() => {}),
-  deleteAllCompleted: () => new Promise(() => {}),
-  updateTodo: () => new Promise(() => {}),
+  saveTodo: () => new Promise(() => { }),
+  deleteTodo: () => new Promise(() => { }),
+  completeTodo: () => new Promise(() => { }),
+  reactivateTodo: () => new Promise(() => { }),
+  deleteAllCompleted: () => new Promise(() => { }),
+  updateTodo: () => new Promise(() => { }),
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {
   const { dateToday } = useDateToday()
-  const [todos, setTodos] = useState<Todo[]>([])
+  const [todos, setTodos] = useState<TodoItem[]>([])
 
   const overdueTodos = todos.filter(
     (todo) => todo.due < formatDateToDatabase(dateToday) && !todo.completed,
   )
 
-  const saveTodo = useCallback(async (newTodo: Todo) => {
+  const saveTodo = useCallback(async (newTodo: TodoItem) => {
     try {
       const data = await saveTodo(newTodo)
       setTodos((prev) => [...prev, data])
@@ -81,7 +81,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const updateTodo = useCallback(async (editedTodo: Todo) => {
+  const updateTodo = useCallback(async (editedTodo: TodoItem) => {
     try {
       await updateTodo(editedTodo)
       setTodos((prev) => {

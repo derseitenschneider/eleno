@@ -13,12 +13,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
-import {
   Archive,
   CheckSquare2,
   FileDown,
@@ -31,6 +25,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UpdateGroup from '../UpdateGroup.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
+import ExportLessons from '../../lessons/ExportLessons.component'
 
 type StudentRowDropdownProps = {
   groupId: number
@@ -40,7 +35,7 @@ type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 
 export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const { deactivateGroups, isDeactivating } = useDeactivateGroups()
+  const { deactivateGroups } = useDeactivateGroups()
   const navigate = useNavigate()
 
   function closeModal() {
@@ -141,6 +136,11 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
+            <ExportLessons
+              onSuccess={closeModal}
+              holderId={groupId}
+              holderType='g'
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>

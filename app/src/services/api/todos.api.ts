@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { Todo } from "../../types/types"
-import supabase from "./supabase"
+import type { PartialTodoItem, TodoItem } from '../../types/types'
+import supabase from './supabase'
 
-export const fetchTodos = async (userId: string) => {
+export const fetchTodosApi = async (userId: string) => {
   const { data: todos, error } = await supabase
-    .from("todos")
-    .select("*")
-    .eq("user_id", userId)
+    .from('todos')
+    .select('*')
+    .eq('user_id', userId)
   if (error) {
     throw new Error(error.message)
   }
@@ -17,34 +17,27 @@ export const fetchTodos = async (userId: string) => {
   }))
 }
 
-export const saveTodo = async (todo: Todo): Promise<Todo> => {
-  const { text, due, studentId: student_id, completed, userId: user_id } = todo
-  const { data, error } = await supabase
-    .from("todos")
-    .insert({ text, due, student_id, completed, user_id })
+export const createTodoApi = async (todo: PartialTodoItem) => {
+  const { data: newTodo, error } = await supabase
+    .from('todos')
+    .insert(todo)
     .select()
+    .single()
+
   if (error) throw new Error(error.message)
-  const [res] = data
-  const newTodo: Todo = {
-    studentId: res.student_id,
-    due: res.due,
-    text: res.text,
-    id: res.id,
-    completed: res.completed,
-    userId: res.user_id,
-  }
+
   return newTodo
 }
 
-export const completeTodo = async (todoId: number) => {
+export const completeTodoApi = async (todoId: number) => {
   const { error } = await supabase
-    .from("todos")
+    .from('todos')
     .update({ completed: true })
-    .eq("id", todoId)
+    .eq('id', todoId)
   if (error) throw new Error(error.message)
 }
 
-export const updateTodo = async (todo: Todo) => {
+export const updateTodoApi = async (todo: TodoItem) => {
   const todoDb = {
     completed: todo.completed,
     due: todo.due,
@@ -54,28 +47,28 @@ export const updateTodo = async (todo: Todo) => {
     user_id: todo.userId,
   }
   const { error } = await supabase
-    .from("todos")
+    .from('todos')
     .update({ ...todoDb })
-    .eq("id", todo.id)
+    .eq('id', todo.id)
 
   if (error) throw new Error(error.message)
 }
 
-export const deleteAllCompletedTodos = async () => {
-  const { error } = await supabase.from("todos").delete().eq("completed", true)
+export const deleteAllCompletedTodosApi = async () => {
+  const { error } = await supabase.from('todos').delete().eq('completed', true)
   if (error) throw new Error(error.message)
 }
 
-export const reactivateTodo = async (id: number) => {
+export const reactivateTodoApi = async (id: number) => {
   const { error } = await supabase
-    .from("todos")
+    .from('todos')
     .update({ completed: false })
-    .eq("id", id)
+    .eq('id', id)
 
   if (error) throw new Error(error.message)
 }
 
-export const deleteTodo = async (id: number) => {
-  const { error } = await supabase.from("todos").delete().eq("id", id)
+export const deleteTodoApi = async (id: number) => {
+  const { error } = await supabase.from('todos').delete().eq('id', id)
   if (error) throw new Error(error.message)
 }
