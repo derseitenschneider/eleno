@@ -5,28 +5,20 @@ import {
   useMemo,
   useState,
 } from 'react'
-import {
-  completeTodo,
-  deleteAllCompletedTodos,
-  deleteTodo,
-  reactivateTodo,
-  saveTodo,
-  updateTodo,
-} from '../api/todos.api'
 import type { ContextTypeTodos, TodoItem } from '../../types/types'
 import { useDateToday } from './DateTodayContext'
 import { formatDateToDatabase } from '../../utils/formateDate'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
-  setTodos: () => { },
+  setTodos: () => {},
   overdueTodos: [],
-  saveTodo: () => new Promise(() => { }),
-  deleteTodo: () => new Promise(() => { }),
-  completeTodo: () => new Promise(() => { }),
-  reactivateTodo: () => new Promise(() => { }),
-  deleteAllCompleted: () => new Promise(() => { }),
-  updateTodo: () => new Promise(() => { }),
+  saveTodo: () => new Promise(() => {}),
+  deleteTodo: () => new Promise(() => {}),
+  completeTodo: () => new Promise(() => {}),
+  reactivateTodo: () => new Promise(() => {}),
+  deleteAllCompleted: () => new Promise(() => {}),
+  updateTodo: () => new Promise(() => {}),
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {

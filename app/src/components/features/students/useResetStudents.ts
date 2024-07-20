@@ -1,8 +1,8 @@
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { resetStudentsApi } from "@/services/api/students.api"
-import type { Student } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { resetStudentsApi } from '@/services/api/students.api'
+import type { Student } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function useResetStudents() {
   const queryClient = useQueryClient()
@@ -14,10 +14,10 @@ export function useResetStudents() {
     mutationFn: resetStudentsApi,
     onMutate: (data) => {
       const previousStudents = queryClient.getQueryData([
-        "students",
+        'students',
       ]) as Array<Student>
 
-      queryClient.setQueryData(["students"], (prev: Array<Student>) =>
+      queryClient.setQueryData(['students'], (prev: Array<Student>) =>
         prev.map((student) => {
           if (student.id in data)
             return {
@@ -36,15 +36,15 @@ export function useResetStudents() {
     },
 
     onSuccess: () => {
-      toast.success("Schüler:innen zurückgesetzt")
+      toast.success('Unterrichtsdaten zurückgesetzt')
       queryClient.invalidateQueries({
-        queryKey: ["students"],
+        queryKey: ['students'],
       })
     },
 
     onError: (_, __, context) => {
       fetchErrorToast()
-      queryClient.setQueryData(["students"], context?.previousStudents)
+      queryClient.setQueryData(['students'], context?.previousStudents)
     },
   })
   return { reset, isResetting, isError }
