@@ -30,16 +30,28 @@ export default function InactiveHoldersTable({
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
   const fuzzyFilter: FilterFn<LessonHolder> = (row, _, searchValue) => {
-    const firstName = row.original.firstName
-    const lastName = row.original.lastName
-    const instrument = row.original.instrument
-    const dayOfLesson = row.original.dayOfLesson
-    const location = row.original.location
+    if (row.original.type === 's') {
+      const firstName = row.original.holder.firstName
+      const lastName = row.original.holder.lastName
+      const instrument = row.original.holder.instrument
+      const dayOfLesson = row.original.holder.dayOfLesson
+      const location = row.original.holder.location
+
+      return (
+        firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        instrument.toLowerCase().includes(searchValue.toLowerCase()) ||
+        dayOfLesson?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        location?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        false
+      )
+    }
+    const name = row.original.holder.name
+    const dayOfLesson = row.original.holder.dayOfLesson
+    const location = row.original.holder.location
 
     return (
-      firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
-      lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
-      instrument.toLowerCase().includes(searchValue.toLowerCase()) ||
+      name.toLowerCase().includes(searchValue.toLowerCase()) ||
       dayOfLesson?.toLowerCase().includes(searchValue.toLowerCase()) ||
       location?.toLowerCase().includes(searchValue.toLowerCase()) ||
       false
