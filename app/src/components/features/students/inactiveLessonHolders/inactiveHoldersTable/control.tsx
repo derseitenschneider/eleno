@@ -1,19 +1,8 @@
-import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Group, Student } from '@/types/types'
-import { File, Plus } from 'lucide-react'
-import type { RowSelectionState, Table } from '@tanstack/react-table'
-import { useState } from 'react'
+import type { RowSelectionState } from '@tanstack/react-table'
 import { useQueryClient } from '@tanstack/react-query'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { InactiveStudentsActionDropdown } from './actionDropdown'
-import ExportStudentList from '../../ExportStudentList.component'
-import CreateStudents from '../../CreateStudents.component'
 
 type StudentsControlProps = {
   isFetching: boolean

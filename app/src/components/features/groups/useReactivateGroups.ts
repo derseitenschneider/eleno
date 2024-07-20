@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 export function useReactivateGroups() {
   const queryClient = useQueryClient()
   const {
-    mutate: reactivateGroups,
+    mutateAsync: reactivateGroups,
     isPending: isReactivating,
     isError,
   } = useMutation({
@@ -27,7 +27,6 @@ export function useReactivateGroups() {
     },
 
     onSuccess: () => {
-      toast.success('Gruppe wiederhergestellt.')
       queryClient.invalidateQueries({
         queryKey: ['groups'],
       })

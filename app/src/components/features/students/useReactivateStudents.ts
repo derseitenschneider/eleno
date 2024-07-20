@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 export function useReactivateStudents() {
   const queryClient = useQueryClient()
   const {
-    mutate: reactivateStudents,
+    mutateAsync: reactivateStudents,
     isPending: isReactivating,
     isError,
   } = useMutation({
@@ -29,7 +29,6 @@ export function useReactivateStudents() {
     },
 
     onSuccess: () => {
-      toast.success('Schüler:in wiederhergestellt.')
       queryClient.invalidateQueries({
         queryKey: ['students'],
       })

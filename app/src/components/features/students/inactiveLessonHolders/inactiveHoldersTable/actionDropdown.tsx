@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,9 @@ import { ChevronsUpDown, Trash2, Undo2 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteHolders from '../../DeleteHolders.component'
 import { useReactivateStudents } from '../../useReactivateStudents'
+import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { toast } from 'sonner'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -25,17 +28,39 @@ export function InactiveStudentsActionDropdown({
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
   const { reactivateStudents } = useReactivateStudents()
+  const { reactivateGroups } = useReactivateGroups()
   const [openModal, setOpenModal] = useState<'DELETE' | null>(null)
   const students = queryClient.getQueryData(['students']) as Array<Student>
 
+  const selectedHolderIds = Object.keys(selected)
+  const selectedStudentIds = selectedHolderIds
+    .filter((holderId) => holderId.includes('s'))
+    .map((id) => Number(id.split('-').at(1)))
+
+  const selectedGroupIds = selectedHolderIds
+    .filter((holderId) => holderId.includes('g'))
+    .map((id) => Number(id.split('-').at(1)))
+
   const isDisabledAction = Object.entries(selected).length === 0
-  const selectedStudentIds = Object.keys(selected).map((id) => Number(id))
 
   function closeModal() {
     setOpenModal(null)
     setSelected({})
   }
+  async function handleReactivate() {
+    try {
+      await Promise.all([
+        reactivateStudents(selectedStudentIds),
+        reactivateGroups(selectedGroupIds),
+      ])
+      toast.success('Wiederhergestellt.')
+    } catch (e) {
+      fetchErrorToast()
+    }
+  }
+
   if (!students) return null
+
   return (
     <>
       <DropdownMenu>
@@ -47,7 +72,7 @@ export function InactiveStudentsActionDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            onClick={() => reactivateStudents(selectedStudentIds)}
+            onClick={handleReactivate}
             className='flex items-center gap-2'
           >
             <Undo2 className='h-4 w-4 text-primary' />
@@ -66,11 +91,7 @@ export function InactiveStudentsActionDropdown({
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Schüler:innen löschen</DialogTitle>
-          <DeleteHolders
-            studentIds={selectedStudentIds}
-            onSuccess={closeModal}
-          />
+          <DeleteHolders holderIds={selectedHolderIds} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
     </>

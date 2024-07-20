@@ -28,6 +28,7 @@ import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { useReactivateStudents } from '../../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import { LessonHolder } from '@/types/types'
+import { toast } from 'sonner'
 
 type StudentRowDropdownProps = {
   holder: LessonHolder
@@ -38,11 +39,9 @@ type Modals = 'EXPORT' | 'DELETE' | null
 export default function InactiveStudentRowDropdown({
   holder,
 }: StudentRowDropdownProps) {
-  const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
   const { reactivateStudents } = useReactivateStudents()
   const { reactivateGroups } = useReactivateGroups()
   const [openModal, setOpenModal] = useState<Modals>(null)
-  const navigate = useNavigate()
   const isGroup = holder.type === 'g'
   const id = holder.holder.id
 
@@ -50,9 +49,15 @@ export default function InactiveStudentRowDropdown({
     setOpenModal(null)
   }
 
-  function reactivateHolders() {
-    if (!isGroup) reactivateStudents([id])
-    if (isGroup) reactivateGroups([id])
+  async function reactivateHolders() {
+    if (!isGroup) {
+      await reactivateStudents([id])
+      toast.success('Schüler:in wiederhergestellt.')
+    }
+    if (isGroup) {
+      await reactivateGroups([id])
+      toast.success('Gruppe wiederhergestellt.')
+    }
   }
   return (
     <>
