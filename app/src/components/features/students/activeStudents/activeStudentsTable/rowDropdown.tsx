@@ -25,7 +25,7 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
-import AddTodo from '../../../todos/AddTodo.component'
+import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 
@@ -136,7 +136,7 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <AddTodo onCloseModal={closeModal} studentId={studentId} />
+          <CreateTodo onCloseModal={closeModal} studentId={studentId} />
         </DialogContent>
       </Dialog>
 

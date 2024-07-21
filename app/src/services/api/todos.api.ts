@@ -18,9 +18,11 @@ export const fetchTodosApi = async (userId: string) => {
 }
 
 export const createTodoApi = async (todo: PartialTodoItem) => {
+  const { due } = todo
+  const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
   const { data: newTodo, error } = await supabase
     .from('todos')
-    .insert(todo)
+    .insert({ ...todo, due: utcDue ? utcDue.toISOString() : null })
     .select()
     .single()
 

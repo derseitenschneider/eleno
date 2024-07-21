@@ -214,7 +214,11 @@ export type TimetableDay = {
 | Todo Types
 |--------------------------------------------------------------------------
 */
-export type DbTodoItem = DBTypes['todos']
+export type DbTodoItem = TransformFields<
+  DBTypes['todos'],
+  Date | undefined,
+  'due'
+>
 
 type TodoItemWithStudentId = Omit<DbTodoItem, 'studentId' | 'groupId'> & {
   studentId: number

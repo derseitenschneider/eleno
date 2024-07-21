@@ -1,14 +1,5 @@
-import { useStudents } from '@/services/context/StudentContext'
-import {
-  CheckSquare2,
-  Download,
-  File,
-  FileDown,
-  MoreVertical,
-  Pencil,
-} from 'lucide-react'
+import { CheckSquare2, FileDown, MoreVertical, Pencil } from 'lucide-react'
 import { useState } from 'react'
-import { IoEllipsisVertical } from 'react-icons/io5'
 import {
   Dialog,
   DialogContent,
@@ -21,15 +12,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu'
-import StudentForm from '../students/StudentForm.component'
 
-import { useParams, useSearchParams } from 'react-router-dom'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../../ui/sheet'
-import AddTodo from '../todos/AddTodo.component'
-import ExportLessons from './ExportLessons.component'
 import useCurrentHolder from './useCurrentHolder'
 import UpdateStudents from '../students/UpdateStudents.component'
 import UpdateGroup from '../groups/UpdateGroup.component'
+import CreateTodo from '../todos/CreateTodo.component'
 
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 
@@ -104,7 +91,11 @@ export default function HolderDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          {/* <AddTodo studentId={Number(studentId)} onCloseModal={closeModal} /> */}
+          <CreateTodo
+            holderId={currentLessonHolder?.holder.id}
+            holderType={currentLessonHolder?.type}
+            onCloseModal={closeModal}
+          />
         </DialogContent>
       </Dialog>
 

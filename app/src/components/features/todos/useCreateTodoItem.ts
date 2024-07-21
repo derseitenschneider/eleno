@@ -21,8 +21,8 @@ export function useCreateTodoItem() {
       })
     },
 
-    onError: () => {
-      fetchErrorToast()
+    onError: (e) => {
+      fetchErrorToast(e.message)
     },
   })
   return { createTodoItem, isCreating }

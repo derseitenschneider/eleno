@@ -16,7 +16,7 @@ import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Modal from '../../../ui/modal/Modal.component'
 
-import AddTodo from '../../todos/AddTodo.component'
+import CreateTodo from '../../todos/CreateTodo.component'
 import EditStudent from '../UpdateStudents.component'
 import { useActiveStudents } from './ActiveStudents.component'
 import ExportLessons from '../../lessons/ExportLessons.component'
@@ -155,7 +155,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
           </Modal.Window>
 
           <Modal.Window name='add-todo'>
-            <AddTodo studentId={student.id} />
+            <CreateTodo studentId={student.id} />
           </Modal.Window>
 
           <Modal.Window name='export-lessons'>

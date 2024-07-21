@@ -1,13 +1,13 @@
-import { useEffect } from "react"
-import NoContent from "../../components/ui/NoContent.component"
-import AddTodo from "../../components/features/todos/AddTodo.component"
-import TodoDescription from "../../components/features/todos/todoDescription/TodoDescription.component"
-import TodoItem from "../../components/features/todos/todoItem/TodoItem.component"
-import TodoList from "../../components/features/todos/todoList/TodoList.component"
-import { useTodos } from "../../services/context/TodosContext"
-import compareDateTodos from "../../utils/sortTodos"
-import Modal from "../../components/ui/modal/Modal.component"
-import Menus from "../../components/ui/menu/Menus.component"
+import { useEffect } from 'react'
+import NoContent from '../../components/ui/NoContent.component'
+import CreateTodo from '../../components/features/todos/CreateTodo.component'
+import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
+import TodoItem from '../../components/features/todos/todoItem/TodoItem.component'
+import TodoList from '../../components/features/todos/todoList/TodoList.component'
+import { useTodos } from '../../services/context/TodosContext'
+import compareDateTodos from '../../utils/sortTodos'
+import Modal from '../../components/ui/modal/Modal.component'
+import Menus from '../../components/ui/menu/Menus.component'
 
 function TodosOpen() {
   const { todos } = useTodos()
@@ -28,7 +28,7 @@ function TodosOpen() {
 
   return (
     <TodoList>
-      <AddTodo />
+      <CreateTodo />
       {openTodos.length > 0 ? (
         <>
           <TodoDescription />

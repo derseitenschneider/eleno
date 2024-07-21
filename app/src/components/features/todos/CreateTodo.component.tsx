@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { useTodos } from '../../../services/context/TodosContext'
 import { useUser } from '../../../services/context/UserContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import type { TodoItem } from '../../../types/types'
+import type { PartialTodoItem, TodoItem } from '../../../types/types'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Button } from '@/components/ui/button'
 import AddHolderCombobox from '../students/AddHolderCombobox.component'
@@ -18,20 +18,27 @@ interface AddTodoProps {
   holderType?: 's' | 'g'
 }
 
-function AddTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
+function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
   const { createTodoItem, isCreating } = useCreateTodoItem()
-  const { saveTodo } = useTodos()
-  const [errorMessage, setErrorMessage] = useState('')
   const [text, setText] = useState('')
   const [due, setDue] = useState<Date>()
-  const [selectedHolderId, setSelectedHolderId] = useState<string>()
-  const [isPending, setIsPending] = useState(false)
+  const [selectedHolderId, setSelectedHolderId] = useState(
+    holderId ? `${holderType}-${holderId}` : '',
+  )
 
-  useEffect(() => {
-    holderId && setSelectedHolderId(`${holderType}-${holderId}`)
-  }, [holderType, holderId])
-
-  const onSaveHandler = async () => { }
+  const onSaveHandler = async () => {
+    const typeId = selectedHolderId.includes('s') ? 'studentId' : 'groupId'
+    const holderId = Number(selectedHolderId.split('-').at(1)) || 0
+    const newTodo: PartialTodoItem = {
+      text,
+      due,
+      [typeId]: holderId,
+      completed: false,
+    }
+    createTodoItem(newTodo, {
+      onSuccess: () => onCloseModal?.(),
+    })
+  }
 
   return (
     <div>
@@ -50,21 +57,21 @@ function AddTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               required
               onChange={(e) => {
                 setText(e.target.value)
-                setErrorMessage('')
               }}
               autoComplete='off'
-              disabled={isPending}
+              disabled={isCreating}
             />
           </div>
           <AddHolderCombobox
-            disabled={isPending}
-            studentId={selectedHolderId}
+            disabled={isCreating}
+            selectedHolderId={selectedHolderId}
+            setSelectedHolderId={setSelectedHolderId}
           />
           <div className='flex items-center'>
-            <DayPicker disabled={isPending} date={due} setDate={setDue} />
+            <DayPicker disabled={isCreating} date={due} setDate={setDue} />
             {due && (
               <ButtonRemove
-                disabled={isPending}
+                disabled={isCreating}
                 className='translate-x-[-8px]'
                 onRemove={() => setDue(undefined)}
               />
@@ -72,20 +79,20 @@ function AddTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           </div>
         </div>
         <Button
-          disabled={isPending}
+          disabled={isCreating}
           type='submit'
           onClick={onSaveHandler}
           size='sm'
         >
           Speichern
         </Button>
-        {isPending && <MiniLoader />}
+        {isCreating && <MiniLoader />}
       </form>
-      {errorMessage && (
-        <p className='text-sm text-warning p-2'>{errorMessage}</p>
-      )}
+      {/* {errorMessage && ( */}
+      {/*   <p className='text-sm text-warning p-2'>{errorMessage}</p> */}
+      {/* )} */}
     </div>
   )
 }
 
-export default AddTodo
+export default CreateTodo

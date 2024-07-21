@@ -4,24 +4,24 @@ import {
   useContext,
   useMemo,
   useState,
-} from "react"
-import type { ContextTypeRepertoire, RepertoireItem } from "../../types/types"
+} from 'react'
+import type { ContextTypeRepertoire, RepertoireItem } from '../../types/types'
 
-import fetchErrorToast from "../../hooks/fetchErrorToast"
+import fetchErrorToast from '../../hooks/fetchErrorToast'
 import {
   createRepertoireItemAPI,
   deleteRepertoireItemAPI,
   fetchRepertoireAPI,
   updateRepertoireItemAPI,
-} from "../api/repertoire.api"
+} from '../api/repertoire.api'
 
 export const RepertoireContext = createContext<ContextTypeRepertoire>({
   repertoire: [],
   isLoading: true,
-  getRepertoire: () => new Promise(() => { }),
-  addRepertoireItem: () => new Promise(() => { }),
-  updateRepertoireItem: () => new Promise(() => { }),
-  deleteRepertoireItem: () => new Promise(() => { }),
+  getRepertoire: () => new Promise(() => {}),
+  addRepertoireItem: () => new Promise(() => {}),
+  updateRepertoireItem: () => new Promise(() => {}),
+  deleteRepertoireItem: () => new Promise(() => {}),
 })
 
 export function RepertoireProvider({
@@ -36,7 +36,7 @@ export function RepertoireProvider({
     try {
       const rep = await fetchRepertoireAPI(studentId)
       setRepertoire(rep)
-    } catch {
+    } catch (e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
@@ -100,6 +100,6 @@ export function RepertoireProvider({
 
 export const useRepertoire = () => {
   const context = useContext(RepertoireContext)
-  if (!context) throw new Error("Repertoire context used outside of scope")
+  if (!context) throw new Error('Repertoire context used outside of scope')
   return context
 }
