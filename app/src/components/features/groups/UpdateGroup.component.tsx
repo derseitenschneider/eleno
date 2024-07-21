@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { useCreateGroup } from './useCreateGroup'
 import {
   Select,
   SelectContent,
@@ -67,7 +66,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
     } as Group
 
     updateGroup(updatedGroup, {
-      onSuccess,
+      onSuccess: () => onSuccess?.(),
     })
   }
 
