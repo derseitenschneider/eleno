@@ -18,8 +18,6 @@ import {
   Pencil,
 } from 'lucide-react'
 import { useState } from 'react'
-import BulkExportLessons from '../../../lessons/bulkExportLessons/BulkExportLessons.component'
-import BulkEditStudents from '../../BulkEditStudents.component'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'

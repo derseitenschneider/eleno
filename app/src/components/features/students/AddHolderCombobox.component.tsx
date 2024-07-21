@@ -18,7 +18,7 @@ import { useLessonPointer } from '@/services/context/LessonPointerContext'
 import type { LessonHolder } from '@/types/types'
 import { Users } from 'lucide-react'
 import { useState } from 'react'
-type TAddHolderCombobox = {
+type AddHolderComboboxProps = {
   selectedHolderId: string
   setSelectedHolderId: React.Dispatch<React.SetStateAction<string>>
   disabled?: boolean
@@ -28,7 +28,7 @@ export default function AddHolderCombobox({
   selectedHolderId,
   setSelectedHolderId,
   disabled,
-}: TAddHolderCombobox) {
+}: AddHolderComboboxProps) {
   const { lessonHolders } = useLessonPointer()
   const [open, setOpen] = useState(false)
 

@@ -49,15 +49,15 @@ export function useAllLessonsPerYear(
 }
 
 export function useAllLessons(
-  holderId: number,
+  holderIds: Array<number>,
   holderType: 's' | 'g',
   startDate?: Date,
   endDate?: Date,
 ) {
   const result = useQuery({
-    queryKey: ['all-lessons', { holder: `${holderType}-${holderId}` }],
+    queryKey: ['all-lessons', { holderIds, holderType }],
     queryFn: () =>
-      fetchAllLessonsApi({ holderId, holderType, startDate, endDate }),
+      fetchAllLessonsApi({ holderIds, holderType, startDate, endDate }),
     staleTime: 0,
     enabled: false,
   })

@@ -7,13 +7,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { Group, Student } from '@/types/types'
+import type { Group } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
-// import ResetStudents from '../../ResetStudents.component'
-// import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -68,7 +66,7 @@ export function GroupsActionDropdown({
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => { }}
+            onClick={() => {}}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />

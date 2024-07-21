@@ -17,6 +17,7 @@ import useCurrentHolder from './useCurrentHolder'
 import UpdateStudents from '../students/UpdateStudents.component'
 import UpdateGroup from '../groups/UpdateGroup.component'
 import CreateTodo from '../todos/CreateTodo.component'
+import ExportLessons from './ExportLessons.component'
 
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 
@@ -25,6 +26,7 @@ export default function HolderDropdownLesson() {
   const [openModal, setOpenModal] = useState<Modals>(null)
 
   const closeModal = () => setOpenModal(null)
+  if (!currentLessonHolder) return null
 
   return (
     <>
@@ -104,7 +106,11 @@ export default function HolderDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          {/* <ExportLessons holderId={Number(studentId)} /> */}
+          <ExportLessons
+            holderType={currentLessonHolder?.type}
+            holderId={currentLessonHolder?.holder.id}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
     </>

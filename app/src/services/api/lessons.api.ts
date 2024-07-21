@@ -24,13 +24,13 @@ export const fetchLessonsByYearApi = async (
 }
 
 export type FetchAllLessonProps = {
-  holderId: number
+  holderIds: Array<number>
   holderType: 's' | 'g'
   startDate?: Date
   endDate?: Date
 }
 export const fetchAllLessonsApi = async ({
-  holderId,
+  holderIds,
   holderType,
   startDate,
   endDate,
@@ -41,13 +41,13 @@ export const fetchAllLessonsApi = async ({
   let query = supabase
     .from('lessons')
     .select('date, lessonContent, homework, id')
-    .eq(idField, holderId)
+    .eq(idField, holderIds)
 
   query = startDate
     ? query
-      .gte('date', uctStartDate.toISOString())
-      .lte('date', uctEndDate?.toISOString())
-      .order('date', { ascending: false })
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
+        .order('date', { ascending: false })
     : query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
@@ -80,8 +80,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate?.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
