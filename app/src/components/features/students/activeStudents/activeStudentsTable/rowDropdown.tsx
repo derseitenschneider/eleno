@@ -136,7 +136,11 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
-          <CreateTodo onCloseModal={closeModal} studentId={studentId} />
+          <CreateTodo
+            onCloseModal={closeModal}
+            holderId={studentId}
+            holderType={'s'}
+          />
         </DialogContent>
       </Dialog>
 

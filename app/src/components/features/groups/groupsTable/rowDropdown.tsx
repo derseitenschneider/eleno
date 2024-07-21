@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom'
 import UpdateGroup from '../UpdateGroup.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
 import ExportLessons from '../../lessons/ExportLessons.component'
+import CreateTodo from '../../todos/CreateTodo.component'
 
 type StudentRowDropdownProps = {
   groupId: number
@@ -128,6 +129,11 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
+            <CreateTodo
+              holderType='g'
+              holderId={groupId}
+              onCloseModal={closeModal}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>
