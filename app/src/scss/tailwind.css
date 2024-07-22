@@ -87,6 +87,8 @@
     --border-notes-yellow: 47, 95%, 76%;
     --border-notes-green: 118, 50%, 50%, .552;
 
+
+    --opacity-empty-box: 55%;
     --radius: 0.5rem;
   }
 
@@ -126,6 +128,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 195 35 40%;
+
+    --opacity-empty-box: 20%;
   }
 }
 
