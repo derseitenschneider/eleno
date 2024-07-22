@@ -21,6 +21,7 @@ import { useState } from 'react'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
+import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -110,6 +111,11 @@ export function ActiveStudentsActionDropdown({
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          <BulkExportLessons
+            onSuccess={closeModal}
+            holderIds={selectedStudentIds}
+            holderType='s'
+          />
         </DialogContent>
       </Dialog>
 

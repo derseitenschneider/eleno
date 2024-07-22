@@ -23,7 +23,7 @@ type BulkExportLessonsProps = {
   onSuccess: () => void
 }
 
-function BulkExportLessons({
+export default function BulkExportLessons({
   holderIds,
   holderType,
   onSuccess,
@@ -52,17 +52,17 @@ function BulkExportLessons({
   )
 
   const canDownload = (startDate && endDate) || selectAll
-  if (!holderIds || holderIds.lenght === 0) return null
+  if (!holderIds || holderIds.length === 0) return null
 
-  const holderFullName =
-    holderType === 's'
-      ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
-      : selectedHolder.holder.name
-
-  const holderFullNameDashes = holderFullName
-    .split(' ')
-    .map((part) => part.toLowerCase())
-    .join('-')
+  // const holderFullName =
+  //   holderType === 's'
+  //     ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
+  //     : selectedHolder.holder.name
+  //
+  // const holderFullNameDashes = holderFullName
+  //   .split(' ')
+  //   .map((part) => part.toLowerCase())
+  //   .join('-')
 
   function handleStartDate(date: Date | undefined) {
     setStartDate(date)
@@ -134,31 +134,32 @@ function BulkExportLessons({
       const { LessonsPDF } = await import('./LessonsPDF')
 
       const { data: allLessons } = await fetchAllLessons()
+      console.log(allLessons)
 
-      if (!allLessons) return
-      const props: PDFProps = {
-        title,
-        lessons: allLessons,
-        studentFullName: holderFullName,
-      }
-      const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
-
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute(
-        'download',
-        title ? `${title}.pdf` : `lektionsliste-${holderFullNameDashes}.pdf`,
-      )
-      link.style.display = 'none'
-
-      document.body.appendChild(link)
-      link.click()
-
-      toast.success('Datei heruntergeladen.')
-      URL.revokeObjectURL(url)
-      document.body.removeChild(link)
-      onSuccess()
+      //   if (!allLessons) return
+      //   const props: PDFProps = {
+      //     title,
+      //     lessons: allLessons,
+      //     studentFullName: holderFullName,
+      //   }
+      //   const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
+      //
+      //   const url = URL.createObjectURL(blob)
+      //   const link = document.createElement('a')
+      //   link.href = url
+      //   link.setAttribute(
+      //     'download',
+      //     title ? `${title}.pdf` : `lektionsliste-${holderFullNameDashes}.pdf`,
+      //   )
+      //   link.style.display = 'none'
+      //
+      //   document.body.appendChild(link)
+      //   link.click()
+      //
+      //   toast.success('Datei heruntergeladen.')
+      //   URL.revokeObjectURL(url)
+      //   document.body.removeChild(link)
+      //   onSuccess()
     } catch (e) {
       fetchErrorToast()
     } finally {
@@ -258,5 +259,3 @@ function BulkExportLessons({
     </div>
   )
 }
-
-export default ExportLessons
