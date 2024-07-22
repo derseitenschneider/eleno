@@ -6,9 +6,9 @@ function Empty({ emptyMessage }: EmptyProps) {
   return (
     <div className='grid grid-rows-[auto_80%] h-[90%] justify-center'>
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
-      <div className='p-4'>
+      <div className=''>
         <svg
-          className='h-full opacity-box self-center object-contain object-center'
+          className='h-full opacity-55 self-center object-contain object-center'
           xmlns='http://www.w3.org/2000/svg'
           xmlSpace='preserve'
           style={{
@@ -30,12 +30,15 @@ function Empty({ emptyMessage }: EmptyProps) {
           <path
             d='M3250 2226.06H750v1157c0 55.19 36.188 103.88 89.063 119.75 251.187 75.32 957.567 287.25 1124.997 337.5 23.44 7 48.44 7 71.88 0 167.44-50.25 873.81-262.18 1125-337.5 52.87-15.87 89.06-64.56 89.06-119.75v-1157Z'
             style={{
+              stroke: 'red',
               fill: '#cadcf0',
             }}
           />
           <path
             d='M3250 2226.06H2000s-12.12 1619.5 0 1619.5c12.13 0 24.19-1.75 35.94-5.25 167.44-50.25 873.81-262.18 1125-337.5 52.87-15.87 89.06-64.56 89.06-119.75v-1157Z'
             style={{
+              strokeWidth: 1,
+              stroke: 'red',
               fill: '#a4bbdb',
             }}
           />
@@ -43,18 +46,24 @@ function Empty({ emptyMessage }: EmptyProps) {
             d='M2000 2631.63 750 2226.06s-219.187 325-317.187 470.25a62.527 62.527 0 0 0-7.313 55.32 62.755 62.755 0 0 0 39.813 39.12c237.437 77.13 940.317 305.5 1124.687 365.38 26.44 8.62 55.44-1.32 71.06-24.38 83.81-123.69 338.94-500.12 338.94-500.12ZM3250 2226.06l-1250 405.57s255.13 376.43 338.94 500.12c15.62 23.06 44.62 33 71.06 24.38 184.37-59.88 887.25-288.25 1124.69-365.38a62.75 62.75 0 0 0 39.81-39.12c6.38-18.57 3.69-39-7.31-55.32-98-145.25-317.19-470.25-317.19-470.25Z'
             style={{
               fill: '#e9f3fc',
+              strokeWidth: 1,
+              stroke: 'red',
             }}
           />
           <path
             d='M1697.44 1374.13c-15.63-22.94-44.57-32.88-71-24.25-184.25 59.81-887.315 288.25-1124.752 365.43-18.688 6.07-33.438 20.5-39.813 39.07-6.375 18.56-3.687 39.06 7.313 55.31C559.438 1943.56 750 2226.06 750 2226.06l1250-406.93-302.56-445Z'
             style={{
               fill: '#cadcf0',
+              strokeWidth: 1,
+              stroke: 'red',
             }}
           />
           <path
             d='M3530.81 1809.69c11-16.25 13.69-36.75 7.32-55.31-6.38-18.57-21.13-33-39.82-39.07-237.43-77.18-940.5-305.62-1124.75-365.43-26.43-8.63-55.37 1.31-71 24.25l-302.56 445 1250 406.93s190.56-282.5 280.81-416.37Z'
             style={{
               fill: '#e9f3fc',
+              strokeWidth: 1,
+              stroke: 'red',
             }}
           />
           <path
@@ -88,6 +97,47 @@ function Empty({ emptyMessage }: EmptyProps) {
             }}
           />
         </svg>
+
+        {/* <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> */}
+        {/*   <title>Magnifying Glass Illustration</title> */}
+        {/*   <g */}
+        {/*     className='stroke-background200 dark:stroke-background50' */}
+        {/*     fill='none' */}
+        {/*     strokeWidth='2' */}
+        {/*     strokeLinecap='round' */}
+        {/*     strokeLinejoin='round' */}
+        {/*   > */}
+        {/*     <circle cx='40' cy='40' r='25' /> */}
+        {/**/}
+        {/*     <line x1='60' y1='60' x2='85' y2='85' /> */}
+        {/**/}
+        {/*     <path d='M30 30 Q35 35 40 30' strokeWidth='1.5' /> */}
+        {/*   </g> */}
+        {/* </svg> */}
+
+        {/* <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> */}
+        {/*   <title>Binoculars Illustration</title> */}
+        {/*   <g */}
+        {/*     className='stroke-foreground/15' */}
+        {/*     fill='none' */}
+        {/*     strokeWidth='1' */}
+        {/*     strokeLinecap='round' */}
+        {/*     strokeLinejoin='round' */}
+        {/*   > */}
+        {/*     <circle cx='30' cy='60' r='20' /> */}
+        {/**/}
+        {/*     <circle cx='70' cy='60' r='20' /> */}
+
+        {/*     <path d='M30 60 L70 60' /> */}
+        {/**/}
+        {/*     <path d='M20 40 Q30 30 40 40' /> */}
+        {/**/}
+        {/*     <path d='M60 40 Q70 30 80 40' /> */}
+        {/**/}
+        {/*     <path d='M25 55 Q30 50 35 55' strokeWidth='1.5' /> */}
+        {/*     <path d='M65 55 Q70 50 75 55' strokeWidth='1.5' /> */}
+        {/*   </g> */}
+        {/* </svg> */}
       </div>
     </div>
   )
