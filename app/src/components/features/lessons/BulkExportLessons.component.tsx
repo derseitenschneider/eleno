@@ -39,23 +39,23 @@ function BulkExportLessons({
   const [isLoading, setIsLoading] = useState(false)
 
   const { refetch: fetchAllLessons } = useAllLessons(
-    holderId,
+    holderIds,
     holderType,
     startDate,
     endDate,
   )
   const { refetch: fetchAllLessonsCSV } = useAllLessonsCSV(
-    holderId,
+    holderIds,
     holderType,
     startDate,
     endDate,
   )
 
   const canDownload = (startDate && endDate) || selectAll
-  if (!selectedHolder) return null
+  if (!holderIds || holderIds.lenght === 0) return null
 
   const holderFullName =
-    selectedHolder.type === 's'
+    holderType === 's'
       ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
       : selectedHolder.holder.name
 

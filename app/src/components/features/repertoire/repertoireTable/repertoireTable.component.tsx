@@ -18,19 +18,20 @@ import { useState } from 'react'
 import type { RepertoireItem } from '@/types/types'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
+import Empty from '@/components/ui/Empty.component'
 
-function RepertoireList() {
+type RepertoireTableProps = {
+  repertoire: Array<RepertoireItem>
+  isPending: boolean
+  isFetching: boolean
+}
+function RepertoireTable({
+  repertoire,
+  isPending,
+  isFetching,
+}: RepertoireTableProps) {
   const { currentLessonHolder } = useCurrentHolder()
   const { userLocale } = useUserLocale()
-  const {
-    data: repertoire,
-    isPending,
-    isError,
-    isFetching,
-  } = useRepertoireQuery(
-    currentLessonHolder?.holder?.id || 0,
-    currentLessonHolder?.type || 's',
-  )
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -76,7 +77,6 @@ function RepertoireList() {
   })
 
   if (isPending) return <p>...loading</p>
-  if (isError) return <p>ERROR</p>
 
   return (
     <div className='mb-10'>
@@ -94,21 +94,27 @@ function RepertoireList() {
         holderType={currentLessonHolder?.type || 's'}
         holderId={currentLessonHolder?.holder.id || 0}
       />
-      <RepertoireControl
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        isFetching={isFetching}
-      />
-      <DataTable
-        isSelectable={false}
-        table={table}
-        columns={repertoireColumns}
-        messageEmpty='Keine Songs vorhanden.'
-        data={repertoire}
-        isFetching={isFetching}
-      />
+      {repertoire.length > 0 && (
+        <RepertoireControl
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+          isFetching={isFetching}
+        />
+      )}
+      {repertoire.length > 0 ? (
+        <DataTable
+          isSelectable={false}
+          table={table}
+          columns={repertoireColumns}
+          messageEmpty='Keine Songs vorhanden.'
+          data={repertoire}
+          isFetching={isFetching}
+        />
+      ) : (
+        <Empty emptyMessage='Keine Songs vorhanden.' />
+      )}
     </div>
   )
 }
 
-export default RepertoireList
+export default RepertoireTable
