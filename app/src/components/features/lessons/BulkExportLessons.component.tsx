@@ -1,5 +1,5 @@
 import { createElement, useState } from 'react'
-import type { Group, LessonHolder, Student } from '../../../types/types'
+import type { Group, Lesson, LessonHolder, Student } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
@@ -16,6 +16,7 @@ import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import JSZip from 'jszip'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -53,16 +54,6 @@ export default function BulkExportLessons({
 
   const canDownload = (startDate && endDate) || selectAll
   if (!holderIds || holderIds.length === 0) return null
-
-  // const holderFullName =
-  //   holderType === 's'
-  //     ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
-  //     : selectedHolder.holder.name
-  //
-  // const holderFullNameDashes = holderFullName
-  //   .split(' ')
-  //   .map((part) => part.toLowerCase())
-  //   .join('-')
 
   function handleStartDate(date: Date | undefined) {
     setStartDate(date)
@@ -134,32 +125,47 @@ export default function BulkExportLessons({
       const { LessonsPDF } = await import('./LessonsPDF')
 
       const { data: allLessons } = await fetchAllLessons()
-      console.log(allLessons)
+      if (!allLessons) return
 
-      //   if (!allLessons) return
-      //   const props: PDFProps = {
-      //     title,
-      //     lessons: allLessons,
-      //     studentFullName: holderFullName,
-      //   }
-      //   const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
-      //
-      //   const url = URL.createObjectURL(blob)
-      //   const link = document.createElement('a')
-      //   link.href = url
-      //   link.setAttribute(
-      //     'download',
-      //     title ? `${title}.pdf` : `lektionsliste-${holderFullNameDashes}.pdf`,
-      //   )
-      //   link.style.display = 'none'
-      //
-      //   document.body.appendChild(link)
-      //   link.click()
-      //
-      //   toast.success('Datei heruntergeladen.')
-      //   URL.revokeObjectURL(url)
-      //   document.body.removeChild(link)
-      //   onSuccess()
+      const allLessonsGrouped: Record<string, Array<Lesson>> = {}
+      for (const lesson of allLessons) {
+        const holderId = lesson.studentId
+          ? `s-${lesson.studentId}`
+          : `g-${lesson.groupId}`
+        if (Object.keys(allLessonsGrouped).includes(holderId)) {
+          allLessonsGrouped[holderId]?.push(lesson)
+        } else {
+          allLessonsGrouped[holderId] = [lesson]
+        }
+      }
+      const pdfBlobs = await Promise.all(
+        Object.keys(allLessonsGrouped).map(async (student) => {
+          const props: PDFProps = {
+            title,
+            lessons: allLessonsGrouped[student] || [],
+            studentFullName: student,
+          }
+          const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
+          return { name: `${student}.pdf`, blob }
+        }),
+      )
+      console.log(pdfBlobs)
+      const zipPDF = new JSZip()
+      for (const { name, blob } of pdfBlobs) {
+        zipPDF.file(name, blob)
+      }
+      const dataPDF = await zipPDF.generateAsync({ type: 'blob' })
+      const dataURLPDF = window.URL.createObjectURL(dataPDF)
+
+      const link = document.createElement('a')
+      link.href = dataURLPDF
+      link.setAttribute('download', 'test.zip')
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
+
+      window.URL.revokeObjectURL(dataURLPDF)
+      document.body.removeChild(link)
     } catch (e) {
       fetchErrorToast()
     } finally {

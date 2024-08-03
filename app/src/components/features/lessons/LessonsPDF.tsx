@@ -1,32 +1,35 @@
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { Text, StyleSheet, View } from "@react-pdf/renderer"
-import Html from "react-pdf-html"
-import BaseLayoutPDF from "../pdf/BaseLayoutPDF.component"
-import TablePDF from "../pdf/TablePDF.component"
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { Text, StyleSheet, View } from '@react-pdf/renderer'
+import Html from 'react-pdf-html'
+import BaseLayoutPDF from '../pdf/BaseLayoutPDF.component'
+import TablePDF from '../pdf/TablePDF.component'
 
 export type PDFProps = {
   title: string
   studentFullName: string
-  lessons: Array<{
-    lessonContent: string | null
-    homework: string | null
-    date: Date
-    id: number
-  }>
+  lessons: Array<
+    | {
+        lessonContent: string | null
+        homework: string | null
+        date: Date
+        id: number
+      }
+    | undefined
+  >
 }
 const styles = StyleSheet.create({
   col1: {
-    width: "12%",
-    padding: "8px 5px",
+    width: '12%',
+    padding: '8px 5px',
   },
-  col2: { width: "47%", borderLeft: "1px solid #e2e8f0", padding: "8px 5px" },
-  col3: { width: "47%", borderLeft: "1px solid #e2e8f0", padding: "8px 5px" },
+  col2: { width: '47%', borderLeft: '1px solid #e2e8f0', padding: '8px 5px' },
+  col3: { width: '47%', borderLeft: '1px solid #e2e8f0', padding: '8px 5px' },
 })
 const contentStyles = {
   li: {
-    paddingLeft: "2mm",
-    lineHeight: "1.5",
-    paddingBottom: "3px",
+    paddingLeft: '2mm',
+    lineHeight: '1.5',
+    paddingBottom: '3px',
   },
 }
 
@@ -34,19 +37,19 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
   const { userLocale } = useUserLocale()
   const sanitizedLessons = lessons?.map((lesson) => {
     const sanitizedContent = lesson?.lessonContent
-      ?.replaceAll("\n", "<br></br>")
-      .replaceAll("style", "")
+      ?.replaceAll('\n', '<br></br>')
+      .replaceAll('style', '')
 
-    const sanitizedHomework = lesson.homework?.replaceAll("\n", "<br></br>")
+    const sanitizedHomework = lesson?.homework?.replaceAll('\n', '<br></br>')
 
     const newLesson = {
       ...lesson,
       lessonContent: sanitizedContent,
       homework: sanitizedHomework,
-      date: lesson.date.toLocaleDateString(userLocale, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
+      date: lesson?.date.toLocaleDateString(userLocale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
       }),
     }
     return newLesson
@@ -54,7 +57,7 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
   return (
     <BaseLayoutPDF
       title={title || `Lektionsliste ${studentFullName}`}
-      orientation={"portrait"}
+      orientation={'portrait'}
     >
       <TablePDF.Head>
         <Text style={styles.col1}>Datum</Text>
@@ -70,18 +73,18 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
               <Html
                 stylesheet={contentStyles}
                 resetStyles
-                style={{ fontSize: "10px" }}
+                style={{ fontSize: '10px' }}
               >
-                {lesson.lessonContent || ""}
+                {lesson.lessonContent || ''}
               </Html>
             </View>
             <View style={styles.col3}>
               <Html
                 resetStyles
                 stylesheet={contentStyles}
-                style={{ fontSize: "10px" }}
+                style={{ fontSize: '10px' }}
               >
-                {lesson.homework || ""}
+                {lesson.homework || ''}
               </Html>
             </View>
           </TablePDF>

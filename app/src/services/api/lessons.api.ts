@@ -38,17 +38,15 @@ export const fetchAllLessonsApi = async ({
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
-  let query = supabase
-    .from('lessons')
-    .select('date, lessonContent, homework, id')
-    .eq(idField, holderIds)
+  let query = supabase.from('lessons').select('*').in(idField, holderIds)
 
   query = startDate
     ? query
         .gte('date', uctStartDate.toISOString())
         .lte('date', uctEndDate?.toISOString())
-        .order('date', { ascending: false })
-    : query.order('date', { ascending: false })
+    : query
+
+  query = query.order('date', { ascending: false })
 
   const { data: lessons, error } = await query
 
