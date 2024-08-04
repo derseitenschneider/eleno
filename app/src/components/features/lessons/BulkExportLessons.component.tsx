@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import stripHtmlTags from '../../../utils/stripHtmlTags'
 import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
-import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -14,9 +13,9 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
-import { useQueryClient } from '@tanstack/react-query'
 import { useLessonPointer } from '@/services/context/LessonPointerContext'
 import JSZip from 'jszip'
+import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -79,37 +78,67 @@ export default function BulkExportLessons({
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
-      if (!data) throw new Error()
+      if (!data) return
+      const groupedCSV: Record<string, string> = {}
 
-      const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g
-      function localizeDate(match: string) {
-        const date = new Date(match)
-        return date.toLocaleString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
+      for (const id of holderIds) {
+        let holderName = ''
+        const currentHolder = lessonHolders.find(
+          (lessonHolder) => lessonHolder.holder.id === id,
+        )
+        if (currentHolder?.type === 's') {
+          const { firstName, lastName } = currentHolder.holder
+          holderName = `${firstName} ${lastName}`
+        }
+        if (currentHolder?.type === 'g') {
+          holderName = currentHolder.holder.name
+        }
+        const data = await fetchAllLessonsCSVApi({
+          holderIds: [id],
+          holderType,
+          startDate,
+          endDate,
         })
+
+        const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g
+        function localizeDate(match: string) {
+          const date = new Date(match)
+          return date.toLocaleString(userLocale, {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
+        }
+        const localizedCsv = data.replace(dateRegex, localizeDate)
+        groupedCSV[holderName] = localizedCsv
       }
 
-      const localizedCsv = data.replace(dateRegex, localizeDate)
+      const csvBlobs = Object.keys(groupedCSV).map(async (student) => {
+        const blob = new Blob([stripHtmlTags(groupedCSV[student])], {
+          type: 'text/csv',
+        })
+      })
 
-      const blob = new Blob([stripHtmlTags(localizedCsv)], { type: 'text/csv' })
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
+      console.log(groupedCSV)
 
-      link.href = url
-      link.setAttribute(
-        'download',
-        title ? `${title}.csv` : `lektionsliste-${holderFullNameDashes}.csv`,
-      )
-      link.style.display = 'none'
-      document.body.appendChild(link)
-      link.click()
-
-      toast.success('Datei heruntergeladen.')
-      URL.revokeObjectURL(url)
-      document.body.removeChild(link)
-      onSuccess()
+      //
+      // const blob = new Blob([stripHtmlTags(localizedCsv)], { type: 'text/csv' })
+      // const url = URL.createObjectURL(blob)
+      // const link = document.createElement('a')
+      //
+      // link.href = url
+      // link.setAttribute(
+      //   'download',
+      //   title ? `${title}.csv` : `lektionsliste-${holderFullNameDashes}.csv`,
+      // )
+      // link.style.display = 'none'
+      // document.body.appendChild(link)
+      // link.click()
+      //
+      // toast.success('Datei heruntergeladen.')
+      // URL.revokeObjectURL(url)
+      // document.body.removeChild(link)
+      // onSuccess()
     } catch (e) {
       fetchErrorToast()
     } finally {
@@ -127,15 +156,33 @@ export default function BulkExportLessons({
       const { data: allLessons } = await fetchAllLessons()
       if (!allLessons) return
 
-      const allLessonsGrouped: Record<string, Array<Lesson>> = {}
+      const allLessonsGrouped: Record<
+        string,
+        Array<{
+          id: number
+          date: Date
+          lessonContent: string | null
+          homework: string | null
+        }>
+      > = {}
       for (const lesson of allLessons) {
-        const holderId = lesson.studentId
-          ? `s-${lesson.studentId}`
-          : `g-${lesson.groupId}`
-        if (Object.keys(allLessonsGrouped).includes(holderId)) {
-          allLessonsGrouped[holderId]?.push(lesson)
+        const fieldName = lesson.studentId ? 'studentId' : 'groupId'
+        const currentHolder = lessonHolders.find(
+          (lessonHolder) => lessonHolder.holder.id === lesson[fieldName],
+        )
+        let holderName = ''
+        if (currentHolder?.type === 's') {
+          const { firstName, lastName } = currentHolder.holder
+          holderName = `${firstName} ${lastName}`
+        }
+        if (currentHolder?.type === 'g') {
+          holderName = currentHolder.holder.name
+        }
+
+        if (Object.keys(allLessonsGrouped).includes(holderName)) {
+          allLessonsGrouped[holderName]?.push(lesson)
         } else {
-          allLessonsGrouped[holderId] = [lesson]
+          allLessonsGrouped[holderName] = [lesson]
         }
       }
       const pdfBlobs = await Promise.all(
@@ -146,10 +193,12 @@ export default function BulkExportLessons({
             studentFullName: student,
           }
           const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
-          return { name: `${student}.pdf`, blob }
+          return {
+            name: `lektionsliste-${student.split(' ').join('-').toLowerCase()}.pdf`,
+            blob,
+          }
         }),
       )
-      console.log(pdfBlobs)
       const zipPDF = new JSZip()
       for (const { name, blob } of pdfBlobs) {
         zipPDF.file(name, blob)
@@ -159,17 +208,19 @@ export default function BulkExportLessons({
 
       const link = document.createElement('a')
       link.href = dataURLPDF
-      link.setAttribute('download', 'test.zip')
+      link.setAttribute('download', 'alle-lektionen-pdf.zip')
       link.style.display = 'none'
       document.body.appendChild(link)
       link.click()
 
       window.URL.revokeObjectURL(dataURLPDF)
       document.body.removeChild(link)
+      toast.success('Export abgeschlossen.')
     } catch (e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
+      onSuccess?.()
     }
   }
 
@@ -209,7 +260,7 @@ export default function BulkExportLessons({
         </div>
       </div>
 
-      <div className='flex items-center'>
+      <div className='flex items-center mb-7'>
         <Checkbox
           name='select-all'
           id='select-all'
@@ -220,24 +271,6 @@ export default function BulkExportLessons({
         <Label htmlFor='select-all' className='text-sm ml-2'>
           Alle Lektionen exportieren
         </Label>
-      </div>
-
-      <div className='mt-8 mb-4'>
-        <Label htmlFor='title' className='text-sm'>
-          Titel (optional){' '}
-        </Label>
-        <Input
-          placeholder='Titel'
-          className='w-[35ch]'
-          type='text'
-          name='title'
-          id='title'
-          value={title}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const { value } = e.target
-            setTitle(value)
-          }}
-        />
       </div>
 
       <div className='flex items-center gap-5'>

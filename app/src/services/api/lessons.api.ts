@@ -54,27 +54,22 @@ export const fetchAllLessonsApi = async ({
   return lessons.map((lesson) => ({ ...lesson, date: new Date(lesson.date) }))
 }
 
-export type FetchAllLessonsCSVProps = {
-  holderIds: Array<number>
-  holderType: string
-  startDate?: Date
-  endDate?: Date
-}
-
 export const fetchAllLessonsCSVApi = async ({
   holderIds,
   holderType,
   startDate,
   endDate,
-}: FetchAllLessonsCSVProps) => {
+}: FetchAllLessonProps) => {
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
 
   let query = supabase
     .from('lessons')
-    .select('Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework')
-    .eq(idField, holderIds)
+    .select(
+      `Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework, Id: ${idField}`,
+    )
+    .in(idField, holderIds)
 
   query = startDate
     ? query
@@ -88,24 +83,6 @@ export const fetchAllLessonsCSVApi = async ({
   if (error) throw new Error(error.message)
   return lessonsCSV
 }
-
-// export const fetchLessonsCSVByRangeApi = async (
-//   startDate: Date,
-//   endDate: Date,
-//   studentId: number,
-// ) => {
-//   const { data: lessons, error } = await supabase
-//     .from('lessons')
-//     .select('date, lessonContent, homework')
-//     .eq('studentId', studentId)
-//     .gte('date', startDate)
-//     .lte('date', endDate)
-//     .order('date', { ascending: false })
-//     .csv()
-//
-//   if (error) throw new Error(error.message)
-//   return lessons
-// }
 
 export const createLessonAPI = async (lesson: LessonPartial) => {
   const { date } = lesson
