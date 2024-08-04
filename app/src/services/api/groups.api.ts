@@ -52,3 +52,20 @@ export const updateGroupApi = async (group: Group) => {
   if (error) throw new Error(error.message)
   return updatedGroup
 }
+
+export const resetGroupsAPI = async (groupIds: number[]) => {
+  const { data, error } = await supabase
+    .from('groups')
+    .update({
+      dayOfLesson: null,
+      startOfLesson: null,
+      endOfLesson: null,
+      durationMinutes: null,
+      location: null,
+    })
+    .in('id', groupIds)
+    .select('id')
+
+  if (error) throw new Error(error.message)
+  return data
+}

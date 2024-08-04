@@ -91,7 +91,7 @@ export default function InactiveHoldersTable({
       <DataTable
         table={table}
         columns={inactiveHoldersColumns}
-        messageEmpty='Keine Schüler:innen vorhanden'
+        messageEmpty='Das Archiv ist leer.'
         isFetching={isFetching}
       />
     </div>

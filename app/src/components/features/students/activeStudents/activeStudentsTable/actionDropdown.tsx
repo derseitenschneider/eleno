@@ -38,8 +38,7 @@ export function ActiveStudentsActionDropdown({
   >(null)
 
   const students = queryClient.getQueryData(['students']) as Array<Student>
-  const { deactivateStudents, isDeactivating, isError } =
-    useDeactivateStudents()
+  const { deactivateStudents } = useDeactivateStudents()
 
   const isDisabledAction = Object.entries(selected).length === 0
   const selectedStudentIds = Object.keys(selected).map((id) => Number(id))

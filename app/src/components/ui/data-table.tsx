@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
+import Empty from './Empty.component'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -98,7 +99,7 @@ export function DataTable<TData, TValue>({
               colSpan={columns.length}
               className='p-8 text-foreground/75 text-center'
             >
-              {messageEmpty}
+              <Empty emptyMessage={messageEmpty} />
             </TableCell>
           </TableRow>
         )}

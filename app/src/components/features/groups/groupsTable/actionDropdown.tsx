@@ -13,6 +13,8 @@ import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
 import BulkExportLessons from '../../lessons/BulkExportLessons.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
+import ResetGroups from '../ResetGroups.component'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -29,6 +31,7 @@ export function GroupsActionDropdown({
   >(null)
 
   const groups = queryClient.getQueryData(['groups']) as Array<Group>
+  const { deactivateGroups } = useDeactivateGroups()
 
   const isDisabledAction = Object.entries(selected).length === 0
   const selectedGroupIds = Object.keys(selected).map((id) => Number(id))
@@ -67,7 +70,9 @@ export function GroupsActionDropdown({
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => { }}
+            onClick={() => {
+              deactivateGroups(selectedGroupIds)
+            }}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />
@@ -90,6 +95,10 @@ export function GroupsActionDropdown({
       <Dialog open={openModal === 'RESET'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
+          <ResetGroups
+            selectedGroupIds={selectedGroupIds}
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
     </>
