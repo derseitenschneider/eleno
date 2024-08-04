@@ -6,9 +6,9 @@ function Empty({ emptyMessage }: EmptyProps) {
   return (
     <div className='grid grid-rows-[auto_80%] h-[90%] justify-center'>
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
-      <div className=''>
+      <div className='h-[120px] text-center'>
         <svg
-          className='h-full opacity-55 self-center object-contain object-center'
+          className='w-full opacity-55 self-center object-contain object-center'
           xmlns='http://www.w3.org/2000/svg'
           xmlSpace='preserve'
           style={{

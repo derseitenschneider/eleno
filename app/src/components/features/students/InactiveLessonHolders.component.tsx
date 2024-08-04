@@ -2,6 +2,7 @@ import type { LessonHolder } from '@/types/types'
 import useGroupsQuery from '../groups/groupsQuery'
 import useStudentsQuery from './studentsQueries'
 import InactiveHoldersTable from './inactiveLessonHolders/inactiveHoldersTable/table'
+import Empty from '@/components/ui/Empty.component'
 
 export default function InactiveLessonHolders() {
   const {
@@ -36,6 +37,12 @@ export default function InactiveLessonHolders() {
   const isFetching = isFetchingStudents && isFetchingGroups
   const isError = isErrorStudents && isErrorGroups
 
+  if (inactiveHolders.length === 0)
+    return (
+      <div className='mt-20'>
+        <Empty emptyMessage='Dein Archiv ist leer.' />
+      </div>
+    )
   return (
     <>
       <InactiveHoldersTable

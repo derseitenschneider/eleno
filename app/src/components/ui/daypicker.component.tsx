@@ -1,15 +1,15 @@
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon } from 'lucide-react'
 
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import { useState } from "react"
+} from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { useState } from 'react'
 
 type DayPickerProps = {
   className?: string
@@ -25,6 +25,7 @@ export function DayPicker({
   disabled,
 }: DayPickerProps) {
   const { userLocale } = useUserLocale()
+
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   return (
@@ -33,20 +34,20 @@ export function DayPicker({
         <Button
           disabled={disabled}
           size='sm'
-          variant={"outline"}
+          variant={'outline'}
           onClick={() => setIsCalendarOpen((prev) => !prev)}
           className={cn(
-            "w-auto gap-2 justify-start text-left text-foreground font-normal border-hairline",
-            !date && "text-muted-foreground",
+            'w-auto gap-2 justify-start text-left text-foreground font-normal border-hairline',
+            !date && 'text-muted-foreground',
             className,
           )}
         >
           {!date && <CalendarIcon className='h-4 w-4 text-primary' />}
           {date
             ? date.toLocaleDateString(userLocale, {
-              day: "2-digit",
-              month: "2-digit",
-              year: "2-digit",
+              day: '2-digit',
+              month: '2-digit',
+              year: '2-digit',
             })
             : null}
         </Button>

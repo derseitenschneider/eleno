@@ -51,13 +51,15 @@ function LessonHeader() {
                 ' | '}
             </span>
             {currentLessonHolder.holder.durationMinutes && (
-              <span>{currentLessonHolder.holder.durationMinutes} Minuten</span>
+              <span className='mr-2'>
+                {currentLessonHolder.holder.durationMinutes} Minuten
+              </span>
             )}
             {currentLessonHolder.type === 'g' &&
               currentLessonHolder.holder.students?.length !== 0 && (
                 <Popover>
                   <PopoverTrigger>
-                    <Badge className='ml-2'>
+                    <Badge className=''>
                       <Users className='size-3 mr-1' />
                       Gruppe
                     </Badge>
