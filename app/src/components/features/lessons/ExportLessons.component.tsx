@@ -43,22 +43,22 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-        type: 's',
-        holder: allStudents.find((student) => student.id === holderId),
-      } as LessonHolder)
+          type: 's',
+          holder: allStudents.find((student) => student.id === holderId),
+        } as LessonHolder)
       : ({
-        type: 'g',
-        holder: allGroups.find((group) => group.id === holderId),
-      } as LessonHolder)
+          type: 'g',
+          holder: allGroups.find((group) => group.id === holderId),
+        } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
-    holderId,
+    [holderId],
     holderType,
     startDate,
     endDate,
   )
   const { refetch: fetchAllLessonsCSV } = useAllLessonsCSV(
-    holderId,
+    [holderId],
     holderType,
     startDate,
     endDate,

@@ -66,9 +66,7 @@ export const fetchAllLessonsCSVApi = async ({
 
   let query = supabase
     .from('lessons')
-    .select(
-      `Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework, Id: ${idField}`,
-    )
+    .select('Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework')
     .in(idField, holderIds)
 
   query = startDate

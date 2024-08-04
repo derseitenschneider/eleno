@@ -34,7 +34,6 @@ export default function BulkExportLessons({
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
   const [selectAll, setSelectAll] = useState(false)
-  const [title, setTitle] = useState('')
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -78,67 +77,67 @@ export default function BulkExportLessons({
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
-      if (!data) return
-      const groupedCSV: Record<string, string> = {}
+      if (!data || data.length === 0)
+        return toast.warning('Keine Lektionen vorhanden.')
 
-      for (const id of holderIds) {
-        let holderName = ''
-        const currentHolder = lessonHolders.find(
-          (lessonHolder) => lessonHolder.holder.id === id,
-        )
-        if (currentHolder?.type === 's') {
-          const { firstName, lastName } = currentHolder.holder
-          holderName = `${firstName} ${lastName}`
-        }
-        if (currentHolder?.type === 'g') {
-          holderName = currentHolder.holder.name
-        }
-        const data = await fetchAllLessonsCSVApi({
-          holderIds: [id],
-          holderType,
-          startDate,
-          endDate,
-        })
-
-        const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g
-        function localizeDate(match: string) {
-          const date = new Date(match)
-          return date.toLocaleString(userLocale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
+      const groupedCSV = await Promise.all(
+        holderIds.map(async (id) => {
+          let holderName = ''
+          const currentHolder = lessonHolders.find(
+            (lessonHolder) => lessonHolder.holder.id === id,
+          )
+          if (currentHolder?.type === 's') {
+            const { firstName, lastName } = currentHolder.holder
+            holderName = `${firstName} ${lastName}`
+          }
+          if (currentHolder?.type === 'g') {
+            holderName = currentHolder.holder.name
+          }
+          const data = await fetchAllLessonsCSVApi({
+            holderIds: [id],
+            holderType,
+            startDate,
+            endDate,
           })
-        }
-        const localizedCsv = data.replace(dateRegex, localizeDate)
-        groupedCSV[holderName] = localizedCsv
+          const strippedData = stripHtmlTags(data)
+
+          const dateRegex = /(\d{4})-(\d{2})-(\d{2})/g
+          function localizeDate(match: string) {
+            const date = new Date(match)
+            return date.toLocaleString(userLocale, {
+              day: '2-digit',
+              month: '2-digit',
+              year: '2-digit',
+            })
+          }
+          const localizedCsv = strippedData.replace(dateRegex, localizeDate)
+          return { holderName, csv: localizedCsv }
+        }),
+      )
+
+      const zipCSV = new JSZip()
+
+      for (const csvData of groupedCSV) {
+        zipCSV.file(
+          `lektionsliste-${csvData.holderName.split(' ').join('-').toLowerCase()}.csv`,
+          csvData.csv,
+        )
       }
 
-      const csvBlobs = Object.keys(groupedCSV).map(async (student) => {
-        const blob = new Blob([stripHtmlTags(groupedCSV[student])], {
-          type: 'text/csv',
-        })
-      })
+      const csvBlob = await zipCSV.generateAsync({ type: 'blob' })
+      const csvUrl = window.URL.createObjectURL(csvBlob)
+      const link = document.createElement('a')
 
-      console.log(groupedCSV)
+      link.href = csvUrl
+      link.setAttribute('download', 'alle-lektionen-csv.zip')
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
 
-      //
-      // const blob = new Blob([stripHtmlTags(localizedCsv)], { type: 'text/csv' })
-      // const url = URL.createObjectURL(blob)
-      // const link = document.createElement('a')
-      //
-      // link.href = url
-      // link.setAttribute(
-      //   'download',
-      //   title ? `${title}.csv` : `lektionsliste-${holderFullNameDashes}.csv`,
-      // )
-      // link.style.display = 'none'
-      // document.body.appendChild(link)
-      // link.click()
-      //
-      // toast.success('Datei heruntergeladen.')
-      // URL.revokeObjectURL(url)
-      // document.body.removeChild(link)
-      // onSuccess()
+      toast.success('Export abgeschlossen.')
+      URL.revokeObjectURL(csvUrl)
+      document.body.removeChild(link)
+      onSuccess()
     } catch (e) {
       fetchErrorToast()
     } finally {
@@ -154,7 +153,8 @@ export default function BulkExportLessons({
       const { LessonsPDF } = await import('./LessonsPDF')
 
       const { data: allLessons } = await fetchAllLessons()
-      if (!allLessons) return
+      if (!allLessons || allLessons.length === 0)
+        return toast.warning('Keine Lektionen vorhanden.')
 
       const allLessonsGrouped: Record<
         string,
@@ -188,7 +188,6 @@ export default function BulkExportLessons({
       const pdfBlobs = await Promise.all(
         Object.keys(allLessonsGrouped).map(async (student) => {
           const props: PDFProps = {
-            title,
             lessons: allLessonsGrouped[student] || [],
             studentFullName: student,
           }

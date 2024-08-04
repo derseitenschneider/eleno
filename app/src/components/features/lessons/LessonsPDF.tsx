@@ -5,15 +5,15 @@ import BaseLayoutPDF from '../pdf/BaseLayoutPDF.component'
 import TablePDF from '../pdf/TablePDF.component'
 
 export type PDFProps = {
-  title: string
+  title?: string
   studentFullName: string
   lessons: Array<
     | {
-        lessonContent: string | null
-        homework: string | null
-        date: Date
-        id: number
-      }
+      lessonContent: string | null
+      homework: string | null
+      date: Date
+      id: number
+    }
     | undefined
   >
 }

@@ -12,6 +12,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
+import BulkExportLessons from '../../lessons/BulkExportLessons.component'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -66,7 +67,7 @@ export function GroupsActionDropdown({
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => { }}
             className='flex items-center gap-2'
           >
             <Archive className='h-4 w-4 text-primary' />
@@ -78,6 +79,11 @@ export function GroupsActionDropdown({
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          <BulkExportLessons
+            holderIds={selectedGroupIds}
+            holderType='g'
+            onSuccess={closeModal}
+          />
         </DialogContent>
       </Dialog>
 
