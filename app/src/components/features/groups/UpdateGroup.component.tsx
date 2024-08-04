@@ -213,13 +213,11 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
                             placeholder={`Schüler:in ${index + 1}`}
                           />
                         </FormControl>
-                        {index !== 0 && (
-                          <ButtonRemove
-                            className='absolute right-0 translate-x-[50%] top-[25%] translate-y-[-50%]'
-                            onRemove={() => remove(index)}
-                            tabIndex={-1}
-                          />
-                        )}
+                        <ButtonRemove
+                          className='absolute right-0 translate-x-[50%] top-[25%] translate-y-[-50%]'
+                          onRemove={() => remove(index)}
+                          tabIndex={-1}
+                        />
                       </FormItem>
                     )}
                   />
@@ -229,10 +227,13 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
                 onClick={() => append({ name: '' })}
                 type='button'
                 size='sm'
-                className='w-fit ml-3 self-center'
+                className={cn(
+                  'w-fit self-center',
+                  fields.length !== 0 && 'ml-3',
+                )}
               >
                 <Plus className='mr-1 size-4' />
-                Mehr
+                {fields.length === 0 ? 'Hinzufügen' : 'Mehr'}
               </Button>
             </div>
           </div>
