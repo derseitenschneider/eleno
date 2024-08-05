@@ -76,9 +76,9 @@ export default function AddHolderCombobox({
         </PopoverTrigger>
         <PopoverContent className='p-0' side='bottom' align='start'>
           <Command>
-            <CommandInput placeholder='Schüler:in suchen' />
+            <CommandInput placeholder='Schüler:in/Gruppe suchen' />
             <CommandList>
-              <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
+              <CommandEmpty>Keine:n Schüler:in/Gruppe gefunden.</CommandEmpty>
               <CommandGroup>
                 {lessonHolders?.map((lessonHolder) => {
                   const id = lessonHolder.holder.id

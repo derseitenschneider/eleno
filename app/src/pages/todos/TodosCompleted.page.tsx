@@ -1,13 +1,13 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
-import Modal from "../../components/ui/modal/Modal.component"
-import NoContent from "../../components/ui/NoContent.component"
-import DeleteTodos from "../../components/features/todos/deleteTodos/DeleteTodos.component"
-import TodoDescription from "../../components/features/todos/todoDescription/TodoDescription.component"
-import TodoItem from "../../components/features/todos/todoItem/TodoItem.component"
-import TodoList from "../../components/features/todos/todoList/TodoList.component"
-import { useTodos } from "../../services/context/TodosContext"
-import Menus from "../../components/ui/menu/Menus.component"
+import Modal from '../../components/ui/modal/Modal.component'
+import NoContent from '../../components/ui/NoContent.component'
+import DeleteTodos from '../../components/features/todos/deleteTodos/DeleteTodos.component'
+import TodoDescription from '../../components/features/todos/todoDescription/TodoDescription.component'
+import TTodoItem from '../../components/features/todos/TodoItem.component'
+import TodoList from '../../components/features/todos/todoList/TodoList.component'
+import { useTodos } from '../../services/context/TodosContext'
+import Menus from '../../components/ui/menu/Menus.component'
 
 function TodosCompleted() {
   const { todos } = useTodos()

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { useTodos } from '../../../services/context/TodosContext'
 import { useUser } from '../../../services/context/UserContext'
 import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import type { PartialTodoItem, TodoItem } from '../../../types/types'
+import type { PartialTodoItem, TTodoItem } from '../../../types/types'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Button } from '@/components/ui/button'
 import AddHolderCombobox from '../students/AddHolderCombobox.component'
@@ -42,10 +42,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
 
   return (
     <div>
-      <form
-        onSubmit={onSaveHandler}
-        className='gap-1 w-[800px] flex items-center'
-      >
+      <form onSubmit={onSaveHandler} className='gap-1 w-full flex items-center'>
         <div className='flex bg-background50 grow'>
           <div className='shrink grow'>
             <Input
@@ -88,9 +85,6 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         </Button>
         {isCreating && <MiniLoader />}
       </form>
-      {/* {errorMessage && ( */}
-      {/*   <p className='text-sm text-warning p-2'>{errorMessage}</p> */}
-      {/* )} */}
     </div>
   )
 }

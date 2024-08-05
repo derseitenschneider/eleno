@@ -1,6 +1,6 @@
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { createTodoApi } from '@/services/api/todos.api'
-import type { RepertoireItem, TodoItem } from '@/types/types'
+import type { RepertoireItem, TTodoItem } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
@@ -11,7 +11,7 @@ export function useCreateTodoItem() {
 
     onSuccess: (newItem) => {
       toast.success('Todo erstellt.')
-      queryClient.setQueryData(['todos'], (prev: Array<TodoItem>) => [
+      queryClient.setQueryData(['todos'], (prev: Array<TTodoItem>) => [
         ...prev,
         newItem,
       ])

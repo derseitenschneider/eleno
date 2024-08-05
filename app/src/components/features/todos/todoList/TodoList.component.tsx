@@ -1,15 +1,13 @@
-import "./todoList.style.scss";
-
 interface TodoListProps {
-	children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 function TodoList({ children }: TodoListProps) {
-	return (
-		<div className="todo-list">
-			<div className="todos">{children}</div>
-		</div>
-	);
+  return (
+    <div className='todo-list'>
+      <div className='todos'>{children}</div>
+    </div>
+  )
 }
 
-export default TodoList;
+export default TodoList

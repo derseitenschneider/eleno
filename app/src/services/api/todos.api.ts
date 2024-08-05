@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import type { PartialTodoItem, TodoItem } from '../../types/types'
+import type { PartialTodoItem, TTodoItem } from '../../types/types'
 import supabase from './supabase'
 
-export const fetchTodosApi = async (userId: string) => {
-  const { data: todos, error } = await supabase
-    .from('todos')
-    .select('*')
-    .eq('user_id', userId)
+export const fetchTodosApi = async () => {
+  const { data: todos, error } = await supabase.from('todos').select('*')
   if (error) {
     throw new Error(error.message)
   }
@@ -39,7 +35,7 @@ export const completeTodoApi = async (todoId: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateTodoApi = async (todo: TodoItem) => {
+export const updateTodoApi = async (todo: TTodoItem) => {
   const todoDb = {
     completed: todo.completed,
     due: todo.due,
