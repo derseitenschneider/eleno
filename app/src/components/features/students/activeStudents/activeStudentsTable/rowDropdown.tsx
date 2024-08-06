@@ -90,7 +90,7 @@ export default function ActiveStudentRowDropdown({
                 const newStudentIndex =
                   activeSortedStudentIds.indexOf(studentId)
                 setCurrentStudentIndex(newStudentIndex)
-                navigate(`/lessons/${studentId}`)
+                navigate(`/lessons/s-${studentId}`)
               }}
               className='flex items-center gap-2'
             >
