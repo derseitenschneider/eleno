@@ -7,6 +7,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
 import { useCompleteTodo } from './useCompleteTodo'
 import { useNavigate } from 'react-router-dom'
+import { Check } from 'lucide-react'
+import CompletedTodoDropdown from './CompletedTodoDropdown.component'
 
 interface TodoItemProps {
   todo: TTodoItem
@@ -57,6 +59,7 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
             className='size-[12px] rounded-[3px]'
           />
         )}
+        {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
       <span className='text-sm'>{todo.text}</span>
       <span>
@@ -78,6 +81,7 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
 
       <div className='flex justify-self-end'>
         {type === 'open' && <OpenTodoDropdown id={todo.id} />}
+        {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}
       </div>
     </li>
   )

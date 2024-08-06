@@ -1,7 +1,7 @@
 import type { PartialTodoItem, TTodoItem } from '../../types/types'
 import supabase from './supabase'
 
-export const fetchTodosApi = async () => {
+export const fetchTodosApi = async (): Promise<Array<TTodoItem>> => {
   const { data: todos, error } = await supabase.from('todos').select('*')
   if (error) {
     throw new Error(error.message)
@@ -9,7 +9,7 @@ export const fetchTodosApi = async () => {
 
   return todos.map((todo) => ({
     ...todo,
-    due: todo.due ? new Date(todo.due) : null,
+    due: todo.due ? new Date(todo.due) : undefined,
   }))
 }
 
@@ -52,11 +52,6 @@ export const updateTodoApi = async (todo: TTodoItem) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteAllCompletedTodosApi = async () => {
-  const { error } = await supabase.from('todos').delete().eq('completed', true)
-  if (error) throw new Error(error.message)
-}
-
 export const reactivateTodoApi = async (id: number) => {
   const { error } = await supabase
     .from('todos')
@@ -66,7 +61,7 @@ export const reactivateTodoApi = async (id: number) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteTodoApi = async (id: number) => {
-  const { error } = await supabase.from('todos').delete().eq('id', id)
+export const deleteTodosApi = async (ids: Array<number>) => {
+  const { error } = await supabase.from('todos').delete().in('id', ids)
   if (error) throw new Error(error.message)
 }

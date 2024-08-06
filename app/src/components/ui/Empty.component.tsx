@@ -1,10 +1,18 @@
+import { cn } from '@/lib/utils'
+
 interface EmptyProps {
   emptyMessage: string
+  className?: string
 }
 
-function Empty({ emptyMessage }: EmptyProps) {
+function Empty({ emptyMessage, className }: EmptyProps) {
   return (
-    <div className='grid grid-rows-[auto_80%] h-[90%] justify-center'>
+    <div
+      className={cn(
+        className,
+        'grid grid-rows-[auto_80%] h-[90%] justify-center',
+      )}
+    >
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
       <div className='h-[120px] text-center'>
         <svg

@@ -13,7 +13,7 @@ interface IProps {
 function Navbar({ navLinks }: IProps) {
   return (
     <div className='text-base mb-6'>
-      <ul className='p-0 flex justify-start gap-6'>
+      <ul className='p-0 flex justify-start gap-4'>
         {navLinks.map((link) => (
           <li key={link.key} className='px-1 relative overflow-hidden'>
             <NavLink
