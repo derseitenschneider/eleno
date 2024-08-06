@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useTodos } from '../../../services/context/TodosContext'
-import { useUser } from '../../../services/context/UserContext'
-import fetchErrorToast from '../../../hooks/fetchErrorToast'
-import type { PartialTodoItem, TTodoItem } from '../../../types/types'
+import { useRef, useState } from 'react'
+import type { PartialTodoItem } from '../../../types/types'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Button } from '@/components/ui/button'
 import AddHolderCombobox from '../students/AddHolderCombobox.component'
@@ -20,15 +16,23 @@ interface AddTodoProps {
 
 function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
   const { createTodoItem, isCreating } = useCreateTodoItem()
+  const textField = useRef<HTMLInputElement>(null)
   const [text, setText] = useState('')
   const [due, setDue] = useState<Date>()
   const [selectedHolderId, setSelectedHolderId] = useState(
     holderId ? `${holderType}-${holderId}` : '',
   )
 
-  const onSaveHandler = async () => {
+  function resetFields() {
+    setText('')
+    setDue(undefined)
+    setSelectedHolderId('')
+  }
+
+  const onSaveHandler = async (e: React.FormEvent) => {
+    e.preventDefault()
     const typeId = selectedHolderId.includes('s') ? 'studentId' : 'groupId'
-    const holderId = Number(selectedHolderId.split('-').at(1)) || 0
+    const holderId = Number(selectedHolderId.split('-').at(1)) || null
     const newTodo: PartialTodoItem = {
       text,
       due,
@@ -36,7 +40,11 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
       completed: false,
     }
     createTodoItem(newTodo, {
-      onSuccess: () => onCloseModal?.(),
+      onSuccess: () => {
+        resetFields()
+        setTimeout(() => textField.current?.focus(), 200)
+        onCloseModal?.()
+      },
     })
   }
 
@@ -46,6 +54,8 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         <div className='flex bg-background50 grow'>
           <div className='shrink grow'>
             <Input
+              autoFocus
+              ref={textField}
               className='border-none'
               type='text'
               placeholder='Todo'

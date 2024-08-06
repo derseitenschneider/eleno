@@ -34,7 +34,7 @@ function Sidebar() {
   const todos = useTodosQuery().data
   const { logout } = useUser()
   const overdueTodos = todos?.filter(
-    (todo) => todo.due && todo?.due <= new Date(),
+    (todo) => todo.due && todo?.due <= new Date() && !todo.completed,
   )
 
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
@@ -49,9 +49,8 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${
-        sidebarOpen ? 'w-[180px]' : 'w-[50px]'
-      }`}
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
+        }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink

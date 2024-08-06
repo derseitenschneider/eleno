@@ -16,13 +16,18 @@ export const fetchTodosApi = async () => {
 export const createTodoApi = async (todo: PartialTodoItem) => {
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
-  const { data: newTodo, error } = await supabase
+  const { data, error } = await supabase
     .from('todos')
     .insert({ ...todo, due: utcDue ? utcDue.toISOString() : null })
     .select()
     .single()
 
   if (error) throw new Error(error.message)
+
+  const newTodo: TTodoItem = {
+    ...data,
+    due: data.due ? new Date(data.due) : undefined,
+  }
 
   return newTodo
 }
@@ -36,14 +41,9 @@ export const completeTodoApi = async (todoId: number) => {
 }
 
 export const updateTodoApi = async (todo: TTodoItem) => {
-  const todoDb = {
-    completed: todo.completed,
-    due: todo.due,
-    id: todo.id,
-    student_id: todo.studentId,
-    text: todo.text,
-    user_id: todo.userId,
-  }
+  const { due } = todo
+  const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
+  const todoDb = { ...todo, due: utcDue ? utcDue.toISOString() : null }
   const { error } = await supabase
     .from('todos')
     .update({ ...todoDb })

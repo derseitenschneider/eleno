@@ -26,11 +26,10 @@ export default function SidebarElement({
         title={name}
         to={to}
         target={target}
-        className={`${
-          !isActive
+        className={`${!isActive
             ? 'text-foreground before:hidden'
             : 'text-white after:hidden'
-        }
+          }
         align-center z-1 relative flex items-center gap-4 p-1.5 text-foreground
         before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full
         before:w-full before:rounded-md before:bg-primary after:absolute after:left-0
@@ -42,7 +41,7 @@ export default function SidebarElement({
           {notificationContent ? (
             <div
               className='z-100 absolute bottom-0 right-0 flex
-            aspect-square !size-[13px] translate-x-[25%] translate-y-[25%]
+            aspect-square !size-[15px] translate-x-[25%] translate-y-[25%]
             items-center justify-center rounded-full bg-warning'
             >
               <span className='text-[10px] text-white'>
@@ -52,9 +51,8 @@ export default function SidebarElement({
           ) : null}
         </div>
         <span
-          className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} ${
-            isActive ? 'text-white' : ''
-          } whitespace-nowrap text-sm
+          className={`${!sidebarOpen ? 'hidden opacity-0' : 'opacity-1'} ${isActive ? 'text-white' : ''
+            } whitespace-nowrap text-sm
           leading-none transition-opacity delay-500 duration-1000`}
         >
           {name}
