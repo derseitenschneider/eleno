@@ -11,7 +11,7 @@ type StudentsControlProps = {
   selected: RowSelectionState
   setSelected: React.Dispatch<React.SetStateAction<RowSelectionState>>
 }
-export default function InactiveStudentsControl({
+export default function InactiveHoldersControl({
   globalFilter,
   setGlobalFilter,
   isFetching,
@@ -41,14 +41,17 @@ export default function InactiveStudentsControl({
         <div className='flex items-center gap-2'>
           {inactiveStudents && inactiveStudents?.length > 0 && (
             <p className='text-sm'>
-              Archivierte Schüler:innen: <span>{inactiveStudents.length}</span>
+              Schüler:innen: <span>{inactiveStudents.length}</span>
             </p>
           )}
+          {inactiveStudents &&
+            inactiveStudents?.length > 0 &&
+            inactiveGroups &&
+            inactiveGroups.length > 0 && <span>|</span>}
           {inactiveGroups && inactiveGroups?.length > 0 && (
             <>
-              <span>|</span>
               <p className='text-sm'>
-                Archivierte Gruppen: <span>{inactiveGroups.length}</span>
+                Gruppen: <span>{inactiveGroups.length}</span>
               </p>
             </>
           )}

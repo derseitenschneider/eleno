@@ -126,7 +126,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent className='w-[800px]'>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
             <CreateTodo

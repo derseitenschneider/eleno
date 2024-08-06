@@ -79,7 +79,7 @@ export default function TodosCompleted() {
       ) : (
         <Empty
           className='mt-[120px]'
-          emptyMessage='Keine erledigten Todos vorhanden'
+          emptyMessage='Keine erledigten Todos vorhanden.'
         />
       )}
     </div>

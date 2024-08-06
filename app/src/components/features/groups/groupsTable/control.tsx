@@ -47,7 +47,7 @@ export default function GroupsControl({
         <GroupsActionDropdown setSelected={setSelected} selected={selected} />
         {hasActiveGroups && (
           <p className='text-sm'>
-            Aktive Gruppen: <span>{activeGroups.length}</span>
+            Gruppen: <span>{activeGroups.length}</span>
           </p>
         )}
       </div>

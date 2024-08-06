@@ -51,7 +51,7 @@ export default function StudentsControl({
         />
         {hasActiveStudents && (
           <p className='text-sm'>
-            Aktive Schüler:innen: <span>{activeStudents.length}</span>
+            Schüler:innen: <span>{activeStudents.length}</span>
           </p>
         )}
       </div>

@@ -40,8 +40,9 @@ function LessonHeader() {
             <span>
               {currentLessonHolder.holder.dayOfLesson &&
                 `${currentLessonHolder.holder.dayOfLesson}`}
-              {currentLessonHolder.holder.startOfLesson &&
-                `, ${currentLessonHolder.holder.startOfLesson.slice(0, 5)}`}
+              {currentLessonHolder.holder.startOfLesson
+                ? `, ${currentLessonHolder.holder.startOfLesson.slice(0, 5)}`
+                : null}
               {currentLessonHolder.holder.endOfLesson &&
                 ` - ${currentLessonHolder.holder.endOfLesson.slice(0, 5)}`}
             </span>

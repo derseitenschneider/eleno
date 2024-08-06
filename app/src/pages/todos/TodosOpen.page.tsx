@@ -49,7 +49,7 @@ export default function TodosOpen() {
       ) : (
         <Empty
           className='mt-[80px]'
-          emptyMessage=' Keine offenen Todos vorhanden'
+          emptyMessage=' Keine offenen Todos vorhanden.'
         />
       )}
     </div>

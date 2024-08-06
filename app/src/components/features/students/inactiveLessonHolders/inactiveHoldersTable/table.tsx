@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { inactiveHoldersColumns } from './columns'
-import InactiveStudentsControl from './control'
+import InactiveHoldersControl from './control'
 type TInactiveHoldersTable = {
   inactiveHolders: Array<LessonHolder>
   isPending: boolean
@@ -81,7 +81,7 @@ export default function InactiveHoldersTable({
 
   return (
     <div>
-      <InactiveStudentsControl
+      <InactiveHoldersControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         isFetching={isFetching}
