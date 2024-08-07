@@ -206,7 +206,7 @@ export type Sorting = {
 
 export type TimetableDay = {
   day: string
-  students: Student[]
+  lessonHolders: LessonHolder[]
 }
 
 /*

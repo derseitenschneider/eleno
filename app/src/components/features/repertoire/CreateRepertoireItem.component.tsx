@@ -55,7 +55,10 @@ function CreateRepertoireItem({
   return (
     <div className='flex  gap-2 mb-12 mt-6'>
       <div className='flex rounded-md items-center pr-1 bg-background50 gap-2 grow'>
-        <div className='shrink grow'>
+        <div className='relative shrink grow'>
+          <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+            Song
+          </span>
           <Input
             placeholder='Song'
             className='border-none'

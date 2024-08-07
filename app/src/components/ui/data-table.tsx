@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
     <Table
       className={cn(
         isFetching && 'opacity-50',
-        'pb-4 shadow border-none overflow-hidden',
+        'pb-4 shadow border border-background200 overflow-hidden',
         className,
       )}
     >
@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
               key={row.id}
               data-state={row.getIsSelected() && 'selected'}
               className={cn(
-                'odd:bg-background200/50',
+                'odd:bg-background100',
                 isSelectable && 'cursor-pointer',
               )}
               onClick={() => toggleSelection(row)}

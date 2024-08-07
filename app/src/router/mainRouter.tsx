@@ -27,7 +27,7 @@ const Students = lazy(() => import('../pages/students/Students'))
 const Lessons = lazy(() => import('../pages/Lessons.page'))
 const ToDos = lazy(() => import('../pages/todos/Todos.page'))
 const Settings = lazy(() => import('../pages/settings/Settings'))
-const Timetable = lazy(() => import('../pages/timetable/Timetable.component'))
+const Timetable = lazy(() => import('../pages/timetable/Timetable.page'))
 
 const mainRouter = createBrowserRouter(
   [
@@ -48,7 +48,9 @@ const mainRouter = createBrowserRouter(
           path: 'timetable',
           element: (
             <Suspense>
-              <Timetable />
+              <div className='py-5 pl-8 pr-4'>
+                <Timetable />
+              </div>
             </Suspense>
           ),
         },

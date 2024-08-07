@@ -2,10 +2,11 @@ import { cn } from '@/lib/utils'
 
 interface EmptyProps {
   emptyMessage: string
+  children?: React.ReactNode
   className?: string
 }
 
-function Empty({ emptyMessage, className }: EmptyProps) {
+function Empty({ emptyMessage, children, className }: EmptyProps) {
   return (
     <div
       className={cn(
@@ -15,6 +16,7 @@ function Empty({ emptyMessage, className }: EmptyProps) {
     >
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
       <div className='h-[120px] text-center'>
+        {children}
         <svg
           className='w-full opacity-55 self-center object-contain object-center'
           xmlns='http://www.w3.org/2000/svg'
