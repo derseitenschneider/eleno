@@ -42,7 +42,9 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
     createTodoItem(newTodo, {
       onSuccess: () => {
         resetFields()
-        setTimeout(() => textField.current?.focus(), 200)
+        setTimeout(() => {
+          if (window.innerWidth > 800) textField.current?.focus()
+        }, 200)
         onCloseModal?.()
       },
     })
@@ -54,7 +56,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         <div className='flex bg-background50 grow'>
           <div className='shrink grow'>
             <Input
-              autoFocus
+              autoFocus={window.innerWidth > 800}
               ref={textField}
               className='border-none'
               type='text'
