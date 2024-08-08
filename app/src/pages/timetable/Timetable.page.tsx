@@ -58,7 +58,7 @@ export default function Timetable() {
     lessonHolders: [],
   }
   const noDayAssigned: TimetableDay = {
-    day: 'Kein Tag angegeben',
+    day: null,
     lessonHolders: [],
   }
   for (const lessonHolder of sortedLessonHolders) {

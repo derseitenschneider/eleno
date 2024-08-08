@@ -10,7 +10,7 @@ export default function TimeTableDay({ day }: TimeTableDayProps) {
   return (
     <div className='mb-12 shadow-sm w-[700px] border border-background200 bg-background50'>
       <div className='bg-background200 px-4 py-2 flex justify-between items-baseline'>
-        <h4>{day.day}</h4>
+        <h4>{day.day || 'Kein Tag angegeben '}</h4>
 
         <span className='text-sm text-foreground/70'>
           Lektionen: {day.lessonHolders.length}

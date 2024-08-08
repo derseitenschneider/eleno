@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import sortTimeTableDays from '@/utils/sortTimetableDays'
 
 interface ExportTimeTableProps {
   days: TimetableDay[]
@@ -18,20 +19,20 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
   const { user } = useUser()
   const [selectedDays, setSelectedDays] = useState<TimetableDay[]>([])
   const [title, setTitle] = useState('')
+
   const daysWithStudents = days.filter((day) => day.lessonHolders.length > 0)
+  const selectedDaysSorted = sortTimeTableDays(selectedDays)
 
   const userName = `${user.firstName} ${user.lastName}`
   const userNameDashes = userName.split(' ').join('-').toLowerCase()
 
-  const handleSelect = (e) => {
-    console.log(e)
-    const { value } = e.target
+  const handleSelect = (day: TimetableDay) => {
+    const value = day.day
 
     if (selectedDays.find((day) => day.day === value)) {
       setSelectedDays((prev) => prev.filter((el) => el.day !== value))
     } else {
-      const additionalDay = daysWithStudents.find((d) => d.day === value)
-      if (additionalDay) setSelectedDays((prev) => [...prev, additionalDay])
+      setSelectedDays((prev) => [...prev, day])
     }
   }
 
@@ -47,7 +48,7 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
     <div>
       <p>Exportiere den gesamten Stundenplan oder einzelne Tage.</p>
       <ul className='my-5'>
-        <li className='mb-3'>
+        <li className='mb-3 flex items-center'>
           <Checkbox
             name='all'
             id='all'
@@ -59,16 +60,19 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
           </Label>
         </li>
         {daysWithStudents.map((day) => (
-          <li key={day.day}>
+          <li key={day.day} className='flex items-center mb-1'>
             <Checkbox
-              name={day.day}
-              id={day.day}
-              onCheckedChange={handleSelect}
-              value={day.day}
+              name={day.day || 'Kein Tag angegeben'}
+              id={day.day || 'Kein Tag angegeben'}
+              onCheckedChange={() => handleSelect(day)}
+              value={day.day || ''}
               checked={!!selectedDays.find((el) => el.day === day.day)}
             />
-            <Label htmlFor={day.day} className='text-sm ml-2'>
-              {day.day}
+            <Label
+              htmlFor={day.day || 'Kein Tag angegeben'}
+              className='text-sm ml-2'
+            >
+              {day.day || 'Kein Tag angegeben'}
             </Label>
           </li>
         ))}
@@ -86,14 +90,16 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
           }}
         />
       </div>
-      <div
-        className={`export-timetable__buttons${selectedDays.length === 0 ? ' hidden' : ''
-          }`}
-      >
+      <div>
         <PDFDownloadLink
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+            if (selectedDays.length === 0) {
+              e.preventDefault()
+            }
+          }}
           document={
             <TimetablePDF
-              days={selectedDays}
+              days={selectedDaysSorted}
               title={title}
               userName={userName}
             />
@@ -104,7 +110,12 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
               : `stundenplan-${userNameDashes}`
           }
         >
-          <Button variant='default' size='sm'>
+          <Button
+            variant='default'
+            className='mt-4'
+            size='sm'
+            disabled={selectedDays.length === 0}
+          >
             PDF herunterladen
           </Button>
         </PDFDownloadLink>

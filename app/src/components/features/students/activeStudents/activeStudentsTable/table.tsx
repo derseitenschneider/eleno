@@ -13,6 +13,7 @@ import {
 import { useMemo, useState } from 'react'
 import { studentsColumns } from './columns'
 import StudentsControl from './control'
+import useScrollTo from '@/hooks/useScrollTo'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -27,6 +28,8 @@ export default function ActiveStudentsTable({
   isPending,
   isFetching,
 }: TActiveStudentsTable) {
+  useScrollTo(0, 0)
+
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})

@@ -205,7 +205,7 @@ export type Sorting = {
 }
 
 export type TimetableDay = {
-  day: string
+  day: Weekday
   lessonHolders: LessonHolder[]
 }
 

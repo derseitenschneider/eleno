@@ -22,15 +22,17 @@ export default function TimeTableRow({ lessonHolder }: TimeTableRowProps) {
 
   return (
     <div
-      className='text-sm odd:bg-background100 px-4 py-1 text-foreground grid items-center grid-cols-[100px_150px_80px_1fr_20px] gap-x-6 gap-y-0'
+      className='text-sm odd:bg-background100 px-4 py-1 text-foreground grid items-center grid-cols-[100px_200px_80px_1fr_20px] gap-x-6 gap-y-0'
       key={holder.id}
     >
       <div>
-        {holder.startOfLesson && (
+        {holder.startOfLesson || holder.endOfLesson ? (
           <>
-            {holder.startOfLesson.slice(0, 5)} –{' '}
+            {holder.startOfLesson?.slice(0, 5)} –{' '}
             {holder.endOfLesson?.slice(0, 5)}
           </>
+        ) : (
+          <span className='block text-center'>—</span>
         )}
       </div>
       <div className='flex gap-2 items-center'>

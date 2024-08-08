@@ -42,7 +42,9 @@ function TimetablePDF({ days, title, userName }: TimetablePDFProps) {
       {days.map((day) => (
         <View key={day.day} wrap={false} style={styles.day}>
           <View style={styles.head}>
-            <Text style={styles.tableHeading}>{day.day}</Text>
+            <Text style={styles.tableHeading}>
+              {day.day || 'Kein Tag angegeben'}
+            </Text>
             <Text>Anz. Schüler:innen: {day.lessonHolders.length}</Text>
           </View>
           <TablePDF.Head>
@@ -56,8 +58,8 @@ function TimetablePDF({ days, title, userName }: TimetablePDFProps) {
             <View key={lessonHolder.holder.id}>
               <TablePDF index={index}>
                 <Text style={styles.col1}>
-                  {lessonHolder.holder.startOfLesson} -{' '}
-                  {lessonHolder.holder.endOfLesson}
+                  {lessonHolder.holder.startOfLesson?.slice(0, 5)} -{' '}
+                  {lessonHolder.holder.endOfLesson?.slice(0, 5)}
                 </Text>
                 <Text style={styles.col2}>
                   {lessonHolder.type === 's'
