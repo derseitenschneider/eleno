@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { GroupsActionDropdown } from './actionDropdown'
 import CreateGroup from '../CreateGroup.component'
+import ExportGroupList from '../ExportGroupList.component'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -78,7 +79,7 @@ export default function GroupsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Gruppenliste exportieren</DialogTitle>
-            {/* <ExportStudentList students={activeGroups} /> */}
+            <ExportGroupList groups={groups} />
           </DialogHeader>
         </DialogContent>
       </Dialog>
@@ -88,7 +89,6 @@ export default function GroupsControl({
           <DialogHeader>
             <DialogTitle>Gruppe erstellen</DialogTitle>
             <CreateGroup onSuccess={closeModal} />
-            {/* <CreateStudents onSuccess={closeModal} /> */}
           </DialogHeader>
         </DialogContent>
       </Dialog>
