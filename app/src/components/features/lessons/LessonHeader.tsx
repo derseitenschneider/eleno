@@ -23,7 +23,7 @@ function LessonHeader() {
                 ? `s-${currentLessonHolder.holder.id}`
                 : `g-${currentLessonHolder.holder.id}`
               }`}
-            className='flex mb-2 items-center hover:no-underline'
+            className='flex mb-1 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
               {currentLessonHolder.type === 's' && <User strokeWidth={2} />}{' '}
