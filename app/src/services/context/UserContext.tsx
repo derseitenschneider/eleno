@@ -1,4 +1,4 @@
-import type { Session } from "@supabase/gotrue-js/src/lib/types"
+import type { Session } from '@supabase/gotrue-js/src/lib/types'
 import {
   createContext,
   useCallback,
@@ -6,11 +6,11 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react"
-import { useNavigate } from "react-router-dom"
-import fetchErrorToast from "../../hooks/fetchErrorToast"
-import LoginPage from "../../pages/login/LoginPage"
-import supabase from "../api/supabase"
+} from 'react'
+import { useNavigate } from 'react-router-dom'
+import fetchErrorToast from '../../hooks/fetchErrorToast'
+import LoginPage from '../../pages/login/LoginPage'
+import supabase from '../api/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
@@ -18,10 +18,10 @@ import {
   updateEmailSupabase,
   updatePasswordSupabase,
   updateProfileSupabase,
-} from "../api/user.api"
-import type { ContextTypeUser, Profile, User } from "../../types/types"
-import { useLoading } from "./LoadingContext"
-import mockUser from "../api/mock-db/mockUser"
+} from '../api/user.api'
+import type { ContextTypeUser, Profile, User } from '../../types/types'
+import { useLoading } from './LoadingContext'
+import mockUser from '../api/mock-db/mockUser'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
@@ -42,21 +42,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const mode = import.meta.env.VITE_MODE
 
   const getUserProfiles = async (userId: string) => {
-    if (mode === "demo") {
+    if (mode === 'demo') {
       setUser(mockUser)
       setIsLoading(false)
       return
     }
     try {
       const [data] = await getProfilesSupabase(userId)
-      if (!data) throw new Error("No user found.")
-      const currentUser: User = {
-        email: data.email ?? "",
-        id: data.id,
-        firstName: data.first_name ?? "",
-        lastName: data.last_name ?? "",
-      }
-      setUser(currentUser)
+      if (!data) throw new Error('No user found.')
+      setUser(data)
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -65,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    if (mode === "demo") {
+    if (mode === 'demo') {
       // getUserProfiles()
       return
     }
@@ -86,14 +80,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return null
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {
       await updateProfileSupabase(data)
       setUser((prev) => {
-        return { ...prev, firstName: data.firstName, lastName: data.lastName }
+        return {
+          ...prev,
+          first_name: data.first_name,
+          last_name: data.last_name,
+        }
       })
     } catch (error) {
       throw new Error(error.message)
@@ -129,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut()
-    navigate("/?page=login", { replace: true })
+    navigate('/?page=login', { replace: true })
   }, [navigate])
 
   const recoverPassword = async (email: string) => {
@@ -151,7 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [deleteAccount, logout, updateEmail, updatePassword, updateProfile, user],
   )
 
-  if (mode === "demo")
+  if (mode === 'demo')
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 
   return (

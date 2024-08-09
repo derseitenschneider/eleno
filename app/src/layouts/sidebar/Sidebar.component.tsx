@@ -99,16 +99,16 @@ function Sidebar() {
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
         <SidebarElement
           sidebarOpen={sidebarOpen}
+          to='/settings'
+          name='Einstellungen'
+          icon={<Settings strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
           to='https://manual.eleno.net'
           target={'_blank'}
           name='Anleitung'
           icon={<BookMarked strokeWidth={1.5} />}
-        />
-        <SidebarElement
-          sidebarOpen={sidebarOpen}
-          to='/settings'
-          name='Einstellungen'
-          icon={<Settings strokeWidth={1.5} />}
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}

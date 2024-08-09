@@ -46,7 +46,7 @@ export const getProfilesSupabase = async (uid: string) => {
 }
 
 export const updateProfileSupabase = async (data: Profile) => {
-  const { error } = await supabase.auth.updateUser({
+  const { error, data: profile } = await supabase.auth.updateUser({
     data,
   })
 

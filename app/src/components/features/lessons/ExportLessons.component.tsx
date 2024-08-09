@@ -43,13 +43,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-          type: 's',
-          holder: allStudents.find((student) => student.id === holderId),
-        } as LessonHolder)
+        type: 's',
+        holder: allStudents.find((student) => student.id === holderId),
+      } as LessonHolder)
       : ({
-          type: 'g',
-          holder: allGroups.find((group) => group.id === holderId),
-        } as LessonHolder)
+        type: 'g',
+        holder: allGroups.find((group) => group.id === holderId),
+      } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -70,10 +70,10 @@ function ExportLessons({
   const holderFullName =
     selectedHolder.type === 's'
       ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
-      : selectedHolder.holder.name
+      : selectedHolder.holder?.name
 
   const holderFullNameDashes = holderFullName
-    .split(' ')
+    ?.split(' ')
     .map((part) => part.toLowerCase())
     .join('-')
 
@@ -228,7 +228,7 @@ function ExportLessons({
         </Label>
       </div>
 
-      <div className='mt-8 mb-4'>
+      <div className='mt-5 mb-8'>
         <Label htmlFor='title' className='text-sm'>
           Titel (optional){' '}
         </Label>
@@ -246,7 +246,7 @@ function ExportLessons({
         />
       </div>
 
-      <div className='flex items-center gap-5'>
+      <div className='flex items-center gap-4 justify-start'>
         <Button
           size='sm'
           disabled={!canDownload || isLoading}

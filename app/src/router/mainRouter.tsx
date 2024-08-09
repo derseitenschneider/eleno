@@ -5,26 +5,17 @@ import ErrorPage from '../pages/error/error'
 import Loader from '../components/ui/loader/Loader'
 import Application from '../Application'
 
-import Account from '../pages/settings/account/Account'
+import Account from '../pages/settings/Account'
 import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import TodosOpen from '../pages/todos/TodosOpen.page'
 
-import Groups from '../components/features/groups/Groups.component'
-import AllLessons from '../components/features/lessons/all-lessons/allLessonsTable'
-import Repertoire from '../components/features/repertoire/Repertoire.component'
-import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
-import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
-import View from '../pages/settings/view/View'
+import View from '../pages/settings/View'
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
-import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
-import LessonSkeleton from '@/components/ui/skeletons/LessonSkeleton.component'
 import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
-const Students = lazy(() => import('../pages/students/Students'))
-const Lessons = lazy(() => import('../pages/Lessons.page'))
 const ToDos = lazy(() => import('../pages/todos/Todos.page'))
 const Settings = lazy(() => import('../pages/settings/Settings'))
 const Timetable = lazy(() => import('../pages/timetable/Timetable.page'))
@@ -74,7 +65,9 @@ const mainRouter = createBrowserRouter(
           path: 'settings',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Settings />
+              <div className='py-5 pl-8 pr-4'>
+                <Settings />
+              </div>
             </Suspense>
           ),
           children: [

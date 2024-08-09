@@ -1,5 +1,5 @@
-import { useUser } from "../../../../services/context/UserContext"
-import DarkmodeToggle from "../../../ui/darkmodeToggle/DarkmodeToggle.component"
+import { useUser } from '../../../../services/context/UserContext'
+import DarkmodeToggle from '../../../ui/darkmodeToggle/DarkmodeToggle.component'
 
 function HeaderDashboard() {
   const { user } = useUser()
@@ -11,15 +11,13 @@ function HeaderDashboard() {
         <h1>Dashboard</h1>
 
         <div className=''>
-          {mode === "demo" ? (
+          {mode === 'demo' ? (
             <span className=''>
-              Willkommen und viel Spass beim
-              Ausprobieren der Demo.
+              Willkommen und viel Spass beim Ausprobieren der Demo.
             </span>
           ) : (
             <span className=''>
-              Hi <b>{user?.firstName}</b>,
-              willkommen bei Eleno!
+              Hi <b>{user?.first_name}</b>, willkommen bei Eleno!
             </span>
           )}
         </div>
