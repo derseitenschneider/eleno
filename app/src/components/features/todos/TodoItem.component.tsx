@@ -49,7 +49,7 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
     <li
       className={cn(
         grid,
-        'bg-background50 mb-2 rounded-sm shadow-sm border-background200 border',
+        'bg-background50 mb-2 mt-5 md:mt-0 flex md:grid rounded-sm shadow-sm border-background200 border',
       )}
     >
       <div className='flex'>

@@ -52,8 +52,11 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
 
   return (
     <div>
-      <form onSubmit={onSaveHandler} className='gap-1 w-full flex items-center'>
-        <div className='flex bg-background50 grow'>
+      <form
+        onSubmit={onSaveHandler}
+        className='gap-1 w-full md:flex items-center'
+      >
+        <div className='md:flex bg-background50 grow'>
           <div className='shrink grow'>
             <Input
               autoFocus={window.innerWidth > 800}
@@ -71,20 +74,22 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               disabled={isCreating}
             />
           </div>
-          <AddHolderCombobox
-            disabled={isCreating}
-            selectedHolderId={selectedHolderId}
-            setSelectedHolderId={setSelectedHolderId}
-          />
-          <div className='flex items-center'>
-            <DayPicker disabled={isCreating} date={due} setDate={setDue} />
-            {due && (
-              <ButtonRemove
-                disabled={isCreating}
-                className='translate-x-[-8px]'
-                onRemove={() => setDue(undefined)}
-              />
-            )}
+          <div className='flex justify-between'>
+            <AddHolderCombobox
+              disabled={isCreating}
+              selectedHolderId={selectedHolderId}
+              setSelectedHolderId={setSelectedHolderId}
+            />
+            <div className='flex items-center'>
+              <DayPicker disabled={isCreating} date={due} setDate={setDue} />
+              {due && (
+                <ButtonRemove
+                  disabled={isCreating}
+                  className='translate-x-[-8px]'
+                  onRemove={() => setDue(undefined)}
+                />
+              )}
+            </div>
           </div>
         </div>
         <Button

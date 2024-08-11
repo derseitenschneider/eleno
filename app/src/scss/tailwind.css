@@ -222,3 +222,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .has-list {
   @apply [&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px]
 }
+
+.container-page {
+  @apply md:py-5 md:pl-8 md:pr-4 p-4
+}

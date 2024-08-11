@@ -1,4 +1,3 @@
-import { logEvent } from '@firebase/analytics'
 import { useCallback, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -27,15 +26,19 @@ import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { setNearestStudentIndex: setClosestStudentIndex } = useLessonPointer()
-  const students = useStudentsQuery().data
-  const activeStudents = students?.filter((student) => !student.archive)
-  const { currentStudentId } = useStudents()
+  const { lessonPointer, lessonHolders } = useLessonPointer()
   const todos = useTodosQuery().data
   const { logout } = useUser()
   const overdueTodos = todos?.filter(
     (todo) => todo.due && todo?.due <= new Date() && !todo.completed,
   )
+
+  const currentLessonHolder = lessonHolders[lessonPointer]
+  let currentHolderQuery = 'no-student'
+
+  if (currentLessonHolder) {
+    currentHolderQuery = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
+  }
 
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
 
@@ -71,7 +74,7 @@ function Sidebar() {
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
-          to={`/lessons/${currentStudentId || 'no-students'}`}
+          to={`/lessons/${currentHolderQuery}`}
           name='Unterrichten'
           icon={<GraduationCap strokeWidth={1.5} />}
         />

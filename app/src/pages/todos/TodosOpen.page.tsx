@@ -27,7 +27,7 @@ export default function TodosOpen() {
   ].sort(compareDateTodos)
 
   const grid =
-    'grid items-center grid-cols-[30px_1fr_250px_150px_40px] p-[10px] '
+    'grid items-center md:grid-cols-[30px_1fr_250px_150px_40px] p-[10px] '
   if (isPending) return <p>...loading</p>
 
   return (
@@ -38,11 +38,9 @@ export default function TodosOpen() {
           <TodoDescription grid={grid} />
           <ul>
             <Modal>
-              <Menus>
-                {sortedFilteredTodos.map((todo) => (
-                  <TodoItem key={todo.id} grid={grid} todo={todo} type='open' />
-                ))}
-              </Menus>
+              {sortedFilteredTodos.map((todo) => (
+                <TodoItem key={todo.id} grid={grid} todo={todo} type='open' />
+              ))}
             </Modal>
           </ul>
         </>

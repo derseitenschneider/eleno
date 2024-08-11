@@ -31,7 +31,7 @@ export default function HolderDropdownLesson() {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className='text-primary h-4'>
+        <DropdownMenuTrigger className='hidden md:block text-primary h-4'>
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

@@ -51,7 +51,7 @@ const mainRouter = createBrowserRouter(
           path: 'todos',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <div className='py-5 pl-8 pr-4'>
+              <div className='container-page'>
                 <ToDos />
               </div>
             </Suspense>
@@ -65,7 +65,7 @@ const mainRouter = createBrowserRouter(
           path: 'settings',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <div className='py-5 pl-8 pr-4'>
+              <div className='container-page'>
                 <Settings />
               </div>
             </Suspense>

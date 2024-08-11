@@ -1,12 +1,12 @@
-import DashboardSkeleton from "@/components/ui/skeletons/DashboardSkeleton.component"
-import useScrollTo from "@/hooks/useScrollTo"
-import { motion } from "framer-motion"
-import FooterDashboard from "../../components/features/dashboard/footer/FooterDashboard.component"
-import HeaderDashboard from "../../components/features/dashboard/header/HeaderDashboard.component"
-import News from "../../components/features/dashboard/news/News.component"
-import Overview from "../../components/features/dashboard/overview/Overview.component"
-import QuickLinks from "../../components/features/dashboard/quickLinks/QuickLinks.component"
-import { useLoading } from "../../services/context/LoadingContext"
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
+import useScrollTo from '@/hooks/useScrollTo'
+import { motion } from 'framer-motion'
+import FooterDashboard from '../../components/features/dashboard/footer/FooterDashboard.component'
+import HeaderDashboard from '../../components/features/dashboard/header/HeaderDashboard.component'
+import News from '../../components/features/dashboard/news/News.component'
+import Overview from '../../components/features/dashboard/overview/Overview.component'
+import QuickLinks from '../../components/features/dashboard/quickLinks/QuickLinks.component'
+import { useLoading } from '../../services/context/LoadingContext'
 
 function Dashboard() {
   const { isLoading } = useLoading()
@@ -16,7 +16,7 @@ function Dashboard() {
 
   return (
     <motion.div
-      className='md:h-screen md:min-h-[700px] min-[900px]:grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto] *:py-5 *:px-3 sm:*:px-5 sm:*:pr-4 sm:*:pl-8'
+      className='md:h-screen md:min-h-[700px] min-[900px]:grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto] *:p-4 md:*:py-3 sm:*:px-5 sm:*:pr-4 sm:*:pl-8'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >

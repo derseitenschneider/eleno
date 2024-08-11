@@ -1,7 +1,7 @@
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import news from "./news"
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import news from './news'
 // import './news.style.scss'
-import NewsItem from "./newsItem/NewsItem.component"
+import NewsItem from './newsItem/NewsItem.component'
 
 function News() {
   const sortedNews = news.sort(
@@ -22,7 +22,7 @@ function News() {
             <NewsItem news={currentNews} key={currentNews.date} />
           ))}
       </div> */}
-      <ScrollArea className='h-full'>
+      <ScrollArea className='max-h-[400px] md:h-full'>
         <ScrollBar orientation='vertical' />
         {sortedNews
           .sort((newsA, newsB) => +newsA.date - +newsB.date)

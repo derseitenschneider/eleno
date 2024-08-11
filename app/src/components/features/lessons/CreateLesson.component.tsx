@@ -143,7 +143,7 @@ function CreateLesson() {
   }
 
   return (
-    <div className='sm:pr-4 sm:pl-8 sm:py-4'>
+    <div className='p-4 sm:pr-4 sm:pl-8 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker
@@ -152,7 +152,9 @@ function CreateLesson() {
           disabled={isCreating}
         />
       </div>
-      <div className={cn(isCreating && 'opacity-50', 'grid grid-cols-2 gap-6')}>
+      <div
+        className={cn(isCreating && 'opacity-50', 'grid md:grid-cols-2 gap-6')}
+      >
         <div>
           <p className='text-foreground/70'>Lektion</p>
           <CustomEditor

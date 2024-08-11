@@ -46,8 +46,8 @@ function PreviousLessons() {
   }, [])
 
   return (
-    <div className='sm:pr-4 sm:pl-8 sm:py-4 border-b border-hairline h-[300px] relative'>
-      <div className='flex items-baseline gap-5 mb-5'>
+    <div className='sm:pr-4 px-4 py-6 pb-14 sm:pl-8 sm:py-4 border-b border-hairline md:h-[300px] relative'>
+      <div className='flex flex-wrap items-baseline gap-5 mb-5'>
         {previousLessonsIds.length > 0 ? (
           <>
             {previousLessonsIds.map((prev, index) => (
@@ -56,7 +56,7 @@ function PreviousLessons() {
                 className={cn(
                   'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
                   index === tabIndex &&
-                    'bg-background50 border-primary/80 hover:bg-background50',
+                  'bg-background50 border-primary/80 hover:bg-background50',
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -84,7 +84,7 @@ function PreviousLessons() {
       </div>
       {previousLessonsIds.length > 0 ? (
         <>
-          <div className={cn('grid grid-cols-2 gap-6')}>
+          <div className={cn('grid md:grid-cols-2 gap-6')}>
             <div>
               <p className='text-foreground/70'>Lektion</p>
               <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
