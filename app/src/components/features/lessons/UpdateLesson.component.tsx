@@ -69,12 +69,12 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
 
   return (
     <div>
-      <div className='flex items-center mb-3 gap-2'>
+      <div className='md:flex items-center mb-3 gap-2'>
         <h5 className='mb-0'>Datum</h5>
         <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />
       </div>
-      <div className='flex items-center mb-6 gap-8'>
-        <div className='w-[450px]'>
+      <div className='md:flex items-center mb-6 gap-8'>
+        <div className='md:w-[450px]'>
           <h5>Lektion</h5>
 
           <CustomEditor
@@ -84,7 +84,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
 
-        <div className='w-[450px]'>
+        <div className='md:w-[450px]'>
           <h5>Hausaufgaben</h5>
 
           <CustomEditor

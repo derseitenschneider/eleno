@@ -79,7 +79,7 @@ function LessonFooter() {
   }
 
   return (
-    <footer className='fixed md:bottom-0 bottom-16 right-[25%] md:right-0 px-3 py-3'>
+    <footer className='fixed md:bottom-0 bottom-16 right-0 px-3 py-3'>
       <div className='shadow-xl bg-background200/25 border border-background50 flex gap-3 p-2 backdrop-blur-sm rounded-full'>
         <SearchStudentCombobox />
         <Button
