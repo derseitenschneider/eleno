@@ -61,7 +61,7 @@ export default function PreviousLessonDropDown({
       </DropdownMenu>
 
       <Dialog open={modalOpen === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent className='w-screen md:w-auto overflow-scroll'>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektion bearbeiten</DialogTitle>
           </DialogHeader>

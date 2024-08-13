@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dialog'
 import ExportLessons from '../ExportLessons.component'
 import useCurrentHolder from '../useCurrentHolder'
+import { cn } from '@/lib/utils'
 
 type AllLessonsControlPros = {
   table: Table<Lesson>
@@ -51,17 +52,20 @@ export default function AllLessonsControl({
   function handleSelect(year: string) {
     setSearchParams({ year })
   }
+  function closeModal() {
+    setModalOpen(undefined)
+  }
 
   if (!currentLessonHolder) return null
   return (
-    <div className='flex items-center justify-between mb-4'>
-      <div className='flex items-center justify-between mb-4'>
+    <div className='flex justify-between mb-4 items-center'>
+      <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
-          className='flex items-center gap-2'
+          className='flex items-center sm:gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
-          <span>Zur Lektion</span>
+          <span>Zurück</span>
         </NavLink>
       </div>
       {hasLessonYears && (
@@ -88,6 +92,7 @@ export default function AllLessonsControl({
           variant='outline'
           onClick={() => setModalOpen('EXPORT')}
           disabled={!hasLessonYears || isFetching}
+          className='hidden sm:flex'
         >
           <File className='h-4 w-4 text-primary mr-2' />
           Exportieren
@@ -106,7 +111,11 @@ export default function AllLessonsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
-            <ExportLessons holderId={currentLessonHolder.holder.id} />
+            <ExportLessons
+              onSuccess={closeModal}
+              holderType={currentLessonHolder.type}
+              holderId={currentLessonHolder.holder.id}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>

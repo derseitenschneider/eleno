@@ -82,7 +82,7 @@ export default function AllLessons() {
   if (isErrorLessons || isErrorYears) return <div>ERROR</div>
 
   return (
-    <div className='mb-10'>
+    <div className='mb-14 sm:mb-10'>
       <AllLessonsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

@@ -25,13 +25,13 @@ import mockUser from '../api/mock-db/mockUser'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -84,12 +84,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {
-      await updateProfileSupabase(data)
+      const newData = { firstName: data.first_name, lastName: data.last_name }
+      await updateProfileSupabase(newData)
       setUser((prev) => {
         return {
           ...prev,
-          first_name: data.first_name,
-          last_name: data.last_name,
+          first_name: data.firstName,
+          last_name: data.lastName,
         }
       })
     } catch (error) {

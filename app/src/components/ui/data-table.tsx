@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
     <Table
       className={cn(
         isFetching && 'opacity-50',
-        'pb-4 shadow border border-background200 overflow-hidden',
+        'pb-4 shadow min-w-[650px] border border-background200 overflow-hidden',
         className,
       )}
     >
@@ -58,9 +58,9 @@ export function DataTable<TData, TValue>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                 </TableHead>
               )
             })}

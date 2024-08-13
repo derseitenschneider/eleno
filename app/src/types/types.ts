@@ -18,11 +18,6 @@ export type DBTypes = {
   [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
 }
 
-// Removes null except for defined fields
-type RemoveNullExcept<T, E extends keyof T = never> = {
-  [P in keyof T]: P extends E ? T[P] : Exclude<T[P], null>
-}
-
 // Transform fields (E) from type (T) to new type (N).
 type TransformFields<T, N, E extends keyof T = never> = {
   [P in keyof T]: P extends E ? N : T[P]
@@ -109,7 +104,7 @@ export type LessonHolder =
 
 export type User = DBTypes['profiles']
 
-export type Profile = Pick<User, 'first_name' | 'last_name'>
+export type Profile = Pick<User, 'firstName' | 'lastName'>
 
 /*
 |--------------------------------------------------------------------------

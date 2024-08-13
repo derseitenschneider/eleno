@@ -49,7 +49,7 @@ export const updateProfileSupabase = async (data: Profile) => {
   const { error, data: profile } = await supabase.auth.updateUser({
     data,
   })
-  console.log(profile)
+  // console.log(profile)
 
   if (error) throw new Error(error.message)
 }

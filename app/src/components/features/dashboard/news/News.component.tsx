@@ -22,7 +22,7 @@ function News() {
             <NewsItem news={currentNews} key={currentNews.date} />
           ))}
       </div> */}
-      <ScrollArea className='max-h-[400px] md:h-full'>
+      <ScrollArea className='max-h-[400px] sm:max-h-screen sm:h-full'>
         <ScrollBar orientation='vertical' />
         {sortedNews
           .sort((newsA, newsB) => +newsA.date - +newsB.date)

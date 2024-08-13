@@ -49,10 +49,11 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
     <li
       className={cn(
         grid,
-        'bg-background50 mb-2 mt-5 md:mt-0 flex md:grid rounded-sm shadow-sm border-background200 border',
+        'bg-background50 mb-2 mt-5 flex flex-wrap gap-2 justify-between rounded-sm shadow-sm border-background200 border',
+        'sm:mt-0 sm:grid ',
       )}
     >
-      <div className='flex'>
+      <div className='flex basis-full gap-2 items-center'>
         {type === 'open' && (
           <Checkbox
             onClick={() => completeTodo(todo.id)}
@@ -60,8 +61,8 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
           />
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
+        <span className='text-sm basis-full'>{todo.text}</span>
       </div>
-      <span className='text-sm'>{todo.text}</span>
       <span>
         {currentHolderName ? (
           <Badge onClick={navigateToHolder} className='cursor-pointer w-fit'>
@@ -72,10 +73,10 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
       <span className={cn('text-sm', isOverdue && 'text-warning')}>
         {todo.due
           ? todo.due.toLocaleDateString(userLocale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          })
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
           : null}
       </span>
 

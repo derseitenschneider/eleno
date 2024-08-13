@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import DeleteAccount from '../../components/features/settings/profile/DeleteAccount.component'
-import EditEmail from '../../components/features/settings/profile/EditEmail.component'
-import EditPassword from '../../components/features/settings/profile/EditPassword.component'
-import EditProfile from '../../components/features/settings/profile/EditProfile.component'
+import EditEmail from '../../components/features/settings/profile/UpdateEmail.component'
+import EditPassword from '../../components/features/settings/profile/UpdatePassword.component'
+import EditProfile from '../../components/features/settings/profile/UpdateProfile.component'
 import { useUser } from '../../services/context/UserContext'
 import { Button } from '@/components/ui/button'
 import {

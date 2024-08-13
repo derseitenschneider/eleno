@@ -209,27 +209,27 @@ export type Database = {
       profiles: {
         Row: {
           email: string
-          first_name: string
+          firstName: string
           id: string
-          last_name: string
+          lastName: string
           lifetime_membership: boolean
           stripe_customer: string | null
           stripe_subscription: boolean
         }
         Insert: {
           email: string
-          first_name: string
+          firstName: string
           id: string
-          last_name: string
+          lastName: string
           lifetime_membership?: boolean
           stripe_customer?: string | null
           stripe_subscription?: boolean
         }
         Update: {
           email?: string
-          first_name?: string
+          firstName?: string
           id?: string
-          last_name?: string
+          lastName?: string
           lifetime_membership?: boolean
           stripe_customer?: string | null
           stripe_subscription?: boolean

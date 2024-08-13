@@ -19,10 +19,11 @@ function LessonHeader() {
       <div className='flex items-end justify-between'>
         <div className='flex w-full md:block items-baseline justify-between'>
           <NavLink
-            to={`/lessons/${currentLessonHolder.type === 's'
+            to={`/lessons/${
+              currentLessonHolder.type === 's'
                 ? `s-${currentLessonHolder.holder.id}`
                 : `g-${currentLessonHolder.holder.id}`
-              }`}
+            }`}
             className='flex mb-1 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
@@ -60,7 +61,7 @@ function LessonHeader() {
               currentLessonHolder.holder.students?.length !== 0 && (
                 <Popover>
                   <PopoverTrigger>
-                    <Badge className=''>
+                    <Badge className='hidden sm:flex'>
                       <Users className='size-3 mr-1' />
                       Gruppe
                     </Badge>

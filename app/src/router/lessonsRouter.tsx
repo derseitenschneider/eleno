@@ -35,7 +35,7 @@ const lessonsRoutes = [
         end: true,
         path: 'all',
         element: (
-          <div className='py-5 pl-8 pr-4'>
+          <div className='container-page'>
             <AllLessons />
           </div>
         ),

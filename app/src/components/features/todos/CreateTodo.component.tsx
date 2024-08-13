@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useCreateTodoItem } from './useCreateTodoItem'
+import { cn } from '@/lib/utils'
 
 interface AddTodoProps {
   onCloseModal?: () => void
@@ -54,9 +55,12 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
     <div>
       <form
         onSubmit={onSaveHandler}
-        className='gap-1 w-full md:flex items-center'
+        className={cn(
+          'sm:flex-row sm:items-center sm:bg-background50',
+          'gap-1 w-full flex flex-col justify-end',
+        )}
       >
-        <div className='md:flex bg-background50 grow'>
+        <div className='sm:flex bg-background50 grow'>
           <div className='shrink grow'>
             <Input
               autoFocus={window.innerWidth > 800}
@@ -80,7 +84,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               selectedHolderId={selectedHolderId}
               setSelectedHolderId={setSelectedHolderId}
             />
-            <div className='flex items-center'>
+            <div className='flex mr-2 items-center'>
               <DayPicker disabled={isCreating} date={due} setDate={setDue} />
               {due && (
                 <ButtonRemove
@@ -97,6 +101,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           type='submit'
           onClick={onSaveHandler}
           size='sm'
+          className={cn('sm:mt-0 sm:ml-0', 'mt-2 ml-auto')}
         >
           Speichern
         </Button>

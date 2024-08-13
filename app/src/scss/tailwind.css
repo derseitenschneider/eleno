@@ -224,5 +224,5 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .container-page {
-  @apply md:py-5 md:pl-8 md:pr-4 p-4
+  @apply sm:py-5 sm:pl-8 sm:pr-4 py-4 px-3
 }

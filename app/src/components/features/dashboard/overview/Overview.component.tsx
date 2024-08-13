@@ -17,12 +17,19 @@ function Overview() {
 
   const todos = useTodosQuery().data
   const todosOpen = todos?.filter((todo) => !todo.completed)
+  let closestStudentName = ''
+  if (closestStudent?.type === 's') {
+    closestStudentName = `${closestStudent.holder.firstName} ${closestStudent.holder.lastName}`
+  }
+  if (closestStudent?.type === 'g') {
+    closestStudentName = closestStudent.holder.name
+  }
 
   return (
     <div className='row-start-3 '>
       <h2>Übersicht</h2>
       <div className='lg:flex gap-5 space-y-5 lg:space-y-0'>
-        <OverviewCard to='/students' title='Schüler:innen'>
+        <OverviewCard to='/students' title='Unterricht'>
           <div>
             {activeStudents && activeStudents?.length > 0 ? (
               <>
