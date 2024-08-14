@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import type { TTodoItem } from '@/types/types'
 import { useState } from 'react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { cn } from '@/lib/utils'
 
 type UpdateTodoProps = {
   id: number
@@ -46,8 +47,6 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
     if (fieldName) {
       newTodo[fieldName] = fieldId
     } else {
-      newTodo.studentId = null
-      newTodo.groupId = null
     }
     updateTodo(newTodo, {
       onSuccess,
@@ -55,12 +54,18 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   }
 
   return (
-    <div>
-      <form onSubmit={onSaveHandler} className='gap-1 w-full flex items-center'>
-        <div className='flex bg-background50 grow'>
-          <div className='shrink grow'>
+    <div className='sm:min-w-[600px]'>
+      <form
+        onSubmit={onSaveHandler}
+        className={cn(
+          'sm:flex-row sm:items-center sm:bg-background50',
+          'gap-1 w-full flex flex-col justify-end',
+        )}
+      >
+        <div className='sm:flex bg-background50 grow'>
+          <div className='shrink grow mb-4 sm:mb-0'>
             <Input
-              autoFocus
+              autoFocus={window.innerWidth > 800}
               className='border-none'
               type='text'
               placeholder='Todo'
@@ -74,20 +79,22 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
               disabled={isUpdating}
             />
           </div>
-          <AddHolderCombobox
-            disabled={isUpdating}
-            selectedHolderId={selectedHolderId}
-            setSelectedHolderId={setSelectedHolderId}
-          />
-          <div className='flex items-center'>
-            <DayPicker disabled={isUpdating} date={due} setDate={setDue} />
-            {due && (
-              <ButtonRemove
-                disabled={isUpdating}
-                className='translate-x-[-8px]'
-                onRemove={() => setDue(undefined)}
-              />
-            )}
+          <div className='flex justify-between'>
+            <AddHolderCombobox
+              disabled={isUpdating}
+              selectedHolderId={selectedHolderId}
+              setSelectedHolderId={setSelectedHolderId}
+            />
+            <div className='flex items-center'>
+              <DayPicker disabled={isUpdating} date={due} setDate={setDue} />
+              {due && (
+                <ButtonRemove
+                  disabled={isUpdating}
+                  className='translate-x-[-8px]'
+                  onRemove={() => setDue(undefined)}
+                />
+              )}
+            </div>
           </div>
         </div>
         <Button
@@ -95,6 +102,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
           type='submit'
           onClick={onSaveHandler}
           size='sm'
+          className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
         >
           Speichern
         </Button>

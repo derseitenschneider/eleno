@@ -53,7 +53,7 @@ export default function AddHolderCombobox({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            className='border-none !bg-transparent justify-between'
+            className='px-3 sm:px-4 border-none !bg-transparent justify-between'
           >
             {selectedHolder ? (
               <div>

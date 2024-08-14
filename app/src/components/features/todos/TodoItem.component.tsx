@@ -13,10 +13,9 @@ import CompletedTodoDropdown from './CompletedTodoDropdown.component'
 interface TodoItemProps {
   todo: TTodoItem
   type: 'open' | 'completed'
-  grid: string
 }
 
-function TodoItem({ todo, type, grid }: TodoItemProps) {
+function TodoItem({ todo, type }: TodoItemProps) {
   const { userLocale } = useUserLocale()
   const navigate = useNavigate()
   const { lessonHolders } = useLessonPointer()
@@ -48,12 +47,12 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
   return (
     <li
       className={cn(
-        grid,
-        'bg-background50 mb-2 mt-5 flex flex-wrap gap-2 justify-between rounded-sm shadow-sm border-background200 border',
-        'sm:mt-0 sm:grid ',
+        'grid-cols-[30px_1fr_30px] items-center',
+        'bg-background50 mb-2 mt-5 p-2 md:gap-2 justify-between rounded-sm shadow-sm border-background200 border',
+        'md:mt-0 grid',
       )}
     >
-      <div className='flex basis-full gap-2 items-center'>
+      <div>
         {type === 'open' && (
           <Checkbox
             onClick={() => completeTodo(todo.id)}
@@ -61,25 +60,39 @@ function TodoItem({ todo, type, grid }: TodoItemProps) {
           />
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
-        <span className='text-sm basis-full'>{todo.text}</span>
       </div>
-      <span>
-        {currentHolderName ? (
-          <Badge onClick={navigateToHolder} className='cursor-pointer w-fit'>
-            {currentHolderName}
-          </Badge>
-        ) : null}
-      </span>
-      <span className={cn('text-sm', isOverdue && 'text-warning')}>
-        {todo.due
-          ? todo.due.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })
-          : null}
-      </span>
-
+      <div className='flex flex-wrap justify-between items-center gap-y-2 md:grid md:grid-cols-[1fr_250px_150px]'>
+        <span
+          className={cn(
+            'text-sm md:basis-auto',
+            currentHolderName && todo.due && 'basis-full',
+          )}
+        >
+          {todo.text}
+        </span>
+        <span className={cn(!todo.due && 'ml-auto', 'md:ml-0')}>
+          {currentHolderName ? (
+            <Badge onClick={navigateToHolder} className='cursor-pointer w-fit'>
+              {currentHolderName}
+            </Badge>
+          ) : null}
+        </span>
+        <span
+          className={cn(
+            'text-sm md:ml-0',
+            isOverdue && 'text-warning',
+            todo.due && 'ml-auto',
+          )}
+        >
+          {todo.due
+            ? todo.due.toLocaleDateString(userLocale, {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })
+            : null}
+        </span>
+      </div>
       <div className='flex justify-self-end'>
         {type === 'open' && <OpenTodoDropdown id={todo.id} />}
         {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}

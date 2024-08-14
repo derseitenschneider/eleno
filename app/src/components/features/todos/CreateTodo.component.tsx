@@ -101,7 +101,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           type='submit'
           onClick={onSaveHandler}
           size='sm'
-          className={cn('sm:mt-0 sm:ml-0', 'mt-2 ml-auto')}
+          className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
         >
           Speichern
         </Button>
