@@ -17,6 +17,7 @@ import {
 import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
 import { useStudents } from '../../../../services/context/StudentContext'
 import QuickLinkItem from './QuickLinkItem.component'
+import { cn } from '@/lib/utils'
 
 function QuickLinks() {
   const { setCurrentStudentIndex, currentStudentId } = useStudents()
@@ -27,9 +28,15 @@ function QuickLinks() {
   // }
 
   return (
-    <div className='col-span-1 row-start-2 row-end-3 p-3 border-b border-hairline'>
+    <div
+      className={cn(
+        'px-3 py-6',
+        'md:p-4 md:pl-6',
+        'col-span-1 row-start-2 row-end-3 border-b border-hairline',
+      )}
+    >
       <h2>Quick-Links</h2>
-      <div className='flex gap-x-8 gap-y-5 sm:gap-9 flex-wrap'>
+      <div className='flex gap-x-8 gap-y-5 flex-wrap'>
         <QuickLinkItem
           title='Unterricht starten'
           icon={<GraduationCap strokeWidth={1.5} />}

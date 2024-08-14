@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
 
 import { useStudents } from '../../../../services/context/StudentContext'
@@ -26,7 +27,7 @@ function Overview() {
   }
 
   return (
-    <div className='row-start-3 '>
+    <div className={cn('px-3 py-6', 'md:p-4 md:pl-6', 'row-start-3 ')}>
       <h2>Übersicht</h2>
       <div className='lg:flex gap-5 space-y-5 lg:space-y-0'>
         <OverviewCard to='/students' title='Unterricht'>
@@ -36,7 +37,7 @@ function Overview() {
                 <p className='mb-2'>
                   Nächste Lektion:{' '}
                   <b>
-                    {closestStudent?.firstName} {closestStudent?.lastName}
+                    {closestStudent?.first_name} {closestStudent?.lastName}
                   </b>
                 </p>
                 <p>
