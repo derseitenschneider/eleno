@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "supabase start && vite --open --host",
     "dev:demo": "VITE_MODE=demo vite --open",
+    "dev:staging": "VITE_MODE=staging vite --open",
     "build": "tsc && vite build",
-    "build:demo": "VITE_MODE=demo tsc &6 vite build",
+    "build:demo": "VITE_MODE=demo tsc && vite build",
+    "build:staging": "VITE_MODE=staging tsc && vite build",
     "preview": "vite preview",
     "generate-types": "npx supabase gen types typescript --project-id 'brhpqxeowknyhrimssxw' --schema public > src/types/supabase.ts",
     "generate-types:local": "npx supabase gen types typescript --local > src/types/supabase.ts",

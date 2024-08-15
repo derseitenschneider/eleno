@@ -1,11 +1,11 @@
-import { useEffect } from "react"
-import useGroupsQuery from "./components/features/groups/groupsQuery"
-import { useLatestLessons } from "./components/features/lessons/lessonsQueries"
-import { useActiveNotesQuery } from "./components/features/notes/notesQueries"
-import useStudentsQuery from "./components/features/students/studentsQueries"
-import useTodosQuery from "./components/features/todos/todosQuery"
-import OfflineBanner from "./components/ui/OfflineBanner.component"
-import { useLoading } from "./services/context/LoadingContext"
+import { useEffect } from 'react'
+import useGroupsQuery from './components/features/groups/groupsQuery'
+import { useLatestLessons } from './components/features/lessons/lessonsQueries'
+import { useActiveNotesQuery } from './components/features/notes/notesQueries'
+import useStudentsQuery from './components/features/students/studentsQueries'
+import useTodosQuery from './components/features/todos/todosQuery'
+import OfflineBanner from './components/ui/OfflineBanner.component'
+import { useLoading } from './services/context/LoadingContext'
 
 interface DataProviderProps {
   children: React.ReactNode

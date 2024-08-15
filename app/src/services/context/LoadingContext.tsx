@@ -1,5 +1,5 @@
-import { createContext, useContext, useMemo, useState } from "react"
-import type { ContextTypeLoading } from "../../types/types"
+import { createContext, useContext, useMemo, useState } from 'react'
+import type { ContextTypeLoading } from '../../types/types'
 
 export const LoadingContext = createContext<ContextTypeLoading>({
   isLoading: true,

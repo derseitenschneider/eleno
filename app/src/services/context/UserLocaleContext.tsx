@@ -1,23 +1,23 @@
-import type React from "react"
-import { createContext, useContext, useEffect, useState } from "react"
+import type React from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
-type TLocale = "en" | "de" | undefined
+type TLocale = 'en' | 'de' | undefined
 type UserLocaleContextType = {
   userLocale: TLocale
 }
 const UserLocaleContext = createContext<UserLocaleContextType>({
-  userLocale: "en",
+  userLocale: 'en',
 })
 
 export function UserLocaleProvider({
   children,
 }: { children: React.ReactNode }) {
-  const [userLocale, setUserLocale] = useState<TLocale>("en")
+  const [userLocale, setUserLocale] = useState<TLocale>('en')
 
   useEffect(() => {
-    const locale = navigator.language || navigator.language || "en"
+    const locale = navigator.language || navigator.language || 'en'
 
-    if (locale === "en" || locale === "de") {
+    if (locale === 'en' || locale === 'de') {
       setUserLocale(locale)
     }
   }, [])
