@@ -7,8 +7,8 @@
   "main": "./index.html",
   "scripts": {
     "dev": "supabase start && vite --open --host",
-    "dev:demo": "VITE_MODE=demo vite --open",
-    "dev:staging": "VITE_MODE=staging vite --open",
+    "dev:demo": "vite --mode staging --open",
+    "dev:staging": "vite --mode staging --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc && vite build",
     "build:staging": "VITE_MODE=staging tsc && vite build",

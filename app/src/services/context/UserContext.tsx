@@ -22,16 +22,17 @@ import {
 import type { ContextTypeUser, Profile, User } from '../../types/types'
 import { useLoading } from './LoadingContext'
 import mockUser from '../api/mock-db/mockUser'
+import { isDemoMode } from '../../../config'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -59,8 +60,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    if (mode === 'demo') {
-      // getUserProfiles()
+    if (isDemoMode) {
+      getUserProfiles()
       return
     }
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -77,8 +78,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session) {
         getUserProfiles(session.user.id)
       }
-
-      return null
     })
   }, [])
 

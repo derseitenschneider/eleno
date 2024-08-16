@@ -1,5 +1,5 @@
-import { Mail } from "lucide-react"
-import WrapperCard from "./WrapperCard.component"
+import { Mail } from 'lucide-react'
+import WrapperCard from './WrapperCard.component'
 
 type SignupSuccessProps = {
   email?: string
@@ -13,7 +13,7 @@ export default function SignupSuccess({ email }: SignupSuccessProps) {
       <WrapperCard size='md' header=''>
         <h1>Gleich geschafft!</h1>
         <div className='flex h-20'>
-          <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
+          <Mail strokeWidth={1} className='h-full w-auto text-primary' />
         </div>
         <p className='text-xl'>Du hast eine E-Mail erhalten.</p>
         {email?.length !== 0 && <p className='font-semibold'>{email}</p>}

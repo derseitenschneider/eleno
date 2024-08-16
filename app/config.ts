@@ -3,7 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   VITE_ENV: z
     .enum(['development', 'staging', 'production', 'demo'])
-    .default('local'),
+    .default('development'),
   VITE_SUPABASE_URL: z.string().url(),
   VITE_SUPABASE_KEY: z.string(),
 })
@@ -27,6 +27,4 @@ const config = configSchema.parse({
 type AppConfig = z.infer<typeof configSchema>
 
 export const appConfig: AppConfig = config
-
-export const featureFlags = config.featureFlags
-export const featureFlags = config.featureFlags
+export const isDemoMode: boolean = config.isDemoMode

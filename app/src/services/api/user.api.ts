@@ -27,7 +27,6 @@ export const loginSupabase = async (email: string, password: string) => {
     email,
     password,
   })
-  console.log(error)
   if (error) throw new Error(error.message)
 }
 

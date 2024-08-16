@@ -1,9 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '../../types/supabase'
+import { appConfig } from '../../../config'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY
-
-const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
+const supabase = createClient<Database>(appConfig.apiUrl, appConfig.apiKey)
 
 export default supabase
