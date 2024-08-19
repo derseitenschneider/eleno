@@ -94,7 +94,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   const [numAdd, setNumAdd] = useState(1)
 
   const grid =
-    'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]'
+    'grid gap-4 sm:gap-1 sm:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]'
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -114,8 +114,8 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   }
 
   return (
-    <div className='w-[85vw]'>
-      <div className={cn(grid)}>
+    <div className='sm:w-[85vw]'>
+      <div className={cn(grid, 'hidden sm:grid')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
@@ -129,7 +129,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='max-h-[75vh] overflow-auto no-scrollbar py-1'>
+          <div className='sm:max-h-[75vh] sm:overflow-auto no-scrollbar sm:py-1'>
             {fields.map((field, i) => (
               <StudentFormRow
                 key={field.id}
@@ -145,13 +145,14 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             <div className='flex items-center'>
               <Input
                 disabled={isCreating}
-                className='w-[60px]'
+                className='w-[60px] hidden sm:block'
                 type='number'
                 value={numAdd}
                 onChange={(e) => setNumAdd(e.target.valueAsNumber)}
               />
               <Button
                 disabled={isCreating}
+                className='hidden sm:flex'
                 type='button'
                 variant='ghost'
                 size='sm'

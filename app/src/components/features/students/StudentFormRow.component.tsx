@@ -29,7 +29,7 @@ export default function StudentFormRow({
 }: StudentFormRowProps) {
   return (
     <div className={cn(grid, 'mb-2')}>
-      <span className='self-center text-sm text-foreground/75'>
+      <span className='hidden sm:inline self-center text-sm text-foreground/75'>
         {index + 1}
       </span>
       <FormField

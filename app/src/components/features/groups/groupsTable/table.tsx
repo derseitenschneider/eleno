@@ -12,6 +12,7 @@ import {
 import { useState } from 'react'
 import { groupsColumns } from './columns'
 import GroupsControl from './control'
+import Empty from '@/components/ui/Empty.component'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -65,12 +66,16 @@ export default function GroupsTable({
         selected={rowSelection}
         setSelected={setRowSelection}
       />
-      <DataTable
-        table={table}
-        columns={groupsColumns}
-        messageEmpty='Keine Gruppen vorhanden'
-        isFetching={isFetching}
-      />
+      {groups.length > 0 ? (
+        <DataTable
+          table={table}
+          columns={groupsColumns}
+          messageEmpty='Keine Gruppen vorhanden'
+          isFetching={isFetching}
+        />
+      ) : (
+        <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8' />
+      )}
     </div>
   )
 }

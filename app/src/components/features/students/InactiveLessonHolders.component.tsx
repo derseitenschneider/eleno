@@ -39,7 +39,7 @@ export default function InactiveLessonHolders() {
 
   if (inactiveHolders.length === 0)
     return (
-      <div className='mt-20'>
+      <div className='sm:mt-20'>
         <Empty emptyMessage='Dein Archiv ist leer.' />
       </div>
     )

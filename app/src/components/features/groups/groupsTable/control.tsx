@@ -43,8 +43,8 @@ export default function GroupsControl({
   }
 
   return (
-    <div className='flex items-end gap-4 mb-4'>
-      <div className='mr-auto items-baseline flex gap-4'>
+    <div className='flex items-end justify-between gap-4 mb-4'>
+      <div className='mr-auto items-baseline hidden sm:flex gap-4'>
         <GroupsActionDropdown setSelected={setSelected} selected={selected} />
         {hasActiveGroups && (
           <p className='text-sm'>
@@ -53,6 +53,7 @@ export default function GroupsControl({
         )}
       </div>
       <Button
+        className='hidden sm:flex'
         size='sm'
         variant='outline'
         onClick={() => setModalOpen('EXPORT')}

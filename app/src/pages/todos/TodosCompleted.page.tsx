@@ -32,8 +32,6 @@ export default function TodosCompleted() {
     ...(todosWithoutDue ? todosWithoutDue : []),
   ].sort(compareDateTodos)
 
-  const grid =
-    'grid items-center grid-cols-[30px_1fr_250px_150px_40px] p-[10px] '
   if (isPending) return <p>...loading</p>
 
   function closeModal() {
@@ -57,12 +55,7 @@ export default function TodosCompleted() {
             <Modal>
               <Menus>
                 {sortedFilteredTodos.map((todo) => (
-                  <TodoItem
-                    key={todo.id}
-                    grid={grid}
-                    todo={todo}
-                    type='completed'
-                  />
+                  <TodoItem key={todo.id} todo={todo} type='completed' />
                 ))}
               </Menus>
             </Modal>
@@ -78,7 +71,7 @@ export default function TodosCompleted() {
         </>
       ) : (
         <Empty
-          className='mt-[120px]'
+          className='mt-8'
           emptyMessage='Keine erledigten Todos vorhanden.'
         />
       )}

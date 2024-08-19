@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Student } from '@/types/types'
 import { File, Plus } from 'lucide-react'
-import type { RowSelectionState, Table } from '@tanstack/react-table'
-import { useState } from 'react'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   Dialog,
@@ -14,6 +14,7 @@ import {
 import { ActiveStudentsActionDropdown } from './actionDropdown'
 import ExportStudentList from '../../ExportStudentList.component'
 import CreateStudents from '../../CreateStudents.component'
+import { useSearchParams } from 'react-router-dom'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -29,6 +30,7 @@ export default function StudentsControl({
   selected,
   setSelected,
 }: StudentsControlProps) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const queryClient = useQueryClient()
   const students = queryClient.getQueryData(['students']) as Array<Student>
   const activeStudents = students.filter((student) => !student.archive)
@@ -38,13 +40,24 @@ export default function StudentsControl({
   const hasActiveStudents = activeStudents.length > 0
   const isDisabledControls = activeStudents.length === 0 || isFetching
 
+  useEffect(() => {
+    if (
+      searchParams.get('modal') === 'add-students' &&
+      modalOpen !== 'CREATE'
+    ) {
+      setModalOpen('CREATE')
+    }
+  }, [searchParams.get, modalOpen])
+
   function closeModal() {
     setModalOpen(null)
+    searchParams.delete('modal')
+    setSearchParams(searchParams)
   }
 
   return (
-    <div className='flex items-end gap-4 mb-4'>
-      <div className='mr-auto items-baseline flex gap-4'>
+    <div className='flex justify-between items-end gap-4 mb-4'>
+      <div className='mr-auto items-baseline hidden sm:flex gap-4'>
         <ActiveStudentsActionDropdown
           setSelected={setSelected}
           selected={selected}
@@ -56,6 +69,7 @@ export default function StudentsControl({
         )}
       </div>
       <Button
+        className='hidden sm:flex'
         size='sm'
         variant='outline'
         onClick={() => setModalOpen('EXPORT')}

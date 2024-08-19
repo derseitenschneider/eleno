@@ -11,12 +11,11 @@ function Empty({ emptyMessage, children, className }: EmptyProps) {
     <div
       className={cn(
         className,
-        'grid grid-rows-[auto_80%] h-[90%] justify-center',
+        'bg-background50 flex flex-col items-center py-12 rounded-md shadow-sm',
       )}
     >
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
       <div className='h-[120px] text-center'>
-        {children}
         <svg
           className='w-full opacity-55 self-center object-contain object-center'
           xmlns='http://www.w3.org/2000/svg'
@@ -107,48 +106,8 @@ function Empty({ emptyMessage, children, className }: EmptyProps) {
             }}
           />
         </svg>
-
-        {/* <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> */}
-        {/*   <title>Magnifying Glass Illustration</title> */}
-        {/*   <g */}
-        {/*     className='stroke-background200 dark:stroke-background50' */}
-        {/*     fill='none' */}
-        {/*     strokeWidth='2' */}
-        {/*     strokeLinecap='round' */}
-        {/*     strokeLinejoin='round' */}
-        {/*   > */}
-        {/*     <circle cx='40' cy='40' r='25' /> */}
-        {/**/}
-        {/*     <line x1='60' y1='60' x2='85' y2='85' /> */}
-        {/**/}
-        {/*     <path d='M30 30 Q35 35 40 30' strokeWidth='1.5' /> */}
-        {/*   </g> */}
-        {/* </svg> */}
-
-        {/* <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'> */}
-        {/*   <title>Binoculars Illustration</title> */}
-        {/*   <g */}
-        {/*     className='stroke-foreground/15' */}
-        {/*     fill='none' */}
-        {/*     strokeWidth='1' */}
-        {/*     strokeLinecap='round' */}
-        {/*     strokeLinejoin='round' */}
-        {/*   > */}
-        {/*     <circle cx='30' cy='60' r='20' /> */}
-        {/**/}
-        {/*     <circle cx='70' cy='60' r='20' /> */}
-
-        {/*     <path d='M30 60 L70 60' /> */}
-        {/**/}
-        {/*     <path d='M20 40 Q30 30 40 40' /> */}
-        {/**/}
-        {/*     <path d='M60 40 Q70 30 80 40' /> */}
-        {/**/}
-        {/*     <path d='M25 55 Q30 50 35 55' strokeWidth='1.5' /> */}
-        {/*     <path d='M65 55 Q70 50 75 55' strokeWidth='1.5' /> */}
-        {/*   </g> */}
-        {/* </svg> */}
       </div>
+      {children}
     </div>
   )
 }

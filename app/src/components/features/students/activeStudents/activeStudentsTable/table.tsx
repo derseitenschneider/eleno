@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react'
 import { studentsColumns } from './columns'
 import StudentsControl from './control'
 import useScrollTo from '@/hooks/useScrollTo'
+import Empty from '@/components/ui/Empty.component'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -84,12 +85,16 @@ export default function ActiveStudentsTable({
         selected={rowSelection}
         setSelected={setRowSelection}
       />
-      <DataTable
-        table={table}
-        columns={studentsColumns}
-        messageEmpty='Keine Schüler:innen vorhanden'
-        isFetching={isFetching}
-      />
+      {activeSortedStudents.length > 0 ? (
+        <DataTable
+          table={table}
+          columns={studentsColumns}
+          messageEmpty='Keine Schüler:innen vorhanden'
+          isFetching={isFetching}
+        />
+      ) : (
+        <Empty emptyMessage='Keine Schüler:innen vorhanden' className='mt-8' />
+      )}
     </div>
   )
 }

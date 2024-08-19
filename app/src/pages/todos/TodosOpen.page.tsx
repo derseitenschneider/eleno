@@ -42,7 +42,7 @@ export default function TodosOpen() {
         </>
       ) : (
         <Empty
-          className='mt-[80px]'
+          className='mt-8'
           emptyMessage=' Keine offenen Todos vorhanden.'
         />
       )}

@@ -13,7 +13,7 @@ export default function Students() {
 
   if (isLoading) return <StudentsSkeleton />
   return (
-    <div className='sm:*:px-5 sm:*:pr-4 max-h-full overflow-hidden sm:*:pl-8 pb-4 sm:py-5'>
+    <div className='px-3 py-4 sm:*:px-5 sm:*:pr-4 max-h-full overflow-hidden sm:*:pl-8 pb-4 sm:py-5'>
       <header>
         <h1 className='heading-1'>Schüler:innen</h1>
       </header>

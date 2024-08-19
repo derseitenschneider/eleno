@@ -133,10 +133,13 @@ export default function Timetable() {
           )}
         </>
       ) : (
-        <Empty emptyMessage='Keine Unterrichtsdaten'>
-          <p>
+        <Empty
+          emptyMessage='Keine Unterrichtsdaten vorhanden.'
+          className='mt-8'
+        >
+          <p className='mt-8 text-center max-w-[60ch]'>
             Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag, Unterrichtsort)
-            deiner Schüler:innen, damit sie im Stundenplan erscheinen.
+            deiner Schüler:innen, damit diese im Stundenplan erscheinen.
           </p>
         </Empty>
       )}
