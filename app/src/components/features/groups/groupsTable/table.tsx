@@ -13,6 +13,8 @@ import { useState } from 'react'
 import { groupsColumns } from './columns'
 import GroupsControl from './control'
 import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'react-router-dom'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -27,6 +29,7 @@ export default function GroupsTable({
   isError,
   isFetching,
 }: TGroupsTable) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -74,7 +77,19 @@ export default function GroupsTable({
           isFetching={isFetching}
         />
       ) : (
-        <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8' />
+        <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8'>
+          <Button
+            className='mt-4'
+            size='sm'
+            variant='outline'
+            onClick={() => {
+              searchParams.set('modal', 'add-group')
+              setSearchParams(searchParams)
+            }}
+          >
+            Neue Gruppe erstellen
+          </Button>
+        </Empty>
       )}
     </div>
   )

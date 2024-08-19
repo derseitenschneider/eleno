@@ -47,7 +47,7 @@ export default function StudentsControl({
     ) {
       setModalOpen('CREATE')
     }
-  }, [searchParams.get, modalOpen])
+  }, [searchParams, modalOpen])
 
   function closeModal() {
     setModalOpen(null)

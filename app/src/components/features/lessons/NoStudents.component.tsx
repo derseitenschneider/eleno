@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export default function NoStudents() {
+  const navigate = useNavigate()
   return (
     <Empty
       emptyMessage='Keine aktiven Schüler:innen oder Gruppen'
@@ -14,10 +16,20 @@ export default function NoStudents() {
         möchtest
       </p>
       <div className='flex flex-col items-center sm:flex-row gap-3 sm:gap-8 mt-4'>
-        <NavLink to={'/students?modal=add-students'}>
+        <Button
+          size='sm'
+          variant='outline'
+          onClick={() => navigate('/students?modal=add-students')}
+        >
           Schüler:innen erfassen
-        </NavLink>
-        <NavLink to={'/students/archive'}>Aus Archiv wiederherstellen</NavLink>
+        </Button>
+        <Button
+          size='sm'
+          variant='outline'
+          onClick={() => navigate('/students/groups?modal=add-group')}
+        >
+          Gruppe erstellen
+        </Button>
       </div>
     </Empty>
   )

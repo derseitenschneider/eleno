@@ -56,7 +56,7 @@ function PreviousLessons() {
                 className={cn(
                   'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
                   index === tabIndex &&
-                    'bg-background50 border-primary/80 hover:bg-background50',
+                  'bg-background50 border-primary/80 hover:bg-background50',
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -110,7 +110,10 @@ function PreviousLessons() {
           </div>
         </>
       ) : (
-        <Empty emptyMessage='Keine Lektionen erfasst.' />
+        <Empty
+          className='!bg-background100 !shadow-none'
+          emptyMessage='Keine Lektionen erfasst.'
+        />
       )}
     </div>
   )

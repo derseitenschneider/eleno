@@ -15,6 +15,8 @@ import { studentsColumns } from './columns'
 import StudentsControl from './control'
 import useScrollTo from '@/hooks/useScrollTo'
 import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'react-router-dom'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -30,6 +32,7 @@ export default function ActiveStudentsTable({
   isFetching,
 }: TActiveStudentsTable) {
   useScrollTo(0, 0)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
@@ -93,7 +96,19 @@ export default function ActiveStudentsTable({
           isFetching={isFetching}
         />
       ) : (
-        <Empty emptyMessage='Keine Schüler:innen vorhanden' className='mt-8' />
+        <Empty emptyMessage='Keine Schüler:innen vorhanden' className='mt-8'>
+          <Button
+            className='mt-4'
+            size='sm'
+            variant='outline'
+            onClick={() => {
+              searchParams.set('modal', 'add-students')
+              setSearchParams(searchParams)
+            }}
+          >
+            Neue Schüler:innen erfassen
+          </Button>
+        </Empty>
       )}
     </div>
   )

@@ -3,7 +3,7 @@ import SearchBar from '@/components/ui/SearchBar.component'
 import type { Group, Student } from '@/types/types'
 import { File, Plus } from 'lucide-react'
 import type { RowSelectionState } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   Dialog,
@@ -14,6 +14,7 @@ import {
 import { GroupsActionDropdown } from './actionDropdown'
 import CreateGroup from '../CreateGroup.component'
 import ExportGroupList from '../ExportGroupList.component'
+import { useSearchParams } from 'react-router-dom'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -29,6 +30,7 @@ export default function GroupsControl({
   selected,
   setSelected,
 }: StudentsControlProps) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const queryClient = useQueryClient()
   const groups = queryClient.getQueryData(['groups']) as Array<Group>
   const activeGroups = groups.filter((group) => !group.archive)
@@ -38,8 +40,16 @@ export default function GroupsControl({
   const hasActiveGroups = activeGroups.length > 0
   const isDisabledControls = activeGroups.length === 0 || isFetching
 
+  useEffect(() => {
+    if (searchParams.get('modal') === 'add-group' && modalOpen !== 'CREATE') {
+      setModalOpen('CREATE')
+    }
+  }, [searchParams, modalOpen])
+
   function closeModal() {
     setModalOpen(null)
+    searchParams.delete('modal')
+    setSearchParams(searchParams)
   }
 
   return (
