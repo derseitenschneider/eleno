@@ -24,7 +24,7 @@ function HeaderDashboard() {
             </span>
           ) : (
             <span className=''>
-              Hi <b>{user?.first_name}</b>, willkommen bei Eleno!
+              Hi <b>{user?.firstName}</b>, willkommen bei Eleno!
             </span>
           )}
         </div>

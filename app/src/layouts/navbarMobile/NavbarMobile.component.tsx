@@ -21,7 +21,8 @@ import { useLessonPointer } from '@/services/context/LessonPointerContext'
 
 function NavbarMobile() {
   const { overdueTodos } = useTodos()
-  const { lessonHolders, lessonPointer } = useLessonPointer()
+  const { lessonHolders, currentLessonPointer: lessonPointer } =
+    useLessonPointer()
   const currentLessonHolder = lessonHolders[lessonPointer]
   let currentHolderQuery = 'no-students'
   if (currentLessonHolder) {

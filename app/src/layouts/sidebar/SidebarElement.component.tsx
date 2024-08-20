@@ -8,10 +8,12 @@ type TSidebarProps = {
   target?: HTMLAttributeAnchorTarget
   sidebarOpen: boolean
   notificationContent?: number
+  onClick?: () => void
 }
 
 export default function SidebarElement({
   to,
+  onClick,
   icon,
   name,
   target,
@@ -23,6 +25,7 @@ export default function SidebarElement({
   return (
     <li className='h-full w-full p-2'>
       <NavLink
+        onClick={() => onClick?.()}
         title={name}
         to={to}
         target={target}

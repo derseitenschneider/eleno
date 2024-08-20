@@ -1,9 +1,10 @@
-import type { Group, Student, Weekday } from '../types/types'
+import type { LessonHolder, Student, Weekday } from '../types/types'
 import { sortLessonHolders } from './sortStudents'
 
-const calcNearestLessonIndex = (lessonHolder: Array<Student | Group>) => {
-  const filteredSortedStudents = sortLessonHolders(lessonHolder).filter(
-    (lessonHolder) => !lessonHolder.archive,
+const calcNearestLessonIndex = (lessonHolder: Array<LessonHolder>) => {
+  const filteredSortedHolders = sortLessonHolders(lessonHolder).filter(
+    (lessonHolder) =>
+      !lessonHolder.holder?.archive && lessonHolder.holder?.dayOfLesson,
   )
 
   const day = new Date().getDay()
@@ -89,41 +90,55 @@ const calcNearestLessonIndex = (lessonHolder: Array<Student | Group>) => {
       in6Days = 'Sonntag'
   }
 
-  const studentsAfterToday = [
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in1Day),
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in2Days),
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in3Days),
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in4Days),
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in5Days),
-    filteredSortedStudents.filter((student) => student.dayOfLesson === in6Days),
+  const holdersAfterToday = [
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in1Day,
+    ),
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in2Days,
+    ),
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in3Days,
+    ),
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in4Days,
+    ),
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in5Days,
+    ),
+    filteredSortedHolders.filter(
+      (lessonHolder) => lessonHolder.holder.dayOfLesson === in6Days,
+    ),
   ]
 
-  let upcomingStudent: Student
+  let upcomingHolder: LessonHolder | undefined
 
-  const todaysStudents = filteredSortedStudents.filter(
-    (student) => student.dayOfLesson === today,
+  const todaysHolders = filteredSortedHolders.filter(
+    (lessonHolder) => lessonHolder.holder.dayOfLesson === today,
   )
-  const todaysNextStudent = todaysStudents.filter((student) =>
-    student?.endOfLesson ? student.endOfLesson > now : false,
+  const todaysNextHolder = todaysHolders.filter((lessonHolder) =>
+    lessonHolder.holder?.endOfLesson
+      ? lessonHolder.holder.endOfLesson > now
+      : false,
   )[0]
 
-  if (todaysNextStudent) {
-    upcomingStudent = todaysNextStudent
+  if (todaysNextHolder) {
+    upcomingHolder = todaysNextHolder
   } else {
-    for (let i = 0; i < studentsAfterToday.length; i += 1) {
-      if (studentsAfterToday[i]?.length) {
-        ;[upcomingStudent] = studentsAfterToday[i]
+    for (let i = 0; i < holdersAfterToday.length; i += 1) {
+      if (holdersAfterToday.at(i).length > 0) {
+        upcomingHolder = holdersAfterToday[i]?.[0]
         break
       }
     }
   }
 
-  const nearestStudentIndex = filteredSortedStudents.findIndex(
-    (student) => student.id === upcomingStudent?.id,
+  const nearestHolderIndex = filteredSortedHolders.findIndex(
+    (lessonHolder) => lessonHolder.holder.id === upcomingHolder?.holder.id,
   )
 
-  if (nearestStudentIndex === -1) return 0
+  if (nearestHolderIndex === -1) return 0
 
-  return nearestStudentIndex
+  return nearestHolderIndex
 }
 export default calcNearestLessonIndex

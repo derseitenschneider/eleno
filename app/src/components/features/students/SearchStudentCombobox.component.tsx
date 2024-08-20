@@ -22,7 +22,8 @@ import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useLatestLessons } from '../lessons/lessonsQueries'
 
 export default function SearchStudentCombobox() {
-  const { setLessonPointer, lessonHolders } = useLessonPointer()
+  const { setCurrentLessonPointer: setLessonPointer, lessonHolders } =
+    useLessonPointer()
   const { data: latestLessons } = useLatestLessons()
   const { holderId } = useParams()
   const [open, setOpen] = useState(false)

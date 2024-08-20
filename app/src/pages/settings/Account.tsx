@@ -32,9 +32,9 @@ function Account() {
         <h3>Profil</h3>
         <div className='mb-6 text-base grid grid-cols-[150px_1fr] gap-y-4'>
           <p className='text-foreground/80'>Vorname:</p>
-          <p>{user?.first_name}</p>
+          <p>{user?.firstName}</p>
           <p className='text-foreground/80'>Nachname:</p>
-          <p>{user?.last_name}</p>
+          <p>{user?.lastName}</p>
         </div>
         <Button
           type='button'

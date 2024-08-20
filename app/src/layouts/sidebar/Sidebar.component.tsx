@@ -3,14 +3,11 @@ import { NavLink } from 'react-router-dom'
 
 import Logo from '../../components/ui/logo/Logo.component'
 import { useLessonPointer } from '../../services/context/LessonPointerContext'
-import { useStudents } from '../../services/context/StudentContext'
 import { useUser } from '../../services/context/UserContext'
-import calcNearestStudentIndex from '../../utils/getClosestStudentIndex'
 
 import useOutsideClick from '@/hooks/useOutsideClick'
 import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
 import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
-import { useTodos } from '@/services/context/TodosContext'
 import {
   BookMarked,
   CalendarDays,
@@ -21,23 +18,21 @@ import {
   Settings,
   Users,
 } from 'lucide-react'
-import useStudentsQuery from '@/components/features/students/studentsQueries'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { lessonPointer, lessonHolders } = useLessonPointer()
+  const { currentLessonHolder } = useLessonPointer()
   const todos = useTodosQuery().data
   const { logout } = useUser()
   const overdueTodos = todos?.filter(
     (todo) => todo.due && todo?.due <= new Date() && !todo.completed,
   )
 
-  const currentLessonHolder = lessonHolders[lessonPointer]
-  let currentHolderQuery = 'no-student'
+  let lessonSlug = 'no-student'
 
   if (currentLessonHolder) {
-    currentHolderQuery = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
+    lessonSlug = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
   }
 
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
@@ -74,7 +69,7 @@ function Sidebar() {
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
-          to={`/lessons/${currentHolderQuery}`}
+          to={`/lessons/${lessonSlug}`}
           name='Unterrichten'
           icon={<GraduationCap strokeWidth={1.5} />}
         />
@@ -114,6 +109,7 @@ function Sidebar() {
           icon={<BookMarked strokeWidth={1.5} />}
         />
         <SidebarElement
+          onClick={() => logout()}
           sidebarOpen={sidebarOpen}
           to='/logout'
           name='Log out'

@@ -1,31 +1,25 @@
 import {
   BookMarked,
-  BookOpenCheck,
   GraduationCap,
   ListTodo,
   Settings,
-  UserPlus,
   UserRoundPlus,
 } from 'lucide-react'
-import {
-  IoBookOutline,
-  IoCheckboxOutline,
-  IoPeopleCircleOutline,
-  IoSchoolSharp,
-  IoSettingsOutline,
-} from 'react-icons/io5'
 import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
-import { useStudents } from '../../../../services/context/StudentContext'
 import QuickLinkItem from './QuickLinkItem.component'
 import { cn } from '@/lib/utils'
 
 function QuickLinks() {
-  const { setCurrentStudentIndex, currentStudentId } = useStudents()
-  const { lessonHolderTypeIds, lessonPointer } = useLessonPointer()
+  const { nearestLessonHolder, nearestLessonPointer, setCurrentLessonPointer } =
+    useLessonPointer()
 
-  // const navigateToClosestStudent = () => {
-  //   setCurrentStudentIndex(nearestStudentIndex)
-  // }
+  const lessonSlug = nearestLessonHolder?.holder
+    ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`
+    : 'no-students'
+
+  function setCurrentStudent() {
+    setCurrentLessonPointer(nearestLessonPointer)
+  }
 
   return (
     <div
@@ -38,10 +32,10 @@ function QuickLinks() {
       <h2>Quick-Links</h2>
       <div className='flex gap-x-8 gap-y-5 flex-wrap'>
         <QuickLinkItem
+          onClick={setCurrentStudent}
           title='Unterricht starten'
           icon={<GraduationCap strokeWidth={1.5} />}
-          // onClick={navigateToClosestStudent}
-          link={`/lessons/${lessonHolderTypeIds[lessonPointer] || 'no-students'}`}
+          link={`/lessons/${lessonSlug}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'

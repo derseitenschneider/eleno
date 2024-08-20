@@ -8,8 +8,11 @@ import { useLessonPointer } from '@/services/context/LessonPointerContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 
 function LessonFooter() {
-  const { lessonPointer, setLessonPointer, lessonHolderTypeIds } =
-    useLessonPointer()
+  const {
+    currentLessonPointer: lessonPointer,
+    setCurrentLessonPointer: setLessonPointer,
+    lessonHolderTypeIds,
+  } = useLessonPointer()
   const navigate = useNavigate()
   const { holderId } = useParams()
   const { data: latestLessons } = useLatestLessons()

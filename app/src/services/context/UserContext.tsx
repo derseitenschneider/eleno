@@ -83,13 +83,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {
-      const newData = { firstName: data.first_name, lastName: data.last_name }
+      const newData = { firstName: data.firstName, lastName: data.lastName }
       await updateProfileSupabase(newData)
       setUser((prev) => {
         return {
           ...prev,
-          first_name: data.firstName,
-          last_name: data.lastName,
+          firstName: data.firstName,
+          lastName: data.lastName,
         }
       })
     } catch (error) {
