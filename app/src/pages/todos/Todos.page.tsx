@@ -3,8 +3,8 @@ import Navbar from '../../layouts/navbar/Navbar.component'
 
 function Todos() {
   return (
-    <div className="container">
-      <h1 className="heading-1">Todos</h1>
+    <div>
+      <h1>Todos</h1>
 
       <Navbar
         navLinks={[

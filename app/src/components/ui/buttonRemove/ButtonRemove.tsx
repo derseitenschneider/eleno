@@ -1,14 +1,30 @@
+import { cn } from '@/lib/utils'
+import type { ComponentPropsWithoutRef } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
-import './buttonRemove.style.scss'
 
-interface ButtonRemoveProps {
+interface ButtonRemoveProps extends ComponentPropsWithoutRef<'button'> {
   onRemove: () => void
+  className?: string
 }
 
-function ButtonRemove({ onRemove }: ButtonRemoveProps) {
+function ButtonRemove({
+  onRemove,
+  className = '',
+  disabled,
+  ...props
+}: ButtonRemoveProps) {
   return (
-    <button className="btn-remove" onClick={onRemove} type="button">
-      <IoCloseOutline />
+    <button
+      disabled={disabled}
+      className={cn(
+        'bg-primary/70 rounded-full  hover:bg-primary h-[12px]',
+        className,
+      )}
+      onClick={onRemove}
+      type='button'
+      {...props}
+    >
+      <IoCloseOutline className='text-background50' />
     </button>
   )
 }

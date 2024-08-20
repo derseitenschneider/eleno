@@ -1,32 +1,33 @@
-/* eslint-disable react/jsx-no-target-blank */
-import './footerDashboard.style.scss'
-
-import { Link } from 'react-router-dom'
-import { useDateToday } from '../../../../services/context/DateTodayContext'
-import { version } from '../../../../../package.json'
+import { Link } from "react-router-dom"
+import { version } from "../../../../../package.json"
+import { useDateToday } from "../../../../services/context/DateTodayContext"
 
 function FooterDashboard() {
   const { dateToday } = useDateToday()
   return (
-    <footer className="footer-dashboard">
-      <div className="links">
-        <Link to="https://eleno.net/terms-conditions" target="_blank">
-          Allgemeine Geschäftsbedingungen
-        </Link>
-        <Link to="https://eleno.net/impressum-datenschutz" target="_blank">
-          Impressum & Datenschutz
-        </Link>
-      </div>
-      <div className="contact">
-        <a href="mailto:info@eleno.net">Kontakt</a>
-      </div>
-      <span className="copyright">
-        Copyright © {dateToday.substring(5)} by{' '}
-        <a href="https://derseitenschneider.ch" target="_blank">
+    <footer className='border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-8'>
+      <Link
+        to='https://eleno.net/terms-conditions'
+        className='block'
+        target='_blank'
+      >
+        Allgemeine Geschäftsbedingungen
+      </Link>
+      <Link to='https://eleno.net/impressum-datenschutz' target='_blank'>
+        Impressum & Datenschutz
+      </Link>
+      <a href='mailto:info@eleno.net'>Kontakt</a>
+      <p>
+        Copyright © {dateToday.substring(6)} by{" "}
+        <a
+          href='https://derseitenschneider.ch'
+          target='_blank'
+          rel='noreferrer'
+        >
           derseitenschneider
-        </a>{' '}
+        </a>{" "}
         - all rights reserved
-      </span>
+      </p>
 
       <span>Version {version}</span>
     </footer>

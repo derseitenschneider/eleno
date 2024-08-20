@@ -1,6 +1,6 @@
-import { createContext, useContext, useMemo } from 'react'
-import Emtpy from '../emtpy/Empty.component'
-import './table.style.scss'
+import { createContext, useContext, useMemo } from "react"
+import EmptyProps from "../Empty.component"
+import "./table.style.scss"
 
 interface TableProps {
   columns: string
@@ -36,7 +36,7 @@ function Table({ columns, children }: TableProps) {
 
   return (
     <TableContext.Provider value={value}>
-      <div className="table" role="table">
+      <div className='table' role='table'>
         {children}
       </div>
     </TableContext.Provider>
@@ -47,8 +47,8 @@ function Header({ children }: HeaderProps) {
   const { columns } = useContext(TableContext)
   return (
     <div
-      className="table__header"
-      role="row"
+      className='table__header'
+      role='row'
       style={{ gridTemplateColumns: columns }}
     >
       {children}
@@ -63,25 +63,24 @@ function Body<T>({
   className,
   alternateColor = false,
 }: BodyProps<T>) {
-  if (!data.length) return <Emtpy emptyMessage={emptyMessage} />
+  if (!data.length) return <Empty emptyMessage={emptyMessage} />
 
   return (
     <div
-      className={`table__body ${className || ''} ${
-        alternateColor && 'alternate-color'
-      }`}
+      className={`table__body ${className || ""} ${alternateColor && "alternate-color"
+        }`}
     >
       {data.map(render)}
     </div>
   )
 }
 
-function Row({ children, className = '', rowRef, styles }: RowProps) {
+function Row({ children, className = "", rowRef, styles }: RowProps) {
   const { columns } = useContext(TableContext)
   return (
     <div
       className={`table__row ${className}`}
-      role="row"
+      role='row'
       style={{ ...styles, gridTemplateColumns: columns }}
       ref={rowRef}
     >
@@ -91,7 +90,7 @@ function Row({ children, className = '', rowRef, styles }: RowProps) {
 }
 
 function Footer({ children }: FooterProps) {
-  return <div className="table__footer">{children}</div>
+  return <div className='table__footer'>{children}</div>
 }
 
 Table.Header = Header

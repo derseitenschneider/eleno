@@ -1,4 +1,4 @@
-import { Session } from '@supabase/gotrue-js/src/lib/types'
+import type { Session } from '@supabase/gotrue-js/src/lib/types'
 import {
   createContext,
   useCallback,
@@ -19,55 +19,48 @@ import {
   updatePasswordSupabase,
   updateProfileSupabase,
 } from '../api/user.api'
-import { ContextTypeUser, TProfile, TUser } from '../../types/types'
+import type { ContextTypeUser, Profile, User } from '../../types/types'
 import { useLoading } from './LoadingContext'
 import mockUser from '../api/mock-db/mockUser'
+import { isDemoMode } from '../../../config'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: null,
-  setUser: () => {},
-  loading: false,
-  setLoading: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentSession, setCurrentSession] = useState<Session>()
-  const [user, setUser] = useState<TUser | null>(null)
-  const { loading, setLoading } = useLoading()
+  const [currentSession, setCurrentSession] = useState<Session | null>()
+  const [user, setUser] = useState<User>()
+  const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
 
-  const getUserProfiles = async (userId?: string) => {
+  const getUserProfiles = async (userId: string) => {
     if (mode === 'demo') {
-      console.log('demo')
       setUser(mockUser)
-      setLoading(false)
+      setIsLoading(false)
       return
     }
     try {
       const [data] = await getProfilesSupabase(userId)
-      const currentUser: TUser = {
-        email: data.email,
-        id: data.id,
-        firstName: data.first_name,
-        lastName: data.last_name,
-      }
-      setUser(currentUser)
+      if (!data) throw new Error('No user found.')
+      setUser(data)
     } catch (error) {
       fetchErrorToast()
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    if (mode === 'demo') {
+    if (isDemoMode) {
       getUserProfiles()
       return
     }
@@ -76,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session) {
         getUserProfiles(session.user.id)
       } else {
-        setLoading(false)
+        setIsLoading(false)
       }
     })
 
@@ -85,17 +78,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session) {
         getUserProfiles(session.user.id)
       }
-
-      return null
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const updateProfile = useCallback(async (data: TProfile) => {
+  const updateProfile = useCallback(async (data: Profile) => {
     try {
-      await updateProfileSupabase(data)
+      const newData = { firstName: data.firstName, lastName: data.lastName }
+      await updateProfileSupabase(newData)
       setUser((prev) => {
-        return { ...prev, firstName: data.firstName, lastName: data.lastName }
+        return {
+          ...prev,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        }
       })
     } catch (error) {
       throw new Error(error.message)
@@ -131,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut()
-    navigate('/')
+    navigate('/?page=login', { replace: true })
   }, [navigate])
 
   const recoverPassword = async (email: string) => {
@@ -142,8 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       user,
       setUser,
-      loading,
-      setLoading,
+
       updateProfile,
       updateEmail,
       updatePassword,
@@ -151,16 +145,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logout,
       recoverPassword,
     }),
-    [
-      deleteAccount,
-      loading,
-      logout,
-      setLoading,
-      updateEmail,
-      updatePassword,
-      updateProfile,
-      user,
-    ],
+    [deleteAccount, logout, updateEmail, updatePassword, updateProfile, user],
   )
 
   if (mode === 'demo')
@@ -168,8 +153,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <UserContext.Provider value={value}>
-      {currentSession && children}
-      {!currentSession && !loading && <LoginPage />}
+      {user && children}
+      {!currentSession && !isLoading && (
+        <LoginPage className='min-h-screen grid-rows-[auto_1fr] bg-zinc-100 sm:grid' />
+      )}
+      {/* <LoginPage /> */}
     </UserContext.Provider>
   )
 }

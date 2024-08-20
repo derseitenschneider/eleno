@@ -1,5 +1,4 @@
-import { ClosestStudentProvider } from './ClosestStudentContext'
-import { DarkModeProvider } from './DarkModeContext'
+import { LessonPointerProvider } from './LessonPointerContext'
 import { DateTodayProvider } from './DateTodayContext'
 import { GroupsProvider } from './GroupsContext'
 import { LessonsProvider } from './LessonsContext'
@@ -13,21 +12,19 @@ interface MainContextProps {
 
 function MainContext({ children }: MainContextProps) {
   return (
-    <DarkModeProvider>
-      <DateTodayProvider>
-        <LessonsProvider>
-          <NotesProvider>
-            <StudentsProvider>
-              <GroupsProvider>
-                <TodosProvider>
-                  <ClosestStudentProvider>{children}</ClosestStudentProvider>
-                </TodosProvider>
-              </GroupsProvider>
-            </StudentsProvider>
-          </NotesProvider>
-        </LessonsProvider>
-      </DateTodayProvider>
-    </DarkModeProvider>
+    <DateTodayProvider>
+      <LessonsProvider>
+        <NotesProvider>
+          <StudentsProvider>
+            <GroupsProvider>
+              <TodosProvider>
+                <LessonPointerProvider>{children}</LessonPointerProvider>
+              </TodosProvider>
+            </GroupsProvider>
+          </StudentsProvider>
+        </NotesProvider>
+      </LessonsProvider>
+    </DateTodayProvider>
   )
 }
 

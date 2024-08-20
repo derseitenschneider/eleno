@@ -1,63 +1,64 @@
-import './quicklinks.style.scss'
-
 import {
-  IoBookOutline,
-  IoCheckboxOutline,
-  IoPeopleCircleOutline,
-  IoSchoolSharp,
-  IoSettingsOutline,
-} from 'react-icons/io5'
-import { Link } from 'react-router-dom'
-import { useClosestStudent } from '../../../../services/context/ClosestStudentContext'
-import { useStudents } from '../../../../services/context/StudentContext'
+  BookMarked,
+  GraduationCap,
+  ListTodo,
+  Settings,
+  UserRoundPlus,
+} from 'lucide-react'
+import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
+import QuickLinkItem from './QuickLinkItem.component'
+import { cn } from '@/lib/utils'
 
 function QuickLinks() {
-  const { setCurrentStudentIndex } = useStudents()
+  const { nearestLessonHolder, nearestLessonPointer, setCurrentLessonPointer } =
+    useLessonPointer()
 
-  const { closestStudentIndex } = useClosestStudent()
-  const navigateToClosestStudent = () => {
-    setCurrentStudentIndex(closestStudentIndex)
+  const lessonSlug = nearestLessonHolder?.holder
+    ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`
+    : 'no-students'
+
+  function setCurrentStudent() {
+    setCurrentLessonPointer(nearestLessonPointer)
   }
 
   return (
-    <div className="quick-links">
-      <h2 className="heading-2">Quick-Links</h2>
-      <div className="quick-links__content">
-        <Link
-          to="lessons"
-          className="quick-links__item quick-links__item--lessons"
-          onClick={navigateToClosestStudent}
-        >
-          <IoSchoolSharp className="icon" />
-          <p className="card-title">Unterricht starten</p>
-        </Link>
-        <Link
-          to="students?modal=add-students"
-          className="quick-links__item quick-links__item--add-student"
-        >
-          <IoPeopleCircleOutline className="icon" />
-          <p className="card-title">Schüler:in hinzufügen</p>
-        </Link>
-        <Link to="todos" className="quick-links__item quick-links__item--todos">
-          <IoCheckboxOutline className="icon" />
-          <p className="card-title">Todo erfassen</p>
-        </Link>
-
-        <Link
-          to="settings"
-          className="quick-links__item quick-links__item--settings"
-        >
-          <IoSettingsOutline className="icon" />
-          <p className="card-title">Einstellungen</p>
-        </Link>
-        <Link
-          to="https://manual.eleno.net"
-          target="_blank"
-          className="quick-links__item"
-        >
-          <IoBookOutline className="icon" />
-          <p className="card-title">Anleitung</p>
-        </Link>
+    <div
+      className={cn(
+        'px-3 py-6',
+        'md:p-4 md:pl-6',
+        'col-span-1 row-start-2 row-end-3 border-b border-hairline',
+      )}
+    >
+      <h2>Quick-Links</h2>
+      <div className='flex gap-x-8 gap-y-5 flex-wrap'>
+        <QuickLinkItem
+          onClick={setCurrentStudent}
+          title='Unterricht starten'
+          icon={<GraduationCap strokeWidth={1.5} />}
+          link={`/lessons/${lessonSlug}`}
+        />
+        <QuickLinkItem
+          title='Schüler:in hinzufügen'
+          icon={<UserRoundPlus strokeWidth={1.5} />}
+          link='students?modal=add-students'
+          className='hidden md:flex'
+        />
+        <QuickLinkItem
+          title='Todo erfassen'
+          icon={<ListTodo strokeWidth={1.5} />}
+          link='todos'
+        />
+        <QuickLinkItem
+          title='Einstellungen'
+          icon={<Settings strokeWidth={1.5} />}
+          link='settings'
+        />
+        <QuickLinkItem
+          title='Anleitung'
+          icon={<BookMarked strokeWidth={1.5} />}
+          link='https://manual.eleno.net'
+          target='_blank'
+        />
       </div>
     </div>
   )

@@ -8,8 +8,8 @@ const navLinks = [
 
 function Settings() {
   return (
-    <div className="container container--settings">
-      <h1 className="heading-1">Einstellungen</h1>
+    <div>
+      <h1 className='heading-1'>Einstellungen</h1>
       <Navbar navLinks={navLinks} />
       <Outlet />
     </div>

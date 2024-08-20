@@ -1,41 +1,84 @@
-import { TRepertoireItem } from '../../types/types'
+import type { PartialRepertoireItem, RepertoireItem } from '../../types/types'
 import supabase from './supabase'
 
-export const getRepertoireByStudentSupabase = async (
-  studentId: number,
-): Promise<TRepertoireItem[]> => {
-  const { data: repertoire, error } = await supabase
+export const fetchRepertoireAPI = async (
+  holderId: number,
+  holderType: 's' | 'g',
+): Promise<RepertoireItem[]> => {
+  const fieldType = holderType === 's' ? 'studentId' : 'groupId'
+  const { data, error } = await supabase
     .from('repertoire')
     .select('*')
-    .eq('studentId', studentId)
+    .eq(fieldType, holderId)
     .order('startDate', { ascending: false, nullsFirst: true })
 
   if (error) throw new Error(error.message)
-  return repertoire as TRepertoireItem[]
+
+  const repertoire = data.map((repertoireItem) => {
+    const startDate = repertoireItem.startDate
+      ? new Date(repertoireItem.startDate)
+      : null
+    const endDate = repertoireItem.endDate
+      ? new Date(repertoireItem.endDate)
+      : null
+
+    return { ...repertoireItem, startDate, endDate }
+  })
+  return repertoire as RepertoireItem[]
 }
 
-export const createRepertoireItemSupabase = async (
-  item: TRepertoireItem,
-): Promise<TRepertoireItem[]> => {
+export const createRepertoireItemAPI = async (item: PartialRepertoireItem) => {
+  const utcStartDate =
+    item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
+
+  const utcEndDate =
+    item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
+
   const { data: repertoireItem, error } = await supabase
     .from('repertoire')
-    .insert({ ...item })
+    .insert({
+      ...item,
+      startDate: utcStartDate?.toISOString(),
+      endDate: utcEndDate?.toISOString(),
+    })
     .select()
+    .single()
 
   if (error) throw new Error(error.message)
-  return repertoireItem as TRepertoireItem[]
+  return {
+    ...repertoireItem,
+    startDate: repertoireItem.startDate
+      ? new Date(repertoireItem.startDate)
+      : undefined,
+    endDate: repertoireItem.endDate
+      ? new Date(repertoireItem.endDate)
+      : undefined,
+  }
 }
 
-export const udpateRepertoireItemSupabase = async (item: TRepertoireItem) => {
-  const { error } = await supabase
+export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
+  const utcStartDate =
+    item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
+
+  const utcEndDate =
+    item.endDate && new Date(`${item.endDate.toDateString()} UTC`)
+
+  const { data: updatedItem, error } = await supabase
     .from('repertoire')
-    .update({ ...item })
+    .update({
+      ...item,
+      startDate: utcStartDate?.toISOString() || null,
+      endDate: utcEndDate?.toISOString() || null,
+    })
     .eq('id', item.id)
+    .select()
+    .single()
 
   if (error) throw new Error(error.message)
+  return updatedItem
 }
 
-export const deleteRepertoireItemSupabase = async (itemId: number) => {
+export const deleteRepertoireItemAPI = async (itemId: number) => {
   const { error } = await supabase.from('repertoire').delete().eq('id', itemId)
   if (error) throw new Error(error.message)
 }

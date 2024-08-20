@@ -1,10 +1,10 @@
-import { TUser } from '../../../types/types'
+import type { User } from "../../../types/types"
 
-const mockUser: TUser = {
-  email: 'demo@eleno.net',
-  firstName: 'Demo',
-  lastName: 'Demo',
-  id: 'mock-user-123456',
+const mockUser: User = {
+  email: "demo@eleno.net",
+  firstName: "Demo",
+  lastName: "Demo",
+  id: "mock-user-123456",
 }
 
 export default mockUser

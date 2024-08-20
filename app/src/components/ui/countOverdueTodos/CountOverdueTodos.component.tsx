@@ -1,10 +1,10 @@
-import { useTodos } from '../../../services/context/TodosContext'
-import './countOverdueTodos.style.scss'
+import { useTodos } from "../../../services/context/TodosContext";
+import "./countOverdueTodos.style.scss";
 
 export default function CountOverdueTodos() {
-  const { overdueTodos } = useTodos()
+	const { overdueTodos } = useTodos();
 
-  if (overdueTodos.length === 0) return null
+	if (overdueTodos.length === 0) return null;
 
-  return <div className="count-overdue">{overdueTodos.length}</div>
+	return <div className="count-overdue">{overdueTodos.length}</div>;
 }

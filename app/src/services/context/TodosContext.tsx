@@ -5,41 +5,33 @@ import {
   useMemo,
   useState,
 } from 'react'
-import {
-  completeTodoSupabase,
-  deleteCompletedTodosSupabase,
-  deleteTodoSupabase,
-  reactivateTodoSupabase,
-  saveTodoSupabase,
-  updateTodoSupabase,
-} from '../api/todos.api'
-import { ContextTypeTodos, TTodo } from '../../types/types'
+import type { ContextTypeTodos, TTodoItem } from '../../types/types'
 import { useDateToday } from './DateTodayContext'
 import { formatDateToDatabase } from '../../utils/formateDate'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
-  setTodos: () => {},
+  setTodos: () => { },
   overdueTodos: [],
-  saveTodo: () => new Promise(() => {}),
-  deleteTodo: () => new Promise(() => {}),
-  completeTodo: () => new Promise(() => {}),
-  reactivateTodo: () => new Promise(() => {}),
-  deleteAllCompleted: () => new Promise(() => {}),
-  updateTodo: () => new Promise(() => {}),
+  saveTodo: () => new Promise(() => { }),
+  deleteTodo: () => new Promise(() => { }),
+  completeTodo: () => new Promise(() => { }),
+  reactivateTodo: () => new Promise(() => { }),
+  deleteAllCompleted: () => new Promise(() => { }),
+  updateTodo: () => new Promise(() => { }),
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {
   const { dateToday } = useDateToday()
-  const [todos, setTodos] = useState<TTodo[]>([])
+  const [todos, setTodos] = useState<TTodoItem[]>([])
 
   const overdueTodos = todos.filter(
     (todo) => todo.due < formatDateToDatabase(dateToday) && !todo.completed,
   )
 
-  const saveTodo = useCallback(async (newTodo: TTodo) => {
+  const saveTodo = useCallback(async (newTodo: TTodoItem) => {
     try {
-      const data = await saveTodoSupabase(newTodo)
+      const data = await saveTodo(newTodo)
       setTodos((prev) => [...prev, data])
     } catch (error) {
       throw new Error(error.message)
@@ -48,7 +40,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
 
   const deleteTodo = useCallback(async (id: number) => {
     try {
-      await deleteTodoSupabase(id)
+      await deleteTodo(id)
       setTodos((prev) => prev.filter((todo) => todo.id !== id))
     } catch (error) {
       throw new Error(error.message)
@@ -57,7 +49,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
 
   const completeTodo = useCallback(async (id: number) => {
     try {
-      await completeTodoSupabase(id)
+      await completeTodo(id)
       setTodos((prev) =>
         prev.map((todo) =>
           todo.id === id ? { ...todo, completed: true } : todo,
@@ -70,7 +62,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
 
   const reactivateTodo = useCallback(async (id: number) => {
     try {
-      await reactivateTodoSupabase(id)
+      await reactivateTodo(id)
       setTodos((prev) =>
         prev.map((todo) =>
           todo.id === id ? { ...todo, completed: false } : todo,
@@ -81,9 +73,9 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const updateTodo = useCallback(async (editedTodo: TTodo) => {
+  const updateTodo = useCallback(async (editedTodo: TTodoItem) => {
     try {
-      await updateTodoSupabase(editedTodo)
+      await updateTodo(editedTodo)
       setTodos((prev) => {
         return prev.map((todo) =>
           todo.id === editedTodo.id ? editedTodo : todo,
@@ -96,7 +88,7 @@ export function TodosProvider({ children }: { children: React.ReactNode }) {
 
   const deleteAllCompleted = useCallback(async () => {
     try {
-      await deleteCompletedTodosSupabase()
+      await deleteAllCompletedTodos()
       setTodos((prev) => prev.filter((todo) => !todo.completed))
     } catch (error) {
       throw new Error(error.message)

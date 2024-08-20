@@ -5,91 +5,55 @@ import ErrorPage from '../pages/error/error'
 import Loader from '../components/ui/loader/Loader'
 import Application from '../Application'
 
-import Account from '../pages/settings/account/Account'
+import Account from '../pages/settings/Account'
 import TodosCompleted from '../pages/todos/TodosCompleted.page'
 import TodosOpen from '../pages/todos/TodosOpen.page'
 
-import Groups from '../components/features/groups/Groups.component'
-import AllLessons from '../components/features/lessons/allLessons/AllLessons.component'
-import Repertoire from '../components/features/repertoire/Repertoire.component'
-import ActiveStudents from '../components/features/students/activeStudents/ActiveStudents.component'
-import InactiveStudents from '../components/features/students/inActiveStudents/InactiveStudents.component'
-import View from '../pages/settings/view/View'
+import View from '../pages/settings/View'
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
+import Logout from '@/components/features/user/Logout.component'
+import lessonsRoutes from './lessonsRouter'
+import studentsRoutes from './studentsRouter'
 
 const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
-const Students = lazy(() => import('../pages/students/Students'))
-const Lessons = lazy(() => import('../pages/lessons/Lessons'))
 const ToDos = lazy(() => import('../pages/todos/Todos.page'))
 const Settings = lazy(() => import('../pages/settings/Settings'))
-const Timetable = lazy(() => import('../pages/timetable/Timetable.component'))
+const Timetable = lazy(() => import('../pages/timetable/Timetable.page'))
 
 const mainRouter = createBrowserRouter(
   [
     {
-      path: `/`,
+      path: '/',
       element: <Application />,
       errorElement: <ErrorPage />,
       children: [
         {
           index: true,
           element: (
-            <Suspense fallback={<Loader loading />}>
+            <Suspense fallback={<DashboardSkeleton />}>
               <Dashboard />
             </Suspense>
           ),
         },
         {
-          path: 'students',
-          element: (
-            <Suspense fallback={<Loader loading />}>
-              <Students />
-            </Suspense>
-          ),
-          children: [
-            {
-              index: true,
-              path: '',
-              element: <ActiveStudents />,
-            },
-            {
-              path: `archive`,
-              element: <InactiveStudents />,
-            },
-            {
-              path: `groups`,
-              element: <Groups />,
-            },
-          ],
-        },
-        {
-          path: `timetable`,
+          path: 'timetable',
           element: (
             <Suspense>
-              <Timetable />
+              <div className='py-5 pl-8 pr-4'>
+                <Timetable />
+              </div>
             </Suspense>
           ),
         },
+        ...lessonsRoutes,
+        ...studentsRoutes,
         {
-          path: 'lessons',
+          path: 'todos',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Lessons />
-            </Suspense>
-          ),
-        },
-        {
-          path: '/lessons/all',
-          element: <AllLessons />,
-        },
-        {
-          path: '/lessons/repertoire',
-          element: <Repertoire />,
-        },
-        {
-          path: `todos`,
-          element: (
-            <Suspense fallback={<Loader loading />}>
-              <ToDos />
+              <div className='container-page'>
+                <ToDos />
+              </div>
             </Suspense>
           ),
           children: [
@@ -98,10 +62,12 @@ const mainRouter = createBrowserRouter(
           ],
         },
         {
-          path: `settings`,
+          path: 'settings',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <Settings />
+              <div className='container-page'>
+                <Settings />
+              </div>
             </Suspense>
           ),
           children: [
@@ -116,6 +82,10 @@ const mainRouter = createBrowserRouter(
               element: <View />,
             },
           ],
+        },
+        {
+          path: 'logout',
+          element: <Logout />,
         },
       ],
     },

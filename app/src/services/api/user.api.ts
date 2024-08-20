@@ -1,12 +1,13 @@
-import { TProfile } from '../../types/types'
+import type { Profile } from '../../types/types'
 import supabase from './supabase'
 
-export const signUpSupabase = async (
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-) => {
+export const signUpSupabase = async (inputData: {
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+}) => {
+  const { email, password, firstName, lastName } = inputData
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -43,7 +44,7 @@ export const getProfilesSupabase = async (uid: string) => {
   return profiles
 }
 
-export const updateProfileSupabase = async (data: TProfile) => {
+export const updateProfileSupabase = async (data: Profile) => {
   const { error } = await supabase.auth.updateUser({
     data,
   })

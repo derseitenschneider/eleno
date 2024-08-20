@@ -1,24 +1,24 @@
-import { TRepertoireItem, TSorting } from '../types/types'
+import type { RepertoireItem, Sorting } from "../types/types"
 
-const compareTitle = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
+const compareTitle = (itemA: RepertoireItem, itemB: RepertoireItem) => {
   const titleA = itemA.title
   const titleB = itemB.title
 
-  return titleA.localeCompare(titleB, 'de', { sensitivity: 'variant' })
+  return titleA.localeCompare(titleB, "de", { sensitivity: "variant" })
 }
 
-const compareStartDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
+const compareStartDate = (itemA: RepertoireItem, itemB: RepertoireItem) => {
   const startDateA = itemA.startDate
-    ?.split('-')
+    ?.split("-")
     .map((el) => el.trim())
-    .join('')
+    .join("")
 
   if (!startDateA) return 1
 
   const startDateB = itemB.startDate
-    ?.split('-')
+    ?.split("-")
     .map((el) => el.trim())
-    .join('')
+    .join("")
 
   if (!startDateB) return -1
 
@@ -32,17 +32,17 @@ const compareStartDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
   return comparison
 }
 
-const compareEndDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
+const compareEndDate = (itemA: RepertoireItem, itemB: RepertoireItem) => {
   const endDateA = itemA.endDate
-    ?.split('-')
+    ?.split("-")
     .map((el) => el.trim())
-    .join('')
+    .join("")
 
   if (!endDateA) return 1
   const endDateB = itemB.endDate
-    ?.split('-')
+    ?.split("-")
     .map((el) => el.trim())
-    .join('')
+    .join("")
 
   if (!endDateB) return -1
 
@@ -56,22 +56,22 @@ const compareEndDate = (itemA: TRepertoireItem, itemB: TRepertoireItem) => {
   return comparison
 }
 
-const sortRepertoire = (repertoire: TRepertoireItem[], sorting: TSorting) => {
+const sortRepertoire = (repertoire: RepertoireItem[], sorting: Sorting) => {
   switch (sorting.sort) {
-    case 'title': {
-      if (sorting.ascending === 'false') {
+    case "title": {
+      if (sorting.ascending === "false") {
         return repertoire.sort(compareTitle).reverse()
       }
       return repertoire.sort(compareTitle)
     }
-    case 'startDate': {
-      if (sorting.ascending === 'false') {
+    case "startDate": {
+      if (sorting.ascending === "false") {
         return repertoire.sort(compareStartDate).reverse()
       }
       return repertoire.sort(compareStartDate)
     }
-    case 'endDate': {
-      if (sorting.ascending === 'false') {
+    case "endDate": {
+      if (sorting.ascending === "false") {
         return repertoire.sort(compareEndDate).reverse()
       }
       return repertoire.sort(compareEndDate)

@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
-import { TTimetableDay } from '../../../types/types'
+import type { TimetableDay } from '../../../types/types'
 import BaseLayoutPDF from './BaseLayoutPDF.component'
 import TablePDF from './TablePDF.component'
 
 interface TimetablePDFProps {
-  days: TTimetableDay[]
+  days: TimetableDay[]
   title: string
   userName: string
 }
@@ -37,13 +37,15 @@ function TimetablePDF({ days, title, userName }: TimetablePDFProps) {
   return (
     <BaseLayoutPDF
       title={title || `Stundenplan ${userName}`}
-      orientation="portrait"
+      orientation='portrait'
     >
       {days.map((day) => (
         <View key={day.day} wrap={false} style={styles.day}>
           <View style={styles.head}>
-            <Text style={styles.tableHeading}>{day.day}</Text>
-            <Text>Anz. Schüler:innen: {day.students.length}</Text>
+            <Text style={styles.tableHeading}>
+              {day.day || 'Kein Tag angegeben'}
+            </Text>
+            <Text>Anz. Schüler:innen: {day.lessonHolders.length}</Text>
           </View>
           <TablePDF.Head>
             <Text style={styles.col1}>Zeit</Text>
@@ -52,17 +54,22 @@ function TimetablePDF({ days, title, userName }: TimetablePDFProps) {
             <Text style={styles.col4}>Ort</Text>
           </TablePDF.Head>
 
-          {day.students.map((student, index) => (
-            <View key={student.id}>
+          {day.lessonHolders.map((lessonHolder, index) => (
+            <View key={lessonHolder.holder.id}>
               <TablePDF index={index}>
                 <Text style={styles.col1}>
-                  {student.startOfLesson} - {student.endOfLesson}
+                  {lessonHolder.holder.startOfLesson?.slice(0, 5)} -{' '}
+                  {lessonHolder.holder.endOfLesson?.slice(0, 5)}
                 </Text>
                 <Text style={styles.col2}>
-                  {student.firstName} {student.lastName}
+                  {lessonHolder.type === 's'
+                    ? `${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`
+                    : lessonHolder.holder.name}
                 </Text>
-                <Text style={styles.col3}>{student.instrument}</Text>
-                <Text style={styles.col4}>{student.location}</Text>
+                <Text style={styles.col3}>
+                  {lessonHolder.type === 's' && lessonHolder.holder.instrument}
+                </Text>
+                <Text style={styles.col4}>{lessonHolder.holder.location}</Text>
               </TablePDF>
             </View>
           ))}

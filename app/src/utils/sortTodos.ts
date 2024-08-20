@@ -1,10 +1,13 @@
-import { TTodo } from '../types/types'
+import type { TTodoItem } from '../types/types'
 
-const compareDateTodos = (a: TTodo, b: TTodo) => {
-  const lessonA = +a.due.split('-').join('') || 0
+const compareDateTodos = (a: TTodoItem, b: TTodoItem) => {
+  const dueA = a.due?.getTime()
+  const dueB = b.due?.getTime()
 
-  const lessonB = +b.due.split('-').join('') || 0
-  return lessonA - lessonB
+  if (!dueA || !dueB) {
+    return 0
+  }
+  return dueA - dueB
 }
 
 export default compareDateTodos

@@ -10,12 +10,6 @@
 
 - [ ] Improve PWA for offline use
 
-- [ ] Toolbox
-
-  - [ ] Metronome
-  - [ ] Tuner
-  - [ ] Timer
-
 - [ ] Notification for unfinished todos
 
 - [ ] Partial reset of studentdata (checkboxes)
@@ -33,8 +27,6 @@
 - [ ] dynamically change theme color on light/dark mode
 
 ## Backlog
-
-- [ ] Drag & Drop Notes
 
 - [ ] User can choose dashboard layout (tiles or list)
 

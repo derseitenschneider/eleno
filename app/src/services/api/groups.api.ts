@@ -1,14 +1,17 @@
 import supabase from './supabase'
-import { Tables } from '../../types/supabase'
+import type { Group, GroupPartial } from '@/types/types'
 
-export const fetchGroups = async () => {
-  const { data: groups, error } = await supabase.from('groups').select('*')
+export const fetchGroupsApi = async (): Promise<Array<Group>> => {
+  const { data: groups, error } = await supabase
+    .from('groups')
+    .select('*')
+    .order('name')
 
   if (error) throw new Error(error.message)
-  return groups
+  return groups as Array<Group>
 }
 
-export const createNewGroupSupabase = async (group: Tables<'groups'>) => {
+export const createGroupApi = async (group: GroupPartial) => {
   const { data: newGroup, error } = await supabase
     .from('groups')
     .insert(group)
@@ -17,7 +20,7 @@ export const createNewGroupSupabase = async (group: Tables<'groups'>) => {
   return newGroup
 }
 
-export const deactivateGroupSupabase = async (groupIds: number[]) => {
+export const deactivateGroupApi = async (groupIds: number[]) => {
   const { error } = await supabase
     .from('groups')
     .update({ archive: true })
@@ -26,7 +29,7 @@ export const deactivateGroupSupabase = async (groupIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const reactivateGroupsSupabase = async (groupIds: number[]) => {
+export const reactivateGroupsApi = async (groupIds: number[]) => {
   const { error } = await supabase
     .from('groups')
     .update({ archive: false })
@@ -35,14 +38,34 @@ export const reactivateGroupsSupabase = async (groupIds: number[]) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteGroupsSupabase = async (groupIds: number[]) => {
+export const deleteGroupsApi = async (groupIds: number[]) => {
   const { error } = await supabase.from('groups').delete().in('id', groupIds)
 
   if (error) throw new Error(error.message)
 }
 
-export const updateGroupSupabase = async (group: Tables<'groups'>) => {
-  const { error } = await supabase.from('groups').upsert(group)
+export const updateGroupApi = async (group: Group) => {
+  const { data: updatedGroup, error } = await supabase
+    .from('groups')
+    .upsert(group)
 
   if (error) throw new Error(error.message)
+  return updatedGroup
+}
+
+export const resetGroupsAPI = async (groupIds: number[]) => {
+  const { data, error } = await supabase
+    .from('groups')
+    .update({
+      dayOfLesson: null,
+      startOfLesson: null,
+      endOfLesson: null,
+      durationMinutes: null,
+      location: null,
+    })
+    .in('id', groupIds)
+    .select('id')
+
+  if (error) throw new Error(error.message)
+  return data
 }

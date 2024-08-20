@@ -1,17 +1,17 @@
-import parse from 'html-react-parser'
-import { TNews } from '../../../../../types/types'
-import { formatDateToDisplay } from '../../../../../utils/formateDate'
+import parse from "html-react-parser"
+import type { News } from "../../../../../types/types"
+import { formatDateToDisplay } from "../../../../../utils/formateDate"
 
 interface NewsItemProps {
-  news: TNews
+  news: News
 }
 
 function NewsItem({ news }: NewsItemProps) {
   return (
-    <div className="news-item">
-      <span className="date">{formatDateToDisplay(news.date)}</span>
-      <h3 className="heading-4">{news.title}</h3>
-      <div className="news-text">{parse(news.text)}</div>
+    <div className='pb-7 mb-7 border-b border-hairline'>
+      <span className='text-sm'>{formatDateToDisplay(news.date)}</span>
+      <h5>{news.title}</h5>
+      <div className='flex flex-col gap-3 text-sm'>{parse(news.text)}</div>
     </div>
   )
 }

@@ -4,34 +4,30 @@ import {
   useContext,
   useMemo,
   useState,
-} from 'react'
-import {
-  deleteNoteSupabase,
-  updateNotesSupabase,
-  postNotesSupabase,
-} from '../api/notes.api'
-import { ContextTypeNotes, TNote } from '../../types/types'
-import { useUser } from './UserContext'
+} from "react"
+import { deleteNoteAPI, updateNoteAPI, createNoteAPI } from "../api/notes.api"
+import type { ContextTypeNotes, Note } from "../../types/types"
+import { useUser } from "./UserContext"
 
 export const NotesContext = createContext<ContextTypeNotes>({
   notes: [],
-  setNotes: () => {},
-  saveNote: () => new Promise(() => {}),
-  deleteNote: () => new Promise(() => {}),
-  updateNotes: () => new Promise(() => {}),
-  duplicateNote: () => new Promise(() => {}),
+  setNotes: () => { },
+  saveNote: () => new Promise(() => { }),
+  deleteNote: () => new Promise(() => { }),
+  updateNotes: () => new Promise(() => { }),
+  duplicateNote: () => new Promise(() => { }),
 })
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
-  const [notes, setNotes] = useState<TNote[]>([])
+  const [notes, setNotes] = useState<Note[]>([])
 
   const saveNote = useCallback(
-    async (note: TNote) => {
+    async (note: Note) => {
       try {
         const [
           { text, user_id, title, order, backgroundColor, studentId, id },
-        ] = await postNotesSupabase(note, user.id)
+        ] = await createNoteAPI(note, user.id)
 
         setNotes((prev) => [
           ...prev,
@@ -46,7 +42,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
 
   const deleteNote = useCallback(async (id: number) => {
     try {
-      await deleteNoteSupabase(id)
+      await deleteNoteAPI(id)
       setNotes((prev) => prev.filter((note) => note.id !== id))
     } catch (error) {
       throw new Error(error.message)
@@ -54,8 +50,8 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const duplicateNote = useCallback(
-    async (original: TNote) => {
-      const copy: TNote = {
+    async (original: Note) => {
+      const copy: Note = {
         text: original.text,
         title: `Kopie ${original.title}`,
         user_id: original.user_id,
@@ -68,9 +64,9 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
     [saveNote],
   )
 
-  const updateNotes = useCallback(async (updatedNotes: TNote[]) => {
+  const updateNotes = useCallback(async (updatedNotes: Note[]) => {
     try {
-      await updateNotesSupabase(updatedNotes)
+      await updateNoteAPI(updatedNotes)
       setNotes((prev) =>
         prev
           .map(

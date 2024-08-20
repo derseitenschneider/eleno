@@ -1,227 +1,122 @@
-import { logEvent } from '@firebase/analytics'
-import { useCallback, useEffect, useState } from 'react'
-import './sidebar.style.scss'
-
-import {
-  IoBookOutline,
-  IoCalendarOutline,
-  IoCheckboxOutline,
-  IoChevronForwardOutline,
-  IoCompassOutline,
-  IoLogOutOutline,
-  IoPeopleCircleOutline,
-  IoSchoolOutline,
-  IoSettingsOutline,
-} from 'react-icons/io5'
-import { Link, NavLink } from 'react-router-dom'
+import { useCallback, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 import Logo from '../../components/ui/logo/Logo.component'
-import { useClosestStudent } from '../../services/context/ClosestStudentContext'
-import { useStudents } from '../../services/context/StudentContext'
+import { useLessonPointer } from '../../services/context/LessonPointerContext'
 import { useUser } from '../../services/context/UserContext'
-import getClosestStudentIndex from '../../utils/getClosestStudentIndex'
 
-import CountOverdueTodos from '../../components/ui/countOverdueTodos/CountOverdueTodos.component'
-import analytics from '../../services/analytics/firebaseAnalytics'
+import useOutsideClick from '@/hooks/useOutsideClick'
+import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
+import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
+import {
+  BookMarked,
+  CalendarDays,
+  CheckSquare2,
+  GaugeCircle,
+  GraduationCap,
+  LogOut,
+  Settings,
+  Users,
+} from 'lucide-react'
+import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { setClosestStudentIndex } = useClosestStudent()
-  const { activeStudents } = useStudents()
+  const { currentLessonHolder } = useLessonPointer()
+  const todos = useTodosQuery().data
   const { logout } = useUser()
+  const overdueTodos = todos?.filter(
+    (todo) => todo.due && todo?.due <= new Date() && !todo.completed,
+  )
+
+  let lessonSlug = 'no-student'
+
+  if (currentLessonHolder) {
+    lessonSlug = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
+  }
+
+  const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
 
-  const closeSidebarOnWindowClick = useCallback(
-    (e: MouseEvent) => {
-      const target = e.target as Element
-      if (
-        !target
-          ?.closest('button')
-          ?.classList.contains('sidebar__button--toggle')
-      )
-        toggleSidebar()
-    },
-    [toggleSidebar],
-  )
-
-  const handleNav = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement
-    const path = target.closest('a').pathname
-
-    switch (path) {
-      case '/':
-        if (target.closest('a').target === '_blank')
-          return logEvent(analytics, 'page_view', { page_title: 'manual' })
-
-        setClosestStudentIndex(getClosestStudentIndex(activeStudents))
-        return logEvent(analytics, 'page_view', { page_title: 'dashboard' })
-        break
-
-      case '/lessons':
-        return logEvent(analytics, 'page_view', { page_title: 'lessons' })
-        break
-
-      case '/students':
-        return logEvent(analytics, 'page_view', { page_title: 'students' })
-        break
-
-      case '/timetable':
-        return logEvent(analytics, 'page_view', { page_title: 'timetable' })
-        break
-
-      case '/todos':
-        return logEvent(analytics, 'page_view', { page_title: 'todos' })
-        break
-
-      case '/settings':
-        return logEvent(analytics, 'page_view', { page_title: 'todos' })
-        break
-
-      default:
-        return null
-    }
-  }
-
-  useEffect(() => {
-    if (sidebarOpen) {
-      window.addEventListener('click', closeSidebarOnWindowClick)
-    }
-    return () => {
-      window.removeEventListener('click', closeSidebarOnWindowClick)
-    }
-  }, [closeSidebarOnWindowClick, sidebarOpen])
+  // TODO: Fix opacity delay link names
 
   return (
-    <div>
-      <div className={`sidebar${sidebarOpen ? ' sidebar--open' : ''}`}>
-        <button
-          type="button"
-          className="sidebar__button--toggle"
-          onClick={toggleSidebar}
-        >
-          <IoChevronForwardOutline className="chevron" />
-        </button>
-        <div className="container-top">
-          <NavLink to="/" className="sidebar__logo">
-            <Logo />
-          </NavLink>
-          <nav className="sidebar__navigation">
-            <ul className="sidebar__nav-list">
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="/"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoCompassOutline className="icon" />
-                  </div>
-                  <span className="sidebar__link-text">Dashboard</span>
-                </NavLink>
-              </li>
-
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="lessons"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoSchoolOutline className="icon" />
-                  </div>
-                  <span className="sidebar__link-text">Unterrichten</span>
-                </NavLink>
-              </li>
-
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="students"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoPeopleCircleOutline className="icon" />
-                  </div>
-
-                  <span className="sidebar__link-text">Schüler:innen</span>
-                </NavLink>
-              </li>
-
-              <li className="sidebar__nav-el todos">
-                <NavLink
-                  to="todos"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <CountOverdueTodos />
-                    <IoCheckboxOutline className="icon" />
-                  </div>
-
-                  <span className="sidebar__link-text">Todos</span>
-                </NavLink>
-              </li>
-
-              <li className="sidebar__nav-el">
-                <NavLink
-                  to="timetable"
-                  className="sidebar__nav-link"
-                  onClick={handleNav}
-                >
-                  <div className="sidebar__nav-icon">
-                    <IoCalendarOutline className="icon" />
-                  </div>
-
-                  <span className="sidebar__link-text">Stundenplan</span>
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
+    <nav
+      ref={sidebarRef}
+      className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
+        }`}
+    >
+      <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <NavLink
+        to='/'
+        onClick={() => setSidebarOpen(false)}
+        className='block w-full'
+      >
+        <div className='flex items-center justify-center mt-3 mb-8'>
+          <Logo />
         </div>
-        <div className="container-settings">
-          <div className="sidebar__nav-el">
-            <Link
-              onClick={handleNav}
-              to="https://manual.eleno.net/"
-              target="_blank"
-              className="sidebar__nav-link"
-            >
-              <div className="sidebar__nav-icon">
-                <IoBookOutline className="icon" />
-              </div>
-              <span className="sidebar__link-text">Anleitung</span>
-            </Link>
-          </div>
-          <div className="sidebar__nav-el">
-            <NavLink
-              to="settings"
-              className="sidebar__nav-link"
-              onClick={handleNav}
-            >
-              <div className="sidebar__nav-icon">
-                <IoSettingsOutline className="icon" />
-              </div>
-              <span className="sidebar__link-text">Einstellungen</span>
-            </NavLink>
-          </div>
-          <div className="sidebar__nav-el">
-            <button
-              type="button"
-              className="sidebar__nav-link"
-              onClick={logout}
-            >
-              <div className="sidebar__nav-icon">
-                <IoLogOutOutline className="icon icon--logout" />
-              </div>
-              <span className="sidebar__link-text">Log out</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      </NavLink>
+      <ul className='flex flex-col items-center justify-between'>
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to='/'
+          name='Dashboard'
+          icon={<GaugeCircle strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to={`/lessons/${lessonSlug}`}
+          name='Unterrichten'
+          icon={<GraduationCap strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to='/students'
+          name='Schüler:innen'
+          icon={<Users strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          notificationContent={overdueTodos?.length}
+          sidebarOpen={sidebarOpen}
+          to='/todos'
+          name='Todos'
+          icon={<CheckSquare2 strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to='/timetable'
+          name='Stundenplan'
+          icon={<CalendarDays strokeWidth={1.5} />}
+        />
+      </ul>
+
+      <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to='/settings'
+          name='Einstellungen'
+          icon={<Settings strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          sidebarOpen={sidebarOpen}
+          to='https://manual.eleno.net'
+          target={'_blank'}
+          name='Anleitung'
+          icon={<BookMarked strokeWidth={1.5} />}
+        />
+        <SidebarElement
+          onClick={() => logout()}
+          sidebarOpen={sidebarOpen}
+          to='/logout'
+          name='Log out'
+          icon={<LogOut strokeWidth={1.5} />}
+        />
+      </ul>
+    </nav>
   )
 }
 

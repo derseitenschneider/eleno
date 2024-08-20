@@ -1,25 +1,30 @@
-const path = require('path');
-const express = require('express');
-const morgan = require('morgan');
-const homeworkRouter = require('./routes/homeworkRouter');
-const compression = require('compression');
-const app = express();
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import express from 'express'
+import morgan from 'morgan'
+import homeworkRouter from './routes/homeworkRouter.js'
+import compression from 'compression'
+const app = express()
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, '../public')));
-app.use(morgan('dev'));
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-app.use(compression());
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'))
+app.use(express.static(path.join(__dirname, '../public')))
+app.use(morgan('dev'))
+
+app.use(compression())
 
 // ROUTES
-app.get('/', (req, res) => {
-  res.redirect('https://eleno.net');
-});
-app.use('/homework', homeworkRouter);
+app.get('/', (_, res) => {
+  res.redirect('https://eleno.net')
+})
 
-app.get('*', (req, res) => {
-  res.status(404).render('error');
-});
+app.use('/homework', homeworkRouter)
 
-module.exports = app;
+app.get('*', (_, res) => {
+  res.status(404).render('error')
+})
+
+export default app

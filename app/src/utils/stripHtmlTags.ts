@@ -1,8 +1,7 @@
 export default function stripHtmlTags(string: string) {
-  const noStyles = /style="[^"]*"/gi
-  const noHrefs = /href="[^"]*"/gi
+  const noAttributes = string.replace(/<([^>]*?)(\s[^>]*)?>/g, '<$1>')
 
-  const newString = string
+  const newString = noAttributes
     .replaceAll('<ul>', '')
     .replaceAll('</ul>', '')
     .replaceAll('<li>', '• ')
@@ -12,8 +11,6 @@ export default function stripHtmlTags(string: string) {
     .replaceAll('-&gt;', '➔ ')
     .replaceAll('<br>', '\n')
     .replace('</br>', '')
-    .replace(noStyles, '')
-    .replace(noHrefs, '')
     .replaceAll('<span>', '')
     .replaceAll('<span >', '')
     .replaceAll('</span>', '')

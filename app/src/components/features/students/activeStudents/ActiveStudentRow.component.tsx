@@ -8,7 +8,7 @@ import {
 import { IoCheckboxOutline, IoSchool } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { TStudent } from '../../../../types/types'
+import type { Student } from '../../../../types/types'
 import Menus from '../../../ui/menu/Menus.component'
 import Table from '../../../ui/table/Table.component'
 
@@ -16,13 +16,13 @@ import { useStudents } from '../../../../services/context/StudentContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import Modal from '../../../ui/modal/Modal.component'
 
-import AddTodo from '../../todos/addTodo/AddTodo.component'
-import EditStudent from '../editStudents/EditStudents.component'
+import CreateTodo from '../../todos/CreateTodo.component'
+import EditStudent from '../UpdateStudents.component'
 import { useActiveStudents } from './ActiveStudents.component'
-import ExportLessons from '../../lessons/exportLessons/ExportLessons.component'
+import ExportLessons from '../../lessons/ExportLessons.component'
 
 interface ActiveStudentRowProps {
-  student: TStudent
+  student: Student
   openId?: number
 }
 
@@ -84,7 +84,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
     >
       <div>
         <input
-          type="checkbox"
+          type='checkbox'
           checked={selectedStudents.includes(student.id)}
           onChange={handleCheckbox}
         />
@@ -118,7 +118,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
           <Menus.Toggle id={student.id} />
 
           <Menus.List id={student.id}>
-            <Modal.Open opens="edit-student">
+            <Modal.Open opens='edit-student'>
               <Menus.Button icon={<HiPencil />}>Bearbeiten</Menus.Button>
             </Modal.Open>
 
@@ -126,7 +126,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
               Zum Unterrichtsblatt
             </Menus.Button>
 
-            <Modal.Open opens="add-todo">
+            <Modal.Open opens='add-todo'>
               <Menus.Button icon={<IoCheckboxOutline />}>
                 Todo erfassen
               </Menus.Button>
@@ -139,7 +139,7 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
               Repertoire
             </Menus.Button>
 
-            <Modal.Open opens="export-lessons">
+            <Modal.Open opens='export-lessons'>
               <Menus.Button icon={<HiOutlineDocumentArrowDown />}>
                 Lektionsliste exportieren
               </Menus.Button>
@@ -150,16 +150,16 @@ function ActiveStudentRow({ student, openId }: ActiveStudentRowProps) {
             </Menus.Button>
           </Menus.List>
 
-          <Modal.Window name="edit-student">
+          <Modal.Window name='edit-student'>
             <EditStudent studentIds={[student.id]} />
           </Modal.Window>
 
-          <Modal.Window name="add-todo">
-            <AddTodo studentId={student.id} />
+          <Modal.Window name='add-todo'>
+            <CreateTodo studentId={student.id} />
           </Modal.Window>
 
-          <Modal.Window name="export-lessons">
-            <ExportLessons studentId={student.id} />
+          <Modal.Window name='export-lessons'>
+            <ExportLessons holderId={student.id} />
           </Modal.Window>
         </Modal>
       </div>

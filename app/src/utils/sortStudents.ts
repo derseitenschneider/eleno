@@ -1,13 +1,13 @@
-import { TLesson, TSorting, TStudent } from '../types/types'
+import type { Lesson, LessonHolder, Sorting, Student } from '../types/types'
 
-const compareLastName = (a: TStudent, b: TStudent) => {
+export const compareLastName = (a: Student, b: Student) => {
   const studentA = a.lastName
   const studentB = b.lastName
 
   return studentA.localeCompare(studentB, 'de', { sensitivity: 'variant' })
 }
 
-const compareInstrument = (a: TStudent, b: TStudent) => {
+const compareInstrument = (a: Student, b: Student) => {
   const instrumentA = a.instrument
   const instrumentB = b.instrument
 
@@ -16,12 +16,14 @@ const compareInstrument = (a: TStudent, b: TStudent) => {
   })
 }
 
-const compareDays = (a: TStudent, b: TStudent) => {
+const compareDays = (a: Student, b: Student) => {
   const days = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag']
-  const dayA = a.dayOfLesson.toLowerCase()
-  const dayB = b.dayOfLesson.toLowerCase()
+  const dayA = a.dayOfLesson?.toLowerCase()
+  const dayB = b.dayOfLesson?.toLowerCase()
 
   let comparison = 0
+  if (!dayA || !dayB) return comparison
+
   if (days.indexOf(dayA) > days.indexOf(dayB)) {
     comparison = 1
   } else if (days.indexOf(dayA) < days.indexOf(dayB)) {
@@ -31,11 +33,13 @@ const compareDays = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareTime = (a: TStudent, b: TStudent) => {
-  const studentA = a.startOfLesson
-  const studentB = b.startOfLesson
+const compareTime = (a: LessonHolder, b: LessonHolder) => {
+  const studentA = a.holder?.startOfLesson
+  const studentB = b.holder?.startOfLesson
 
   let comparison = 0
+  if (!studentA || !studentB) return comparison
+
   if (studentA > studentB) {
     comparison = 1
   } else if (studentA < studentB) {
@@ -44,11 +48,12 @@ const compareTime = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareDurations = (a: TStudent, b: TStudent) => {
+const compareDurations = (a: Student, b: Student) => {
   const durationA = a.durationMinutes
   const durationB = b.durationMinutes
 
   let comparison = 0
+  if (!durationA || !durationB) return 0
   if (durationA > durationB) {
     comparison = 1
   } else if (durationA < durationB) {
@@ -57,60 +62,42 @@ const compareDurations = (a: TStudent, b: TStudent) => {
   return comparison
 }
 
-const compareLocations = (a: TStudent, b: TStudent) => {
-  const locationA = a.location
-  const locationB = b.location
-
-  return locationA.localeCompare(locationB, 'de', { sensitivity: 'variant' })
-}
-
-export const sortStudents = (students: TStudent[], sorting: TSorting) => {
+export const sortStudents = (students: Student[], sorting: Sorting) => {
+  if (!students) return
   const sortedbyTime = students.sort(compareTime)
   switch (sorting.sort) {
     case 'lastName':
-      if (sorting.ascending === 'false') {
+      if (!sorting.ascending) {
         return students.sort(compareLastName).reverse()
       }
       return students.sort(compareLastName)
 
     case 'instrument':
-      if (sorting.ascending === 'false') {
+      if (!sorting.ascending) {
         return students.sort(compareInstrument).reverse()
       }
       return students.sort(compareInstrument)
 
     case 'dayOfLesson':
-      if (sorting.ascending === 'false') {
+      if (!sorting.ascending) {
         return sortedbyTime.sort(compareDays).reverse()
       }
       return sortedbyTime.sort(compareDays)
 
     case 'durationMinutes':
-      if (sorting.ascending === 'false') {
+      if (!sorting.ascending) {
         return students.sort(compareDurations).reverse()
       }
       return students.sort(compareDurations)
-
-    case 'location':
-      if (sorting.ascending === 'false') {
-        return students.sort(compareLocations).reverse()
-      }
-      return students.sort(compareLocations)
 
     default:
       return students.sort(compareLastName)
   }
 }
 
-export const compareDateString = (a: TLesson, b: TLesson) => {
+export const compareDateString = (a: Lesson, b: Lesson) => {
   const lessonA = a.date
-    .split('-')
-    .map((el) => el.trim())
-    .join('')
   const lessonB = b.date
-    .split('-')
-    .map((el) => el.trim())
-    .join('')
 
   let comparison = 0
   if (lessonA > lessonB) {
@@ -122,46 +109,50 @@ export const compareDateString = (a: TLesson, b: TLesson) => {
   return comparison
 }
 
-export const sortStudentsDateTime = (students: TStudent[]) => {
-  const mo: TStudent[] = []
-  const tue: TStudent[] = []
-  const wed: TStudent[] = []
-  const thur: TStudent[] = []
-  const fri: TStudent[] = []
-  const sat: TStudent[] = []
-  const sun: TStudent[] = []
-  const undef: TStudent[] = []
+export const sortLessonHolders = (
+  lessonHolders: Array<LessonHolder> | null,
+) => {
+  if (!lessonHolders) return []
+  const mo: LessonHolder[] = []
+  const tue: LessonHolder[] = []
+  const wed: LessonHolder[] = []
+  const thur: LessonHolder[] = []
+  const fri: LessonHolder[] = []
+  const sat: LessonHolder[] = []
+  const sun: LessonHolder[] = []
+  const undef: LessonHolder[] = []
 
-  students.forEach((student) => {
-    switch (student.dayOfLesson.toLowerCase()) {
+  for (const lessonHolder of lessonHolders) {
+    switch (lessonHolder.holder?.dayOfLesson?.toLowerCase()) {
       case 'montag':
-        mo.push(student)
+        mo.push(lessonHolder)
         break
       case 'dienstag':
-        tue.push(student)
+        tue.push(lessonHolder)
         break
       case 'mittwoch':
-        wed.push(student)
+        wed.push(lessonHolder)
         break
       case 'donnerstag':
-        thur.push(student)
+        thur.push(lessonHolder)
         break
       case 'freitag':
-        fri.push(student)
+        fri.push(lessonHolder)
         break
       case 'samstag':
-        sat.push(student)
+        sat.push(lessonHolder)
         break
       case 'sonntag':
-        sun.push(student)
+        sun.push(lessonHolder)
         break
-      case '':
-        undef.push(student)
+      case null:
+        undef.push(lessonHolder)
         break
       default:
-        undef.push(student)
+        undef.push(lessonHolder)
     }
-  })
+  }
+
   const sortedArray = [
     ...mo.sort(compareTime),
     ...tue.sort(compareTime),

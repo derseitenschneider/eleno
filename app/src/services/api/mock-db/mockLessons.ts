@@ -1,4 +1,4 @@
-import { TLesson } from '../../../types/types'
+import type { Lesson } from "../../../types/types"
 
 const currentDate = new Date()
 const currentDay = currentDate.getDay()
@@ -30,52 +30,52 @@ switch (currentDay) {
     minusOperant = 7
 }
 
-const mockLessons: TLesson[] = [
+const mockLessons: Lesson[] = [
   {
-    lessonContent: '- Aufwärmen \n - Buch S. 23, Lied 14',
+    lessonContent: "- Aufwärmen \n - Buch S. 23, Lied 14",
     id: 1,
     date: new Date(
       currentDate.getTime() - minusOperant * 5 * 24 * 60 * 60 * 1000,
     )
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     studentId: 1,
-    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
   },
   {
     lessonContent:
-      '- Aufwärmen \n - Buch S. 22, Lied 12 repetiert \n - Handhaltung C-Dur Tonleiter angeschaut \n - Hausaufgaben besprochen',
+      "- Aufwärmen \n - Buch S. 22, Lied 12 repetiert \n - Handhaltung C-Dur Tonleiter angeschaut \n - Hausaufgaben besprochen",
     id: 2,
     date: new Date(
       currentDate.getTime() - minusOperant * 4 * 24 * 60 * 60 * 1000,
     )
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     studentId: 1,
-    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15 repetieren',
+    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15 repetieren",
   },
   {
     lessonContent:
-      '- Aufwärmen \n - Kleines Spiel mit Handhaltung C-Dur Tonleiter  - Buch s. 23, Lied 16',
+      "- Aufwärmen \n - Kleines Spiel mit Handhaltung C-Dur Tonleiter  - Buch s. 23, Lied 16",
     id: 3,
     date: new Date(
       currentDate.getTime() - (minusOperant + 0.75) * 3 * 24 * 60 * 60 * 1000,
     )
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     studentId: 1,
-    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
   },
   {
-    lessonContent: 'Absenz (krank)',
+    lessonContent: "Absenz (krank)",
     id: 4,
     date: new Date(
       currentDate.getTime() - (minusOperant + 0.5) * 2 * 24 * 60 * 60 * 1000,
     )
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     studentId: 1,
-    homework: '',
+    homework: "",
   },
   {
     lessonContent:
@@ -85,9 +85,9 @@ const mockLessons: TLesson[] = [
       currentDate.getTime() - minusOperant * 1 * 24 * 60 * 60 * 1000,
     )
       .toISOString()
-      .split('T')[0],
+      .split("T")[0],
     studentId: 1,
-    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
   },
 ]
 

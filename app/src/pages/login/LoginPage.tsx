@@ -1,28 +1,21 @@
-import './loginPage.style.scss'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from "react-router-dom"
 
-import Login from '../../components/features/user/login/Login.component'
+import Login from "../../components/features/user/login/Login.component"
 
-import AnimatedLogo from '../../components/ui/logo/AnimatedLogo.component'
-import ForgotPassword from '../../components/features/user/forgotPassword/ForgotPassword.component'
-import Signup from '../../components/features/user/singup/Signup.component'
+import Signup from "../../components/features/user/login/Signup.component"
+import ForgotPassword from "@/components/features/user/login/PasswordRecovery.component"
 
-function LoginPage() {
+type LoginPageProps = {
+  className: string
+}
+function LoginPage({ className }: LoginPageProps) {
   const [searchParams] = useSearchParams()
 
-  const page = searchParams.get('page')
-
-  return (
-    <div className="login-page">
-      <div className="container--logo">
-        <AnimatedLogo />
-      </div>
-      {page === null && <Login />}
-      {page === 'login' && <Login />}
-      {page === 'signup' && <Signup />}
-      {page === 'reset-password' && <ForgotPassword />}
-    </div>
-  )
+  const page = searchParams.get("page")
+  if (!page || "login" === page) return <Login className={className} />
+  if ("signup" === page) return <Signup className={className} />
+  if ("reset" === page) return <ForgotPassword className={className} />
+  return null
 }
 
 export default LoginPage
