@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom"
-import { version } from "../../../../../package.json"
-import { useDateToday } from "../../../../services/context/DateTodayContext"
+import { Link } from 'react-router-dom'
+import { version } from '../../../../../package.json'
 
 function FooterDashboard() {
-  const { dateToday } = useDateToday()
   return (
     <footer className='border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-8'>
       <Link
@@ -18,14 +16,14 @@ function FooterDashboard() {
       </Link>
       <a href='mailto:info@eleno.net'>Kontakt</a>
       <p>
-        Copyright © {dateToday.substring(6)} by{" "}
+        Copyright © {new Date().getFullYear()} by{' '}
         <a
           href='https://derseitenschneider.ch'
           target='_blank'
           rel='noreferrer'
         >
           derseitenschneider
-        </a>{" "}
+        </a>{' '}
         - all rights reserved
       </p>
 

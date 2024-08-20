@@ -163,7 +163,7 @@ export type ContextTypeStudents = {
   activeSortedStudentIds: number[]
 }
 
-export type ContextTypeLessons = {
+export type ContextTypeDrafts = {
   drafts: Draft[]
   setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>
 }

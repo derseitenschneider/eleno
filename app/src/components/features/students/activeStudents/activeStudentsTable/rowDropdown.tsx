@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useStudents } from '@/services/context/StudentContext'
 import {
   Archive,
   CheckSquare2,
@@ -28,6 +27,7 @@ import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
+import { useLessonPointer } from '@/services/context/LessonPointerContext'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -38,10 +38,13 @@ type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 export default function ActiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
-  const { activeSortedStudentIds, setCurrentStudentIndex } = useStudents()
+  const { lessonHolders, setCurrentLessonPointer } = useLessonPointer()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateStudents } = useDeactivateStudents()
   const navigate = useNavigate()
+  const sortedStudentIds = lessonHolders
+    .filter((holder) => holder.type === 's')
+    .map((holder) => holder.holder.id)
 
   function closeModal() {
     setOpenModal(null)
@@ -87,9 +90,8 @@ export default function ActiveStudentRowDropdown({
 
             <DropdownMenuItem
               onClick={() => {
-                const newStudentIndex =
-                  activeSortedStudentIds.indexOf(studentId)
-                setCurrentStudentIndex(newStudentIndex)
+                const newStudentIndex = sortedStudentIds.indexOf(studentId)
+                setCurrentLessonPointer(newStudentIndex)
                 navigate(`/lessons/s-${studentId}`)
               }}
               className='flex items-center gap-2'
@@ -100,10 +102,9 @@ export default function ActiveStudentRowDropdown({
 
             <DropdownMenuItem
               onClick={() => {
-                const newStudentIndex =
-                  activeSortedStudentIds.indexOf(studentId)
-                setCurrentStudentIndex(newStudentIndex)
-                navigate(`/lessons/${studentId}/repertoire`)
+                const newStudentIndex = sortedStudentIds.indexOf(studentId)
+                setCurrentLessonPointer(newStudentIndex)
+                navigate(`/lessons/s-${studentId}/repertoire`)
               }}
               className='flex items-center gap-2'
             >

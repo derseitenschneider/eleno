@@ -9,14 +9,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import type { GroupPartial, StudentPartial } from '@/types/types'
+import type { GroupPartial } from '@/types/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import StudentFormRow from './StudentFormRow.component'
-import { useCreateGroup, useCreateStudents } from './useCreateGroup'
+import { useCreateGroup } from './useCreateGroup'
 import {
   Select,
   SelectContent,

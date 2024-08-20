@@ -6,28 +6,28 @@ import {
   useState,
 } from 'react'
 import type { ContextTypeTodos, TTodoItem } from '../../types/types'
-import { useDateToday } from './DateTodayContext'
-import { formatDateToDatabase } from '../../utils/formateDate'
 
 export const TodosContext = createContext<ContextTypeTodos>({
   todos: [],
-  setTodos: () => { },
+  setTodos: () => {},
   overdueTodos: [],
-  saveTodo: () => new Promise(() => { }),
-  deleteTodo: () => new Promise(() => { }),
-  completeTodo: () => new Promise(() => { }),
-  reactivateTodo: () => new Promise(() => { }),
-  deleteAllCompleted: () => new Promise(() => { }),
-  updateTodo: () => new Promise(() => { }),
+  saveTodo: () => new Promise(() => {}),
+  deleteTodo: () => new Promise(() => {}),
+  completeTodo: () => new Promise(() => {}),
+  reactivateTodo: () => new Promise(() => {}),
+  deleteAllCompleted: () => new Promise(() => {}),
+  updateTodo: () => new Promise(() => {}),
 })
 
 export function TodosProvider({ children }: { children: React.ReactNode }) {
-  const { dateToday } = useDateToday()
   const [todos, setTodos] = useState<TTodoItem[]>([])
 
-  const overdueTodos = todos.filter(
-    (todo) => todo.due < formatDateToDatabase(dateToday) && !todo.completed,
-  )
+  const overdueTodos = todos.filter((todo) => {
+    if (!todo.due) return false
+    if (todo.completed) return false
+    if (todo.due > new Date()) return true
+    return false
+  })
 
   const saveTodo = useCallback(async (newTodo: TTodoItem) => {
     try {

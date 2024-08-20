@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import CustomEditor from '../../ui/CustomEditor.component'
 
-import { useLessons } from '../../../services/context/LessonsContext'
+import { useDrafts } from '../../../services/context/DraftsContext'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
 
 function CreateLesson() {
-  const { drafts, setDrafts } = useLessons()
+  const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
   const [date, setDate] = useState<Date>(new Date())
   const [lessonContent, setLessonContent] = useState('')
