@@ -1,8 +1,8 @@
-import Logo from '../../components/ui/logo/Logo.component'
+import Logo from '../../components/ui/Logo.component'
 
 import NavbarMobileItem from './NavbarMobileItem.component'
 import { CheckSquare2, GraduationCap, LogOut, Settings } from 'lucide-react'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function NavbarMobile() {

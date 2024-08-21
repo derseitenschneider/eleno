@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import Logo from '../../components/ui/logo/Logo.component'
-import { useLessonHolders } from '../../services/context/LessonPointerContext'
+import Logo from '../../components/ui/Logo.component'
+import { useLessonHolders } from '../../services/context/LessonHolderContext'
 import { useUser } from '../../services/context/UserContext'
 
 import useOutsideClick from '@/hooks/useOutsideClick'
@@ -40,8 +40,6 @@ function Sidebar() {
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
-
-  // TODO: Fix opacity delay link names
 
   return (
     <nav

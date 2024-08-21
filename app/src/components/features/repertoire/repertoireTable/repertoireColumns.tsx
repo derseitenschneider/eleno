@@ -104,6 +104,12 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     minSize: 0,
     cell: ({ row }) => {
       const [openModal, setOpenModal] = useState<'EDIT' | 'SHARE' | 'DELETE'>()
+      let holder = ''
+      if (row.original.studentId) {
+        holder = `s-${row.original.studentId}`
+      } else {
+        holder = `g-${row.original.groupId}`
+      }
       function closeModal() {
         setOpenModal(undefined)
       }
@@ -145,7 +151,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
               <DialogHeader>
                 <DialogTitle>Song bearbeiten</DialogTitle>
                 <EditRepertoireItem
-                  studentId={row.original.studentId}
+                  holder={holder}
                   itemId={row.original.id}
                   onCloseModal={closeModal}
                 />
@@ -158,7 +164,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
               <DialogHeader>
                 <DialogTitle>Song löschen</DialogTitle>
                 <DeleteRepertoireItem
-                  studentId={row.original.studentId}
+                  holder={holder}
                   itemId={row.original.id}
                   onCloseModal={closeModal}
                 />

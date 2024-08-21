@@ -1,22 +1,22 @@
-import { Button } from "@/components/ui/button"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import type { RepertoireItem } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
-import { useDeleteRepertoireItem } from "./useDeleteRepertoireItem"
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import type { RepertoireItem } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useDeleteRepertoireItem } from './useDeleteRepertoireItem'
 
 interface DeleteRepertoireItemProps {
   itemId: number
-  studentId: number
+  holder: string
   onCloseModal?: () => void
 }
 
 function DeleteRepertoireItem({
   itemId,
-  studentId,
+  holder,
   onCloseModal,
 }: DeleteRepertoireItemProps) {
   const queryClient = useQueryClient()
-  const repertoire = queryClient.getQueryData(["repertoire", { studentId }]) as
+  const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
     | Array<RepertoireItem>
     | undefined
   const itemToDelete = repertoire?.find((item) => item.id === itemId)

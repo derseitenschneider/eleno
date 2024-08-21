@@ -9,7 +9,7 @@ function TodoDescription() {
       )}
     >
       <span />
-      <div className='grid grid-cols-[1fr_250px_150px]'>
+      <div className='grid grid-cols-[1fr_250px_100px]'>
         <span />
         <span>Schüler:in/Gruppe</span>
         <span>Fällig</span>

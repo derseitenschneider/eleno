@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { useLessonHolders } from '../../../../services/context/LessonPointerContext'
+import { useLessonHolders } from '../../../../services/context/LessonHolderContext'
 import useTodosQuery from '../../todos/todosQuery'
 import OverviewCard from './OverviewCard.component'
 

@@ -14,7 +14,6 @@ const lessonsRoutes = [
     path: '/lessons/:holderId',
     element: (
       <Suspense fallback={<p>...loading</p>}>
-        {/* <LessonSkeleton /> */}
         <motion.div
           className='pt-16 md:pt-[88px]'
           initial={{ opacity: 0 }}
@@ -44,7 +43,7 @@ const lessonsRoutes = [
         end: true,
         path: 'repertoire',
         element: (
-          <div className='py-5 pl-8 pr-4'>
+          <div className='container-page'>
             <Repertoire />
           </div>
         ),

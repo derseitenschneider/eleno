@@ -1,9 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +6,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreVertical, Pencil, Trash2, Undo2 } from 'lucide-react'
+import { MoreVertical, Trash2, Undo2 } from 'lucide-react'
 import { useState } from 'react'
-import UpdateTodo from './UpdateTodo.component'
 import DeleteTodos from './DeleteTodos.component'
 import { useReactivateTodo } from './useReactivateTodo'
 

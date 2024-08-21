@@ -1,4 +1,4 @@
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'

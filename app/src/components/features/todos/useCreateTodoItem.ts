@@ -1,6 +1,6 @@
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { createTodoApi } from '@/services/api/todos.api'
-import type { RepertoireItem, TTodoItem } from '@/types/types'
+import type { TTodoItem } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 

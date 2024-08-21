@@ -2,7 +2,6 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { deletestudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useDeleteStudents() {
   const queryClient = useQueryClient()
@@ -25,7 +24,6 @@ export function useDeleteStudents() {
     },
 
     onSuccess: () => {
-      // toast.success('Schüler:innen gelöscht.')
       queryClient.invalidateQueries({
         queryKey: ['students'],
       })

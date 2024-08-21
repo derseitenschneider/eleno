@@ -2,7 +2,6 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { reactivateStudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useReactivateStudents() {
   const queryClient = useQueryClient()

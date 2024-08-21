@@ -8,7 +8,7 @@ import CreateLesson from '../components/features/lessons/CreateLesson.component'
 
 import NoteList from '../components/features/notes/NoteList.component'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 
 function Lesson() {
   const { isLoading } = useLoading()

@@ -3,7 +3,6 @@ import { NavLink, useParams } from 'react-router-dom'
 import RepertoireControl from './repertoireControl'
 import CreateRepertoireItem from '../CreateRepertoireItem.component'
 import { ChevronLeft } from 'lucide-react'
-import { useRepertoireQuery } from '../repertoireQueries'
 import { DataTable } from '../../../ui/data-table'
 import { repertoireColumns } from './repertoireColumns'
 import {
@@ -107,7 +106,6 @@ function RepertoireTable({
           table={table}
           columns={repertoireColumns}
           messageEmpty='Keine Songs vorhanden.'
-          data={repertoire}
           isFetching={isFetching}
         />
       ) : (

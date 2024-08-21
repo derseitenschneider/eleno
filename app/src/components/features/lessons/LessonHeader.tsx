@@ -15,14 +15,15 @@ function LessonHeader() {
   if (!currentLessonHolder) return null
 
   return (
-    <header className='sm:pr-4 sm:h-[88px] sm:pl-8 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
+    <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div className='flex w-full md:block items-baseline justify-between'>
           <NavLink
-            to={`/lessons/${currentLessonHolder.type === 's'
+            to={`/lessons/${
+              currentLessonHolder.type === 's'
                 ? `s-${currentLessonHolder.holder.id}`
                 : `g-${currentLessonHolder.holder.id}`
-              }`}
+            }`}
             className='flex mb-1 items-center hover:no-underline'
           >
             <div className='mr-[4px] text-foreground h-4'>
@@ -38,8 +39,8 @@ function LessonHeader() {
           </NavLink>
           <div className='text-sm flex items-center gap-1'>
             {currentLessonHolder.holder.dayOfLesson ||
-              currentLessonHolder.holder.startOfLesson ||
-              currentLessonHolder.holder.endOfLesson ? (
+            currentLessonHolder.holder.startOfLesson ||
+            currentLessonHolder.holder.endOfLesson ? (
               <span>
                 {currentLessonHolder.holder.dayOfLesson &&
                   `${currentLessonHolder.holder.dayOfLesson}`}
@@ -51,7 +52,7 @@ function LessonHeader() {
               </span>
             ) : null}
             {currentLessonHolder.holder.dayOfLesson ||
-              currentLessonHolder.holder.durationMinutes ? (
+            currentLessonHolder.holder.durationMinutes ? (
               <span className='hidden md:inline'>
                 {currentLessonHolder.holder.dayOfLesson &&
                   currentLessonHolder.holder.durationMinutes &&

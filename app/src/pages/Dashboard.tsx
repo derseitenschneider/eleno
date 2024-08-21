@@ -1,12 +1,12 @@
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 import useScrollTo from '@/hooks/useScrollTo'
 import { motion } from 'framer-motion'
-import FooterDashboard from '../../components/features/dashboard/FooterDashboard.component'
-import HeaderDashboard from '../../components/features/dashboard/HeaderDashboard.component'
-import News from '../../components/features/dashboard/news/News.component'
-import Overview from '../../components/features/dashboard/overview/Overview.component'
-import QuickLinks from '../../components/features/dashboard/quickLinks/QuickLinks.component'
-import { useLoading } from '../../services/context/LoadingContext'
+import FooterDashboard from '../components/features/dashboard/FooterDashboard.component'
+import HeaderDashboard from '../components/features/dashboard/HeaderDashboard.component'
+import News from '../components/features/dashboard/news/News.component'
+import Overview from '../components/features/dashboard/overview/Overview.component'
+import QuickLinks from '../components/features/dashboard/quickLinks/QuickLinks.component'
+import { useLoading } from '../services/context/LoadingContext'
 
 function Dashboard() {
   const { isLoading } = useLoading()

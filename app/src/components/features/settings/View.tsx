@@ -1,4 +1,4 @@
-import DarkmodeToggle from '../../components/ui/DarkmodeToggle.component'
+import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
 
 export default function View() {
   return (

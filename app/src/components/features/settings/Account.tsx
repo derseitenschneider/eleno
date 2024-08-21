@@ -1,9 +1,3 @@
-import { useEffect, useState } from 'react'
-import DeleteAccount from '../../components/features/settings/profile/DeleteAccount.component'
-import EditEmail from '../../components/features/settings/profile/UpdateEmail.component'
-import EditPassword from '../../components/features/settings/profile/UpdatePassword.component'
-import EditProfile from '../../components/features/settings/profile/UpdateProfile.component'
-import { useUser } from '../../services/context/UserContext'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -11,6 +5,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useEffect, useState } from 'react'
+import DeleteAccount from './profile/DeleteAccount.component'
+import EditEmail from './profile/UpdateEmail.component'
+import EditPassword from './profile/UpdatePassword.component'
+import EditProfile from './profile/UpdateProfile.component'
+import { useUser } from '../../../services/context/UserContext'
 
 function Account() {
   const { user } = useUser()
@@ -26,15 +26,17 @@ function Account() {
     setModalOpen(undefined)
   }
 
+  if (!user) return null
+
   return (
     <div>
       <div className='py-7 border-b border-background200'>
         <h3>Profil</h3>
         <div className='mb-6 text-base grid grid-cols-[150px_1fr] gap-y-4'>
           <p className='text-foreground/80'>Vorname:</p>
-          <p>{user?.firstName}</p>
+          <p>{user.firstName}</p>
           <p className='text-foreground/80'>Nachname:</p>
-          <p>{user?.lastName}</p>
+          <p>{user.lastName}</p>
         </div>
         <Button
           type='button'
@@ -49,7 +51,7 @@ function Account() {
         <h3>Logindaten</h3>
         <div className='mb-6 text-base grid grid-cols-[150px_1fr] gap-y-4'>
           <p className='text-foreground/80'>E-Mail Adresse</p>
-          <p>{user?.email}</p>
+          <p>{user.email}</p>
         </div>
         <div className='flex items-center gap-4'>
           <Button
@@ -121,5 +123,4 @@ function Account() {
     </div>
   )
 }
-
 export default Account

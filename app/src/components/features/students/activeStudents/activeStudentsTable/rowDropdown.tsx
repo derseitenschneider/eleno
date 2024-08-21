@@ -27,7 +27,7 @@ import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 
 type StudentRowDropdownProps = {
   studentId: number

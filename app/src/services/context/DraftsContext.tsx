@@ -8,7 +8,6 @@ export const DraftsContext = createContext<ContextTypeDrafts>({
 
 export function DraftsProvider({ children }: { children: React.ReactNode }) {
   const [drafts, setDrafts] = useState<Draft[]>([])
-
   const value = useMemo(
     () => ({
       drafts,
@@ -16,7 +15,6 @@ export function DraftsProvider({ children }: { children: React.ReactNode }) {
     }),
     [drafts],
   )
-
   return (
     <DraftsContext.Provider value={value}>{children}</DraftsContext.Provider>
   )

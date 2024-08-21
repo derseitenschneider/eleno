@@ -11,17 +11,7 @@ export const fetchActiveNotesAPI = async () => {
   return notes
 }
 
-export const fetchNotesByStudent = async (studentIds: number[]) => {
-  const { data: notes, error } = await supabase
-    .from('notes')
-    .select('*')
-    .in('studentId', studentIds)
-
-  if (error) throw new Error(error.message)
-  return notes as Note[]
-}
-
-export const createNoteAPI = async (note: PartialNote): Promise<Note[]> => {
+export const createNoteAPI = async (note: PartialNote) => {
   const { data, error } = await supabase
     .from('notes')
     .insert([{ ...note }])

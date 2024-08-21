@@ -142,7 +142,7 @@ function CreateLesson() {
   }
 
   return (
-    <div className='p-4 sm:pr-4 sm:pl-8 sm:py-4'>
+    <div className='p-4 sm:pr-4 sm:pl-6 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker

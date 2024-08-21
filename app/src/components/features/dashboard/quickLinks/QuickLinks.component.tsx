@@ -5,7 +5,7 @@ import {
   Settings,
   UserRoundPlus,
 } from 'lucide-react'
-import { useLessonHolders } from '../../../../services/context/LessonPointerContext'
+import { useLessonHolders } from '../../../../services/context/LessonHolderContext'
 import QuickLinkItem from './QuickLinkItem.component'
 import { cn } from '@/lib/utils'
 

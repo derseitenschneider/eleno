@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import Navbar from '../../layouts/navbar/Navbar.component'
+import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },

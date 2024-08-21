@@ -1,5 +1,4 @@
 import type { Session } from '@supabase/gotrue-js/src/lib/types'
-import { set } from 'date-fns'
 import {
   createContext,
   useCallback,
@@ -10,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { isDemoMode } from '../../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
-import LoginPage from '../../pages/login/LoginPage'
+import LoginPage from '../../pages/LoginPage'
 import type { ContextTypeUser, Profile, User } from '../../types/types'
 import mockUser from '../api/mock-db/mockUser'
 import supabase from '../api/supabase'

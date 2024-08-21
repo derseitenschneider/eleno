@@ -1,7 +1,7 @@
 import type { LessonHolder, TTodoItem } from '@/types/types'
 import { Badge } from '@/components/ui/badge'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
@@ -48,7 +48,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
     <li
       className={cn(
         'grid-cols-[30px_1fr_30px] items-center',
-        'bg-background50 mb-2 mt-5 p-2 md:gap-2 justify-between rounded-sm shadow-sm border-background200 border',
+        'bg-background50 mb-2 mt-5 p-2 justify-between rounded-sm shadow-sm border-background200 border',
         'md:mt-0 grid',
       )}
     >
@@ -61,7 +61,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
-      <div className='flex flex-wrap justify-between items-center gap-y-2 md:grid md:grid-cols-[1fr_250px_150px]'>
+      <div className='flex flex-wrap justify-between items-center gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
             'text-sm md:basis-auto',

@@ -1,18 +1,18 @@
-import { File } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import TimeTableDay from '../../components/features/timetable/TimetableDay.component'
-import type { TimetableDay } from '../../types/types'
-import { sortLessonHolders } from '../../utils/sortStudents'
-import ExportTimetable from '../../components/features/timetable/ExportTimetable'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
-import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { File } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import ExportTimetable from '../components/features/timetable/ExportTimetable'
+import TimeTableDay from '../components/features/timetable/TimetableDay.component'
+import type { TimetableDay } from '../types/types'
+import { sortLessonHolders } from '../utils/sortLessonHolders'
 
 export default function Timetable() {
   const { activeSortedHolders: lessonHolders } = useLessonHolders()

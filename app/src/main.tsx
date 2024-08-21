@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './scss/tailwind.css'
+import './styles/tailwind.css'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={mainRouter} />
-      {/* <ReactQueryDevtools buttonPosition='bottom-left' /> */}
+      <ReactQueryDevtools buttonPosition='bottom-left' />
     </QueryClientProvider>
   </React.StrictMode>,
 )

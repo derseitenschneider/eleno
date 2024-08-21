@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import DataProvider from './DataProvider.component'
+import DataProvider from './services/context/DataProvider.component'
 import Sidebar from './layouts/sidebar/Sidebar.component'
 
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
@@ -46,7 +46,6 @@ export default function Application() {
         }}
         icons={{
           info: <Info />,
-          // success: <CheckCircle2 className='size-4 text-noteGreen' />,
         }}
       />
     </div>

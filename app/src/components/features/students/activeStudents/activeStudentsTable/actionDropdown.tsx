@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState, Table } from '@tanstack/react-table'
+import type { RowSelectionState } from '@tanstack/react-table'
 import {
   Archive,
   ChevronsUpDown,
@@ -42,9 +42,6 @@ export function ActiveStudentsActionDropdown({
 
   const isDisabledAction = Object.entries(selected).length === 0
   const selectedStudentIds = Object.keys(selected).map((id) => Number(id))
-  const selectedStudents = selectedStudentIds.map((id) =>
-    students?.find((student) => student.id === id),
-  ) as Array<Student>
 
   function closeModal() {
     setSelected({})

@@ -1,4 +1,4 @@
-import Sidebar from '../../layouts/sidebar/Sidebar.component'
+import Sidebar from '../layouts/sidebar/Sidebar.component'
 
 export default function ErrorPage() {
   return (

@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { useResetStudents } from "./useResetStudents"
+import { Button } from '@/components/ui/button'
+import { useResetStudents } from './useResetStudents'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface ResetStudentsProps {
   selectedStudentIds: Array<number>
@@ -7,7 +8,7 @@ interface ResetStudentsProps {
 }
 
 function ResetStudents({ onSuccess, selectedStudentIds }: ResetStudentsProps) {
-  const { reset, isResetting, isError } = useResetStudents()
+  const { reset, isResetting } = useResetStudents()
 
   const handleReset = () => {
     reset(selectedStudentIds, {
@@ -26,9 +27,12 @@ function ResetStudents({ onSuccess, selectedStudentIds }: ResetStudentsProps) {
         <Button variant='outline' size='sm' onClick={onSuccess}>
           Abbrechen
         </Button>
-        <Button type='button' size='sm' onClick={handleReset}>
-          Zurücksetzen
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button type='button' size='sm' onClick={handleReset}>
+            Zurücksetzen
+          </Button>
+          {isResetting && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

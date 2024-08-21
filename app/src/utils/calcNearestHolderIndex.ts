@@ -1,7 +1,7 @@
-import type { LessonHolder, Student, Weekday } from '../types/types'
-import { sortLessonHolders } from './sortStudents'
+import type { LessonHolder, Weekday } from '../types/types'
+import { sortLessonHolders } from './sortLessonHolders'
 
-const calcNearestLessonIndex = (lessonHolder: Array<LessonHolder>) => {
+const calcNearestHolderIndex = (lessonHolder: Array<LessonHolder>) => {
   const filteredSortedHolders = sortLessonHolders(lessonHolder).filter(
     (lessonHolder) =>
       !lessonHolder.holder?.archive && lessonHolder.holder?.dayOfLesson,
@@ -92,22 +92,22 @@ const calcNearestLessonIndex = (lessonHolder: Array<LessonHolder>) => {
 
   const holdersAfterToday = [
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in1Day,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in1Day,
     ),
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in2Days,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in2Days,
     ),
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in3Days,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in3Days,
     ),
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in4Days,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in4Days,
     ),
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in5Days,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in5Days,
     ),
     filteredSortedHolders.filter(
-      (lessonHolder) => lessonHolder.holder.dayOfLesson === in6Days,
+      (lessonHolder) => lessonHolder?.holder.dayOfLesson === in6Days,
     ),
   ]
 
@@ -125,9 +125,10 @@ const calcNearestLessonIndex = (lessonHolder: Array<LessonHolder>) => {
   if (todaysNextHolder) {
     upcomingHolder = todaysNextHolder
   } else {
-    for (let i = 0; i < holdersAfterToday.length; i += 1) {
-      if (holdersAfterToday.at(i).length > 0) {
-        upcomingHolder = holdersAfterToday[i]?.[0]
+    for (let i = 0; i < holdersAfterToday.length; i++) {
+      const currentHolders = holdersAfterToday[i]
+      if (currentHolders && currentHolders.length > 0) {
+        upcomingHolder = currentHolders[0]
         break
       }
     }
@@ -141,4 +142,4 @@ const calcNearestLessonIndex = (lessonHolder: Array<LessonHolder>) => {
 
   return nearestHolderIndex
 }
-export default calcNearestLessonIndex
+export default calcNearestHolderIndex

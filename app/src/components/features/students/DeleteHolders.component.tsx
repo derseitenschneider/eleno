@@ -6,6 +6,7 @@ import { useDeleteGroups } from '../groups/useDeleteGroups'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { toast } from 'sonner'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface DeleteStudentsProps {
   onSuccess: () => void
@@ -21,8 +22,8 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
     | Array<Group>
     | undefined
 
-  const { deleteStudents } = useDeleteStudents()
-  const { deleteGroups } = useDeleteGroups()
+  const { deleteStudents, isDeleting: isDeletingStudents } = useDeleteStudents()
+  const { deleteGroups, isDeleting: isDeletingGroups } = useDeleteGroups()
 
   const studentIds = holderIds
     .filter((holderId) => holderId.includes('s'))
@@ -132,9 +133,12 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
         <Button size='sm' variant='outline' onClick={onSuccess}>
           Abbrechen
         </Button>
-        <Button size='sm' variant='destructive' onClick={handleDeleteHolders}>
-          Löschen
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button size='sm' variant='destructive' onClick={handleDeleteHolders}>
+            Löschen
+          </Button>
+          {(isDeletingStudents || isDeletingGroups) && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

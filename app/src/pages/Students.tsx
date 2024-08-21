@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
-import Navbar from '../../layouts/navbar/Navbar.component'
-import { useLoading } from '@/services/context/LoadingContext'
 import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
+import { useLoading } from '@/services/context/LoadingContext'
+import { Outlet } from 'react-router-dom'
+import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },
@@ -13,7 +13,7 @@ export default function Students() {
 
   if (isLoading) return <StudentsSkeleton />
   return (
-    <div className='px-3 sm:px-0 py-4 sm:*:px-5 sm:*:pr-4 max-h-full overflow-hidden sm:*:pl-8 pb-4 sm:py-5'>
+    <div className='px-3 sm:px-0 py-4 sm:*:px-4 sm:*:pr-4 max-h-full overflow-hidden sm:*:pl-6 pb-4 sm:py-4'>
       <header>
         <h1 className='heading-1'>Schüler:innen</h1>
       </header>

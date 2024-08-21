@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
-import type { Group, Student } from '../../../types/types'
+import type { Group } from '../../../types/types'
 import BaseLayoutPDF from './BaseLayoutPDF.component'
 import TablePDF from './TablePDF.component'
 

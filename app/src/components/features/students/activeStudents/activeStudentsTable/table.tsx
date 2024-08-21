@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/ui/data-table'
 import type { Student } from '@/types/types'
-import { compareLastName } from '@/utils/sortStudents'
+import { compareLastName } from '@/utils/sortLessonHolders'
 import {
   type RowSelectionState,
   type SortingState,

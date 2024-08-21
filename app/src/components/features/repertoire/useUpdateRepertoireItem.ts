@@ -1,8 +1,8 @@
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { updateRepertoireItemAPI } from "@/services/api/repertoire.api"
-import type { RepertoireItem } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { updateRepertoireItemAPI } from '@/services/api/repertoire.api'
+import type { RepertoireItem } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function useUpdateRepertoireItem() {
   const queryClient = useQueryClient()
@@ -10,13 +10,20 @@ export function useUpdateRepertoireItem() {
     mutationFn: updateRepertoireItemAPI,
 
     onMutate: (updatedItem) => {
-      // Snapshot in case of a rollback.
+      let holder = ''
+      if (updatedItem.studentId) {
+        holder = `s-${updatedItem.studentId}`
+      } else {
+        holder = `g-${updatedItem.groupId}`
+      }
+
       const previousRepertoire = queryClient.getQueryData([
-        "repertoire",
-        { studentId: updatedItem.studentId },
+        'repertoire',
+        { holder },
       ])
+
       queryClient.setQueryData(
-        ["repertoire", { studentId: updatedItem.studentId }],
+        ['repertoire', { holder }],
         (prev: Array<RepertoireItem>) =>
           prev.map((item) => (item.id === updatedItem.id ? updatedItem : item)),
       )
@@ -24,16 +31,16 @@ export function useUpdateRepertoireItem() {
     },
 
     onSuccess: (updatedItem) => {
-      toast.success("Änderungen gespeichert.")
+      toast.success('Änderungen gespeichert.')
       queryClient.invalidateQueries({
-        queryKey: ["repertoire", { studentId: updatedItem.studentId }],
+        queryKey: ['repertoire', { studentId: updatedItem.studentId }],
       })
     },
 
     onError: (_, newItem, context) => {
       fetchErrorToast()
       queryClient.setQueryData(
-        ["repertoire", { studentId: newItem.studentId }],
+        ['repertoire', { studentId: newItem.studentId }],
         context?.previousRepertoire,
       )
     },

@@ -3,7 +3,6 @@ import type {
   LessonPartial,
   LessonWithGroupId,
   LessonWithStudentId,
-  Student,
 } from '../../types/types'
 import supabase from './supabase'
 
@@ -48,8 +47,8 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -77,8 +76,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate?.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
@@ -121,7 +120,9 @@ export const deleteLessonAPI = async (lessonId: number) => {
   return data
 }
 
-export const updateLessonAPI = async (lesson: Lesson): Promise<Lesson> => {
+export const updateLessonAPI = async (
+  lesson: Lesson,
+): Promise<LessonWithGroupId | LessonWithStudentId> => {
   const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
     .from('lessons')
@@ -131,10 +132,9 @@ export const updateLessonAPI = async (lesson: Lesson): Promise<Lesson> => {
     .single()
 
   if (error) throw new Error(error.message)
-  return { ...data, date: new Date(data.date || '') }
+  return { ...data, date: new Date(data.date || '') } as Lesson
 }
 
-// TODO: fetchLatestLessonsPerStudent to invalidate query after deletion
 export const fetchLatestLessons = async () => {
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')

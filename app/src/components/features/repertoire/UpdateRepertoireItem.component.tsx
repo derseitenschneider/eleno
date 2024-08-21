@@ -10,28 +10,26 @@ import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 
 interface EditRepertoireItemProps {
   itemId: number
-  studentId: number
+  holder: string
   onCloseModal?: () => void
 }
 
 function EditRepertoireItem({
   itemId,
-  studentId,
+  holder,
   onCloseModal,
 }: EditRepertoireItemProps) {
   const queryClient = useQueryClient()
 
-  const repertoire = queryClient.getQueryData(['repertoire', { studentId }]) as
+  const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
+  const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
     | Array<RepertoireItem>
     | undefined
 
   const itemToEdit = repertoire?.find((item) => item.id === itemId)
 
-  const [item, setItem] = useState<RepertoireItem | undefined>(itemToEdit)
-
-  const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
-
-  if (!item) return null
+  if (!itemToEdit) return null
+  const [item, setItem] = useState<RepertoireItem>(itemToEdit)
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem((prev) => ({ ...prev, title: e.target.value }))
@@ -46,7 +44,6 @@ function EditRepertoireItem({
   }
 
   function handleSave() {
-    if (!item) return
     updateRepertoireItem(item, {
       onSuccess: () => onCloseModal?.(),
     })

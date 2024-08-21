@@ -12,10 +12,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { Search, Users } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import type { LessonHolder } from '@/types/types'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
@@ -85,7 +85,9 @@ export default function SearchStudentCombobox() {
                   onSelect={() => handleSelect(lessonHolder)}
                 >
                   {lessonHolder.type === 's' && (
-                    <span>{`${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`}</span>
+                    <span>
+                      {`${lessonHolder.holder.firstName} ${lessonHolder.holder.lastName}`}
+                    </span>
                   )}
                   {lessonHolder.type === 'g' && (
                     <>

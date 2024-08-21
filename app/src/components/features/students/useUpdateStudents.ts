@@ -1,8 +1,8 @@
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { updateStudentsApi } from "@/services/api/students.api"
-import type { Student } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { updateStudentsApi } from '@/services/api/students.api'
+import type { Student } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function useUpdateStudents() {
   const queryClient = useQueryClient()
@@ -13,13 +13,12 @@ export function useUpdateStudents() {
   } = useMutation({
     mutationFn: updateStudentsApi,
     onMutate: (updatedStudents) => {
-      // Snapshot in case of a rollback.
-      const previousStudents = queryClient.getQueryData(["students"]) as
+      const previousStudents = queryClient.getQueryData(['students']) as
         | Array<Student>
         | undefined
 
       queryClient.setQueryData(
-        ["students"],
+        ['students'],
         (prev: Array<Student> | undefined) => {
           return prev?.map((prevStudent) => {
             const updatedStudentsIds = updatedStudents.map(
@@ -38,16 +37,16 @@ export function useUpdateStudents() {
     },
 
     onSuccess: () => {
-      toast.success("Änderungen gespeichert.")
+      toast.success('Änderungen gespeichert.')
       queryClient.invalidateQueries({
-        queryKey: ["students"],
+        queryKey: ['students'],
       })
     },
 
-    onError: (_, updatedLesson, context) => {
+    onError: (_, __, context) => {
       fetchErrorToast()
 
-      queryClient.setQueryData(["students"], context?.previousStudents)
+      queryClient.setQueryData(['students'], context?.previousStudents)
     },
   })
   return { updateStudents, isUpdating, isSuccess }

@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import { NavLink } from 'react-router-dom'
 
-interface IProps {
+type NavbarProps = {
   navLinks: {
     path: string
     label: string
@@ -10,7 +10,7 @@ interface IProps {
   }[]
 }
 
-function Navbar({ navLinks }: IProps) {
+function Navbar({ navLinks }: NavbarProps) {
   return (
     <div className='text-base mb-6'>
       <ul className='p-0 flex justify-start gap-4'>

@@ -93,8 +93,7 @@ export default function UpdateStudents({
               size='sm'
               variant='outline'
               type='button'
-              // onClick={onSuccess}
-              onClick={() => console.log('test')}
+              onClick={onSuccess}
               disabled={isUpdating}
             >
               Abbrechen

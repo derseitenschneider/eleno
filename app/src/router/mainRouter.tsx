@@ -1,24 +1,24 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import ErrorPage from '../pages/error/error'
+import ErrorPage from '../pages/Error'
 
 import Loader from '../components/ui/Loader'
 import Application from '../Application'
 
-import Account from '../pages/settings/Account'
-import TodosCompleted from '../pages/todos/TodosCompleted.page'
-import TodosOpen from '../pages/todos/TodosOpen.page'
+import Account from '../components/features/settings/Account'
+import TodosCompleted from '../components/features/todos/TodosCompleted.component'
+import TodosOpen from '../components/features/todos/TodosOpen.component'
 
-import View from '../pages/settings/View'
+import View from '../components/features/settings/View'
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 
-const Dashboard = lazy(() => import('../pages/dashboard/Dashboard'))
-const ToDos = lazy(() => import('../pages/todos/Todos.page'))
-const Settings = lazy(() => import('../pages/settings/Settings'))
-const Timetable = lazy(() => import('../pages/timetable/Timetable.page'))
+const Dashboard = lazy(() => import('../pages/Dashboard'))
+const ToDos = lazy(() => import('../pages/Todos.page'))
+const Settings = lazy(() => import('../pages/Settings.page'))
+const Timetable = lazy(() => import('../pages/Timetable.page'))
 
 const mainRouter = createBrowserRouter(
   [
@@ -39,7 +39,7 @@ const mainRouter = createBrowserRouter(
           path: 'timetable',
           element: (
             <Suspense>
-              <div className='py-5 pl-8 pr-4'>
+              <div className='py-4 pl-6 pr-4'>
                 <Timetable />
               </div>
             </Suspense>

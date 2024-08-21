@@ -1,7 +1,6 @@
-import { IoSearchOutline } from "react-icons/io5"
-import { Input } from "./input"
-import { cn } from "@/lib/utils"
-import { DebouncedInput } from "./debounce-input.component"
+import { cn } from '@/lib/utils'
+import { IoSearchOutline } from 'react-icons/io5'
+import { DebouncedInput } from './debounce-input.component'
 
 interface SearchBarProps {
   searchInput: string
@@ -11,26 +10,17 @@ interface SearchBarProps {
 }
 function SearchBar({
   searchInput,
-  className = "",
+  className = '',
   setSearchInput,
   disabled,
 }: SearchBarProps) {
   return (
     <div className='relative h-fit '>
       <IoSearchOutline className='absolute text-foreground/55 h-4 w-4 top-[30%] left-[12px]' />
-      {/* <Input */}
-      {/*   className={cn("pr-2 pl-8 w-sm", className)} */}
-      {/*   type='search' */}
-      {/*   placeholder='suchen' */}
-      {/*   value={searchInput} */}
-      {/*   autoFocus={window.screen.width > 1366} */}
-      {/*   onChange={handlerSearchInput} */}
-      {/*   disabled={disabled} */}
-      {/* /> */}
       <DebouncedInput
         value={searchInput}
         onChange={(value) => setSearchInput(value)}
-        className={cn("pr-2 pl-8 w-sm", className)}
+        className={cn('pr-2 pl-8 w-sm', className)}
         type='search'
         placeholder='suchen'
         disabled={disabled}

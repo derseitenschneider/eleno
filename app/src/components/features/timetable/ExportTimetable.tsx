@@ -1,4 +1,4 @@
-import { FormEventHandler, Fragment, useState } from 'react'
+import { useState } from 'react'
 
 import { PDFDownloadLink } from '@react-pdf/renderer'
 
@@ -23,7 +23,7 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
   const daysWithStudents = days.filter((day) => day.lessonHolders.length > 0)
   const selectedDaysSorted = sortTimeTableDays(selectedDays)
 
-  const userName = `${user?.first_name} ${user?.last_name}`
+  const userName = `${user?.firstName} ${user?.lastName}`
   const userNameDashes = userName.split(' ').join('-').toLowerCase()
 
   const handleSelect = (day: TimetableDay) => {

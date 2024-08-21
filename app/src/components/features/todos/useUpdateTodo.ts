@@ -9,7 +9,6 @@ export function useUpdateTodo() {
   const { mutate: updateTodo, isPending: isUpdating } = useMutation({
     mutationFn: updateTodoApi,
     onMutate: (updatedTodo) => {
-      // Snapshot in case of a rollback.
       const prevTodos = queryClient.getQueryData(['todos']) as
         | Array<TTodoItem>
         | undefined

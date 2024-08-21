@@ -1,7 +1,4 @@
-import type {
-  PartialRepertoireItem,
-  RepertoireItem,
-} from '../../../types/types'
+import type { PartialRepertoireItem } from '../../../types/types'
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'

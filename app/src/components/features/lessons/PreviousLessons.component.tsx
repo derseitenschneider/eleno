@@ -46,7 +46,7 @@ function PreviousLessons() {
   }, [])
 
   return (
-    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-8 sm:py-4 border-b border-hairline md:h-[300px] relative'>
+    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline md:h-[300px] relative'>
       <div className='flex flex-wrap items-baseline gap-5 mb-5'>
         {previousLessonsIds.length > 0 ? (
           <>
@@ -56,7 +56,7 @@ function PreviousLessons() {
                 className={cn(
                   'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
                   index === tabIndex &&
-                  'bg-background50 border-primary/80 hover:bg-background50',
+                    'bg-background50 border-primary/80 hover:bg-background50',
                 )}
                 onClick={() => {
                   setTabIndex(index)

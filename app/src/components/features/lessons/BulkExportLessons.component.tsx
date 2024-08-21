@@ -12,7 +12,7 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
-import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import JSZip from 'jszip'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 

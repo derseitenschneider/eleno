@@ -1,4 +1,4 @@
-import { LessonHolderProvider } from './LessonPointerContext'
+import { LessonHolderProvider } from './LessonHolderContext'
 import { DraftsProvider } from './DraftsContext'
 
 interface MainContextProps {

@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/ui/data-table'
-import type { LessonHolder, Student } from '@/types/types'
+import type { LessonHolder } from '@/types/types'
 import {
   type RowSelectionState,
   type SortingState,

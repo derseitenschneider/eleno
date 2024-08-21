@@ -1,9 +1,9 @@
 import useGroupsQuery from '@/components/features/groups/groupsQuery'
 import useStudentsQuery from '@/components/features/students/studentsQueries'
 import type { LessonHolder } from '@/types/types'
-import { sortLessonHolders } from '@/utils/sortStudents'
+import { sortLessonHolders } from '@/utils/sortLessonHolders'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import calcNearestLessonIndex from '../../utils/getClosestStudentIndex'
+import calcNearestLessonIndex from '../../utils/calcNearestHolderIndex'
 
 export type ContextTypeLessonHolder = {
   nearestLessonPointer: number

@@ -30,25 +30,6 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
 
   const holderNameDashes = holderName.split(' ').join('-').toLowerCase()
 
-  const repertoireCSV = repertoire?.map((item, index) => ({
-    index: index + 1,
-    title: item.title,
-    startDate: item.startDate
-      ? item.startDate.toLocaleDateString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
-      : '',
-    endDate: item.endDate
-      ? item.endDate.toLocaleDateString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
-      : '',
-  }))
-
   if (!repertoire || repertoire.length === 0)
     return (
       <div className='w-[500px] h-50'>
@@ -56,12 +37,30 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
       </div>
     )
 
+  const repertoireCSV = repertoire.map((item, index) => ({
+    index: index + 1,
+    title: item.title,
+    startDate: item.startDate
+      ? item.startDate.toLocaleDateString(userLocale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      })
+      : '',
+    endDate: item.endDate
+      ? item.endDate.toLocaleDateString(userLocale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      })
+      : '',
+  }))
+
   return (
     <div className='space-y-8'>
       <p>
         Exportiere die Repertoireliste von <b>{holderName}</b>.
       </p>
-
       <div>
         <label htmlFor='title'>
           Titel (optional)
