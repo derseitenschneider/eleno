@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error/error'
 
-import Loader from '../components/ui/loader/Loader'
+import Loader from '../components/ui/Loader'
 import Application from '../Application'
 
 import Account from '../pages/settings/Account'

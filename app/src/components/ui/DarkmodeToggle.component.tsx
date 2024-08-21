@@ -2,7 +2,7 @@ import * as SwitchPrimitives from "@radix-ui/react-switch"
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2"
 
 import { cn } from "@/lib/utils"
-import { useDarkMode } from "../../../services/context/DarkModeContext"
+import { useDarkMode } from "../../services/context/DarkModeContext"
 
 export default function DarkmodeToggle() {
   const { isDarkMode, toggleDarkMode } = useDarkMode()

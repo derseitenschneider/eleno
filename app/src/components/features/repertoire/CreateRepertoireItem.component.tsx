@@ -5,7 +5,7 @@ import type {
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { useCreateRepertoireItem } from './useCreateRepertoireItem'
 import { useState } from 'react'
 

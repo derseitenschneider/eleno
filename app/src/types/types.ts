@@ -131,8 +131,8 @@ export type PartialNote = Omit<Note, 'created_at'>
 
 // CONTEXT TYPES
 export type ContextTypeUser = {
-  user: User | null
-  setUser: React.Dispatch<React.SetStateAction<User>>
+  user: User | undefined
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
 
   updateProfile: (data: Profile) => Promise<void>
   updateEmail: (email: string) => Promise<void>

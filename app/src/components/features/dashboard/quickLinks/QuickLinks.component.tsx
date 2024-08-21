@@ -5,13 +5,13 @@ import {
   Settings,
   UserRoundPlus,
 } from 'lucide-react'
-import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
+import { useLessonHolders } from '../../../../services/context/LessonPointerContext'
 import QuickLinkItem from './QuickLinkItem.component'
 import { cn } from '@/lib/utils'
 
 function QuickLinks() {
   const { nearestLessonHolder, nearestLessonPointer, setCurrentLessonPointer } =
-    useLessonPointer()
+    useLessonHolders()
 
   const lessonSlug = nearestLessonHolder?.holder
     ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`

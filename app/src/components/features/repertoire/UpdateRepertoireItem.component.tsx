@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import ButtonRemove from "@/components/ui/buttonRemove/ButtonRemove"
-import { DayPicker } from "@/components/ui/daypicker.component"
-import { Input } from "@/components/ui/input"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
-import type { RepertoireItem } from "../../../types/types"
-import { useUpdateRepertoireItem } from "./useUpdateRepertoireItem"
+import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Input } from '@/components/ui/input'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import type { RepertoireItem } from '../../../types/types'
+import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 
 interface EditRepertoireItemProps {
   itemId: number
@@ -21,7 +21,7 @@ function EditRepertoireItem({
 }: EditRepertoireItemProps) {
   const queryClient = useQueryClient()
 
-  const repertoire = queryClient.getQueryData(["repertoire", { studentId }]) as
+  const repertoire = queryClient.getQueryData(['repertoire', { studentId }]) as
     | Array<RepertoireItem>
     | undefined
 

@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { useUser } from '../../../../services/context/UserContext'
-import DarkmodeToggle from '../../../ui/darkmodeToggle/DarkmodeToggle.component'
+import DarkmodeToggle from '../../../ui/DarkmodeToggle.component'
 
 function HeaderDashboard() {
   const { user } = useUser()

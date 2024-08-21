@@ -5,29 +5,31 @@ import { sortLessonHolders } from '@/utils/sortStudents'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import calcNearestLessonIndex from '../../utils/getClosestStudentIndex'
 
-export type ContextTypeLessonPointer = {
+export type ContextTypeLessonHolder = {
   nearestLessonPointer: number
   setNearestLessonPointer: React.Dispatch<React.SetStateAction<number>>
   currentLessonPointer: number
   setCurrentLessonPointer: React.Dispatch<React.SetStateAction<number>>
-  lessonHolders: Array<LessonHolder>
-  lessonHolderTypeIds: Array<string>
+  activeSortedHolders: Array<LessonHolder>
+  activeSortedHolderTypeIds: Array<string>
+  inactiveLessonHolders: Array<LessonHolder>
   currentLessonHolder: LessonHolder | null
   nearestLessonHolder: LessonHolder | null
 }
 
-export const LessonPointerContext = createContext<ContextTypeLessonPointer>({
+export const LessonHolderContext = createContext<ContextTypeLessonHolder>({
   nearestLessonPointer: 0,
-  setNearestLessonPointer: () => { },
+  setNearestLessonPointer: () => {},
   currentLessonPointer: 0,
-  setCurrentLessonPointer: () => { },
-  lessonHolders: [],
-  lessonHolderTypeIds: [],
+  setCurrentLessonPointer: () => {},
+  activeSortedHolders: [],
+  activeSortedHolderTypeIds: [],
+  inactiveLessonHolders: [],
   currentLessonHolder: null,
   nearestLessonHolder: null,
 })
 
-export function LessonPointerProvider({
+export function LessonHolderProvider({
   children,
 }: {
   children: React.ReactNode
@@ -35,32 +37,51 @@ export function LessonPointerProvider({
   const [currentLessonPointer, setCurrentLessonPointer] = useState(0)
   const [nearestLessonPointer, setNearestLessonPointer] = useState(0)
 
-  const activeStudents: Array<LessonHolder> | undefined = useStudentsQuery()
-    .data?.filter((student) => !student.archive)
-    .map((student) => ({ type: 's', holder: student }))
+  const allStudents: Array<LessonHolder> | undefined =
+    useStudentsQuery().data?.map((student) => ({ type: 's', holder: student }))
 
-  const activeGroups: Array<LessonHolder> | undefined = useGroupsQuery()
-    .data?.filter((group) => !group.archive)
-    .map((group) => ({ type: 'g', holder: group }))
-
-  const lessonHolders: Array<LessonHolder> = useMemo(
-    () =>
-      sortLessonHolders([...(activeStudents || []), ...(activeGroups || [])]),
-    [activeStudents, activeGroups],
+  const allGroups: Array<LessonHolder> | undefined = useGroupsQuery().data?.map(
+    (group) => ({ type: 'g', holder: group }),
   )
 
-  const lessonHolderTypeIds = lessonHolders.map(
+  const activeStudents: Array<LessonHolder> | undefined = allStudents?.filter(
+    (student) => !student.holder.archive,
+  )
+
+  const activeGroups: Array<LessonHolder> | undefined = allGroups?.filter(
+    (group) => !group.holder.archive,
+  )
+
+  const inactiveStudents = allStudents?.filter(
+    (student) => student.holder.archive,
+  )
+  const inactiveGroups = allGroups?.filter((group) => group.holder.archive)
+
+  const activeLessonHolders: Array<LessonHolder> = useMemo(() => {
+    return [...(activeStudents || []), ...(activeGroups || [])]
+  }, [activeStudents, activeGroups])
+
+  const inactiveLessonHolders: Array<LessonHolder> = useMemo(() => {
+    return [...(inactiveStudents || []), ...(inactiveGroups || [])]
+  }, [inactiveStudents, inactiveGroups])
+
+  const activeSortedHolders: Array<LessonHolder> = useMemo(
+    () => sortLessonHolders(activeLessonHolders),
+    [activeLessonHolders],
+  )
+
+  const activeSortedHolderTypeIds = activeSortedHolders.map(
     (lessonHolder) => `${lessonHolder.type}-${lessonHolder.holder.id}`,
   )
 
   useEffect(() => {
-    if (lessonHolders) {
-      setNearestLessonPointer(calcNearestLessonIndex(lessonHolders))
+    if (activeSortedHolders) {
+      setNearestLessonPointer(calcNearestLessonIndex(activeSortedHolders))
     }
-  }, [lessonHolders])
+  }, [activeSortedHolders])
 
-  const currentLessonHolder = lessonHolders[currentLessonPointer] || null
-  const nearestLessonHolder = lessonHolders[nearestLessonPointer] || null
+  const currentLessonHolder = activeSortedHolders[currentLessonPointer] || null
+  const nearestLessonHolder = activeSortedHolders[nearestLessonPointer] || null
 
   const value = useMemo(
     () => ({
@@ -68,25 +89,27 @@ export function LessonPointerProvider({
       setCurrentLessonPointer,
       nearestLessonPointer,
       setNearestLessonPointer,
-      lessonHolders,
-      lessonHolderTypeIds,
+      activeSortedHolders,
+      activeSortedHolderTypeIds,
+      inactiveLessonHolders,
       currentLessonHolder,
       nearestLessonHolder,
     }),
     [
       currentLessonPointer,
       nearestLessonPointer,
-      lessonHolders,
-      lessonHolderTypeIds,
+      activeSortedHolders,
+      activeSortedHolderTypeIds,
+      inactiveLessonHolders,
       currentLessonHolder,
       nearestLessonHolder,
     ],
   )
   return (
-    <LessonPointerContext.Provider value={value}>
+    <LessonHolderContext.Provider value={value}>
       {children}
-    </LessonPointerContext.Provider>
+    </LessonHolderContext.Provider>
   )
 }
 
-export const useLessonPointer = () => useContext(LessonPointerContext)
+export const useLessonHolders = () => useContext(LessonHolderContext)

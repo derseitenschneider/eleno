@@ -1,15 +1,18 @@
 import type { Session } from '@supabase/gotrue-js/src/lib/types'
+import { set } from 'date-fns'
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { isDemoMode } from '../../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/login/LoginPage'
+import type { ContextTypeUser, Profile, User } from '../../types/types'
+import mockUser from '../api/mock-db/mockUser'
 import supabase from '../api/supabase'
 import {
   deleteAccountSupabase,
@@ -19,20 +22,17 @@ import {
   updatePasswordSupabase,
   updateProfileSupabase,
 } from '../api/user.api'
-import type { ContextTypeUser, Profile, User } from '../../types/types'
 import { useLoading } from './LoadingContext'
-import mockUser from '../api/mock-db/mockUser'
-import { isDemoMode } from '../../../config'
 
 export const UserContext = createContext<ContextTypeUser>({
-  user: null,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  user: undefined,
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,26 +42,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const mode = import.meta.env.VITE_MODE
 
-  const getUserProfiles = async (userId: string) => {
-    if (mode === 'demo') {
-      setUser(mockUser)
-      setIsLoading(false)
-      return
-    }
-    try {
-      const [data] = await getProfilesSupabase(userId)
-      if (!data) throw new Error('No user found.')
-      setUser(data)
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const getUserProfiles = useCallback(
+    async (userId: string) => {
+      if (mode === 'demo') {
+        setUser(mockUser)
+        setIsLoading(false)
+        return
+      }
+      try {
+        const [data] = await getProfilesSupabase(userId)
+        if (!data) throw new Error('No user found.')
+        setUser(data)
+      } catch (error) {
+        fetchErrorToast()
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [setIsLoading],
+  )
 
   useEffect(() => {
     if (isDemoMode) {
-      getUserProfiles()
+      getUserProfiles('mock')
       return
     }
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -79,32 +82,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         getUserProfiles(session.user.id)
       }
     })
-  }, [])
+  }, [setIsLoading, getUserProfiles])
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {
-      const newData = { firstName: data.firstName, lastName: data.lastName }
+      const { firstName, lastName } = data
+      const newData = { firstName, lastName }
       await updateProfileSupabase(newData)
-      setUser((prev) => {
-        return {
-          ...prev,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        }
-      })
+      setUser((prev) => (prev ? { ...prev, firstName, lastName } : undefined))
     } catch (error) {
-      throw new Error(error.message)
+      if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
 
   const updateEmail = useCallback(async (email: string) => {
     try {
       await updateEmailSupabase(email)
-      setUser((prev) => {
-        return { ...prev, email }
-      })
+      setUser((prev) => (prev ? { ...prev, email } : undefined))
     } catch (error) {
-      throw new Error(error.message)
+      if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
 
@@ -112,7 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await updatePasswordSupabase(password)
     } catch (error) {
-      throw new Error(error.message)
+      if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
 
@@ -120,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await deleteAccountSupabase()
     } catch (error) {
-      throw new Error(error.message)
+      if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
 
@@ -129,24 +125,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     navigate('/?page=login', { replace: true })
   }, [navigate])
 
-  const recoverPassword = async (email: string) => {
+  const recoverPassword = useCallback(async (email: string) => {
     await recoverPasswordSupabase(email)
+  }, [])
+
+  const value = {
+    user,
+    setUser,
+    updateProfile,
+    updateEmail,
+    updatePassword,
+    deleteAccount,
+    logout,
+    recoverPassword,
   }
-
-  const value = useMemo(
-    () => ({
-      user,
-      setUser,
-
-      updateProfile,
-      updateEmail,
-      updatePassword,
-      deleteAccount,
-      logout,
-      recoverPassword,
-    }),
-    [deleteAccount, logout, updateEmail, updatePassword, updateProfile, user],
-  )
 
   if (mode === 'demo')
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
@@ -157,7 +149,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {!currentSession && !isLoading && (
         <LoginPage className='min-h-screen grid-rows-[auto_1fr] bg-zinc-100 sm:grid' />
       )}
-      {/* <LoginPage /> */}
     </UserContext.Provider>
   )
 }

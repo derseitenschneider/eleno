@@ -4,7 +4,7 @@ import type { Group, Lesson, LessonHolder, Student } from '../../../types/types'
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import stripHtmlTags from '../../../utils/stripHtmlTags'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -13,7 +13,7 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import JSZip from 'jszip'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 
@@ -29,7 +29,7 @@ export default function BulkExportLessons({
   onSuccess,
 }: BulkExportLessonsProps) {
   const { userLocale } = useUserLocale()
-  const { lessonHolders } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders } = useLessonHolders()
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()

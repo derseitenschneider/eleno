@@ -4,7 +4,7 @@ import TimeTableDay from '../../components/features/timetable/TimetableDay.compo
 import type { TimetableDay } from '../../types/types'
 import { sortLessonHolders } from '../../utils/sortStudents'
 import ExportTimetable from '../../components/features/timetable/ExportTimetable'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
 import {
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog'
 
 export default function Timetable() {
-  const { lessonHolders } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders } = useLessonHolders()
   const [modalOpen, setModalOpen] = useState<'EXPORT'>()
 
   function closeModal() {

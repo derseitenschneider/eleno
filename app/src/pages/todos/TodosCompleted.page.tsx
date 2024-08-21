@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
-import CreateTodo from '../../components/features/todos/CreateTodo.component'
-import TodoDescription from '../../components/features/todos/TodoDescription.component'
 import compareDateTodos from '../../utils/sortTodos'
-import Modal from '../../components/ui/modal/Modal.component'
-import Menus from '../../components/ui/menu/Menus.component'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import TodoItem from '../../components/features/todos/TodoItem.component'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
-import { useDeleteTodos } from '@/components/features/todos/useDeleteTodos'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
 
 export default function TodosCompleted() {
   const { data: todos, isPending } = useTodosQuery()
-  const { deleteTodos, isDeleting } = useDeleteTodos()
   const [openModal, setOpenModal] = useState<'DELETE_ALL'>()
 
   useEffect(() => {
@@ -52,13 +46,9 @@ export default function TodosCompleted() {
             </Button>
           </div>
           <ul className='mt-4'>
-            <Modal>
-              <Menus>
-                {sortedFilteredTodos.map((todo) => (
-                  <TodoItem key={todo.id} todo={todo} type='completed' />
-                ))}
-              </Menus>
-            </Modal>
+            {sortedFilteredTodos.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} type='completed' />
+            ))}
           </ul>
           <Dialog open={openModal === 'DELETE_ALL'} onOpenChange={closeModal}>
             <DialogContent>

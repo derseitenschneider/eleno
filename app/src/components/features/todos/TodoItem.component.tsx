@@ -1,7 +1,7 @@
 import type { LessonHolder, TTodoItem } from '@/types/types'
 import { Badge } from '@/components/ui/badge'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
@@ -18,7 +18,7 @@ interface TodoItemProps {
 function TodoItem({ todo, type }: TodoItemProps) {
   const { userLocale } = useUserLocale()
   const navigate = useNavigate()
-  const { lessonHolders } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders } = useLessonHolders()
   const { completeTodo } = useCompleteTodo()
   const today = new Date()
   const isOverdue = todo.due && todo.due < today

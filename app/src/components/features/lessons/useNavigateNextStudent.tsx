@@ -1,12 +1,12 @@
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function useNavigateNextStudent() {
   const {
     currentLessonPointer: lessonPointer,
     setCurrentLessonPointer: setLessonPointer,
-    lessonHolderTypeIds,
-  } = useLessonPointer()
+    activeSortedHolderTypeIds: lessonHolderTypeIds,
+  } = useLessonHolders()
   const { holderId } = useParams()
   const navigate = useNavigate()
   if (lessonPointer > 0) {

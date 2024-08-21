@@ -1,28 +1,25 @@
-import {
-  IoCheckboxOutline,
-  IoLogOutOutline,
-  IoSchoolOutline,
-  IoSettingsOutline,
-} from 'react-icons/io5'
 import Logo from '../../components/ui/logo/Logo.component'
 
 import NavbarMobileItem from './NavbarMobileItem.component'
-import { useTodos } from '@/services/context/TodosContext'
-import { useRoutes } from 'react-router-dom'
-import {
-  BookOpenCheck,
-  CheckSquare2,
-  GraduationCap,
-  ListChecks,
-  LogOut,
-  Settings,
-} from 'lucide-react'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { CheckSquare2, GraduationCap, LogOut, Settings } from 'lucide-react'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function NavbarMobile() {
-  const { overdueTodos } = useTodos()
-  const { lessonHolders, currentLessonPointer: lessonPointer } =
-    useLessonPointer()
+  const todos = useTodosQuery().data
+
+  const todosDue = todos
+    ?.filter((todo) => !todo.completed)
+    ?.filter((todo) => {
+      if (!todo.due) return false
+      if (todo.due < new Date()) return true
+      return false
+    })
+
+  const {
+    activeSortedHolders: lessonHolders,
+    currentLessonPointer: lessonPointer,
+  } = useLessonHolders()
   const currentLessonHolder = lessonHolders[lessonPointer]
   let currentHolderQuery = 'no-students'
   if (currentLessonHolder) {
@@ -34,7 +31,7 @@ function NavbarMobile() {
       <ul className='flex justify-between items-center h-full w-full'>
         <NavbarMobileItem to='/' icon={<Logo />} />
         <NavbarMobileItem
-          notificationContent={overdueTodos?.length}
+          notificationContent={todosDue?.length}
           to='/todos'
           icon={<CheckSquare2 strokeWidth={1} />}
         />

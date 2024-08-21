@@ -4,7 +4,7 @@ import type { Group, LessonHolder, Student } from '../../../types/types'
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import stripHtmlTags from '../../../utils/stripHtmlTags'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
@@ -43,13 +43,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-        type: 's',
-        holder: allStudents.find((student) => student.id === holderId),
-      } as LessonHolder)
+          type: 's',
+          holder: allStudents.find((student) => student.id === holderId),
+        } as LessonHolder)
       : ({
-        type: 'g',
-        holder: allGroups.find((group) => group.id === holderId),
-      } as LessonHolder)
+          type: 'g',
+          holder: allGroups.find((group) => group.id === holderId),
+        } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],

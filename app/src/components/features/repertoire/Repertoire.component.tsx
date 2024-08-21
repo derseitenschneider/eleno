@@ -1,4 +1,3 @@
-import { RepertoireProvider } from '../../../services/context/RepertoireContext'
 import RepertoireTable from './repertoireTable/repertoireTable.component'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { useRepertoireQuery } from './repertoireQueries'
@@ -18,13 +17,11 @@ function Repertoire() {
   if (!repertoire) return null
 
   return (
-    <RepertoireProvider>
-      <RepertoireTable
-        repertoire={repertoire}
-        isFetching={isFetching}
-        isPending={isPending}
-      />
-    </RepertoireProvider>
+    <RepertoireTable
+      repertoire={repertoire}
+      isFetching={isFetching}
+      isPending={isPending}
+    />
   )
 }
 

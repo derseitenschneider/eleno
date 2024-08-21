@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import AddHolderCombobox from '../students/AddHolderCombobox.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { Button } from '@/components/ui/button'
 import { useUpdateTodo } from './useUpdateTodo'
 import { useQueryClient } from '@tanstack/react-query'

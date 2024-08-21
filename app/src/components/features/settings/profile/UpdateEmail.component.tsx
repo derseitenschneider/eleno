@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import { useUser } from '../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import validateEmail from '../../../../utils/validateEmail'

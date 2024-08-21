@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import { useUser } from '../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/ui/password-input'
+import { toast } from 'sonner'
 
 interface EditPasswordProps {
   onCloseModal?: () => void
@@ -41,8 +40,7 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
     try {
       await updatePassword(input.password1)
       onCloseModal?.()
-      toast('Passwort geändert')
-      return null
+      toast.success('Passwort geändert')
     } catch (err) {
       fetchErrorToast()
       return null

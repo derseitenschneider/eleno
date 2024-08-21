@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import {
   type GroupSchema,
   groupValidationSchema,

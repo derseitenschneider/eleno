@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import { Search, Users } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -22,8 +22,10 @@ import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useLatestLessons } from '../lessons/lessonsQueries'
 
 export default function SearchStudentCombobox() {
-  const { setCurrentLessonPointer: setLessonPointer, lessonHolders } =
-    useLessonPointer()
+  const {
+    setCurrentLessonPointer: setLessonPointer,
+    activeSortedHolders: lessonHolders,
+  } = useLessonHolders()
   const { data: latestLessons } = useLatestLessons()
   const { holderId } = useParams()
   const [open, setOpen] = useState(false)

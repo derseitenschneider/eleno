@@ -4,15 +4,15 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
 import type { Lesson } from '@/types/types'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 
 function LessonFooter() {
   const {
     currentLessonPointer: lessonPointer,
     setCurrentLessonPointer: setLessonPointer,
-    lessonHolderTypeIds,
-  } = useLessonPointer()
+    activeSortedHolderTypeIds: lessonHolderTypeIds,
+  } = useLessonHolders()
   const navigate = useNavigate()
   const { holderId } = useParams()
   const { data: latestLessons } = useLatestLessons()

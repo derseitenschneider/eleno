@@ -8,11 +8,11 @@ import CreateLesson from '../components/features/lessons/CreateLesson.component'
 
 import NoteList from '../components/features/notes/NoteList.component'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 
 function Lesson() {
   const { isLoading } = useLoading()
-  const { lessonHolders } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders } = useLessonHolders()
   const activeLessonHolders = lessonHolders.filter(
     (lessonHolder) => !lessonHolder.holder.archive,
   )

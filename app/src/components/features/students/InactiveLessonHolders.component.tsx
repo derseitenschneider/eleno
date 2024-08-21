@@ -1,7 +1,7 @@
 import type { LessonHolder } from '@/types/types'
 import useGroupsQuery from '../groups/groupsQuery'
 import useStudentsQuery from './studentsQueries'
-import InactiveHoldersTable from './inactiveLessonHolders/inactiveHoldersTable/table'
+import InactiveHoldersTable from './inactiveHoldersTable/table'
 import Empty from '@/components/ui/Empty.component'
 
 export default function InactiveLessonHolders() {

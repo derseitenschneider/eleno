@@ -27,7 +27,7 @@ import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -38,7 +38,8 @@ type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 export default function ActiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
-  const { lessonHolders, setCurrentLessonPointer } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders, setCurrentLessonPointer } =
+    useLessonHolders()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateStudents } = useDeactivateStudents()
   const navigate = useNavigate()

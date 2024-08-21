@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import ButtonRemove from '@/components/ui/buttonRemove/ButtonRemove'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import {
   Command,
   CommandEmpty,
@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useLessonPointer } from '@/services/context/LessonPointerContext'
+import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import type { LessonHolder } from '@/types/types'
 import { Users } from 'lucide-react'
 import { useState } from 'react'
@@ -29,7 +29,7 @@ export default function AddHolderCombobox({
   setSelectedHolderId,
   disabled,
 }: AddHolderComboboxProps) {
-  const { lessonHolders } = useLessonPointer()
+  const { activeSortedHolders: lessonHolders } = useLessonHolders()
   const [open, setOpen] = useState(false)
 
   const selectedHolder = lessonHolders.find(

@@ -1,18 +1,20 @@
 import { cn } from '@/lib/utils'
-import { useLessonPointer } from '../../../../services/context/LessonPointerContext'
-
-import { useStudents } from '../../../../services/context/StudentContext'
-import { useTodos } from '../../../../services/context/TodosContext'
+import { useLessonHolders } from '../../../../services/context/LessonPointerContext'
 import useTodosQuery from '../../todos/todosQuery'
 import OverviewCard from './OverviewCard.component'
 
 function Overview() {
-  const { activeStudents, inactiveStudents } = useStudents()
-  const { nearestLessonHolder } = useLessonPointer()
-  const { overdueTodos } = useTodos()
+  const { activeSortedHolders, inactiveLessonHolders, nearestLessonHolder } =
+    useLessonHolders()
 
   const todos = useTodosQuery().data
   const todosOpen = todos?.filter((todo) => !todo.completed)
+  const todosDue = todosOpen?.filter((todo) => {
+    if (!todo.due) return false
+    if (todo.due < new Date()) return true
+    return false
+  })
+
   let nearestLessonHolderName = ''
   if (nearestLessonHolder?.type === 's') {
     nearestLessonHolderName = `${nearestLessonHolder.holder?.firstName} ${nearestLessonHolder.holder.lastName}`
@@ -27,24 +29,26 @@ function Overview() {
       <div className='lg:flex gap-5 space-y-5 lg:space-y-0'>
         <OverviewCard to='/students' title='Unterricht'>
           <div>
-            {activeStudents && activeStudents?.length > 0 ? (
+            {activeSortedHolders && activeSortedHolders?.length > 0 ? (
               <>
                 <p className='mb-2'>
                   Nächste Lektion: <b>{nearestLessonHolderName}</b>
                 </p>
                 <p>
-                  Aktive Schüler:innen: <b>{activeStudents.length}</b>
+                  Aktive Schüler:innen/Gruppen:{' '}
+                  <b>{activeSortedHolders.length}</b>
                 </p>
               </>
             ) : (
-              <p>Keine aktiven Schüler:innen erfasst</p>
+              <p>Keine aktiven Schüler:innen/Gruppen erfasst</p>
             )}
-            {inactiveStudents?.length ? (
+            {inactiveLessonHolders?.length ? (
               <p>
-                Archivierte Schüler:innen: <b>{inactiveStudents.length}</b>
+                Archivierte Schüler:innen/Gruppen:{' '}
+                <b>{inactiveLessonHolders.length}</b>
               </p>
             ) : (
-              <p>Keine archivierten Schüler:innen</p>
+              <p>Keine archivierten Schüler:innen/Gruppen</p>
             )}
           </div>
         </OverviewCard>
@@ -58,9 +62,9 @@ function Overview() {
             ) : (
               <p>Keine offenen Todos</p>
             )}
-            {overdueTodos?.length ? (
+            {todosDue?.length ? (
               <p>
-                Überfällige Todos: <b>{overdueTodos.length}</b>
+                Überfällige Todos: <b>{todosDue.length}</b>
               </p>
             ) : (
               <p>Keine Todos überfällig.</p>

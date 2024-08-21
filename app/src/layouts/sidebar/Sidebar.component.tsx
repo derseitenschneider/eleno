@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import Logo from '../../components/ui/logo/Logo.component'
-import { useLessonPointer } from '../../services/context/LessonPointerContext'
+import { useLessonHolders } from '../../services/context/LessonPointerContext'
 import { useUser } from '../../services/context/UserContext'
 
 import useOutsideClick from '@/hooks/useOutsideClick'
@@ -22,7 +22,7 @@ import useTodosQuery from '@/components/features/todos/todosQuery'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { currentLessonHolder } = useLessonPointer()
+  const { currentLessonHolder } = useLessonHolders()
   const todos = useTodosQuery().data
   const { logout } = useUser()
   const overdueTodos = todos?.filter(
@@ -47,8 +47,9 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
-        }`}
+      bg-background50 shadow-lg transition-width duration-150 ${
+        sidebarOpen ? 'w-[180px]' : 'w-[50px]'
+      }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink

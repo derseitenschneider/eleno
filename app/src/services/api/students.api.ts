@@ -13,14 +13,6 @@ export const fetchStudentsApi = async () => {
 export const createStudentsApi = async (
   newStudents: StudentPartial[],
 ): Promise<Student[]> => {
-  const userData = await supabase.auth.getUser()
-  const uid = userData.data.user?.id
-
-  const studentsWithUID = newStudents.map((student) => ({
-    ...student,
-    user_id: uid,
-  }))
-  console.log(studentsWithUID)
   const { data, error } = await supabase
     .from('students')
     .insert(newStudents)
