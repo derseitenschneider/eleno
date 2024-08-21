@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { DragDropContext, Droppable } from '@hello-pangea/dnd'
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd'
 
 import CreateNote from './CreateNote.component'
 import Note from './Note.component'
@@ -32,11 +32,10 @@ function NoteList() {
     setNotes(currentNotes)
   }, [data, fieldType, currentLessonHolder?.holder.id])
 
-  async function handleOnDragend(result) {
+  async function handleOnDragend(result: DropResult) {
     if (!result.destination) return
     const origin = result.source.index
     const destination = result.destination.index
-    //
     if (!notes) return
 
     const items = [...notes]

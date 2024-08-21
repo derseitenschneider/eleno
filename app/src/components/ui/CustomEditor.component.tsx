@@ -22,7 +22,6 @@ interface CustomEditorProps {
   value: string
   onChange: (content: string) => void
   disabled?: boolean
-  placeholder?: string
 }
 
 const BtnBold = createButton('Bold', <Bold />, 'bold')
@@ -67,12 +66,7 @@ const BtnUndo = createButton('Undo', <Undo />, 'undo')
 
 const BtnRedo = createButton('Redo', <Redo />, 'redo')
 
-function CustomEditor({
-  placeholder,
-  value,
-  onChange,
-  disabled,
-}: CustomEditorProps) {
+function CustomEditor({ value, onChange, disabled }: CustomEditorProps) {
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
     const inputWithoutColorTag = inputText.split('background-color:').join('')
@@ -81,12 +75,7 @@ function CustomEditor({
   }
   return (
     <EditorProvider>
-      <Editor
-        placeholder={placeholder}
-        value={value}
-        disabled={disabled}
-        onChange={onChangeEditor}
-      >
+      <Editor value={value} disabled={disabled} onChange={onChangeEditor}>
         <Toolbar tabIndex={-1} aria-disabled={disabled}>
           <div className='flex'>
             <BtnBold tabIndex={-1} className='p-2' />

@@ -288,3 +288,8 @@ export type PartialRepertoireItem = Omit<
   RepertoireItem,
   'id' | 'user_id' | 'created_at'
 >
+import type { ColumnMeta, Row, RowData } from '@tanstack/react-table'
+
+export type CustomColumnMeta<TData> = ColumnMeta<TData, unknown> & {
+  colSpan?: (row: Row<TData>) => number
+}
