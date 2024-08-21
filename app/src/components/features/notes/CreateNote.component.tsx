@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import CustomEditor from '../../ui/CustomEditor.component'
 import NoteColor from './NoteColor.component'
-import type { Note, NotesBackgrounds, PartialNote } from '../../../types/types'
+import type { NotesBackgrounds, PartialNote } from '../../../types/types'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,7 @@ import { useUser } from '@/services/context/UserContext'
 import { useCreateNote } from './useCreateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 
-interface CreateNoteProps {
+type CreateNoteProps = {
   onCloseModal?: () => void
   holderId: number
   holderType: 's' | 'g'

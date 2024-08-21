@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useDeleteNote } from "./useDeleteNote"
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useDeleteNote } from './useDeleteNote'
 
 interface DeleteNoteProps {
   onCloseModal?: () => void
@@ -8,7 +8,7 @@ interface DeleteNoteProps {
 }
 
 function DeleteNote({ onCloseModal, noteId }: DeleteNoteProps) {
-  const { deleteNote, isDeleting, isError } = useDeleteNote()
+  const { deleteNote, isDeleting } = useDeleteNote()
 
   function handleDelete() {
     deleteNote(noteId, {

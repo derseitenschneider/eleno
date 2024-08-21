@@ -1,24 +1,22 @@
-import fetchErrorToast from "@/hooks/fetchErrorToast"
-import { createNoteAPI } from "@/services/api/notes.api"
-import { useUser } from "@/services/context/UserContext"
-import type { Note } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { createNoteAPI } from '@/services/api/notes.api'
+import { useUser } from '@/services/context/UserContext'
+import type { Note } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function useDuplicateNote() {
   const queryClient = useQueryClient()
   const { mutate: duplicateNote, isPending: isDuplicating } = useMutation({
     mutationFn: createNoteAPI,
     onMutate: async (newNote) => {
-      // Cancel outgoing refetches so they dont overwrite optimistic update.
-      await queryClient.cancelQueries({ queryKey: ["notes"] })
+      await queryClient.cancelQueries({ queryKey: ['notes'] })
 
-      // Snapshot in case of a rollback.
-      const oldNotes = queryClient.getQueryData(["notes"]) as
+      const oldNotes = queryClient.getQueryData(['notes']) as
         | Array<Note>
         | undefined
 
-      queryClient.setQueryData(["notes"], (prev: Array<Note> | undefined) => {
+      queryClient.setQueryData(['notes'], (prev: Array<Note> | undefined) => {
         if (!prev) return [newNote]
         return [...prev, newNote]
       })
@@ -26,16 +24,16 @@ export function useDuplicateNote() {
     },
 
     onSuccess: async () => {
-      toast.success("Notiz dupliziert.")
+      toast.success('Notiz dupliziert.')
       queryClient.invalidateQueries({
-        queryKey: ["notes"],
+        queryKey: ['notes'],
       })
     },
 
     onError: (_, __, context) => {
       fetchErrorToast()
 
-      queryClient.setQueryData(["notes"], context?.oldNotes)
+      queryClient.setQueryData(['notes'], context?.oldNotes)
     },
   })
 

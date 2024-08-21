@@ -32,7 +32,6 @@ function NoteList() {
     setNotes(currentNotes)
   }, [data, fieldType, currentLessonHolder?.holder.id])
 
-  /*@ts-ignore*/
   async function handleOnDragend(result) {
     if (!result.destination) return
     const origin = result.source.index
