@@ -33,11 +33,11 @@ type TransformFields<T, N, E extends keyof T = never> = {
 export type DbLesson = TransformFields<DBTypes['lessons'], Date, 'date'>
 
 // Create helper types for lessons to have either studentId or groupId
-type LessonWithStudentId = Omit<DbLesson, 'studentId' | 'groupId'> & {
+export type LessonWithStudentId = Omit<DbLesson, 'studentId' | 'groupId'> & {
   studentId: number
   groupId?: null
 }
-type LessonWithGroupId = Omit<DbLesson, 'studentId' | 'groupId'> & {
+export type LessonWithGroupId = Omit<DbLesson, 'studentId' | 'groupId'> & {
   studentId?: null
   groupId: number
 }

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { Group, TableProperties, User, Users } from 'lucide-react'
+import { TableProperties, User, Users } from 'lucide-react'
 import useCurrentHolder from './useCurrentHolder'
 import { Badge } from '@/components/ui/badge'
 import {

@@ -1,6 +1,6 @@
 import parse from "html-react-parser"
-import type { News } from "../../../../../types/types"
-import { formatDateToDisplay } from "../../../../../utils/formateDate"
+import type { News } from "../../../../types/types"
+import { formatDateToDisplay } from "../../../../utils/formateDate"
 
 interface NewsItemProps {
   news: News

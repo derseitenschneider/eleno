@@ -1,17 +1,22 @@
 import { useLessonHolders } from '@/services/context/LessonPointerContext'
+import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useLatestLessons } from './lessonsQueries'
 
 export default function useNavigateNextStudent() {
   const {
-    currentLessonPointer: lessonPointer,
-    setCurrentLessonPointer: setLessonPointer,
-    activeSortedHolderTypeIds: lessonHolderTypeIds,
+    currentLessonPointer,
+    setCurrentLessonPointer,
+    activeSortedHolderTypeIds,
   } = useLessonHolders()
   const { holderId } = useParams()
   const navigate = useNavigate()
-  if (lessonPointer > 0) {
-    setLessonPointer((prev) => prev - 1)
-    const previousHolderId = lessonHolderTypeIds[lessonPointer] ?? 0
+  const { data: latestLessons } = useLatestLessons()
+
+  if (currentLessonPointer > 0) {
+    setCurrentLessonPointer((prev) => prev - 1)
+    const previousHolderId =
+      activeSortedHolderTypeIds[currentLessonPointer] ?? ''
 
     const newestYear =
       getNewestLessonYear(latestLessons, previousHolderId) ||
@@ -22,19 +27,19 @@ export default function useNavigateNextStudent() {
     const newUrl = url.replace(String(holderId), String(previousHolderId))
 
     navigate(newUrl + query)
-    // return setCurrentStudentIndex(currentStudentIndex - 1)
   }
-  if (lessonPointer === 0) {
-    setLessonPointer(lessonHolderTypeIds.length - 1)
-    const lastStudentId = lessonHolderTypeIds[lessonPointer] ?? 0
+
+  if (currentLessonPointer === 0) {
+    setCurrentLessonPointer(activeSortedHolderTypeIds.length - 1)
+    const lastStudentId = activeSortedHolderTypeIds[currentLessonPointer] ?? ''
     const newestYear =
       getNewestLessonYear(latestLessons, lastStudentId) ||
       new Date().getFullYear()
     const url = window.location.pathname
     const query = url.includes('all') ? `?year=${newestYear}` : ''
-    const newUrl = url.replace(String(currentStudentId), String(lastStudentId))
+    const newUrl = url.replace(String(holderId || ''), String(lastStudentId))
     navigate(newUrl)
     navigate(newUrl + query)
-    return setCurrentStudentIndex(activeSortedStudentIds.length - 1)
+    return setCurrentLessonPointer(activeSortedHolderTypeIds.length - 1)
   }
 }

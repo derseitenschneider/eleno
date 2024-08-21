@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/ui/data-table'
-import type { Group, Student } from '@/types/types'
+import type { Group } from '@/types/types'
 import {
   type RowSelectionState,
   type SortingState,
@@ -61,7 +61,7 @@ export default function GroupsTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div className=''>
+    <div>
       <GroupsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

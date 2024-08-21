@@ -66,7 +66,6 @@ export function useAllLessons(
   return result
 }
 
-// This function is only consumed by export funcitonality
 export function useAllLessonsCSV(
   holderIds: Array<number>,
   holderType: 's' | 'g',

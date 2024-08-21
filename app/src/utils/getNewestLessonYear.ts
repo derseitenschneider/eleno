@@ -1,9 +1,10 @@
 import type { Lesson } from '@/types/types'
 
 export default function getNewestLessonYear(
-  latestLessons: Array<Lesson>,
+  latestLessons: Array<Lesson> | undefined,
   holderId: string,
 ) {
+  if (!latestLessons) return null
   const [type, id] = holderId.split('-')
 
   if (!type || !id) return null

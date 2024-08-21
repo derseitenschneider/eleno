@@ -21,7 +21,6 @@ import {
 } from '@/components/ui/dialog'
 import ExportLessons from '../ExportLessons.component'
 import useCurrentHolder from '../useCurrentHolder'
-import { cn } from '@/lib/utils'
 
 type AllLessonsControlPros = {
   table: Table<Lesson>

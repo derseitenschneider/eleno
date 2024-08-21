@@ -13,7 +13,6 @@ export function useUpdateLesson() {
         ? `s-${updatedLesson.studentId}`
         : `g-${updatedLesson.groupId}`
 
-      // Snapshot in case of a rollback.
       const allLessons = queryClient.getQueryData([
         'all-lessons',
         {
@@ -72,7 +71,7 @@ export function useUpdateLesson() {
         [
           'all-lessons',
           {
-            holder: context.holder,
+            holder: context?.holder,
             year: updatedLesson.date.getFullYear(),
           },
         ],

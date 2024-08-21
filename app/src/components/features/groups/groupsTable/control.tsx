@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { Group, Student } from '@/types/types'
+import type { Group } from '@/types/types'
 import { File, Plus } from 'lucide-react'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'

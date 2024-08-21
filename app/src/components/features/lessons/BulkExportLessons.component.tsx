@@ -1,5 +1,4 @@
 import { createElement, useState } from 'react'
-import type { Group, Lesson, LessonHolder, Student } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'

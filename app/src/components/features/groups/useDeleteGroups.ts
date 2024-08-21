@@ -2,7 +2,6 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { deleteGroupsApi } from '@/services/api/groups.api'
 import type { Group } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useDeleteGroups() {
   const queryClient = useQueryClient()
@@ -25,7 +24,6 @@ export function useDeleteGroups() {
     },
 
     onSuccess: () => {
-      // toast.success('Gruppen gelöscht.')
       queryClient.invalidateQueries({
         queryKey: ['groups'],
       })

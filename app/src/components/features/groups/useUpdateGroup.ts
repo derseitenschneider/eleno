@@ -13,7 +13,6 @@ export function useUpdateGroup() {
   } = useMutation({
     mutationFn: updateGroupApi,
     onMutate: (updatedGroup) => {
-      // Snapshot in case of a rollback.
       const previousGroups = queryClient.getQueryData(['students']) as
         | Array<Student>
         | undefined

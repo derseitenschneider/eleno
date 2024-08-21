@@ -1,6 +1,6 @@
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import news from './news'
-import NewsItem from './newsItem/NewsItem.component'
+import NewsItem from './NewsItem.component'
 import { cn } from '@/lib/utils'
 
 function News() {

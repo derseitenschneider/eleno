@@ -36,7 +36,6 @@ function CreateLesson() {
     }
   }, [drafts, typeField, currentLessonHolder?.holder.id])
 
-  // Put Focus on input when desktop
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
     if (input && window.innerWidth > 1366) {

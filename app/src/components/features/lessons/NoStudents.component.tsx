@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function NoStudents() {
   const navigate = useNavigate()

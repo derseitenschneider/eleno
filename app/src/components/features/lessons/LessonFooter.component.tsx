@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
-import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonPointerContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 

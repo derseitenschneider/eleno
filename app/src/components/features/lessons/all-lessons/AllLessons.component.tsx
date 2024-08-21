@@ -1,0 +1,35 @@
+import { useSearchParams } from 'react-router-dom'
+import AllLessonsTable from './allLessonsTable'
+import useCurrentHolder from '../useCurrentHolder'
+import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
+
+export default function AllLessons() {
+  const [searchParams] = useSearchParams()
+  const selectedYear = searchParams.get('year')
+  const { currentLessonHolder } = useCurrentHolder()
+  const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
+    currentLessonHolder?.holder.id || 0,
+    currentLessonHolder?.type || 's',
+  )
+
+  const {
+    data: lessons,
+    isPending: isPendingLessons,
+    isError: isErrorLessons,
+    isFetching,
+  } = useAllLessonsPerYear(
+    Number(selectedYear) || 0,
+    currentLessonHolder?.holder.id || 0,
+    currentLessonHolder?.type || 's',
+  )
+
+  if (isPendingLessons || isPendingYears) return <p>loading...</p>
+  if (isErrorLessons || isErrorYears) return <p>ERROR...</p>
+
+  if (!lessons) return null
+  return (
+    <div>
+      <AllLessonsTable lessons={lessons} isFetching={isFetching} />
+    </div>
+  )
+}

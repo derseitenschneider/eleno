@@ -10,37 +10,22 @@ import {
 } from '@tanstack/react-table'
 
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import { DataTable } from '@/components/ui/data-table'
-import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
 import { allLessonsColumns } from './allLessonsColumns'
 import AllLessonsControl from './allLessonsControl.component'
-import useCurrentHolder from '../useCurrentHolder'
 
-export default function AllLessons() {
+type AllLessonsTableProps = {
+  lessons: Array<Lesson>
+  isFetching: boolean
+}
+
+export default function AllLessonsTable({
+  lessons,
+  isFetching,
+}: AllLessonsTableProps) {
   const [globalFilter, setGlobalFilter] = useState('')
-  const [searchParams] = useSearchParams()
   const [sorting, setSorting] = useState<SortingState>([])
   const { userLocale } = useUserLocale()
-  const { currentLessonHolder } = useCurrentHolder()
-
-  const selectedYear = searchParams.get('year')
-
-  const { isPending: isPendingYears, isError: isErrorYears } = useLessonYears(
-    currentLessonHolder?.holder.id || 0,
-    currentLessonHolder?.type || 's',
-  )
-
-  const {
-    data: lessons,
-    isPending: isPendingLessons,
-    isError: isErrorLessons,
-    isFetching,
-  } = useAllLessonsPerYear(
-    Number(selectedYear) || 0,
-    currentLessonHolder?.holder.id || 0,
-    currentLessonHolder?.type || 's',
-  )
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
     const date = row.original.date as Date
@@ -76,10 +61,6 @@ export default function AllLessons() {
       sorting,
     },
   })
-
-  if (isPendingLessons || isPendingYears) return <div>...Loading</div>
-
-  if (isErrorLessons || isErrorYears) return <div>ERROR</div>
 
   return (
     <div className='mb-14 sm:mb-10'>

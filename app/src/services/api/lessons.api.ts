@@ -1,11 +1,17 @@
-import type { Lesson, LessonPartial, Student } from '../../types/types'
+import type {
+  Lesson,
+  LessonPartial,
+  LessonWithGroupId,
+  LessonWithStudentId,
+  Student,
+} from '../../types/types'
 import supabase from './supabase'
 
 export const fetchLessonsByYearApi = async (
   holderId: number,
   lessonYear: number,
   holderType: 's' | 'g',
-) => {
+): Promise<Array<LessonWithGroupId> | Array<LessonWithStudentId>> => {
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
     .from('lessons')
@@ -20,7 +26,7 @@ export const fetchLessonsByYearApi = async (
     ...lesson,
     date: new Date(lesson.date || ''),
   }))
-  return lessons
+  return lessons as Array<LessonWithStudentId> | Array<LessonWithStudentId>
 }
 
 export type FetchAllLessonProps = {
@@ -42,8 +48,8 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -71,8 +77,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate?.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate?.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
