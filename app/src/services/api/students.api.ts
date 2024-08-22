@@ -1,7 +1,10 @@
 import supabase from './supabase'
 import type { Student, StudentPartial } from '../../types/types'
+import { isDemoMode } from '../../../config'
+import mockStudents from './mock-db/mockStudents'
 
 export const fetchStudentsApi = async () => {
+  if (isDemoMode) return mockStudents
   const { data: students, error } = await supabase
     .from('students')
     .select('*')

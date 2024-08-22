@@ -13,24 +13,27 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
+    // "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": [
-    "src/**/*",
-    "src/types/**/*",
-    "scripts",
-    "postcss.config.js",
-    "tailwind.config.js"
+    "src"
+    // "src/**/*",
+    // "src/types/**/*",
+    // "scripts",
+    // "postcss.config.js",
+    // "tailwind.config.js"
   ],
-  "exclude": ["./supabase/functions/*", "node_modules"],
+  "exclude": ["node_modules", "**/*.specs.ts", "dist", "build"],
+  // "exclude": ["./supabase/functions/*", "node_modules"]
   "references": [{ "path": "./tsconfig.node.json" }]
 }

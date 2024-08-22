@@ -1,4 +1,4 @@
-import type { Lesson } from "../../../types/types"
+import type { Lesson } from '../../../types/types'
 
 const currentDate = new Date()
 const currentDay = currentDate.getDay()
@@ -32,50 +32,58 @@ switch (currentDay) {
 
 const mockLessons: Lesson[] = [
   {
-    lessonContent: "- Aufwärmen \n - Buch S. 23, Lied 14",
+    lessonContent: '- Aufwärmen \n - Buch S. 23, Lied 14',
     id: 1,
     date: new Date(
       currentDate.getTime() - minusOperant * 5 * 24 * 60 * 60 * 1000,
-    )
-      .toISOString()
-      .split("T")[0],
+    ),
     studentId: 1,
-    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
+    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    created_at: '',
+    user_id: 'mock_user',
+    homeworkKey: '',
+    groupId: null,
   },
   {
     lessonContent:
-      "- Aufwärmen \n - Buch S. 22, Lied 12 repetiert \n - Handhaltung C-Dur Tonleiter angeschaut \n - Hausaufgaben besprochen",
+      '- Aufwärmen \n - Buch S. 22, Lied 12 repetiert \n - Handhaltung C-Dur Tonleiter angeschaut \n - Hausaufgaben besprochen',
     id: 2,
     date: new Date(
       currentDate.getTime() - minusOperant * 4 * 24 * 60 * 60 * 1000,
-    )
-      .toISOString()
-      .split("T")[0],
+    ),
     studentId: 1,
-    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15 repetieren",
+    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15 repetieren',
+    created_at: '',
+    user_id: 'mock_user',
+    homeworkKey: '',
+    groupId: null,
   },
   {
     lessonContent:
-      "- Aufwärmen \n - Kleines Spiel mit Handhaltung C-Dur Tonleiter  - Buch s. 23, Lied 16",
+      '- Aufwärmen \n - Kleines Spiel mit Handhaltung C-Dur Tonleiter  - Buch s. 23, Lied 16',
     id: 3,
     date: new Date(
       currentDate.getTime() - (minusOperant + 0.75) * 3 * 24 * 60 * 60 * 1000,
-    )
-      .toISOString()
-      .split("T")[0],
+    ),
     studentId: 1,
-    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
+    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    created_at: '',
+    user_id: 'mock_user',
+    homeworkKey: '',
+    groupId: null,
   },
   {
-    lessonContent: "Absenz (krank)",
+    lessonContent: 'Absenz (krank)',
     id: 4,
     date: new Date(
       currentDate.getTime() - (minusOperant + 0.5) * 2 * 24 * 60 * 60 * 1000,
-    )
-      .toISOString()
-      .split("T")[0],
+    ),
     studentId: 1,
-    homework: "",
+    homework: '',
+    created_at: '',
+    user_id: 'mock_user',
+    homeworkKey: '',
+    groupId: null,
   },
   {
     lessonContent:
@@ -83,11 +91,13 @@ const mockLessons: Lesson[] = [
     id: 5,
     date: new Date(
       currentDate.getTime() - minusOperant * 1 * 24 * 60 * 60 * 1000,
-    )
-      .toISOString()
-      .split("T")[0],
+    ),
     studentId: 1,
-    homework: "- Tonleiter üben \n - Buch S. 23, Lied 15",
+    homework: '- Tonleiter üben \n - Buch S. 23, Lied 15',
+    created_at: '',
+    user_id: 'mock_user',
+    homeworkKey: '',
+    groupId: null,
   },
 ]
 

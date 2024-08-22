@@ -25,13 +25,13 @@ import { useLoading } from './LoadingContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -39,11 +39,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>()
   const { isLoading, setIsLoading } = useLoading()
   const navigate = useNavigate()
-  const mode = import.meta.env.VITE_MODE
 
   const getUserProfiles = useCallback(
     async (userId: string) => {
-      if (mode === 'demo') {
+      if (isDemoMode) {
         setUser(mockUser)
         setIsLoading(false)
         return
@@ -139,7 +138,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     recoverPassword,
   }
 
-  if (mode === 'demo')
+  if (isDemoMode)
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 
   return (
