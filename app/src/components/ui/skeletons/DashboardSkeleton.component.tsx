@@ -1,54 +1,77 @@
-import Skeleton from "@/components/ui/skeleton"
+import Skeleton from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export default function DashboardSkeleton() {
   return (
-    <div className='dashboard skeleton'>
+    <div className="md:h-screen md:min-h-[700px] min-[900px]:grid grid-cols-[3fr_minmax(350px,_1fr)]">
       {/* Header */}
-      <div style={{ gridArea: "header" }}>
-        <Skeleton className='h-[37.5px] w-[220px] mb-[30px]' />
-        <Skeleton className='h-[18px] w-[300px] space-y-[20px]' />
-      </div>
+      <header
+        className={cn(
+          "px-3 py-6",
+          "md:p-4 md:pl-6",
+          "col-span-2 flex justify-between border-b border-hairline"
+        )}
+      >
+        <div>
+          <Skeleton className="h-[33px] w-[15ch] mb-[20px]" />
+          <Skeleton className="h-[21px] w-[240px]" />
+        </div>
+        <Skeleton className="h-[18px] w-[32px] space-y-[20px]" />
+      </header>
 
       {/* Quick-Links */}
-      <div style={{ gridArea: "quick-links" }}>
-        <Skeleton className='h-[30px] w-[125px] mb-[31.5px]' />
-        <div className='flex gap-[32px]'>
-          <Skeleton className='h-[18px] w-[157px] space-y-[20px]' />
-          <Skeleton className='h-[18px] w-[150px] space-y-[20px]' />
-          <Skeleton className='h-[18px] w-[150px] space-y-[20px]' />
-          <Skeleton className='h-[18px] w-[150px] space-y-[20px]' />
+      <div
+        className={cn(
+          "px-3 py-6",
+          "md:p-4 md:pl-6",
+          "col-span-1 row-start-2 row-end-3 border-b border-hairline"
+        )}
+      >
+        <Skeleton className="h-[30px] w-[125px] mb-[31.5px]" />
+        <div className="flex gap-x-8 gap-y-5 flex-wrap">
+          <Skeleton className="h-[18px] w-[157px] space-y-[20px]" />
+          <Skeleton className="h-[18px] w-[150px] space-y-[20px]" />
+          <Skeleton className="h-[18px] w-[150px] space-y-[20px]" />
+          <Skeleton className="h-[18px] w-[150px] space-y-[20px]" />
         </div>
       </div>
 
       {/* Overview */}
-      <div style={{ gridArea: "overview" }}>
-        <Skeleton className='h-[30px] w-[125px] mb-[24px]' />
-        <div className='flex gap-20'>
-          <Skeleton className='h-[160px] w-[100%]' />
-          <Skeleton className='h-[160px] w-[100%]' />
+      <div className={cn("px-3 py-6", "md:p-4 md:pl-6", "row-start-3 ")}>
+        <Skeleton className="h-[30px] w-[125px] mb-[24px]" />
+        <div className="lg:flex gap-5 space-y-5 lg:space-y-0">
+          <Skeleton
+            className="sm:flex-1 block rounded-md bg-background50
+          mb-3 sm:mb-0 shadow-sm py-5 px-7 !no-underline text-inherit"
+          />
+          <Skeleton className="h-[160px] w-[100%]" />
         </div>
       </div>
 
       {/* News */}
-      <div style={{ gridArea: "aside", overflow: "hidden" }}>
-        <Skeleton className='h-[30px] w-[80px] mb-[31.5px]' />
+      <aside
+        className={cn(
+          "px-3 py-6",
+          "md:p-4 md:pl-6",
+          "min-[900px]:p-4",
+          "sm:row-start-2 border-t overflow-hidden min-[900px]:border-t-0 min-[900px]:border-l border-hairline row-end-4 col-start-2"
+        )}
+      >
+        <Skeleton className="h-[30px] w-[80px] mb-[31.5px]" />
 
-        <Skeleton className='h-[16px] w-[80px] mb-[8px]' />
-        <Skeleton className='h-[24px] w-[100%] mb-[12px]' />
-        <Skeleton className='h-[200px] w-[100%] mb-[31.5px]' />
+        <Skeleton className="h-[16px] w-[80px] mb-[8px]" />
+        <Skeleton className="h-[24px] w-[100%] mb-[12px]" />
+        <Skeleton className="h-[200px] w-[100%] mb-[31.5px]" />
 
-        <Skeleton className='h-[16px] w-[80px] mb-[8px]' />
-        <Skeleton className='h-[24px] w-[100%] mb-[12px]' />
-        <Skeleton className='h-[200px] w-[100%] mb-[31.5px]' />
-      </div>
+        <Skeleton className="h-[16px] w-[80px] mb-[8px]" />
+        <Skeleton className="h-[24px] w-[100%] mb-[12px]" />
+        <Skeleton className="h-[200px] w-[100%] mb-[31.5px]" />
+      </aside>
 
       {/* Footer */}
-      <div
-        className='footer-dashboard'
-        style={{ gridArea: "footer", padding: "14px" }}
-      >
-        <Skeleton className='h-[12px] w-[80px]' />
-      </div>
+      <footer className="border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-8">
+        <Skeleton className="h-[12px] w-[80px]" />
+      </footer>
     </div>
-  )
+  );
 }
