@@ -67,25 +67,25 @@ export default function AllLessonsControl({
           <span>Zurück</span>
         </NavLink>
       </div>
-      {hasLessonYears && (
-        <Select
-          disabled={isFetching}
-          onValueChange={handleSelect}
-          value={String(selectedYear)}
-        >
-          <SelectTrigger className='w-fit'>
-            <SelectValue placeholder='Jahr' />
-          </SelectTrigger>
-          <SelectContent>
-            {lessonYears?.map((year) => (
-              <SelectItem key={year} value={String(year)}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      )}
       <div className='flex items-center gap-4'>
+        {hasLessonYears && (
+          <Select
+            disabled={isFetching}
+            onValueChange={handleSelect}
+            value={String(selectedYear)}
+          >
+            <SelectTrigger className='w-fit'>
+              <SelectValue placeholder='Jahr' />
+            </SelectTrigger>
+            <SelectContent>
+              {lessonYears?.map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <Button
           size='sm'
           variant='outline'

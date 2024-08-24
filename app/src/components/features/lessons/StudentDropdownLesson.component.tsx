@@ -25,7 +25,10 @@ export default function HolderDropdownLesson() {
   const { currentLessonHolder } = useCurrentHolder()
   const [openModal, setOpenModal] = useState<Modals>(null)
 
-  const closeModal = () => setOpenModal(null)
+  function closeModal() {
+    setOpenModal(null)
+  }
+
   if (!currentLessonHolder) return null
 
   return (
@@ -37,7 +40,8 @@ export default function HolderDropdownLesson() {
         <DropdownMenuContent>
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
               setOpenModal('EDIT')
             }}
           >
@@ -47,7 +51,8 @@ export default function HolderDropdownLesson() {
 
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
               setOpenModal('TODO')
             }}
           >
@@ -57,7 +62,10 @@ export default function HolderDropdownLesson() {
 
           <DropdownMenuItem
             className='flex items-center gap-2'
-            onClick={() => setOpenModal('EXPORT')}
+            onClick={(e) => {
+              e.stopPropagation()
+              setOpenModal('EXPORT')
+            }}
           >
             <FileDown className='text-primary h-4 w-4' />
             <span>Lektionsliste exportieren</span>
@@ -89,7 +97,7 @@ export default function HolderDropdownLesson() {
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent className='w-[800px]'>
+        <DialogContent className='sm:w-[800px]'>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>

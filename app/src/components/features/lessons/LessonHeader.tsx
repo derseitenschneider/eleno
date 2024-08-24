@@ -18,25 +18,27 @@ function LessonHeader() {
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div className='flex w-full md:block items-baseline justify-between'>
-          <NavLink
-            to={`/lessons/${
-              currentLessonHolder.type === 's'
-                ? `s-${currentLessonHolder.holder.id}`
-                : `g-${currentLessonHolder.holder.id}`
-            }`}
-            className='flex mb-1 items-center hover:no-underline'
-          >
-            <div className='mr-[4px] text-foreground h-4'>
-              {currentLessonHolder.type === 's' && <User strokeWidth={2} />}{' '}
-              {currentLessonHolder.type === 'g' && <Users strokeWidth={2} />}
-            </div>
-            <span className='mr-2 text-lg'>
-              {currentLessonHolder.type === 's'
-                ? `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
-                : currentLessonHolder.holder.name}
-            </span>
+          <div className='flex mb-1 items-center '>
+            <NavLink
+              to={`/lessons/${
+                currentLessonHolder.type === 's'
+                  ? `s-${currentLessonHolder.holder.id}`
+                  : `g-${currentLessonHolder.holder.id}`
+              }`}
+              className='flex items-center hover:no-underline'
+            >
+              <div className='mr-[4px] text-foreground h-4'>
+                {currentLessonHolder.type === 's' && <User strokeWidth={2} />}{' '}
+                {currentLessonHolder.type === 'g' && <Users strokeWidth={2} />}
+              </div>
+              <span className='mr-2 text-lg'>
+                {currentLessonHolder.type === 's'
+                  ? `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
+                  : currentLessonHolder.holder.name}
+              </span>
+            </NavLink>
             <HolderDropdownLesson />
-          </NavLink>
+          </div>
           <div className='text-sm flex items-center gap-1'>
             {currentLessonHolder.holder.dayOfLesson ||
             currentLessonHolder.holder.startOfLesson ||
