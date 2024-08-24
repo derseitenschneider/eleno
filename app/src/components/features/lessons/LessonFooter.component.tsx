@@ -5,8 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 function LessonFooter() {
+  const [isScrolling, setIsScrolling] = useState(false)
   const {
     currentLessonPointer: lessonPointer,
     setCurrentLessonPointer: setLessonPointer,
@@ -79,25 +82,40 @@ function LessonFooter() {
       navigate(newUrl + query)
     }
   }
+  window.addEventListener('scroll', () => {
+    setIsScrolling(true)
+  })
+
+  window.addEventListener('scrollend', () => {
+    setTimeout(() => {
+      setIsScrolling(false)
+    }, 750)
+  })
+  if (lessonHolderTypeIds.length <= 1) return null
 
   return (
-    <footer className='fixed md:bottom-0 bottom-16 right-0 px-3 py-3'>
+    <footer
+      className={cn(
+        'fixed md:bottom-0 bottom-16 px-3 py-3 right-0 transition-transform duration-500',
+        isScrolling ? 'translate-x-[80%]' : 'translate-x-0',
+      )}
+    >
       <div className='shadow-xl bg-background200/25 border border-background50 flex gap-3 p-2 backdrop-blur-sm rounded-full'>
         <SearchStudentCombobox />
         <Button
           onMouseDown={handlerPreviousStudent}
           size='icon'
-          className='bg-background50 rounded-full hover:bg-background50 hover:translate-y-[-1px] shadow-md transition-transform '
+          className='bg-primary rounded-full hover:translate-y-[-1px] shadow-md transition-transform '
         >
-          <ArrowLeft className='h-5 w-5 text-primary' />
+          <ArrowLeft className='h-5 w-5 text-white' />
         </Button>
 
         <Button
           onMouseDown={handlerNextStudent}
           size='icon'
-          className='bg-background50 shadow-md rounded-full hover:bg-background50 hover:translate-y-[-1px] transition-transform '
+          className='bg-primary shadow-md rounded-full hover:translate-y-[-1px] transition-transform '
         >
-          <ArrowRight className='h-5 w-5 text-primary' />
+          <ArrowRight className='h-5 w-5 text-white' />
         </Button>
       </div>
     </footer>

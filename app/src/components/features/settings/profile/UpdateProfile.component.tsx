@@ -54,7 +54,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
             Vorname
           </Label>
           <Input
-            autoFocus={window.screen.width > 1000}
+            autoFocus={window.innerWidth > 1000}
             id='firstName'
             type='text'
             name='firstName'
