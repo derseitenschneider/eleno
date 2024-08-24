@@ -44,7 +44,7 @@ export default function StudentFormRow({
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.firstName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -63,7 +63,7 @@ export default function StudentFormRow({
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.lastName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -82,7 +82,7 @@ export default function StudentFormRow({
                 {...field}
                 className={cn(
                   form.formState.errors.students?.[index]?.instrument &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -101,7 +101,7 @@ export default function StudentFormRow({
                 defaultValue={field.value || undefined}
               >
                 <SelectTrigger className='h-[36px]'>
-                  <SelectValue placeholder='Unterrichtstag' />
+                  <SelectValue placeholder='—' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value='Montag'>Montag</SelectItem>
@@ -131,7 +131,7 @@ export default function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.startOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -151,7 +151,7 @@ export default function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   form.formState.errors.students?.[index]?.endOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -172,7 +172,7 @@ export default function StudentFormRow({
                 value={field.value || undefined}
                 className={cn(
                   form.formState.errors.students?.[index]?.durationMinutes &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -192,7 +192,7 @@ export default function StudentFormRow({
                 value={field.value || undefined}
                 className={cn(
                   form.formState.errors.students?.[index]?.location &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>

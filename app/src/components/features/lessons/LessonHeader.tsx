@@ -13,6 +13,7 @@ import {
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
   if (!currentLessonHolder) return null
+  const { holder, type } = currentLessonHolder
 
   return (
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
@@ -21,74 +22,65 @@ function LessonHeader() {
           <div className='flex mb-1 items-center '>
             <NavLink
               to={`/lessons/${
-                currentLessonHolder.type === 's'
-                  ? `s-${currentLessonHolder.holder.id}`
-                  : `g-${currentLessonHolder.holder.id}`
+                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
               }`}
               className='flex items-center hover:no-underline'
             >
               <div className='mr-[4px] text-foreground h-4'>
-                {currentLessonHolder.type === 's' && <User strokeWidth={2} />}{' '}
-                {currentLessonHolder.type === 'g' && <Users strokeWidth={2} />}
+                {type === 's' && <User strokeWidth={2} />}{' '}
+                {type === 'g' && <Users strokeWidth={2} />}
               </div>
               <span className='mr-2 text-lg'>
-                {currentLessonHolder.type === 's'
-                  ? `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
-                  : currentLessonHolder.holder.name}
+                {type === 's'
+                  ? `${holder.firstName} ${holder.lastName}`
+                  : holder.name}
               </span>
             </NavLink>
             <HolderDropdownLesson />
           </div>
           <div className='text-sm flex items-center gap-1'>
-            {currentLessonHolder.holder.dayOfLesson ||
-            currentLessonHolder.holder.startOfLesson ||
-            currentLessonHolder.holder.endOfLesson ? (
+            {holder.dayOfLesson ||
+            holder.startOfLesson ||
+            holder.endOfLesson ? (
               <span>
-                {currentLessonHolder.holder.dayOfLesson &&
-                  `${currentLessonHolder.holder.dayOfLesson}`}
-                {currentLessonHolder.holder.startOfLesson
-                  ? `, ${currentLessonHolder.holder.startOfLesson.slice(0, 5)}`
+                {holder.dayOfLesson && `${holder.dayOfLesson}`}
+                {holder.dayOfLesson && holder.startOfLesson && ', '}
+                {holder.startOfLesson
+                  ? `${holder.startOfLesson.slice(0, 5)}`
                   : null}
-                {currentLessonHolder.holder.endOfLesson &&
-                  ` - ${currentLessonHolder.holder.endOfLesson.slice(0, 5)}`}
+                {holder.endOfLesson && ` - ${holder.endOfLesson.slice(0, 5)}`}
               </span>
             ) : null}
-            {currentLessonHolder.holder.dayOfLesson ||
-            currentLessonHolder.holder.durationMinutes ? (
+            {holder.dayOfLesson || holder.durationMinutes ? (
               <span className='hidden md:inline'>
-                {currentLessonHolder.holder.dayOfLesson &&
-                  currentLessonHolder.holder.durationMinutes &&
-                  ' | '}
+                {holder.dayOfLesson && holder.durationMinutes && ' | '}
               </span>
             ) : null}
-            {currentLessonHolder.holder.durationMinutes && (
+            {holder.durationMinutes && (
               <span className='mr-2 hidden md:inline'>
-                {currentLessonHolder.holder.durationMinutes} Minuten
+                {holder.durationMinutes} Minuten
               </span>
             )}
-            {currentLessonHolder.type === 'g' &&
-              currentLessonHolder.holder.students?.length !== 0 && (
-                <Popover>
-                  <PopoverTrigger>
-                    <Badge className='hidden sm:flex'>
-                      <Users className='size-3 mr-1' />
-                      Gruppe
-                    </Badge>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <h4>
-                      {currentLessonHolder.holder.students.length} Schüler:innen
-                    </h4>
-                    <ul>
-                      {currentLessonHolder.holder.students?.map((student) => (
-                        <li className='text-sm' key={student?.name}>
-                          {student?.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </PopoverContent>
-                </Popover>
-              )}
+            {type === 'g' && holder.students?.length !== 0 && (
+              <Popover>
+                <PopoverTrigger>
+                  <Badge className='hidden sm:flex'>
+                    <Users className='size-3 mr-1' />
+                    Gruppe
+                  </Badge>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <h4>{holder.students.length} Schüler:innen</h4>
+                  <ul>
+                    {holder.students?.map((student) => (
+                      <li className='text-sm' key={student?.name}>
+                        {student?.name}
+                      </li>
+                    ))}
+                  </ul>
+                </PopoverContent>
+              </Popover>
+            )}
           </div>
         </div>
         <NavLink
