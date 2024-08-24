@@ -11,7 +11,7 @@
     "dev:staging": "vite --mode staging --open",
     "build": "tsc && vite build",
     "build:demo": "tsc && vite build --mode staging",
-    "build:staging": "tsc && vite build --mode staging ",
+    "build:staging": "vite build --mode staging ",
     "preview": "vite preview",
     "generate-types": "npx supabase gen types typescript --project-id 'brhpqxeowknyhrimssxw' --schema public > src/types/supabase.ts",
     "generate-types:local": "npx supabase gen types typescript --local > src/types/supabase.ts",
