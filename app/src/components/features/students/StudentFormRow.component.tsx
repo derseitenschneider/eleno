@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -19,14 +20,17 @@ type StudentFormRowProps = {
   form: UseFormReturn<{ students: StudentSchema[] }, unknown, undefined>
   remove?: UseFieldArrayRemove
   disabled: boolean
+  fields: number
 }
-export default function StudentFormRow({
+const StudentFormRow = memo(function StudentFormRow({
   index,
   form,
   grid,
   disabled,
   remove,
+  fields,
 }: StudentFormRowProps) {
+  const isNoTrash = index === 0 && fields === 1
   return (
     <div className={cn(grid, 'mb-2')}>
       <span className='hidden sm:inline self-center text-sm text-foreground/75'>
@@ -209,14 +213,16 @@ export default function StudentFormRow({
         <Button
           type='button'
           variant='ghost'
-          className={cn(index === 0 && 'hidden', 'p-0')}
+          className={cn(isNoTrash && 'hidden', 'p-0')}
           onClick={() => remove(index)}
           tabIndex={-1}
-          disabled={index === 0 || disabled}
+          disabled={isNoTrash || disabled}
         >
           <Trash2 strokeWidth={1.5} className='size-4 text-warning' />
         </Button>
       )}
     </div>
   )
-}
+})
+
+export default StudentFormRow

@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import type { StudentPartial } from '@/types/types'
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useCreateStudents } from './useCreateStudents'
 import { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -11,6 +11,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import StudentFormRow from './StudentFormRow.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { memo } from 'react'
+
+const MemoizedStudentFormRow = memo(StudentFormRow)
 
 type CreateStudentsProps = {
   onSuccess: () => void
@@ -84,6 +87,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
     resolver: zodResolver(studentsValidationSchema),
     defaultValues: { students: [defaultStudent] },
     mode: 'onSubmit',
+    reValidateMode: 'onBlur',
     resetOptions: {
       keepDirtyValues: true,
       keepErrors: false,
@@ -93,29 +97,49 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const [numAdd, setNumAdd] = useState(1)
 
-  const grid =
-    'grid gap-4 sm:gap-1 sm:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]'
+  const grid = useMemo(
+    () =>
+      'grid gap-4 sm:gap-1 sm:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]',
+    [],
+  )
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'students',
   })
 
-  function appendStudents() {
+  const appendStudents = useCallback(() => {
     const newStudents = Array.from(Array(numAdd)).map(() => defaultStudent)
     append(newStudents)
     setNumAdd(1)
-  }
+  }, [append, numAdd])
 
-  function onSubmit(data: { students: Array<StudentSchema> }) {
-    createStudents(data.students, {
-      onSuccess,
-    })
-  }
+  const onSubmit = useCallback(
+    (data: { students: Array<StudentSchema> }) => {
+      createStudents(data.students, { onSuccess })
+    },
+    [createStudents, onSuccess],
+  )
+
+  const memoizedStudentRows = useMemo(
+    () =>
+      fields.map((field, index, arr) => (
+        <MemoizedStudentFormRow
+          fields={arr.length}
+          key={field.id}
+          grid={grid}
+          remove={remove}
+          index={index}
+          form={form}
+          disabled={isCreating}
+        />
+      )),
+    [fields, remove, form, isCreating, grid],
+  )
 
   return (
     <div className='sm:w-[85vw]'>
-      <div className={cn(grid, 'hidden sm:grid')}>
+      <div className={cn(grid, 'hidden sm:grid pb-1')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
@@ -130,16 +154,17 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='sm:max-h-[75vh] sm:overflow-auto no-scrollbar sm:py-1'>
-            {fields.map((field, i) => (
-              <StudentFormRow
-                key={field.id}
-                grid={grid}
-                remove={remove}
-                index={i}
-                form={form}
-                disabled={isCreating}
-              />
-            ))}
+            {memoizedStudentRows}
+            {/* {fields.map((field, i) => ( */}
+            {/*   <StudentFormRow */}
+            {/*     key={field.id} */}
+            {/*     grid={grid} */}
+            {/*     remove={remove} */}
+            {/*     index={i} */}
+            {/*     form={form} */}
+            {/*     disabled={isCreating} */}
+            {/*   /> */}
+            {/* ))} */}
           </div>
           <div className='flex items-center justify-between mt-4'>
             <div className='flex items-center'>
