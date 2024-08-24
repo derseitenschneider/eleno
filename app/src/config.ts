@@ -13,15 +13,15 @@ const env = envSchema.parse(import.meta.env)
 const configSchema = z.object({
   env: z.enum(['development', 'staging', 'production', 'demo']),
   isDemoMode: z.boolean(),
-  apiUrl: z.string().url(),
-  apiKey: z.string(),
+  dbUrl: z.string().url(),
+  dbKey: z.string(),
 })
 
 const config = configSchema.parse({
   env: env.VITE_ENV,
   isDemoMode: env.VITE_ENV === 'demo',
-  apiUrl: env.VITE_SUPABASE_URL,
-  apiKey: env.VITE_SUPABASE_KEY,
+  dbUrl: env.VITE_SUPABASE_URL,
+  dbKey: env.VITE_SUPABASE_KEY,
 })
 
 type AppConfig = z.infer<typeof configSchema>

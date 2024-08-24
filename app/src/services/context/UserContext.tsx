@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { isDemoMode } from '../../../config'
+import { isDemoMode } from '../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/LoginPage'
 import type { ContextTypeUser, Profile, User } from '../../types/types'
