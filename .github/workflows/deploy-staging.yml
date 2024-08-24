@@ -8,8 +8,8 @@ jobs:
     name: 🎉 Deploy Staging App
     runs-on: ubuntu-latest
     env:
-      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+      VITE_SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.STAGING_SUPABASE_KEY }}
       VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
 
     strategy:

@@ -11,10 +11,8 @@ import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
-import { appConfig } from '@/config'
 
 export default function Application() {
-  console.log(appConfig)
   return (
     <div>
       <UserLocaleProvider>
