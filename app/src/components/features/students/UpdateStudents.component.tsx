@@ -43,7 +43,8 @@ export default function UpdateStudents({
     shouldFocusError: true,
   })
 
-  const grid = 'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr]'
+  const grid =
+    'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1'
 
   const { fields } = useFieldArray({
     control: form.control,
@@ -88,21 +89,24 @@ export default function UpdateStudents({
               />
             ))}
           </div>
-          <div className='flex items-center justify-end gap-4 mt-4'>
-            <Button
-              size='sm'
-              variant='outline'
-              type='button'
-              onClick={onSuccess}
-              disabled={isUpdating}
-            >
-              Abbrechen
-            </Button>
-            <div className='flex items-center gap-2'>
-              <Button size='sm' disabled={isUpdating} type='submit'>
-                Speichern
+          <div className='flex items-end justify-between pr-1'>
+            <span className='text-sm'>* Pflichtfelder</span>
+            <div className='flex items-center justify-end gap-4 mt-4'>
+              <Button
+                size='sm'
+                variant='outline'
+                type='button'
+                onClick={onSuccess}
+                disabled={isUpdating}
+              >
+                Abbrechen
               </Button>
-              {isUpdating && <MiniLoader />}
+              <div className='flex items-center gap-2'>
+                <Button size='sm' disabled={isUpdating} type='submit'>
+                  Speichern
+                </Button>
+                {isUpdating && <MiniLoader />}
+              </div>
             </div>
           </div>
         </form>
