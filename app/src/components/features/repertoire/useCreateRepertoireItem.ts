@@ -23,7 +23,14 @@ export function useCreateRepertoireItem() {
         (prev: Array<RepertoireItem>) => [...prev, newItem],
       )
       queryClient.invalidateQueries({
-        queryKey: ['repertoire', { studentId: newItem.studentId }],
+        queryKey: [
+          'repertoire',
+          {
+            holder: newItem.studentId
+              ? `s-${newItem.studentId}`
+              : `g-${newItem.groupId}`,
+          },
+        ],
       })
     },
 

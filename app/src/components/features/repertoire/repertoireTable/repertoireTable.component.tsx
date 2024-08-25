@@ -1,4 +1,4 @@
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import RepertoireControl from './repertoireControl'
 import CreateRepertoireItem from '../CreateRepertoireItem.component'
@@ -31,7 +31,9 @@ function RepertoireTable({
 }: RepertoireTableProps) {
   const { currentLessonHolder } = useCurrentHolder()
   const { userLocale } = useUserLocale()
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'startDate', desc: false },
+  ])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const fuzzyFilter: FilterFn<RepertoireItem> = (row, _, value) => {
@@ -72,6 +74,9 @@ function RepertoireTable({
     state: {
       sorting,
       globalFilter,
+    },
+    initialState: {
+      sorting: [{ id: 'startDate', desc: false }],
     },
   })
 

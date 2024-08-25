@@ -15,7 +15,7 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from 'lucide-react'
+import { ArrowUpDown, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
 import EditRepertoireItem from '../UpdateRepertoireItem.component'
@@ -66,6 +66,14 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         })
       }
       return <div>{formatted || '-'}</div>
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const a = rowA.getValue(columnId) as string | null
+      const b = rowB.getValue(columnId) as string | null
+      if (a === null && b === null) return 0
+      if (a === null) return -1
+      if (b === null) return 1
+      return new Date(b).getTime() - new Date(a).getTime() // Note the reversal here
     },
   },
   {
