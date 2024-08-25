@@ -43,13 +43,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-          type: 's',
-          holder: allStudents.find((student) => student.id === holderId),
-        } as LessonHolder)
+        type: 's',
+        holder: allStudents.find((student) => student.id === holderId),
+      } as LessonHolder)
       : ({
-          type: 'g',
-          holder: allGroups.find((group) => group.id === holderId),
-        } as LessonHolder)
+        type: 'g',
+        holder: allGroups.find((group) => group.id === holderId),
+      } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -255,18 +255,20 @@ function ExportLessons({
           PDF herunterladen
         </Button>
 
-        <Button
-          onClick={handleDownloadCSV}
-          size='sm'
-          disabled={!canDownload || isLoading}
-        >
-          CSV herunterladen
-        </Button>
-        {isLoading && (
-          <div className='text-primary '>
-            <MiniLoader />
-          </div>
-        )}
+        <div className='flex items-center gap-2'>
+          <Button
+            onClick={handleDownloadCSV}
+            size='sm'
+            disabled={!canDownload || isLoading}
+          >
+            CSV herunterladen
+          </Button>
+          {isLoading && (
+            <div className='text-primary '>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

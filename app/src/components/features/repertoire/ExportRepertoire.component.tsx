@@ -76,7 +76,7 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
           />
         </label>
       </div>
-      <div className='flex gap-4 justify-center'>
+      <div className='flex gap-4'>
         <PDFDownloadLink
           document={
             <RepertoirePDF
