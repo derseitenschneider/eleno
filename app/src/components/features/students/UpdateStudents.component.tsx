@@ -1,17 +1,21 @@
-import StudentFormRow from './StudentFormRow.component'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import type { Student } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Form } from '@/components/ui/form'
+import StudentFormRow from './StudentFormRow.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { memo } from 'react'
 import {
   type StudentSchema,
   studentsValidationSchema,
 } from './CreateStudents.component'
-import { useQueryClient } from '@tanstack/react-query'
-import type { Student } from '@/types/types'
-import { cn } from '@/lib/utils'
-import { Form } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
 import { useUpdateStudents } from './useUpdateStudents'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+
+const MemoizedStudentFormRow = memo(StudentFormRow)
 
 interface UpdateStudentsProps {
   onSuccess?: () => void
@@ -24,12 +28,15 @@ export default function UpdateStudents({
 }: UpdateStudentsProps) {
   const queryClient = useQueryClient()
   const { updateStudents, isUpdating } = useUpdateStudents()
+
   const students = queryClient.getQueryData(['students']) as
     | Array<Student>
     | undefined
 
-  const studentsToUpdate = studentIds.map((id) =>
-    students?.find((student) => student?.id === id),
+  const studentsToUpdate = useMemo(
+    () =>
+      studentIds.map((id) => students?.find((student) => student?.id === id)),
+    [studentIds, students],
   )
 
   const form = useForm<{ students: StudentSchema[] }>({
@@ -43,25 +50,45 @@ export default function UpdateStudents({
     shouldFocusError: true,
   })
 
-  const grid =
-    'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1'
+  const grid = useMemo(
+    () => 'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1',
+    [],
+  )
 
   const { fields } = useFieldArray({
     control: form.control,
     name: 'students',
   })
 
-  function onSubmit(data: { students: Array<StudentSchema> }) {
-    const updatedStudents = studentsToUpdate.map((oldData) => {
-      const newData = data.students.find(
-        (student) => student.id === oldData?.id,
-      )
-      return { ...oldData, ...newData }
-    }) as Array<Student>
-    updateStudents(updatedStudents, {
-      onSuccess,
-    })
-  }
+  const onSubmit = useCallback(
+    (data: { students: Array<StudentSchema> }) => {
+      const updatedStudents = studentsToUpdate.map((oldData) => {
+        const newData = data.students.find(
+          (student) => student.id === oldData?.id,
+        )
+        return { ...oldData, ...newData }
+      }) as Array<Student>
+      updateStudents(updatedStudents, {
+        onSuccess,
+      })
+    },
+    [studentsToUpdate, updateStudents, onSuccess],
+  )
+
+  const memoizedStudentRows = useMemo(
+    () =>
+      fields.map((field, index, arr) => (
+        <MemoizedStudentFormRow
+          fields={arr.length}
+          key={field.id}
+          grid={grid}
+          index={index}
+          form={form}
+          disabled={isUpdating}
+        />
+      )),
+    [fields, grid, form, isUpdating],
+  )
 
   return (
     <div className='w-[85vw]'>
@@ -79,15 +106,7 @@ export default function UpdateStudents({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='max-h-[75vh] overflow-auto no-scrollbar py-1'>
-            {fields.map((field, i) => (
-              <StudentFormRow
-                key={field.id}
-                grid={grid}
-                index={i}
-                form={form}
-                disabled={isUpdating}
-              />
-            ))}
+            {memoizedStudentRows}
           </div>
           <div className='flex items-end justify-between pr-1'>
             <span className='text-sm'>* Pflichtfelder</span>
