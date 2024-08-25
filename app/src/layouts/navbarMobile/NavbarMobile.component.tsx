@@ -4,8 +4,10 @@ import NavbarMobileItem from './NavbarMobileItem.component'
 import { CheckSquare2, GraduationCap, LogOut, Settings } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
+import { useUser } from '@/services/context/UserContext'
 
 function NavbarMobile() {
+  const { logout } = useUser()
   const todos = useTodosQuery().data
 
   const todosDue = todos
@@ -40,7 +42,11 @@ function NavbarMobile() {
           icon={<GraduationCap strokeWidth={1} />}
         />
         <NavbarMobileItem to='/settings' icon={<Settings strokeWidth={1} />} />
-        <NavbarMobileItem to='/logout' icon={<LogOut strokeWidth={1} />} />
+        <NavbarMobileItem
+          onClick={logout}
+          isButton
+          icon={<LogOut strokeWidth={1} />}
+        />
       </ul>
     </nav>
   )

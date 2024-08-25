@@ -1,27 +1,45 @@
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation } from 'react-router-dom'
 
 type NavbarMobileItemProps = {
-  to: string
+  to?: string
   icon: React.ReactNode
   notificationContent?: number
+  isButton?: boolean
+  onClick?: () => void
 }
 export default function NavbarMobileItem({
-  to,
+  to = '',
   icon,
   notificationContent,
+  isButton = false,
+  onClick,
 }: NavbarMobileItemProps) {
   const { pathname } = useLocation()
-  const isActive = pathname === to && pathname !== "/"
+  const isActive = pathname === to && pathname !== '/'
+
+  if (isButton)
+    return (
+      <li>
+        <button
+          className={`${isActive ? 'text-white' : 'text-foreground'
+            } block size-[40px] p-1 relative`}
+          type='button'
+          onClick={() => onClick?.()}
+        >
+          {icon}
+        </button>
+      </li>
+    )
 
   return (
     <li>
       <NavLink
         to={to}
-        className={`${isActive ? "text-white" : "text-foreground"
+        className={`${isActive ? 'text-white' : 'text-foreground'
           } block size-[40px] p-1 relative`}
       >
         <span
-          className={`${isActive ? "block" : "hidden"
+          className={`${isActive ? 'block' : 'hidden'
             } absolute top-0 left-0 size-full bg-primary z-[-1] rounded-sm`}
         />
         {icon}

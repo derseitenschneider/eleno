@@ -22,6 +22,7 @@ import {
   updateProfileSupabase,
 } from '../api/user.api'
 import { useLoading } from './LoadingContext'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
@@ -38,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
   const [user, setUser] = useState<User>()
   const { isLoading, setIsLoading } = useLoading()
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const getUserProfiles = useCallback(
@@ -119,9 +121,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const logout = useCallback(async () => {
+    queryClient.clear()
     await supabase.auth.signOut()
     navigate('/?page=login', { replace: true })
-  }, [navigate])
+  }, [navigate, queryClient])
 
   const recoverPassword = useCallback(async (email: string) => {
     await recoverPasswordSupabase(email)
