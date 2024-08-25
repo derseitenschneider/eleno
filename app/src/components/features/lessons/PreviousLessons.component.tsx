@@ -46,9 +46,9 @@ function PreviousLessons() {
   }, [])
 
   return (
-    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline overflow-scroll h-[350px] md:h-[300px] relative'>
-      <div className='flex flex-wrap items-baseline gap-x-5 gap-y-3 mb-5'>
-        {previousLessonsIds.length > 0 ? (
+    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline overflow-scroll no-scrollbar h-[350px] md:h-[300px] relative'>
+      {previousLessonsIds.length > 0 ? (
+        <div className='flex flex-wrap items-baseline gap-x-5 gap-y-3 mb-5'>
           <>
             {previousLessonsIds.map((prev, index) => (
               <button
@@ -73,15 +73,17 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='px-2 hover:no-underline py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80'
+              className='px-2 hover:no-underline py-1 pr-3 text-sm 
+            bg-background200 border-background200 border-l-4 text-foreground 
+            hover:bg-background200/80'
               to={`all?year=${newestLessonYear}`}
               end={true}
             >
               Alle
             </NavLink>
           </>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
       {previousLessonsIds.length > 0 ? (
         <>
           <div className={cn('grid md:grid-cols-2 gap-6')}>

@@ -11,7 +11,7 @@ function Empty({ emptyMessage, children, className }: EmptyProps) {
     <div
       className={cn(
         className,
-        'bg-background50 flex flex-col items-center py-12 rounded-md shadow-sm',
+        'max-h-full bg-background50 flex flex-col items-center py-12 rounded-md shadow-sm',
       )}
     >
       <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
