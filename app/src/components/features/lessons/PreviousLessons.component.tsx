@@ -1,5 +1,5 @@
 import parse from 'html-react-parser'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { cn } from '@/lib/utils'
@@ -41,10 +41,6 @@ function PreviousLessons() {
     .at(0)
     ?.date.getFullYear()
 
-  useEffect(() => {
-    setTabIndex(0)
-  }, [])
-
   return (
     <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline overflow-scroll no-scrollbar h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
@@ -61,7 +57,7 @@ function PreviousLessons() {
                 onClick={() => {
                   setTabIndex(index)
                 }}
-                key={prev || Math.trunc(Math.random() * 1_000_000)}
+                key={prev}
               >
                 {lessons
                   ?.find((lesson) => lesson?.id === prev)

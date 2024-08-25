@@ -1,31 +1,24 @@
-import { useEffect } from 'react'
-
-import { useLoading } from '../services/context/LoadingContext'
-
-import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
-
-import CreateLesson from '../components/features/lessons/CreateLesson.component'
-
-import NoteList from '../components/features/notes/NoteList.component'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
+import { useEffect } from 'react'
+import CreateLesson from '../components/features/lessons/CreateLesson.component'
+import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
+import NoteList from '../components/features/notes/NoteList.component'
+import { useLoading } from '../services/context/LoadingContext'
 
 function Lesson() {
   const { isLoading } = useLoading()
-  const { activeSortedHolders: lessonHolders } = useLessonHolders()
-  const activeLessonHolders = lessonHolders.filter(
-    (lessonHolder) => !lessonHolder.holder.archive,
-  )
+  const { currentLessonHolder } = useCurrentHolder()
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  if (activeLessonHolders.length && !isLoading)
+  if (isLoading) return <p>...loading</p>
+  if (currentLessonHolder)
     return (
       <div className='md:grid md:grid-cols-[1fr_400px] md:h-[calc(100vh-88px)] overflow-hidden'>
         <main className='md:h-full'>
-          <PreviousLessons />
+          <PreviousLessons key={currentLessonHolder.holder.id} />
           <CreateLesson />
         </main>
 
