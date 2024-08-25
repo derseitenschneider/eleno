@@ -21,7 +21,7 @@ import {
   Pencil,
   TableProperties,
 } from 'lucide-react'
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
@@ -50,6 +50,9 @@ export default function ActiveStudentRowDropdown({
   function closeModal() {
     setOpenModal(null)
   }
+  function handleDialogClick(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
+  }
 
   return (
     <>
@@ -64,7 +67,10 @@ export default function ActiveStudentRowDropdown({
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => setOpenModal('EDIT')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('EDIT')
+              }}
               className='flex items-center gap-2'
             >
               <Pencil className='h-4 w-4 text-primary' />
@@ -72,7 +78,10 @@ export default function ActiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('TODO')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('TODO')
+              }}
               className='flex items-center gap-2'
             >
               <CheckSquare2 className='h-4 w-4 text-primary' />
@@ -80,7 +89,10 @@ export default function ActiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('EXPORT')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('EXPORT')
+              }}
               className='flex items-center gap-2'
             >
               <FileDown className='h-4 w-4 text-primary' />
@@ -90,7 +102,8 @@ export default function ActiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 const newStudentIndex = sortedStudentIds.indexOf(studentId)
                 setCurrentLessonPointer(newStudentIndex)
                 navigate(`/lessons/s-${studentId}`)
@@ -102,7 +115,8 @@ export default function ActiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 const newStudentIndex = sortedStudentIds.indexOf(studentId)
                 setCurrentLessonPointer(newStudentIndex)
                 navigate(`/lessons/s-${studentId}/repertoire`)
@@ -127,14 +141,14 @@ export default function ActiveStudentRowDropdown({
       </div>
 
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent onClick={handleDialogClick}>
           <DialogHeader>Schüler:in bearbeiten</DialogHeader>
           <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent className='w-[800px]'>
+        <DialogContent onClick={handleDialogClick} className='w-[800px]'>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
@@ -147,7 +161,7 @@ export default function ActiveStudentRowDropdown({
       </Dialog>
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent onClick={handleDialogClick}>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>

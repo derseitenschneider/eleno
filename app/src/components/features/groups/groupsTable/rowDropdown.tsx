@@ -47,8 +47,12 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
     <>
       <div className='text-right'>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+          <DropdownMenuTrigger>
+            <Button
+              variant='ghost'
+              className='h-8 w-8 p-0'
+            // onClick={(e) => e.stopPropagation()}
+            >
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
             </Button>
@@ -56,7 +60,10 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
 
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => setOpenModal('EDIT')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('EDIT')
+              }}
               className='flex items-center gap-2'
             >
               <Pencil className='h-4 w-4 text-primary' />
@@ -64,7 +71,10 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('TODO')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('TODO')
+              }}
               className='flex items-center gap-2'
             >
               <CheckSquare2 className='h-4 w-4 text-primary' />
@@ -72,7 +82,10 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('EXPORT')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('EXPORT')
+              }}
               className='flex items-center gap-2'
             >
               <FileDown className='h-4 w-4 text-primary' />
@@ -82,7 +95,8 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 navigate(`/lessons/g-${groupId}`)
               }}
               className='flex items-center gap-2'
@@ -92,7 +106,8 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 navigate(`/lessons/g-${groupId}/repertoire`)
               }}
               className='flex items-center gap-2'
@@ -104,7 +119,8 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation()
                 deactivateGroups([groupId])
               }}
               className='flex items-center gap-2'
@@ -117,7 +133,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       </div>
 
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Gruppe bearbeiten</DialogTitle>
           </DialogHeader>
@@ -126,7 +142,10 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent className='w-[800px]'>
+        <DialogContent
+          onClick={(e) => e.stopPropagation()}
+          className='sm:w-[800px]'
+        >
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
             <CreateTodo
@@ -139,7 +158,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       </Dialog>
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
             <ExportLessons

@@ -2,8 +2,17 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Student } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from 'lucide-react'
+import { ArrowUpDown } from 'lucide-react'
 import ActiveStudentRowDropdown from './rowDropdown'
+
+const RowWrapper = ({
+  children,
+  onClick,
+}: { children: React.ReactNode; onClick: () => void }) => (
+  <div onKeyDown={onClick} className='cursor-pointer'>
+    {children}
+  </div>
+)
 
 export const studentsColumns: ColumnDef<Student>[] = [
   {
@@ -28,6 +37,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label='Select row'
+          onClick={(e) => e.stopPropagation()}
         />
       )
     },
@@ -171,7 +181,11 @@ export const studentsColumns: ColumnDef<Student>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      return <ActiveStudentRowDropdown studentId={row.original.id} />
+      return (
+        <div onKeyDown={(e) => e.stopPropagation()}>
+          <ActiveStudentRowDropdown studentId={row.original.id} />
+        </div>
+      )
     },
   },
 ]
