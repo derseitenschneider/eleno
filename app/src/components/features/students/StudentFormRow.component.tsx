@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -11,33 +12,36 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { Trash2 } from 'lucide-react'
-import type { UseFieldArrayRemove, UseFormReturn } from 'react-hook-form'
+import type { UseFieldArrayRemove } from 'react-hook-form'
 import type { StudentSchema } from './CreateStudents.component'
 
 type StudentFormRowProps = {
   index: number
   grid: string
-  form: UseFormReturn<{ students: StudentSchema[] }, unknown, undefined>
   remove?: UseFieldArrayRemove
   disabled: boolean
   fields: number
 }
+
 const StudentFormRow = memo(function StudentFormRow({
   index,
-  form,
   grid,
   disabled,
   remove,
   fields,
 }: StudentFormRowProps) {
+  const { control, formState, getValues } = useFormContext<{
+    students: StudentSchema[]
+  }>()
   const isNoTrash = index === 0 && fields === 1
+
   return (
     <div className={cn(grid, 'mb-2')}>
       <span className='hidden sm:inline self-center text-sm text-foreground/75'>
         {index + 1}
       </span>
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.firstName`}
         render={({ field }) => (
           <FormItem>
@@ -47,8 +51,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 placeholder='Vorname'
                 {...field}
                 className={cn(
-                  form.formState.errors.students?.[index]?.firstName &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.firstName &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -56,7 +60,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.lastName`}
         render={({ field }) => (
           <FormItem>
@@ -66,8 +70,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 placeholder='Nachname'
                 {...field}
                 className={cn(
-                  form.formState.errors.students?.[index]?.lastName &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.lastName &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -75,7 +79,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.instrument`}
         render={({ field }) => (
           <FormItem>
@@ -85,8 +89,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 placeholder='Instrument'
                 {...field}
                 className={cn(
-                  form.formState.errors.students?.[index]?.instrument &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.instrument &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -94,7 +98,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.dayOfLesson`}
         render={({ field }) => (
           <FormItem>
@@ -123,7 +127,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.startOfLesson`}
         render={({ field }) => (
           <FormItem>
@@ -134,8 +138,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 value={field.value || ''}
                 className={cn(
-                  form.formState.errors.students?.[index]?.startOfLesson &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.startOfLesson &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -143,7 +147,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.endOfLesson`}
         render={({ field }) => (
           <FormItem>
@@ -154,8 +158,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 value={field.value || ''}
                 className={cn(
-                  form.formState.errors.students?.[index]?.endOfLesson &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.endOfLesson &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -163,7 +167,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.durationMinutes`}
         render={({ field }) => (
           <FormItem>
@@ -175,8 +179,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 value={field.value || undefined}
                 className={cn(
-                  form.formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.durationMinutes &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -184,7 +188,7 @@ const StudentFormRow = memo(function StudentFormRow({
         )}
       />
       <FormField
-        control={form.control}
+        control={control}
         name={`students.${index}.location`}
         render={({ field }) => (
           <FormItem>
@@ -195,8 +199,8 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 value={field.value || undefined}
                 className={cn(
-                  form.formState.errors.students?.[index]?.location &&
-                    'border-warning',
+                  formState.errors.students?.[index]?.location &&
+                  'border-warning',
                 )}
               />
             </FormControl>
@@ -206,7 +210,7 @@ const StudentFormRow = memo(function StudentFormRow({
       <input
         type='hidden'
         name={`students.${index}.id`}
-        value={form.getValues('students')[index]?.id || ''}
+        value={getValues(`students.${index}.id`) || ''}
         readOnly
       />
       {remove && (
