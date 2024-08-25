@@ -21,12 +21,11 @@ function LessonHeader() {
         <div className='flex w-full md:block items-baseline justify-between'>
           <div className='flex mb-1 items-center '>
             <NavLink
-              to={`/lessons/${
-                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
-              }`}
-              className='flex items-center hover:no-underline'
+              to={`/lessons/${type === 's' ? `s-${holder.id}` : `g-${holder.id}`
+                }`}
+              className='flex items-baseline hover:no-underline'
             >
-              <div className='mr-[4px] text-foreground h-4'>
+              <div className='mr-[4px] text-primary h-4 translate-y-[1px]'>
                 {type === 's' && <User strokeWidth={2} />}{' '}
                 {type === 'g' && <Users strokeWidth={2} />}
               </div>
@@ -40,8 +39,8 @@ function LessonHeader() {
           </div>
           <div className='text-sm flex items-center gap-1'>
             {holder.dayOfLesson ||
-            holder.startOfLesson ||
-            holder.endOfLesson ? (
+              holder.startOfLesson ||
+              holder.endOfLesson ? (
               <span>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}
