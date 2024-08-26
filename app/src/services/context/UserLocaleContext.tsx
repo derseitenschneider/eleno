@@ -15,11 +15,7 @@ export function UserLocaleProvider({
   const [userLocale, setUserLocale] = useState<TLocale>('en')
 
   useEffect(() => {
-    const locale = navigator.language || navigator.language || 'en'
-
-    if (locale === 'en' || locale === 'de') {
-      setUserLocale(locale)
-    }
+    if (navigator.languages.includes('de')) setUserLocale('de')
   }, [])
 
   return (
