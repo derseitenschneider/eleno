@@ -18,11 +18,12 @@ function LessonHeader() {
   return (
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
-        <div className='flex w-full md:block items-baseline justify-between'>
+        <div className='w-full'>
           <div className='flex mb-1 items-center '>
             <NavLink
-              to={`/lessons/${type === 's' ? `s-${holder.id}` : `g-${holder.id}`
-                }`}
+              to={`/lessons/${
+                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
+              }`}
               className='flex items-baseline hover:no-underline'
             >
               <div className='mr-[4px] text-primary h-4 translate-y-[1px]'>
@@ -39,8 +40,8 @@ function LessonHeader() {
           </div>
           <div className='text-sm flex items-center gap-1'>
             {holder.dayOfLesson ||
-              holder.startOfLesson ||
-              holder.endOfLesson ? (
+            holder.startOfLesson ||
+            holder.endOfLesson ? (
               <span>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}
@@ -83,7 +84,7 @@ function LessonHeader() {
           </div>
         </div>
         <NavLink
-          className='hidden md:flex gap-1 text-sm p-2 bg-background50 items-center'
+          className='flex gap-1 text-sm p-2 bg-background50 items-center'
           to='repertoire'
         >
           <TableProperties className='size-4 text-primary' />

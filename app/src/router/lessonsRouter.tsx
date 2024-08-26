@@ -15,7 +15,7 @@ const lessonsRoutes = [
     element: (
       <Suspense fallback={<p>...loading</p>}>
         <motion.div
-          className='pt-16 md:pt-[88px]'
+          className='pt-[80px] md:pt-[88px]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
