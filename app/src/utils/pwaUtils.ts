@@ -20,6 +20,15 @@ export async function updateManifest(isDarkMode: boolean) {
     const manifestURL = URL.createObjectURL(blob)
     manifestLink.setAttribute('href', manifestURL)
   }
+
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations()
+    if (!registrations) return
+    for (const registration of registrations) {
+      await registration.update()
+    }
+  }
+  window.location.reload()
 }
 export function updateThemeColor(isDarkMode: boolean) {
   const lightThemeColor = lightManifest.theme_color as string

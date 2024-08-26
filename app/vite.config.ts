@@ -21,6 +21,22 @@ export default defineConfig({
       minify: true,
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /manifest\.webmanifest$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'manifest-cache',
+            },
+          },
+          {
+            urlPattern: /index\.html$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'index-cache',
+            },
+          },
+        ],
       },
     }),
   ],
