@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 function LessonFooter() {
@@ -18,6 +18,20 @@ function LessonFooter() {
   const navigate = useNavigate()
   const { holderId } = useParams()
   const { data: latestLessons } = useLatestLessons()
+
+  const handleScroll = useCallback(() => {
+    if (!isScrolling) {
+      setIsScrolling(true)
+      setTimeout(() => setIsScrolling(false), 850)
+    }
+  }, [isScrolling])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll])
 
   if (!latestLessons || !holderId) return null
 
@@ -82,15 +96,15 @@ function LessonFooter() {
       navigate(newUrl + query)
     }
   }
-  window.addEventListener('scroll', () => {
-    setIsScrolling(true)
-  })
-
-  window.addEventListener('scrollend', () => {
-    setTimeout(() => {
-      setIsScrolling(false)
-    }, 750)
-  })
+  // window.addEventListener('scroll', () => {
+  //   setIsScrolling(true)
+  // })
+  //
+  // window.addEventListener('scrollend', () => {
+  //   setTimeout(() => {
+  //     setIsScrolling(false)
+  //   }, 750)
+  // })
   if (lessonHolderTypeIds.length <= 1) return null
 
   return (

@@ -45,7 +45,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
       const formatted = date.toLocaleDateString(userLocale, {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric',
+        year: '2-digit',
       })
       return <div className='[&_*]:!text-foreground'>{formatted}</div>
     },
