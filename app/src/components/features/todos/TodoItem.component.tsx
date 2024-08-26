@@ -43,7 +43,6 @@ function TodoItem({ todo, type }: TodoItemProps) {
     currentHolder = lessonHolders.find(
       (holder) => holder.type === 'g' && holder.holder.id === todo.groupId,
     )
-    console.log(currentHolder)
     if (!currentHolder) {
       if (isHolderActive) setIsHolderActive(false)
       currentHolder = inactiveLessonHolders.find(

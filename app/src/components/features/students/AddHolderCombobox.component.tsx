@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import type { LessonHolder } from '@/types/types'
 import { Users } from 'lucide-react'
@@ -29,14 +30,27 @@ export default function AddHolderCombobox({
   setSelectedHolderId,
   disabled,
 }: AddHolderComboboxProps) {
-  const { activeSortedHolders: lessonHolders } = useLessonHolders()
+  const { activeSortedHolders: lessonHolders, inactiveLessonHolders } =
+    useLessonHolders()
   const [open, setOpen] = useState(false)
+  const [isHolderActive, setIsHolderActive] = useState(true)
 
-  const selectedHolder = lessonHolders.find(
+  let selectedHolder = lessonHolders.find(
     (holder) =>
       holder.type === selectedHolderId.split('-').at(0) &&
       holder.holder.id === Number(selectedHolderId.split('-').at(1)),
   )
+
+  if (!selectedHolder) {
+    if (isHolderActive) {
+      setIsHolderActive(false)
+    }
+    selectedHolder = inactiveLessonHolders.find(
+      (holder) =>
+        holder.type === selectedHolderId.split('-').at(0) &&
+        holder.holder.id === Number(selectedHolderId.split('-').at(1)),
+    )
+  }
 
   function handleSelect(lessonHolder: LessonHolder) {
     const { type, holder } = lessonHolder
@@ -57,7 +71,12 @@ export default function AddHolderCombobox({
           >
             {selectedHolder ? (
               <div>
-                <Badge>
+                <Badge
+                  className={cn(
+                    !isHolderActive &&
+                      'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                  )}
+                >
                   {selectedHolder.type === 'g' && (
                     <Users className='size-3 mr-1' />
                   )}
