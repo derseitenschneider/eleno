@@ -8,6 +8,7 @@ import PreviousLessonDropDown from './PreviousLessonDropDown.component'
 import { useLatestLessons } from './lessonsQueries'
 import Empty from '@/components/ui/Empty.component'
 import useCurrentHolder from './useCurrentHolder'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
@@ -42,7 +43,7 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline overflow-scroll no-scrollbar h-[350px] md:h-[300px] relative'>
+    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
         <div className='flex flex-wrap items-baseline gap-x-5 gap-y-3 mb-5'>
           <>
@@ -85,22 +86,27 @@ function PreviousLessons() {
           <div className={cn('grid md:grid-cols-2 gap-6')}>
             <div>
               <p className='text-foreground/70'>Lektion</p>
-              <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                {parse(currentLesson?.lessonContent || '')}
-              </div>
+              <ScrollArea className='max-h-[200px] h-full'>
+                <ScrollBar orientation='vertical' />
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                  {parse(currentLesson?.lessonContent || '')}
+                </div>
+              </ScrollArea>
             </div>
             <div>
               <p className='text-foreground/70'>Hausaufgaben</p>
-              <div className='[&_ul]:list-disc [&_ul]:ml-[14px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                {parse(
-                  lessons?.find(
-                    (lesson) => lesson.id === previousLessonsIds[tabIndex],
-                  )?.homework || '',
-                )}
-              </div>
+              <ScrollArea className='max-h-[200px] sm:h-full'>
+                <ScrollBar orientation='vertical' />
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                  {parse(
+                    lessons?.find(
+                      (lesson) => lesson.id === previousLessonsIds[tabIndex],
+                    )?.homework || '',
+                  )}
+                </div>
+              </ScrollArea>
             </div>
           </div>
-
           <div className='absolute bottom-4 right-5 flex gap-2'>
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}
