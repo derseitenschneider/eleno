@@ -22,7 +22,7 @@ function LessonFooter() {
   const handleScroll = useCallback(() => {
     if (!isScrolling) {
       setIsScrolling(true)
-      setTimeout(() => setIsScrolling(false), 850)
+      setTimeout(() => setIsScrolling(false), 650)
     }
   }, [isScrolling])
 
