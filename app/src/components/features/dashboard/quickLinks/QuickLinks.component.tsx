@@ -1,5 +1,6 @@
 import {
   BookMarked,
+  CheckSquare2,
   GraduationCap,
   ListTodo,
   Settings,
@@ -45,7 +46,7 @@ function QuickLinks() {
         />
         <QuickLinkItem
           title='Todo erfassen'
-          icon={<ListTodo strokeWidth={1.5} />}
+          icon={<CheckSquare2 strokeWidth={1.5} />}
           link='todos'
         />
         <QuickLinkItem
