@@ -58,7 +58,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
       <div className='mt-5 mb-6'>
         <CustomEditor value={text || ''} onChange={handleText} />
       </div>
-      <div className='flex justify-between items-end'>
+      <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
         <div className='flex  gap-4 items-center'>
           <Button
