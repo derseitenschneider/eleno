@@ -69,14 +69,14 @@ function TodoItem({ todo, type }: TodoItemProps) {
         'grid-cols-[30px_1fr_30px] items-center',
         'bg-background50 mb-2 mt-5 p-2 justify-between rounded-sm shadow-sm border-background200 border',
         'md:mt-0 grid',
-        isOverdue && 'border-warning/20 bg-warning/10',
+        isOverdue && 'border-warning/20 bg-warning/5',
       )}
     >
       <div>
         {type === 'open' && (
           <Checkbox
             onClick={() => completeTodo(todo.id)}
-            className='size-[12px] rounded-[3px]'
+            className='sm:size-[12px] rounded-[3px]'
           />
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
