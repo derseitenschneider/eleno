@@ -457,10 +457,8 @@ const baseManifest: Partial<ManifestOptions> = {
   short_name: 'Eleno',
   description: 'Smart unterrichten',
   id: '?homescreen=1',
-  orientation: 'landscape',
+  orientation: 'portrait',
   display: 'standalone',
-  background_color: '#484e53',
-  theme_color: '#484e53',
   icons,
 }
 
