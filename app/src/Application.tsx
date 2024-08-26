@@ -11,8 +11,18 @@ import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
+import { useEffect } from 'react'
+import { lockOrientation, unlockOrientation } from './utils/lockOrientation'
 
 export default function Application() {
+  // useEffect(() => {
+  //   lockOrientation()
+  //
+  //   return () => {
+  //     unlockOrientation()
+  //   }
+  // }, [])
+
   return (
     <div>
       <UserLocaleProvider>
