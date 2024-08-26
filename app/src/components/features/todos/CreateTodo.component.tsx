@@ -18,6 +18,7 @@ interface AddTodoProps {
 function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
   const { createTodoItem, isCreating } = useCreateTodoItem()
   const textField = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState('')
   const [text, setText] = useState('')
   const [due, setDue] = useState<Date>()
   const [selectedHolderId, setSelectedHolderId] = useState(
@@ -32,6 +33,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
 
   const onSaveHandler = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!text) return setError('Leere Todo kann nicht gespeichert werden.')
     const typeId = selectedHolderId.includes('s') ? 'studentId' : 'groupId'
     const holderId = Number(selectedHolderId.split('-').at(1)) || null
     const newTodo: PartialTodoItem = {
@@ -65,13 +67,17 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
             <Input
               autoFocus={window.innerWidth > 800}
               ref={textField}
-              className='border-none'
+              className={cn(
+                'border-none',
+                error && 'border-solid border-warning',
+              )}
               type='text'
               placeholder='Todo'
               name='text'
               value={text}
               required
               onChange={(e) => {
+                setError('')
                 setText(e.target.value)
               }}
               autoComplete='off'
@@ -97,7 +103,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           </div>
         </div>
         <Button
-          disabled={isCreating}
+          disabled={isCreating || !text}
           type='submit'
           onClick={onSaveHandler}
           size='sm'
@@ -107,6 +113,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         </Button>
         {isCreating && <MiniLoader />}
       </form>
+      <p className='text-sm text-warning pl-2 pt-1'>{error || ''}</p>
     </div>
   )
 }
