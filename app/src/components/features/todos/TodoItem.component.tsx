@@ -18,37 +18,24 @@ interface TodoItemProps {
 
 function TodoItem({ todo, type }: TodoItemProps) {
   const { userLocale } = useUserLocale()
-  const [isHolderActive, setIsHolderActive] = useState(true)
   const navigate = useNavigate()
-  const { activeSortedHolders: lessonHolders, inactiveLessonHolders } =
-    useLessonHolders()
+  const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
   const { completeTodo } = useCompleteTodo()
   const today = new Date()
   const isOverdue = todo.due && todo.due < today
+
+  const combinedHolders = []
+  if (activeSortedHolders) combinedHolders.push(...activeSortedHolders)
+  if (inactiveLessonHolders) combinedHolders.push(...inactiveLessonHolders)
+
   let currentHolder: LessonHolder | undefined
-
   if (todo.studentId) {
-    currentHolder = lessonHolders.find(
-      (holder) => holder.type === 's' && holder.holder.id === todo.studentId,
+    currentHolder = combinedHolders.find(
+      (holder) => holder.holder.id === todo.studentId,
     )
-    if (!currentHolder) {
-      if (isHolderActive) setIsHolderActive(false)
-      currentHolder = inactiveLessonHolders.find(
-        (holder) => holder.type === 's' && holder.holder.id === todo.studentId,
-      )
-    }
-  }
-
-  if (todo.groupId) {
-    currentHolder = lessonHolders.find(
-      (holder) => holder.type === 'g' && holder.holder.id === todo.groupId,
-    )
-    if (!currentHolder) {
-      if (isHolderActive) setIsHolderActive(false)
-      currentHolder = inactiveLessonHolders.find(
-        (holder) => holder.type === 'g' && holder.holder.id === todo.groupId,
-      )
-    }
+  } else {
+    currentHolder ===
+      combinedHolders.find((holder) => holder.holder.id === todo.groupId)
   }
 
   let currentHolderName = ''
@@ -58,7 +45,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
   if (currentHolder?.type === 'g') currentHolderName = currentHolder.holder.name
 
   function navigateToHolder() {
-    if (!currentHolder || !isHolderActive) return
+    if (!currentHolder || currentHolder.holder.archive) return
     const holderId = `${currentHolder.type}-${currentHolder.holder.id}`
     navigate(`/lessons/${holderId}`)
   }
@@ -84,19 +71,19 @@ function TodoItem({ todo, type }: TodoItemProps) {
       <div className='flex flex-wrap justify-between items-center gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
-            'text-sm md:basis-auto',
+            'text-sm md:basis-auto break-all',
             currentHolderName && todo.due && 'basis-full',
           )}
         >
           {todo.text}
         </span>
         <span className={cn(!todo.due && 'ml-auto', 'md:ml-0')}>
-          {currentHolderName ? (
+          {currentHolder ? (
             <Badge
               onClick={navigateToHolder}
               className={cn(
                 'cursor-pointer w-fit',
-                !isHolderActive &&
+                currentHolder.holder.archive &&
                   'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
               )}
             >

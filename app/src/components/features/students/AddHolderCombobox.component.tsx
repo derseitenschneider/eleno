@@ -30,25 +30,22 @@ export default function AddHolderCombobox({
   setSelectedHolderId,
   disabled,
 }: AddHolderComboboxProps) {
-  const { activeSortedHolders: lessonHolders, inactiveLessonHolders } =
-    useLessonHolders()
+  const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
   const [open, setOpen] = useState(false)
-  const [isHolderActive, setIsHolderActive] = useState(true)
+  const combinedHolders = []
+  if (activeSortedHolders) combinedHolders.push(...activeSortedHolders)
+  if (inactiveLessonHolders) combinedHolders.push(...inactiveLessonHolders)
 
-  let selectedHolder = lessonHolders.find(
-    (holder) =>
-      holder.type === selectedHolderId.split('-').at(0) &&
-      holder.holder.id === Number(selectedHolderId.split('-').at(1)),
-  )
+  let selectedHolder: LessonHolder | undefined
 
-  if (!selectedHolder) {
-    if (isHolderActive) {
-      setIsHolderActive(false)
-    }
-    selectedHolder = inactiveLessonHolders.find(
-      (holder) =>
-        holder.type === selectedHolderId.split('-').at(0) &&
-        holder.holder.id === Number(selectedHolderId.split('-').at(1)),
+  const id = Number(selectedHolderId.split('-').at(1))
+  if (selectedHolderId.includes('s')) {
+    selectedHolder = combinedHolders.find(
+      (holder) => holder.type === 's' && holder.holder.id === id,
+    )
+  } else {
+    selectedHolder = combinedHolders.find(
+      (holder) => holder.type === 'g' && holder.holder.id === id,
     )
   }
 
@@ -73,7 +70,7 @@ export default function AddHolderCombobox({
               <div>
                 <Badge
                   className={cn(
-                    !isHolderActive &&
+                    selectedHolder.holder.archive &&
                       'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
                   )}
                 >
@@ -99,7 +96,7 @@ export default function AddHolderCombobox({
             <CommandList>
               <CommandEmpty>Keine:n Schüler:in/Gruppe gefunden.</CommandEmpty>
               <CommandGroup>
-                {lessonHolders?.map((lessonHolder) => {
+                {activeSortedHolders?.map((lessonHolder) => {
                   const id = lessonHolder.holder.id
                   const type = lessonHolder.type
                   const name =
