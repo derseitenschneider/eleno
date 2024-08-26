@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo } from 'react'
 import useLocalStorageState from '../../hooks/useLocalStorageState'
+import { updateManifest, updateThemeColor } from '@/utils/pwaUtils'
 
 type TDarkModeContext = {
   isDarkMode: boolean
@@ -25,6 +26,9 @@ function DarkModeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.add('light-mode')
       document.documentElement.classList.remove('dark-mode')
     }
+
+    updateManifest(isDarkMode)
+    updateThemeColor(isDarkMode)
   }, [isDarkMode])
 
   const value = useMemo(

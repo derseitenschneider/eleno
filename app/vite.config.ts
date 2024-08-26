@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import preload from 'vite-plugin-preload'
 import { VitePWA } from 'vite-plugin-pwa'
-import manifest from './manifest'
+import { lightManifest, darkManifest } from './manifest'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,13 +15,19 @@ export default defineConfig({
     preload(),
     VitePWA({
       registerType: 'autoUpdate',
-
-      // strategies: 'injectManifest',
       devOptions: {
         enabled: false,
       },
-      manifest,
+      manifest: lightManifest,
       minify: true,
+      strategies: 'injectManifest',
+      injectManifest: {
+        injectionPoint: undefined,
+      },
+      injectRegister: 'inline',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
     }),
   ],
   resolve: {
