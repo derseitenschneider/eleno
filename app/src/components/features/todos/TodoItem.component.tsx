@@ -69,6 +69,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
         'grid-cols-[30px_1fr_30px] items-center',
         'bg-background50 mb-2 mt-5 p-2 justify-between rounded-sm shadow-sm border-background200 border',
         'md:mt-0 grid',
+        isOverdue && 'border-warning/20 bg-warning/10',
       )}
     >
       <div>
