@@ -7,7 +7,6 @@ import preload from 'vite-plugin-preload'
 import { VitePWA } from 'vite-plugin-pwa'
 import { lightManifest, darkManifest } from './manifest'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
   plugins: [
@@ -20,11 +19,6 @@ export default defineConfig({
       },
       manifest: lightManifest,
       minify: true,
-      strategies: 'injectManifest',
-      injectManifest: {
-        injectionPoint: undefined,
-      },
-      injectRegister: 'inline',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
