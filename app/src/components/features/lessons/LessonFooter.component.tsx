@@ -96,15 +96,7 @@ function LessonFooter() {
       navigate(newUrl + query)
     }
   }
-  // window.addEventListener('scroll', () => {
-  //   setIsScrolling(true)
-  // })
-  //
-  // window.addEventListener('scrollend', () => {
-  //   setTimeout(() => {
-  //     setIsScrolling(false)
-  //   }, 750)
-  // })
+
   if (lessonHolderTypeIds.length <= 1) return null
 
   return (
