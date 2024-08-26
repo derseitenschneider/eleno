@@ -53,14 +53,14 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
-                  className='[&_*]:text-foreground/75 py-2'
+                  className='[&:not(:has([role=checkbox]))]:text-foreground/75'
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                 </TableHead>
               )
             })}

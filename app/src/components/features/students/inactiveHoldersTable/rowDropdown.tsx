@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'
@@ -40,7 +40,8 @@ export default function InactiveStudentRowDropdown({
     setOpenModal(null)
   }
 
-  async function reactivateHolders() {
+  async function reactivateHolders(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
     if (!isGroup) {
       await reactivateStudents([id])
       toast.success('Schüler:in wiederhergestellt.')
@@ -71,7 +72,10 @@ export default function InactiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('EXPORT')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('EXPORT')
+              }}
               className='flex items-center gap-2'
             >
               <FileDown className='size-4 text-primary' />
@@ -81,7 +85,10 @@ export default function InactiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => setOpenModal('DELETE')}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenModal('DELETE')
+              }}
               className='flex items-center gap-2'
             >
               <Trash2 className='size-4 text-warning' />
@@ -92,7 +99,7 @@ export default function InactiveStudentRowDropdown({
       </div>
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>

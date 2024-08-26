@@ -59,7 +59,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         onSubmit={onSaveHandler}
         className={cn(
           'sm:flex-row sm:items-center sm:bg-background50',
-          'gap-1 w-full flex flex-col justify-end',
+          'gap-1 w-full flex flex-col justify-end sm:pr-2',
         )}
       >
         <div className='sm:flex bg-background50 grow'>

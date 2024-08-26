@@ -9,6 +9,7 @@ import { useCompleteTodo } from './useCompleteTodo'
 import { useNavigate } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import CompletedTodoDropdown from './CompletedTodoDropdown.component'
+import { useState } from 'react'
 
 interface TodoItemProps {
   todo: TTodoItem
@@ -17,29 +18,48 @@ interface TodoItemProps {
 
 function TodoItem({ todo, type }: TodoItemProps) {
   const { userLocale } = useUserLocale()
+  const [isHolderActive, setIsHolderActive] = useState(true)
   const navigate = useNavigate()
-  const { activeSortedHolders: lessonHolders } = useLessonHolders()
+  const { activeSortedHolders: lessonHolders, inactiveLessonHolders } =
+    useLessonHolders()
   const { completeTodo } = useCompleteTodo()
   const today = new Date()
   const isOverdue = todo.due && todo.due < today
   let currentHolder: LessonHolder | undefined
 
-  if (todo.studentId)
+  if (todo.studentId) {
     currentHolder = lessonHolders.find(
       (holder) => holder.type === 's' && holder.holder.id === todo.studentId,
     )
-  if (todo.groupId)
+    if (!currentHolder) {
+      if (isHolderActive) setIsHolderActive(false)
+      currentHolder = inactiveLessonHolders.find(
+        (holder) => holder.type === 's' && holder.holder.id === todo.studentId,
+      )
+    }
+  }
+
+  if (todo.groupId) {
     currentHolder = lessonHolders.find(
       (holder) => holder.type === 'g' && holder.holder.id === todo.groupId,
     )
+    console.log(currentHolder)
+    if (!currentHolder) {
+      if (isHolderActive) setIsHolderActive(false)
+      currentHolder = inactiveLessonHolders.find(
+        (holder) => holder.type === 'g' && holder.holder.id === todo.groupId,
+      )
+    }
+  }
 
   let currentHolderName = ''
   if (currentHolder?.type === 's')
     currentHolderName = `${currentHolder.holder.firstName} ${currentHolder.holder.lastName}`
 
   if (currentHolder?.type === 'g') currentHolderName = currentHolder.holder.name
+
   function navigateToHolder() {
-    if (!currentHolder) return
+    if (!currentHolder || !isHolderActive) return
     const holderId = `${currentHolder.type}-${currentHolder.holder.id}`
     navigate(`/lessons/${holderId}`)
   }
@@ -72,7 +92,14 @@ function TodoItem({ todo, type }: TodoItemProps) {
         </span>
         <span className={cn(!todo.due && 'ml-auto', 'md:ml-0')}>
           {currentHolderName ? (
-            <Badge onClick={navigateToHolder} className='cursor-pointer w-fit'>
+            <Badge
+              onClick={navigateToHolder}
+              className={cn(
+                'cursor-pointer w-fit',
+                !isHolderActive &&
+                  'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+              )}
+            >
               {currentHolderName}
             </Badge>
           ) : null}

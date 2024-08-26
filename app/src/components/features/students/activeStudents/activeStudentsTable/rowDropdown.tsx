@@ -21,7 +21,7 @@ import {
   Pencil,
   TableProperties,
 } from 'lucide-react'
-import { MouseEvent, useState } from 'react'
+import { type MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
@@ -130,7 +130,10 @@ export default function ActiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => deactivateStudents([studentId])}
+              onClick={(e) => {
+                e.stopPropagation()
+                deactivateStudents([studentId])
+              }}
               className='flex items-center gap-2'
             >
               <Archive className='h-4 w-4 text-primary' />
