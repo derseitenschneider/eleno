@@ -102,7 +102,7 @@ export default function SearchStudentCombobox() {
               ))}
             </CommandGroup>
           </CommandList>
-          <CommandInput placeholder='Schüler:in suchen' />
+          <CommandInput className='text-base' placeholder='Schüler:in suchen' />
         </Command>
       </PopoverContent>
     </Popover>

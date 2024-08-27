@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { NavLink, useLocation } from 'react-router-dom'
 
 type NavbarMobileItemProps = {
@@ -21,7 +22,7 @@ export default function NavbarMobileItem({
       <li>
         <button
           className={`${isActive ? 'text-white' : 'text-foreground'
-            } block size-[40px] p-1 relative`}
+            } block size-[32] p-[6px] relative`}
           type='button'
           onClick={() => onClick?.()}
         >
@@ -31,15 +32,23 @@ export default function NavbarMobileItem({
     )
 
   return (
-    <li>
+    <li
+      className={cn(
+        'relative',
+        isActive &&
+        'before:absolute before:w-[105%] before:h-[2px] before:bg-primary before:top-[-9px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
+      )}
+    >
       <NavLink
         to={to}
-        className={`${isActive ? 'text-white' : 'text-foreground'
-          } block size-[40px] p-1 relative`}
+        className={cn(
+          'text-foreground block size-[40px] p-[6px] relative',
+          isActive && 'text-primary',
+        )}
       >
         <span
           className={`${isActive ? 'block' : 'hidden'
-            } absolute top-0 left-0 size-full bg-primary z-[-1] rounded-sm`}
+            } absolute top-0 left-0 size-full bg-primary/10 z-[-1] rounded-sm`}
         />
         {icon}
         {notificationContent ? (
