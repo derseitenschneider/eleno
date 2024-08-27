@@ -22,7 +22,7 @@ function LessonFooter() {
   const handleScroll = useCallback(() => {
     if (!isScrolling) {
       setIsScrolling(true)
-      setTimeout(() => setIsScrolling(false), 650)
+      setTimeout(() => setIsScrolling(false), 350)
     }
   }, [isScrolling])
 
@@ -104,8 +104,8 @@ function LessonFooter() {
       className={cn(
         'fixed md:bottom-0 bottom-16 px-3 py-3 right-0 transition-transform duration-500',
         isScrolling && window.innerWidth < 1000
-          ? 'translate-x-[calc(100%-24px)]'
-          : 'translate-x-0',
+          ? 'translate-x-[calc(100%-48px)]'
+          : '',
       )}
     >
       <div className='shadow-xl bg-background200/25 border border-background50 flex gap-2 p-2 backdrop-blur-sm rounded-full'>

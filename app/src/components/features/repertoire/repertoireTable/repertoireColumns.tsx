@@ -15,10 +15,21 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import {
+  ArrowUpDown,
+  InfoIcon,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
 import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
 import EditRepertoireItem from '../UpdateRepertoireItem.component'
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@/components/ui/popover'
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
@@ -37,13 +48,52 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     },
     size: 75,
     minSize: 0,
+    cell: ({ row }) => {
+      const { userLocale } = useUserLocale()
+      const startDate = row.getValue('startDate')
+        ? new Date(row.getValue('startDate')).toLocaleString(userLocale, {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
+        : null
+      const endDate = row.getValue('endDate')
+        ? new Date(row.getValue('endDate')).toLocaleString(userLocale, {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
+        : null
+
+      return (
+        <div className='flex gap-2 items-center'>
+          <span>{row.getValue('title')}</span>
+          <Popover>
+            <PopoverTrigger>
+              <InfoIcon className='sm:hidden h-3 w-3 text-primary' />
+            </PopoverTrigger>
+            <PopoverContent>
+              <p className='mb-2 text-md'>{row.getValue('title')}</p>
+              <p>
+                <span className='text-foreground/75'>Start: </span>
+                {startDate || '—'}
+              </p>
+              <p>
+                <span className='text-foreground/75'>Ende: </span>
+                {endDate || '—'}
+              </p>
+            </PopoverContent>
+          </Popover>
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'startDate',
     header: ({ column }) => {
       return (
         <Button
-          className='p-0'
+          className='p-0 hidden sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -52,7 +102,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         </Button>
       )
     },
-    size: 5,
+    size: window.innerWidth > 480 ? 5 : 0,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
@@ -65,7 +115,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
           year: '2-digit',
         })
       }
-      return <div>{formatted || '-'}</div>
+      return <div className='hidden sm:block'>{formatted || '-'}</div>
     },
     sortingFn: (rowA, rowB, columnId) => {
       const a = rowA.getValue(columnId) as string | null
@@ -81,7 +131,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0'
+          className='p-0 hidden sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -90,7 +140,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         </Button>
       )
     },
-    size: 5,
+    size: window.innerWidth > 480 ? 5 : 0,
     minSize: 0,
     cell: ({ row }) => {
       const { userLocale } = useUserLocale()
@@ -103,7 +153,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
           year: '2-digit',
         })
       }
-      return <div>{formatted || '-'}</div>
+      return <div className='hidden sm:block'>{formatted || '-'}</div>
     },
   },
   {

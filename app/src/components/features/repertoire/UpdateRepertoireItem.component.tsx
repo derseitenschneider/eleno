@@ -51,11 +51,14 @@ function EditRepertoireItem({
 
   return (
     <div className='flex gap-2 py-4'>
-      <div className='flex bg-background50 gap-2 grow'>
-        <div className='shrink grow'>
+      <div className='grid grid-cols-[auto_auto_1fr] sm:gap-x-2 sm:grid-cols-[1fr_auto_auto_auto] gap-y-2 bg-background50 justify-between grow'>
+        <div className='relative shrink grow col-span-4 sm:col-span-1'>
+          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+            Song
+          </span>
           <Input
             placeholder='Song'
-            className='border-none min-w-[500px] '
+            className='border-none sm:min-w-[500px] '
             type='text'
             name='title'
             onChange={handleChangeTitle}
@@ -63,27 +66,25 @@ function EditRepertoireItem({
           />
         </div>
 
-        <div>
-          <div className='flex relative items-center'>
-            <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
-              Start
-            </span>
-            <DayPicker
-              className='block'
-              date={item.startDate}
-              setDate={handleChangeStart}
+        <div className='flex relative items-center ml-2 sm:ml-0 mb-2 sm:mb-0'>
+          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+            Start
+          </span>
+          <DayPicker
+            className='block'
+            date={item.startDate}
+            setDate={handleChangeStart}
+          />
+          {item.startDate && (
+            <ButtonRemove
+              disabled={isUpdating}
+              className='translate-x-[-8px]'
+              onRemove={() => handleChangeStart(undefined)}
             />
-            {item.startDate && (
-              <ButtonRemove
-                disabled={isUpdating}
-                className='translate-x-[-8px]'
-                onRemove={() => handleChangeStart(undefined)}
-              />
-            )}
-          </div>
+          )}
         </div>
-        <div className='flex items-center relative'>
-          <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+        <div className='flex items-center relative mb-2 sm:mb-0'>
+          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
             Ende
           </span>
           <DayPicker
@@ -99,12 +100,12 @@ function EditRepertoireItem({
             />
           )}
         </div>
-      </div>
-      <div className='flex items-center gap-2'>
-        <Button disabled={isUpdating} size='sm' onClick={handleSave}>
-          Speichern
-        </Button>
-        {isUpdating && <MiniLoader />}
+        <div className='flex items-center gap-2 mr-2 sm:mr-0 mb-2 sm:mb-0 ml-auto sm:ml-0'>
+          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
+            Speichern
+          </Button>
+          {isUpdating && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

@@ -39,7 +39,7 @@ export default function RepertoireControl({
   if (!currentLessonHolder) return null
 
   return (
-    <div className='flex items-center gap-4 mb-4'>
+    <div className='sm:flex hidden items-center gap-4 mb-4'>
       <div className='mr-auto'>
         {hasRepertoireItems && (
           <p className='text-sm'>

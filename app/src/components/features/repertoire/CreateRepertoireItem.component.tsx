@@ -50,10 +50,10 @@ function CreateRepertoireItem({
     })
   }
   return (
-    <div className='flex  gap-2 mb-12 mt-6'>
-      <div className='flex rounded-md items-center pr-1 bg-background50 gap-2 grow'>
-        <div className='relative shrink grow'>
-          <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+    <div className='flex gap-2 items-end sm:items-center sm:mb-12 mb-8 mt-6'>
+      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 bg-background50 gap-y-2 grow'>
+        <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
+          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
             Song
           </span>
           <Input
@@ -67,8 +67,8 @@ function CreateRepertoireItem({
         </div>
 
         <div>
-          <div className='flex relative items-center'>
-            <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+          <div className='flex ml-2 sm:ml-0 mb-2 sm:mb-0 mr-2 relative items-center'>
+            <span className='absolute hidden sm:inline left-1 top-[-24px] text-foreground/80 text-sm'>
               Start
             </span>
             <DayPicker
@@ -85,8 +85,8 @@ function CreateRepertoireItem({
             )}
           </div>
         </div>
-        <div className='flex items-center relative'>
-          <span className='absolute left-1 top-[-24px] text-foreground/80 text-sm'>
+        <div className='flex mr-2 mb-2 sm:mb-0 items-center relative'>
+          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
             Ende
           </span>
           <DayPicker
@@ -102,14 +102,15 @@ function CreateRepertoireItem({
             />
           )}
         </div>
+        <Button
+          className='ml-auto sm:ml-0 mr-2 sm:mr-0 mb-2 sm:mb-0'
+          onClick={handleSave}
+          size='sm'
+          disabled={isCreating || !item.title}
+        >
+          Hinzufügen
+        </Button>
       </div>
-      <Button
-        onClick={handleSave}
-        size='sm'
-        disabled={isCreating || !item.title}
-      >
-        Hinzufügen
-      </Button>
     </div>
   )
 }

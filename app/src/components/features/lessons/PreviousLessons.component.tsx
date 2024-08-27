@@ -53,7 +53,7 @@ function PreviousLessons() {
                 className={cn(
                   'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
                   index === tabIndex &&
-                  'bg-background50 border-primary/80 hover:bg-background50',
+                    'bg-background50 border-primary/80 hover:bg-background50',
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -70,9 +70,8 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='px-2 hover:no-underline py-1 pr-3 text-sm 
-            bg-background200 border-background200 border-l-4 text-foreground 
-            hover:bg-background200/80'
+              className='px-2 py-1 pr-3 hover:no-underline text-sm 
+            bg-background50 text-black'
               to={`all?year=${newestLessonYear}`}
               end={true}
             >

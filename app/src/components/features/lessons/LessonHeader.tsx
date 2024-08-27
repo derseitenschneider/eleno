@@ -42,7 +42,7 @@ function LessonHeader() {
             {holder.dayOfLesson ||
             holder.startOfLesson ||
             holder.endOfLesson ? (
-              <span>
+              <span className='text-foreground/80 sm:text-foreground'>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}
                 {holder.startOfLesson
@@ -88,7 +88,9 @@ function LessonHeader() {
           to='repertoire'
         >
           <TableProperties className='size-4 text-primary' />
-          <span>Repertoire</span>
+          <span className='translate-y-[1px] text-sm sm:text-base'>
+            Repertoire
+          </span>
         </NavLink>
       </div>
     </header>

@@ -57,11 +57,11 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='flex justify-between mb-4 items-center'>
+    <div className='flex gap-4 justify-between mb-4 items-center'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
-          className='flex items-center sm:gap-2'
+          className='flex text-sm sm:text-base items-center sm:gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
           <span>Zurück</span>
@@ -98,6 +98,7 @@ export default function AllLessonsControl({
         </Button>
 
         <SearchBar
+          className='sm:block hidden'
           searchInput={globalFilter || ''}
           setSearchInput={(value) => setGlobalFilter(value)}
           disabled={!hasLessonYears || isFetching}

@@ -87,7 +87,7 @@ function RepertoireTable({
       <div className='flex items-center justify-between mb-4'>
         <NavLink
           to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
-          className='flex items-center gap-2'
+          className='text-sm sm:text-base flex items-center gap-1 sm:gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
           <span>Zur Lektion</span>
@@ -107,6 +107,7 @@ function RepertoireTable({
       )}
       {repertoire.length > 0 ? (
         <DataTable
+          className='min-w-0'
           isSelectable={false}
           table={table}
           columns={repertoireColumns}
