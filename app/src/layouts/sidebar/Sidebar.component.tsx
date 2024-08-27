@@ -45,8 +45,9 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
-        }`}
+      bg-background50 shadow-lg transition-width duration-150 ${
+        sidebarOpen ? 'w-[180px]' : 'w-[50px]'
+      }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
@@ -60,24 +61,28 @@ function Sidebar() {
       </NavLink>
       <ul className='flex flex-col items-center justify-between'>
         <SidebarElement
+          isActive={window.location.pathname === '/'}
           sidebarOpen={sidebarOpen}
           to='/'
           name='Dashboard'
           icon={<GaugeCircle strokeWidth={1.5} />}
         />
         <SidebarElement
+          isActive={window.location.pathname.includes('lessons')}
           sidebarOpen={sidebarOpen}
           to={`/lessons/${lessonSlug}`}
           name='Unterrichten'
           icon={<GraduationCap strokeWidth={1.5} />}
         />
         <SidebarElement
+          isActive={window.location.pathname.includes('students')}
           sidebarOpen={sidebarOpen}
           to='/students'
           name='Schüler:innen'
           icon={<Users strokeWidth={1.5} />}
         />
         <SidebarElement
+          isActive={window.location.pathname.includes('todos')}
           notificationContent={overdueTodos?.length}
           sidebarOpen={sidebarOpen}
           to='/todos'
@@ -85,6 +90,7 @@ function Sidebar() {
           icon={<CheckSquare2 strokeWidth={1.5} />}
         />
         <SidebarElement
+          isActive={window.location.pathname.includes('timetable')}
           sidebarOpen={sidebarOpen}
           to='/timetable'
           name='Stundenplan'
@@ -94,6 +100,7 @@ function Sidebar() {
 
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
         <SidebarElement
+          isActive={window.location.pathname.includes('settings')}
           sidebarOpen={sidebarOpen}
           to='/settings'
           name='Einstellungen'

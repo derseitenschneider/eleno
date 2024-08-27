@@ -1,4 +1,4 @@
-import type { HTMLAttributeAnchorTarget } from 'react'
+import { useState, type HTMLAttributeAnchorTarget } from 'react'
 import { NavLink } from 'react-router-dom'
 
 type TSidebarProps = {
@@ -10,6 +10,7 @@ type TSidebarProps = {
   notificationContent?: number
   onClick?: () => void
   isButton?: boolean
+  isActive?: boolean
 }
 
 export default function SidebarElement({
@@ -21,8 +22,8 @@ export default function SidebarElement({
   sidebarOpen,
   notificationContent,
   isButton = false,
+  isActive = false,
 }: TSidebarProps) {
-  const isActive = window.location.pathname === to
   if (isButton)
     return (
       <li className='h-full w-full p-2'>

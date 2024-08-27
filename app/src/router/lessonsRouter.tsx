@@ -31,7 +31,7 @@ const lessonsRoutes = [
         element: <LessonsPage />,
       },
       {
-        end: true,
+        // end: true,
         path: 'all',
         element: (
           <div className='container-page'>

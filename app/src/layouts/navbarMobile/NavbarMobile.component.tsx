@@ -33,15 +33,21 @@ function NavbarMobile() {
       <ul className='flex justify-around items-center h-full w-full'>
         <NavbarMobileItem to='/' icon={<Logo />} />
         <NavbarMobileItem
+          isActive={window.location.pathname.includes('todos')}
           notificationContent={todosDue?.length}
           to='/todos'
           icon={<CheckSquare2 strokeWidth={1} />}
         />
         <NavbarMobileItem
+          isActive={window.location.pathname.includes('lessons')}
           to={`/lessons/${currentHolderQuery}`}
           icon={<GraduationCap strokeWidth={1} />}
         />
-        <NavbarMobileItem to='/settings' icon={<Settings strokeWidth={1} />} />
+        <NavbarMobileItem
+          isActive={window.location.pathname.includes('settings')}
+          to='/settings'
+          icon={<Settings strokeWidth={1} />}
+        />
         <NavbarMobileItem
           onClick={logout}
           isButton

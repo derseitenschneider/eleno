@@ -6,6 +6,7 @@ type NavbarMobileItemProps = {
   notificationContent?: number
   isButton?: boolean
   onClick?: () => void
+  isActive?: boolean
 }
 export default function NavbarMobileItem({
   to = '',
@@ -13,10 +14,8 @@ export default function NavbarMobileItem({
   notificationContent,
   isButton = false,
   onClick,
+  isActive = false,
 }: NavbarMobileItemProps) {
-  const { pathname } = useLocation()
-  const isActive = pathname === to && pathname !== '/'
-
   if (isButton)
     return (
       <li>

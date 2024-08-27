@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
-  { path: '', label: 'Aktive Schüler:innen', key: 1, end: true },
+  { path: '', label: 'Schüler:innen', key: 1, end: true },
   { path: '/students/groups/', label: 'Gruppen', key: 2 },
   { path: '/students/archive/', label: 'Archiv', key: 3 },
 ]
