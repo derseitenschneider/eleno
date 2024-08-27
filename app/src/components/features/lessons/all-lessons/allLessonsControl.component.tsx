@@ -57,17 +57,17 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='flex gap-4 justify-between mb-4 items-center'>
+    <div className='flex gap-4 justify-between mb-4 items-start sm:items-center'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
-          className='flex text-sm sm:text-base items-center sm:gap-2'
+          className='flex text-sm sm:text-base items-center gap-1 sm:gap-2'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
-          <span>Zurück</span>
+          <span>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}

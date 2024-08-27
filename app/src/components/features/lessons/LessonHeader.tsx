@@ -84,7 +84,7 @@ function LessonHeader() {
           </div>
         </div>
         <NavLink
-          className='flex gap-1 text-sm p-2 bg-background50 items-center'
+          className='flex gap-1 hover:no-underline text-sm p-2 bg-background50 items-center'
           to='repertoire'
         >
           <TableProperties className='size-4 text-primary' />

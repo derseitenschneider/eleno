@@ -71,7 +71,7 @@ function PreviousLessons() {
             ))}
             <NavLink
               className='px-2 py-1 pr-3 hover:no-underline text-sm 
-            bg-background50 text-black'
+            bg-background50 text-foreground'
               to={`all?year=${newestLessonYear}`}
               end={true}
             >
