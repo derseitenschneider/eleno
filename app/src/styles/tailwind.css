@@ -123,7 +123,7 @@
     --border-notes-red: 0 20% 50%;
     --border-notes-blue: 203 25% 50%;
     --border-notes-yellow: 49 36% 50%;
-    --border-notes-green: 118 25% 50%, 0.552;
+    --border-notes-green: 118, 25%, 50%, 0.552;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;

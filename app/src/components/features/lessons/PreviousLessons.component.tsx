@@ -45,15 +45,14 @@ function PreviousLessons() {
   return (
     <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
-        <div className='flex flex-wrap items-baseline gap-x-5 gap-y-3 mb-5'>
+        <div className='flex overflow-y-auto no-scroll items-baseline gap-x-3 gap-y-3 mb-5'>
           <>
             {previousLessonsIds.map((prev, index) => (
               <button
                 type='button'
                 className={cn(
-                  'px-2 py-1 pr-3 text-sm bg-background200 border-background200 border-l-4 text-foreground hover:bg-background200/80',
-                  index === tabIndex &&
-                    'bg-background50 border-primary/80 hover:bg-background50',
+                  'py-2 z-2 px-3 rounded-sm text-sm bg-background50 text-foreground relative hover:bg-background50/50',
+                  index === tabIndex && 'text-primary !bg-primary/10 ',
                 )}
                 onClick={() => {
                   setTabIndex(index)
@@ -70,7 +69,7 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='px-2 py-1 pr-3 hover:no-underline text-sm 
+              className='px-3 py-2 rounded-sm hover:no-underline hover:bg-background50/50 sm:ml-3 text-sm 
             bg-background50 text-foreground'
               to={`all?year=${newestLessonYear}`}
               end={true}

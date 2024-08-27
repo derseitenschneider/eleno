@@ -19,7 +19,7 @@ function LessonHeader() {
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
         <div className='w-full'>
-          <div className='flex mb-1 items-center '>
+          <div className='flex sm:mb-1 items-center '>
             <NavLink
               to={`/lessons/${
                 type === 's' ? `s-${holder.id}` : `g-${holder.id}`

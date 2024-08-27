@@ -75,7 +75,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
       </div>
       <div className='md:flex items-center mb-6 gap-8'>
         <div className='md:w-[450px]'>
-          <h5>Lektion</h5>
+          <p className='text-foreground/70'>Lektion</p>
 
           <CustomEditor
             disabled={isUpdating}
@@ -85,7 +85,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
         </div>
 
         <div className='md:w-[450px]'>
-          <h5>Hausaufgaben</h5>
+          <p className='text-foreground/70'>Hausaufgaben</p>
 
           <CustomEditor
             disabled={isUpdating}
