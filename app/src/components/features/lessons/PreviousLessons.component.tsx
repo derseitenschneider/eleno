@@ -43,7 +43,7 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='sm:pr-3 px-4 py-6 pb-14 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
+    <div className='sm:pr-3 px-4 pt-4 pb-14 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
         <div className='flex overflow-y-auto no-scroll items-baseline gap-x-3 gap-y-3 mb-5'>
           <>
