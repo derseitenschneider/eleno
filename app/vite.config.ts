@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import preload from 'vite-plugin-preload'
 import { VitePWA } from 'vite-plugin-pwa'
-import { lightManifest, darkManifest } from './manifest'
+import { lightManifest, darkManifest, lightManifestDesktop } from './manifest'
 
 export default defineConfig({
   base: '/',
@@ -15,29 +15,29 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true,
+        enabled: false,
       },
-      manifest: lightManifest,
+      manifest: lightManifestDesktop,
       minify: true,
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            urlPattern: /manifest\.webmanifest$/,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'manifest-cache',
-            },
-          },
-          {
-            urlPattern: /index\.html$/,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'index-cache',
-            },
-          },
-        ],
-      },
+      // workbox: {
+      //   globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      //   runtimeCaching: [
+      //     {
+      //       urlPattern: /manifest\.webmanifest$/,
+      //       handler: 'NetworkFirst',
+      //       options: {
+      //         cacheName: 'manifest-cache',
+      //       },
+      //     },
+      //     {
+      //       urlPattern: /index\.html$/,
+      //       handler: 'NetworkFirst',
+      //       options: {
+      //         cacheName: 'index-cache',
+      //       },
+      //     },
+      //   ],
+      // },
     }),
   ],
   resolve: {

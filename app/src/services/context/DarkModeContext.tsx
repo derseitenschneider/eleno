@@ -27,8 +27,8 @@ function DarkModeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.remove('dark-mode')
     }
 
-    updateManifest(isDarkMode)
-    updateThemeColor(isDarkMode)
+    // updateManifest(isDarkMode)
+    // updateThemeColor(isDarkMode)
   }, [isDarkMode])
 
   const value = useMemo(
