@@ -458,6 +458,7 @@ const baseManifest: Partial<ManifestOptions> = {
   description: 'Smart unterrichten',
   id: '?homescreen=1',
   orientation: 'portrait',
+  display_override: ['fullscreen', 'minimal-ui'],
   display: 'standalone',
   icons,
 }
@@ -474,4 +475,21 @@ const darkManifest: Partial<ManifestOptions> = {
   theme_color: '#33383d',
 }
 
-export { lightManifest, darkManifest }
+const lightManifestDesktop: Partial<ManifestOptions> = {
+  ...baseManifest,
+  background_color: '#FAFAFA ',
+  theme_color: '#FAFAFA ',
+}
+
+const darkManifestDesktop: Partial<ManifestOptions> = {
+  ...baseManifest,
+  background_color: '#474D52',
+  theme_color: '#474D52',
+}
+
+export {
+  lightManifest,
+  darkManifest,
+  lightManifestDesktop,
+  darkManifestDesktop,
+}

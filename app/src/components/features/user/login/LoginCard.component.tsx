@@ -93,6 +93,7 @@ export default function LoginCard() {
                         form.formState.errors.email
                           ? 'border-warning'
                           : 'border-zinc-400',
+                        'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
                       )}
                       placeholder='E-Mail Adresse'
                       {...field}
@@ -117,6 +118,7 @@ export default function LoginCard() {
                         form.formState.errors.password
                           ? 'border-warning'
                           : 'border-zinc-400',
+                        'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
                       )}
                       {...field}
                     />

@@ -26,13 +26,13 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -148,7 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <UserContext.Provider value={value}>
       {currentSession && children}
       {!currentSession && !isLoading && (
-        <LoginPage className='min-h-screen grid-rows-[auto_1fr] bg-zinc-100 sm:grid' />
+        <LoginPage className='min-h-screen grid grid-rows-[80px_1fr] bg-zinc-100' />
       )}
     </UserContext.Provider>
   )

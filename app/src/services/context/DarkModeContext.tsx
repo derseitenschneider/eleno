@@ -18,18 +18,18 @@ function DarkModeProvider({ children }: { children: React.ReactNode }) {
     'isDarkMode',
   )
 
-  // useEffect(() => {
-  //   if (isDarkMode) {
-  //     document.documentElement.classList.add('dark-mode')
-  //     document.documentElement.classList.remove('light-mode')
-  //   } else {
-  //     document.documentElement.classList.add('light-mode')
-  //     document.documentElement.classList.remove('dark-mode')
-  //   }
-  //
-  //   updateManifest(isDarkMode)
-  //   updateThemeColor(isDarkMode)
-  // }, [isDarkMode])
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark-mode')
+      document.documentElement.classList.remove('light-mode')
+    } else {
+      document.documentElement.classList.add('light-mode')
+      document.documentElement.classList.remove('dark-mode')
+    }
+
+    updateManifest(isDarkMode)
+    updateThemeColor(isDarkMode)
+  }, [isDarkMode])
 
   const value = useMemo(
     () => ({
