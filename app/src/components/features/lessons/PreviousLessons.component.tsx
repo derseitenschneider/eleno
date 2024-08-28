@@ -52,7 +52,7 @@ function PreviousLessons() {
               <button
                 type='button'
                 className={cn(
-                  'py-2 z-2 px-3 rounded-sm text-sm bg-background50 text-foreground relative hover:bg-background50/50',
+                  'py-2 z-2 px-3 rounded-sm text-sm bg-background50 text-foreground relative hover:bg-background200/50',
                   index === tabIndex && 'text-primary !bg-primary/10 ',
                 )}
                 onClick={() => {
@@ -70,7 +70,7 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='px-3 py-2 rounded-sm hover:no-underline hover:bg-background50/50 sm:ml-3 text-sm 
+              className='px-3 py-2 rounded-sm hover:no-underline hover:bg-background200/50 sm:ml-3 text-sm 
             bg-background50 text-foreground'
               to={`all?year=${newestLessonYear}`}
               end={true}

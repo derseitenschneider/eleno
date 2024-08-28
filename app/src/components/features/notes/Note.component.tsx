@@ -1,8 +1,8 @@
-import parse from "html-react-parser"
-import type { NotesBackgrounds, Note as TNote } from "../../../types/types"
-import { cn } from "@/lib/utils"
-import NoteDropdown from "./NoteDropdown.component"
-import { Draggable } from "@hello-pangea/dnd"
+import parse from 'html-react-parser'
+import type { NotesBackgrounds, Note as TNote } from '../../../types/types'
+import { cn } from '@/lib/utils'
+import NoteDropdown from './NoteDropdown.component'
+import { Draggable } from '@hello-pangea/dnd'
 
 interface NoteProps {
   note: TNote
@@ -12,11 +12,11 @@ interface NoteProps {
 function Note({ note, index }: NoteProps) {
   const { id, title, text, backgroundColor } = note
   const borderVariants: Record<Exclude<NotesBackgrounds, null>, string> = {
-    red: "border-noteRed",
-    blue: "border-noteBlue",
-    yellow: "border-noteYellow",
-    green: "border-noteGreen",
-    none: "border-transparent",
+    red: 'border-l-noteRed border-l-[5px]',
+    blue: 'border-l-noteBlue border-l-[5px]',
+    yellow: 'border-l-noteYellow border-l-[5px]',
+    green: 'border-l-noteGreen border-l-[5px]',
+    none: 'border-l-transparent border-l-[5px]',
   }
 
   return (
@@ -26,11 +26,11 @@ function Note({ note, index }: NoteProps) {
           <li
             data-dragging={snapshot.isDragging}
             className={cn(
-              "relative mb-6 rounded-sm shadow leading-8 p-4 bg-background50 border-l-[5px]",
+              'relative mb-6 rounded-sm shadow leading-8 p-4 bg-background100 border-t border-r border-b',
               backgroundColor
                 ? borderVariants[backgroundColor]
-                : "border-transparent",
-              snapshot.isDragging && "outline outline-ring",
+                : 'border-hairline border-l',
+              snapshot.isDragging && 'outline outline-ring',
             )}
             ref={provided.innerRef}
             {...provided.draggableProps}
@@ -45,7 +45,7 @@ function Note({ note, index }: NoteProps) {
               </h4>
             )}
             <div className='[&_*]:!text-foreground text-foreground has-list text-sm'>
-              {parse(text || "")}
+              {parse(text || '')}
             </div>
           </li>
         )

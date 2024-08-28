@@ -90,7 +90,7 @@ function LessonHeader() {
             'hover:no-underline',
             isRepertoirePage
               ? 'bg-primary/10'
-              : 'bg-background50 hover:bg-background50/50',
+              : 'bg-background50 hover:bg-background200/50',
           )}
           to='repertoire'
         >

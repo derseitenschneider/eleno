@@ -1,6 +1,5 @@
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { createNoteAPI } from '@/services/api/notes.api'
-import { useUser } from '@/services/context/UserContext'
 import type { Note } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'

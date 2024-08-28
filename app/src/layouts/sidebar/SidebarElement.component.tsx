@@ -32,7 +32,7 @@ export default function SidebarElement({
           className={cn(
             'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
             'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:hidden',
-            'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent hover:after:bg-background100',
+            'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent hover:after:bg-background50',
           )}
           type='button'
           onClick={() => onClick?.()}
@@ -73,7 +73,7 @@ export default function SidebarElement({
           'align-center z-1 relative flex items-center gap-4 p-1.5 text-foreground',
           'before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-full before:rounded-md before:bg-primary/10',
           'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent',
-          'hover:no-underline hover:after:bg-background100',
+          'hover:no-underline hover:after:bg-background50',
           isActive
             ? 'text-primary after:hidden'
             : 'text-foreground before:hidden',
