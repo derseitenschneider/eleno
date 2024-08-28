@@ -99,7 +99,7 @@ export default function SidebarElement({
             isActive && 'text-primary font-medium',
             sidebarOpen
               ? 'opacity-100 max-w-[200px] transition-all duration-200 delay-100'
-              : 'max-w-0 opacity-0 transition-none',
+              : 'max-w-0 pointer-events-none opacity-0 transition-none',
           )}
         >
           {name}

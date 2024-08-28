@@ -147,7 +147,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     header: () => {
       return <span>Von</span>
     },
-    size: 12,
+    size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.original.holder.startOfLesson as string
@@ -159,7 +159,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     header: () => {
       return <span>Bis</span>
     },
-    size: 12,
+    size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.original.holder.endOfLesson as string
@@ -180,7 +180,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
         </Button>
       )
     },
-    size: 12,
+    size: 10,
     minSize: 0,
     cell: ({ row }) => {
       const duration = row.original.holder.durationMinutes as number

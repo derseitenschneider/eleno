@@ -47,8 +47,6 @@
   }
 
   :root {
-    /* --background-50: 0 0% 98%; */
-    /* --background-100: 240 5% 96%; */
     --background-50: 240 5% 96%;
     --background-100: 0 0% 98%;
     --background-200: 240 5% 90%;
@@ -58,7 +56,7 @@
     --foreground: 240 5% 26%;
 
     --hairline: 240 5% 90%;
-    --card: var(--background-50);
+    --card: var(--background-100);
     --card-foreground: var(--foreground);
 
     --popover: 0 0% 100%;

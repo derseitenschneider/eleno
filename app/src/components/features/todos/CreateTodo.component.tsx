@@ -58,11 +58,11 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
       <form
         onSubmit={onSaveHandler}
         className={cn(
-          'sm:flex-row sm:items-center sm:bg-background50',
-          'gap-1 w-full flex flex-col justify-end sm:pr-2',
+          'sm:border border-hairline pr-1 rounded-md sm:flex-row sm:items-center',
+          'gap-1 w-full flex flex-col justify-end',
         )}
       >
-        <div className='sm:flex bg-background50 grow'>
+        <div className='sm:flex sm:border-none border border-hairline rounded-md grow items-center'>
           <div className='shrink grow'>
             <Input
               autoFocus={window.innerWidth > 800}
@@ -72,7 +72,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
                 error && 'border-solid border-warning',
               )}
               type='text'
-              placeholder='Todo'
+              placeholder='Todo...'
               name='text'
               value={text}
               required

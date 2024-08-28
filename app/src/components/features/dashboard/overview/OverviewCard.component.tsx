@@ -1,23 +1,17 @@
-import { Link } from "react-router-dom"
+import { Card, CardContent, CardTitle } from '@/components/ui/card'
 
 type OverviewCardProps = {
   children: React.ReactNode
-  to: string
   title: string
 }
 
-export default function OverviewCard({
-  children,
-  to,
-  title,
-}: OverviewCardProps) {
+export default function OverviewCard({ children, title }: OverviewCardProps) {
   return (
-    <Link
-      to={to}
-      className='sm:flex-1 block rounded-md bg-background50 mb-3 sm:mb-0 shadow-sm py-5 px-7 !no-underline text-inherit'
-    >
-      <h3>{title}</h3>
-      <div className='text-sm '>{children}</div>
-    </Link>
+    <Card className='py-3 h-full'>
+      <CardContent>
+        <h3>{title}</h3>
+        <div className='text-sm '>{children}</div>
+      </CardContent>
+    </Card>
   )
 }

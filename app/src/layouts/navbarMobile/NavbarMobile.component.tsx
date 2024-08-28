@@ -48,7 +48,7 @@ function NavbarMobile() {
           icon={
             <GaugeCircle
               size={10}
-              strokeWidth={window.location.pathname === '/' ? 1.5 : 1}
+              strokeWidth={window.location.pathname === '/' ? 1.3 : 1}
             />
           }
         />
@@ -58,7 +58,7 @@ function NavbarMobile() {
           to='/todos'
           icon={
             <CheckSquare2
-              strokeWidth={window.location.pathname.includes('todos') ? 1.5 : 1}
+              strokeWidth={window.location.pathname.includes('todos') ? 1.3 : 1}
             />
           }
         />
@@ -68,7 +68,7 @@ function NavbarMobile() {
           icon={
             <GraduationCap
               strokeWidth={
-                window.location.pathname.includes('lessons') ? 1.5 : 1
+                window.location.pathname.includes('lessons') ? 1.3 : 1
               }
             />
           }
@@ -79,7 +79,7 @@ function NavbarMobile() {
           icon={
             <Settings
               strokeWidth={
-                window.location.pathname.includes('settings') ? 1.5 : 1
+                window.location.pathname.includes('settings') ? 1.3 : 1
               }
             />
           }

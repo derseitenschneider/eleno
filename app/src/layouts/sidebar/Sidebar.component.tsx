@@ -67,7 +67,7 @@ function Sidebar() {
           name='Dashboard'
           icon={
             <GaugeCircle
-              strokeWidth={window.location.pathname === '/' ? 2 : 1.5}
+              strokeWidth={window.location.pathname === '/' ? 1.55 : 1}
             />
           }
         />
@@ -80,7 +80,7 @@ function Sidebar() {
           icon={
             <GraduationCap
               strokeWidth={
-                window.location.pathname.includes('lessons') ? 2 : 1.5
+                window.location.pathname.includes('lessons') ? 1.55 : 1
               }
             />
           }
@@ -94,7 +94,7 @@ function Sidebar() {
           icon={
             <Users
               strokeWidth={
-                window.location.pathname.includes('students') ? 2 : 1.5
+                window.location.pathname.includes('students') ? 1.55 : 1
               }
             />
           }
@@ -108,7 +108,9 @@ function Sidebar() {
           name='Todos'
           icon={
             <CheckSquare2
-              strokeWidth={window.location.pathname.includes('todos') ? 2 : 1.5}
+              strokeWidth={
+                window.location.pathname.includes('todos') ? 1.55 : 1
+              }
             />
           }
         />
@@ -121,7 +123,7 @@ function Sidebar() {
           icon={
             <CalendarDays
               strokeWidth={
-                window.location.pathname.includes('timetable') ? 2 : 1.5
+                window.location.pathname.includes('timetable') ? 1.55 : 1
               }
             />
           }
@@ -138,7 +140,7 @@ function Sidebar() {
           icon={
             <Settings
               strokeWidth={
-                window.location.pathname.includes('settings') ? 2 : 1.5
+                window.location.pathname.includes('settings') ? 1.55 : 1
               }
             />
           }
@@ -149,14 +151,14 @@ function Sidebar() {
           to='https://manual.eleno.net'
           target={'_blank'}
           name='Anleitung'
-          icon={<BookMarked strokeWidth={1.5} />}
+          icon={<BookMarked strokeWidth={1} />}
         />
         <SidebarElement
           isButton
           onClick={() => logout()}
           sidebarOpen={sidebarOpen}
           name='Log out'
-          icon={<LogOut strokeWidth={1.5} />}
+          icon={<LogOut strokeWidth={1} />}
         />
       </ul>
     </nav>

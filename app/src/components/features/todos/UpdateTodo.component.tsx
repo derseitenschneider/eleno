@@ -54,16 +54,16 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   }
 
   return (
-    <div className='sm:min-w-[600px]'>
+    <div className='sm:min-w-[640px]'>
       <form
         onSubmit={onSaveHandler}
         className={cn(
-          'sm:flex-row sm:items-center sm:bg-background50',
-          'gap-1 w-full flex flex-col justify-end',
+          'sm:border pr-1 rounded-md border-hairline sm:flex-row sm:items-center',
+          'md:gap-1 w-full flex flex-col justify-end',
         )}
       >
-        <div className='sm:flex bg-background50 grow'>
-          <div className='shrink grow mb-4 sm:mb-0'>
+        <div className='sm:flex sm:border-none border border-hairline rounded-md grow'>
+          <div className='shrink grow'>
             <Input
               autoFocus={window.innerWidth > 800}
               className='border-none'

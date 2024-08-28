@@ -26,7 +26,7 @@ function Note({ note, index }: NoteProps) {
           <li
             data-dragging={snapshot.isDragging}
             className={cn(
-              'relative mb-6 rounded-sm shadow leading-8 p-4 bg-background100 border-t border-r border-b',
+              'relative mb-6 rounded-sm border-hairline shadow leading-8 p-4 bg-background100 border-t border-r border-b',
               backgroundColor
                 ? borderVariants[backgroundColor]
                 : 'border-hairline border-l',

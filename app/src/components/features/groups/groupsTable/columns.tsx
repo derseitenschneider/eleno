@@ -47,12 +47,12 @@ export const groupsColumns: ColumnDef<Group>[] = [
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Gruppennamen
+          Name
           <ArrowUpDown className='ml-1 size-3' />
         </Button>
       )
     },
-    size: 12,
+    size: 25,
     minSize: 0,
   },
   {
@@ -78,7 +78,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     header: () => {
       return <span>Von</span>
     },
-    size: 12,
+    size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue('startOfLesson') as string
@@ -90,7 +90,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     header: () => {
       return <span>Bis</span>
     },
-    size: 12,
+    size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue('endOfLesson') as string
@@ -111,7 +111,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
         </Button>
       )
     },
-    size: 12,
+    size: 10,
     minSize: 0,
     cell: ({ row }) => {
       const duration = row.getValue('durationMinutes') as number
@@ -136,7 +136,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
         </Button>
       )
     },
-    size: 12,
+    size: 18,
     minSize: 0,
     cell: ({ row }) => <span>{row.getValue('location') || '–'}</span>,
   },
@@ -145,7 +145,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     header: () => {
       return <span>Schüler:innen</span>
     },
-    size: 12,
+    size: 20,
     minSize: 0,
     cell: ({ row }) => (
       <div className=''>

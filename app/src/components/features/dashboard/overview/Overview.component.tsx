@@ -26,8 +26,8 @@ function Overview() {
   return (
     <div className={cn('px-3 py-6', 'md:p-4 md:pl-6', 'row-start-3 ')}>
       <h2>Übersicht</h2>
-      <div className='lg:flex gap-5 space-y-5 lg:space-y-0'>
-        <OverviewCard to='/students' title='Unterricht'>
+      <div className='grid sm:grid-cols-2 content-stretch gap-3 sm:gap-5'>
+        <OverviewCard title='Schüler:innen'>
           <div>
             {activeSortedHolders && activeSortedHolders?.length > 0 ? (
               <>
@@ -53,17 +53,17 @@ function Overview() {
           </div>
         </OverviewCard>
 
-        <OverviewCard to='/todos' title='Todos'>
+        <OverviewCard title='Todos'>
           <div>
             {todosOpen?.length ? (
-              <p className='mb-2'>
+              <p className=''>
                 Offene Todos: <b>{todosOpen.length}</b>
               </p>
             ) : (
               <p>Keine offenen Todos</p>
             )}
             {todosDue?.length ? (
-              <p>
+              <p className='text-warning'>
                 Überfällige Todos: <b>{todosDue.length}</b>
               </p>
             ) : (
