@@ -44,7 +44,7 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='sm:pr-3 px-4 pt-4 pb-14 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
+    <div className='sm:pr-3 px-5 pt-6 pb-16 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
         <div className='flex overflow-y-auto no-scroll items-baseline gap-x-3 gap-y-3 mb-5'>
           <>
@@ -70,7 +70,7 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='px-3 py-2 rounded-sm hover:no-underline hover:bg-background200/50 sm:ml-3 text-sm 
+              className='ml-auto px-3 py-2 rounded-sm hover:no-underline hover:bg-background200/50 sm:ml-3 text-sm 
             bg-background50 text-foreground'
               to={`all?year=${newestLessonYear}`}
               end={true}
@@ -106,7 +106,7 @@ function PreviousLessons() {
               </ScrollArea>
             </div>
           </div>
-          <div className='absolute items-center bottom-4 right-5 flex gap-2'>
+          <div className='absolute items-center bottom-4 right-5 flex gap-4'>
             <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}

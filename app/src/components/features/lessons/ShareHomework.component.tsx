@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react"
-import { FaTelegramPlane } from "react-icons/fa"
-import { HiCheck, HiOutlineClipboard, HiOutlineMail } from "react-icons/hi"
-import { IoLogoWhatsapp } from "react-icons/io5"
-import { MdOutlineTextsms } from "react-icons/md"
-import { SiThreema } from "react-icons/si"
+import { useEffect, useState } from 'react'
+import { FaTelegramPlane } from 'react-icons/fa'
+import { HiCheck, HiOutlineClipboard, HiOutlineMail } from 'react-icons/hi'
+import { IoLogoWhatsapp } from 'react-icons/io5'
+import { MdOutlineTextsms } from 'react-icons/md'
+import { SiThreema } from 'react-icons/si'
 
-import { useUserLocale } from "@/services/context/UserLocaleContext"
-import type { Lesson, Student } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
-import { useUser } from "../../../services/context/UserContext"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson, Student } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useUser } from '../../../services/context/UserContext'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -18,7 +19,8 @@ interface ShareHomeworkProps {
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const { user } = useUser()
   const { userLocale } = useUserLocale()
-  const { studentId } = useParams()
+  const { activeSortedHolders } = useLessonHolders()
+  const { holderId } = useParams()
   const [searchParams] = useSearchParams()
 
   const [isCopied, setIsCopied] = useState(false)
@@ -33,11 +35,11 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
 
   const queryClient = useQueryClient()
   const allLessons = queryClient.getQueryData([
-    "all-lessons",
-    { studentId: Number(studentId), year: Number(searchParams.get("year")) },
+    'all-lessons',
+    { holder: holderId, year: Number(searchParams.get('year')) },
   ]) as Array<Lesson> | undefined
 
-  const latestLessons = queryClient.getQueryData(["latest-3-lessons"]) as
+  const latestLessons = queryClient.getQueryData(['latest-3-lessons']) as
     | Array<Lesson>
     | undefined
 
@@ -45,43 +47,57 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   if (allLessons) combinedLessons.push(...allLessons)
   if (latestLessons) combinedLessons.push(...latestLessons)
 
-  const students = queryClient.getQueryData(["students"]) as
-    | Array<Student>
-    | undefined
   const currentLesson = combinedLessons?.find(
     (lesson) => lesson.id === lessonId,
   )
-  const currentStudent = students?.find(
-    (student) => student.id === Number(studentId),
-  )
+  const currentHolder = activeSortedHolders?.find((holder) => {
+    const type = holderId?.split('-').at(0)
+    const id = holderId?.split('-').at(1)
+    return (
+      holder.type === type && holder.holder.id === Number.parseInt(id || '')
+    )
+  })
+
+  const holderName =
+    currentHolder?.type === 's'
+      ? currentHolder?.holder.firstName
+      : currentHolder?.holder.name
 
   const lessonDate = currentLesson?.date.toLocaleDateString(userLocale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
   })
   const url = `https://api.eleno.net/homework/${currentLesson?.studentId}/${currentLesson?.homeworkKey}`
 
-  const subjectText = `Hausaufgaben ${currentStudent?.instrument} vom ${lessonDate}`
-  const bodyText = `Hallo ${currentStudent?.firstName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.firstName} ${user?.lastName}`
+  const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
+  let bodyText = ''
+  if (currentHolder && currentHolder.type === 's') {
+    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.firstName} ${user?.lastName}`
+  } else {
+    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.firstName} ${user?.lastName}`
+  }
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(url)
     setIsCopied(true)
   }
+  if (!currentHolder) return null
   return (
     <div className='text-sm share-homework'>
       <p className='mb-6'>
-        Mit diesem Link kann{" "}
+        Mit diesem Link kann{' '}
         <b>
-          {currentStudent?.firstName} {currentStudent?.lastName}
-        </b>{" "}
+          {currentHolder.type === 's'
+            ? `${currentHolder.holder.firstName} ${currentHolder.holder.lastName}`
+            : currentHolder.holder.name}{' '}
+        </b>{' '}
         auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
       </p>
       <div className='flex items-center gap-2 mb-8'>
         <a href={url} target='_blank' rel='noreferrer'>
           {url}
-        </a>{" "}
+        </a>{' '}
         <button type='button' title='Link kopieren' onClick={copyToClipboard}>
           {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
         </button>
@@ -116,7 +132,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
             className='text-[#25d366]'
           >
             <IoLogoWhatsapp className='h-5 w-5' />
-          </a>{" "}
+          </a>{' '}
           <a
             href={`sms://?&body=${bodyText}`}
             title='Link per SMS verschicken'

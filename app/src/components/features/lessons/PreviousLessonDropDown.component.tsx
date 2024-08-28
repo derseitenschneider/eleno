@@ -54,7 +54,10 @@ export default function PreviousLessonDropDown({
             <Pencil className='h-4 w-4 text-primary mr-2' />
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
+          <DropdownMenuItem
+            className='hidden md:flex'
+            onClick={() => setModalOpen('SHARE')}
+          >
             <MessageSquareShare className='size-4 text-primary mr-2' />
             <span>Hausaufgaben teilen</span>
           </DropdownMenuItem>

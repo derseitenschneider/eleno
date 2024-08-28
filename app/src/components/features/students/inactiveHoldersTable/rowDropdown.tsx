@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
-import { MouseEvent, useState } from 'react'
+import { type MouseEvent, useState } from 'react'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'

@@ -107,7 +107,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
 
                 <DropdownMenuItem
                   onClick={() => setOpenModal('SHARE')}
-                  className='flex items-center gap-2'
+                  className='hidden md:flex items-center gap-2'
                 >
                   <Upload className='h-4 w-4 text-primary' />
                   <span>Hausaufgaben teilen</span>

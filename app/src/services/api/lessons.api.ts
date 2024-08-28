@@ -47,8 +47,8 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -76,8 +76,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-        .gte('date', uctStartDate?.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate?.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query

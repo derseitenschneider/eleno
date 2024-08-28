@@ -11,7 +11,7 @@ function News() {
   return (
     <aside
       className={cn(
-        'px-4 py-6',
+        'px-5 py-6',
         'md:p-4 md:pl-6',
         'min-[900px]:p-4',
         'sm:row-start-2 border-t overflow-hidden min-[900px]:border-t-0 min-[900px]:border-l border-hairline row-end-4 col-start-2',

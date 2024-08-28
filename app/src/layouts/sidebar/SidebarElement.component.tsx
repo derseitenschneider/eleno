@@ -71,7 +71,7 @@ export default function SidebarElement({
         target={target}
         className={cn(
           'align-center z-1 relative flex items-center gap-4 p-1.5 text-foreground',
-          'before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-full before:rounded-md before:bg-primary/10',
+          'before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-full before:rounded-md before:bg-primary/20',
           'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent',
           'hover:no-underline hover:after:bg-background50',
           isActive

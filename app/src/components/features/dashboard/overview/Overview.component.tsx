@@ -24,9 +24,9 @@ function Overview() {
   }
 
   return (
-    <div className={cn('px-4 py-6', 'md:p-4 md:pl-6', 'row-start-3 ')}>
+    <div className={cn('px-5 py-6', 'md:p-4 md:pl-6', 'row-start-3 ')}>
       <h2>Übersicht</h2>
-      <div className='grid sm:grid-cols-2 content-stretch gap-3 sm:gap-5'>
+      <div className='grid sm:grid-cols-2 content-stretch gap-5 sm:gap-5'>
         <OverviewCard title='Schüler:innen'>
           <div>
             {activeSortedHolders && activeSortedHolders?.length > 0 ? (
