@@ -45,9 +45,8 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background50 shadow-lg transition-width duration-150 ${
-        sidebarOpen ? 'w-[180px]' : 'w-[50px]'
-      }`}
+      bg-background50 shadow-lg transition-width duration-150 ${sidebarOpen ? 'w-[180px]' : 'w-[50px]'
+        }`}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink
@@ -63,51 +62,90 @@ function Sidebar() {
         <SidebarElement
           isActive={window.location.pathname === '/'}
           sidebarOpen={sidebarOpen}
+          onClick={() => setSidebarOpen(false)}
           to='/'
           name='Dashboard'
-          icon={<GaugeCircle strokeWidth={1.5} />}
+          icon={
+            <GaugeCircle
+              strokeWidth={window.location.pathname === '/' ? 2 : 1.5}
+            />
+          }
         />
         <SidebarElement
           isActive={window.location.pathname.includes('lessons')}
+          onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
           to={`/lessons/${lessonSlug}`}
           name='Unterrichten'
-          icon={<GraduationCap strokeWidth={1.5} />}
+          icon={
+            <GraduationCap
+              strokeWidth={
+                window.location.pathname.includes('lessons') ? 2 : 1.5
+              }
+            />
+          }
         />
         <SidebarElement
           isActive={window.location.pathname.includes('students')}
+          onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
           to='/students'
           name='Schüler:innen'
-          icon={<Users strokeWidth={1.5} />}
+          icon={
+            <Users
+              strokeWidth={
+                window.location.pathname.includes('students') ? 2 : 1.5
+              }
+            />
+          }
         />
         <SidebarElement
           isActive={window.location.pathname.includes('todos')}
+          onClick={() => setSidebarOpen(false)}
           notificationContent={overdueTodos?.length}
           sidebarOpen={sidebarOpen}
           to='/todos'
           name='Todos'
-          icon={<CheckSquare2 strokeWidth={1.5} />}
+          icon={
+            <CheckSquare2
+              strokeWidth={window.location.pathname.includes('todos') ? 2 : 1.5}
+            />
+          }
         />
         <SidebarElement
           isActive={window.location.pathname.includes('timetable')}
+          onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
           to='/timetable'
           name='Stundenplan'
-          icon={<CalendarDays strokeWidth={1.5} />}
+          icon={
+            <CalendarDays
+              strokeWidth={
+                window.location.pathname.includes('timetable') ? 2 : 1.5
+              }
+            />
+          }
         />
       </ul>
 
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
         <SidebarElement
           isActive={window.location.pathname.includes('settings')}
+          onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
           to='/settings'
           name='Einstellungen'
-          icon={<Settings strokeWidth={1.5} />}
+          icon={
+            <Settings
+              strokeWidth={
+                window.location.pathname.includes('settings') ? 2 : 1.5
+              }
+            />
+          }
         />
         <SidebarElement
           sidebarOpen={sidebarOpen}
+          onClick={() => setSidebarOpen(false)}
           to='https://manual.eleno.net'
           target={'_blank'}
           name='Anleitung'

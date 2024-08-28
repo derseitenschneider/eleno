@@ -9,11 +9,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
   if (!currentLessonHolder) return null
   const { holder, type } = currentLessonHolder
+  const isRepertoirePage = window.location.pathname.includes('repertoire')
 
   return (
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 p-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
@@ -21,9 +23,8 @@ function LessonHeader() {
         <div className='w-full'>
           <div className='flex sm:mb-1 items-center '>
             <NavLink
-              to={`/lessons/${
-                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
-              }`}
+              to={`/lessons/${type === 's' ? `s-${holder.id}` : `g-${holder.id}`
+                }`}
               className='flex items-baseline hover:no-underline'
             >
               <div className='mr-[4px] text-primary h-4 translate-y-[1px]'>
@@ -40,8 +41,8 @@ function LessonHeader() {
           </div>
           <div className='text-sm flex items-center gap-1'>
             {holder.dayOfLesson ||
-            holder.startOfLesson ||
-            holder.endOfLesson ? (
+              holder.startOfLesson ||
+              holder.endOfLesson ? (
               <span className='text-foreground/80 sm:text-foreground'>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}
@@ -84,11 +85,28 @@ function LessonHeader() {
           </div>
         </div>
         <NavLink
-          className='flex gap-1 hover:no-underline text-sm p-2 bg-background50 items-center'
+          className={cn(
+            'py-2 z-2 px-3 rounded-sm text-sm text-foreground relative flex items-center gap-1',
+            'hover:no-underline',
+            isRepertoirePage
+              ? 'bg-primary/10'
+              : 'bg-background50 hover:bg-background50/50',
+          )}
           to='repertoire'
         >
-          <TableProperties className='size-4 text-primary' />
-          <span className='translate-y-[1px] text-sm sm:text-base'>
+          <TableProperties
+            strokeWidth={isRepertoirePage ? 1.5 : 1}
+            className={cn(
+              'size-5',
+              isRepertoirePage ? 'text-primary' : 'text-foreground',
+            )}
+          />
+          <span
+            className={cn(
+              'translate-y-[1px] text-sm ',
+              isRepertoirePage ? 'text-primary' : 'text-foreground',
+            )}
+          >
             Repertoire
           </span>
         </NavLink>

@@ -95,7 +95,7 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
       {hasOnlyGroups && isSingularGroup && (
         <p>
           Möchtest du{' '}
-          <span className='font-semibold text-primary'>
+          <span className='font-medium text-primary'>
             {groupsToDelete[0]?.name}
           </span>{' '}
           und alle zugehörigen Daten löschen?
@@ -110,7 +110,7 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
       {hasOnlyStudents && isSingularStudent && (
         <p>
           Möchtest du{' '}
-          <span className='font-semibold text-primary'>
+          <span className='font-medium text-primary'>
             {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName}
           </span>{' '}
           und alle zugehörigen Daten löschen?

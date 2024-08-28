@@ -48,7 +48,7 @@ export default function NavbarMobileItem({
       >
         <span
           className={`${isActive ? 'block' : 'hidden'
-            } absolute top-0 left-0 size-full bg-primary/10 z-[-1] rounded-sm`}
+            } absolute top-0 left-0 size-full bg-primary/10 z-[-1] rounded-md`}
         />
         {icon}
         {notificationContent ? (

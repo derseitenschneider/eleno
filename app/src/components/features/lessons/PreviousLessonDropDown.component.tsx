@@ -11,7 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreVertical, Pencil, Share, Trash2 } from 'lucide-react'
+import {
+  MessageSquareShare,
+  MoreVertical,
+  Pencil,
+  Share,
+  Trash2,
+} from 'lucide-react'
 import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
 import EditLesson from './UpdateLesson.component'
@@ -49,7 +55,7 @@ export default function PreviousLessonDropDown({
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
-            <Share className='h-4 w-4 text-primary mr-2' />
+            <MessageSquareShare className='size-4 text-primary mr-2' />
             <span>Hausaufgaben teilen</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

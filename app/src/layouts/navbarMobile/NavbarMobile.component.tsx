@@ -45,23 +45,44 @@ function NavbarMobile() {
         <NavbarMobileItem
           isActive={window.location.pathname === '/'}
           to='/'
-          icon={<GaugeCircle size={10} strokeWidth={1} />}
+          icon={
+            <GaugeCircle
+              size={10}
+              strokeWidth={window.location.pathname === '/' ? 1.5 : 1}
+            />
+          }
         />
         <NavbarMobileItem
           isActive={window.location.pathname.includes('todos')}
           notificationContent={todosDue?.length}
           to='/todos'
-          icon={<CheckSquare2 strokeWidth={1} />}
+          icon={
+            <CheckSquare2
+              strokeWidth={window.location.pathname.includes('todos') ? 1.5 : 1}
+            />
+          }
         />
         <NavbarMobileItem
           isActive={window.location.pathname.includes('lessons')}
           to={`/lessons/${currentHolderQuery}`}
-          icon={<GraduationCap strokeWidth={1} />}
+          icon={
+            <GraduationCap
+              strokeWidth={
+                window.location.pathname.includes('lessons') ? 1.5 : 1
+              }
+            />
+          }
         />
         <NavbarMobileItem
           isActive={window.location.pathname.includes('settings')}
           to='/settings'
-          icon={<Settings strokeWidth={1} />}
+          icon={
+            <Settings
+              strokeWidth={
+                window.location.pathname.includes('settings') ? 1.5 : 1
+              }
+            />
+          }
         />
         <NavbarMobileItem
           onClick={logout}

@@ -9,6 +9,7 @@ import { useLatestLessons } from './lessonsQueries'
 import Empty from '@/components/ui/Empty.component'
 import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import ButtonShareHomework from './ButtonShareHomework.component'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
@@ -105,7 +106,8 @@ function PreviousLessons() {
               </ScrollArea>
             </div>
           </div>
-          <div className='absolute bottom-4 right-5 flex gap-2'>
+          <div className='absolute items-center bottom-4 right-5 flex gap-2'>
+            <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}
             />
