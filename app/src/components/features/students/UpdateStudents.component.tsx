@@ -93,6 +93,7 @@ export default function UpdateStudents({
             <div className='max-h-[75vh] overflow-auto no-scrollbar py-1'>
               {fields.map((field, index, arr) => (
                 <MemoizedStudentFormRow
+                  autoFocus={true}
                   fields={arr.length}
                   key={field.id}
                   grid={grid}

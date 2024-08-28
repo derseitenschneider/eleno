@@ -126,6 +126,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
     () =>
       fields.map((field, index, arr) => (
         <MemoizedStudentFormRow
+          autoFocus={index === 0}
           fields={arr.length}
           key={field.id}
           grid={grid}

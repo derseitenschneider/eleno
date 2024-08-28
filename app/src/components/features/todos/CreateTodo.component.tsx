@@ -65,7 +65,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         <div className='sm:flex sm:border-none border border-hairline rounded-md grow items-center'>
           <div className='shrink grow'>
             <Input
-              autoFocus={window.innerWidth > 800}
+              autoFocus={window.innerWidth > 1024}
               ref={textField}
               className={cn(
                 'border-none',

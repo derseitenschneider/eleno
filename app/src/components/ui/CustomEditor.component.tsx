@@ -76,7 +76,6 @@ function CustomEditor({
   placeholder = '',
 }: CustomEditorProps) {
   const [showPlaceholder, setShowPlaceholder] = useState(true)
-  console.log(placeholder)
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value

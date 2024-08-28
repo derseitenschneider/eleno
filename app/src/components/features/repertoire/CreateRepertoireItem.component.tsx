@@ -57,6 +57,7 @@ function CreateRepertoireItem({
             Song
           </span>
           <Input
+            autoFocus={window.innerWidth > 1024}
             placeholder='Song'
             className='border-none'
             type='text'
