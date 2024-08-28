@@ -71,7 +71,7 @@ export default function AddHolderCombobox({
                 <Badge
                   className={cn(
                     selectedHolder.holder.archive &&
-                      'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                    'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
                   )}
                 >
                   {selectedHolder.type === 'g' && (
@@ -127,7 +127,7 @@ export default function AddHolderCombobox({
       </Popover>
       {selectedHolderId && (
         <ButtonRemove
-          className='translate-x-[-12px]'
+          className='translate-x-[-18px] sm:translate-x-[-22px]'
           onRemove={() => setSelectedHolderId('')}
         />
       )}

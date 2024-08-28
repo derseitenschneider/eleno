@@ -51,7 +51,7 @@ function CreateRepertoireItem({
   }
   return (
     <div className='flex gap-2 items-end sm:items-center sm:mb-12 mb-8 mt-6'>
-      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 bg-background50 gap-y-2 grow'>
+      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
             Song

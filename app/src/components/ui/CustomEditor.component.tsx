@@ -17,11 +17,14 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface CustomEditorProps {
   value: string
   onChange: (content: string) => void
   disabled?: boolean
+  placeholder?: string
 }
 
 const BtnBold = createButton('Bold', <Bold />, 'bold')
@@ -66,17 +69,50 @@ const BtnUndo = createButton('Undo', <Undo />, 'undo')
 
 const BtnRedo = createButton('Redo', <Redo />, 'redo')
 
-function CustomEditor({ value, onChange, disabled }: CustomEditorProps) {
+function CustomEditor({
+  value,
+  onChange,
+  disabled,
+  placeholder = '',
+}: CustomEditorProps) {
+  const [showPlaceholder, setShowPlaceholder] = useState(true)
+  console.log(placeholder)
+
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
     const inputWithoutColorTag = inputText.split('background-color:').join('')
+    if (showPlaceholder && inputText) {
+      setShowPlaceholder(false)
+    }
+    if (!showPlaceholder && !inputText) {
+      setShowPlaceholder(true)
+    }
 
     onChange(inputWithoutColorTag)
   }
   return (
     <EditorProvider>
-      <Editor value={value} disabled={disabled} onChange={onChangeEditor}>
-        <Toolbar tabIndex={-1} aria-disabled={disabled}>
+      <Editor
+        className={cn('relative')}
+        value={value}
+        disabled={disabled}
+        onChange={onChangeEditor}
+      >
+        <Toolbar
+          style={{ position: 'relative' }}
+          tabIndex={-1}
+          aria-disabled={disabled}
+        >
+          {showPlaceholder && (
+            <span
+              className={cn(
+                'text-foreground/70',
+                'absolute bottom-[-35px] left-[10px]',
+              )}
+            >
+              {placeholder}
+            </span>
+          )}
           <div className='flex'>
             <BtnBold tabIndex={-1} className='p-2' />
             <BtnItalic tabIndex={-1} />

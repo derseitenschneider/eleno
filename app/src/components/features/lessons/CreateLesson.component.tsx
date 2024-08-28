@@ -160,6 +160,7 @@ function CreateLesson() {
             disabled={isCreating}
             value={lessonContent}
             onChange={handleLessonContent}
+            placeholder='Lektion...'
           />
         </div>
         <div>
@@ -168,6 +169,7 @@ function CreateLesson() {
             disabled={isCreating}
             value={homework}
             onChange={handleHomework}
+            placeholder='Hausaufgaben...'
           />
         </div>
       </div>

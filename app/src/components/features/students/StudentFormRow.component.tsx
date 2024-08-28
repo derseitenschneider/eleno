@@ -21,6 +21,7 @@ type StudentFormRowProps = {
   remove?: UseFieldArrayRemove
   disabled: boolean
   fields: number
+  autoFocus?: boolean
 }
 
 const StudentFormRow = memo(function StudentFormRow({
@@ -29,6 +30,7 @@ const StudentFormRow = memo(function StudentFormRow({
   disabled,
   remove,
   fields,
+  autoFocus = false,
 }: StudentFormRowProps) {
   const { control, formState, getValues } = useFormContext<{
     students: StudentSchema[]
@@ -47,6 +49,7 @@ const StudentFormRow = memo(function StudentFormRow({
           <FormItem>
             <FormControl>
               <Input
+                autoFocus={autoFocus}
                 disabled={disabled}
                 placeholder='Vorname'
                 {...field}
