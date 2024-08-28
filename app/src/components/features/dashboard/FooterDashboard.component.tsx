@@ -3,7 +3,7 @@ import { version } from '../../../../package.json'
 
 function FooterDashboard() {
   return (
-    <footer className='border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-3 md:px-8'>
+    <footer className='border-t border-hairline col-start-1 gap-1 flex col-end-3 flex-col md:flex-row justify-center md:gap-4 flex-wrap text-[10px] !py-4 px-4 md:px-8'>
       <Link
         to='https://eleno.net/terms-conditions'
         className='block'

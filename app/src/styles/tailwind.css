@@ -224,7 +224,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .container-page {
-  @apply sm:py-4 sm:pl-6 sm:pr-4 py-4 px-3
+  @apply sm:py-4 sm:pl-6 sm:pr-4 py-4 px-4
 }
 
 [type='number']::-webkit-inner-spin-button,

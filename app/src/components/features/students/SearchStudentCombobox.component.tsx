@@ -63,7 +63,7 @@ export default function SearchStudentCombobox() {
           size='icon'
           role='combobox'
           aria-expanded={open}
-          className='bg-background100 mr-4 shadow-md rounded-full hover:bg-background100 hover:translate-y-[-2px] transition-transform '
+          className='bg-background100 border border-background50 mr-4 shadow-md rounded-full hover:bg-background100 hover:translate-y-[-2px] transition-transform '
         >
           <Search className=' h-5 text-primary text-right' />
         </Button>

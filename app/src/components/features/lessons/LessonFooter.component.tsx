@@ -108,12 +108,12 @@ function LessonFooter() {
           : '',
       )}
     >
-      <div className='shadow-xl bg-background50/40 border border-background100 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
+      <div className='shadow-xl bg-background50/20 border border-background50 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
         <SearchStudentCombobox />
         <Button
           onMouseDown={handlerPreviousStudent}
           size='icon'
-          className='bg-background100 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
+          className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
         >
           <ArrowLeft className='h-5 w-5 text-primary' />
         </Button>
@@ -121,7 +121,7 @@ function LessonFooter() {
         <Button
           onMouseDown={handlerNextStudent}
           size='icon'
-          className='bg-background100 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
+          className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
         >
           <ArrowRight className='h-5 w-5 text-primary' />
         </Button>
