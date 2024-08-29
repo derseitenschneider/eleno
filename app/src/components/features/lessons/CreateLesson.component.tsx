@@ -12,14 +12,13 @@ import useCurrentHolder from './useCurrentHolder'
 function CreateLesson() {
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
+  const { createLesson, isCreating } = useCreateLesson()
   const [date, setDate] = useState<Date>(new Date())
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
-
-  const { createLesson, isCreating } = useCreateLesson()
 
   useEffect(() => {
     const currentDraft = drafts.find(
@@ -141,6 +140,8 @@ function CreateLesson() {
     )
   }
 
+  if (!currentLessonHolder) return null
+
   return (
     <div className='px-5 py-6 sm:pr-4 sm:pl-6 sm:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
@@ -157,6 +158,7 @@ function CreateLesson() {
         <div>
           <p className='text-foreground/70'>Lektion</p>
           <CustomEditor
+            key={`lessonContent-${currentLessonHolder.holder.id}`}
             disabled={isCreating}
             value={lessonContent}
             onChange={handleLessonContent}
@@ -166,6 +168,7 @@ function CreateLesson() {
         <div>
           <p className='capitalize text-foreground/70'>Hausaufgaben</p>
           <CustomEditor
+            key={`homework-${currentLessonHolder.holder.id}`}
             disabled={isCreating}
             value={homework}
             onChange={handleHomework}

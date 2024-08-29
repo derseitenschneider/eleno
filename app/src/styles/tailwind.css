@@ -196,8 +196,9 @@ h5 {
 
 
 .rsw-ce {
-  @apply bg-background50/40 text-foreground !p-[10px] h-full;
+  @apply bg-background50/40 text-foreground !p-[10px] h-full focus:bg-background100;
 }
+
 
 .rsw-ce ul,
 .rsw-ce ol {

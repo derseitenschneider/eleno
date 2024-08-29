@@ -17,40 +17,27 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
-interface CustomEditorProps {
-  value: string
-  onChange: (content: string) => void
-  disabled?: boolean
-  placeholder?: string
-}
-
 const BtnBold = createButton('Bold', <Bold />, 'bold')
-
 const BtnItalic = createButton('Italic', <Italic />, 'italic')
-
 const BtnUnderline = createButton('Underline', <Underline />, 'underline')
-
 const BtnStrikeThrough = createButton(
   'Strike Through',
   <Strikethrough />,
   'strikeThrough',
 )
-
 const BtnBulletList = createButton(
   'Bullet list',
   <List />,
   'insertUnorderedList',
 )
-
 const BtnNumberedList = createButton(
   'Numbered list',
   <ListOrdered />,
   'insertOrderedList',
 )
-
 const BtnLink = createButton('Link', <Link />, ({ $selection }) => {
   if ($selection?.nodeName === 'A') {
     document.execCommand('unlink')
@@ -58,16 +45,20 @@ const BtnLink = createButton('Link', <Link />, ({ $selection }) => {
     document.execCommand('createLink', false, prompt('URL', '') || undefined)
   }
 })
-
 const BtnClearFormatting = createButton(
   'Clear Formatting',
   <RemoveFormatting />,
   'removeFormat',
 )
-
 const BtnUndo = createButton('Undo', <Undo />, 'undo')
-
 const BtnRedo = createButton('Redo', <Redo />, 'redo')
+
+type CustomEditorProps = {
+  value: string
+  onChange: (content: string) => void
+  disabled?: boolean
+  placeholder?: string
+}
 
 function CustomEditor({
   value,
@@ -75,7 +66,7 @@ function CustomEditor({
   disabled,
   placeholder = '',
 }: CustomEditorProps) {
-  const [showPlaceholder, setShowPlaceholder] = useState(true)
+  const [showPlaceholder, setShowPlaceholder] = useState(!value)
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
@@ -86,32 +77,25 @@ function CustomEditor({
     if (!showPlaceholder && !inputText) {
       setShowPlaceholder(true)
     }
-
     onChange(inputWithoutColorTag)
   }
+
   return (
     <EditorProvider>
-      <Editor
-        className={cn('relative')}
-        value={value}
-        disabled={disabled}
-        onChange={onChangeEditor}
-      >
+      <Editor value={value} disabled={disabled} onChange={onChangeEditor}>
         <Toolbar
           style={{ position: 'relative' }}
           tabIndex={-1}
           aria-disabled={disabled}
         >
-          {showPlaceholder && (
-            <span
-              className={cn(
-                'text-foreground/70',
-                'absolute bottom-[-35px] left-[10px]',
-              )}
-            >
-              {placeholder}
-            </span>
-          )}
+          <span
+            className={cn(
+              'text-foreground/70',
+              'absolute bottom-[-35px] left-[10px]',
+            )}
+          >
+            {value ? '' : placeholder}
+          </span>
           <div className='flex'>
             <BtnBold tabIndex={-1} className='p-2' />
             <BtnItalic tabIndex={-1} />

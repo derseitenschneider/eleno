@@ -6,6 +6,7 @@ import { Suspense, lazy } from 'react'
 import { Outlet } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import LessonFooter from '@/components/features/lessons/LessonFooter.component'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 
@@ -20,7 +21,9 @@ const lessonsRoutes = [
           animate={{ opacity: 1 }}
         >
           <LessonHeader />
-          <Outlet />
+          <ScrollArea className='md:h-[calc(100vh-88px)]'>
+            <Outlet />
+          </ScrollArea>
           <LessonFooter />
         </motion.div>
       </Suspense>

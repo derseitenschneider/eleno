@@ -14,6 +14,7 @@ import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.compo
 import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const Dashboard = lazy(() => import('../pages/Dashboard'))
 const ToDos = lazy(() => import('../pages/Todos.page'))
@@ -39,9 +40,11 @@ const mainRouter = createBrowserRouter(
           path: 'timetable',
           element: (
             <Suspense>
-              <div className='py-4 pl-6 pr-4'>
-                <Timetable />
-              </div>
+              <ScrollArea className='md:h-screen'>
+                <div className='py-4 pl-6 pr-4'>
+                  <Timetable />
+                </div>
+              </ScrollArea>
             </Suspense>
           ),
         },
@@ -51,9 +54,11 @@ const mainRouter = createBrowserRouter(
           path: 'todos',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <div className='container-page'>
-                <ToDos />
-              </div>
+              <ScrollArea className='md:h-screen'>
+                <div className='container-page'>
+                  <ToDos />
+                </div>
+              </ScrollArea>
             </Suspense>
           ),
           children: [
@@ -65,9 +70,11 @@ const mainRouter = createBrowserRouter(
           path: 'settings',
           element: (
             <Suspense fallback={<Loader loading />}>
-              <div className='container-page'>
-                <Settings />
-              </div>
+              <ScrollArea className='md:h-screen'>
+                <div className='container-page'>
+                  <Settings />
+                </div>
+              </ScrollArea>
             </Suspense>
           ),
           children: [

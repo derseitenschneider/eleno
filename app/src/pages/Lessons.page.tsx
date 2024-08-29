@@ -5,6 +5,7 @@ import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
 import { useLoading } from '../services/context/LoadingContext'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 function Lesson() {
   const { isLoading } = useLoading()

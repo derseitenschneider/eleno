@@ -61,7 +61,11 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
       />
 
       <div className='mt-5 mb-6'>
-        <CustomEditor value={text || ''} onChange={handleText} />
+        <CustomEditor
+          placeholder='Notiz erstellen...'
+          value={text || ''}
+          onChange={handleText}
+        />
       </div>
       <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
         <NoteColor color={color} setColor={setColor} />
