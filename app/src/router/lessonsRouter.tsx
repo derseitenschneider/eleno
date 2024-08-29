@@ -21,7 +21,7 @@ const lessonsRoutes = [
           animate={{ opacity: 1 }}
         >
           <LessonHeader />
-          <ScrollArea className='md:h-[calc(100vh-88px)]'>
+          <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
             <Outlet />
           </ScrollArea>
           <LessonFooter />

@@ -108,7 +108,7 @@ function LessonFooter() {
           : '',
       )}
     >
-      <div className='shadow-xl bg-background50/20 border border-background50 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
+      <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
         <SearchStudentCombobox />
         <Button
           onMouseDown={handlerPreviousStudent}
