@@ -44,9 +44,9 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='sm:pr-3 px-5 pt-6 pb-16 sm:pl-6 sm:py-4 border-b border-hairline h-[350px] md:h-[300px] relative'>
+    <div className='sm:pr-3 px-5 pt-6 pb-4 sm:pl-6 sm:py-4 border-b border-hairline sm:h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
-        <div className='flex overflow-y-auto no-scroll items-baseline gap-x-3 gap-y-3 mb-5'>
+        <div className='flex h-fit items-baseline gap-x-3 gap-y-3 mb-5'>
           <>
             {previousLessonsIds.map((prev, index) => (
               <button
@@ -81,38 +81,40 @@ function PreviousLessons() {
         </div>
       ) : null}
       {previousLessonsIds.length > 0 ? (
-        <>
-          <div className={cn('grid md:grid-cols-2 gap-6')}>
-            <div>
-              <p className='text-foreground/70'>Lektion</p>
-              <ScrollArea className='max-h-[200px] h-full'>
-                <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                  {parse(currentLesson?.lessonContent || '')}
-                </div>
-              </ScrollArea>
+        <div className='pb-4'>
+          <ScrollArea className='sm:h-full h-[280px]'>
+            <div className={cn('max-h-[300px] grid md:grid-cols-2 gap-6')}>
+              <div className=''>
+                <p className='text-foreground/70'>Lektion</p>
+                <ScrollArea className='h-full sm:max-h-[160px]'>
+                  <ScrollBar orientation='vertical' />
+                  <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                    {parse(currentLesson?.lessonContent || '')}
+                  </div>
+                </ScrollArea>
+              </div>
+              <div>
+                <p className='text-foreground/70'>Hausaufgaben</p>
+                <ScrollArea className='sm:max-h-[160px] h-full'>
+                  <ScrollBar orientation='vertical' />
+                  <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                    {parse(
+                      lessons?.find(
+                        (lesson) => lesson.id === previousLessonsIds[tabIndex],
+                      )?.homework || '',
+                    )}
+                  </div>
+                </ScrollArea>
+              </div>
             </div>
-            <div>
-              <p className='text-foreground/70'>Hausaufgaben</p>
-              <ScrollArea className='max-h-[200px] sm:h-full'>
-                <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                  {parse(
-                    lessons?.find(
-                      (lesson) => lesson.id === previousLessonsIds[tabIndex],
-                    )?.homework || '',
-                  )}
-                </div>
-              </ScrollArea>
-            </div>
-          </div>
+          </ScrollArea>
           <div className='absolute items-center bottom-4 right-5 flex gap-4'>
             <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}
             />
           </div>
-        </>
+        </div>
       ) : (
         <Empty
           className='!bg-background100 !shadow-none'

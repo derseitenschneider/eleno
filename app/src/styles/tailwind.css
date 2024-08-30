@@ -171,7 +171,7 @@ h5 {
 }
 
 .rsw-editor {
-  @apply !border-hairline h-[200px] mt-[10px] text-base;
+  @apply !border-hairline mt-[10px] text-base;
 }
 
 .rsw-toolbar {
@@ -196,7 +196,7 @@ h5 {
 
 
 .rsw-ce {
-  @apply bg-background50/40 text-foreground !p-[10px] h-full focus:bg-background100;
+  @apply bg-background50/40 h-[170px] overflow-auto no-scrollbar text-foreground !p-[10px] focus:bg-background100;
 }
 
 
