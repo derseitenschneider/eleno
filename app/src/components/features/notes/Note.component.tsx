@@ -3,6 +3,7 @@ import type { NotesBackgrounds, Note as TNote } from '../../../types/types'
 import { cn } from '@/lib/utils'
 import NoteDropdown from './NoteDropdown.component'
 import { Draggable } from '@hello-pangea/dnd'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 interface NoteProps {
   note: TNote
@@ -45,7 +46,7 @@ function Note({ note, index }: NoteProps) {
               </h4>
             )}
             <div className='[&_*]:!text-foreground text-foreground has-list text-sm'>
-              {parse(text || '')}
+              {parse(removeHTMLAttributes(text || ''))}
             </div>
           </li>
         )

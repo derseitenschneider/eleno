@@ -48,19 +48,6 @@ export default function ExportGroupList({ groups }: ExportGroupListProps) {
         </Label>
       </div>
       <div className='flex gap-4 justify-end'>
-        <PDFDownloadLink
-          document={
-            <GrouplistPDF groups={groups} userName={userName} title={title} />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `gruppen-${userNameDashes}.pdf`
-          }
-        >
-          <Button size='sm'>PDF herunterladen</Button>
-        </PDFDownloadLink>
-
         <CSVLink
           data={groupsCSV}
           headers={[
@@ -80,6 +67,18 @@ export default function ExportGroupList({ groups }: ExportGroupListProps) {
         >
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
+        <PDFDownloadLink
+          document={
+            <GrouplistPDF groups={groups} userName={userName} title={title} />
+          }
+          fileName={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `gruppen-${userNameDashes}.pdf`
+          }
+        >
+          <Button size='sm'>PDF herunterladen</Button>
+        </PDFDownloadLink>
       </div>
     </div>
   )

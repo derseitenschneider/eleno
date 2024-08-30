@@ -90,7 +90,7 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
           }}
         />
       </div>
-      <div>
+      <div className='flex justify-end'>
         <PDFDownloadLink
           onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
             if (selectedDays.length === 0) {

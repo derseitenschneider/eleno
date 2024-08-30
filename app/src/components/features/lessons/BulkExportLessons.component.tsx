@@ -1,8 +1,8 @@
 import { createElement, useState } from 'react'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import stripHtmlTags from '../../../utils/stripHtmlTags'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
@@ -155,16 +155,28 @@ export default function BulkExportLessons({
       if (!allLessons || allLessons.length === 0)
         return toast.warning('Keine Lektionen vorhanden.')
 
+      const sanitizedLessons = allLessons.map((lesson) => ({
+        ...lesson,
+        lessonContent: removeHTMLAttributes(lesson.lessonContent || ''),
+        homework: removeHTMLAttributes(lesson.homework || ''),
+        date: lesson.date.toLocaleDateString(userLocale, {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        }),
+      }))
+
       const allLessonsGrouped: Record<
         string,
         Array<{
           id: number
-          date: Date
+          date: string
           lessonContent: string | null
           homework: string | null
         }>
       > = {}
-      for (const lesson of allLessons) {
+
+      for (const lesson of sanitizedLessons) {
         const fieldName = lesson.studentId ? 'studentId' : 'groupId'
         const currentHolder = lessonHolders.find(
           (lessonHolder) => lessonHolder.holder.id === lesson[fieldName],
@@ -184,6 +196,7 @@ export default function BulkExportLessons({
           allLessonsGrouped[holderName] = [lesson]
         }
       }
+
       const pdfBlobs = await Promise.all(
         Object.keys(allLessonsGrouped).map(async (student) => {
           const props: PDFProps = {
@@ -216,6 +229,7 @@ export default function BulkExportLessons({
       toast.success('Export abgeschlossen.')
     } catch (e) {
       fetchErrorToast()
+      console.log(e)
     } finally {
       setIsLoading(false)
       onSuccess?.()
@@ -273,25 +287,27 @@ export default function BulkExportLessons({
 
       <div className='flex items-center gap-5 justify-end'>
         <Button
-          size='sm'
-          disabled={!canDownload || isLoading}
-          onClick={handleDownloadPDF}
-        >
-          PDF herunterladen
-        </Button>
-
-        <Button
           onClick={handleDownloadCSV}
           size='sm'
           disabled={!canDownload || isLoading}
         >
           CSV herunterladen
         </Button>
-        {isLoading && (
-          <div className='text-primary '>
-            <MiniLoader />
-          </div>
-        )}
+        <div className='flex items-center gap-2'>
+          <Button
+            size='sm'
+            disabled={!canDownload || isLoading}
+            onClick={handleDownloadPDF}
+          >
+            PDF herunterladen
+          </Button>
+
+          {isLoading && (
+            <div className='text-primary '>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

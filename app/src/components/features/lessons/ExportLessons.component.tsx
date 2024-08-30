@@ -15,7 +15,7 @@ import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
-import { sanitizeHTML } from '@/utils/sanitizeHTML'
+import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
 
 type ExportLessonsProps = {
   holderId: number
@@ -151,9 +151,9 @@ function ExportLessons({
       const localizedLessons = allLessons?.map((lesson) => ({
         ...lesson,
         lessonContent: lesson.lessonContent
-          ? sanitizeHTML(lesson.lessonContent)
+          ? sanitizeHTMLforPDF(lesson.lessonContent)
           : '',
-        homework: lesson.homework ? sanitizeHTML(lesson.homework) : '',
+        homework: lesson.homework ? sanitizeHTMLforPDF(lesson.homework) : '',
         date: lesson.date.toLocaleDateString(userLocale, {
           day: '2-digit',
           month: '2-digit',

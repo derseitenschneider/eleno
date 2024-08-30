@@ -50,23 +50,6 @@ function ExportStudentList({ students }: ExportStudentListProps) {
         </Label>
       </div>
       <div className='flex gap-4 justify-end'>
-        <PDFDownloadLink
-          document={
-            <StudentListPDF
-              students={students}
-              userName={userName}
-              title={title}
-            />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `schüler:innen-${userNameDashes}.pdf`
-          }
-        >
-          <Button size='sm'>PDF herunterladen</Button>
-        </PDFDownloadLink>
-
         <CSVLink
           data={studentsCSV}
           headers={[
@@ -88,6 +71,22 @@ function ExportStudentList({ students }: ExportStudentListProps) {
         >
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
+        <PDFDownloadLink
+          document={
+            <StudentListPDF
+              students={students}
+              userName={userName}
+              title={title}
+            />
+          }
+          fileName={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `schüler:innen-${userNameDashes}.pdf`
+          }
+        >
+          <Button size='sm'>PDF herunterladen</Button>
+        </PDFDownloadLink>
       </div>
     </div>
   )

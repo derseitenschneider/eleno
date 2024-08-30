@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { useUser } from '@/services/context/UserContext'
 import { useCreateNote } from './useCreateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 type CreateNoteProps = {
   onCloseModal?: () => void
@@ -29,7 +30,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
     const newNote: PartialNote = {
       [typeField]: holderId,
       title,
-      text,
+      text: removeHTMLAttributes(text),
       backgroundColor: color,
       user_id: user?.id,
       id: new Date().valueOf(),
