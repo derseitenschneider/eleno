@@ -78,7 +78,7 @@ export default function SignupCard() {
   if (isSuccess) return <SignupSuccess email={email} />
   return (
     <>
-      <WrapperCard size='md' header="Los geht's!">
+      <WrapperCard className='sm:mt-[-80px]' size='md' header="Los geht's!">
         <Form {...form}>
           <form
             className='flex flex-col space-y-5'

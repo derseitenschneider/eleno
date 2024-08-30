@@ -1,5 +1,5 @@
-import { Mail } from "lucide-react"
-import WrapperCard from "./WrapperCard.component"
+import { Mail } from 'lucide-react'
+import WrapperCard from './WrapperCard.component'
 
 export default function ResetSuccess() {
   return (
@@ -7,9 +7,9 @@ export default function ResetSuccess() {
       className='mt-[-44px] flex min-h-[calc(100vh-88px)] basis-full flex-col items-center
         justify-center gap-2 py-20'
     >
-      <WrapperCard size='md' header=''>
+      <WrapperCard className='mt-[-80px]' size='md' header=''>
         <h1>Passwort zurücksetzten</h1>
-        <div className='flex h-20'>
+        <div className='flex h-12 sm:h-16'>
           <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
         </div>
         <p className='text-xl'>Du hast eine E-Mail erhalten.</p>

@@ -64,6 +64,7 @@ export default function LoginCard() {
   return (
     <>
       <WrapperCard
+        className='mt-[-80px]'
         size='sm'
         complementary={
           <p className='text-center text-sm text-zinc-700 '>
@@ -129,7 +130,7 @@ export default function LoginCard() {
             />
             <Link
               to='/?page=reset'
-              className='translate-y-[-10px] text-right text-sm'
+              className='translate-y-[-10px] text-center text-sm'
             >
               Passwort vergessen?
             </Link>
