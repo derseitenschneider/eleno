@@ -49,6 +49,7 @@
   :root {
     --background-50: 240 5% 96%;
     --background-100: 0 0% 98%;
+    /* --background-100: 0 0% 100%; */
     --background-200: 240 5% 90%;
     /* --foreground-500: 240 4% 46%; */
     /* --foreground-600: 240 5% 34%; */

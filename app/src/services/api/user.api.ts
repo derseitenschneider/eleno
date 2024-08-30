@@ -62,9 +62,18 @@ export const updatePasswordSupabase = async (password: string) => {
 }
 
 export const deleteAccountSupabase = async () => {
-  const { error } = await supabase.rpc('delete_user')
+  try {
+    const { error: deleteError } = await supabase.rpc('delete_user')
+    if (deleteError) throw deleteError
 
-  await supabase.auth.signOut()
+    console.log('User account deleted successfully')
 
-  if (error) throw new Error(error.message)
+    try {
+      await supabase.auth.signOut()
+    } catch (error) {
+      console.log('Expected sign-out error after account deletion:', error)
+    }
+  } catch (error) {
+    console.error('Error during account deletion:', error)
+  }
 }
