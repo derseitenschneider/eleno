@@ -151,7 +151,7 @@ export default function ActiveStudentRowDropdown({
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent onClick={handleDialogClick} className='w-[800px]'>
+        <DialogContent onClick={handleDialogClick}>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>

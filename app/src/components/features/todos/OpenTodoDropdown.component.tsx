@@ -42,7 +42,7 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
       </DropdownMenu>
 
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent className='w-[800px]'>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Todo bearbeiten</DialogTitle>
             <UpdateTodo id={id} onSuccess={closeModal} />

@@ -51,7 +51,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <Button
               variant='ghost'
               className='h-8 w-8 p-0'
-            // onClick={(e) => e.stopPropagation()}
+              // onClick={(e) => e.stopPropagation()}
             >
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
@@ -142,10 +142,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent
-          onClick={(e) => e.stopPropagation()}
-          className='sm:w-[800px]'
-        >
+        <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
             <CreateTodo

@@ -43,13 +43,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-        type: 's',
-        holder: allStudents.find((student) => student.id === holderId),
-      } as LessonHolder)
+          type: 's',
+          holder: allStudents.find((student) => student.id === holderId),
+        } as LessonHolder)
       : ({
-        type: 'g',
-        holder: allGroups.find((group) => group.id === holderId),
-      } as LessonHolder)
+          type: 'g',
+          holder: allGroups.find((group) => group.id === holderId),
+        } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -246,7 +246,7 @@ function ExportLessons({
         />
       </div>
 
-      <div className='flex items-center gap-4 justify-start'>
+      <div className='flex items-center gap-4 justify-end'>
         <Button
           size='sm'
           disabled={!canDownload || isLoading}

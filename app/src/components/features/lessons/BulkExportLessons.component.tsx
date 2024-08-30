@@ -271,7 +271,7 @@ export default function BulkExportLessons({
         </Label>
       </div>
 
-      <div className='flex items-center gap-5'>
+      <div className='flex items-center gap-5 justify-end'>
         <Button
           size='sm'
           disabled={!canDownload || isLoading}

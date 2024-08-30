@@ -20,7 +20,7 @@ export default function ResetGroups({
 
   return (
     <div className=''>
-      <p className='text-sm'>
+      <p className='text-sm mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Gruppen zurücksetzen?

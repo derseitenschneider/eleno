@@ -97,7 +97,7 @@ export default function HolderDropdownLesson() {
       </Dialog>
 
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
-        <DialogContent className='sm:w-[800px]'>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
