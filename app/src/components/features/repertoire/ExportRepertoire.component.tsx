@@ -37,6 +37,20 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
       </div>
     )
 
+  const localizedRepertoire = repertoire.map((item) => ({
+    ...item,
+    startDate: item.startDate?.toLocaleDateString(userLocale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    }),
+    endDate: item.endDate?.toLocaleDateString(userLocale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    }),
+  }))
+
   const repertoireCSV = repertoire.map((item, index) => ({
     index: index + 1,
     title: item.title,
@@ -76,24 +90,7 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
           />
         </label>
       </div>
-      <div className='flex gap-4'>
-        <PDFDownloadLink
-          document={
-            <RepertoirePDF
-              studentFullName={holderName}
-              repertoire={repertoire}
-              title={title}
-            />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `repertoire-${holderNameDashes}`
-          }
-        >
-          <Button size='sm'> PDF Herunterladen</Button>
-        </PDFDownloadLink>
-
+      <div className='flex gap-4 justify-end'>
         <CSVLink
           data={repertoireCSV}
           headers={[
@@ -119,6 +116,23 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
         >
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
+
+        <PDFDownloadLink
+          document={
+            <RepertoirePDF
+              studentFullName={holderName}
+              repertoire={localizedRepertoire}
+              title={title}
+            />
+          }
+          fileName={
+            title
+              ? title.split(' ').join('-').toLowerCase()
+              : `repertoire-${holderNameDashes}`
+          }
+        >
+          <Button size='sm'> PDF Herunterladen</Button>
+        </PDFDownloadLink>
       </div>
     </div>
   )

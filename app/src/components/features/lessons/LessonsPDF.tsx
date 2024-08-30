@@ -7,15 +7,14 @@ import TablePDF from '../pdf/TablePDF.component'
 export type PDFProps = {
   title?: string
   studentFullName: string
-  lessons: Array<
-    | {
-      lessonContent: string | null
-      homework: string | null
-      date: Date
-      id: number
-    }
-    | undefined
-  >
+  lessons:
+  | Array<{
+    lessonContent: string | null
+    homework: string | null
+    date: string
+    id: number
+  }>
+  | undefined
 }
 const styles = StyleSheet.create({
   col1: {
@@ -34,26 +33,6 @@ const contentStyles = {
 }
 
 export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
-  const { userLocale } = useUserLocale()
-  const sanitizedLessons = lessons?.map((lesson) => {
-    const sanitizedContent = lesson?.lessonContent
-      ?.replaceAll('\n', '<br></br>')
-      .replaceAll('style', '')
-
-    const sanitizedHomework = lesson?.homework?.replaceAll('\n', '<br></br>')
-
-    const newLesson = {
-      ...lesson,
-      lessonContent: sanitizedContent,
-      homework: sanitizedHomework,
-      date: lesson?.date.toLocaleDateString(userLocale, {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      }),
-    }
-    return newLesson
-  })
   return (
     <BaseLayoutPDF
       title={title || `Lektionsliste ${studentFullName}`}
@@ -65,7 +44,7 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
         <Text style={styles.col3}>Hausaufgaben</Text>
       </TablePDF.Head>
 
-      {sanitizedLessons?.map((lesson, index) => (
+      {lessons?.map((lesson, index) => (
         <View key={lesson.id}>
           <TablePDF index={index}>
             <Text style={styles.col1}>{lesson.date}</Text>

@@ -21,6 +21,7 @@ import { useState } from 'react'
 import EditLesson from '../UpdateLesson.component'
 import DeleteLesson from '../DeleteLesson.component'
 import ShareHomework from '../ShareHomework.component'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {
@@ -58,7 +59,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       return (
         <div className='[&_*]:!text-foreground has-list'>
-          {parse(row.getValue('lessonContent') || '')}
+          {parse(removeHTMLAttributes(row.getValue('lessonContent') || ''))}
         </div>
       )
     },
@@ -71,7 +72,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       return (
         <div className='![&>*]text-foreground has-list'>
-          {parse(row.getValue('homework') || '')}
+          {parse(removeHTMLAttributes(row.getValue('homework') || ''))}
         </div>
       )
     },

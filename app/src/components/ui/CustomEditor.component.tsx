@@ -1,5 +1,6 @@
 import {
   type ContentEditableEvent,
+  ContentEditableProps,
   Editor,
   EditorProvider,
   Toolbar,
@@ -17,8 +18,9 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { ClipboardEvent, RefObject, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 const BtnBold = createButton('Bold', <Bold />, 'bold')
 const BtnItalic = createButton('Italic', <Italic />, 'italic')
@@ -70,19 +72,32 @@ function CustomEditor({
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
-    const inputWithoutColorTag = inputText.split('background-color:').join('')
     if (showPlaceholder && inputText) {
       setShowPlaceholder(false)
     }
     if (!showPlaceholder && !inputText) {
       setShowPlaceholder(true)
     }
-    onChange(inputWithoutColorTag)
+    onChange(inputText)
+  }
+
+  function handlePaste(e: ClipboardEvent) {
+    e.preventDefault()
+
+    const pastedText =
+      e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
+    const cleanedText = removeHTMLAttributes(pastedText)
+    document.execCommand('insertHTML', false, cleanedText)
   }
 
   return (
     <EditorProvider>
-      <Editor value={value} disabled={disabled} onChange={onChangeEditor}>
+      <Editor
+        onPaste={handlePaste}
+        value={value}
+        disabled={disabled}
+        onChange={onChangeEditor}
+      >
         <Toolbar
           style={{ position: 'relative' }}
           tabIndex={-1}
@@ -90,7 +105,7 @@ function CustomEditor({
         >
           <span
             className={cn(
-              'text-foreground/70',
+              'text-foreground/70 pointer-events-none',
               'absolute bottom-[-35px] left-[10px]',
             )}
           >

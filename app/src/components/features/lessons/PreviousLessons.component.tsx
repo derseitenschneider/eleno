@@ -10,6 +10,7 @@ import Empty from '@/components/ui/Empty.component'
 import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import ButtonShareHomework from './ButtonShareHomework.component'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
@@ -82,32 +83,34 @@ function PreviousLessons() {
       ) : null}
       {previousLessonsIds.length > 0 ? (
         <div className='pb-4'>
-          <ScrollArea className='sm:h-full h-[280px]'>
-            <div className={cn('max-h-[300px] grid md:grid-cols-2 gap-6')}>
-              <div className=''>
-                <p className='text-foreground/70'>Lektion</p>
-                <ScrollArea className='h-full sm:max-h-[160px]'>
-                  <ScrollBar orientation='vertical' />
-                  <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                    {parse(currentLesson?.lessonContent || '')}
-                  </div>
-                </ScrollArea>
-              </div>
-              <div>
-                <p className='text-foreground/70'>Hausaufgaben</p>
-                <ScrollArea className='sm:max-h-[160px] h-full'>
-                  <ScrollBar orientation='vertical' />
-                  <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
-                    {parse(
+          <div className={cn('max-h-[300px] grid md:grid-cols-2 gap-6')}>
+            <div className=''>
+              <p className='text-foreground/70'>Lektion</p>
+              <ScrollArea className='h-full sm:max-h-[160px]'>
+                <ScrollBar orientation='vertical' />
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                  {parse(
+                    removeHTMLAttributes(currentLesson?.lessonContent || ''),
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
+            <div>
+              <p className='text-foreground/70'>Hausaufgaben</p>
+              <ScrollArea className='sm:max-h-[160px] h-full'>
+                <ScrollBar orientation='vertical' />
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                  {parse(
+                    removeHTMLAttributes(
                       lessons?.find(
                         (lesson) => lesson.id === previousLessonsIds[tabIndex],
                       )?.homework || '',
-                    )}
-                  </div>
-                </ScrollArea>
-              </div>
+                    ),
+                  )}
+                </div>
+              </ScrollArea>
             </div>
-          </ScrollArea>
+          </div>
           <div className='absolute items-center bottom-4 right-5 flex gap-4'>
             <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown

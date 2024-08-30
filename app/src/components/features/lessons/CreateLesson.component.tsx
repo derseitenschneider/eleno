@@ -8,6 +8,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useCreateLesson } from './useCreateLesson'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 function CreateLesson() {
   const { drafts, setDrafts } = useDrafts()
@@ -129,8 +130,8 @@ function CreateLesson() {
     if (!currentLessonHolder?.holder.id) return
     createLesson(
       {
-        homework,
-        lessonContent,
+        homework: removeHTMLAttributes(homework),
+        lessonContent: removeHTMLAttributes(lessonContent),
         [typeField]: currentLessonHolder.holder.id,
         date,
       },

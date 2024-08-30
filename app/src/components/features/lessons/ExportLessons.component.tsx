@@ -15,6 +15,7 @@ import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
+import { sanitizeHTML } from '@/utils/sanitizeHTML'
 
 type ExportLessonsProps = {
   holderId: number
@@ -43,13 +44,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-          type: 's',
-          holder: allStudents.find((student) => student.id === holderId),
-        } as LessonHolder)
+        type: 's',
+        holder: allStudents.find((student) => student.id === holderId),
+      } as LessonHolder)
       : ({
-          type: 'g',
-          holder: allGroups.find((group) => group.id === holderId),
-        } as LessonHolder)
+        type: 'g',
+        holder: allGroups.find((group) => group.id === holderId),
+      } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -147,11 +148,23 @@ function ExportLessons({
       const { LessonsPDF } = await import('./LessonsPDF')
 
       const { data: allLessons } = await fetchAllLessons()
+      const localizedLessons = allLessons?.map((lesson) => ({
+        ...lesson,
+        lessonContent: lesson.lessonContent
+          ? sanitizeHTML(lesson.lessonContent)
+          : '',
+        homework: lesson.homework ? sanitizeHTML(lesson.homework) : '',
+        date: lesson.date.toLocaleDateString(userLocale, {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        }),
+      }))
 
       if (!allLessons) return
       const props: PDFProps = {
         title,
-        lessons: allLessons,
+        lessons: localizedLessons,
         studentFullName: holderFullName,
       }
       const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
@@ -248,20 +261,20 @@ function ExportLessons({
 
       <div className='flex items-center gap-4 justify-end'>
         <Button
+          onClick={handleDownloadCSV}
           size='sm'
           disabled={!canDownload || isLoading}
-          onClick={handleDownloadPDF}
         >
-          PDF herunterladen
+          CSV herunterladen
         </Button>
 
         <div className='flex items-center gap-2'>
           <Button
-            onClick={handleDownloadCSV}
             size='sm'
             disabled={!canDownload || isLoading}
+            onClick={handleDownloadPDF}
           >
-            CSV herunterladen
+            PDF herunterladen
           </Button>
           {isLoading && (
             <div className='text-primary '>

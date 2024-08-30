@@ -1,20 +1,25 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { RepertoireItem } from "../../../types/types"
-import BaseLayoutPDF from "./BaseLayoutPDF.component"
-import TablePDF from "./TablePDF.component"
-import { useUserLocale } from "@/services/context/UserLocaleContext"
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
+import BaseLayoutPDF from './BaseLayoutPDF.component'
+import TablePDF from './TablePDF.component'
+
+type PDFRepertoire = {
+  id: number
+  title: string
+  startDate?: string
+  endDate?: string
+}
 
 interface RepertoirePDFProps {
-  repertoire: RepertoireItem[]
+  repertoire: Array<PDFRepertoire>
   studentFullName: string
   title: string
 }
 
 const styles = StyleSheet.create({
-  col1: { width: "1%", padding: "8px 5px" },
-  col2: { width: "75%", padding: "8px 5px" },
-  col3: { width: "12%", padding: "8px 5px" },
-  col4: { width: "12%", padding: "8px 5px" },
+  col1: { width: '1%', padding: '8px 5px' },
+  col2: { width: '75%', padding: '8px 5px' },
+  col3: { width: '12%', padding: '8px 5px' },
+  col4: { width: '12%', padding: '8px 5px' },
 })
 
 function RepertoirePDF({
@@ -22,7 +27,6 @@ function RepertoirePDF({
   studentFullName,
   title,
 }: RepertoirePDFProps) {
-  const { userLocale } = useUserLocale()
   return (
     <BaseLayoutPDF
       title={title || `Repertoire ${studentFullName}`}
@@ -39,24 +43,8 @@ function RepertoirePDF({
         <TablePDF key={item.id} index={index}>
           <Text style={styles.col1}>{`${index + 1}.`}</Text>
           <Text style={styles.col2}>{item.title}</Text>
-          <Text style={styles.col3}>
-            {item.startDate
-              ? item.startDate.toLocaleDateString(userLocale, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "2-digit",
-              })
-              : ""}
-          </Text>
-          <Text style={styles.col4}>
-            {item.endDate
-              ? item.endDate.toLocaleDateString(userLocale, {
-                day: "2-digit",
-                month: "2-digit",
-                year: "2-digit",
-              })
-              : ""}
-          </Text>
+          <Text style={styles.col3}>{item.startDate || '—'}</Text>
+          <Text style={styles.col4}>{item.endDate || '—'}</Text>
         </TablePDF>
       ))}
     </BaseLayoutPDF>
