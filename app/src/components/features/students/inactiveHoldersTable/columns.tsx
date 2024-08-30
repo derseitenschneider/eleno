@@ -205,7 +205,7 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
         </Button>
       )
     },
-    size: 12,
+    size: 16,
     minSize: 0,
     cell: ({ row }) => <span>{row.original.holder.location || '–'}</span>,
   },
@@ -214,5 +214,6 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
     cell: ({ row }) => {
       return <InactiveStudentRowDropdown holder={row.original} />
     },
+    size: 4,
   },
 ]

@@ -180,5 +180,6 @@ export const groupsColumns: ColumnDef<Group>[] = [
     cell: ({ row }) => {
       return <GroupRowDropdown groupId={row.original.id} />
     },
+    size: 4,
   },
 ]

@@ -1,19 +1,18 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Student } from '@/types/types'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, Row, SortingFn } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 import ActiveStudentRowDropdown from './rowDropdown'
 
-const RowWrapper = ({
-  children,
-  onClick,
-}: { children: React.ReactNode; onClick: () => void }) => (
-  <div onKeyDown={onClick} className='cursor-pointer'>
-    {children}
-  </div>
-)
-
+const customDaySorting: SortingFn<Student> = (
+  rowA: Row<Student>,
+  rowB: Row<Student>,
+  columnId: string,
+) => {
+  console.log({ rowA, rowB })
+  return 1
+}
 export const studentsColumns: ColumnDef<Student>[] = [
   {
     id: 'select',
@@ -95,6 +94,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
   },
   {
     accessorKey: 'dayOfLesson',
+    sortingFn: customDaySorting,
     header: ({ column }) => {
       return (
         <Button
@@ -187,5 +187,6 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </div>
       )
     },
+    size: 4,
   },
 ]

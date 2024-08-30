@@ -52,7 +52,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
   },
   {
     accessorKey: 'lessonContent',
-    header: 'Lektion',
+    header: () => <span>Lektion</span>,
     size: 45,
     minSize: 0,
     cell: ({ row }) => {
@@ -65,7 +65,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
   },
   {
     accessorKey: 'homework',
-    header: 'Hausaufgaben',
+    header: () => <span>Hausaufgaben</span>,
     size: 45,
     minSize: 0,
     cell: ({ row }) => {

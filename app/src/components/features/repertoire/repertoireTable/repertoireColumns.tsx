@@ -24,7 +24,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
-import EditRepertoireItem from '../UpdateRepertoireItem.component'
+import UpdateRepertoireItem from '../UpdateRepertoireItem.component'
 import {
   Popover,
   PopoverTrigger,
@@ -208,7 +208,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song bearbeiten</DialogTitle>
-                <EditRepertoireItem
+                <UpdateRepertoireItem
                   holder={holder}
                   itemId={row.original.id}
                   onCloseModal={closeModal}

@@ -8,17 +8,17 @@ import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
 import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 
-interface EditRepertoireItemProps {
+interface UpdateRepertoireItemProps {
   itemId: number
   holder: string
   onCloseModal?: () => void
 }
 
-function EditRepertoireItem({
+function UpdateRepertoireItem({
   itemId,
   holder,
   onCloseModal,
-}: EditRepertoireItemProps) {
+}: UpdateRepertoireItemProps) {
   const queryClient = useQueryClient()
 
   const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
@@ -50,7 +50,7 @@ function EditRepertoireItem({
   }
 
   return (
-    <div className='flex gap-2 py-4'>
+    <div className='flex gap-2 py-4 sm:w-[800px]'>
       <div className='grid grid-cols-[auto_auto_1fr] sm:gap-x-2 sm:grid-cols-[1fr_auto_auto_auto] gap-y-2 bg-background50 justify-between grow'>
         <div className='relative shrink grow col-span-4 sm:col-span-1'>
           <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
@@ -111,4 +111,4 @@ function EditRepertoireItem({
   )
 }
 
-export default EditRepertoireItem
+export default UpdateRepertoireItem

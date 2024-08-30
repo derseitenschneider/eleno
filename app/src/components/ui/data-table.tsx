@@ -53,7 +53,6 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   style={{ width: `${header.column.columnDef.size}%` }}
                   key={header.id}
-                  // className='[&:not(:has([role=checkbox]))]:text-foreground/75'
                   className='[&>*]:text-foreground/75'
                 >
                   {header.isPlaceholder
