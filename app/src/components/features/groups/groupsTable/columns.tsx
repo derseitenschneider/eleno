@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Group } from '@/types/types'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, SortingFn } from '@tanstack/react-table'
 import { ArrowUpDown, Users } from 'lucide-react'
 import GroupRowDropdown from './rowDropdown'
 import {
@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { customDaySorting } from '@/utils/sortDayOfLesson'
 
 export const groupsColumns: ColumnDef<Group>[] = [
   {
@@ -57,6 +58,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
   },
   {
     accessorKey: 'dayOfLesson',
+    sortingFn: customDaySorting as SortingFn<Group>,
     header: ({ column }) => {
       return (
         <Button

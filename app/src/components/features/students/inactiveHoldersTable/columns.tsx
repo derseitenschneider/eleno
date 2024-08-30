@@ -126,17 +126,8 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   },
   {
     accessorKey: 'dayOfLesson',
-    header: ({ column }) => {
-      return (
-        <Button
-          className='p-0'
-          variant='ghost'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Tag
-          <ArrowUpDown className='ml-1 size-3' />
-        </Button>
-      )
+    header: () => {
+      return <span>Tag</span>
     },
     size: 12,
     minSize: 0,
@@ -168,17 +159,8 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   },
   {
     accessorKey: 'durationMinutes',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='p-0'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Dauer
-          <ArrowUpDown className='ml-1 size-3' />
-        </Button>
-      )
+    header: () => {
+      return <span>Dauer</span>
     },
     size: 10,
     minSize: 0,
@@ -193,17 +175,8 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   },
   {
     accessorKey: 'location',
-    header: ({ column }) => {
-      return (
-        <Button
-          className='p-0'
-          variant='ghost'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Unterrichtsort
-          <ArrowUpDown className='ml-1 size-3' />
-        </Button>
-      )
+    header: () => {
+      return <span>Unterrichtsort</span>
     },
     size: 16,
     minSize: 0,
