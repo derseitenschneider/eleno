@@ -41,6 +41,8 @@ export default function ButtonShareHomework({
   const currentLesson = combinedLessons?.find(
     (lesson) => lesson.id === lessonId,
   )
+
+  if (!currentLesson) return null
   const currentHolder = activeSortedHolders?.find((holder) => {
     const type = holderId?.split('-').at(0)
     const id = holderId?.split('-').at(1)
