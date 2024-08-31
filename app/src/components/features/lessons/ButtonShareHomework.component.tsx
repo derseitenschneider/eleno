@@ -7,7 +7,7 @@ import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
-import type { Lesson, Student } from '@/types/types'
+import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 
 type ButtonShareHomeworkProps = {
@@ -75,7 +75,8 @@ ${user?.firstName} ${user?.lastName}`
 Unter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: 
 
 Liebe Grüsse  
-${user?.firstName} ${user?.lastName}`
+${user?.firstName} ${user?.lastName}
+`
   }
 
   const url = `https://api.eleno.net/homework/${currentLesson?.studentId}/${currentLesson?.homeworkKey}`
@@ -89,10 +90,7 @@ ${user?.firstName} ${user?.lastName}`
           text: bodyText,
           url,
         })
-        console.log('Content shared successfully')
-      } catch (error) {
-        console.log('Error sharing content:', error)
-      }
+      } catch (error) {}
     } else {
       setIsModalOpen(true)
     }
