@@ -21,11 +21,13 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [color, setColor] = useState<NotesBackgrounds>(null)
+  const [error, setError] = useState('')
 
   const { createNote, isCreating } = useCreateNote()
   const typeField = holderType === 's' ? 'studentId' : 'groupId'
 
   function handleSave() {
+    if (!text || !title) return setError('Titel oder Inhalt fehlt.')
     if (!user?.id) return
     const newNote: PartialNote = {
       [typeField]: holderId,
@@ -42,9 +44,11 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   }
 
   const handleText = (inputText: string) => {
+    setError('')
     setText(inputText)
   }
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError('')
     setTitle(e.target.value)
   }
 
@@ -67,6 +71,9 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           value={text || ''}
           onChange={handleText}
         />
+        {error && (
+          <span className='block pt-2 text-warning text-sm'>{error}</span>
+        )}
       </div>
       <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
         <NoteColor color={color} setColor={setColor} />
