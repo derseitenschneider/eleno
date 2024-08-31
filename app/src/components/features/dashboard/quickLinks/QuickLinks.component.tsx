@@ -2,7 +2,6 @@ import {
   BookMarked,
   CheckSquare2,
   GraduationCap,
-  ListTodo,
   Settings,
   UserRoundPlus,
 } from 'lucide-react'

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { useState, type HTMLAttributeAnchorTarget } from 'react'
+import type { HTMLAttributeAnchorTarget } from 'react'
 import { NavLink } from 'react-router-dom'
 
 type TSidebarProps = {
@@ -31,8 +31,11 @@ export default function SidebarElement({
         <button
           className={cn(
             'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
-            'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:hidden',
+            'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:bg-primary/20',
             'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent hover:after:bg-background50',
+            isActive
+              ? 'text-primary after:hidden'
+              : 'text-foreground before:hidden',
           )}
           type='button'
           onClick={() => onClick?.()}

@@ -22,18 +22,15 @@ import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useLatestLessons } from '../lessons/lessonsQueries'
 
 export default function SearchStudentCombobox() {
-  const {
-    setCurrentLessonPointer: setLessonPointer,
-    activeSortedHolders: lessonHolders,
-  } = useLessonHolders()
+  const { setCurrentLessonPointer, activeSortedHolders } = useLessonHolders()
   const { data: latestLessons } = useLatestLessons()
   const { holderId } = useParams()
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 
-  if (!lessonHolders) return null
+  if (!activeSortedHolders) return null
 
-  const sortedLessonHolders = lessonHolders.sort((a, b) => {
+  const holdersSortedByName = [...activeSortedHolders].sort((a, b) => {
     const nameA = a.type === 's' ? a.holder.lastName : a.holder.name
     const nameB = b.type === 's' ? b.holder.lastName : b.holder.name
     return nameA.localeCompare(nameB)
@@ -47,11 +44,11 @@ export default function SearchStudentCombobox() {
     const newestYear =
       getNewestLessonYear(latestLessons, newTypeId) || new Date().getFullYear()
     const query = url.includes('all') ? `?year=${newestYear}` : ''
-    setLessonPointer(
-      lessonHolders.findIndex(
-        (lessonHolder) => lessonHolder.holder.id === newLessonHolder.holder.id,
-      ),
+    const newPointer = activeSortedHolders.findIndex(
+      ({ holder }) => holder.id === newLessonHolder.holder.id,
     )
+
+    setCurrentLessonPointer(newPointer)
     navigate(newUrl + query)
     setOpen(false)
   }
@@ -73,7 +70,7 @@ export default function SearchStudentCombobox() {
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
             <CommandGroup>
-              {sortedLessonHolders.map((lessonHolder) => (
+              {holdersSortedByName.map((lessonHolder) => (
                 <CommandItem
                   key={lessonHolder.holder.id}
                   value={
