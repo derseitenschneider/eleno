@@ -65,14 +65,15 @@ export default function ButtonShareHomework({
     bodyText = `
 Hallo ${holderName}
 
-Unter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}:
+Hier ist der Link zu deinen Hausaufgaben vom ${lessonDate}.
 
 Liebe Grüsse
-${user?.firstName} ${user?.lastName}`
+${user?.firstName} ${user?.lastName}
+`
   } else {
     bodyText = `Hallo ${holderName}
 
-Unter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: 
+Hier ist der Link zu euren Hausaufgaben vom ${lessonDate}.
 
 Liebe Grüsse  
 ${user?.firstName} ${user?.lastName}
