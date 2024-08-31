@@ -32,7 +32,7 @@ const StudentFormRow = memo(function StudentFormRow({
   fields,
   autoFocus = false,
 }: StudentFormRowProps) {
-  const { control, formState, getValues } = useFormContext<{
+  const { control, formState, getValues, setValue } = useFormContext<{
     students: StudentSchema[]
   }>()
   const isNoTrash = index === 0 && fields === 1
@@ -175,17 +175,36 @@ const StudentFormRow = memo(function StudentFormRow({
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Input
-                disabled={disabled}
-                placeholder='45'
-                type='number'
-                {...field}
-                value={field.value || undefined}
-                className={cn(
-                  formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
-                )}
-              />
+              <div className='relative'>
+                <Input
+                  disabled={disabled}
+                  placeholder='45 Min.'
+                  type='number'
+                  {...field}
+                  onChange={(e) => {
+                    const value =
+                      e.target.value === ''
+                        ? null
+                        : Number.parseInt(e.target.value, 10)
+                    setValue(`students.${index}.durationMinutes`, value)
+                  }}
+                  value={field.value || undefined}
+                  className={cn(
+                    field.value ? 'pr-10' : '',
+                    'text-right ',
+                    formState.errors.students?.[index]?.durationMinutes &&
+                      'border-warning',
+                  )}
+                />
+                <span
+                  className={cn(
+                    field.value ? 'inline' : 'hidden',
+                    'absolute top-[50%] translate-y-[calc(-50%+1px)] right-2 pointer-events-none',
+                  )}
+                >
+                  Min.
+                </span>
+              </div>
             </FormControl>
           </FormItem>
         )}
