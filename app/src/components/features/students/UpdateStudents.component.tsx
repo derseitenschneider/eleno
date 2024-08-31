@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
-import React, { useCallback, useMemo } from 'react'
-import { useFieldArray, useForm, FormProvider } from 'react-hook-form'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import { useFieldArray, useForm, FormProvider, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import StudentFormRow from './StudentFormRow.component'
@@ -49,10 +49,44 @@ export default function UpdateStudents({
     shouldFocusError: true,
   })
 
+  const { control, setValue, getValues } = methods
+
   const { fields } = useFieldArray({
     control: methods.control,
     name: 'students',
   })
+  const watchedStudents = useWatch({
+    control,
+    name: 'students',
+  })
+
+  const calculateDuration = useCallback((start: string, end: string) => {
+    if (!start || !end) return null
+    const startDate = new Date(`1970-01-01T${start}:00`)
+    const endDate = new Date(`1970-01-01T${end}:00`)
+    const durationMs = endDate.getTime() - startDate.getTime()
+    return Math.round(durationMs / 60000)
+  }, [])
+
+  useEffect(() => {
+    watchedStudents.forEach((student, index) => {
+      const { startOfLesson, endOfLesson, durationMinutes } = student
+      const calculatedDuration = calculateDuration(
+        startOfLesson || '',
+        endOfLesson || '',
+      )
+
+      if (
+        calculatedDuration !== null &&
+        calculatedDuration !== durationMinutes
+      ) {
+        const currentValue = getValues(`students.${index}.durationMinutes`)
+        if (currentValue === null || currentValue === undefined) {
+          setValue(`students.${index}.durationMinutes`, calculatedDuration)
+        }
+      }
+    })
+  }, [watchedStudents, calculateDuration, setValue, getValues])
 
   const grid = useMemo(
     () => 'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1',

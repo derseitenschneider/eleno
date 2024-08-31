@@ -105,7 +105,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
     const startDate = new Date(`1970-01-01T${start}:00`)
     const endDate = new Date(`1970-01-01T${end}:00`)
     const durationMs = endDate.getTime() - startDate.getTime()
-    return Math.round(durationMs / 60000) // Convert to minutes
+    return Math.round(durationMs / 60000)
   }, [])
 
   useEffect(() => {
@@ -120,7 +120,6 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
         calculatedDuration !== null &&
         calculatedDuration !== durationMinutes
       ) {
-        // Only update if the field hasn't been manually edited
         const currentValue = getValues(`students.${index}.durationMinutes`)
         if (currentValue === null || currentValue === undefined) {
           setValue(`students.${index}.durationMinutes`, calculatedDuration)
