@@ -1,7 +1,7 @@
-import type { HTMLAttributeAnchorTarget } from "react"
-import { Link } from "react-router-dom"
+import type { HTMLAttributeAnchorTarget } from 'react'
+import { Link } from 'react-router-dom'
 type TQuickLinkItemProps = {
-  link: string
+  link?: string
   onClick?: () => void
   icon: React.ReactNode
   title: string
@@ -15,13 +15,25 @@ export default function QuickLinkItem({
   icon,
   title,
   className,
-  target = "_self",
+  target = '_self',
 }: TQuickLinkItemProps) {
+  if (!link)
+    return (
+      <button
+        className='text-primary hover:underline flex itmes-center gap-[6px]'
+        type='button'
+        onClick={onClick}
+      >
+        <div className='size-[20px]'>{icon}</div>
+        {title}
+      </button>
+    )
+
   return (
     <Link
       target={target}
       to={link}
-      className={`${className || ""} flex items-center gap-[6px]`}
+      className={`${className || ''} flex items-center gap-[6px]`}
       onClick={onClick}
     >
       <div className='size-[18px]'>{icon}</div>

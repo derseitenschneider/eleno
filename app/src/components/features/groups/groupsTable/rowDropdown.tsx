@@ -21,12 +21,12 @@ import {
   Pencil,
   TableProperties,
 } from 'lucide-react'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type MouseEvent, useState } from 'react'
 import UpdateGroup from '../UpdateGroup.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import CreateTodo from '../../todos/CreateTodo.component'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 type StudentRowDropdownProps = {
   groupId: number
@@ -35,12 +35,22 @@ type StudentRowDropdownProps = {
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 
 export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
+  const { navigateToHolder } = useNavigateToHolder()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateGroups } = useDeactivateGroups()
-  const navigate = useNavigate()
 
   function closeModal() {
     setOpenModal(null)
+  }
+
+  function handleLessonNavigation(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
+    navigateToHolder(`g-${groupId}`)
+  }
+
+  function handleRepertoireNavigation(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
+    navigateToHolder(`g-${groupId}`, 'repertoire')
   }
 
   return (
@@ -48,11 +58,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
       <div className='text-right'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button
-              variant='ghost'
-              className='h-8 w-8 p-0'
-              // onClick={(e) => e.stopPropagation()}
-            >
+            <Button variant='ghost' className='h-8 w-8 p-0'>
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
             </Button>
@@ -95,10 +101,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate(`/lessons/g-${groupId}`)
-              }}
+              onClick={handleLessonNavigation}
               className='flex items-center gap-2'
             >
               <GraduationCap className='h-4 w-4 text-primary' />
@@ -106,10 +109,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate(`/lessons/g-${groupId}/repertoire`)
-              }}
+              onClick={handleRepertoireNavigation}
               className='flex items-center gap-2'
             >
               <TableProperties className='h-4 w-4 text-primary' />

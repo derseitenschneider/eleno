@@ -19,13 +19,27 @@ export default function NavbarMobileItem({
 }: NavbarMobileItemProps) {
   if (isButton)
     return (
-      <li>
+      <li
+        className={cn(
+          'relative',
+          isActive &&
+            'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-9.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
+        )}
+      >
         <button
-          className={`${isActive ? 'text-white' : 'text-foreground'
-            } block size-[32] p-[6px] relative`}
+          className={cn(
+            'text-foreground block size-[40px] p-[6px] relative',
+            isActive && 'text-primary',
+          )}
           type='button'
           onClick={() => onClick?.()}
         >
+          <span
+            className={cn(
+              isActive ? 'block' : 'hidden',
+              'absolute top-0 left-0 size-full bg-primary/20 z-[-1] rounded-md',
+            )}
+          />
           {icon}
         </button>
       </li>
@@ -36,7 +50,7 @@ export default function NavbarMobileItem({
       className={cn(
         'relative',
         isActive &&
-        'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-9.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
+          'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-9.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
       )}
     >
       <NavLink
@@ -47,8 +61,10 @@ export default function NavbarMobileItem({
         )}
       >
         <span
-          className={`${isActive ? 'block' : 'hidden'
-            } absolute top-0 left-0 size-full bg-primary/20 z-[-1] rounded-md`}
+          className={cn(
+            isActive ? 'block' : 'hidden',
+            'absolute top-0 left-0 size-full bg-primary/20 z-[-1] rounded-md',
+          )}
         />
         {icon}
         {notificationContent ? (

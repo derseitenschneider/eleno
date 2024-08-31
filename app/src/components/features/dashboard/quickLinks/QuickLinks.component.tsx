@@ -5,21 +5,12 @@ import {
   Settings,
   UserRoundPlus,
 } from 'lucide-react'
-import { useLessonHolders } from '../../../../services/context/LessonHolderContext'
 import QuickLinkItem from './QuickLinkItem.component'
 import { cn } from '@/lib/utils'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 function QuickLinks() {
-  const { nearestLessonHolder, nearestLessonPointer, setCurrentLessonPointer } =
-    useLessonHolders()
-
-  const lessonSlug = nearestLessonHolder?.holder
-    ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`
-    : 'no-students'
-
-  function setCurrentStudent() {
-    setCurrentLessonPointer(nearestLessonPointer)
-  }
+  const { navigateToNearestHolder } = useNavigateToHolder()
 
   return (
     <div
@@ -32,10 +23,9 @@ function QuickLinks() {
       <h2>Quick-Links</h2>
       <div className='flex gap-x-8 gap-y-5 flex-wrap'>
         <QuickLinkItem
-          onClick={setCurrentStudent}
+          onClick={navigateToNearestHolder}
           title='Unterricht starten'
           icon={<GraduationCap strokeWidth={1.5} />}
-          link={`/lessons/${lessonSlug}`}
         />
         <QuickLinkItem
           title='Schüler:in hinzufügen'

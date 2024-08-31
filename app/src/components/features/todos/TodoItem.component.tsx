@@ -6,10 +6,9 @@ import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
 import { useCompleteTodo } from './useCompleteTodo'
-import { useNavigate } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import CompletedTodoDropdown from './CompletedTodoDropdown.component'
-import { useState } from 'react'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 interface TodoItemProps {
   todo: TTodoItem
@@ -18,7 +17,7 @@ interface TodoItemProps {
 
 function TodoItem({ todo, type }: TodoItemProps) {
   const { userLocale } = useUserLocale()
-  const navigate = useNavigate()
+  const { navigateToHolder } = useNavigateToHolder()
   const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
   const { completeTodo } = useCompleteTodo()
   const today = new Date()
@@ -44,10 +43,9 @@ function TodoItem({ todo, type }: TodoItemProps) {
 
   if (currentHolder?.type === 'g') currentHolderName = currentHolder.holder.name
 
-  function navigateToHolder() {
+  function handleBadgeClick() {
     if (!currentHolder || currentHolder.holder.archive) return
-    const holderId = `${currentHolder.type}-${currentHolder.holder.id}`
-    navigate(`/lessons/${holderId}`)
+    navigateToHolder(`${currentHolder.type}-${currentHolder.holder.id}`)
   }
 
   return (
@@ -80,11 +78,11 @@ function TodoItem({ todo, type }: TodoItemProps) {
         <span className={cn(!todo.due && 'ml-auto', 'md:ml-0')}>
           {currentHolder ? (
             <Badge
-              onClick={navigateToHolder}
+              onClick={handleBadgeClick}
               className={cn(
                 'cursor-pointer w-fit',
                 currentHolder.holder.archive &&
-                'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                  'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
               )}
             >
               {currentHolderName}
@@ -100,10 +98,10 @@ function TodoItem({ todo, type }: TodoItemProps) {
         >
           {todo.due
             ? todo.due.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })
             : null}
         </span>
       </div>

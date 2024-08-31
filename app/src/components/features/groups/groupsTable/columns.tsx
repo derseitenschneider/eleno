@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Group } from '@/types/types'
 import type { ColumnDef, SortingFn } from '@tanstack/react-table'
-import { ArrowUpDown, Users } from 'lucide-react'
+import { ArrowUpDown } from 'lucide-react'
 import GroupRowDropdown from './rowDropdown'
 import {
   Popover,

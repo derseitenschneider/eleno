@@ -19,12 +19,11 @@ import {
   Users,
 } from 'lucide-react'
 import useTodosQuery from '@/components/features/todos/todosQuery'
-import useNavigateToCurrentHolder from '@/hooks/useNavigateToCurrentHolder'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const navigateToCurrentHolder = useNavigateToCurrentHolder()
-  const { currentLessonHolder } = useLessonHolders()
+  const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
   const { logout } = useUser()
   const overdueTodos = todos?.filter(

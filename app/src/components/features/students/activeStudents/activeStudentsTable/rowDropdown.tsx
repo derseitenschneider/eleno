@@ -22,12 +22,11 @@ import {
   TableProperties,
 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -38,20 +37,24 @@ type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
 export default function ActiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
-  const { activeSortedHolders: lessonHolders, setCurrentLessonPointer } =
-    useLessonHolders()
+  const { navigateToHolder } = useNavigateToHolder()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateStudents } = useDeactivateStudents()
-  const navigate = useNavigate()
-  const sortedStudentIds = lessonHolders
-    .filter((holder) => holder.type === 's')
-    .map((holder) => holder.holder.id)
 
   function closeModal() {
     setOpenModal(null)
   }
   function handleDialogClick(e: MouseEvent<HTMLDivElement>) {
     e.stopPropagation()
+  }
+
+  function handleLessonNavigation(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
+    navigateToHolder(`s-${studentId}`)
+  }
+  function handleRepertoireNavigation(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
+    navigateToHolder(`s-${studentId}`, 'repertoire')
   }
 
   return (
@@ -102,12 +105,7 @@ export default function ActiveStudentRowDropdown({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation()
-                const newStudentIndex = sortedStudentIds.indexOf(studentId)
-                setCurrentLessonPointer(newStudentIndex)
-                navigate(`/lessons/s-${studentId}`)
-              }}
+              onClick={handleLessonNavigation}
               className='flex items-center gap-2'
             >
               <GraduationCap className='h-4 w-4 text-primary' />
@@ -115,12 +113,7 @@ export default function ActiveStudentRowDropdown({
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation()
-                const newStudentIndex = sortedStudentIds.indexOf(studentId)
-                setCurrentLessonPointer(newStudentIndex)
-                navigate(`/lessons/s-${studentId}/repertoire`)
-              }}
+              onClick={handleRepertoireNavigation}
               className='flex items-center gap-2'
             >
               <TableProperties className='h-4 w-4 text-primary' />

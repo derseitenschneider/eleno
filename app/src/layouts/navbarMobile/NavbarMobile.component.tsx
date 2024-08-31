@@ -3,22 +3,19 @@ import Logo from '../../components/ui/Logo.component'
 import NavbarMobileItem from './NavbarMobileItem.component'
 import {
   CheckSquare2,
-  Gauge,
   GaugeCircle,
   GraduationCap,
-  Home,
-  HomeIcon,
-  LayoutDashboard,
-  LayoutGrid,
   LogOut,
   Settings,
 } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import { useUser } from '@/services/context/UserContext'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 function NavbarMobile() {
   const { logout } = useUser()
+  const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
 
   const todosDue = todos
@@ -63,8 +60,9 @@ function NavbarMobile() {
           }
         />
         <NavbarMobileItem
+          isButton
+          onClick={navigateToCurrentHolder}
           isActive={window.location.pathname.includes('lessons')}
-          to={`/lessons/${currentHolderQuery}`}
           icon={
             <GraduationCap
               strokeWidth={

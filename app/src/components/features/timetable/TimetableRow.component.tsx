@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom'
 import type { LessonHolder } from '../../../types/types'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Users } from 'lucide-react'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 type TimeTableRowProps = {
   lessonHolder: LessonHolder
 }
 
 export default function TimeTableRow({ lessonHolder }: TimeTableRowProps) {
-  const navigate = useNavigate()
+  const { navigateToHolder } = useNavigateToHolder()
   const { holder } = lessonHolder
   let name = ''
   if (lessonHolder.type === 's')
@@ -16,8 +16,8 @@ export default function TimeTableRow({ lessonHolder }: TimeTableRowProps) {
 
   if (lessonHolder.type === 'g') name = lessonHolder.holder.name
 
-  function navigateTolesson() {
-    navigate(`/lessons/${lessonHolder.type}-${lessonHolder.holder.id}`)
+  function handleClick() {
+    navigateToHolder(`${lessonHolder.type}-${holder.id}`)
   }
 
   return (
@@ -41,7 +41,7 @@ export default function TimeTableRow({ lessonHolder }: TimeTableRowProps) {
       </div>
       <div>{lessonHolder.type === 's' && lessonHolder.holder.instrument}</div>
       <div>{holder.location}</div>
-      <Button className='p-0' variant='ghost' onClick={navigateTolesson}>
+      <Button className='p-0' variant='ghost' onClick={handleClick}>
         <ArrowRight strokeWidth={1.5} className='text-primary size-4' />
       </Button>
     </div>
