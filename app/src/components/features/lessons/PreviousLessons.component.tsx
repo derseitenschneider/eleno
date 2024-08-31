@@ -82,11 +82,15 @@ function PreviousLessons() {
         </div>
       ) : null}
       {previousLessonsIds.length > 0 ? (
-        <div className='pb-4'>
-          <div className={cn('max-h-[300px] grid md:grid-cols-2 gap-6')}>
+        <div className='pb-4' key={previousLessonsIds[tabIndex]}>
+          <div
+            className={cn(
+              'h-[250px] sm:h-auto overflow-auto sm:overflow-hidden grid md:grid-cols-2 gap-6',
+            )}
+          >
             <div className=''>
               <p className='text-foreground/70'>Lektion</p>
-              <ScrollArea className='h-full sm:max-h-[160px]'>
+              <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
                 <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
                   {parse(
@@ -97,7 +101,7 @@ function PreviousLessons() {
             </div>
             <div>
               <p className='text-foreground/70'>Hausaufgaben</p>
-              <ScrollArea className='sm:max-h-[160px] h-full'>
+              <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
                 <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
                   {parse(

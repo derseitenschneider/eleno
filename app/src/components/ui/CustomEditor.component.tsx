@@ -18,7 +18,7 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
-import { ClipboardEvent, RefObject, useRef, useState } from 'react'
+import { type ClipboardEvent, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
