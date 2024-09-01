@@ -58,13 +58,13 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
       <form
         onSubmit={onSaveHandler}
         className={cn(
-          'sm:border border-hairline pr-1 rounded-md sm:flex-row sm:items-center',
-          'gap-1 w-full flex flex-col justify-end',
+          'sm:border sm:flex-row sm:items-center',
+          'gap-1 w-full border-hairline pr-1 rounded-md flex flex-col justify-end',
           onCloseModal && 'sm:w-[800px]',
         )}
       >
-        <div className='sm:flex sm:border-none border border-hairline rounded-md grow items-center'>
-          <div className='shrink grow'>
+        <div className='sm:flex sm:border-none border p-1 sm:py-[2px] px-[3px] border-hairline rounded-md grow items-center'>
+          <div className='shrink grow mb-2 sm:mb-0'>
             <Input
               autoFocus={window.innerWidth > 1024}
               ref={textField}
@@ -91,7 +91,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               selectedHolderId={selectedHolderId}
               setSelectedHolderId={setSelectedHolderId}
             />
-            <div className='flex mr-2 items-center'>
+            <div className='flex sm:mr-2 items-center'>
               <DayPicker disabled={isCreating} date={due} setDate={setDue} />
               {due && (
                 <ButtonRemove

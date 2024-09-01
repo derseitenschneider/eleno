@@ -14,7 +14,7 @@ import { groupsColumns } from './columns'
 import GroupsControl from './control'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -33,6 +33,7 @@ export default function GroupsTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const navigate = useNavigate()
 
   const fuzzyFilter: FilterFn<Group> = (row, _, searchValue) => {
     const name = row.original.name
@@ -78,17 +79,29 @@ export default function GroupsTable({
         />
       ) : (
         <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8'>
-          <Button
-            className='mt-4'
-            size='sm'
-            variant='outline'
-            onClick={() => {
-              searchParams.set('modal', 'add-group')
-              setSearchParams(searchParams)
-            }}
-          >
-            Neue Gruppe erstellen
-          </Button>
+          <div className='flex gap-2 items-center'>
+            <Button
+              className='mt-4'
+              size='sm'
+              variant='outline'
+              onClick={() => {
+                searchParams.set('modal', 'add-group')
+                setSearchParams(searchParams)
+              }}
+            >
+              Neue Gruppe erstellen
+            </Button>
+            <Button
+              className='mt-4'
+              size='sm'
+              variant='outline'
+              onClick={() => {
+                navigate('/students')
+              }}
+            >
+              Schüler:in in Gruppe umwandeln
+            </Button>
+          </div>
         </Empty>
       )}
     </div>
