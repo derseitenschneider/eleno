@@ -1,20 +1,14 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Button } from '@/components/ui/button'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
+  FormControl,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import type { GroupPartial } from '@/types/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useCreateGroup } from './useCreateGroup'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -22,102 +16,83 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Plus } from 'lucide-react'
 import ButtonRemove from '@/components/ui/buttonRemove'
-import { toast } from 'sonner'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { cn } from '@/lib/utils'
+import {
+  groupValidationSchema,
+  type GroupSchema,
+} from '../groups/CreateGroup.component'
+import useStudentsQuery from './studentsQueries'
+import { useCreateGroup } from '../groups/useCreateGroup'
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
-type CreateGroupsProps = {
+type ConvertStudentToGroupProps = {
+  studentId: number
   onSuccess: () => void
-}
-export type RowGroup = Omit<GroupPartial, 'user_id' | 'archive'> & {
-  tempId?: number
+  onCancel: () => void
 }
 
-export const groupValidationSchema = z.object({
-  id: z.optional(z.number()).nullable(),
-  name: z.string().min(2, { message: 'Ungültiger Gruppenname' }),
-  students: z.array(z.object({ name: z.string() })),
-  dayOfLesson: z
-    .optional(
-      z
-        .union([
-          z.literal('Montag'),
-          z.literal('Dienstag'),
-          z.literal('Mittwoch'),
-          z.literal('Donnerstag'),
-          z.literal('Freitag'),
-          z.literal('Samstag'),
-          z.literal('Sonntag'),
-          z.literal('none'),
-        ])
-        .nullable()
-        .transform((val) => (val === 'none' ? null : val)),
-    )
-    .transform((val) => (val === undefined ? null : val)),
-  startOfLesson: z
-    .optional(z.string())
-    .transform((val) => (val === '' || val === undefined ? null : val))
-    .nullable(),
-  endOfLesson: z
-    .optional(z.string())
-    .transform((val) => (val === '' || val === undefined ? null : val))
-    .nullable(),
-  durationMinutes: z
-    .optional(z.coerce.number().min(0, { message: 'Ungültiger Wert.' }))
-    .transform((val) => (val === undefined ? null : val))
-    .nullable(),
-  location: z
-    .optional(z.string())
-    .transform((val) => (val === undefined ? null : val))
-    .nullable(),
-})
-
-export type GroupSchema = z.infer<typeof groupValidationSchema>
-
-const defaultGroup: GroupSchema = {
-  name: '',
-  students: [{ name: '' }, { name: '' }, { name: '' }],
-  startOfLesson: '',
-  dayOfLesson: null,
-  endOfLesson: '',
-  durationMinutes: null,
-  location: '',
-}
-
-export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
+export default function ConvertStudentToGroup({
+  studentId,
+  onSuccess,
+  onCancel,
+}: ConvertStudentToGroupProps) {
+  const students = useStudentsQuery().data
+  const student = students?.find((student) => student.id === studentId)
   const { createGroup, isCreating } = useCreateGroup()
+
+  const defaultValues: GroupSchema = {
+    name: '',
+    students: [{ name: '' }, { name: '' }, { name: '' }],
+    dayOfLesson: student?.dayOfLesson as GroupSchema['dayOfLesson'],
+    startOfLesson: student?.startOfLesson || null,
+    endOfLesson: student?.endOfLesson || null,
+    durationMinutes: student?.durationMinutes || null,
+    location: student?.location || null,
+  }
+
   const form = useForm<GroupSchema>({
     resolver: zodResolver(groupValidationSchema),
-    defaultValues: defaultGroup,
+    defaultValues,
     mode: 'onSubmit',
-    resetOptions: {
-      keepDirtyValues: true,
-      keepErrors: false,
-    },
-    shouldFocusError: true,
   })
-
-  const grid = 'grid gap-1 grid-cols-[1fr_1fr_80px_80px_80px_1fr]'
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'students',
   })
 
-  function onSubmit(group: GroupSchema) {
-    const newGroup = {
+  async function onSubmit(group: GroupSchema) {
+    const groupData = {
       ...group,
       students: group.students?.filter((student) => student.name) || null,
     }
-    createGroup(newGroup, {
-      onSuccess: () => {
-        toast.success('Neue Gruppe hinzugefügt')
-        onSuccess()
+
+    createGroup(groupData, {
+      onSuccess: (newGroup) => {
+        console.log(newGroup)
       },
     })
   }
 
+  const grid = 'grid gap-1 grid-cols-[1fr_1fr_80px_80px_80px_1fr]'
+
   return (
     <div className='w-[85vw]'>
+      <DialogHeader>
+        <DialogTitle>
+          {student?.firstName} {student?.lastName} in Gruppe umwandeln
+        </DialogTitle>
+      </DialogHeader>
+      <p className='mb-6'>
+        Nach der Umwandlung hast du eine neue Gruppe statt eines Einzelschülers.
+        Alle bisherigen Informationen und Einträge bleiben erhalten, sind aber
+        nun der Gruppe zugeordnet. Du kannst jederzeit weitere Schüler zur
+        Gruppe hinzufügen. Beachte: Diese Änderung kann nicht rückgängig gemacht
+        werden.
+      </p>
       <div className={cn(grid)}>
         <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Tag</span>
@@ -125,7 +100,6 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
         <span className='text-sm pl-3 text-foreground/80'>Bis</span>
         <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
         <span className='text-sm pl-3 text-foreground/80'>Unterrichtsort</span>
-        <span />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -138,7 +112,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder='Gruppenname'
+                      placeholder='Group Name'
                       className={cn(
                         form.formState.errors.name && 'border-warning',
                       )}
@@ -159,7 +133,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                       defaultValue={field.value || undefined}
                     >
                       <SelectTrigger className='h-[36px]'>
-                        <SelectValue placeholder='Unterrichtstag' />
+                        <SelectValue placeholder='Lesson Day' />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value='Montag'>Montag</SelectItem>
@@ -229,7 +203,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 <FormItem>
                   <FormControl>
                     <Input
-                      placeholder='Unterrichtsort'
+                      placeholder='Location'
                       {...field}
                       value={form.getValues('location') || ''}
                     />
@@ -288,7 +262,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 size='sm'
                 variant='outline'
                 type='button'
-                onClick={onSuccess}
+                onClick={onCancel}
               >
                 Abbrechen
               </Button>

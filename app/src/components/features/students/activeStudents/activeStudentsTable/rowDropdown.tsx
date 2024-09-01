@@ -17,9 +17,12 @@ import {
   CheckSquare2,
   FileDown,
   GraduationCap,
+  Group,
+  GroupIcon,
   MoreVertical,
   Pencil,
   TableProperties,
+  Users,
 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
 import ExportLessons from '../../../lessons/ExportLessons.component'
@@ -27,12 +30,13 @@ import CreateTodo from '../../../todos/CreateTodo.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
 
 type StudentRowDropdownProps = {
   studentId: number
 }
 
-type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'ARCHIVE' | null
+type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'TRANSFORM' | 'ARCHIVE' | null
 
 export default function ActiveStudentRowDropdown({
   studentId,
@@ -125,6 +129,17 @@ export default function ActiveStudentRowDropdown({
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation()
+                setOpenModal('TRANSFORM')
+              }}
+              className='flex items-center gap-2'
+            >
+              <Users className='h-4 w-4 text-primary' />
+              <span>In Gruppe umwandeln</span>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation()
                 deactivateStudents([studentId])
               }}
               className='flex items-center gap-2'
@@ -166,6 +181,12 @@ export default function ActiveStudentRowDropdown({
             holderId={studentId}
             holderType='s'
           />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={openModal === 'TRANSFORM'} onOpenChange={closeModal}>
+        <DialogContent onClick={handleDialogClick}>
+          <ConvertStudentToGroup studentId={studentId} />
         </DialogContent>
       </Dialog>
     </>

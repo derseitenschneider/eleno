@@ -1,7 +1,8 @@
 import supabase from './supabase'
-import type { Student, StudentPartial } from '../../types/types'
+import type { Group, Student, StudentPartial } from '../../types/types'
 import { isDemoMode } from '../../config'
 import mockStudents from './mock-db/mockStudents'
+import { GroupSchema } from '@/components/features/groups/CreateGroup.component'
 
 export const fetchStudentsApi = async () => {
   if (isDemoMode) return mockStudents
@@ -74,6 +75,23 @@ export const resetStudentsApi = async (studentIds: number[]) => {
     })
     .in('id', studentIds)
     .select('id')
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const convertStudentToGroupApi = async (
+  student: Student,
+  groupData: GroupSchema,
+) => {
+  // Start a Supabase transaction
+  const { data, error } = await supabase.rpc('convert_student_to_group', {
+    p_student_id: student.id,
+    p_group_data: {
+      ...groupData,
+      students: groupData.students?.filter((s) => s.name) || null,
+    },
+  })
 
   if (error) throw new Error(error.message)
   return data
