@@ -27,21 +27,21 @@ import {
 import useStudentsQuery from './studentsQueries'
 import { useCreateGroup } from '../groups/useCreateGroup'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useConvertStudentToGroup } from './useConvertStudentToGroup'
+import { toast } from 'sonner'
 
 type ConvertStudentToGroupProps = {
   studentId: number
   onSuccess: () => void
-  onCancel: () => void
 }
 
 export default function ConvertStudentToGroup({
   studentId,
   onSuccess,
-  onCancel,
 }: ConvertStudentToGroupProps) {
   const students = useStudentsQuery().data
   const student = students?.find((student) => student.id === studentId)
-  const { createGroup, isCreating } = useCreateGroup()
+  const { convertToGroup, isConverting } = useConvertStudentToGroup()
 
   const defaultValues: GroupSchema = {
     name: '',
@@ -65,16 +65,21 @@ export default function ConvertStudentToGroup({
   })
 
   async function onSubmit(group: GroupSchema) {
+    if (!student) return
     const groupData = {
       ...group,
-      students: group.students?.filter((student) => student.name) || null,
+      students: group.students?.filter((student) => student.name) || [],
     }
 
-    createGroup(groupData, {
-      onSuccess: (newGroup) => {
-        console.log(newGroup)
+    convertToGroup(
+      { student, groupData },
+      {
+        onSuccess: () => {
+          toast.success('Umwandlung erfolgreich.')
+          onSuccess()
+        },
       },
-    })
+    )
   }
 
   const grid = 'grid gap-1 grid-cols-[1fr_1fr_80px_80px_80px_1fr]'
@@ -258,19 +263,19 @@ export default function ConvertStudentToGroup({
           <div className='flex items-center justify-end mt-4'>
             <div className='flex items-center gap-4'>
               <Button
-                disabled={isCreating}
+                disabled={isConverting}
                 size='sm'
                 variant='outline'
                 type='button'
-                onClick={onCancel}
+                onClick={onSuccess}
               >
                 Abbrechen
               </Button>
               <div className='flex items-center gap-2'>
-                <Button disabled={isCreating} size='sm' type='submit'>
+                <Button disabled={isConverting} size='sm' type='submit'>
                   Speichern
                 </Button>
-                {isCreating && <MiniLoader />}
+                {isConverting && <MiniLoader />}
               </div>
             </div>
           </div>

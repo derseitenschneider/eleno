@@ -7,7 +7,7 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 export function useConvertStudentToGroup() {
   const queryClient = useQueryClient()
 
-  return useMutation({
+  const { mutate: convertToGroup, isPending: isConverting } = useMutation({
     mutationFn: ({
       student,
       groupData,
@@ -31,10 +31,13 @@ export function useConvertStudentToGroup() {
       queryClient.invalidateQueries({ queryKey: ['notes'] })
       queryClient.invalidateQueries({ queryKey: ['todos'] })
       queryClient.invalidateQueries({ queryKey: ['repertoire'] })
+      queryClient.invalidateQueries({ queryKey: ['latest-3-lessons'] })
     },
     onError: (error) => {
       console.error('Error during student to group conversion:', error)
       fetchErrorToast()
     },
   })
+
+  return { convertToGroup, isConverting }
 }

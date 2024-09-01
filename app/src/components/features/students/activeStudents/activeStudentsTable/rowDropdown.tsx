@@ -186,7 +186,7 @@ export default function ActiveStudentRowDropdown({
 
       <Dialog open={openModal === 'TRANSFORM'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
-          <ConvertStudentToGroup studentId={studentId} />
+          <ConvertStudentToGroup onSuccess={closeModal} studentId={studentId} />
         </DialogContent>
       </Dialog>
     </>
