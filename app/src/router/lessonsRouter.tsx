@@ -3,14 +3,14 @@ import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.com
 import Repertoire from '@/components/features/repertoire/Repertoire.component'
 import { motion } from 'framer-motion'
 import { Suspense, lazy } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, RouteObject } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import LessonFooter from '@/components/features/lessons/LessonFooter.component'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 
-const lessonsRoutes = [
+const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
     element: (
@@ -34,7 +34,6 @@ const lessonsRoutes = [
         element: <LessonsPage />,
       },
       {
-        // end: true,
         path: 'all',
         element: (
           <div className='container-page'>
@@ -43,7 +42,6 @@ const lessonsRoutes = [
         ),
       },
       {
-        end: true,
         path: 'repertoire',
         element: (
           <div className='container-page'>
