@@ -5,22 +5,92 @@
   <script defer src="https://umami.coolify.eleno.net/script.js"
     data-website-id="4d9e3797-127f-450c-90b7-de46ae1b298c"></script>
   <meta charset="UTF-8" />
-
-  <!-- START: Cache control for pwa-->
-  <!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"> -->
-  <!-- <meta http-equiv="Pragma" content="no-cache"> -->
-  <!-- <meta http-equiv="Expires" content="0"> -->
-  <!-- END: Cache control for pwa-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="description" content="Eleno - smart unterrichten" />
   <link rel="icon" type="image/svg+xml" href="./src/assets/icons/logo1.svg" />
   <link rel="apple-touch-icon" href="./src/assets/icons/pwa/ios/180.png" sizes="180x180" />
   <link rel="mask-icon" href="./src/assets/icons/logo1.svg" color="#f4f4f5" />
   <title>Eleno - smart unterrichten</title>
+  <style>
+    #loader {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 300ms ease-out;
+    }
+
+    #loader.fade-out {
+      opacity: 0;
+    }
+
+    .loader-svg {
+      width: 100px;
+      height: 100px;
+      animation: pulsate 3s ease-in-out infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+
+    .logo-path {
+      animation: colorChange 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes colorChange {
+
+      0%,
+      100% {
+        stroke: #4794AE;
+      }
+
+      25% {
+        stroke: #6E6ED6;
+      }
+
+      50% {
+        stroke: #9747FF;
+      }
+
+      75% {
+        stroke: #6E6ED6;
+      }
+    }
+
+    @keyframes pulsate {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="loader">
+    <svg class="loader-svg" width="539" height="460" viewBox="0 0 539 460" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path class="logo-path top-rhombus"
+        d="M271.31 273.373C248.005 273.373 38.2647 182.271 29.7842 171.678C21.3037 161.085 12.8427 133.543 29.7842 120.831C46.7257 108.119 248.005 19.1357 271.31 19.1357C294.615 19.1357 490.331 103.882 507.288 114.475C524.245 125.068 522.126 165.322 509.407 175.915C496.687 186.509 294.615 273.373 271.31 273.373Z"
+        stroke="#4794AE" stroke-width="38.1356" />
+      <path class="logo-path bottom-line-1"
+        d="M20 256.424C35.9091 262.78 246.293 358.119 270 358.119C293.707 358.119 512.202 260.661 520 256.424"
+        stroke="#4794AE" stroke-width="33.8983" stroke-linecap="round" />
+      <path class="logo-path bottom-line-2"
+        d="M20 341.169C35.9091 347.525 246.293 442.864 270 442.864C293.707 442.864 512.202 345.407 520 341.169"
+        stroke="#4794AE" stroke-width="33.8983" stroke-linecap="round" />
+    </svg>
+  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

@@ -11,8 +11,20 @@ import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
+import { useEffect } from 'react'
 
 export default function Application() {
+  useEffect(() => {
+    const loader = document.getElementById('loader')
+    if (loader) {
+      setTimeout(() => {
+        loader.classList.add('fade-out')
+        setTimeout(() => {
+          loader.style.display = 'none'
+        }, 1000)
+      }, 2000)
+    }
+  }, [])
   return (
     <div className='before:h-[1px] before:z-[100] before:w-screen before:bg-hairline before:fixed before:top-0 before:left-0'>
       <UserLocaleProvider>
