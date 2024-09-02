@@ -33,7 +33,7 @@ export default function SearchStudentCombobox() {
   const holdersSortedByName = [...activeSortedHolders].sort((a, b) => {
     const nameA = a.type === 's' ? a.holder.lastName : a.holder.name
     const nameB = b.type === 's' ? b.holder.lastName : b.holder.name
-    return nameA.localeCompare(nameB)
+    return nameA?.localeCompare(nameB || '') || 0
   })
 
   function handleSelect(newLessonHolder: LessonHolder) {

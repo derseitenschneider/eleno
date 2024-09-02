@@ -19,9 +19,9 @@ export type ContextTypeLessonHolder = {
 
 export const LessonHolderContext = createContext<ContextTypeLessonHolder>({
   nearestLessonPointer: 0,
-  setNearestLessonPointer: () => {},
+  setNearestLessonPointer: () => { },
   currentLessonPointer: 0,
-  setCurrentLessonPointer: () => {},
+  setCurrentLessonPointer: () => { },
   activeSortedHolders: [],
   activeSortedHolderTypeIds: [],
   inactiveLessonHolders: [],
@@ -79,6 +79,10 @@ export function LessonHolderProvider({
       setNearestLessonPointer(calcNearestLessonIndex(activeSortedHolders))
     }
   }, [activeSortedHolders])
+
+  useEffect(() => {
+    setCurrentLessonPointer(nearestLessonPointer)
+  }, [nearestLessonPointer])
 
   const currentLessonHolder = activeSortedHolders[currentLessonPointer] || null
   const nearestLessonHolder = activeSortedHolders[nearestLessonPointer] || null

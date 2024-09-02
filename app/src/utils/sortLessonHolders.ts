@@ -4,7 +4,11 @@ export const compareLastName = (a: Student, b: Student) => {
   const studentA = a.lastName
   const studentB = b.lastName
 
-  return studentA.localeCompare(studentB, 'de', { sensitivity: 'variant' })
+  return (
+    studentA?.localeCompare(studentB || '', 'de', {
+      sensitivity: 'variant',
+    }) || 0
+  )
 }
 
 const compareTime = (a: LessonHolder, b: LessonHolder) => {
@@ -19,7 +23,7 @@ const compareTime = (a: LessonHolder, b: LessonHolder) => {
   } else if (studentA < studentB) {
     comparison = -1
   }
-  return comparison
+  return comparison || 0
 }
 
 export const compareDateString = (a: Lesson, b: Lesson) => {

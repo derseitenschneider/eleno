@@ -26,7 +26,7 @@ export default function Application() {
     }
   }, [])
   return (
-    <div className='before:h-[1px] before:z-[100] before:w-screen before:bg-hairline before:fixed before:top-0 before:left-0'>
+    <div className='md:before:h-[1px] md:before:z-[40] md:before:w-screen md:before:bg-hairline md:before:fixed md:before:top-0 md:before:left-0'>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>

@@ -42,7 +42,7 @@ export default function DeleteTodos({
         {todoIds.length === 1 ? (
           <p>
             Möchtest du die Todo{' '}
-            <span className='font-bold text-primary'>{text}</span>{' '}
+            <span className='font-bold text-primary hyphens-auto'>{text}</span>{' '}
             unwiederruflich löschen?
           </p>
         ) : (

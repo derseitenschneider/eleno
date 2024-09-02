@@ -27,7 +27,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   const typeField = holderType === 's' ? 'studentId' : 'groupId'
 
   function handleSave() {
-    if (!text || !title) return setError('Titel oder Inhalt fehlt.')
+    if (!text && !title) return setError('Titel oder Inhalt fehlt.')
     if (!user?.id) return
     const newNote: PartialNote = {
       [typeField]: holderId,

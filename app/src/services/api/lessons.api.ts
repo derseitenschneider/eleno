@@ -56,7 +56,10 @@ export const fetchAllLessonsApi = async ({
   const { data: lessons, error } = await query
 
   if (error) throw new Error(error.message)
-  return lessons.map((lesson) => ({ ...lesson, date: new Date(lesson.date) }))
+  return lessons.map((lesson) => ({
+    ...lesson,
+    date: new Date(lesson?.date || ''),
+  }))
 }
 
 export const fetchAllLessonsCSVApi = async ({

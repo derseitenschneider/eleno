@@ -50,9 +50,9 @@ export default function ActiveStudentsTable({
     const location = row.original.location
 
     return (
-      firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
-      lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
-      instrument.toLowerCase().includes(searchValue.toLowerCase()) ||
+      firstName?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      lastName?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      instrument?.toLowerCase().includes(searchValue.toLowerCase()) ||
       dayOfLesson?.toLowerCase().includes(searchValue.toLowerCase()) ||
       location?.toLowerCase().includes(searchValue.toLowerCase()) ||
       false

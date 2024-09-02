@@ -15,6 +15,7 @@ import { toast } from 'sonner'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import JSZip from 'jszip'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
+import stripHtmlTags from '@/utils/stripHtmlTags'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>

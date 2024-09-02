@@ -17,7 +17,6 @@ function Note({ note, index }: NoteProps) {
     blue: 'border-l-noteBlue border-l-[5px]',
     yellow: 'border-l-noteYellow border-l-[5px]',
     green: 'border-l-noteGreen border-l-[5px]',
-    none: 'border-l-transparent border-l-[5px]',
   }
 
   return (
