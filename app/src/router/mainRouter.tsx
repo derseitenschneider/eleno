@@ -32,7 +32,9 @@ const mainRouter = createBrowserRouter(
           index: true,
           element: (
             <Suspense fallback={<DashboardSkeleton />}>
-              <Dashboard />
+              <div className='border-t border-hairline'>
+                <Dashboard />
+              </div>
             </Suspense>
           ),
         },
