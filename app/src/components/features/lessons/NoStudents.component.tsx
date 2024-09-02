@@ -35,7 +35,7 @@ export default function NoStudents() {
           </div>
         </>
       ) : (
-        <p className='mt-3 text-center'>
+        <p className='max-w-[60ch] mt-3 text-center'>
           Die Schülerverwaltung ist in der mobilen Version von Eleno nicht
           verfügbar. Um neue Schüler:innen und Gruppen zu erfassen, logge dich
           bitte über ein Tablet oder einen Computer ein. Nachdem du

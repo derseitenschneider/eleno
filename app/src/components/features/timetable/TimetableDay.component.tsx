@@ -8,9 +8,11 @@ interface TimeTableDayProps {
 
 export default function TimeTableDay({ day }: TimeTableDayProps) {
   return (
-    <div className='mb-12 shadow-sm w-[700px] border border-background200 bg-background50'>
-      <div className='bg-background200 px-4 py-2 flex justify-between items-baseline'>
-        <h4>{day.day || 'Kein Tag angegeben '}</h4>
+    <div className='mb-12 rounded-md shadow-sm w-[700px] border border-background200 bg-background50'>
+      <div className='bg-background200/50 px-4 py-2 flex justify-between items-center'>
+        <h5 className='text-foreground/80 m-0'>
+          {day.day || 'Kein Tag angegeben '}
+        </h5>
 
         <span className='text-sm text-foreground/70'>
           Lektionen: {day.lessonHolders.length}
