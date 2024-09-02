@@ -188,6 +188,7 @@ export type Database = {
           id: string
           lastName: string | null
           lifetime_membership: boolean
+          login_count: number | null
           stripe_customer: string | null
           stripe_subscription: boolean
         }
@@ -197,6 +198,7 @@ export type Database = {
           id: string
           lastName?: string | null
           lifetime_membership?: boolean
+          login_count?: number | null
           stripe_customer?: string | null
           stripe_subscription?: boolean
         }
@@ -206,6 +208,7 @@ export type Database = {
           id?: string
           lastName?: string | null
           lifetime_membership?: boolean
+          login_count?: number | null
           stripe_customer?: string | null
           stripe_subscription?: boolean
         }
@@ -302,43 +305,43 @@ export type Database = {
       }
       students: {
         Row: {
-          archive: boolean | null
+          archive: boolean
           created_at: string | null
-          dayOfLesson: string | null
+          dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes: number | null
           endOfLesson: string | null
-          firstName: string | null
+          firstName: string
           id: number
-          instrument: string | null
-          lastName: string | null
+          instrument: string
+          lastName: string
           location: string | null
           startOfLesson: string | null
           user_id: string
         }
         Insert: {
-          archive?: boolean | null
+          archive?: boolean
           created_at?: string | null
-          dayOfLesson?: string | null
+          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
-          firstName?: string | null
+          firstName: string
           id?: number
-          instrument?: string | null
-          lastName?: string | null
+          instrument: string
+          lastName: string
           location?: string | null
           startOfLesson?: string | null
           user_id?: string
         }
         Update: {
-          archive?: boolean | null
+          archive?: boolean
           created_at?: string | null
-          dayOfLesson?: string | null
+          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
-          firstName?: string | null
+          firstName?: string
           id?: number
-          instrument?: string | null
-          lastName?: string | null
+          instrument?: string
+          lastName?: string
           location?: string | null
           startOfLesson?: string | null
           user_id?: string

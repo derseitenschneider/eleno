@@ -8,6 +8,7 @@ const mockUser: User = {
   lifetime_membership: false,
   stripe_customer: null,
   stripe_subscription: false,
+  login_count: 10_000,
 }
 
 export default mockUser
