@@ -53,7 +53,7 @@ export default function RepertoireControl({
         onClick={() => setModalOpen('EXPORT')}
         disabled={!hasRepertoireItems || isFetching}
       >
-        <FileDown className='h-4 w-4 text-primary mr-2' />
+        <FileDown className='h-4 w-4 text-primary mr-1' />
         Exportieren
       </Button>
       <SearchBar

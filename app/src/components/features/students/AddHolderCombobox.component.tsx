@@ -64,7 +64,7 @@ export default function AddHolderCombobox({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            className='px-3 sm:px-4 border-none !bg-transparent justify-between'
+            className='px-2 sm:px-4 border-none !bg-transparent justify-between'
           >
             {selectedHolder ? (
               <div>
@@ -92,7 +92,10 @@ export default function AddHolderCombobox({
         </PopoverTrigger>
         <PopoverContent className='p-0' side='bottom' align='start'>
           <Command>
-            <CommandInput placeholder='Schüler:in/Gruppe suchen' />
+            <CommandInput
+              className='text-base placeholder:text-foreground/70'
+              placeholder='Schüler:in/Gruppe suchen'
+            />
             <CommandList>
               <CommandEmpty>Keine:n Schüler:in/Gruppe gefunden.</CommandEmpty>
               <CommandGroup>

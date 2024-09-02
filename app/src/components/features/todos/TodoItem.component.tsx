@@ -58,7 +58,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
         isOverdue && 'border-warning/20 bg-warning/5',
       )}
     >
-      <div>
+      <div className='flex'>
         {type === 'open' && (
           <Checkbox
             onClick={() => completeTodo(todo.id)}
@@ -83,7 +83,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
               className={cn(
                 'cursor-pointer w-fit',
                 currentHolder.holder.archive &&
-                'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                  'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
               )}
             >
               {currentHolderName}
@@ -99,10 +99,10 @@ function TodoItem({ todo, type }: TodoItemProps) {
         >
           {todo.due
             ? todo.due.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })
             : null}
         </span>
       </div>

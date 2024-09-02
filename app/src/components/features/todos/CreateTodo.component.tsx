@@ -59,7 +59,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         onSubmit={onSaveHandler}
         className={cn(
           'sm:border sm:flex-row sm:items-center',
-          'gap-1 w-full border-hairline pr-1 rounded-md flex flex-col justify-end',
+          'gap-1 w-full border-hairline sm:pr-1 rounded-md flex flex-col justify-end',
           onCloseModal && 'sm:w-[800px]',
         )}
       >
@@ -85,7 +85,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               disabled={isCreating}
             />
           </div>
-          <div className='flex justify-between'>
+          <div className='flex items-end sm:items-center justify-between'>
             <AddHolderCombobox
               disabled={isCreating}
               selectedHolderId={selectedHolderId}

@@ -83,11 +83,11 @@ function RepertoireTable({
   if (isPending) return <p>...loading</p>
 
   return (
-    <div className='mb-10'>
-      <div className='flex items-center justify-between mb-4'>
+    <div className='mb-14'>
+      <div className='flex items-center justify-between mb-2'>
         <NavLink
           to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
-          className='text-sm sm:text-base flex items-center gap-1 sm:gap-2'
+          className='text-sm sm:text-base flex items-center gap-1'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
           <span>Zur Lektion</span>

@@ -58,15 +58,15 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
       <form
         onSubmit={onSaveHandler}
         className={cn(
-          'sm:border pr-1 rounded-md border-hairline sm:flex-row sm:items-center',
+          'sm:border sm:pr-1 rounded-md border-hairline sm:flex-row sm:items-center',
           'md:gap-1 w-full flex flex-col justify-end',
         )}
       >
-        <div className='sm:flex sm:border-none border border-hairline rounded-md grow'>
+        <div className='sm:flex sm:border-none sm:items-center p-1 border border-hairline rounded-md grow'>
           <div className='shrink grow'>
             <Input
               autoFocus={window.innerWidth > 800}
-              className='border-none'
+              className='border-none mb-2 sm:mb-0'
               type='text'
               placeholder='Todo'
               name='text'
@@ -79,7 +79,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
               disabled={isUpdating}
             />
           </div>
-          <div className='flex justify-between'>
+          <div className='flex items-end sm:items-center justify-between'>
             <AddHolderCombobox
               disabled={isUpdating}
               selectedHolderId={selectedHolderId}
@@ -98,7 +98,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
           </div>
         </div>
         <Button
-          disabled={isUpdating}
+          disabled={isUpdating || !text}
           type='submit'
           onClick={onSaveHandler}
           size='sm'

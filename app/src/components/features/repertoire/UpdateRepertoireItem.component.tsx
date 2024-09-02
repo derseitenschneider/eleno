@@ -50,15 +50,13 @@ function UpdateRepertoireItem({
   }
 
   return (
-    <div className='flex gap-2 py-4 sm:w-[800px]'>
-      <div className='grid grid-cols-[auto_auto_1fr] sm:gap-x-2 sm:grid-cols-[1fr_auto_auto_auto] gap-y-2 bg-background50 justify-between grow'>
-        <div className='relative shrink grow col-span-4 sm:col-span-1'>
-          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
-            Song
-          </span>
+    <div className='sm:min-w-[800px] flex gap-2 items-end sm:items-center'>
+      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
+        <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <Input
-            placeholder='Song'
-            className='border-none sm:min-w-[500px] '
+            autoFocus={window.innerWidth > 1024}
+            placeholder='Song...'
+            className='border-none'
             type='text'
             name='title'
             onChange={handleChangeTitle}
@@ -66,27 +64,23 @@ function UpdateRepertoireItem({
           />
         </div>
 
-        <div className='flex relative items-center ml-2 sm:ml-0 mb-2 sm:mb-0'>
-          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
-            Start
-          </span>
-          <DayPicker
-            className='block'
-            date={item.startDate}
-            setDate={handleChangeStart}
-          />
-          {item.startDate && (
-            <ButtonRemove
-              disabled={isUpdating}
-              className='translate-x-[-8px]'
-              onRemove={() => handleChangeStart(undefined)}
+        <div>
+          <div className='flex relative mr-2 sm:mr-0 items-center'>
+            <DayPicker
+              className='block'
+              date={item.startDate}
+              setDate={handleChangeStart}
             />
-          )}
+            {item.startDate && (
+              <ButtonRemove
+                disabled={isUpdating}
+                className='translate-x-[-8px]'
+                onRemove={() => handleChangeStart(undefined)}
+              />
+            )}
+          </div>
         </div>
-        <div className='flex items-center relative mb-2 sm:mb-0'>
-          <span className='hidden sm:inline absolute left-1 top-[-24px] text-foreground/80 text-sm'>
-            Ende
-          </span>
+        <div className='flex items-center relative'>
           <DayPicker
             className='block'
             date={item.endDate}
@@ -100,12 +94,14 @@ function UpdateRepertoireItem({
             />
           )}
         </div>
-        <div className='flex items-center gap-2 mr-2 sm:mr-0 mb-2 sm:mb-0 ml-auto sm:ml-0'>
-          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
-        </div>
+        <Button
+          className='ml-auto'
+          onClick={handleSave}
+          size='sm'
+          disabled={isUpdating || !item.title}
+        >
+          Hinzufügen
+        </Button>
       </div>
     </div>
   )

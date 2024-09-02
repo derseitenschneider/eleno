@@ -51,7 +51,7 @@ function CreateRepertoireItem({
   }
   return (
     <div className='flex gap-2 items-end sm:items-center sm:mb-12 mb-8 mt-6'>
-      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-4 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
+      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <span className='hidden sm:block absolute left-1 top-[-26px] text-foreground/80 text-sm'>
             Song
@@ -68,7 +68,7 @@ function CreateRepertoireItem({
         </div>
 
         <div>
-          <div className='flex ml-2 sm:ml-0 mb-2 sm:mb-0 mr-2 relative items-center'>
+          <div className='flex mr-2 sm:mr-0 relative items-center'>
             <span className='absolute hidden sm:inline left-1 top-[-26px] text-foreground/80 text-sm'>
               Start
             </span>
@@ -86,7 +86,7 @@ function CreateRepertoireItem({
             )}
           </div>
         </div>
-        <div className='flex mr-2 mb-2 sm:mb-0 items-center relative'>
+        <div className='flex items-center relative'>
           <span className='hidden sm:inline absolute left-1 top-[-26px] text-foreground/80 text-sm'>
             Ende
           </span>
@@ -104,7 +104,7 @@ function CreateRepertoireItem({
           )}
         </div>
         <Button
-          className='ml-auto sm:ml-0 mr-2 sm:mr-0 mb-2 sm:mb-0'
+          className='ml-auto'
           onClick={handleSave}
           size='sm'
           disabled={isCreating || !item.title}
