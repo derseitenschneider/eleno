@@ -14,7 +14,7 @@ import { Info } from 'lucide-react'
 
 export default function Application() {
   return (
-    <div className='before:h-[1px] before:z-[100] before:w-screen before:hairline before:fixed before:top-0 before:left-0'>
+    <div className='before:h-[1px] before:z-[100] before:w-screen before:bg-hairline before:fixed before:top-0 before:left-0'>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
