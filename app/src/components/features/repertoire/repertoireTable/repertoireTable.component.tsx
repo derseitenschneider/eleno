@@ -115,7 +115,7 @@ function RepertoireTable({
           isFetching={isFetching}
         />
       ) : (
-        <Empty emptyMessage='Keine Songs vorhanden.' />
+        <Empty emptyMessage='Kein Repertoire erfasst.' />
       )}
     </div>
   )

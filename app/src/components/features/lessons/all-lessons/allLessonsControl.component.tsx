@@ -57,7 +57,7 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='flex gap-4 justify-between mb-4 items-center sm:items-end'>
+    <div className='flex gap-4 justify-between mb-4 items-center sm:items-start'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
