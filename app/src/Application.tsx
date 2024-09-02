@@ -24,7 +24,7 @@ export default function Application() {
   // }, [])
 
   return (
-    <div>
+    <div className='border-t border-hairline'>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
