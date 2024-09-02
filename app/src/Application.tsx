@@ -11,31 +11,21 @@ import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
-import { useEffect } from 'react'
-import { lockOrientation, unlockOrientation } from './utils/lockOrientation'
 
 export default function Application() {
-  // useEffect(() => {
-  //   lockOrientation()
-  //
-  //   return () => {
-  //     unlockOrientation()
-  //   }
-  // }, [])
-
   return (
-    <div className='border-t border-hairline'>
+    <div className='before:h-[1px] before:z-[100] before:w-screen before:hairline before:fixed before:top-0 before:left-0'>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
             <DataProvider>
               <MainContext>
                 <DarkModeProvider>
-                  <Sidebar />
-                  <NavbarMobile />
                   <div className='md:ml-[50px] mb-[58px] md:mb-0'>
                     <Outlet />
                   </div>
+                  <Sidebar />
+                  <NavbarMobile />
                 </DarkModeProvider>
               </MainContext>
             </DataProvider>
