@@ -1,7 +1,7 @@
 import CreateLessonSkeleton from './CreateLessonSkeleton.component'
 import HeaderSkeleton from './HeaderSkeleton.component'
 import NotesSkeleton from './NotesSkeleton.component'
-import PreviousLessonsSkeleton from './previousLessonSkeleton.component'
+import PreviousLessonsSkeleton from './PreviousLessonSkeleton.component'
 
 export default function LessonSkeleton() {
   return (
