@@ -10,19 +10,17 @@ export default function PreviousLessonsSkeleton() {
         <Skeleton className='rounded-sm h-8 w-20 ml-auto sm:ml-3' />
       </div>
       <div>
-        <div className='grid md:grid-cols-2 gap-6'>
-          <div>
+        <div className='grid h-[250px] sm:h-auto md:grid-cols-2 gap-6'>
+          <div className='mb-8 sm:mb-0'>
             <Skeleton className='h-4 w-16' />
             <Skeleton className='h-3 w-32 mt-4' />
             <Skeleton className='h-3 w-36 mt-2' />
             <Skeleton className='h-3 w-36 mt-2' />
-            <Skeleton className='h-3 w-32 mt-2' />
           </div>
-          <div>
+          <div className='h-[150px]'>
             <Skeleton className='h-4 w-16' />
             <Skeleton className='h-3 w-36 mt-4' />
             <Skeleton className='h-3 w-36 mt-2' />
-            <Skeleton className='h-3 w-32 mt-2' />
           </div>
         </div>
         <div className='absolute items-center bottom-4 right-5 flex gap-4'>

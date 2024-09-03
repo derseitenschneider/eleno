@@ -16,7 +16,7 @@ export default function HeaderSkeleton() {
             </div>
           </div>
           <div>
-            <Skeleton className='h-4 w-60' />
+            <Skeleton className='h-4 w-44 sm:w-60' />
           </div>
         </div>
         <Skeleton className='hidden sm:block w-28 h-8' />

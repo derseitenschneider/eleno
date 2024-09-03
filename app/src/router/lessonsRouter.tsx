@@ -14,7 +14,6 @@ const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
-    // element: <LessonSkeleton />,
     element: (
       <Suspense fallback={<LessonSkeleton />}>
         <motion.div

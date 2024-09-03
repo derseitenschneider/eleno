@@ -10,11 +10,11 @@ export default function CreateLessonSkeleton() {
       <div className='grid md:grid-cols-2 gap-6'>
         <div>
           <Skeleton className='h-3 w-16' />
-          <Skeleton className='w-[461px] h-[199px] mt-3' />
+          <Skeleton className='w-full sm:w-[461px] h-[199px] mt-3' />
         </div>
         <div>
           <Skeleton className='h-3 w-24' />
-          <Skeleton className='w-[461px] h-[199px] mt-3' />
+          <Skeleton className='w-full sm:w-[461px] h-[199px] mt-3' />
         </div>
       </div>
       <div className='flex mt-4 items-center gap-1'>
