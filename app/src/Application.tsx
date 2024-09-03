@@ -14,6 +14,7 @@ import { Info } from 'lucide-react'
 import { useEffect } from 'react'
 
 export default function Application() {
+  // Hides loader when app is loaded.
   useEffect(() => {
     const loader = document.getElementById('loader')
     if (loader) {

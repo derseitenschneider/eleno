@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (userId: string) => {
       if (isDemoMode) {
         setUser(mockUser)
-        setIsLoading(false)
+        // setIsLoading(false)
         return
       }
       try {
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         fetchErrorToast()
       } finally {
-        setIsLoading(false)
+        // setIsLoading(false)
       }
     },
     [setIsLoading],
@@ -72,7 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session) {
         getUserProfiles(session.user.id)
       } else {
-        setIsLoading(false)
+        // setIsLoading(false)
       }
     })
 
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         getUserProfiles(session.user.id)
       }
     })
-  }, [setIsLoading, getUserProfiles])
+  }, [getUserProfiles])
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {

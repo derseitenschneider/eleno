@@ -16,6 +16,7 @@ import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Dashboard from '@/pages/Dashboard'
+import LoginPage from '@/pages/LoginPage'
 
 // const Dashboard = lazy(() => import('../pages/Dashboard'))
 const ToDos = lazy(() => import('../pages/Todos.page'))

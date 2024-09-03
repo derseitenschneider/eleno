@@ -4,9 +4,9 @@ import Login from '../components/features/user/login/Login.component'
 import Signup from '../components/features/user/login/Signup.component'
 
 type LoginPageProps = {
-  className: string
+  className?: string
 }
-function LoginPage({ className }: LoginPageProps) {
+function LoginPage({ className = '' }: LoginPageProps) {
   const [searchParams] = useSearchParams()
 
   const page = searchParams.get('page')

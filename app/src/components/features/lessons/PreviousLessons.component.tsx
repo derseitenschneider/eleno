@@ -1,5 +1,5 @@
 import parse from 'html-react-parser'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { cn } from '@/lib/utils'
@@ -18,6 +18,13 @@ function PreviousLessons() {
   const { currentLessonHolder } = useCurrentHolder()
 
   const [tabIndex, setTabIndex] = useState(0)
+
+  // Sets tabindex to 0 when new lesson is created.
+  useEffect(() => {
+    if (lessons) {
+      setTabIndex(0)
+    }
+  }, [lessons])
 
   const lessonField =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
