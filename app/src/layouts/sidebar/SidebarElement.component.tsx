@@ -27,7 +27,14 @@ export default function SidebarElement({
 }: TSidebarProps) {
   if (isButton)
     return (
-      <li className='h-full w-full p-2'>
+      <li
+        className={cn(
+          'size-full p-2 relative',
+          isActive && !sidebarOpen
+            ? 'before:h-[calc(100%-12px)] before:w-[1px] before:absolute before:bg-primary before:right-0 before:top-[6px]'
+            : '',
+        )}
+      >
         <button
           className={cn(
             'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
