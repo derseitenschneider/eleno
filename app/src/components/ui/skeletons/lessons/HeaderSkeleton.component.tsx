@@ -1,6 +1,6 @@
 import Skeleton from '../../skeleton'
 
-export default function LessonHeaderSkeleton() {
+export default function HeaderSkeleton() {
   return (
     <header className='sm:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0  left-0 md:left-[50px] top-0 border-b border-hairline'>
       <div className='flex items-end justify-between'>
