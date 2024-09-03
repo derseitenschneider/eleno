@@ -14,7 +14,6 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       setIsLoading,
     }),
     [isLoading],
-    console.log({ isLoading }),
   )
   return (
     <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>

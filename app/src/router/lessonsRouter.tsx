@@ -14,21 +14,22 @@ const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
-    element: (
-      <Suspense fallback={<LessonSkeleton />}>
-        <motion.div
-          className='pt-[80px] md:pt-[88px]'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <LessonHeader />
-          <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
-            <Outlet />
-          </ScrollArea>
-          <LessonFooter />
-        </motion.div>
-      </Suspense>
-    ),
+    element: <LessonSkeleton />,
+    // element: (
+    //   <Suspense fallback={<LessonSkeleton />}>
+    //     <motion.div
+    //       className='pt-[80px] md:pt-[88px]'
+    //       initial={{ opacity: 0 }}
+    //       animate={{ opacity: 1 }}
+    //     >
+    //       <LessonHeader />
+    //       <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
+    //         <Outlet />
+    //       </ScrollArea>
+    //       <LessonFooter />
+    //     </motion.div>
+    //   </Suspense>
+    // ),
     children: [
       {
         index: true,
