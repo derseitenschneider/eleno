@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd'
+import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
 
 import CreateNote from './CreateNote.component'
 import Note from './Note.component'

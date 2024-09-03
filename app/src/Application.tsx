@@ -22,7 +22,7 @@ export default function Application() {
         setTimeout(() => {
           loader.style.display = 'none'
         }, 1000)
-      }, 2000)
+      }, 500)
     }
   }, [])
   return (

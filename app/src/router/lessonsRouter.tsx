@@ -3,10 +3,11 @@ import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.com
 import Repertoire from '@/components/features/repertoire/Repertoire.component'
 import { motion } from 'framer-motion'
 import { Suspense, lazy } from 'react'
-import { Outlet, RouteObject } from 'react-router-dom'
+import { Outlet, type RouteObject } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import LessonFooter from '@/components/features/lessons/LessonFooter.component'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import LessonSkeleton from '@/components/ui/skeletons/lessons/LessonSkeleton.component'
 
 const LessonsPage = lazy(() => import('../pages/Lessons.page'))
 
@@ -14,7 +15,7 @@ const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
     element: (
-      <Suspense fallback={<p>...loading</p>}>
+      <Suspense fallback={<LessonSkeleton />}>
         <motion.div
           className='pt-[80px] md:pt-[88px]'
           initial={{ opacity: 0 }}
