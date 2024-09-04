@@ -10,13 +10,12 @@ import TodosCompleted from '../components/features/todos/TodosCompleted.componen
 import TodosOpen from '../components/features/todos/TodosOpen.component'
 
 import View from '../components/features/settings/View'
-import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Dashboard from '@/pages/Dashboard'
-import LoginPage from '@/pages/LoginPage'
+import TodosSkeleton from '@/components/ui/skeletons/TodosSkeleton.component'
 
 // const Dashboard = lazy(() => import('../pages/Dashboard'))
 const ToDos = lazy(() => import('../pages/Todos.page'))
@@ -39,7 +38,7 @@ const mainRouter = createBrowserRouter(
         {
           path: 'todos',
           element: (
-            <Suspense fallback={<Loader loading />}>
+            <Suspense fallback={<TodosSkeleton />}>
               <ScrollArea className='md:h-screen'>
                 <div className='container-page'>
                   <ToDos />
