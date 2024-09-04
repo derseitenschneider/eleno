@@ -18,7 +18,7 @@ export default function Students() {
       <ScrollBar orientation='vertical' />
       <div className='px-3 sm:px-0 py-4 sm:*:px-4 sm:*:pr-4 sm:*:pl-6 pb-4 sm:py-4'>
         <header>
-          <h1 className='heading-1'>Schüler:innen</h1>
+          <h1 className='heading-1'>Schüler:innen & Gruppen</h1>
         </header>
         <Navbar navLinks={navLinks} />
         <Outlet />

@@ -1,28 +1,39 @@
-import Skeleton from "@/components/ui/skeleton";
+import Skeleton from '@/components/ui/skeleton'
+import TableSkeleton from './TableSkeleton.component'
 
 export default function StudentsSkeleton() {
-	return (
-		<div style={{ padding: "2rem 3.2rem" }}>
-			{/* Header */}
-			<div>
-				<Skeleton className="h-[37.5px] w-[220px] mb-[35px]" />
-				<Skeleton className="h-[28px] w-[280px] mb-[20px]" />
-				<Skeleton className="h-[22px] w-[200px] mb-[20px]" />
-				<div className="flex justify-between gap-12">
-					<Skeleton className="h-[30px] w-[100px] mb-[31.5px] mr-[auto]" />
-					<Skeleton className="h-[30px] w-[100px] mb-[31.5px]" />
-					<Skeleton className="h-[30px] w-[160px] mb-[31.5px]" />
-					<Skeleton className="h-[30px] w-[100px] mb-[31.5px]" />
-				</div>
-			</div>
-
-			{/* Table */}
-			<div>
-				<div className="flex flex-col gap-2 h-[100%]">
-					<Skeleton className="h-[37px] w-[100%] space-y-[20px]" />
-					<Skeleton className="h-[400px] w-[100%] space-y-[20px]" />
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className='*:pr-4 *:pl-6 pb-4 py-4'>
+      <header>
+        <Skeleton className='h-8 w-[20ch]' />
+      </header>
+      <div className='text-base mt-6 mb-6'>
+        <ul className='p-0 flex justify-start gap-2'>
+          <li className='relative overflow-hidden'>
+            <Skeleton className='h-5 w-24' />
+          </li>
+          <li className='relative overflow-hidden'>
+            <Skeleton className='h-5 w-20' />
+          </li>
+          <li className='relative overflow-hidden'>
+            <Skeleton className='h-5 w-20' />
+          </li>
+        </ul>
+      </div>
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-4'>
+          <Skeleton className='h-8 w-20' />
+          <Skeleton className='h-5 w-32' />
+        </div>
+        <div className='flex items-center sm:gap-4'>
+          <Skeleton className='h-8 w-[120px]' />
+          <Skeleton className='h-8 w-[210px]' />
+          <Skeleton className='h-8 w-[70px]' />
+        </div>
+      </div>
+      <div className='mt-4'>
+        <TableSkeleton rows={9} />
+      </div>
+    </div>
+  )
 }
