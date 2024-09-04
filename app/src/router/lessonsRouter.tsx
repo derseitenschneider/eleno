@@ -1,7 +1,6 @@
 import LessonHeader from '@/components/features/lessons/LessonHeader'
 import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.component'
 import Repertoire from '@/components/features/repertoire/Repertoire.component'
-import { motion } from 'framer-motion'
 import { Suspense, lazy } from 'react'
 import { Outlet, type RouteObject } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
@@ -16,17 +15,13 @@ const lessonsRoutes: Array<RouteObject> = [
     path: '/lessons/:holderId',
     element: (
       <Suspense fallback={<LessonSkeleton />}>
-        <motion.div
-          className='pt-[80px] md:pt-[88px]'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
+        <div className='pt-[80px] md:pt-[88px]'>
           <LessonHeader />
           <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
             <Outlet />
           </ScrollArea>
           <LessonFooter />
-        </motion.div>
+        </div>
       </Suspense>
     ),
     children: [

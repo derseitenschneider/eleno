@@ -5,7 +5,7 @@ export default function StudentsSkeleton() {
   return (
     <div className='*:pr-4 *:pl-6 pb-4 py-4'>
       <header>
-        <Skeleton className='h-8 w-[20ch]' />
+        <h1>Schüler:innen & Gruppen</h1>
       </header>
       <div className='text-base mt-6 mb-6'>
         <ul className='p-0 flex justify-start gap-2'>

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -39,10 +40,12 @@ function Sidebar() {
   return (
     <nav
       ref={sidebarRef}
-      className={`hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start
-      bg-background100 shadow-lg after:h-full after:w-[1px] after:z-[-1] after:bg-background200 after:absolute after:top-0 after:right-0 realtive transition-width duration-150 ${
-        sidebarOpen ? 'w-[180px]' : 'w-[50px]'
-      }`}
+      className={cn(
+        sidebarOpen ? 'w-[180px]' : 'w-[50px]',
+        'hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',
+        'after:h-full after:w-[1px] after:z-[-1] after:bg-background200 after:absolute after:top-0 after:right-0 ',
+        'md:before:h-[1px] md:before:z-[40] md:before:w-screen md:before:bg-hairline md:before:fixed md:before:top-0 md:before:left-0',
+      )}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <NavLink

@@ -3,9 +3,7 @@ import Skeleton from '../skeleton'
 export default function TodosSkeleton() {
   return (
     <div className='container-page'>
-      <h1>
-        <Skeleton className='h-8 w-[6ch]' />
-      </h1>
+      <h1>Todos</h1>
       <div className='text-base mt-6 mb-6'>
         <ul className='p-0 flex justify-start gap-2'>
           <li className='px-1 relative overflow-hidden'>

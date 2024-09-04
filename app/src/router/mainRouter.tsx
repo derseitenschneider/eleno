@@ -16,6 +16,8 @@ import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Dashboard from '@/pages/Dashboard'
 import TodosSkeleton from '@/components/ui/skeletons/TodosSkeleton.component'
+import TimetableSkeleton from '@/components/ui/skeletons/TimetableSkeleton.component'
+import SettingsSkeleton from '@/components/ui/skeletons/SettingsSkeleton.component'
 
 // const Dashboard = lazy(() => import('../pages/Dashboard'))
 const ToDos = lazy(() => import('../pages/Todos.page'))
@@ -54,7 +56,7 @@ const mainRouter = createBrowserRouter(
         {
           path: 'timetable',
           element: (
-            <Suspense>
+            <Suspense fallback={<TimetableSkeleton />}>
               <ScrollArea className='md:h-screen'>
                 <div className='py-4 pl-6 pr-4'>
                   <Timetable />
@@ -65,15 +67,16 @@ const mainRouter = createBrowserRouter(
         },
         {
           path: 'settings',
-          element: (
-            <Suspense fallback={<Loader loading />}>
-              <ScrollArea className='md:h-screen'>
-                <div className='container-page'>
-                  <Settings />
-                </div>
-              </ScrollArea>
-            </Suspense>
-          ),
+          // element: (
+          //   <Suspense fallback={<Loader loading />}>
+          //     <ScrollArea className='md:h-screen'>
+          //       <div className='container-page'>
+          //         <Settings />
+          //       </div>
+          //     </ScrollArea>
+          //   </Suspense>
+          // ),
+          element: <SettingsSkeleton />,
           children: [
             {
               index: true,

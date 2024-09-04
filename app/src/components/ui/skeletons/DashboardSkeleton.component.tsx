@@ -13,7 +13,7 @@ export default function DashboardSkeleton() {
         )}
       >
         <div>
-          <Skeleton className='h-[32px] w-[120px] sm:w-[15ch] mb-[20px]' />
+          <h1>Dashboard</h1>
           <Skeleton className='h-[21px] w-[240px]' />
         </div>
         <Skeleton className='h-[24px] w-[40px] rounded-full space-y-[20px]' />
