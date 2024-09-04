@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/Error'
 
-import Loader from '../components/ui/Loader'
 import Application from '../Application'
 
 import Account from '../components/features/settings/Account'
@@ -14,12 +13,12 @@ import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import Dashboard from '@/pages/Dashboard'
 import TodosSkeleton from '@/components/ui/skeletons/TodosSkeleton.component'
 import TimetableSkeleton from '@/components/ui/skeletons/TimetableSkeleton.component'
 import SettingsSkeleton from '@/components/ui/skeletons/SettingsSkeleton.component'
+import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
 
-// const Dashboard = lazy(() => import('../pages/Dashboard'))
+const Dashboard = lazy(() => import('../pages/Dashboard'))
 const ToDos = lazy(() => import('../pages/Todos.page'))
 const Settings = lazy(() => import('../pages/Settings.page'))
 const Timetable = lazy(() => import('../pages/Timetable.page'))
@@ -33,7 +32,11 @@ const mainRouter = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <Dashboard />,
+          element: (
+            <Suspense fallback={<DashboardSkeleton />}>
+              <Dashboard />
+            </Suspense>
+          ),
         },
         ...lessonsRoutes,
         ...studentsRoutes,
@@ -67,16 +70,15 @@ const mainRouter = createBrowserRouter(
         },
         {
           path: 'settings',
-          // element: (
-          //   <Suspense fallback={<Loader loading />}>
-          //     <ScrollArea className='md:h-screen'>
-          //       <div className='container-page'>
-          //         <Settings />
-          //       </div>
-          //     </ScrollArea>
-          //   </Suspense>
-          // ),
-          element: <SettingsSkeleton />,
+          element: (
+            <Suspense fallback={<SettingsSkeleton />}>
+              <ScrollArea className='md:h-screen'>
+                <div className='container-page'>
+                  <Settings />
+                </div>
+              </ScrollArea>
+            </Suspense>
+          ),
           children: [
             {
               index: true,

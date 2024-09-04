@@ -20,7 +20,7 @@ function QuickLinks() {
         'col-span-1 row-start-2 row-end-3 border-b border-hairline',
       )}
     >
-      <h2>Quick-Links</h2>
+      <h2>Quick Links</h2>
       <div className='flex gap-x-8 gap-y-5 flex-wrap'>
         <QuickLinkItem
           onClick={navigateToNearestHolder}
