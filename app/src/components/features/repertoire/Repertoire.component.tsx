@@ -1,6 +1,7 @@
 import RepertoireTable from './repertoireTable/repertoireTable.component'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { useRepertoireQuery } from './repertoireQueries'
+import ErrorPage from '@/pages/Error'
 
 function Repertoire() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -13,8 +14,9 @@ function Repertoire() {
     currentLessonHolder?.holder?.id || 0,
     currentLessonHolder?.type || 's',
   )
-  if (isError) return <p>ERROR</p>
-  if (!repertoire) return null
+
+  if (isError) return <ErrorPage />
+  if (isPending) return null
 
   return (
     <RepertoireTable

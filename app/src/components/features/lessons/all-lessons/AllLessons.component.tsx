@@ -2,6 +2,8 @@ import { useSearchParams } from 'react-router-dom'
 import AllLessonsTable from './allLessonsTable'
 import useCurrentHolder from '../useCurrentHolder'
 import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
+import AllLessonsSkeleton from '@/components/ui/skeletons/lessons/AllLessonsSkeleton.component'
+import ErrorPage from '@/pages/Error'
 
 export default function AllLessons() {
   const [searchParams] = useSearchParams()
@@ -23,8 +25,8 @@ export default function AllLessons() {
     currentLessonHolder?.type || 's',
   )
 
-  if (isPendingLessons || isPendingYears) return <p>loading...</p>
-  if (isErrorLessons || isErrorYears) return <p>ERROR...</p>
+  if (isPendingLessons || isPendingYears) return <AllLessonsSkeleton />
+  if (isErrorLessons || isErrorYears) return <ErrorPage />
 
   if (!lessons) return null
   return (
