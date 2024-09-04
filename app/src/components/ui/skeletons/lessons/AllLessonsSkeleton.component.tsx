@@ -14,7 +14,7 @@ export default function AllLessonsSkeleton() {
           <Skeleton className='hidden sm:block h-8 w-[210px]' />
         </div>
       </div>
-      <TableSkeleton />
+      <TableSkeleton rows={10} />
     </div>
   )
 }
