@@ -560,7 +560,7 @@ const icons: ManifestOptions['icons'] = [
     src: './pwa/ios/512.png',
     sizes: '512x512',
     type: 'image/png',
-    purpose: 'any maskable',
+    purpose: 'any',
   },
   {
     src: './pwa/ios/1024.png',

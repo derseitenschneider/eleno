@@ -7,22 +7,30 @@ import NoStudents from '@/components/features/lessons/NoStudents.component'
 import LessonFooter from '@/components/features/lessons/LessonFooter.component'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import LessonSkeleton from '@/components/ui/skeletons/lessons/LessonSkeleton.component'
-
-const LessonsPage = lazy(() => import('../pages/Lessons.page'))
+import LessonsPage from '@/pages/Lessons.page'
 
 const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
+    // element: (
+    //   <Suspense fallback={<LessonSkeleton />}>
+    //     <div className='pt-[80px] md:pt-[88px]'>
+    //       <LessonHeader />
+    //       <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
+    //         <Outlet />
+    //       </ScrollArea>
+    //       <LessonFooter />
+    //     </div>
+    //   </Suspense>
+    // ),
     element: (
-      <Suspense fallback={<LessonSkeleton />}>
-        <div className='pt-[80px] md:pt-[88px]'>
-          <LessonHeader />
-          <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
-            <Outlet />
-          </ScrollArea>
-          <LessonFooter />
-        </div>
-      </Suspense>
+      <div className='pt-[80px] md:pt-[88px]'>
+        <LessonHeader />
+        <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
+          <Outlet />
+        </ScrollArea>
+        <LessonFooter />
+      </div>
     ),
     children: [
       {
