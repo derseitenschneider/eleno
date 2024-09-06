@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Mail } from 'lucide-react'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface EditEmailProps {
   onCloseModal?: () => void
@@ -49,11 +50,13 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
 
   if (success)
     return (
-      <div className='w-[350px]'>
+      <div className='sm:w-[350px]'>
         <DialogTitle>
           <DialogHeader>Bestätige deine E-Mail Adresse</DialogHeader>
         </DialogTitle>
-        <Mail strokeWidth={1} className='h-16 my-4 w-auto text-primary' />
+        <div className='flex h-12 sm:h-16'>
+          <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
+        </div>
         <p>
           Ein Bestätigungslink wurde an <strong>{input.email1}</strong>{' '}
           verschickt. Die Änderung tritt erst nach Bestätigung deiner neuen
@@ -66,7 +69,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
     <div
       className={cn(
         isPending && 'opacity-80 pointer-events-none',
-        'min-w-[350px]',
+        'sm:min-w-[350px]',
       )}
     >
       <DialogTitle>
@@ -98,10 +101,20 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
         </div>
       </div>
       <div className='mt-8 flex gap-4 justify-end'>
-        <Button variant='outline' onClick={onCloseModal}>
+        <Button
+          size='sm'
+          disabled={isPending}
+          variant='outline'
+          onClick={onCloseModal}
+        >
           Abbrechen
         </Button>
-        <Button onClick={handleSave}>Speichern</Button>
+        <div className='flex items-center gap-2'>
+          <Button disabled={isPending} size='sm' onClick={handleSave}>
+            Speichern
+          </Button>
+          {isPending && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface EditProfileProps {
   onCloseModal?: () => void
@@ -45,7 +46,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
     <div
       className={cn(
         isPending && 'opacity-80 pointer-events-none',
-        'min-w-[350px]',
+        'sm:min-w-[350px]',
       )}
     >
       <div className='space-y-6'>
@@ -78,10 +79,20 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
         </div>
       </div>
       <div className='mt-8 flex gap-4 justify-end'>
-        <Button variant='outline' onClick={onCloseModal}>
+        <Button
+          disabled={isPending}
+          size='sm'
+          variant='outline'
+          onClick={onCloseModal}
+        >
           Abbrechen
         </Button>
-        <Button onClick={handleSave}>Speichern</Button>
+        <div className='flex items-center gap-2'>
+          <Button size='sm' disabled={isPending} onClick={handleSave}>
+            Speichern
+          </Button>
+          {isPending && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

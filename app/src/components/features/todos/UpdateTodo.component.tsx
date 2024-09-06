@@ -97,16 +97,18 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
             </div>
           </div>
         </div>
-        <Button
-          disabled={isUpdating || !text}
-          type='submit'
-          onClick={onSaveHandler}
-          size='sm'
-          className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
-        >
-          Speichern
-        </Button>
-        {isUpdating && <MiniLoader />}
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isUpdating || !text}
+            type='submit'
+            onClick={onSaveHandler}
+            size='sm'
+            className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
+          >
+            Speichern
+          </Button>
+          {isUpdating && <MiniLoader />}
+        </div>
       </form>
     </div>
   )
