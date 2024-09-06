@@ -99,7 +99,7 @@ function PreviousLessons() {
               <p className='text-foreground/70'>Lektion</p>
               <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
                   {parse(
                     removeHTMLAttributes(currentLesson?.lessonContent || ''),
                   )}

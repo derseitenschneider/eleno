@@ -217,6 +217,10 @@ h5 {
   /* list-style-position: inside; */
 }
 
+.rsw-ce a:link {
+  text-decoration: underline;
+}
+
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
 }

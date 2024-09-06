@@ -44,7 +44,7 @@ function Note({ note, index }: NoteProps) {
                 {title}
               </h4>
             )}
-            <div className='[&_*]:!text-foreground text-foreground has-list text-sm'>
+            <div className='[&_*:not(a:link)]:!text-foreground [&_a:link]:underline [&_a:link]:text-primary text-foreground has-list text-sm'>
               {parse(removeHTMLAttributes(text || ''))}
             </div>
           </li>

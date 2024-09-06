@@ -1,6 +1,5 @@
 import {
   type ContentEditableEvent,
-  ContentEditableProps,
   Editor,
   EditorProvider,
   Toolbar,
@@ -18,9 +17,9 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
-import { type ClipboardEvent, useState } from 'react'
+import { type ClipboardEvent, type MouseEvent, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { saniziteHtmlforEditor } from '@/utils/sanitizeHTML'
 
 const BtnBold = createButton('Bold', <Bold />, 'bold')
 const BtnItalic = createButton('Italic', <Italic />, 'italic')
@@ -69,6 +68,7 @@ function CustomEditor({
   placeholder = '',
 }: CustomEditorProps) {
   const [showPlaceholder, setShowPlaceholder] = useState(!value)
+  const [selectedButtons, setSelectedButtons] = useState<Array<string>>([])
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
@@ -86,7 +86,7 @@ function CustomEditor({
 
     const pastedText =
       e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
-    const cleanedText = removeHTMLAttributes(pastedText)
+    const cleanedText = saniziteHtmlforEditor(pastedText)
     document.execCommand('insertHTML', false, cleanedText)
   }
 
@@ -112,20 +112,20 @@ function CustomEditor({
             {value ? '' : placeholder}
           </span>
           <div className='flex'>
-            <BtnBold tabIndex={-1} className='p-2' />
-            <BtnItalic tabIndex={-1} />
-            <BtnUnderline tabIndex={-1} />
-            <BtnStrikeThrough tabIndex={-1} />
-            <BtnLink tabIndex={-1} />
+            <BtnBold title='Fett' tabIndex={-1} className='p-2' />
+            <BtnItalic title='Kursiv' tabIndex={-1} />
+            <BtnUnderline title='Unterstrich' tabIndex={-1} />
+            <BtnStrikeThrough title='Durchgestrichen' tabIndex={-1} />
+            <BtnLink title='Link' tabIndex={-1} />
           </div>
           <div className='flex'>
-            <BtnBulletList tabIndex={-1} />
-            <BtnNumberedList tabIndex={-1} />
+            <BtnBulletList title='Liste' tabIndex={-1} />
+            <BtnNumberedList title='Nummerierte Liste' tabIndex={-1} />
           </div>
           <div className='flex'>
-            <BtnClearFormatting tabIndex={-1} />
-            <BtnUndo tabIndex={-1} />
-            <BtnRedo tabIndex={-1} />
+            <BtnClearFormatting title='Formatierung entfernen' tabIndex={-1} />
+            <BtnUndo title='Rückgänging' tabIndex={-1} />
+            <BtnRedo title='Wiederherstellen' tabIndex={-1} />
           </div>
         </Toolbar>
       </Editor>
