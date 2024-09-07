@@ -17,7 +17,7 @@ function Lesson() {
   if (isLoading) return <p>...loading</p>
   if (currentLessonHolder)
     return (
-      <div className='md:grid md:grid-cols-[1fr_400px] md:h-[calc(100vh-88px)] overflow-hidden'>
+      <div className='md:grid lg:grid-cols-[1fr_400px] lg:h-[calc(100vh-88px)] overflow-hidden'>
         <main className='md:h-full'>
           <PreviousLessons key={currentLessonHolder.holder.id} />
           <CreateLesson />

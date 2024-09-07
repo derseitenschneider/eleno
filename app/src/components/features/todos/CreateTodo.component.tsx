@@ -60,7 +60,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         className={cn(
           'sm:border sm:flex-row sm:items-center',
           'gap-1 w-full border-hairline sm:pr-1 rounded-md flex flex-col justify-end',
-          onCloseModal && 'sm:w-[800px]',
+          onCloseModal && 'md:w-[90vw] lg:w-[800px]',
         )}
       >
         <div className='sm:flex sm:border-none border p-1 sm:py-[2px] px-[3px] border-hairline rounded-md grow items-center'>

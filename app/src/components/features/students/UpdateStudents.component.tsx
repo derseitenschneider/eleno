@@ -89,7 +89,8 @@ export default function UpdateStudents({
   }, [watchedStudents, calculateDuration, setValue, getValues])
 
   const grid = useMemo(
-    () => 'grid gap-1 grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1',
+    () =>
+      'grid gap-1 grid-cols-12 lg:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr] pr-1',
     [],
   )
 
@@ -109,8 +110,8 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className='w-[85vw]'>
-      <div className={cn(grid)}>
+    <div className='w-[90vw] lg:w-[85vw] lg:min-w-[950px]'>
+      <div className={cn(grid, 'hidden lg:grid')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
@@ -124,7 +125,7 @@ export default function UpdateStudents({
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className='max-h-[75vh] overflow-auto no-scrollbar py-1'>
+            <div className='lg:max-h-[75vh] lg:overflow-auto no-scrollbar lg:py-1'>
               {fields.map((field, index, arr) => (
                 <MemoizedStudentFormRow
                   autoFocus={true}

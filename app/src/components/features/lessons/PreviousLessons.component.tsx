@@ -52,7 +52,7 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='sm:pr-3 px-5 pt-6 pb-4 sm:pl-6 sm:py-4 border-b border-hairline sm:h-[350px] md:h-[300px] relative'>
+    <div className='sm:pr-3 px-5 pt-6 pb-4 sm:pl-6 lg:py-4 border-b border-hairline sm:h-[350px] md:h-[300px] relative'>
       {previousLessonsIds.length > 0 ? (
         <div className='flex h-fit items-baseline gap-x-3 gap-y-3 mb-5'>
           <>
@@ -92,7 +92,7 @@ function PreviousLessons() {
         <div className='pb-4' key={previousLessonsIds[tabIndex]}>
           <div
             className={cn(
-              'h-[250px] sm:h-auto overflow-auto sm:overflow-hidden grid md:grid-cols-2 gap-6',
+              'h-[250px] md:h-auto overflow-auto sm:overflow-hidden grid md:grid-cols-2 gap-6',
             )}
           >
             <div className=''>

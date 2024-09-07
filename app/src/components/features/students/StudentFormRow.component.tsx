@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { Trash2 } from 'lucide-react'
 import type { UseFieldArrayRemove } from 'react-hook-form'
 import type { StudentSchema } from './CreateStudents.component'
+import { Label } from '@/components/ui/label'
 
 type StudentFormRowProps = {
   index: number
@@ -38,24 +39,28 @@ const StudentFormRow = memo(function StudentFormRow({
   const isNoTrash = index === 0 && fields === 1
 
   return (
-    <div className={cn(grid, 'mb-2')}>
-      <span className='hidden sm:inline self-center text-sm text-foreground/75'>
+    <div className={cn(grid, 'mb-2 gap-y-4')}>
+      <span className='hidden lg:inline self-center text-sm text-foreground/75'>
         {index + 1}
       </span>
       <FormField
         control={control}
         name={`students.${index}.firstName`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Vorname*
+            </Label>
             <FormControl>
               <Input
+                id={field.name}
                 autoFocus={autoFocus}
                 disabled={disabled}
                 placeholder='Vorname'
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -66,7 +71,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.lastName`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Nachname*
+            </Label>
             <FormControl>
               <Input
                 disabled={disabled}
@@ -74,7 +82,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.lastName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -85,7 +93,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.instrument`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Instrument*
+            </Label>
             <FormControl>
               <Input
                 disabled={disabled}
@@ -93,7 +104,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.instrument &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -104,7 +115,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.dayOfLesson`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Tag
+            </Label>
             <FormControl>
               <Select
                 disabled={disabled}
@@ -133,7 +147,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.startOfLesson`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Von
+            </Label>
             <FormControl>
               <Input
                 disabled={disabled}
@@ -142,7 +159,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.startOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -153,7 +170,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.endOfLesson`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Bis
+            </Label>
             <FormControl>
               <Input
                 disabled={disabled}
@@ -162,7 +182,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.endOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -173,7 +193,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.durationMinutes`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Dauer
+            </Label>
             <FormControl>
               <div className='relative'>
                 <Input
@@ -193,7 +216,7 @@ const StudentFormRow = memo(function StudentFormRow({
                     field.value ? 'pr-10' : '',
                     'text-right ',
                     formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
+                      'border-warning',
                   )}
                 />
                 <span
@@ -213,7 +236,10 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.location`}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+            <Label className='inline lg:hidden' htmlFor={field.name}>
+              Unterrichtsort
+            </Label>
             <FormControl>
               <Input
                 disabled={disabled}
@@ -222,7 +248,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || undefined}
                 className={cn(
                   formState.errors.students?.[index]?.location &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>

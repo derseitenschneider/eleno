@@ -16,7 +16,8 @@ function QuickLinks() {
     <div
       className={cn(
         'px-5 py-6',
-        'md:p-4 md:pl-6',
+        'md:p-6',
+        'lg:p-4 lg:pl-6',
         'col-span-1 row-start-2 row-end-3 border-b border-hairline',
       )}
     >

@@ -73,8 +73,8 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />
       </div>
-      <div className='md:flex items-center mb-6 gap-8'>
-        <div className='mb-3 sm:mb-0 md:w-[450px]'>
+      <div className='lg:flex items-center mb-6 gap-8'>
+        <div className='mb-6 lg:mb-0 md:w-[450px]'>
           <p className='text-foreground/70'>Lektion</p>
 
           <CustomEditor

@@ -50,7 +50,7 @@ function UpdateRepertoireItem({
   }
 
   return (
-    <div className='sm:min-w-[800px] flex gap-2 items-end sm:items-center'>
+    <div className='md:min-w-[700px] lg:min-w-[800px] flex gap-2 items-end sm:items-center'>
       <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <Input

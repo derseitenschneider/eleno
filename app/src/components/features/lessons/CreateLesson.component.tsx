@@ -144,7 +144,7 @@ function CreateLesson() {
   if (!currentLessonHolder) return null
 
   return (
-    <div className='px-5 py-6 sm:pr-4 sm:pl-6 sm:py-4'>
+    <div className='px-5 py-6 sm:pr-4 sm:pl-6 lg:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker
