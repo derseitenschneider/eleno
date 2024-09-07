@@ -110,7 +110,7 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className='w-[90vw] lg:w-[85vw] lg:min-w-[950px]'>
+    <div className={cn('w-[90vw] lg:w-[85vw] lg:min-w-[950px]')}>
       <div className={cn(grid, 'hidden lg:grid')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>

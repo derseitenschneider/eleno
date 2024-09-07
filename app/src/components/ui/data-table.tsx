@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
     <Table
       className={cn(
         isFetching && 'opacity-50',
-        'pb-4 shadow w-full min-w-[650px] border border-background200 overflow-hidden',
+        'pb-4 shadow w-full lg:min-w-[650px] border border-background200 overflow-hidden',
         className,
       )}
     >

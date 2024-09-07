@@ -80,7 +80,7 @@ export default function ActiveStudentsTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div className=''>
+    <div>
       <StudentsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

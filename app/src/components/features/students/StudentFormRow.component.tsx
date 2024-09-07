@@ -39,7 +39,15 @@ const StudentFormRow = memo(function StudentFormRow({
   const isNoTrash = index === 0 && fields === 1
 
   return (
-    <div className={cn(grid, 'mb-2 gap-y-4')}>
+    <div
+      className={cn(
+        grid,
+        'mb-2 gap-y-4',
+        fields > 1
+          ? 'p-4 border border-hairline mb-6 shadow-sm rounded-lg'
+          : '',
+      )}
+    >
       <span className='hidden lg:inline self-center text-sm text-foreground/75'>
         {index + 1}
       </span>

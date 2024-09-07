@@ -160,14 +160,14 @@ export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [
   {
     accessorKey: 'durationMinutes',
     header: () => {
-      return <span>Dauer</span>
+      return <span className='hidden lg:inline'>Dauer</span>
     },
-    size: 10,
+    size: window.innerWidth >= 1024 ? 10 : 0,
     minSize: 0,
     cell: ({ row }) => {
       const duration = row.original.holder.durationMinutes as number
       return (
-        <span className='text-right'>
+        <span className='hidden lg:inline text-right'>
           {duration ? `${duration} Min.` : '–'}
         </span>
       )

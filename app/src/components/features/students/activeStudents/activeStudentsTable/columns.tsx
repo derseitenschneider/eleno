@@ -134,7 +134,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
       return (
         <Button
           variant='ghost'
-          className='p-0'
+          className='hidden lg:flex p-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Dauer
@@ -142,12 +142,12 @@ export const studentsColumns: ColumnDef<Student>[] = [
         </Button>
       )
     },
-    size: 10,
+    size: window.innerWidth >= 1024 ? 10 : 0,
     minSize: 0,
     cell: ({ row }) => {
       const duration = row.getValue('durationMinutes') as number
       return (
-        <span className='text-right'>
+        <span className='hidden lg:inline text-right'>
           {duration ? `${duration} Min.` : '–'}
         </span>
       )
