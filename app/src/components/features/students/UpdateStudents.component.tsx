@@ -13,6 +13,7 @@ import {
   studentsValidationSchema,
 } from './CreateStudents.component'
 import { useUpdateStudents } from './useUpdateStudents'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const MemoizedStudentFormRow = React.memo(StudentFormRow)
 
@@ -110,56 +111,60 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className={cn('w-[90vw] lg:w-[85vw] lg:min-w-[950px]')}>
-      <div className={cn(grid, 'hidden lg:grid')}>
-        <span />
-        <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Instrument*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Tag</span>
-        <span className='text-sm pl-3 text-foreground/80'>Von</span>
-        <span className='text-sm pl-3 text-foreground/80'>Bis</span>
-        <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
-        <span className='text-sm pl-3 text-foreground/80'>Unterrichtsort</span>
-      </div>
-      <FormProvider {...methods}>
-        <Form {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className='lg:max-h-[75vh] lg:overflow-auto no-scrollbar lg:py-1'>
-              {fields.map((field, index, arr) => (
-                <MemoizedStudentFormRow
-                  autoFocus={true}
-                  fields={arr.length}
-                  key={field.id}
-                  grid={grid}
-                  index={index}
-                  disabled={isUpdating}
-                />
-              ))}
-            </div>
-            <div className='flex items-end justify-between pr-1'>
-              <span className='text-sm'>* Pflichtfelder</span>
-              <div className='flex items-center justify-end gap-4 mt-4'>
-                <Button
-                  size='sm'
-                  variant='outline'
-                  type='button'
-                  onClick={onSuccess}
-                  disabled={isUpdating}
-                >
-                  Abbrechen
-                </Button>
-                <div className='flex items-center gap-2'>
-                  <Button size='sm' disabled={isUpdating} type='submit'>
-                    Speichern
-                  </Button>
-                  {isUpdating && <MiniLoader />}
+    <div className={cn('w-[90vw] max-h-[80vh] lg:w-[85vw] lg:min-w-[950px]')}>
+      <div className='flex flex-col overflow-hidden  h-full'>
+        <div className={cn(grid, 'hidden lg:grid')}>
+          <span />
+          <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
+          <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
+          <span className='text-sm pl-3 text-foreground/80'>Instrument*</span>
+          <span className='text-sm pl-3 text-foreground/80'>Tag</span>
+          <span className='text-sm pl-3 text-foreground/80'>Von</span>
+          <span className='text-sm pl-3 text-foreground/80'>Bis</span>
+          <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
+          <span className='text-sm pl-3 text-foreground/80'>
+            Unterrichtsort
+          </span>
+        </div>
+        <ScrollArea className='flex-grow lg:py-1'>
+          <FormProvider {...methods}>
+            <Form {...methods}>
+              <form onSubmit={methods.handleSubmit(onSubmit)}>
+                {fields.map((field, index, arr) => (
+                  <MemoizedStudentFormRow
+                    autoFocus={true}
+                    fields={arr.length}
+                    key={field.id}
+                    grid={grid}
+                    index={index}
+                    disabled={isUpdating}
+                  />
+                ))}
+                <div className='flex items-end justify-between pr-1'>
+                  <span className='text-sm'>* Pflichtfelder</span>
+                  <div className='flex items-center justify-end gap-4 mt-4'>
+                    <Button
+                      size='sm'
+                      variant='outline'
+                      type='button'
+                      onClick={onSuccess}
+                      disabled={isUpdating}
+                    >
+                      Abbrechen
+                    </Button>
+                    <div className='flex items-center gap-2'>
+                      <Button size='sm' disabled={isUpdating} type='submit'>
+                        Speichern
+                      </Button>
+                      {isUpdating && <MiniLoader />}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </form>
-        </Form>
-      </FormProvider>
+              </form>
+            </Form>
+          </FormProvider>
+        </ScrollArea>
+      </div>
     </div>
   )
 }

@@ -12,6 +12,7 @@ import { Form } from '@/components/ui/form'
 import StudentFormRow from './StudentFormRow.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const MemoizedStudentFormRow = memo(StudentFormRow)
 
@@ -131,7 +132,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const grid = useMemo(
     () =>
-      'grid gap-4 sm:gap-1 sm:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]',
+      'grid gap-1 grid-cols-12 lg:grid-cols-[20px_1fr_1fr_1fr_1fr_80px_80px_80px_1fr_24px]',
     [],
   )
 
@@ -170,8 +171,8 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   )
 
   return (
-    <div className='sm:w-[85vw]'>
-      <div className={cn(grid, 'hidden sm:grid pb-1')}>
+    <div className='md:w-[90vw]'>
+      <div className={cn(grid, 'hidden lg:grid pb-1')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
@@ -186,21 +187,21 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className='sm:max-h-[75vh] sm:overflow-auto no-scrollbar sm:py-1'>
+            <div className='max-h-[75vh] overflow-y-auto no-scrollbar'>
               {memoizedStudentRows}
             </div>
             <div className='flex items-center justify-between mt-4'>
               <div className='flex items-center'>
                 <Input
                   disabled={isCreating}
-                  className='w-[5ch] hidden sm:block'
+                  className='w-[5ch]'
                   type='number'
                   value={numAdd}
                   onChange={(e) => setNumAdd(e.target.valueAsNumber)}
                 />
                 <Button
                   disabled={isCreating}
-                  className='hidden sm:flex p-0 ml-2'
+                  className='p-0 ml-2'
                   type='button'
                   variant='ghost'
                   size='sm'

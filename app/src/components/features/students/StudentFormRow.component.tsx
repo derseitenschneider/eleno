@@ -44,7 +44,7 @@ const StudentFormRow = memo(function StudentFormRow({
         grid,
         'mb-2 gap-y-4',
         fields > 1
-          ? 'p-4 border border-hairline mb-6 shadow-sm rounded-lg'
+          ? 'p-4 lg:p-0 lg:border-none lg:shadow-none border border-hairline mb-6 shadow-sm rounded-lg'
           : '',
       )}
     >
@@ -273,7 +273,10 @@ const StudentFormRow = memo(function StudentFormRow({
         <Button
           type='button'
           variant='ghost'
-          className={cn(isNoTrash && 'hidden', 'p-0')}
+          className={cn(
+            isNoTrash && 'hidden',
+            'p-0 justify-self-end col-span-12 lg:col-span-1',
+          )}
           onClick={() => remove(index)}
           tabIndex={-1}
           disabled={isNoTrash || disabled}
