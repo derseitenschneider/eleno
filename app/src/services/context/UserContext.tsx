@@ -26,13 +26,13 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,25 +42,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  const getUserProfiles = useCallback(
-    async (userId: string) => {
-      if (isDemoMode) {
-        setUser(mockUser)
-        // setIsLoading(false)
-        return
-      }
-      try {
-        const [data] = await getProfilesSupabase(userId)
-        if (!data) throw new Error('No user found.')
-        setUser(data)
-      } catch (error) {
-        fetchErrorToast()
-      } finally {
-        // setIsLoading(false)
-      }
-    },
-    [setIsLoading],
-  )
+  const getUserProfiles = useCallback(async (userId: string) => {
+    if (isDemoMode) {
+      setUser(mockUser)
+      // setIsLoading(false)
+      return
+    }
+    try {
+      const [data] = await getProfilesSupabase(userId)
+      if (!data) throw new Error('No user found.')
+      setUser(data)
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      // setIsLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
     if (isDemoMode) {
@@ -148,7 +145,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <UserContext.Provider value={value}>
       {currentSession && children}
       {!currentSession && !isLoading && (
-        <LoginPage className='min-h-screen grid grid-rows-[80px_1fr] bg-zinc-100' />
+        <LoginPage className='min-h-screen grid grid-rows-[80px_1fr] bg-background100' />
       )}
     </UserContext.Provider>
   )

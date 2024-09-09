@@ -144,27 +144,40 @@
       left: 0;
       top: 0;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
       background-color: #fafafa;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       transition: opacity ease-in-out 300ms;
+      animation: fadeIn 500ms ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: translateX(-100vw);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     #loader.fade-out {
-      /* opacity: 0 */
+      opacity: 0
     }
 
     .loader-svg {
+      margin-top: -4vh;
       height: 11vh;
-      /* width: 100px; */
-      /* height: 100px; */
-      animation: pulsate 3s ease-in-out infinite;
+      animation: pulsate 2s ease-in-out infinite 1s;
       transform-origin: center;
       transform-box: fill-box;
     }
+
 
     .logo-path {
       animation: colorChange 3s ease-in-out infinite alternate;
@@ -205,9 +218,8 @@
   </style>
 </head>
 
-<body>
-  <div id="loader"
-    style="background-image: url(./public/pwa/splash_screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png); background-size: cover">
+<body style="background: #fafafa">
+  <div id="loader">
     <svg class="loader-svg" width="539" height="460" viewBox="0 0 539 460" fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <path class="logo-path top-rhombus"
@@ -222,7 +234,7 @@
     </svg>
   </div>
   <div id="root"></div>
-  <!-- <script type="module" src="/src/main.tsx"></script> -->
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
