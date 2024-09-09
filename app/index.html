@@ -170,7 +170,7 @@
     .loader-svg {
       margin-top: -4vh;
       height: 11vh;
-      animation: pulsate 2s ease-in-out infinite 1s;
+      animation: pulsate 2s ease-in-out infinite;
       transform-origin: center;
       transform-box: fill-box;
     }
@@ -178,6 +178,8 @@
 
     .logo-path {
       animation: colorChange 3s ease-in-out infinite alternate,
+        fadeIn 500ms ease-in-out;
+      --webkit-animation: colorChange 3s ease-in-out infinite alternate,
         fadeIn 500ms ease-in-out;
     }
 
