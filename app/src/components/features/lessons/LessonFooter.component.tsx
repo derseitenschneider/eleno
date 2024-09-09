@@ -7,6 +7,7 @@ import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useCallback, useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import MusicTools from './toolbox/Toolbox.component'
 
 function LessonFooter() {
   const [isScrolling, setIsScrolling] = useState(false)
@@ -100,31 +101,34 @@ function LessonFooter() {
   if (lessonHolderTypeIds.length <= 1) return null
 
   return (
-    <footer
-      className={cn(
-        'fixed md:bottom-0 bottom-16 px-3 py-3 right-0 transition-transform duration-500',
-        isScrolling && window.innerWidth < 1000
-          ? 'translate-x-[calc(100%-48px)]'
-          : '',
-      )}
-    >
-      <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
-        <SearchStudentCombobox />
-        <Button
-          onMouseDown={handlerPreviousStudent}
-          size='icon'
-          className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
-        >
-          <ArrowLeft className='h-5 w-5 text-primary' />
-        </Button>
+    <footer className='fixed md:bottom-0 bottm-16 flex items-center justify-between w-[calc(100vw-50px)] px-3 py-3'>
+      <MusicTools key={holderId} />
+      <div
+        className={cn(
+          'px-3 py-3 right-0 transition-transform duration-500',
+          isScrolling && window.innerWidth < 1000
+            ? 'translate-x-[calc(100%-48px)]'
+            : '',
+        )}
+      >
+        <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
+          <SearchStudentCombobox />
+          <Button
+            onMouseDown={handlerPreviousStudent}
+            size='icon'
+            className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
+          >
+            <ArrowLeft className='h-5 w-5 text-primary' />
+          </Button>
 
-        <Button
-          onMouseDown={handlerNextStudent}
-          size='icon'
-          className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
-        >
-          <ArrowRight className='h-5 w-5 text-primary' />
-        </Button>
+          <Button
+            onMouseDown={handlerNextStudent}
+            size='icon'
+            className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
+          >
+            <ArrowRight className='h-5 w-5 text-primary' />
+          </Button>
+        </div>
       </div>
     </footer>
   )
