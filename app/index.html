@@ -151,7 +151,6 @@
       align-items: center;
       z-index: 9999;
       transition: opacity ease-in-out 300ms;
-      animation: fadeIn 500ms ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -178,7 +177,8 @@
 
 
     .logo-path {
-      animation: colorChange 3s ease-in-out infinite alternate;
+      animation: colorChange 3s ease-in-out infinite alternate,
+        fadeIn 500ms ease-in-out;
     }
 
 
