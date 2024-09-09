@@ -87,10 +87,10 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
       }}
     >
       <div
-        className='flex justify-between items-center bg-background50 p-2 cursor-move'
+        className='flex justify-between items-center bg-background50 py-2 px-4 cursor-move'
         onMouseDown={handleMouseDown}
       >
-        <h5 className='text-foreground font-medium'>{title}</h5>
+        <h5 className='text-foreground text-sm font-medium'>{title}</h5>
         <Button
           variant='ghost'
           size='icon'

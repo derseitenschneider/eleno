@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Play, Pause } from 'lucide-react'
 import { Slider } from '@/components/ui/slider'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 const Metronome = () => {
   const [bpm, setBpm] = useState(120)
@@ -51,7 +52,7 @@ const Metronome = () => {
   }
 
   const handleBpmChange = (newBpm: number[]) => {
-    setBpm(newBpm[0])
+    setBpm(newBpm[0] || 120)
     if (isPlaying) {
       if (timerRef.current) clearInterval(timerRef.current)
       timerRef.current = window.setInterval(playClick, (60 / newBpm[0]) * 1000)
@@ -59,11 +60,11 @@ const Metronome = () => {
   }
 
   return (
-    <div className='flex flex-col items-center space-y-4 p-4 bg-background50 rounded-lg'>
-      <div className='text-2xl font-mono'>
-        <input
+    <div className='flex flex-col items-center space-y-4 p-2 bg-background50 rounded-lg'>
+      <div className='flex items-center gap-2 text-lg font-mono'>
+        <Input
           type='number'
-          className='bg-background50'
+          className='bg-background50 text-right'
           min={40}
           max={240}
           value={bpm}
@@ -72,8 +73,7 @@ const Metronome = () => {
             handleBpmChange([bpm])
           }}
         />
-
-        <span>BPM</span>
+        BPM
       </div>
       <Slider
         value={[bpm]}
@@ -83,7 +83,7 @@ const Metronome = () => {
         step={1}
         className='w-64'
       />
-      <Button onClick={startStop} variant='outline' size='lg'>
+      <Button onClick={startStop} variant='outline' size='sm'>
         {isPlaying ? (
           <Pause className='mr-2 h-4 w-4' />
         ) : (

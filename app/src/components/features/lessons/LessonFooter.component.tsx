@@ -101,11 +101,11 @@ function LessonFooter() {
   if (lessonHolderTypeIds.length <= 1) return null
 
   return (
-    <footer className='fixed md:bottom-0 bottm-16 flex items-center justify-between w-[calc(100vw-50px)] px-3 py-3'>
+    <footer className='fixed md:bottom-0 bottom-16 flex items-center justify-between w-full md:w-[calc(100vw-50px)] px-3 py-3'>
       <MusicTools key={holderId} />
       <div
         className={cn(
-          'px-3 py-3 right-0 transition-transform duration-500',
+          'ml-auto md:ml-0 right-0 transition-transform duration-500',
           isScrolling && window.innerWidth < 1000
             ? 'translate-x-[calc(100%-48px)]'
             : '',

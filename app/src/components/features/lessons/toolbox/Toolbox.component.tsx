@@ -72,7 +72,7 @@ const Toolbox: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className='hidden md:block'>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -95,11 +95,11 @@ const Toolbox: React.FC = () => {
               onClick={() => handleToolClick(setIsTunerOpen)}
               label='Tuner'
             />
-            <ToolButton
-              icon={Repeat}
-              onClick={() => handleToolClick(setIsSlowDownerOpen)}
-              label='Looper'
-            />
+            {/* <ToolButton */}
+            {/*   icon={Repeat} */}
+            {/*   onClick={() => handleToolClick(setIsSlowDownerOpen)} */}
+            {/*   label='Looper' */}
+            {/* /> */}
           </div>
         </PopoverContent>
       </Popover>
