@@ -17,11 +17,13 @@ export default function Application() {
   // Hides loader when app is loaded.
   useEffect(() => {
     const loader = document.getElementById('loader')
+    const body = document.body
     if (loader) {
       setTimeout(() => {
         loader.classList.add('fade-out')
         setTimeout(() => {
           loader.style.display = 'none'
+          body.removeAttribute('style')
         }, 1000)
       }, 500)
     }
