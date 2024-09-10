@@ -79,7 +79,7 @@ const Toolbox: React.FC = () => {
             variant='outline'
             title='Toolbox'
             size='icon'
-            className='bg-primary text-white border border-background200/75 rounded-full hover:bg-primary/95 hover:translate-y-[-1px] shadow-md transition-transform '
+            className='bg-[#6E6ED6] text-white border border-background200/75 rounded-full hover:bg-initial hover:translate-y-[-1px] shadow-md transition-transform '
           >
             <LayoutGrid strokeWidth={2} className='size-5' />
           </Button>

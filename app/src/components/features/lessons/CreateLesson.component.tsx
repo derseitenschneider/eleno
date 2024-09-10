@@ -154,7 +154,7 @@ function CreateLesson() {
         />
       </div>
       <div
-        className={cn(isCreating && 'opacity-50', 'grid md:grid-cols-2 gap-6')}
+        className={cn(isCreating && 'opacity-50', 'grid lg:grid-cols-2 gap-6')}
       >
         <div>
           <p className='text-foreground/70'>Lektion</p>

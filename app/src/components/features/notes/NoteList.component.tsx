@@ -53,7 +53,7 @@ function NoteList() {
   if (!currentLessonHolder?.holder) return null
 
   return (
-    <div className='border-t lg:border-none border-hairline min-h-[150px] py-6 pl-6 pr-4 lg:p-4 lg:h-[calc(100vh-88px)]'>
+    <div className='border-t lg:border-none border-hairline min-h-[150px] py-6 px-5 sm:pl-6 sm:pr-4 lg:p-4 lg:h-[calc(100vh-88px)]'>
       <div className='mb-6'>
         <div className='flex justify-between items-baseline'>
           <h4 className='mb-0'>Notizen</h4>
