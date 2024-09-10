@@ -111,7 +111,7 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className={cn('w-[90vw] max-h-[80vh] lg:w-[85vw] lg:min-w-[950px]')}>
+    <div className={cn('w-[90vw] lg:w-[85vw] lg:min-w-[950px]')}>
       <div className='flex flex-col overflow-hidden  h-full'>
         <div className={cn(grid, 'hidden lg:grid')}>
           <span />
@@ -126,10 +126,10 @@ export default function UpdateStudents({
             Unterrichtsort
           </span>
         </div>
-        <ScrollArea className='flex-grow lg:py-1'>
-          <FormProvider {...methods}>
-            <Form {...methods}>
-              <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <FormProvider {...methods}>
+          <Form {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
                 {fields.map((field, index, arr) => (
                   <MemoizedStudentFormRow
                     autoFocus={true}
@@ -140,30 +140,30 @@ export default function UpdateStudents({
                     disabled={isUpdating}
                   />
                 ))}
-                <div className='flex items-end justify-between pr-1'>
-                  <span className='text-sm'>* Pflichtfelder</span>
-                  <div className='flex items-center justify-end gap-4 mt-4'>
-                    <Button
-                      size='sm'
-                      variant='outline'
-                      type='button'
-                      onClick={onSuccess}
-                      disabled={isUpdating}
-                    >
-                      Abbrechen
+              </ScrollArea>
+              <div className='flex items-end justify-between pr-1'>
+                <span className='text-sm'>* Pflichtfelder</span>
+                <div className='flex items-center justify-end gap-4 mt-4'>
+                  <Button
+                    size='sm'
+                    variant='outline'
+                    type='button'
+                    onClick={onSuccess}
+                    disabled={isUpdating}
+                  >
+                    Abbrechen
+                  </Button>
+                  <div className='flex items-center gap-2'>
+                    <Button size='sm' disabled={isUpdating} type='submit'>
+                      Speichern
                     </Button>
-                    <div className='flex items-center gap-2'>
-                      <Button size='sm' disabled={isUpdating} type='submit'>
-                        Speichern
-                      </Button>
-                      {isUpdating && <MiniLoader />}
-                    </div>
+                    {isUpdating && <MiniLoader />}
                   </div>
                 </div>
-              </form>
-            </Form>
-          </FormProvider>
-        </ScrollArea>
+              </div>
+            </form>
+          </Form>
+        </FormProvider>
       </div>
     </div>
   )

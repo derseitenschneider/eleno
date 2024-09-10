@@ -15,7 +15,7 @@ function SearchBar({
   disabled,
 }: SearchBarProps) {
   return (
-    <div className='relative h-fit '>
+    <div className='relative w-52 lg:w-auto h-fit '>
       <IoSearchOutline className='hidden sm:block absolute text-foreground/55 h-4 w-4 top-[30%] left-[12px]' />
       <DebouncedInput
         value={searchInput}

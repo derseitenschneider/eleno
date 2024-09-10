@@ -63,7 +63,7 @@ export default function StudentsControl({
           selected={selected}
         />
         {hasActiveStudents && (
-          <p className='text-sm'>
+          <p className='hidden lg:block text-sm'>
             Schüler:innen: <span>{activeStudents.length}</span>
           </p>
         )}

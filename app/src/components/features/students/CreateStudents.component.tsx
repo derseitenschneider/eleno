@@ -172,7 +172,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   return (
     <div className='md:w-[90vw]'>
-      <div className={cn(grid, 'hidden lg:grid pb-1')}>
+      <div className={cn(grid, 'hidden lg:grid ')}>
         <span />
         <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
@@ -187,14 +187,14 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className='max-h-[75vh] overflow-y-auto no-scrollbar'>
+            <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
               {memoizedStudentRows}
-            </div>
+            </ScrollArea>
             <div className='flex items-center justify-between mt-4'>
               <div className='flex items-center'>
                 <Input
                   disabled={isCreating}
-                  className='w-[5ch]'
+                  className='w-[7ch]'
                   type='number'
                   value={numAdd}
                   onChange={(e) => setNumAdd(e.target.valueAsNumber)}
