@@ -77,8 +77,9 @@ const Toolbox: React.FC = () => {
         <PopoverTrigger asChild>
           <Button
             variant='outline'
+            title='Toolbox'
             size='icon'
-            className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
+            className='bg-primary text-white border border-background200/75 rounded-full hover:bg-primary/95 hover:translate-y-[-1px] shadow-md transition-transform '
           >
             <LayoutGrid strokeWidth={2} className='size-5' />
           </Button>

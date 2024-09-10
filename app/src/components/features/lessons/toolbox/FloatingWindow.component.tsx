@@ -25,41 +25,61 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
 
   const constrainPosition = useCallback((x: number, y: number) => {
     if (!windowRef.current) return { x, y }
-
     const windowWidth = windowRef.current.offsetWidth
     const windowHeight = windowRef.current.offsetHeight
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
-
     return {
       x: Math.min(Math.max(x, 0), viewportWidth - windowWidth),
       y: Math.min(Math.max(y, 0), viewportHeight - windowHeight),
     }
   }, [])
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleStart = (clientX: number, clientY: number) => {
     if (!windowRef.current) return
+    const startX = clientX - position.x
+    const startY = clientY - position.y
 
-    const startX = e.clientX - position.x
-    const startY = e.clientY - position.y
-
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMove = (moveClientX: number, moveClientY: number) => {
       const newPosition = constrainPosition(
-        e.clientX - startX,
-        e.clientY - startY,
+        moveClientX - startX,
+        moveClientY - startY,
       )
       setPosition(newPosition)
     }
 
-    const handleMouseUp = () => {
+    const handleEnd = () => {
       setIsDragging(false)
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('touchmove', handleTouchMove)
+      document.removeEventListener('touchend', handleTouchEnd)
     }
+
+    const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY)
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+      const touch = e.touches[0]
+      handleMove(touch.clientX, touch.clientY)
+    }
+
+    const handleMouseUp = handleEnd
+    const handleTouchEnd = handleEnd
 
     setIsDragging(true)
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('touchmove', handleTouchMove, { passive: false })
+    document.addEventListener('touchend', handleTouchEnd)
+  }
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    handleStart(e.clientX, e.clientY)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0]
+    handleStart(touch.clientX, touch.clientY)
   }
 
   useEffect(() => {
@@ -68,7 +88,6 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
         constrainPosition(prevPosition.x, prevPosition.y),
       )
     }
-
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [constrainPosition])
@@ -78,7 +97,8 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
   const floatingWindow = (
     <div
       ref={windowRef}
-      className={`fixed bg-background100 rounded-lg shadow-lg overflow-hidden border border-hairline transition-shadow ${isDragging ? 'shadow-xl' : ''}`}
+      className={`fixed bg-background100 rounded-lg shadow-lg overflow-hidden border border-hairline transition-shadow ${isDragging ? 'shadow-xl' : ''
+        }`}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
@@ -89,6 +109,7 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
       <div
         className='flex justify-between items-center bg-background50 py-2 px-4 cursor-move'
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         <h5 className='text-foreground text-sm font-medium'>{title}</h5>
         <Button
