@@ -54,7 +54,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   }
 
   return (
-    <div className={cn('sm:w-[800px]')}>
+    <div className={cn('md:w-[90vw] lg:w-[800px]')}>
       <form
         onSubmit={onSaveHandler}
         className={cn(

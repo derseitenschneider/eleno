@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { toast } from 'sonner'
+import { Label } from '@/components/ui/label'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -96,7 +97,8 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
     shouldFocusError: true,
   })
 
-  const grid = 'grid gap-1 grid-cols-[1fr_1fr_80px_80px_80px_1fr]'
+  const grid =
+    'grid gap-1 grid-cols-12 lg:grid-cols-[1fr_1fr_80px_80px_80px_1fr]'
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -118,7 +120,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
 
   return (
     <div className='w-[85vw]'>
-      <div className={cn(grid)}>
+      <div className={cn(grid, 'hidden lg:grid')}>
         <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Tag</span>
         <span className='text-sm pl-3 text-foreground/80'>Von</span>
@@ -129,12 +131,15 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className={cn(grid, 'max-h-[75vh]')}>
+          <div className={cn(grid, 'max-h-[75vh] gap-4 lg:gap-0')}>
             <FormField
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Gruppenname*
+                  </Label>
                   <FormControl>
                     <Input
                       {...field}
@@ -152,7 +157,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='dayOfLesson'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Tag
+                  </Label>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
@@ -180,7 +188,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='startOfLesson'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-3 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Von
+                  </Label>
                   <FormControl>
                     <Input
                       type='time'
@@ -195,7 +206,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='endOfLesson'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-3 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Bis
+                  </Label>
                   <FormControl>
                     <Input
                       type='time'
@@ -210,7 +224,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='durationMinutes'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Dauer
+                  </Label>
                   <FormControl>
                     <Input
                       placeholder='45'
@@ -226,7 +243,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='location'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+                  <Label className='inline lg:hidden' htmlFor={field.name}>
+                    Unterrichtsort
+                  </Label>
                   <FormControl>
                     <Input
                       placeholder='Unterrichtsort'

@@ -8,7 +8,7 @@ interface TimeTableDayProps {
 
 export default function TimeTableDay({ day }: TimeTableDayProps) {
   return (
-    <div className='mb-12 rounded-md shadow-sm w-[700px] border border-background200 bg-background50'>
+    <div className='mb-12 rounded-md shadow-sm lg:w-[700px] border border-background200 bg-background50'>
       <div className='bg-background200/50 px-4 py-2 flex justify-between items-center'>
         <h5 className='text-foreground/80 m-0'>
           {day.day || 'Kein Tag angegeben '}

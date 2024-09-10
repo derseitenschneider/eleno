@@ -40,7 +40,7 @@ export default function InactiveHoldersControl({
         />
         <div className='flex items-center gap-2'>
           {inactiveStudents && inactiveStudents?.length > 0 && (
-            <p className='text-sm'>
+            <p className='text-sm hidden lg:block'>
               Schüler:innen: <span>{inactiveStudents.length}</span>
             </p>
           )}

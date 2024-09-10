@@ -5,7 +5,6 @@ import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
 import { useLoading } from '../services/context/LoadingContext'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 function Lesson() {
   const { isLoading } = useLoading()
@@ -17,7 +16,7 @@ function Lesson() {
   if (isLoading) return <p>...loading</p>
   if (currentLessonHolder)
     return (
-      <div className='md:grid lg:grid-cols-[1fr_400px] lg:h-[calc(100vh-88px)] overflow-hidden'>
+      <div className='md:grid lg:grid-cols-[2fr_minmax(0,360px)] lg:h-[calc(100vh-88px)] overflow-hidden'>
         <main className='md:h-full'>
           <PreviousLessons key={currentLessonHolder.holder.id} />
           <CreateLesson />

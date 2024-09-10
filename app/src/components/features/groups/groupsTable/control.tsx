@@ -57,7 +57,7 @@ export default function GroupsControl({
       <div className='mr-auto items-baseline hidden sm:flex gap-4'>
         <GroupsActionDropdown setSelected={setSelected} selected={selected} />
         {hasActiveGroups && (
-          <p className='text-sm'>
+          <p className='hidden lg:block text-sm'>
             Gruppen: <span>{activeGroups.length}</span>
           </p>
         )}
