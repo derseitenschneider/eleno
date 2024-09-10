@@ -135,10 +135,10 @@ export default function ConvertStudentToGroup({
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value || undefined}
+                      defaultValue={field.value || ''}
                     >
                       <SelectTrigger className='h-[36px]'>
-                        <SelectValue placeholder='Lesson Day' />
+                        <SelectValue placeholder='Unterrichtstag' />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value='Montag'>Montag</SelectItem>
