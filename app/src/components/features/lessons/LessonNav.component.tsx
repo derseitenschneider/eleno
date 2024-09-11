@@ -36,6 +36,7 @@ export default function LessonNav() {
   if (!latestLessons || !holderId) return null
 
   const handlerPreviousStudent = () => {
+    window.scrollTo(0, 0)
     if (lessonPointer > 0) {
       const newPointer = lessonPointer - 1
       const prevHolderId = lessonHolderTypeIds[newPointer]
@@ -69,6 +70,7 @@ export default function LessonNav() {
   }
 
   const handlerNextStudent = () => {
+    window.scrollTo(0, 0)
     if (lessonPointer < lessonHolderTypeIds.length - 1) {
       const newPointer = lessonPointer + 1
       const nextHolderId = lessonHolderTypeIds[newPointer]

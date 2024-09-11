@@ -38,6 +38,7 @@ export default function SearchStudentCombobox() {
 
   function handleSelect(newLessonHolder: LessonHolder) {
     if (!holderId || !latestLessons) return
+    window.scrollTo(0, 0)
     const newTypeId = `${newLessonHolder.type}-${newLessonHolder.holder.id}`
     const url = window.location.pathname
     const newUrl = url.replace(holderId, newTypeId)

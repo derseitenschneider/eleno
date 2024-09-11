@@ -19,7 +19,6 @@ function CreateLesson() {
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
-  const scrollToTop = useScrollTo()
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -122,6 +121,7 @@ function CreateLesson() {
   }
 
   function resetFields() {
+    window.scrollTo(0, 0)
     setHomework('')
     setLessonContent('')
     setDrafts((prev) =>
