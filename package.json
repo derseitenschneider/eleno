@@ -1,6 +1,6 @@
 {
   "name": "eleno",
-  "version": "1.6.177",
+  "version": "1.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,5 @@
     "url": "https://github.com/derseitenschneider/eleno/issues"
   },
   "homepage": "https://github.com/derseitenschneider/eleno#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
