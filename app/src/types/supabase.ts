@@ -123,6 +123,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at: string | null
+          groupId: number | null
           id: number
           order: number
           studentId: number | null
@@ -135,6 +136,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
+          groupId?: number | null
           id?: number
           order?: number
           studentId?: number | null
@@ -147,6 +149,7 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
+          groupId?: number | null
           id?: number
           order?: number
           studentId?: number | null
@@ -155,6 +158,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "notes_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]
@@ -430,12 +440,26 @@ export type Database = {
           },
         ]
       }
-      lesson_years: {
+      last_3_lessons_new: {
         Row: {
+          created_at: string | null
+          date: string | null
+          groupId: number | null
+          homework: string | null
+          homeworkKey: string | null
+          id: number | null
+          lessonContent: string | null
           studentId: number | null
-          years: number[] | null
+          user_id: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "lessons_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "lessons_studentId_fkey"
             columns: ["studentId"]
@@ -443,7 +467,22 @@ export type Database = {
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "lessons_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      lesson_years: {
+        Row: {
+          entity_id: number | null
+          entity_type: string | null
+          years: number[] | null
+        }
+        Relationships: []
       }
       only_active_notes: {
         Row: {

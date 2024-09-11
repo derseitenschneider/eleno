@@ -64,7 +64,9 @@ export default function AddHolderCombobox({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            className='px-2 sm:px-4 border-none !bg-transparent justify-between'
+            className={cn(
+              'px-2 sm:px-4 border-none !bg-transparent justify-between',
+            )}
           >
             {selectedHolder ? (
               <div>
@@ -83,10 +85,12 @@ export default function AddHolderCombobox({
                 </Badge>
               </div>
             ) : (
-              <Users
-                strokeWidth={1.5}
-                className='size-5 text-primary text-right'
-              />
+              <div className='border border-hairline h-[32px] flex flex-col justify-center px-3 rounded-md'>
+                <Users
+                  strokeWidth={1.5}
+                  className='size-5 text-primary text-right'
+                />
+              </div>
             )}
           </Button>
         </PopoverTrigger>

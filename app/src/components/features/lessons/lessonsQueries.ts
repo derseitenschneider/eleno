@@ -23,7 +23,7 @@ export function useLatestLessons() {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ['latest-3-lessons'],
-    queryFn: () => fetchLatestLessons(),
+    queryFn: () => fetchLatestLessons(user?.id || ''),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
   })
