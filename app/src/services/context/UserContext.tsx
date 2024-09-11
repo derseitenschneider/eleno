@@ -83,10 +83,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = useCallback(async (data: Profile) => {
     try {
-      const { firstName, lastName } = data
-      const newData = { firstName, lastName }
+      const { first_name, last_name } = data
+      const newData = { first_name, last_name }
       await updateProfileSupabase(newData)
-      setUser((prev) => (prev ? { ...prev, firstName, lastName } : undefined))
+      setUser((prev) => (prev ? { ...prev, first_name, last_name } : undefined))
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
     }

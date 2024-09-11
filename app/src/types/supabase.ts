@@ -365,7 +365,7 @@ export type Database = {
           id?: number
           studentId?: number | null
           text: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           completed?: boolean | null

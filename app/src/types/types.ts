@@ -15,8 +15,8 @@ import type { Database } from './supabase'
 export type DBTypes = {
   [P in keyof Database['public']['Tables']]: Database['public']['Tables'][P]['Row']
 } & {
-  [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
-}
+    [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
+  }
 
 // Transform fields (E) from type (T) to new type (N).
 type TransformFields<T, N, E extends keyof T = never> = {
@@ -104,7 +104,7 @@ export type LessonHolder =
 
 export type User = DBTypes['profiles']
 
-export type Profile = Pick<User, 'firstName' | 'lastName'>
+export type Profile = Pick<User, 'first_name' | 'last_name'>
 
 /*
 |--------------------------------------------------------------------------

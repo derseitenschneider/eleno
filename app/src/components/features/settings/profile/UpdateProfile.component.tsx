@@ -15,8 +15,8 @@ interface EditProfileProps {
 function EditProfile({ onCloseModal }: EditProfileProps) {
   const { user, updateProfile } = useUser()
   const [input, setInput] = useState({
-    firstName: user?.first_name || '',
-    lastName: user?.last_name || '',
+    first_name: user?.first_name || '',
+    last_name: user?.last_name || '',
   })
   const [isPending, setIsPending] = useState(false)
 
@@ -60,7 +60,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
             type='text'
             name='firstName'
             className='firstName'
-            value={input.firstName}
+            value={input.first_name}
             onChange={inputHandler}
           />
         </div>
@@ -73,7 +73,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
             id='lastName'
             name='lastName'
             className='lastName'
-            value={input.lastName}
+            value={input.last_name}
             onChange={inputHandler}
           />
         </div>
