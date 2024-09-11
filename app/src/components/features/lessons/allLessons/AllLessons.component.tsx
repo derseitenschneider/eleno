@@ -112,7 +112,7 @@ function AllLessons() {
     setSearchInput(e.target.value)
   }
 
-  const handleDownloadPDF = () => {}
+  const handleDownloadPDF = () => { }
 
   return (
     <motion.div
@@ -178,8 +178,8 @@ function AllLessons() {
                 <Menus.Menu key={lesson.id}>
                   <Table.Row key={lesson.id}>
                     <div>{formatDateToDisplay(lesson.date)}</div>
-                    <div>{parse(lesson.lessonContent)}</div>
-                    <div>{parse(lesson.homework)}</div>
+                    <div>{parse(lesson.lessonContent || '')}</div>
+                    <div>{parse(lesson.homework || '')}</div>
                     {!isMobile && <Menus.Toggle id={lesson.id} />}
 
                     <Modal>
