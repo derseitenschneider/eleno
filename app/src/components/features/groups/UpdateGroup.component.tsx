@@ -74,7 +74,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
 
   return (
     <div className='w-[85vw]'>
-      <div className={cn(grid, 'hidden lg:block')}>
+      <div className={cn(grid, 'hidden lg:grid')}>
         <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Tag</span>
         <span className='text-sm pl-3 text-foreground/80'>Von</span>
