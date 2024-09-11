@@ -7,6 +7,7 @@
   "main": "./index.html",
   "scripts": {
     "dev": "vite --open --host",
+    "dev:prod": "vite --mode production --open --host",
     "dev:demo": "VITE_MODE=demo vite --open",
     "build": "tsc && vite build",
     "build:demo": "VITE_MODE=demo tsc &6 vite build",

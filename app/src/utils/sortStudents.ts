@@ -18,8 +18,8 @@ const compareInstrument = (a: TStudent, b: TStudent) => {
 
 const compareDays = (a: TStudent, b: TStudent) => {
   const days = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag']
-  const dayA = a.dayOfLesson.toLowerCase()
-  const dayB = b.dayOfLesson.toLowerCase()
+  const dayA = a.dayOfLesson?.toLowerCase()
+  const dayB = b.dayOfLesson?.toLowerCase()
 
   let comparison = 0
   if (days.indexOf(dayA) > days.indexOf(dayB)) {
@@ -133,7 +133,7 @@ export const sortStudentsDateTime = (students: TStudent[]) => {
   const undef: TStudent[] = []
 
   students.forEach((student) => {
-    switch (student.dayOfLesson.toLowerCase()) {
+    switch (student.dayOfLesson?.toLowerCase()) {
       case 'montag':
         mo.push(student)
         break
