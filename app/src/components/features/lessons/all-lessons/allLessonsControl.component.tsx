@@ -67,14 +67,14 @@ export default function AllLessonsControl({
           <span>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='flex items-center sm:gap-4'>
+      <div className='sm:flex items-center sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}
             onValueChange={handleSelect}
             value={String(selectedYear)}
           >
-            <SelectTrigger className='w-fit'>
+            <SelectTrigger className='ml-auto w-fit'>
               <SelectValue placeholder='Jahr' />
             </SelectTrigger>
             <SelectContent>

@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -7,9 +7,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Music, Repeat, type LucideIcon, Gauge, LayoutGrid } from 'lucide-react'
-import Tuner from './Tuner.component'
+// import Tuner from './Tuner.component'
 import FloatingWindow from './FloatingWindow.component'
-import Metronome from './Metronome.component'
+// import Metronome from './Metronome.component'
+
+const Metronome = lazy(() => import('./Metronome.component'))
+const Tuner = lazy(() => import('./Tuner.component'))
 
 interface ToolButtonProps {
   icon: LucideIcon
@@ -42,13 +45,17 @@ interface ToolProps {
 
 const MetronomeWindow: React.FC<ToolProps> = ({ isOpen, onClose }) => (
   <FloatingWindow isOpen={isOpen} onClose={onClose} title='Metronome'>
-    <Metronome />
+    <Suspense fallback={<p>...loading</p>}>
+      <Metronome />
+    </Suspense>
   </FloatingWindow>
 )
 
 const TunerWindow: React.FC<ToolProps> = ({ isOpen, onClose }) => (
   <FloatingWindow isOpen={isOpen} onClose={onClose} title='Tuner'>
-    <Tuner />
+    <Suspense>
+      <Tuner />
+    </Suspense>
   </FloatingWindow>
 )
 
@@ -72,14 +79,14 @@ const Toolbox: React.FC = () => {
   }
 
   return (
-    <div className='hidden md:block'>
+    <div className='hidden md:block md:left-[74px] fixed bottom-[21px]'>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
           <Button
             variant='outline'
             title='Toolbox'
             size='icon'
-            className='bg-[#6E6ED6] text-white border border-background200/75 rounded-full hover:bg-initial hover:translate-y-[-1px] shadow-md transition-transform '
+            className='bg-[#6E6ED6] text-white border border-background200/75 rounded-full hover:bg-initial hover:translate-y-[-1px] shadow-xl transition-transform '
           >
             <LayoutGrid strokeWidth={2} className='size-5' />
           </Button>

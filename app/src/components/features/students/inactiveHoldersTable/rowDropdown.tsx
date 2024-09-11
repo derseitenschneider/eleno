@@ -62,7 +62,7 @@ export default function InactiveStudentRowDropdown({
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
+          <DropdownMenuContent className='mr-3'>
             <DropdownMenuItem
               onClick={reactivateHolders}
               className='flex items-center gap-2'

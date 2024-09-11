@@ -9,6 +9,7 @@ import { useCreateLesson } from './useCreateLesson'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import useScrollTo from '@/hooks/useScrollTo'
 
 function CreateLesson() {
   const { drafts, setDrafts } = useDrafts()
@@ -17,6 +18,8 @@ function CreateLesson() {
   const [date, setDate] = useState<Date>(new Date())
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
+  const [error, setError] = useState('')
+  const scrollToTop = useScrollTo()
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -44,6 +47,7 @@ function CreateLesson() {
   }, [])
 
   function handleLessonContent(content: string) {
+    setError('')
     setLessonContent(content)
     setDrafts((prev) => {
       if (
@@ -69,6 +73,7 @@ function CreateLesson() {
   }
 
   function handleHomework(content: string) {
+    setError('')
     setHomework(content)
 
     setDrafts((prev) => {
@@ -127,6 +132,11 @@ function CreateLesson() {
   }
 
   function handleSave() {
+    if (!lessonContent && !homework) {
+      return setError(
+        'Die Lektion benötigt mindestens Inhalt oder Hausaufgaben.',
+      )
+    }
     if (!currentLessonHolder?.holder.id) return
     createLesson(
       {
@@ -144,7 +154,7 @@ function CreateLesson() {
   if (!currentLessonHolder) return null
 
   return (
-    <div className='px-5 py-6 sm:pr-4 sm:pl-6 lg:py-4'>
+    <div className='px-5 pt-6 pb-6 lg:pb-16 min-[1148px]:pb-0 lg:pr-4 sm:pl-6 lg:py-4'>
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker
@@ -154,7 +164,10 @@ function CreateLesson() {
         />
       </div>
       <div
-        className={cn(isCreating && 'opacity-50', 'grid lg:grid-cols-2 gap-6')}
+        className={cn(
+          isCreating && 'opacity-50',
+          'grid min-[1148px]:grid-cols-2 gap-6',
+        )}
       >
         <div>
           <p className='text-foreground/70'>Lektion</p>
@@ -177,16 +190,19 @@ function CreateLesson() {
           />
         </div>
       </div>
-      <div className='flex mt-4 items-center gap-1'>
-        <Button
-          disabled={isCreating}
-          size='sm'
-          onClick={handleSave}
-          className='block ml-auto'
-        >
-          Speichern
-        </Button>
-        {isCreating && <MiniLoader />}
+      <div className='flex justify-between gap-1'>
+        {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
+        <div className='ml-auto flex mt-4 items-center gap-1'>
+          <Button
+            disabled={isCreating}
+            size='sm'
+            onClick={handleSave}
+            className='block ml-auto'
+          >
+            Speichern
+          </Button>
+          {isCreating && <MiniLoader />}
+        </div>
       </div>
     </div>
   )

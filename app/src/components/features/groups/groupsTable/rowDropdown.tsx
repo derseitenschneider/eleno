@@ -64,7 +64,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
+          <DropdownMenuContent className='mr-3'>
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation()

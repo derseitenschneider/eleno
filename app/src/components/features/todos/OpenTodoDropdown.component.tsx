@@ -29,7 +29,7 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
         <DropdownMenuTrigger className='h-4 w-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className='mr-3'>
           <DropdownMenuItem
             onClick={() => {
               setOpenModal('EDIT')

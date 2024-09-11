@@ -17,8 +17,6 @@ import {
   CheckSquare2,
   FileDown,
   GraduationCap,
-  Group,
-  GroupIcon,
   MoreVertical,
   Pencil,
   TableProperties,
@@ -72,7 +70,7 @@ export default function ActiveStudentRowDropdown({
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
+          <DropdownMenuContent className='mr-3'>
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation()

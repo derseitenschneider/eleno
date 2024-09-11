@@ -1,15 +1,14 @@
+import { cn } from '@/lib/utils'
 import SearchStudentCombobox from '../students/SearchStudentCombobox.component'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useCallback, useEffect, useState } from 'react'
-import { cn } from '@/lib/utils'
-import MusicTools from './toolbox/Toolbox.component'
+import getNewestLessonYear from '@/utils/getNewestLessonYear'
 
-function LessonFooter() {
+export default function LessonNav() {
   const [isScrolling, setIsScrolling] = useState(false)
   const {
     currentLessonPointer: lessonPointer,
@@ -23,7 +22,7 @@ function LessonFooter() {
   const handleScroll = useCallback(() => {
     if (!isScrolling) {
       setIsScrolling(true)
-      setTimeout(() => setIsScrolling(false), 350)
+      setTimeout(() => setIsScrolling(false), 450)
     }
   }, [isScrolling])
 
@@ -99,39 +98,34 @@ function LessonFooter() {
   }
 
   if (lessonHolderTypeIds.length <= 1) return null
-
   return (
-    <footer className='fixed md:bottom-0 bottom-16 flex items-center justify-between w-full md:w-[calc(100vw-50px)] px-3 py-3 lg:pl-6'>
-      <MusicTools />
-      <div
-        className={cn(
-          'ml-auto md:ml-0 right-0 transition-transform duration-500',
-          isScrolling && window.innerWidth < 1000
-            ? 'translate-x-[calc(100%-48px)]'
-            : '',
-        )}
-      >
-        <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
-          <SearchStudentCombobox />
-          <Button
-            onMouseDown={handlerPreviousStudent}
-            size='icon'
-            className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
-          >
-            <ArrowLeft className='h-5 w-5 text-primary' />
-          </Button>
+    <div
+      className={cn(
+        'fixed md:bottom-3 bottom-[76px]',
+        'ml-auto md:ml-0 right-4 transition-transform duration-500',
+        isScrolling && window.innerWidth < 1000
+          ? 'translate-x-[calc(100%-8px)]'
+          : '',
+      )}
+    >
+      <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
+        <SearchStudentCombobox />
+        <Button
+          onMouseDown={handlerPreviousStudent}
+          size='icon'
+          className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
+        >
+          <ArrowLeft className='h-5 w-5 text-primary' />
+        </Button>
 
-          <Button
-            onMouseDown={handlerNextStudent}
-            size='icon'
-            className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
-          >
-            <ArrowRight className='h-5 w-5 text-primary' />
-          </Button>
-        </div>
+        <Button
+          onMouseDown={handlerNextStudent}
+          size='icon'
+          className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
+        >
+          <ArrowRight className='h-5 w-5 text-primary' />
+        </Button>
       </div>
-    </footer>
+    </div>
   )
 }
-
-export default LessonFooter

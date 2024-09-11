@@ -3,21 +3,21 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import type { Note } from "@/types/types"
-import { useQueryClient } from "@tanstack/react-query"
-import { Layers2, MoreVertical, Pencil, Trash2 } from "lucide-react"
-import { useState } from "react"
-import DeleteNote from "./DeleteNote.component"
-import UpdateNote from "./UpdateNote.component"
-import { useDuplicateNote } from "./useDuplicateNote"
+} from '@/components/ui/dropdown-menu'
+import type { Note } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import DeleteNote from './DeleteNote.component'
+import UpdateNote from './UpdateNote.component'
+import { useDuplicateNote } from './useDuplicateNote'
 
 type NoteDropdownProps = {
   noteId: number
@@ -25,8 +25,8 @@ type NoteDropdownProps = {
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
   const queryClient = useQueryClient()
-  const [openModal, setOpenModal] = useState<"EDIT" | "DELETE" | undefined>()
-  const notes = queryClient.getQueryData(["notes"]) as Array<Note> | undefined
+  const [openModal, setOpenModal] = useState<'EDIT' | 'DELETE' | undefined>()
+  const notes = queryClient.getQueryData(['notes']) as Array<Note> | undefined
   const currentNote = notes?.find((note) => note.id === noteId)
 
   const { duplicateNote } = useDuplicateNote()
@@ -48,9 +48,9 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DropdownMenuTrigger>
           <MoreVertical className='h-4 w-4 text-primary' />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className='mr-3'>
           <DropdownMenuItem
-            onClick={() => setOpenModal("EDIT")}
+            onClick={() => setOpenModal('EDIT')}
             className='flex items-center gap-2'
           >
             <Pencil className='h-4 w-4 text-primary' />
@@ -68,7 +68,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => setOpenModal("DELETE")}
+            onClick={() => setOpenModal('DELETE')}
             className='flex items-center gap-2'
           >
             <Trash2 className='h-4 w-4 text-warning' />
@@ -77,7 +77,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={openModal === "EDIT"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
@@ -86,7 +86,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === "DELETE"} onOpenChange={closeModal}>
+      <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz löschen</DialogTitle>

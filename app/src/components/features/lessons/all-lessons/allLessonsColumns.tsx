@@ -97,7 +97,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent>
+              <DropdownMenuContent className='mr-3'>
                 <DropdownMenuItem
                   onClick={() => setOpenModal('EDIT')}
                   className='flex items-center gap-2'
