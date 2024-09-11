@@ -18,7 +18,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
   const [title, setTitle] = useState('')
   const { user } = useUser()
 
-  const userName = `${user?.firstName} ${user?.lastName}`
+  const userName = `${user?.first_name} ${user?.last_name}`
 
   const studentsCSV = students.map((student, index) => ({
     index: index + 1,

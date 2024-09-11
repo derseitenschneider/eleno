@@ -102,7 +102,7 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "lessons_studentid_fkey"
+            foreignKeyName: "lessons_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -123,7 +123,6 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at: string | null
-          groupId: number | null
           id: number
           order: number
           studentId: number | null
@@ -136,7 +135,6 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
-          groupId?: number | null
           id?: number
           order?: number
           studentId?: number | null
@@ -149,7 +147,6 @@ export type Database = {
             | Database["public"]["Enums"]["background_colors"]
             | null
           created_at?: string | null
-          groupId?: number | null
           id?: number
           order?: number
           studentId?: number | null
@@ -159,14 +156,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notes_groupId_fkey"
-            columns: ["groupId"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notes_studentid_fkey"
+            foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -184,9 +174,9 @@ export type Database = {
       profiles: {
         Row: {
           email: string | null
-          firstName: string | null
+          first_name: string | null
           id: string
-          lastName: string | null
+          last_name: string | null
           lifetime_membership: boolean
           login_count: number | null
           stripe_customer: string | null
@@ -194,9 +184,9 @@ export type Database = {
         }
         Insert: {
           email?: string | null
-          firstName?: string | null
+          first_name?: string | null
           id: string
-          lastName?: string | null
+          last_name?: string | null
           lifetime_membership?: boolean
           login_count?: number | null
           stripe_customer?: string | null
@@ -204,9 +194,9 @@ export type Database = {
         }
         Update: {
           email?: string | null
-          firstName?: string | null
+          first_name?: string | null
           id?: string
-          lastName?: string | null
+          last_name?: string | null
           lifetime_membership?: boolean
           login_count?: number | null
           stripe_customer?: string | null
@@ -231,7 +221,7 @@ export type Database = {
           startDate: string | null
           studentId: number | null
           title: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -241,7 +231,7 @@ export type Database = {
           startDate?: string | null
           studentId?: number | null
           title: string
-          user_id?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -251,18 +241,18 @@ export type Database = {
           startDate?: string | null
           studentId?: number | null
           title?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "repertoire_groupid_fkey"
+            foreignKeyName: "repertoire_groupId_fkey"
             columns: ["groupId"]
             isOneToOne: false
             referencedRelation: "groups"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "repertoire_studentid_fkey"
+            foreignKeyName: "repertoire_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -305,7 +295,7 @@ export type Database = {
       }
       students: {
         Row: {
-          archive: boolean
+          archive: boolean | null
           created_at: string | null
           dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes: number | null
@@ -319,7 +309,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          archive?: boolean
+          archive?: boolean | null
           created_at?: string | null
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
@@ -333,7 +323,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
-          archive?: boolean
+          archive?: boolean | null
           created_at?: string | null
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
@@ -375,7 +365,7 @@ export type Database = {
           id?: number
           studentId?: number | null
           text: string
-          user_id?: string
+          user_id: string
         }
         Update: {
           completed?: boolean | null
@@ -389,14 +379,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "todos_groupid_fkey"
+            foreignKeyName: "todos_groupId_fkey"
             columns: ["groupId"]
             isOneToOne: false
             referencedRelation: "groups"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "todos_student_id_fkey"
+            foreignKeyName: "todos_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -415,9 +405,7 @@ export type Database = {
     Views: {
       last_3_lessons: {
         Row: {
-          created_at: string | null
           date: string | null
-          groupId: number | null
           homework: string | null
           homeworkKey: string | null
           id: number | null
@@ -427,14 +415,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "lessons_groupId_fkey"
-            columns: ["groupId"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_studentid_fkey"
+            foreignKeyName: "lessons_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -451,18 +432,24 @@ export type Database = {
       }
       lesson_years: {
         Row: {
-          entity_id: number | null
-          entity_type: string | null
+          studentId: number | null
           years: number[] | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "lessons_studentId_fkey"
+            columns: ["studentId"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       only_active_notes: {
         Row: {
           backgroundColor:
             | Database["public"]["Enums"]["background_colors"]
             | null
-          groupId: number | null
           id: number | null
           order: number | null
           studentId: number | null
@@ -472,14 +459,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notes_groupId_fkey"
-            columns: ["groupId"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notes_studentid_fkey"
+            foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
@@ -494,6 +474,27 @@ export type Database = {
           },
         ]
       }
+      profile_login_stats: {
+        Row: {
+          avg_weekly_login_count: number | null
+          first_name: string | null
+          last_name: string | null
+          login_count: number | null
+        }
+        Insert: {
+          avg_weekly_login_count?: never
+          first_name?: string | null
+          last_name?: string | null
+          login_count?: number | null
+        }
+        Update: {
+          avg_weekly_login_count?: never
+          first_name?: string | null
+          last_name?: string | null
+          login_count?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       convert_student_to_group: {
@@ -503,9 +504,19 @@ export type Database = {
         }
         Returns: Json
       }
+      delete_current_user: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       delete_user: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      get_user_created_at: {
+        Args: {
+          user_id: string
+        }
+        Returns: string
       }
     }
     Enums: {

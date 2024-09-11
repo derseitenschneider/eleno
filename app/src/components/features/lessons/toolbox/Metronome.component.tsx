@@ -55,7 +55,12 @@ const Metronome = () => {
     setBpm(newBpm[0] || 120)
     if (isPlaying) {
       if (timerRef.current) clearInterval(timerRef.current)
-      timerRef.current = window.setInterval(playClick, (60 / newBpm[0]) * 1000)
+      if (newBpm[0]) {
+        timerRef.current = window.setInterval(
+          playClick,
+          (60 / newBpm?.[0]) * 1000,
+        )
+      }
     }
   }
 

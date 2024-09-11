@@ -18,7 +18,7 @@ export default function ExportGroupList({ groups }: ExportGroupListProps) {
   const [title, setTitle] = useState('')
   const { user } = useUser()
 
-  const userName = `${user?.firstName} ${user?.lastName}`
+  const userName = `${user?.first_name} ${user?.last_name}`
 
   const groupsCSV = groups.map((group, index) => ({
     index: index + 1,

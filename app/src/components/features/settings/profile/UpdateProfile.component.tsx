@@ -15,8 +15,8 @@ interface EditProfileProps {
 function EditProfile({ onCloseModal }: EditProfileProps) {
   const { user, updateProfile } = useUser()
   const [input, setInput] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
+    firstName: user?.first_name || '',
+    lastName: user?.last_name || '',
   })
   const [isPending, setIsPending] = useState(false)
 

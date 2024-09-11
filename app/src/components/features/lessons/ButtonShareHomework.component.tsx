@@ -70,7 +70,7 @@ Hallo ${holderName}
 Hier ist der Link zu deinen Hausaufgaben vom ${lessonDate}.
 
 Liebe Grüsse
-${user?.firstName} ${user?.lastName}
+${user?.first_name} ${user?.last_name}
 `
   } else {
     bodyText = `Hallo ${holderName}
@@ -78,7 +78,7 @@ ${user?.firstName} ${user?.lastName}
 Hier ist der Link zu euren Hausaufgaben vom ${lessonDate}.
 
 Liebe Grüsse  
-${user?.firstName} ${user?.lastName}
+${user?.first_name} ${user?.last_name}
 `
   }
 
@@ -93,7 +93,7 @@ ${user?.firstName} ${user?.lastName}
           text: bodyText,
           url,
         })
-      } catch (error) {}
+      } catch (error) { }
     } else {
       setIsModalOpen(true)
     }

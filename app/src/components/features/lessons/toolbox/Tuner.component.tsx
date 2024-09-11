@@ -41,7 +41,9 @@ const GenericTuner: React.FC = () => {
       audioContextRef.current = null
     }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop())
+      for (const track of streamRef.current.getTracks()) {
+        track.stop()
+      }
       streamRef.current = null
     }
   }, [])
@@ -137,7 +139,7 @@ const GenericTuner: React.FC = () => {
       for (let i = 0; i < MAX_SAMPLES; i++) {
         if (buffer?.[i]) {
           correlation += Math.abs(
-            (buffer[i] - buffer[i + offset]) / (SIZE - offset),
+            ((buffer[i] ?? 0) - (buffer[i + offset] ?? 0)) / (SIZE - offset),
           )
         }
       }

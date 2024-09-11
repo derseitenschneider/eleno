@@ -60,7 +60,9 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault()
       const touch = e.touches[0]
-      handleMove(touch.clientX, touch.clientY)
+      if (touch) {
+        handleMove(touch.clientX, touch.clientY)
+      }
     }
 
     const handleMouseUp = handleEnd
@@ -79,7 +81,9 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const touch = e.touches[0]
-    handleStart(touch.clientX, touch.clientY)
+    if (touch) {
+      handleStart(touch.clientX, touch.clientY)
+    }
   }
 
   useEffect(() => {

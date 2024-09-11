@@ -1,3 +1,4 @@
+// @ts-ignore
 import { registerSW } from 'virtual:pwa-register'
 
 // This function will be called when the app starts
