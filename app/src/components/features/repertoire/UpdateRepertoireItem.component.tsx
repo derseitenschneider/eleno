@@ -100,7 +100,7 @@ function UpdateRepertoireItem({
           size='sm'
           disabled={isUpdating || !item.title}
         >
-          Hinzufügen
+          Speichern
         </Button>
       </div>
     </div>
