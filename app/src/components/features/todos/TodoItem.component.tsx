@@ -70,13 +70,13 @@ function TodoItem({ todo, type }: TodoItemProps) {
       <div className='flex flex-wrap justify-between items-center gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
-            'text-sm md:basis-auto break-all',
+            'text-sm md:basis-auto break-all mr-auto',
             currentHolderName && todo.due && 'basis-full',
           )}
         >
           {todo.text}
         </span>
-        <span className={cn(!todo.due && 'ml-auto', 'md:ml-0')}>
+        <span className={cn(!todo.due && '', 'md:ml-0')}>
           {currentHolder ? (
             <Badge
               onClick={handleBadgeClick}
@@ -101,7 +101,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
             ? todo.due.toLocaleDateString(userLocale, {
                 day: '2-digit',
                 month: '2-digit',
-                year: 'numeric',
+                year: '2-digit',
               })
             : null}
         </span>

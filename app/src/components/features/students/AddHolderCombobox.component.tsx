@@ -66,7 +66,7 @@ export default function AddHolderCombobox({
             role='combobox'
             aria-expanded={open}
             className={cn(
-              'justify-between mx-2',
+              'justify-between sm:mx-2',
               selectedHolderId ? 'border-none' : 'border-hairline',
             )}
           >
