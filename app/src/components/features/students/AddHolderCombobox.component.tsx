@@ -61,11 +61,13 @@ export default function AddHolderCombobox({
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
+            size='sm'
             variant='outline'
             role='combobox'
             aria-expanded={open}
             className={cn(
-              'px-2 sm:px-4 border-none !bg-transparent justify-between',
+              'justify-between mx-2',
+              selectedHolderId ? 'border-none' : 'border-hairline',
             )}
           >
             {selectedHolder ? (
@@ -85,11 +87,8 @@ export default function AddHolderCombobox({
                 </Badge>
               </div>
             ) : (
-              <div className='border border-hairline h-[32px] flex flex-col justify-center px-3 rounded-md'>
-                <Users
-                  strokeWidth={1.5}
-                  className='size-5 text-primary text-right'
-                />
+              <div className='flex flex-col justify-center rounded-md'>
+                <Users className='size-4 text-primary text-right' />
               </div>
             )}
           </Button>

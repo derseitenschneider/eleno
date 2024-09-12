@@ -47,6 +47,8 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
     if (fieldName) {
       newTodo[fieldName] = fieldId
     } else {
+      newTodo.studentId = null
+      newTodo.groupId = null
     }
     updateTodo(newTodo, {
       onSuccess,
