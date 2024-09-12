@@ -71,7 +71,7 @@ export default function AllLessonsTable({
         isFetching={isFetching}
       />
       <DataTable
-        className='[&_td:not(:has(button))]:align-top [&_td:not(:has(button)):not(:has(input))]:px-6 [&_td]:py-3 [&_th]:px-6'
+        className='min-w-[600px] [&_td:not(:has(button))]:align-top [&_td:not(:has(button)):not(:has(input))]:px-6 [&_td]:py-3 [&_th]:px-6'
         table={table}
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
