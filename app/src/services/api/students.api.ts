@@ -1,14 +1,15 @@
 import supabase from './supabase'
-import type { Group, Student, StudentPartial } from '../../types/types'
+import type { Student, StudentPartial } from '../../types/types'
 import { isDemoMode } from '../../config'
 import mockStudents from './mock-db/mockStudents'
-import { GroupSchema } from '@/components/features/groups/CreateGroup.component'
+import type { GroupSchema } from '@/components/features/groups/CreateGroup.component'
 
-export const fetchStudentsApi = async () => {
+export const fetchStudentsApi = async (userId: string) => {
   if (isDemoMode) return mockStudents
   const { data: students, error } = await supabase
     .from('students')
     .select('*')
+    .eq('user_id', userId)
     .order('lastName', { ascending: true })
   if (error) throw new Error(error.message)
   return students

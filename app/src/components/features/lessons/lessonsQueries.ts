@@ -39,7 +39,8 @@ export function useAllLessonsPerYear(
   const { user } = useUser()
   const result = useQuery({
     queryKey: ['all-lessons', { year, holder: `${holderType}-${holderId}` }],
-    queryFn: () => fetchLessonsByYearApi(holderId, year, holderType),
+    queryFn: () =>
+      fetchLessonsByYearApi(holderId, year, holderType, user?.id || ''),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
     placeholderData: keepPreviousData,
@@ -55,10 +56,17 @@ export function useAllLessons(
   startDate?: Date,
   endDate?: Date,
 ) {
+  const { user } = useUser()
   const result = useQuery({
     queryKey: ['all-lessons-all', { holderIds, holderType }],
     queryFn: () =>
-      fetchAllLessonsApi({ holderIds, holderType, startDate, endDate }),
+      fetchAllLessonsApi({
+        userId: user?.id || '',
+        holderIds,
+        holderType,
+        startDate,
+        endDate,
+      }),
     staleTime: 0,
     enabled: false,
   })
@@ -72,10 +80,17 @@ export function useAllLessonsCSV(
   startDate?: Date,
   endDate?: Date,
 ) {
+  const { user } = useUser()
   const result = useQuery({
     queryKey: ['all-lessons-csv', { holderIds, holderType }],
     queryFn: () =>
-      fetchAllLessonsCSVApi({ holderIds, holderType, startDate, endDate }),
+      fetchAllLessonsCSVApi({
+        userId: user?.id || '',
+        holderIds,
+        holderType,
+        startDate,
+        endDate,
+      }),
     staleTime: 0,
     enabled: false,
   })

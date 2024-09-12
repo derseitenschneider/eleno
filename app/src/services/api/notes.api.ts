@@ -1,10 +1,11 @@
 import supabase from './supabase'
 import type { Note, PartialNote } from '../../types/types'
 
-export const fetchActiveNotesAPI = async () => {
+export const fetchActiveNotesAPI = async (userId: string) => {
   const { data: notes, error } = await supabase
     .from('only_active_notes')
     .select('*')
+    .eq('user_id', userId)
     .order('order')
     .returns<Array<Note> | undefined>()
   if (error) throw new Error(error.message)

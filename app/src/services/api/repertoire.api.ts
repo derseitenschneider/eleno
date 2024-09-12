@@ -4,12 +4,14 @@ import supabase from './supabase'
 export const fetchRepertoireAPI = async (
   holderId: number,
   holderType: 's' | 'g',
+  userId: string,
 ): Promise<RepertoireItem[]> => {
   const fieldType = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
     .from('repertoire')
     .select('*')
     .eq(fieldType, holderId)
+    .eq('user_id', userId)
     .order('startDate', { ascending: false, nullsFirst: true })
 
   if (error) throw new Error(error.message)

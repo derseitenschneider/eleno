@@ -10,12 +10,14 @@ export const fetchLessonsByYearApi = async (
   holderId: number,
   lessonYear: number,
   holderType: 's' | 'g',
+  userId: string,
 ): Promise<Array<LessonWithGroupId> | Array<LessonWithStudentId>> => {
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
     .from('lessons')
     .select('*')
     .eq(idField, holderId)
+    .eq('user_id', userId)
     .gte('date', `${lessonYear}-01-01`)
     .lt('date', `${lessonYear + 1}-01-01`)
     .order('date', { ascending: false })
@@ -33,17 +35,23 @@ export type FetchAllLessonProps = {
   holderType: 's' | 'g'
   startDate?: Date
   endDate?: Date
+  userId: string
 }
 export const fetchAllLessonsApi = async ({
   holderIds,
   holderType,
   startDate,
   endDate,
+  userId,
 }: FetchAllLessonProps) => {
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
-  let query = supabase.from('lessons').select('*').in(idField, holderIds)
+  let query = supabase
+    .from('lessons')
+    .select('*')
+    .in(idField, holderIds)
+    .eq('user_id', userId)
 
   query = startDate
     ? query

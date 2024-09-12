@@ -1,8 +1,13 @@
 import type { PartialTodoItem, TTodoItem } from '../../types/types'
 import supabase from './supabase'
 
-export const fetchTodosApi = async (): Promise<Array<TTodoItem>> => {
-  const { data: todos, error } = await supabase.from('todos').select('*')
+export const fetchTodosApi = async (
+  userId: string,
+): Promise<Array<TTodoItem>> => {
+  const { data: todos, error } = await supabase
+    .from('todos')
+    .select('*')
+    .eq('user_id', userId)
   if (error) {
     throw new Error(error.message)
   }
