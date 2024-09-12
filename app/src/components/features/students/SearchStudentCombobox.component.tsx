@@ -66,7 +66,7 @@ export default function SearchStudentCombobox() {
           <Search className=' h-5 text-primary text-right' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='p-0' side='bottom' align='start'>
+      <PopoverContent className='p-0 mr-3' side='top' align='start'>
         <Command>
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
