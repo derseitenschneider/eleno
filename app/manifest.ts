@@ -1,3 +1,4 @@
+// Manifest file
 import type { ManifestOptions } from 'vite-plugin-pwa'
 
 const icons: ManifestOptions['icons'] = [
