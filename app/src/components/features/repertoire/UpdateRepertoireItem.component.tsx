@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
@@ -54,7 +53,6 @@ function UpdateRepertoireItem({
       <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <Input
-            autoFocus={window.innerWidth > 1024}
             placeholder='Song...'
             className='border-none'
             type='text'

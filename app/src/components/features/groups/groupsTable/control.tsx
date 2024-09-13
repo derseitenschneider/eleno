@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Group } from '@/types/types'
-import { File, Plus } from 'lucide-react'
+import { FileDown, Plus } from 'lucide-react'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
@@ -69,7 +69,7 @@ export default function GroupsControl({
         onClick={() => setModalOpen('EXPORT')}
         disabled={isDisabledControls}
       >
-        <File className='h-4 w-4 text-primary mr-1' />
+        <FileDown className='h-4 w-4 text-primary mr-1' />
         Exportieren
       </Button>
       <SearchBar

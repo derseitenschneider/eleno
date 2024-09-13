@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Lesson } from '@/types/types'
-import { ChevronLeft, File } from 'lucide-react'
+import { ChevronLeft, FileDown } from 'lucide-react'
 import type { Table } from '@tanstack/react-table'
 import { useState } from 'react'
 import {
@@ -93,7 +93,7 @@ export default function AllLessonsControl({
           disabled={!hasLessonYears || isFetching}
           className='hidden sm:flex'
         >
-          <File className='h-4 w-4 text-primary mr-2' />
+          <FileDown className='h-4 w-4 text-primary mr-2' />
           Exportieren
         </Button>
 

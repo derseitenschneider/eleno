@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { File } from 'lucide-react'
+import { FileDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ExportTimetable from '../components/features/timetable/ExportTimetable'
 import TimeTableDay from '../components/features/timetable/TimetableDay.component'
@@ -119,7 +119,7 @@ export default function Timetable() {
               setModalOpen('EXPORT')
             }}
           >
-            <File className='h-4 w-4 text-primary mr-1' />
+            <FileDown className='h-4 w-4 text-primary mr-1' />
             Exportieren
           </Button>
         )}
