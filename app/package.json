@@ -24,7 +24,7 @@
     "@types/react-beautiful-dnd": "^13.1.8",
     "date-fns": "^2.30.0",
     "export-from-json": "^1.7.3",
-    "firebase": "^10.7.2",
+    "firebase": "^10.13.1",
     "framer-motion": "^10.16.4",
     "html-react-parser": "^4.0.0",
     "jszip": "^3.10.1",
