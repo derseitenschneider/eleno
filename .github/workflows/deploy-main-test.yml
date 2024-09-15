@@ -1,0 +1,38 @@
+name: 🚀 Deploy Main to Test Server
+on:
+  workflow_dispatch:
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy Main App
+    runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: 🔨 Build Project
+        run: |
+          cd app
+          npm install
+          npm run build:staging
+      - name: List output files
+        run: find app/dist/ -print
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_TEST_SERVER }}
+          username: ${{ secrets.FTP_TEST_USERNAME }}
+          password: ${{ secrets.FTP_TEST_PASSWORD }}
+          local-dir: app/dist/
