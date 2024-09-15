@@ -591,7 +591,7 @@ const baseManifest: Partial<ManifestOptions> = {
       src: './pwa/screenshots/mobile-screenshot.png',
       type: 'image/png',
       sizes: '1170x2532',
-      form_factor: 'wide',
+      form_factor: 'narrow',
     },
   ],
 }
