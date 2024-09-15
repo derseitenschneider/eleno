@@ -580,6 +580,20 @@ const baseManifest: Partial<ManifestOptions> = {
   display_override: ['fullscreen', 'minimal-ui'],
   display: 'standalone',
   icons,
+  screenshots: [
+    {
+      src: './pwa/screenshots/desktop-screenshot.png',
+      type: 'image/png',
+      sizes: '2880x1800',
+      form_factor: 'wide',
+    },
+    {
+      src: './pwa/screenshots/mobile-screenshot.png',
+      type: 'image/png',
+      sizes: '1170x2532',
+      form_factor: 'wide',
+    },
+  ],
 }
 
 const lightManifest: Partial<ManifestOptions> = {
