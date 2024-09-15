@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -36,6 +36,20 @@ const StudentFormRow = memo(function StudentFormRow({
   const { control, formState, getValues, setValue } = useFormContext<{
     students: StudentSchema[]
   }>()
+
+  const calculateDuration = useCallback(() => {
+    const startTime = getValues(`students.${index}.startOfLesson`)
+    const endTime = getValues(`students.${index}.endOfLesson`)
+    if (!startTime || !endTime) return
+    const startDate = new Date(`1970-01-01T${startTime}:00`)
+    const endDate = new Date(`1970-01-01T${endTime}:00`)
+    const durationMs = endDate.getTime() - startDate.getTime()
+    setValue(
+      `students.${index}.durationMinutes`,
+      Math.round(durationMs / 60_000),
+    )
+  }, [index, setValue, getValues])
+
   const isNoTrash = index === 0 && fields === 1
 
   return (
@@ -164,6 +178,10 @@ const StudentFormRow = memo(function StudentFormRow({
                 disabled={disabled}
                 type='time'
                 {...field}
+                onBlur={() => {
+                  field.onBlur()
+                  calculateDuration()
+                }}
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.startOfLesson &&
@@ -187,6 +205,10 @@ const StudentFormRow = memo(function StudentFormRow({
                 disabled={disabled}
                 type='time'
                 {...field}
+                onBlur={() => {
+                  field.onBlur()
+                  calculateDuration()
+                }}
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.endOfLesson &&

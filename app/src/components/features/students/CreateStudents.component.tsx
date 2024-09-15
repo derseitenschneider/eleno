@@ -3,16 +3,16 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import type { StudentPartial } from '@/types/types'
 import { Plus } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useCreateStudents } from './useCreateStudents'
 import { z } from 'zod'
-import { useFieldArray, useForm, FormProvider, useWatch } from 'react-hook-form'
+import { useFieldArray, useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import StudentFormRow from './StudentFormRow.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const MemoizedStudentFormRow = memo(StudentFormRow)
 
@@ -97,37 +97,6 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
     shouldFocusError: true,
   })
 
-  const { control, setValue, getValues } = methods
-
-  const students = useWatch({ control, name: 'students' })
-
-  const calculateDuration = useCallback((start: string, end: string) => {
-    if (!start || !end) return null
-    const startDate = new Date(`1970-01-01T${start}:00`)
-    const endDate = new Date(`1970-01-01T${end}:00`)
-    const durationMs = endDate.getTime() - startDate.getTime()
-    return Math.round(durationMs / 60000)
-  }, [])
-
-  useEffect(() => {
-    students.forEach((student, index) => {
-      const { startOfLesson, endOfLesson, durationMinutes } = student
-      const calculatedDuration = calculateDuration(
-        startOfLesson || '',
-        endOfLesson || '',
-      )
-
-      if (
-        calculatedDuration !== null &&
-        calculatedDuration !== durationMinutes
-      ) {
-        const currentValue = getValues(`students.${index}.durationMinutes`)
-        if (currentValue === null || currentValue === undefined) {
-          setValue(`students.${index}.durationMinutes`, calculatedDuration)
-        }
-      }
-    })
-  }, [students, calculateDuration, setValue, getValues])
   const [numAdd, setNumAdd] = useState(1)
 
   const grid = useMemo(
