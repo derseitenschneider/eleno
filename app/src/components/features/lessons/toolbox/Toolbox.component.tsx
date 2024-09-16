@@ -1,4 +1,6 @@
 import type React from 'react'
+import { TbMetronome } from 'react-icons/tb'
+import { PiGauge } from 'react-icons/pi'
 import { lazy, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -6,16 +8,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Music, Repeat, type LucideIcon, Gauge, LayoutGrid } from 'lucide-react'
-// import Tuner from './Tuner.component'
+import { type LucideIcon, LayoutGrid } from 'lucide-react'
 import FloatingWindow from './FloatingWindow.component'
-// import Metronome from './Metronome.component'
+import type { IconType } from 'react-icons/lib'
 
 const Metronome = lazy(() => import('./Metronome.component'))
 const Tuner = lazy(() => import('./Tuner.component'))
 
 interface ToolButtonProps {
-  icon: LucideIcon
+  icon: LucideIcon | IconType
   label?: string
   onClick: () => void
 }
@@ -44,7 +45,7 @@ interface ToolProps {
 }
 
 const MetronomeWindow: React.FC<ToolProps> = ({ isOpen, onClose }) => (
-  <FloatingWindow isOpen={isOpen} onClose={onClose} title='Metronome'>
+  <FloatingWindow isOpen={isOpen} onClose={onClose} title='Metronom'>
     <Suspense fallback={<p>...loading</p>}>
       <Metronome />
     </Suspense>
@@ -94,12 +95,12 @@ const Toolbox: React.FC = () => {
         <PopoverContent className='w-auto bg-background100 border-hairline'>
           <div className='flex space-x-4'>
             <ToolButton
-              icon={Music}
+              icon={TbMetronome}
               onClick={() => handleToolClick(setIsMetronomeOpen)}
               label='Metronom'
             />
             <ToolButton
-              icon={Gauge}
+              icon={PiGauge}
               onClick={() => handleToolClick(setIsTunerOpen)}
               label='Tuner'
             />
