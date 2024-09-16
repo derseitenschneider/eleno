@@ -39,10 +39,9 @@ export default function TodosOpen() {
           </ul>
         </>
       ) : (
-        <Empty
-          className='mt-8'
-          emptyMessage=' Keine offenen Todos vorhanden.'
-        />
+        <Empty className='mt-8' emptyMessage=' Keine offenen Todos vorhanden.'>
+          <p>Erfasse neue Todos...</p>
+        </Empty>
       )}
     </div>
   )

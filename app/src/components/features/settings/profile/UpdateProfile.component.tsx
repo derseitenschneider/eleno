@@ -56,9 +56,9 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           </Label>
           <Input
             autoFocus={window.innerWidth > 1000}
-            id='firstName'
+            id='first_name'
             type='text'
-            name='firstName'
+            name='first_name'
             className='firstName'
             value={input.first_name}
             onChange={inputHandler}
@@ -70,8 +70,8 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           </Label>
           <Input
             type='text'
-            id='lastName'
-            name='lastName'
+            id='last_name'
+            name='last_name'
             className='lastName'
             value={input.last_name}
             onChange={inputHandler}

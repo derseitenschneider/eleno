@@ -112,7 +112,7 @@ export default function UpdateStudents({
 
   return (
     <div className={cn('w-[90vw] lg:w-[85vw] lg:min-w-[950px]')}>
-      <div className='flex flex-col overflow-hidden  h-full'>
+      <div className='flex flex-col overflow-hidden h-full'>
         <div className={cn(grid, 'hidden lg:grid')}>
           <span />
           <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
@@ -141,7 +141,7 @@ export default function UpdateStudents({
                   />
                 ))}
               </ScrollArea>
-              <div className='flex items-end justify-between pr-1'>
+              <div className='flex items-end justify-between pb-1 pr-1'>
                 <span className='text-sm'>* Pflichtfelder</span>
                 <div className='flex items-center justify-end gap-4 mt-4'>
                   <Button

@@ -31,7 +31,6 @@ const StudentFormRow = memo(function StudentFormRow({
   disabled,
   remove,
   fields,
-  autoFocus = false,
 }: StudentFormRowProps) {
   const { control, formState, getValues, setValue } = useFormContext<{
     students: StudentSchema[]
@@ -56,7 +55,7 @@ const StudentFormRow = memo(function StudentFormRow({
     <div
       className={cn(
         grid,
-        'lg:mt-1 gap-y-4 px-2 py-4 lg:p-0 ',
+        'lg:mt-1 gap-y-4 px-2 py-4 lg:p-0 lg:pr-1',
         fields > 1
           ? 'lg:border-none lg:shadow-none border border-hairline mb-6 shadow-sm rounded-lg'
           : 'mb-1',
@@ -76,13 +75,12 @@ const StudentFormRow = memo(function StudentFormRow({
             <FormControl>
               <Input
                 id={field.name}
-                autoFocus={autoFocus}
                 disabled={disabled}
                 placeholder='Vorname'
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -104,7 +102,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.lastName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -126,7 +124,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.instrument &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -185,7 +183,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.startOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -212,7 +210,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || ''}
                 className={cn(
                   formState.errors.students?.[index]?.endOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -246,7 +244,7 @@ const StudentFormRow = memo(function StudentFormRow({
                     field.value ? 'pr-10' : '',
                     'text-right ',
                     formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
+                      'border-warning',
                   )}
                 />
                 <span
@@ -278,7 +276,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || undefined}
                 className={cn(
                   formState.errors.students?.[index]?.location &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>

@@ -223,6 +223,7 @@ h5 {
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
+  tabindex: -1;
 }
 
 .has-list {

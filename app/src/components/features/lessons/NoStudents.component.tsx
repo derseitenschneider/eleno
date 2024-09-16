@@ -12,10 +12,8 @@ export default function NoStudents() {
       {window.innerWidth >= 768 ? (
         <>
           <p className='max-w-[60ch] text-center mt-3'>
-            Um zu unterrichten bzw. Lektionen zu erfassen benötigst du aktive
-            Schüler:innen oder Gruppen. Erfasse neue Schüler:innen oder Gruppen,
-            oder geh ins Archiv und wähle welche aus, die du wiederherstellen
-            möchtest
+            Für Unterricht und Lektionen benötigst du aktive Schüler:innen oder
+            Gruppen. Erstelle neue oder reaktiviere archivierte.
           </p>
           <div className='flex flex-col items-center sm:flex-row gap-3 sm:gap-8 mt-4'>
             <Button
