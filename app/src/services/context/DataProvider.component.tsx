@@ -40,8 +40,8 @@ function DataProvider({ children }: DataProviderProps) {
 
   return (
     <>
-      <div id='main'>{children}</div>
       <OfflineBanner />
+      <div id='main'>{children}</div>
     </>
   )
 }

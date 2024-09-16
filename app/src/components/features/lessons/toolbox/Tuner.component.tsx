@@ -250,29 +250,31 @@ const GenericTuner: React.FC = () => {
             </>
           )}
           {!currentNote && <p className='text-4xl font-bold mb-4'>---</p>}
-          <p className='text-sm mb-2'>
-            {currentFreq ? `${currentFreq.toFixed(2)} Hz` : '---'}
-          </p>
+          {/* <p className='text-sm mb-2'> */}
+          {/*   {currentFreq ? `${currentFreq.toFixed(2)} Hz` : '---'} */}
+          {/* </p> */}
           <div className='relative w-full h-8 bg-gray-300 rounded-full mb-4 overflow-hidden'>
             <div
               className={`absolute top-0 left-0 h-full transition-all duration-300 ease-in-out ${getDeviationColor(deviation)}`}
               style={{
                 width: '100%',
-                transform: `translateX(${Math.max(Math.min(deviation, 50), -50)}%)`,
+                // transform: `translateX(${Math.max(Math.min(deviation * 2, 100), -50)}%)`,
               }}
             />
             <div className='absolute top-0 left-1/2 w-0.5 h-full bg-black transform -translate-x-1/2' />
             <div
-              className='absolute top-0 w-1 h-full bg-white transition-all duration-300 ease-in-out'
+              className='z-40 absolute top-0 w-1 h-full bg-white transition-all duration-300 ease-in-out'
               style={{
                 left: '50%',
-                transform: `translateX(${Math.max(Math.min(deviation, 50), -50)}%)`,
+                transform: `translateX(${deviation * (134 * 4)}%)`,
+
+                // transform: 'translateX(-50%)',
               }}
             />
           </div>
-          <p className='text-lg font-semibold'>
-            {deviation ? `${deviation.toFixed(2)} cents` : '---'}
-          </p>
+          {/* <p className='text-lg font-semibold'> */}
+          {/*   {deviation ? `${deviation.toFixed(2)} cents` : '---'} */}
+          {/* </p> */}
         </div>
       )}
     </div>

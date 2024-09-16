@@ -15,10 +15,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true,
+        enabled: false,
       },
       manifest: lightManifestDesktop,
       minify: true,
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
       // workbox: {
       //   globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       //   runtimeCaching: [
