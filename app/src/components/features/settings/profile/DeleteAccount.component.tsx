@@ -45,7 +45,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
         <div>
           <Label htmlFor='email'>E-Mail Adresse</Label>
           <Input
-            type='text'
+            type='email'
             name='email'
             className={cn(!isEmailCorrect && 'border border-warning')}
             value={input}

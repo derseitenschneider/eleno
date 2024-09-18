@@ -54,7 +54,6 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
       },
     })
   }
-  console.log(isMobile)
 
   return (
     <div>

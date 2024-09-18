@@ -14,6 +14,7 @@ import {
   CheckSquare2,
   GaugeCircle,
   GraduationCap,
+  HomeIcon,
   LogOut,
   Settings,
   Users,
