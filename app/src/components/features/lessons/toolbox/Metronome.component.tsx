@@ -84,7 +84,7 @@ const Metronome = () => {
   }
 
   return (
-    <div className='flex flex-col items-center space-y-4 p-2 bg-background50 rounded-lg'>
+    <div className='flex flex-col items-center space-y-4 p-4 bg-background50 rounded-lg'>
       <div className='flex items-center gap-2 text-lg font-mono'>
         <Button
           onClick={() => handleBpmChange(bpm - 1)}
