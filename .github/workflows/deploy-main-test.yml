@@ -26,7 +26,7 @@ jobs:
         run: |
           cd app
           npm install
-          npm run build:staging
+          npm run build
       - name: List output files
         run: find app/dist/ -print
       - name: 📂 Sync files
