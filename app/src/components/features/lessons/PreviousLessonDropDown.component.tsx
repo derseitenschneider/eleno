@@ -40,10 +40,10 @@ export default function PreviousLessonDropDown({
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className='h-4 w-4 text-primary'>
+        <DropdownMenuTrigger className='size-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='mr-3 lg:mr-0'>
+        <DropdownMenuContent className='mr-3 md:mr-0'>
           <DropdownMenuItem onClick={() => setModalOpen('EDIT')}>
             <Pencil className='h-4 w-4 text-primary mr-2' />
             <span>Lektion bearbeiten</span>

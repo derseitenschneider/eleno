@@ -26,7 +26,7 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className='h-4 w-4 text-primary'>
+        <DropdownMenuTrigger className='size-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-3'>

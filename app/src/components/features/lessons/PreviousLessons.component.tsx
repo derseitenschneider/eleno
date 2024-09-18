@@ -122,7 +122,7 @@ function PreviousLessons() {
               </ScrollArea>
             </div>
           </div>
-          <div className='absolute items-center bottom-4 right-5 flex gap-4'>
+          <div className='absolute items-center bottom-4 right-5 flex gap-6 md:gap-4'>
             <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}
