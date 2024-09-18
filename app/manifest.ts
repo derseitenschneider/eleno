@@ -598,8 +598,8 @@ const baseManifest: Partial<ManifestOptions> = {
 
 const lightManifest: Partial<ManifestOptions> = {
   ...baseManifest,
-  background_color: '#f4f4f5',
-  theme_color: '#f4f4f5',
+  background_color: '#fafafa',
+  theme_color: '#fafafa',
 }
 
 const darkManifest: Partial<ManifestOptions> = {
@@ -610,8 +610,8 @@ const darkManifest: Partial<ManifestOptions> = {
 
 const lightManifestDesktop: Partial<ManifestOptions> = {
   ...baseManifest,
-  background_color: '#FAFAFA ',
-  theme_color: '#FAFAFA ',
+  background_color: '#fafafa',
+  theme_color: '#fafafa',
 }
 
 const darkManifestDesktop: Partial<ManifestOptions> = {
