@@ -21,26 +21,37 @@ export default defineConfig({
       minify: true,
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /manifest\.webmanifest$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'manifest-cache',
+            },
+          },
+          {
+            urlPattern: /index\.html$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'index-cache',
+            },
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'images-cache',
+            },
+          },
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources',
+            },
+          },
+        ],
       },
-      // workbox: {
-      //   globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-      //   runtimeCaching: [
-      //     {
-      //       urlPattern: /manifest\.webmanifest$/,
-      //       handler: 'NetworkFirst',
-      //       options: {
-      //         cacheName: 'manifest-cache',
-      //       },
-      //     },
-      //     {
-      //       urlPattern: /index\.html$/,
-      //       handler: 'NetworkFirst',
-      //       options: {
-      //         cacheName: 'index-cache',
-      //       },
-      //     },
-      //   ],
-      // },
     }),
   ],
   resolve: {
