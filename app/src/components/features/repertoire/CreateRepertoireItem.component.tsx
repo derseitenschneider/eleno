@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { useCreateRepertoireItem } from './useCreateRepertoireItem'
 import { useState } from 'react'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface AddRepertoireItemProps {
   holderId: number
@@ -16,6 +17,7 @@ function CreateRepertoireItem({
   holderType,
 }: AddRepertoireItemProps) {
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
+  const isMobile = useIsMobileDevice()
 
   const fieldType = holderType === 's' ? 'studentId' : 'groupId'
 
@@ -57,7 +59,7 @@ function CreateRepertoireItem({
             Song
           </span>
           <Input
-            autoFocus={window.innerWidth > 1024}
+            autoFocus={!isMobile}
             placeholder='Song...'
             className='border-none'
             type='text'

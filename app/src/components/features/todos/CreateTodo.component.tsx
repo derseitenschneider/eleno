@@ -8,6 +8,7 @@ import ButtonRemove from '@/components/ui/buttonRemove'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useCreateTodoItem } from './useCreateTodoItem'
 import { cn } from '@/lib/utils'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface AddTodoProps {
   onCloseModal?: () => void
@@ -16,6 +17,7 @@ interface AddTodoProps {
 }
 
 function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
+  const isMobile = useIsMobileDevice()
   const { createTodoItem, isCreating } = useCreateTodoItem()
   const textField = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
@@ -46,7 +48,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
       onSuccess: () => {
         resetFields()
         setTimeout(() => {
-          if (window.innerWidth > 800) textField.current?.focus()
+          if (!isMobile) textField.current?.focus()
         }, 200)
         onCloseModal?.()
       },
@@ -66,7 +68,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         <div className='sm:flex sm:border-none border p-1 sm:py-[2px] px-[3px] border-hairline rounded-md grow items-center'>
           <div className='shrink grow mb-2 sm:mb-0'>
             <Input
-              autoFocus={window.innerWidth > 1024}
+              autoFocus={!isMobile}
               ref={textField}
               className={cn(
                 'border-none',
