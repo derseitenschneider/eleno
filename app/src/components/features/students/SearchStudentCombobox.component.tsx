@@ -20,8 +20,10 @@ import { Badge } from '@/components/ui/badge'
 import type { LessonHolder } from '@/types/types'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useLatestLessons } from '../lessons/lessonsQueries'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 export default function SearchStudentCombobox() {
+  const isMobile = useIsMobileDevice()
   const { setCurrentLessonPointer, activeSortedHolders } = useLessonHolders()
   const { data: latestLessons } = useLatestLessons()
   const { holderId } = useParams()
@@ -104,10 +106,12 @@ export default function SearchStudentCombobox() {
               ))}
             </CommandGroup>
           </CommandList>
-          <CommandInput
-            className='text-base placeholder:text-foreground/70'
-            placeholder='Schüler:in suchen'
-          />
+          {!isMobile && (
+            <CommandInput
+              className='text-base placeholder:text-foreground/70'
+              placeholder='Schüler:in suchen'
+            />
+          )}
         </Command>
       </PopoverContent>
     </Popover>
