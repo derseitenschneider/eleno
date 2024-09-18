@@ -238,7 +238,7 @@ const GenericTuner: React.FC = () => {
   }
 
   return (
-    <div className='p-4 bg-gray-100 rounded-lg shadow-md max-w-sm mx-auto'>
+    <div className='p-4 bg-gray-100 rounded-lg max-w-sm mx-auto'>
       {error ? (
         <p className='text-red-500'>{error}</p>
       ) : (

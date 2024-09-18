@@ -30,7 +30,7 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
     return {
-      x: Math.min(Math.max(x, 0), viewportWidth - windowWidth),
+      x: Math.min(Math.max(x, 50), viewportWidth - windowWidth),
       y: Math.min(Math.max(y, 0), viewportHeight - windowHeight),
     }
   }, [])
@@ -106,7 +106,7 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
-        zIndex: 9999,
+        zIndex: 45,
         minWidth: '200px',
       }}
     >

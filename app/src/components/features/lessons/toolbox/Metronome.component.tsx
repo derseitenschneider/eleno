@@ -54,16 +54,16 @@ const Metronome = () => {
 
   const handleInputBpmChange = (value: string) => {
     setInputBpm(value)
-    const numValue = parseInt(value, 10)
-    if (!isNaN(numValue) && numValue >= 40 && numValue <= 240) {
+    const numValue = Number.parseInt(value, 10)
+    if (!Number.isNaN(numValue) && numValue >= 40 && numValue <= 240) {
       setBpm(numValue)
       metronomeRef.current?.setTempo(numValue)
     }
   }
 
   const handleInputBpmBlur = () => {
-    const numValue = parseInt(inputBpm, 10)
-    if (isNaN(numValue) || numValue < 40) {
+    const numValue = Number.parseInt(inputBpm, 10)
+    if (Number.isNaN(numValue) || numValue < 40) {
       setInputBpm('40')
       setBpm(40)
       metronomeRef.current?.setTempo(40)
