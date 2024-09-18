@@ -132,7 +132,6 @@ export default function UpdateStudents({
               <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
                 {fields.map((field, index, arr) => (
                   <MemoizedStudentFormRow
-                    autoFocus={true}
                     fields={arr.length}
                     key={field.id}
                     grid={grid}

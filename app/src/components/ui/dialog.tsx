@@ -35,7 +35,7 @@ const DialogContent = React.forwardRef<
     <DialogOverlay onClick={(e) => e.stopPropagation()} />
     <DialogPrimitive.Content
       onOpenAutoFocus={(e) => {
-        if (window.innerWidth < 1024) {
+        if (window.innerWidth <= 768 || window.innerHeight <= 768) {
           e.preventDefault()
         }
       }}

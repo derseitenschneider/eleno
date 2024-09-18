@@ -22,7 +22,6 @@ type StudentFormRowProps = {
   remove?: UseFieldArrayRemove
   disabled: boolean
   fields: number
-  autoFocus?: boolean
 }
 
 const StudentFormRow = memo(function StudentFormRow({

@@ -9,12 +9,14 @@ import type { TTodoItem } from '@/types/types'
 import { useState } from 'react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 type UpdateTodoProps = {
   id: number
   onSuccess: () => void
 }
 export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
+  const isMobile = useIsMobileDevice()
   const queryClient = useQueryClient()
   const { updateTodo, isUpdating } = useUpdateTodo()
   const todos = queryClient.getQueryData(['todos']) as
@@ -67,7 +69,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
         <div className='sm:flex sm:border-none sm:items-center p-1 border border-hairline rounded-md grow'>
           <div className='shrink grow'>
             <Input
-              autoFocus={window.innerWidth > 800}
+              autoFocus={!isMobile}
               className='border-none mb-2 sm:mb-0'
               type='text'
               placeholder='Todo'

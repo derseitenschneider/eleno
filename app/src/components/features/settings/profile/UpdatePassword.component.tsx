@@ -62,7 +62,6 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
           <Label htmlFor='password'>Neues Passwort</Label>
           <PasswordInput
             id='password'
-            autoFocus={window.screen.width > 1000}
             name='password1'
             className={cn(error && 'border border-warning')}
             value={input.password1}

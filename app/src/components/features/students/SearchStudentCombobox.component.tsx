@@ -71,7 +71,7 @@ export default function SearchStudentCombobox() {
         side='top'
         align='start'
       >
-        <Command>
+        <Command loop={false}>
           <CommandList>
             <CommandEmpty>Keine:n Schüler:in gefunden.</CommandEmpty>
             <CommandGroup>

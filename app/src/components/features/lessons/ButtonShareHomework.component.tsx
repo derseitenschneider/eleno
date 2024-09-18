@@ -9,6 +9,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -17,6 +18,7 @@ type ButtonShareHomeworkProps = {
 export default function ButtonShareHomework({
   lessonId,
 }: ButtonShareHomeworkProps) {
+  const isMobile = useIsMobileDevice()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useUser()
   const { userLocale } = useUserLocale()
@@ -86,14 +88,14 @@ ${user?.first_name} ${user?.last_name}
 
   async function handleClick() {
     if (!currentHolder) return
-    if (navigator.share && window.innerWidth < 580) {
+    if (navigator.share && isMobile) {
       try {
         await navigator.share({
           title: `Hausaufgaben ${currentHolder.type === 's' ? currentHolder.holder.instrument : currentHolder.holder.name} `,
           text: bodyText,
           url,
         })
-      } catch (error) { }
+      } catch (error) {}
     } else {
       setIsModalOpen(true)
     }
