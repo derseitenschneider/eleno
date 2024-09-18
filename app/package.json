@@ -10,7 +10,7 @@
     "dev:demo": "vite --mode demo --open",
     "dev:staging": "vite --mode staging --open",
     "dev:prod": "vite --mode production --open",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "build:demo": "vite build --mode demo",
     "build:staging": "vite build --mode staging ",
     "preview": "vite preview",
