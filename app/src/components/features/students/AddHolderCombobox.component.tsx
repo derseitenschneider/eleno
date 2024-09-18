@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import type { LessonHolder } from '@/types/types'
@@ -30,6 +31,7 @@ export default function AddHolderCombobox({
   setSelectedHolderId,
   disabled,
 }: AddHolderComboboxProps) {
+  const isMobile = useIsMobileDevice()
   const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
   const [open, setOpen] = useState(false)
   const combinedHolders = []
@@ -95,10 +97,12 @@ export default function AddHolderCombobox({
         </PopoverTrigger>
         <PopoverContent className='p-0' side='bottom' align='start'>
           <Command>
-            <CommandInput
-              className='text-base placeholder:text-foreground/70'
-              placeholder='Schüler:in/Gruppe suchen'
-            />
+            {!isMobile && (
+              <CommandInput
+                className='text-base placeholder:text-foreground/70'
+                placeholder='Schüler:in/Gruppe suchen'
+              />
+            )}
             <CommandList>
               <CommandEmpty>Keine:n Schüler:in/Gruppe gefunden.</CommandEmpty>
               <CommandGroup>
