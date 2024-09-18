@@ -575,7 +575,7 @@ const baseManifest: Partial<ManifestOptions> = {
   name: 'Eleno - smart unterrichten',
   short_name: 'Eleno',
   description: 'Smart unterrichten',
-  id: '?homescreen=1',
+  id: '?homescreen=1&version=1.7',
   orientation: 'landscape-primary',
   display_override: ['fullscreen', 'minimal-ui'],
   display: 'standalone',
