@@ -23,7 +23,11 @@ import { cn } from '@/lib/utils'
 const TodosWrapper = () => {
   const isOnline = useIsOnline()
   return (
-    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+    <ScrollArea
+      className={cn(
+        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+      )}
+    >
       <div className='container-page'>
         <Todos />
       </div>
@@ -34,7 +38,11 @@ const TodosWrapper = () => {
 const TimetableWrapper = () => {
   const isOnline = useIsOnline()
   return (
-    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+    <ScrollArea
+      className={cn(
+        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+      )}
+    >
       <div className='py-4 pl-6 pr-4'>
         <Timetable />
       </div>
@@ -45,7 +53,11 @@ const TimetableWrapper = () => {
 const SettingsWrapper = () => {
   const isOnline = useIsOnline()
   return (
-    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+    <ScrollArea
+      className={cn(
+        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+      )}
+    >
       <div className='container-page'>
         <Settings />
       </div>

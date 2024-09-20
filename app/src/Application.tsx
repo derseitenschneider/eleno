@@ -12,8 +12,11 @@ import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
 import { useEffect } from 'react'
+import useIsOnline from './hooks/useIsOnline'
+import { cn } from './lib/utils'
 
 export default function Application() {
+  const isOnline = useIsOnline()
   // Hides loader when app is loaded
   useEffect(() => {
     const loader = document.getElementById('loader')
@@ -29,7 +32,12 @@ export default function Application() {
     }
   }, [])
   return (
-    <div className='lg:before:h-[1px] lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0'>
+    <div
+      className={cn(
+        isOnline ? 'lg:before:h-[1px]' : 'lg:before:h-[0px]',
+        'lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0',
+      )}
+    >
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>

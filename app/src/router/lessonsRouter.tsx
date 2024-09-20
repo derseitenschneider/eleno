@@ -17,7 +17,9 @@ const LessonsWrapper = () => {
       <LessonHeader />
       <ScrollArea
         className={cn(
-          isOnline ? 'md:h-[calc(100vh-88px)]' : 'md:h-[calc(100vh-120px)]',
+          isOnline
+            ? 'md:h-[calc(100vh-88px)]'
+            : 'mt-[32px] md:h-[calc(100vh-120px)]',
         )}
       >
         <Outlet />

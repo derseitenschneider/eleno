@@ -22,8 +22,10 @@ import {
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { cn } from '@/lib/utils'
+import useIsOnline from '@/hooks/useIsOnline'
 
 function Sidebar() {
+  const isOnline = useIsOnline()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
@@ -42,10 +44,11 @@ function Sidebar() {
     <nav
       ref={sidebarRef}
       className={cn(
+        isOnline ? 'top-0 lg:before:h-[1px]' : 'lg:before:h-0 top-[32px]',
         sidebarOpen ? 'w-[180px]' : 'w-[50px]',
-        'hidden md:flex fixed left-0 top-0 z-50  min-h-screen flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',
+        'hidden md:flex fixed left-0 z-50  min-h-screen flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',
         'after:h-full after:w-[1px] after:z-[-1] after:bg-background200 after:absolute after:top-0 after:right-0 ',
-        'lg:before:h-[1px] lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0',
+        'lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0',
       )}
     >
       <SidebarToggle sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />

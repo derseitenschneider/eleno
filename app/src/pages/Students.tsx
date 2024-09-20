@@ -18,7 +18,9 @@ export default function Students() {
   if (isLoading) return <StudentsSkeleton />
   return (
     <ScrollArea
-      className={cn(isOnline ? 'md:h-screen' : 'md-h-[calc(100vh-32px)]')}
+      className={cn(
+        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+      )}
     >
       <ScrollBar orientation='vertical' />
       <div className='px-3 sm:px-0 py-4 sm:*:px-4 sm:*:pr-4 sm:*:pl-6 pb-4 sm:py-4'>
