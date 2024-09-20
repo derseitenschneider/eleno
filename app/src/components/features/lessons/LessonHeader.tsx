@@ -10,21 +10,30 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import useIsOnline from '@/hooks/useIsOnline'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
+  const isOnline = useIsOnline()
+
   if (!currentLessonHolder) return null
   const { holder, type } = currentLessonHolder
   const isRepertoirePage = window.location.pathname.includes('repertoire')
 
   return (
-    <header className='lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0 fixed left-0 md:left-[50px] top-0 border-b border-hairline'>
+    <header
+      className={cn(
+        isOnline ? 'top-0' : 'top-[32px]',
+        'lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0 fixed left-0 md:left-[50px] border-b border-hairline',
+      )}
+    >
       <div className='flex items-end justify-between'>
         <div className='w-full'>
           <div className='flex sm:mb-1 items-center '>
             <NavLink
-              to={`/lessons/${type === 's' ? `s-${holder.id}` : `g-${holder.id}`
-                }`}
+              to={`/lessons/${
+                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
+              }`}
               className='flex items-baseline hover:no-underline'
             >
               <div className='mr-[4px] text-primary h-4 translate-y-[1px]'>
@@ -41,8 +50,8 @@ function LessonHeader() {
           </div>
           <div className='text-sm flex items-center gap-1'>
             {holder.dayOfLesson ||
-              holder.startOfLesson ||
-              holder.endOfLesson ? (
+            holder.startOfLesson ||
+            holder.endOfLesson ? (
               <span className='text-foreground/80 sm:text-foreground'>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}

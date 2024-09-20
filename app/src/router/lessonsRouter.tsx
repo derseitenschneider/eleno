@@ -7,20 +7,31 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import LessonsPage from '@/pages/Lessons.page'
 import LessonNav from '@/components/features/lessons/LessonNav.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
+import useIsOnline from '@/hooks/useIsOnline'
+import { cn } from '@/lib/utils'
+
+const LessonsWrapper = () => {
+  const isOnline = useIsOnline()
+  return (
+    <div className='pt-[80px] md:pt-[88px]'>
+      <LessonHeader />
+      <ScrollArea
+        className={cn(
+          isOnline ? 'md:h-[calc(100vh-88px)]' : 'md:h-[calc(100vh-120px)]',
+        )}
+      >
+        <Outlet />
+      </ScrollArea>
+      <MusicTools />
+      <LessonNav />
+    </div>
+  )
+}
 
 const lessonsRoutes: Array<RouteObject> = [
   {
     path: '/lessons/:holderId',
-    element: (
-      <div className='pt-[80px] md:pt-[88px]'>
-        <LessonHeader />
-        <ScrollArea className='md:h-[calc(100vh-88px)] max-w-full'>
-          <Outlet />
-        </ScrollArea>
-        <MusicTools />
-        <LessonNav />
-      </div>
-    ),
+    element: <LessonsWrapper />,
     children: [
       {
         index: true,

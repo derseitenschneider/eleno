@@ -22,7 +22,7 @@ export default function useNavigateToHolder() {
   function navigateToNearestHolder() {
     const slug = nearestLessonHolder?.holder
       ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`
-      : 'no-students'
+      : 'no-student'
 
     navigate(`/lessons/${slug}`)
     setCurrentLessonPointer(nearestLessonPointer)

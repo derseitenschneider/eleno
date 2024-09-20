@@ -5,9 +5,12 @@ import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
 import { useLoading } from '../services/context/LoadingContext'
+import { cn } from '@/lib/utils'
+import useIsOnline from '@/hooks/useIsOnline'
 
 function Lesson() {
   const { isLoading } = useLoading()
+  const isOnline = useIsOnline()
   const { currentLessonHolder } = useCurrentHolder()
 
   useEffect(() => {
@@ -16,7 +19,14 @@ function Lesson() {
   if (isLoading) return <p>...loading</p>
   if (currentLessonHolder)
     return (
-      <div className='md:grid lg:grid-cols-[2fr_minmax(0,380px)] min-[1200px]:h-[calc(100vh-88px)] overflow-hidden'>
+      <div
+        className={cn(
+          isOnline
+            ? 'min-[1200px]:h-[calc(100vh-88px)]'
+            : 'min-[1200px]:h-[calc(100vh-120px)]',
+          'md:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-hidden',
+        )}
+      >
         <main className='md:h-full'>
           <PreviousLessons key={currentLessonHolder.holder.id} />
           <CreateLesson />

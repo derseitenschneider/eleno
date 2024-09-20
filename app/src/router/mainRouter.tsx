@@ -17,6 +17,41 @@ import Dashboard from '@/pages/Dashboard'
 import Todos from '@/pages/Todos.page'
 import Timetable from '@/pages/Timetable.page'
 import Settings from '@/pages/Settings.page'
+import useIsOnline from '@/hooks/useIsOnline'
+import { cn } from '@/lib/utils'
+
+const TodosWrapper = () => {
+  const isOnline = useIsOnline()
+  return (
+    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+      <div className='container-page'>
+        <Todos />
+      </div>
+    </ScrollArea>
+  )
+}
+
+const TimetableWrapper = () => {
+  const isOnline = useIsOnline()
+  return (
+    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+      <div className='py-4 pl-6 pr-4'>
+        <Timetable />
+      </div>
+    </ScrollArea>
+  )
+}
+
+const SettingsWrapper = () => {
+  const isOnline = useIsOnline()
+  return (
+    <ScrollArea className={cn(isOnline ? 'md:h-screen' : 'md:h-[100vh-32px]')}>
+      <div className='container-page'>
+        <Settings />
+      </div>
+    </ScrollArea>
+  )
+}
 
 const mainRouter = createBrowserRouter(
   [
@@ -33,13 +68,7 @@ const mainRouter = createBrowserRouter(
         ...studentsRoutes,
         {
           path: 'todos',
-          element: (
-            <ScrollArea className='md:h-screen'>
-              <div className='container-page'>
-                <Todos />
-              </div>
-            </ScrollArea>
-          ),
+          element: <TodosWrapper />,
           children: [
             { index: true, path: '', element: <TodosOpen /> },
             { path: 'completed', element: <TodosCompleted /> },
@@ -47,23 +76,11 @@ const mainRouter = createBrowserRouter(
         },
         {
           path: 'timetable',
-          element: (
-            <ScrollArea className='md:h-screen'>
-              <div className='py-4 pl-6 pr-4'>
-                <Timetable />
-              </div>
-            </ScrollArea>
-          ),
+          element: <TimetableWrapper />,
         },
         {
           path: 'settings',
-          element: (
-            <ScrollArea className='md:h-screen'>
-              <div className='container-page'>
-                <Settings />
-              </div>
-            </ScrollArea>
-          ),
+          element: <SettingsWrapper />,
           children: [
             {
               index: true,
