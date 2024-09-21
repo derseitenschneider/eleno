@@ -1,9 +1,9 @@
 import type { User } from '../../../types/types'
 
 const mockUser: User = {
-  email: 'demo@eleno.net',
-  first_name: 'Demo',
-  last_name: 'Demo',
+  email: 'marlene@muster.net',
+  first_name: 'Sophie',
+  last_name: 'Muster',
   id: 'mock-user-123456',
   lifetime_membership: false,
   stripe_customer: null,
