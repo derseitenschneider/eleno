@@ -149,7 +149,7 @@ export const updateLessonAPI = async (
 }
 
 export const fetchLatestLessons = async (userId: string) => {
-  if (appConfig.isDemoMode) console.log(mockLast3Lessons)
+  if (appConfig.isDemoMode) return mockLast3Lessons
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')
     .select()

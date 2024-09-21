@@ -1,7 +1,10 @@
 import supabase from './supabase'
 import type { Note, PartialNote } from '../../types/types'
+import { appConfig } from '@/config'
+import { mockNotes } from './mock-db/mockNotes'
 
 export const fetchActiveNotesAPI = async (userId: string) => {
+  if (appConfig.isDemoMode) return mockNotes
   const { data: notes, error } = await supabase
     .from('only_active_notes')
     .select('*')
