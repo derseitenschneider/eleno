@@ -16,6 +16,7 @@ import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import JSZip from 'jszip'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 import stripHtmlTags from '@/utils/stripHtmlTags'
+import { useUser } from '@/services/context/UserContext'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -28,6 +29,7 @@ export default function BulkExportLessons({
   holderType,
   onSuccess,
 }: BulkExportLessonsProps) {
+  const { user } = useUser()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders: lessonHolders } = useLessonHolders()
 
@@ -94,6 +96,7 @@ export default function BulkExportLessons({
             holderName = currentHolder.holder.name
           }
           const data = await fetchAllLessonsCSVApi({
+            userId: user?.id || '',
             holderIds: [id],
             holderType,
             startDate,

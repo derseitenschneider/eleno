@@ -415,33 +415,6 @@ export type Database = {
     Views: {
       last_3_lessons: {
         Row: {
-          date: string | null
-          homework: string | null
-          homeworkKey: string | null
-          id: number | null
-          lessonContent: string | null
-          studentId: number | null
-          user_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      last_3_lessons_new: {
-        Row: {
           created_at: string | null
           date: string | null
           groupId: number | null
@@ -489,6 +462,7 @@ export type Database = {
           backgroundColor:
             | Database["public"]["Enums"]["background_colors"]
             | null
+          groupId: number | null
           id: number | null
           order: number | null
           studentId: number | null
@@ -497,6 +471,13 @@ export type Database = {
           user_id: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "notes_groupId_fkey"
+            columns: ["groupId"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notes_studentId_fkey"
             columns: ["studentId"]
@@ -516,21 +497,33 @@ export type Database = {
       profile_login_stats: {
         Row: {
           avg_weekly_login_count: number | null
+          current_date: string | null
+          effective_start_date: string | null
           first_name: string | null
           last_name: string | null
           login_count: number | null
+          user_created_at: string | null
+          weeks_count: number | null
         }
         Insert: {
           avg_weekly_login_count?: never
+          current_date?: never
+          effective_start_date?: never
           first_name?: string | null
           last_name?: string | null
           login_count?: number | null
+          user_created_at?: never
+          weeks_count?: never
         }
         Update: {
           avg_weekly_login_count?: never
+          current_date?: never
+          effective_start_date?: never
           first_name?: string | null
           last_name?: string | null
           login_count?: number | null
+          user_created_at?: never
+          weeks_count?: never
         }
         Relationships: []
       }
