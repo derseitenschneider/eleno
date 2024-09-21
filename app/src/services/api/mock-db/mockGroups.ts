@@ -29,8 +29,8 @@ const generateMockGroups = (): Group[] => {
       ).toISOString(), // 60 days ago
       name: 'Fortgeschrittene Posaunenspieler',
       dayOfLesson: 'Mittwoch',
-      startOfLesson: '17:30',
-      endOfLesson: '19:00',
+      startOfLesson: '19:00',
+      endOfLesson: '20:00',
       students: [
         { name: 'Felix Bauer' },
         { name: 'Sophie Klein' },

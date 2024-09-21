@@ -8,11 +8,11 @@ function generateNote(entityId: number, isGroup: boolean, order: number): Note {
   const backgrounds: NotesBackgrounds[] = ['red', 'green', 'blue', 'yellow']
 
   return {
-    id: new Date().getTime(),
+    id: Math.random() * 1_000_000,
     created_at: new Date().toISOString(),
     studentId: isGroup ? undefined : entityId,
     groupId: isGroup ? entityId : undefined,
-    title: `Notiz für ${entityName}`,
+    title: `Infos zu ${entityName}`,
     text: generateNoteText(entityType, entityName),
     user_id: user_id,
     order: order,
