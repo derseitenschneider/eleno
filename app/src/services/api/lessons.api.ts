@@ -1,3 +1,4 @@
+import { appConfig } from '@/config'
 import type {
   Lesson,
   LessonPartial,
@@ -5,6 +6,7 @@ import type {
   LessonWithStudentId,
 } from '../../types/types'
 import supabase from './supabase'
+import { mockLast3Lessons } from './mock-db/mockLast3Lessons'
 
 export const fetchLessonsByYearApi = async (
   holderId: number,
@@ -55,8 +57,8 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -87,8 +89,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate?.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
@@ -147,6 +149,7 @@ export const updateLessonAPI = async (
 }
 
 export const fetchLatestLessons = async (userId: string) => {
+  if (appConfig.isDemoMode) console.log(mockLast3Lessons)
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')
     .select()

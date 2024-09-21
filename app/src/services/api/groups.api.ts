@@ -1,7 +1,10 @@
+import { appConfig } from '@/config'
 import supabase from './supabase'
 import type { Group, GroupPartial } from '@/types/types'
+import { mockGroups } from './mock-db/mockGroups'
 
 export const fetchGroupsApi = async (userId: string): Promise<Array<Group>> => {
+  if (appConfig.isDemoMode) return mockGroups
   const { data: groups, error } = await supabase
     .from('groups')
     .select('*')

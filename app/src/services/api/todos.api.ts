@@ -1,9 +1,12 @@
 import type { PartialTodoItem, TTodoItem } from '../../types/types'
+import { mockTodos } from './mock-db/mockTodos'
 import supabase from './supabase'
+import { appConfig } from '@/config'
 
 export const fetchTodosApi = async (
   userId: string,
 ): Promise<Array<TTodoItem>> => {
+  if (appConfig.isDemoMode) return mockTodos
   const { data: todos, error } = await supabase
     .from('todos')
     .select('*')
