@@ -1,8 +1,7 @@
-import { MouseEvent, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import Logo from '../../components/ui/Logo.component'
-import { useLessonHolders } from '../../services/context/LessonHolderContext'
 import { useUser } from '../../services/context/UserContext'
 
 import useOutsideClick from '@/hooks/useOutsideClick'
@@ -14,7 +13,6 @@ import {
   CheckSquare2,
   GaugeCircle,
   GraduationCap,
-  HomeIcon,
   LogOut,
   Settings,
   Users,

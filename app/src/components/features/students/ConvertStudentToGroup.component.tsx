@@ -29,6 +29,7 @@ import { useCreateGroup } from '../groups/useCreateGroup'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useConvertStudentToGroup } from './useConvertStudentToGroup'
 import { toast } from 'sonner'
+import { useCallback } from 'react'
 
 type ConvertStudentToGroupProps = {
   studentId: number
@@ -63,6 +64,16 @@ export default function ConvertStudentToGroup({
     control: form.control,
     name: 'students',
   })
+
+  const calculateDuration = useCallback(() => {
+    const startTime = form.getValues('startOfLesson')
+    const endTime = form.getValues('endOfLesson')
+    if (!startTime || !endTime) return
+    const startDate = new Date(`1970-01-01T${startTime}:00`)
+    const endDate = new Date(`1970-01-01T${endTime}:00`)
+    const durationMs = endDate.getTime() - startDate.getTime()
+    form.setValue('durationMinutes', Math.round(durationMs / 60_000))
+  }, [form.setValue, form.getValues])
 
   async function onSubmit(group: GroupSchema) {
     if (!student) return
@@ -164,6 +175,10 @@ export default function ConvertStudentToGroup({
                     <Input
                       type='time'
                       {...field}
+                      onBlur={() => {
+                        field.onBlur()
+                        calculateDuration()
+                      }}
                       value={form.getValues('startOfLesson') || ''}
                     />
                   </FormControl>
@@ -179,6 +194,10 @@ export default function ConvertStudentToGroup({
                     <Input
                       type='time'
                       {...field}
+                      onBlur={() => {
+                        field.onBlur()
+                        calculateDuration()
+                      }}
                       value={form.getValues('endOfLesson') || ''}
                     />
                   </FormControl>
@@ -191,12 +210,26 @@ export default function ConvertStudentToGroup({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder='45'
-                      type='number'
-                      {...field}
-                      value={form.getValues('durationMinutes') || ''}
-                    />
+                    <div className='relative'>
+                      <Input
+                        placeholder='45 Min.'
+                        type='number'
+                        {...field}
+                        value={form.getValues('durationMinutes') || ''}
+                        className={cn(
+                          field.value ? 'pr-11' : '',
+                          'text-right ',
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          field.value ? 'inline' : 'hidden',
+                          'absolute top-[50%] translate-y-[calc(-50%+1px)] right-3 pointer-events-none',
+                        )}
+                      >
+                        Min.
+                      </span>
+                    </div>
                   </FormControl>
                 </FormItem>
               )}

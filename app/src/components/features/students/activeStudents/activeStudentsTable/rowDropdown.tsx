@@ -29,6 +29,7 @@ import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
+import { useNavigate } from 'react-router-dom'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -39,6 +40,7 @@ type Modals = 'EDIT' | 'TODO' | 'EXPORT' | 'TRANSFORM' | 'ARCHIVE' | null
 export default function ActiveStudentRowDropdown({
   studentId,
 }: StudentRowDropdownProps) {
+  const navigate = useNavigate()
   const { navigateToHolder } = useNavigateToHolder()
   const [openModal, setOpenModal] = useState<Modals>(null)
   const { deactivateStudents } = useDeactivateStudents()
@@ -184,7 +186,13 @@ export default function ActiveStudentRowDropdown({
 
       <Dialog open={openModal === 'TRANSFORM'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
-          <ConvertStudentToGroup onSuccess={closeModal} studentId={studentId} />
+          <ConvertStudentToGroup
+            onSuccess={() => {
+              closeModal()
+              navigate('groups')
+            }}
+            studentId={studentId}
+          />
         </DialogContent>
       </Dialog>
     </>
