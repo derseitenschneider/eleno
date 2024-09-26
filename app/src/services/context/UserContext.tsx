@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { isDemoMode } from '../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/LoginPage'
-import type { ContextTypeUser, Profile, User } from '../../types/types'
+import type { ContextTypeUser, Profile, UserMeta } from '../../types/types'
 import mockUser from '../api/mock-db/mockUser'
 import supabase from '../api/supabase'
 import {
@@ -19,39 +19,39 @@ import {
   recoverPasswordSupabase,
   updateEmailSupabase,
   updatePasswordSupabase,
-  updateProfileSupabase,
+  updateUserMetaApi,
 } from '../api/user.api'
 import { useLoading } from './LoadingContext'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
-  const [user, setUser] = useState<User>()
+  const [userProfile, setUserProfile] = useState<Profile>()
   const { isLoading, setIsLoading } = useLoading()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const getUserProfiles = useCallback(async (userId: string) => {
     if (isDemoMode) {
-      setUser(mockUser)
+      setUserProfile(mockUser)
       // setIsLoading(false)
       return
     }
     try {
       const [data] = await getProfilesSupabase(userId)
       if (!data) throw new Error('No user found.')
-      setUser(data)
+      setUserProfile(data)
     } catch (error) {
       fetchErrorToast()
     } finally {
@@ -81,12 +81,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })
   }, [getUserProfiles])
 
-  const updateProfile = useCallback(async (data: Profile) => {
+  const updateUserMeta = useCallback(async (data: UserMeta) => {
     try {
-      const { first_name, last_name } = data
-      const newData = { first_name, last_name }
-      await updateProfileSupabase(newData)
-      setUser((prev) => (prev ? { ...prev, first_name, last_name } : undefined))
+      await updateUserMetaApi(data)
+      setUserProfile((prev) =>
+        prev
+          ? { ...prev, firstName: data.firstName, lastName: data.lastName }
+          : undefined,
+      )
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
     }
@@ -95,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateEmail = useCallback(async (email: string) => {
     try {
       await updateEmailSupabase(email)
-      setUser((prev) => (prev ? { ...prev, email } : undefined))
+      setUserProfile((prev) => (prev ? { ...prev, email } : undefined))
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
     }
@@ -128,9 +130,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const value = {
-    user,
-    setUser,
-    updateProfile,
+    user: userProfile,
+    setUser: setUserProfile,
+    updateProfile: updateUserMeta,
     updateEmail,
     updatePassword,
     deleteAccount,

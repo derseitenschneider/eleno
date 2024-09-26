@@ -15,8 +15,8 @@ import type { Database } from './supabase'
 export type DBTypes = {
   [P in keyof Database['public']['Tables']]: Database['public']['Tables'][P]['Row']
 } & {
-    [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
-  }
+  [P in keyof Database['public']['Views']]: Database['public']['Views'][P]['Row']
+}
 
 // Transform fields (E) from type (T) to new type (N).
 type TransformFields<T, N, E extends keyof T = never> = {
@@ -102,9 +102,13 @@ export type LessonHolder =
 |--------------------------------------------------------------------------
 */
 
-export type User = DBTypes['profiles']
-
-export type Profile = Pick<User, 'first_name' | 'last_name'>
+export type Profile = DBTypes['profiles']
+export type UserMeta = { firstName: string; lastName: string }
+export type User = {
+  id: string
+  email: string
+  raw_user_meta_data: UserMeta
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -131,10 +135,10 @@ export type PartialNote = Omit<Note, 'created_at'>
 
 // CONTEXT TYPES
 export type ContextTypeUser = {
-  user: User | undefined
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  user: Profile | undefined
+  setUser: React.Dispatch<React.SetStateAction<Profile | undefined>>
 
-  updateProfile: (data: Profile) => Promise<void>
+  updateProfile: (data: UserMeta) => Promise<void>
   updateEmail: (email: string) => Promise<void>
   updatePassword: (password: string) => Promise<void>
   deleteAccount: () => Promise<void>
