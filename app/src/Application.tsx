@@ -57,10 +57,11 @@ export default function Application() {
       </UserLocaleProvider>
       <Sonner
         position='top-right'
-        duration={2500}
+        duration={2000}
         toastOptions={{
           classNames: {
-            toast: 'bg-background50 border-hairline',
+            toast:
+              'bg-background50 border-hairline mt-[env(safe-area-inset-top)]',
             title: 'text-foreground',
             icon: 'text-foreground',
             closeButton:

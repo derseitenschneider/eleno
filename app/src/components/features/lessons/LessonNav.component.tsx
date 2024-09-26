@@ -103,7 +103,7 @@ export default function LessonNav() {
   return (
     <div
       className={cn(
-        'fixed md:bottom-3 bottom-[76px]',
+        'fixed md:bottom-3 bottom-[calc(76px+env(safe-area-inset-bottom))]',
         'ml-auto md:ml-0 right-4 transition-transform duration-500',
         isScrolling && window.innerWidth < 1000
           ? 'translate-x-[calc(100%-8px)]'

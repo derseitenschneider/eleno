@@ -37,7 +37,7 @@ function NavbarMobile() {
   }
 
   return (
-    <nav className='bg-background50/65 backdrop-blur px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] md:hidden md:pointer-events-none block pointer-events-auto visible z-50 fixed h-[58px] bottom-0 left-0 right-0 max-w-screen'>
+    <nav className='pb-[env(safe-area-inset-bottom)] bg-background50/65 backdrop-blur px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] md:hidden md:pointer-events-none block pointer-events-auto visible z-50 fixed h-[calc(58px+env(safe-area-inset-bottom))] bottom-0 left-0 right-0 max-w-screen'>
       <ul className='flex justify-between items-center h-full w-full'>
         <NavbarMobileItem
           isActive={window.location.pathname === '/'}

@@ -34,6 +34,9 @@ config.env
 dist/
 # generated types
 .astro/
+# Mobile builds
+ios/
+android/
 
 # dependencies
 node_modules/
@@ -50,6 +53,9 @@ pnpm-debug.log*
 .env.*
 # .env.production
 .env.app
+
+#config files
+capacitor.config.ts
 
 # macOS-specific files
 .DS_Store

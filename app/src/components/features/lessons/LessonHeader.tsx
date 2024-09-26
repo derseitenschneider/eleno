@@ -24,7 +24,7 @@ function LessonHeader() {
     <header
       className={cn(
         isOnline ? 'top-0' : 'top-[32px]',
-        'lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0 fixed left-0 md:left-[50px] border-b border-hairline',
+        'lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 pb-4 pt-[calc(16px+env(safe-area-inset-top))] right-0 fixed left-0 md:left-[50px] border-b border-hairline',
       )}
     >
       <div className='flex items-end justify-between'>
