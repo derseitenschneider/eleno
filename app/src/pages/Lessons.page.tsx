@@ -27,7 +27,7 @@ function Lesson() {
           'md:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-hidden',
         )}
       >
-        <main className='md:h-full'>
+        <main className='md:h-full lg:overflow-auto no-scrollbar'>
           <PreviousLessons key={currentLessonHolder.holder.id} />
           <CreateLesson />
         </main>

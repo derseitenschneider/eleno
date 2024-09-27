@@ -9,7 +9,6 @@ import { useCreateLesson } from './useCreateLesson'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import useScrollTo from '@/hooks/useScrollTo'
 
 function CreateLesson() {
   const { drafts, setDrafts } = useDrafts()
@@ -192,7 +191,7 @@ function CreateLesson() {
       </div>
       <div className='flex justify-between gap-1'>
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-        <div className='ml-auto flex mt-4 items-center gap-1'>
+        <div className='ml-auto  lg:mb-8 flex mt-4 items-center gap-1'>
           <Button
             disabled={isCreating}
             size='sm'
