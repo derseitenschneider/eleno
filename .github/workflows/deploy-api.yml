@@ -1,16 +1,11 @@
-name: Deploy API to FTP
+name: ⛮ Deploy API to FTP
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to deploy to"
-        required: true
-        default: "production"
-        type: choice
-        options:
-          - production
-          - staging
+  push:
+    branches:
+      - main # or your default branch name
+    paths:
+      - "api/**" # This ensures the workflow only runs when changes are made in the api directory
 
 jobs:
   deploy:
