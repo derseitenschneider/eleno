@@ -68,7 +68,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     month: '2-digit',
     year: '2-digit',
   })
-  const url = `https://api.eleno.net/homework/${currentLesson?.studentId}/${currentLesson?.homeworkKey}`
+  const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
 
   const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
   let bodyText = ''

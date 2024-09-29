@@ -1,4 +1,4 @@
-name: ⛮ Deploy API to FTP
+name: ⚙️  Deploy API to FTP
 
 on:
   push:

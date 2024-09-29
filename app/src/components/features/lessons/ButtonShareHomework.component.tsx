@@ -65,6 +65,7 @@ export default function ButtonShareHomework({
   })
 
   let bodyText = ''
+  const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
   if (currentHolder && currentHolder.type === 's') {
     bodyText = `
 Hallo ${holderName}
@@ -79,12 +80,11 @@ ${user?.first_name} ${user?.last_name}
 
 Hier ist der Link zu euren Hausaufgaben vom ${lessonDate}.
 
+
 Liebe Grüsse  
-${user?.first_name} ${user?.last_name}
+${user?.first_name} ${user?.last_name}\n\n
 `
   }
-
-  const url = `https://api.eleno.net/homework/${currentLesson?.studentId}/${currentLesson?.homeworkKey}`
 
   async function handleClick() {
     if (!currentHolder) return
