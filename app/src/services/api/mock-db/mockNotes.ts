@@ -105,7 +105,7 @@ const mockNotes: Array<Note> = [
   {
     user_id: 'mock-user-123456',
     id: 11,
-    groupId: 2,
+    groupId: 1,
     created_at: new Date().toISOString(),
     title: 'Geplante Konzerte',
     text: '<ul><li>Sommerfest Musikschule</li><li>Herbstmarkt > <b>Zeit noch abklären!</b></li><li>Adventsfeier Altersheim Vitas</li></ul>',
@@ -151,6 +151,16 @@ const mockNotes: Array<Note> = [
     text: '<ul><li><b>Musikvorlieben:</b> Klassische Gitarrenmusik, Interesse an Flamenco</li><li><b>Schule:</b> 8. Klasse, Leistungskurs Musik, plant Musikstudium</li><li><b>Ziel:</b> An einem Jugend-Gitarrenwettbewerb teilnehmen</li></ul>',
     order: 1,
     backgroundColor: 'blue',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 16,
+    groupId: 2,
+    created_at: new Date().toISOString(),
+    title: 'Ideen Name',
+    text: '<ul><li>Saitensprung</li><li>Klangzauber</li><li>Die Griffbrett-Virtuosen</li><li>Sechs-Saiten-Symphonie</li><li>Akkord-Alchemisten</li> </ul>',
+    order: 1,
+    backgroundColor: 'yellow',
   },
 ]
 

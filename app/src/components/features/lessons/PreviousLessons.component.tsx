@@ -11,6 +11,7 @@ import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import ButtonShareHomework from './ButtonShareHomework.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { appConfig } from '@/config'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
@@ -99,7 +100,7 @@ function PreviousLessons() {
               <p className='text-foreground/70'>Lektion</p>
               <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'>
                   {parse(
                     removeHTMLAttributes(currentLesson?.lessonContent || ''),
                   )}
@@ -110,7 +111,7 @@ function PreviousLessons() {
               <p className='text-foreground/70'>Hausaufgaben</p>
               <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[12px] text-foreground'>
+                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'>
                   {parse(
                     removeHTMLAttributes(
                       lessons?.find(

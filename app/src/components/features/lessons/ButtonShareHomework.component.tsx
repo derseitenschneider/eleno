@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { appConfig } from '@/config'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -88,7 +89,7 @@ ${user?.first_name} ${user?.last_name}\n\n
 
   async function handleClick() {
     if (!currentHolder) return
-    if (navigator.share && isMobile) {
+    if (navigator.share && isMobile && !appConfig.isDemoMode) {
       try {
         await navigator.share({
           title: `Hausaufgaben ${currentHolder.type === 's' ? currentHolder.holder.instrument : currentHolder.holder.name} `,

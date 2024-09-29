@@ -1,3 +1,4 @@
+import { appConfig } from '@/config'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { createStudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'

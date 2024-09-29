@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useUser } from '../../../services/context/UserContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { appConfig } from '@/config'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -84,71 +85,83 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   }
   if (!currentHolder) return null
   return (
-    <div className='text-sm share-homework'>
-      <p className='mb-6'>
-        Mit diesem Link kann{' '}
-        <b>
-          {currentHolder.type === 's'
-            ? `${currentHolder.holder.firstName} ${currentHolder.holder.lastName}`
-            : currentHolder.holder.name}{' '}
-        </b>{' '}
-        auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
-      </p>
-      <div className='flex items-center gap-2 mb-8'>
-        <a href={url} target='_blank' rel='noreferrer'>
-          {url}
-        </a>{' '}
-        <button type='button' title='Link kopieren' onClick={copyToClipboard}>
-          {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
-        </button>
-      </div>
+    <div className='text-sm'>
+      {appConfig.isDemoMode ? (
+        <p className='text-base'>
+          Diese Funktion ist in der Demoversion leider nicht verfügbar.
+        </p>
+      ) : (
+        <>
+          <p className='mb-6'>
+            Mit diesem Link kann{' '}
+            <b>
+              {currentHolder.type === 's'
+                ? `${currentHolder.holder.firstName} ${currentHolder.holder.lastName}`
+                : currentHolder.holder.name}{' '}
+            </b>{' '}
+            auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
+          </p>
+          <div className='flex items-center gap-2 mb-8'>
+            <a href={url} target='_blank' rel='noreferrer'>
+              {url}
+            </a>{' '}
+            <button
+              type='button'
+              title='Link kopieren'
+              onClick={copyToClipboard}
+            >
+              {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
+            </button>
+          </div>
 
-      <div className='flex justify-between'>
-        <p>Link direkt verschicken:</p>
-        <div className='flex items-center gap-4'>
-          <a
-            href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
-            title='Link per Telegram verschicken'
-            target='_blank'
-            className='text-[#2aabee]'
-            rel='noreferrer'
-          >
-            <FaTelegramPlane className='h-5 w-5' />
-          </a>
-          <a
-            href={`https://threema.id/compose?text=${bodyText}`}
-            title='Link per Threema verschicken'
-            target='_blank'
-            className='text-foreground'
-            rel='noreferrer'
-          >
-            <SiThreema className='h-5 w-5' />
-          </a>
-          <a
-            href={`https://wa.me/?text=${bodyText}`}
-            title='Link per Whatsapp verschicken'
-            target='_blank'
-            rel='noreferrer'
-            className='text-[#25d366]'
-          >
-            <IoLogoWhatsapp className='h-5 w-5' />
-          </a>{' '}
-          <a
-            href={`sms://?&body=${bodyText}`}
-            title='Link per SMS verschicken'
-            className='text-foreground'
-          >
-            <MdOutlineTextsms className='h-5 w-5' />
-          </a>
-          <a
-            href={`mailto:?subject=${subjectText}&body=${bodyText}`}
-            title='Link per E-Mail verschicken'
-            className='text-foreground'
-          >
-            <HiOutlineMail className='h-5 w-5' />
-          </a>
-        </div>
-      </div>
+          <div className='flex justify-between'>
+            <p>Link direkt verschicken:</p>
+            <div className='flex items-center gap-4'>
+              <a
+                href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
+                title='Link per Telegram verschicken'
+                target='_blank'
+                className='text-[#2aabee]'
+                rel='noreferrer'
+              >
+                <FaTelegramPlane className='h-5 w-5' />
+              </a>
+              <a
+                href={`https://threema.id/compose?text=${bodyText}`}
+                title='Link per Threema verschicken'
+                target='_blank'
+                className='text-foreground'
+                rel='noreferrer'
+              >
+                <SiThreema className='h-5 w-5' />
+              </a>
+              <a
+                href={`https://wa.me/?text=${bodyText}`}
+                title='Link per Whatsapp verschicken'
+                target='_blank'
+                rel='noreferrer'
+                className='text-[#25d366]'
+              >
+                <IoLogoWhatsapp className='h-5 w-5' />
+              </a>{' '}
+              <a
+                href={`sms://?&body=${bodyText}`}
+                title='Link per SMS verschicken'
+                className='text-foreground'
+              >
+                <MdOutlineTextsms className='h-5 w-5' />
+              </a>
+              <a
+                href={`mailto:?subject=${subjectText}&body=${bodyText}`}
+                title='Link per E-Mail verschicken'
+                className='text-foreground'
+              >
+                <HiOutlineMail className='h-5 w-5' />
+              </a>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

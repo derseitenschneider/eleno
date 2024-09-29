@@ -18,6 +18,17 @@ export const fetchStudentsApi = async (userId: string) => {
 export const createStudentsApi = async (
   newStudents: StudentPartial[],
 ): Promise<Student[]> => {
+  if (isDemoMode) {
+    const students: Array<Student> = newStudents.map(
+      (student) =>
+        ({
+          ...student,
+          created_at: new Date().toString(),
+          id: Math.random() * 1_000_000,
+        }) as Student,
+    )
+    return students
+  }
   const { data, error } = await supabase
     .from('students')
     .insert(newStudents)
@@ -45,6 +56,17 @@ export const reactivateStudentsApi = async (studentIds: number[]) => {
 }
 
 export const deletestudentsApi = async (studentIds: number[]) => {
+  if (isDemoMode) {
+    const indexes = []
+    for (const studentId of studentIds) {
+      const index = mockStudents.findIndex((st) => st.id === studentId)
+      indexes.push(index)
+    }
+
+    for (const index of indexes) {
+      mockStudents.splice(index, 1)
+    }
+  }
   const { error } = await supabase
     .from('students')
     .delete()

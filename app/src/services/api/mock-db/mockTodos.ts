@@ -22,7 +22,7 @@ const generateMockTodos = (): TTodoItem[] => {
       created_at: new Date(
         today.getTime() - 5 * 24 * 60 * 60 * 1000,
       ).toISOString(),
-      text: 'Posaunenkonzert Noten bestellen',
+      text: 'Sultans of Swing transkribieren',
       due: new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000),
       completed: true,
       studentId: 5,
@@ -36,7 +36,7 @@ const generateMockTodos = (): TTodoItem[] => {
       ).toISOString(),
       studentId: undefined,
       groupId: undefined,
-      text: 'Atemübungen für fortgeschrittene Schüler entwickeln',
+      text: 'Fingerübungen Sweep-Technik zusammenstellen',
       due: undefined,
       completed: false,
       user_id: user_id,
@@ -46,7 +46,7 @@ const generateMockTodos = (): TTodoItem[] => {
       created_at: new Date(
         today.getTime() - 2 * 24 * 60 * 60 * 1000,
       ).toISOString(),
-      text: 'Posaunen für Schulorchester warten',
+      text: 'Abklärung Mietinstrumente für Probeabos',
       due: new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000),
       completed: true,
       user_id: user_id,
@@ -105,7 +105,7 @@ const generateMockTodos = (): TTodoItem[] => {
       created_at: new Date(
         today.getTime() - 2 * 24 * 60 * 60 * 1000,
       ).toISOString(),
-      text: 'Neue Jazzetüden für Posaune komponieren',
+      text: 'Neue Jazzetüden komponieren',
       due: undefined,
       completed: false,
       studentId: undefined,
@@ -117,7 +117,7 @@ const generateMockTodos = (): TTodoItem[] => {
       created_at: new Date(
         today.getTime() - 1 * 24 * 60 * 60 * 1000,
       ).toISOString(),
-      text: 'Posaunenchor-Proben planen',
+      text: 'Schulleitung über Pensum informieren',
       completed: true,
       due: undefined,
       studentId: undefined,
