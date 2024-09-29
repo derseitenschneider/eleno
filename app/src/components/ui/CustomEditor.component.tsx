@@ -43,9 +43,33 @@ const BtnLink = createButton('Link', <Link />, ({ $selection }) => {
   if ($selection?.nodeName === 'A') {
     document.execCommand('unlink')
   } else {
-    document.execCommand('createLink', false, prompt('URL', '') || undefined)
+    const url = prompt('Link', '') || undefined
+    if (url) {
+      document.execCommand('createLink', false, url)
+
+      // Get the current selection
+      const selection = window.getSelection()
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0)
+
+        // Find the newly created link
+        let linkElement: HTMLAnchorElement | null = null
+
+        if (range.startContainer.nodeType === Node.TEXT_NODE) {
+          linkElement = range.startContainer.parentElement?.closest('a') || null
+        } else if (range.startContainer.nodeType === Node.ELEMENT_NODE) {
+          linkElement = (range.startContainer as Element).closest('a')
+        }
+
+        if (linkElement) {
+          // Set the target attribute to _blank
+          linkElement.setAttribute('target', '_blank')
+        }
+      }
+    }
   }
 })
+
 const BtnClearFormatting = createButton(
   'Clear Formatting',
   <RemoveFormatting />,

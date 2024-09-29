@@ -106,12 +106,10 @@ p {
 a:link,
 a:visited,
 a:active {
+  color: var(--clr-primary-600);
   text-decoration: underline;
 }
 
-a:hover {
-  color: var(--clr-primary-600);
-}
 
 ul {
   list-style: disc;
