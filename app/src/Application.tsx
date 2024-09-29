@@ -17,7 +17,7 @@ import { cn } from './lib/utils'
 
 export default function Application() {
   const isOnline = useIsOnline()
-  // Hides loader when app is loaded
+  // Hides loader when app is loaded.
   useEffect(() => {
     const loader = document.getElementById('loader')
     const body = document.body

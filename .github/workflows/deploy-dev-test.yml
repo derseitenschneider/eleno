@@ -1,4 +1,4 @@
-name: 🚀 Deploy Dev to Test Server
+name: 🧪 Deploy Dev to Test Server
 on:
   workflow_dispatch:
 

@@ -6,10 +6,9 @@
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
   "scripts": {
-    "dev": "supabase start && vite --open --host",
     "dev:demo": "vite --mode demo --open",
     "dev:staging": "vite --mode staging --open",
-    "dev:prod": "vite --mode production --open",
+    "dev:prod": "vite --mode production --open --host",
     "build": "vite build",
     "build:demo": "vite build --mode demo",
     "build:staging": "vite build --mode staging ",

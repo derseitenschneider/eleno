@@ -1,4 +1,4 @@
-import type { Profile } from '../../types/types'
+import type { Profile, UserMeta } from '../../types/types'
 import supabase from './supabase'
 
 export const signUpSupabase = async (inputData: {
@@ -44,7 +44,12 @@ export const getProfilesSupabase = async (uid: string) => {
   return profiles
 }
 
-export const updateProfileSupabase = async (data: Profile) => {
+export const updateUserMetaApi = async (data: UserMeta) => {
+  const { error } = await supabase.auth.updateUser({ data })
+  if (error) throw new Error(error.message)
+}
+
+export const updateUserSupabase = async (data: Profile) => {
   const { error } = await supabase.auth.updateUser({
     data,
   })

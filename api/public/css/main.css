@@ -1,0 +1,195 @@
+:root {
+  --clr-primary-800: #387589;
+  --clr-primary-600: #4794ae;
+  --clr-primary-400: hsl(195, 42%, 70%);
+  --clr-lines: hsl(240, 6%, 90%);
+  --clr-bg-50: #fafafa;
+  --clr-bg-100: #f4f4f5;
+  --clr-bg-200: #e4e4e7;
+  --clr-text: #3d3d43;
+}
+
+/* Global Resets */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--clr-bg-200);
+}
+
+html {
+  font-family: "DM Sans", Arial, Helvetica, sans-serif;
+  font-size: 62.5%;
+}
+
+
+img,
+svg,
+picture {
+  display: block;
+}
+
+
+hr {
+  margin: 1.8rem 0;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* Fonts */
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DM_Sans/DMSans-Regular.eot");
+  src: url("../fonts/DM_Sans/DMSans-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/DM_Sans/DMSans-Regular.woff2") format("woff2"), url("../fonts/DM_Sans/DMSans-Regular.woff") format("woff"), url("../fonts/DM_Sans/DMSans-Regular.ttf") format("truetype"), url("../fonts/DM_Sans/DMSans-Regular.svg#DMSans-Regular") format("svg");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DM_Sans/DMSans-Medium.eot");
+  src: url("../fonts/DM_Sans/DMSans-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/DM_Sans/DMSans-Medium.woff2") format("woff2"), url("../fonts/DM_Sans/DMSans-Medium.woff") format("woff"), url("../fonts/DM_Sans/DMSans-Medium.ttf") format("truetype"), url("../fonts/DM_Sans/DMSans-Medium.svg#DMSans-Regular") format("svg");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DM_Sans/DMSans-Bold.eot");
+  src: url("../fonts/DM_Sans/DMSans-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/DM_Sans/DMSans-Bold.woff2") format("woff2"), url("../fonts/DM_Sans/DMSans-Bold.woff") format("woff"), url("../fonts/DM_Sans/DMSans-Bold.ttf") format("truetype"), url("../fonts/DM_Sans/DMSans-Bold.svg#DMSans-Regular") format("svg");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Typography */
+.heading-1 {
+  font-size: 3.2rem;
+  margin-bottom: 0.8em;
+  color: var(--clr-text);
+  letter-spacing: -1.5px;
+}
+
+.heading-2 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: .5em;
+  color: var(--clr-text);
+}
+
+p {
+  margin: 0;
+  line-height: 2;
+  font-size: 16px;
+}
+
+a:link,
+a:visited,
+a:active {
+  color: var(--clr-primary-600);
+  text-decoration: underline;
+}
+
+
+ul {
+  list-style: disc;
+  line-height: 2;
+  font-size: 16px;
+  margin-left: 18px;
+}
+
+/* Styles */
+body {
+  margin: 0;
+  padding: 0;
+  padding-inline: 12px;
+  font-size: 16px;
+  background-color: var(--clr-bg-100);
+  color: var(--clr-text);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.header {
+  padding: 2rem;
+}
+
+@media screen and (max-width: 42.5em) {
+  .header {
+    padding: 2rem 0;
+  }
+}
+
+.header .logo img {
+  height: 3.6rem;
+  width: 3.6rem;
+}
+
+.section {
+  padding: 3.2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  overflow-wrap: break-word;
+  border-radius: 8px;
+  justify-self: center;
+  height: fit-content;
+  background: #fafafa;
+  align-self: center;
+  transform: translateY(-56px);
+}
+
+@media screen and (max-width: 42.5em) {
+  .section {
+    padding: 2rem;
+    width: 100%;
+    max-width: calc(100vw - 24px);
+
+  }
+}
+
+.section .homework {
+  padding: 16px 8px;
+  border-top: 1px solid var(--clr-bg-200);
+  border-bottom: 1px solid var(--clr-bg-200);
+  margin-top: 0.8rem;
+  margin-bottom: 2.4rem;
+
+}
+
+.section.error {
+  text-align: center;
+}
+
+@media screen and (max-width: 42.5em) {
+  .section.error {
+    text-align: left;
+  }
+}
+
+.section.error p {
+  line-height: 1.6;
+  margin-bottom: 1.6rem;
+}
