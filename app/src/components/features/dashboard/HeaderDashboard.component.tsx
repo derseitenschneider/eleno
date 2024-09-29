@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
 import { useUser } from '../../../services/context/UserContext'
 import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
+import { appConfig } from '@/config'
 
 function HeaderDashboard() {
   const { user } = useUser()
-  const mode = import.meta.env.VITE_MODE
 
   return (
     <header
@@ -19,9 +19,9 @@ function HeaderDashboard() {
         <h1>Dashboard</h1>
 
         <div>
-          {mode === 'demo' ? (
+          {appConfig.isDemoMode ? (
             <span className=''>
-              Willkommen und viel Spass beim Ausprobieren der Demo.
+              Willkommen bei der Demo von <b>Eleno</b>!{' '}
             </span>
           ) : (
             <span className=''>

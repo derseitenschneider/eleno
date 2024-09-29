@@ -1,90 +1,157 @@
-import type { Note, NotesBackgrounds } from '../../../types/types'
+import type { Note } from '../../../types/types'
 
 const user_id = 'mock-user-123456'
-function generateNote(entityId: number, isGroup: boolean, order: number): Note {
-  const entityType = isGroup ? 'Gruppe' : 'Schüler'
-  const entityName = isGroup ? getGroupName(entityId) : getStudentName(entityId)
-
-  const backgrounds: NotesBackgrounds[] = ['red', 'green', 'blue', 'yellow']
-
-  return {
-    id: Math.random() * 1_000_000,
+const mockNotes: Array<Note> = [
+  {
+    user_id,
+    id: 1,
+    studentId: 1,
     created_at: new Date().toISOString(),
-    studentId: isGroup ? undefined : entityId,
-    groupId: isGroup ? entityId : undefined,
-    title: `Infos zu ${entityName}`,
-    text: generateNoteText(entityType, entityName),
-    user_id: user_id,
-    order: order,
-    backgroundColor:
-      backgrounds[Math.floor(Math.random() * backgrounds.length)] || null,
-  }
-}
-
-function getGroupName(groupId: number): string {
-  const groupNames: { [key: string]: string } = {
-    '1': 'Anfänger Posaunengruppe',
-    '2': 'Fortgeschrittene Posaunenspieler',
-    '3': 'Posaunenchor der Gemeinde',
-  }
-  return groupNames[groupId.toString()] || 'Unbekannte Gruppe'
-}
-
-function getStudentName(studentId: bigint): string {
-  const studentNames: { [key: string]: string } = {
-    '1': 'Lisa Müller',
-    '2': 'Max Schmidt',
-    '3': 'Emma Weber',
-    '4': 'Felix Bauer',
-    '5': 'Sophie Klein',
-    '6': 'Luca Hoffmann',
-    '7': 'Hannah Schulz',
-    '8': 'Thomas Wagner',
-  }
-  return studentNames[studentId.toString()] || 'Unbekannter Schüler'
-}
-
-function generateNoteText(entityType: string, entityName: string): string {
-  const notes = [
-    `${entityName} zeigt große Fortschritte bei der Atemkontrolle. Weiter an Ausdauer arbeiten.`,
-    `${entityType} ${entityName} benötigt zusätzliche Unterstützung bei der Artikulation in schnellen Passagen.`,
-    'Intonation in der hohen Lage verbessert, aber noch Raum für Verfeinerung.',
-    `${entityName} hat Schwierigkeiten mit dem Rhythmus in synkopierten Stücken. Mehr Übungen planen.`,
-    'Ausgezeichnete Fortschritte bei der Dynamikkontrolle. Nächster Fokus: Ausdrucksstärke.',
-    `${entityType} ${entityName} zeigt großes Potenzial für Soloauftritte. Möglichkeiten für Vorspielen suchen.`,
-    'Mundstückbuzz verbessert, aber weiterhin an der Lippenspannung arbeiten.',
-    `${entityName} braucht Ermutigung, zu Hause regelmäßiger zu üben. Mit Eltern besprechen?`,
-    `Gute Ensemblefähigkeiten. ${entityType} ${entityName} unterstützt andere Spieler gut.`,
-    'Technik verbessert, jetzt mehr an musikalischer Interpretation arbeiten.',
-  ]
-
-  return notes[Math.floor(Math.random() * notes.length)] || ''
-}
-
-// Generate notes for students
-const studentNotes: Note[] = [
-  generateNote(1, false, 0), // Lisa Müller
-  generateNote(2, false, 0), // Max Schmidt
-  generateNote(3, false, 0), // Emma Weber
-  generateNote(4, false, 0), // Felix Bauer
-  generateNote(5, false, 0), // Sophie Klein
-  generateNote(6, false, 0), // Luca Hoffmann
-  generateNote(7, false, 0), // Hannah Schulz
-  generateNote(8, false, 0), // Thomas Wagner
+    title: 'Semesterziele',
+    text: '<ul><li>Drei neue Akkordfolgen lernen und flüssig spielen können</li><li>Eine komplette Melodie ohne Unterbrechung spielen</li><li>Grundlagen des Fingerpickings beherrschen</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 2,
+    studentId: 2,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Max',
+    text: '<ul><li>Erweiterung des Repertoires um drei Rock-Klassiker</li><li>Verbesserung der Techniken für Powerchords und Palm Muting</li><li>Einführung in einfache Gitarrensoli und Improvisation</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 3,
+    studentId: 3,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Emma',
+    text: '<ul><li>Erlernen von fünf neuen Akkorden und deren Übergänge</li><li>Einführung in das Fingerpicking auf der Ukulele</li><li>Ein komplettes Lied ohne Unterbrechung spielen können</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 4,
+    studentId: 4,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Felix',
+    text: '<ul><li>Verbesserung der Barré-Akkord-Technik</li><li>Erlernen von grundlegenden Rhythmuspatterns</li><li>Einführung in die Notenlehre und das Tabulaturlesen</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 5,
+    studentId: 5,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Sophie',
+    text: '<ul><li>Vertiefung der Pentatonik-Skala in verschiedenen Positionen</li><li>Erlernen von Bending-Techniken</li><li>Einführung in die Verwendung von Effektpedale</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 6,
+    studentId: 6,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Luca',
+    text: '<ul><li>Verbesserung der Akkordwechsel-Geschwindigkeit</li><li>Einführung in einfache Fingerstyle-Techniken</li><li>Erlernen von drei neuen Melodien</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 7,
+    studentId: 7,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Hannah',
+    text: '<ul><li>Erweiterung des Akkordrepertoires um vier neue Akkorde</li><li>Einführung in das Strumming-Pattern für hawaiianische Musik</li><li>Erlernen eines traditionellen hawaiianischen Liedes</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 8,
+    studentId: 8,
+    created_at: new Date().toISOString(),
+    title: 'Semesterziele für Thomas',
+    text: '<ul><li>Verbesserung der Alternate Picking Technik</li><li>Einführung in das Spielen von Powerchords</li><li>Erlernen von grundlegenden Rhythmuspatterns für Rock-Musik</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 9,
+    studentId: 9,
+    created_at: new Date().toISOString(),
+    title: 'Letzte Ziele für Julia',
+    text: '<ul><li>Wiederholung der erlernten Akkorde und Techniken</li><li>Abschlussprojekt: Aufnahme eines selbst gespielten Liedes</li><li>Tipps für das weitere selbstständige Üben</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 10,
+    studentId: 10,
+    created_at: new Date().toISOString(),
+    title: 'Letzte Ziele für Markus',
+    text: '<ul><li>Zusammenfassung der erlernten E-Gitarren-Techniken</li><li>Abschlussprojekt: Improvisation über eine bekannte Akkordfolge</li><li>Empfehlungen für weiterführende Lernressourcen</li></ul>',
+    order: 0,
+    backgroundColor: 'green',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 11,
+    groupId: 2,
+    created_at: new Date().toISOString(),
+    title: 'Geplante Konzerte',
+    text: '<ul><li>Sommerfest Musikschule</li><li>Herbstmarkt > <b>Zeit noch abklären!</b></li><li>Adventsfeier Altersheim Vitas</li></ul>',
+    order: 0,
+    backgroundColor: 'yellow',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 12,
+    studentId: 5,
+    created_at: new Date().toISOString(),
+    title: 'Persönliche Infos',
+    text: '<ul><li><b>Musikvorlieben</b>: Klassischer Rock (Led Zeppelin, Pink Floyd), wachsendes Interesse an Indie-Rock</li><li><b>Hobbys</b>: Konzertfotografie, Rudern im Schul-Team</li></ul>',
+    order: 1,
+    backgroundColor: 'blue',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 13,
+    studentId: 2,
+    created_at: new Date().toISOString(),
+    title: 'Persönliche Infos',
+    text: '<ul><li><b>Musikvorlieben</b>: Heavy Metal und Punk, spielt in einer Schülerband</li><li><b>Hobbys</b>: Skateboarden, Videospiele entwickeln</li></ul>',
+    order: 1,
+    backgroundColor: 'blue',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 14,
+    studentId: 3,
+    created_at: new Date().toISOString(),
+    title: 'Persönliche Infos',
+    text: '<ul><li><b>Musikvorlieben:</b> Akustische Pop-Musik, singt gerne dazu</li><li><b>Familie:</b> Alleinerziehende Mutter, enger Kontakt zur musikalischen Großmutter</li><li><b>Hobbys:</b> Zeichnen, Teilnahme am Schulchor</li></ul>',
+    order: 1,
+    backgroundColor: 'blue',
+  },
+  {
+    user_id: 'mock-user-123456',
+    id: 15,
+    studentId: 4,
+    created_at: new Date().toISOString(),
+    title: 'Persönliche Infos',
+    text: '<ul><li><b>Musikvorlieben:</b> Klassische Gitarrenmusik, Interesse an Flamenco</li><li><b>Schule:</b> 8. Klasse, Leistungskurs Musik, plant Musikstudium</li><li><b>Ziel:</b> An einem Jugend-Gitarrenwettbewerb teilnehmen</li></ul>',
+    order: 1,
+    backgroundColor: 'blue',
+  },
 ]
 
-// Generate notes for groups
-const groupNotes: Note[] = [
-  generateNote(1, true, 0), // Anfänger Posaunengruppe
-  generateNote(2, true, 0), // Fortgeschrittene Posaunenspieler
-  generateNote(3, true, 0), // Posaunenchor der Gemeinde
-]
-
-// Generate a few extra notes for variety
-const extraNotes: Note[] = [
-  generateNote(1, false, 1), // Extra note for Lisa Müller
-  generateNote(4, false, 1), // Extra note for Felix Bauer
-  generateNote(2, true, 1), // Extra note for Fortgeschrittene Posaunenspieler
-]
-
-export const mockNotes: Note[] = [...studentNotes, ...groupNotes, ...extraNotes]
+export default mockNotes

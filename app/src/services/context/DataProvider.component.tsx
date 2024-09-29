@@ -6,7 +6,6 @@ import useStudentsQuery from '../../components/features/students/studentsQueries
 import useTodosQuery from '../../components/features/todos/todosQuery'
 import OfflineBanner from '../../components/ui/OfflineBanner.component'
 import { useLoading } from './LoadingContext'
-import { appConfig } from '@/config'
 import DemoBanner from '@/components/ui/DemoBanner.component'
 
 interface DataProviderProps {
@@ -43,7 +42,7 @@ function DataProvider({ children }: DataProviderProps) {
   return (
     <>
       <OfflineBanner />
-      <DemoBanner />
+      {/* <DemoBanner /> */}
 
       <div id='main'>{children}</div>
     </>
