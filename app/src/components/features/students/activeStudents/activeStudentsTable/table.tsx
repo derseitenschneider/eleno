@@ -17,6 +17,8 @@ import useScrollTo from '@/hooks/useScrollTo'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
 import { useSearchParams } from 'react-router-dom'
+import { appConfig } from '@/config'
+import mockStudents from '@/services/api/mock-db/mockStudents'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -37,6 +39,7 @@ export default function ActiveStudentsTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
   const activeSortedStudents = useMemo(
     () => students?.filter((student) => !student.archive).sort(compareLastName),
     [students],

@@ -1,4 +1,6 @@
+import { appConfig, isDemoMode } from '@/config'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
+import mockStudents from '@/services/api/mock-db/mockStudents'
 import { deactivateStudentApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -32,6 +34,9 @@ export function useDeactivateStudents() {
       queryClient.invalidateQueries({
         queryKey: ['students'],
       })
+      // if (isDemoMode) {
+      //   queryClient.setQueryData(['students'], () => [...mockStudents])
+      // }
     },
 
     onError: (_, __, context) => {

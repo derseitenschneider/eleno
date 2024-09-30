@@ -27,6 +27,7 @@ export const createStudentsApi = async (
           id: Math.random() * 1_000_000,
         }) as Student,
     )
+    mockStudents.push(...students)
     return students
   }
   const { data, error } = await supabase
@@ -38,6 +39,20 @@ export const createStudentsApi = async (
 }
 
 export const deactivateStudentApi = async (studentIds: number[]) => {
+  if (isDemoMode) {
+    for (const studentId of studentIds) {
+      const index = mockStudents.findIndex(
+        (student) => student.id === studentId,
+      )
+      if (mockStudents[index]) {
+        mockStudents[index] = {
+          ...mockStudents[index],
+          archive: true,
+        }
+      }
+    }
+    return
+  }
   const { error } = await supabase
     .from('students')
     .update({ archive: true })
@@ -47,6 +62,15 @@ export const deactivateStudentApi = async (studentIds: number[]) => {
 }
 
 export const reactivateStudentsApi = async (studentIds: number[]) => {
+  if (isDemoMode) {
+    for (const studentId of studentIds) {
+      const index = mockStudents.findIndex((s) => s.id === studentId)
+      if (index !== -1 && mockStudents[index]) {
+        mockStudents[index] = { ...mockStudents[index], archive: false }
+      }
+    }
+    return
+  }
   const { error } = await supabase
     .from('students')
     .update({ archive: false })
@@ -66,6 +90,7 @@ export const deletestudentsApi = async (studentIds: number[]) => {
     for (const index of indexes) {
       mockStudents.splice(index, 1)
     }
+    return
   }
   const { error } = await supabase
     .from('students')
@@ -76,6 +101,15 @@ export const deletestudentsApi = async (studentIds: number[]) => {
 }
 
 export const updateStudentsApi = async (students: Array<Student>) => {
+  if (isDemoMode) {
+    for (const student of students) {
+      const index = mockStudents.findIndex((s) => s.id === student.id)
+      if (index !== -1) {
+        mockStudents[index] = student
+      }
+    }
+    return [...students]
+  }
   const { data: updatedStudents, error } = await supabase
     .from('students')
     .upsert(students)
@@ -87,6 +121,24 @@ export const updateStudentsApi = async (students: Array<Student>) => {
 }
 
 export const resetStudentsApi = async (studentIds: number[]) => {
+  if (isDemoMode) {
+    for (const studentId of studentIds) {
+      const index = mockStudents.findIndex(
+        (student) => student.id === studentId,
+      )
+      if (mockStudents[index]) {
+        mockStudents[index] = {
+          ...mockStudents[index],
+          dayOfLesson: null,
+          startOfLesson: null,
+          endOfLesson: null,
+          durationMinutes: null,
+          location: null,
+        }
+      }
+    }
+    return
+  }
   const { data, error } = await supabase
     .from('students')
     .update({
@@ -107,6 +159,7 @@ export const convertStudentToGroupApi = async (
   student: Student,
   groupData: GroupSchema,
 ) => {
+  if (isDemoMode) return
   // Start a Supabase transaction
   const { data, error } = await supabase.rpc('convert_student_to_group', {
     p_student_id: student.id,

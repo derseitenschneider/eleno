@@ -1,3 +1,4 @@
+import { isDemoMode } from '@/config'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { createGroupApi } from '@/services/api/groups.api'
 import type { Group } from '@/types/types'
@@ -13,10 +14,12 @@ export function useCreateGroup() {
     mutationFn: createGroupApi,
 
     onSuccess: (newGroup) => {
-      queryClient.setQueryData(['groups'], (prev: Array<Group>) => [
-        ...prev,
-        ...newGroup,
-      ])
+      if (!isDemoMode) {
+        queryClient.setQueryData(['groups'], (prev: Array<Group>) => [
+          ...prev,
+          ...newGroup,
+        ])
+      }
     },
 
     onError: () => {
