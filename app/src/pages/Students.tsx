@@ -5,6 +5,7 @@ import Navbar from '../layouts/Navbar.component'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import useIsOnline from '@/hooks/useIsOnline'
+import useHasBanner from '@/hooks/useHasBanner'
 
 const navLinks = [
   { path: '', label: 'Schüler:innen', key: 1, end: true },
@@ -13,13 +14,13 @@ const navLinks = [
 ]
 export default function Students() {
   const { isLoading } = useLoading()
-  const isOnline = useIsOnline()
+  const hasBanner = useHasBanner()
 
   if (isLoading) return <StudentsSkeleton />
   return (
     <ScrollArea
       className={cn(
-        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
       )}
     >
       <ScrollBar orientation='vertical' />

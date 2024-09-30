@@ -9,17 +9,18 @@ import LessonNav from '@/components/features/lessons/LessonNav.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
 import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
+import useHasBanner from '@/hooks/useHasBanner'
 
 const LessonsWrapper = () => {
-  const isOnline = useIsOnline()
+  const hasBanner = useHasBanner()
   return (
     <div className='pt-[80px] md:pt-[88px]'>
       <LessonHeader />
       <ScrollArea
         className={cn(
-          isOnline
-            ? 'md:h-[calc(100vh-88px)]'
-            : 'mt-[32px] md:h-[calc(100vh-120px)]',
+          hasBanner
+            ? 'mt-[32px] md:h-[calc(100vh-120px)]'
+            : 'md:h-[calc(100vh-88px)]',
         )}
       >
         <Outlet />

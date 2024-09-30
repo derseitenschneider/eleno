@@ -11,7 +11,6 @@ import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import ButtonShareHomework from './ButtonShareHomework.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { appConfig } from '@/config'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()

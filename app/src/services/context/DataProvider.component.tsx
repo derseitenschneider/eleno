@@ -4,7 +4,7 @@ import { useLatestLessons } from '../../components/features/lessons/lessonsQueri
 import { useActiveNotesQuery } from '../../components/features/notes/notesQueries'
 import useStudentsQuery from '../../components/features/students/studentsQueries'
 import useTodosQuery from '../../components/features/todos/todosQuery'
-import OfflineBanner from '../../components/ui/OfflineBanner.component'
+import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
 import DemoBanner from '@/components/ui/DemoBanner.component'
 
@@ -41,7 +41,7 @@ function DataProvider({ children }: DataProviderProps) {
 
   return (
     <>
-      <OfflineBanner />
+      <Banner />
       {/* <DemoBanner /> */}
 
       <div id='main'>{children}</div>

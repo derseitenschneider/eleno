@@ -19,13 +19,14 @@ import Timetable from '@/pages/Timetable.page'
 import Settings from '@/pages/Settings.page'
 import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
+import useHasBanner from '@/hooks/useHasBanner'
 
 const TodosWrapper = () => {
-  const isOnline = useIsOnline()
+  const hasBanner = useHasBanner()
   return (
     <ScrollArea
       className={cn(
-        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
       )}
     >
       <div className='container-page'>
@@ -36,11 +37,11 @@ const TodosWrapper = () => {
 }
 
 const TimetableWrapper = () => {
-  const isOnline = useIsOnline()
+  const hasBanner = useHasBanner()
   return (
     <ScrollArea
       className={cn(
-        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
       )}
     >
       <div className='py-4 pl-6 pr-4'>
@@ -51,11 +52,11 @@ const TimetableWrapper = () => {
 }
 
 const SettingsWrapper = () => {
-  const isOnline = useIsOnline()
+  const hasBanner = useHasBanner()
   return (
     <ScrollArea
       className={cn(
-        isOnline ? 'md:h-screen' : 'mt-[32px] md:h-[calc(100vh-32px)]',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
       )}
     >
       <div className='container-page'>
