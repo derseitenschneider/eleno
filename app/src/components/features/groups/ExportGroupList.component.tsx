@@ -11,16 +11,18 @@ import { Label } from '@/components/ui/label'
 import GrouplistPDF from '../pdf/GrouplistPDF.component'
 
 interface ExportGroupListProps {
-  groups: Group[]
+  activeGroups: Group[]
 }
 
-export default function ExportGroupList({ groups }: ExportGroupListProps) {
+export default function ExportGroupList({
+  activeGroups,
+}: ExportGroupListProps) {
   const [title, setTitle] = useState('')
   const { user } = useUser()
 
   const userName = `${user?.first_name} ${user?.last_name}`
 
-  const groupsCSV = groups.map((group, index) => ({
+  const groupsCSV = activeGroups.map((group, index) => ({
     index: index + 1,
     name: group.name,
     dayOfLesson: group.dayOfLesson ?? '–',
@@ -69,7 +71,11 @@ export default function ExportGroupList({ groups }: ExportGroupListProps) {
         </CSVLink>
         <PDFDownloadLink
           document={
-            <GrouplistPDF groups={groups} userName={userName} title={title} />
+            <GrouplistPDF
+              groups={activeGroups}
+              userName={userName}
+              title={title}
+            />
           }
           fileName={
             title
