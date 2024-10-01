@@ -3,6 +3,7 @@ import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '../../ui/dialog'
@@ -82,6 +83,9 @@ export default function HolderDropdownLesson() {
                 : 'Gruppe bearbeiten'}
             </DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite den:die Schüler:in oder die Gruppe
+          </DialogDescription>
           {currentLessonHolder?.type === 's' ? (
             <UpdateStudents
               studentIds={[currentLessonHolder.holder.id]}
@@ -101,6 +105,9 @@ export default function HolderDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Erstelle eine Todo.
+          </DialogDescription>
           <CreateTodo
             holderId={currentLessonHolder?.holder.id}
             holderType={currentLessonHolder?.type}
@@ -114,6 +121,9 @@ export default function HolderDropdownLesson() {
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Exportiere die Lektionsliste.
+          </DialogDescription>
           <ExportLessons
             holderType={currentLessonHolder?.type}
             holderId={currentLessonHolder?.holder.id}

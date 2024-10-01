@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -68,6 +69,9 @@ export default function PreviousLessonDropDown({
           <DialogHeader>
             <DialogTitle>Lektion bearbeiten</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite die ausgewählte Lektion.
+          </DialogDescription>
           <EditLesson onCloseModal={closeModal} lessonId={currentLesson?.id} />
         </DialogContent>
       </Dialog>
@@ -77,6 +81,9 @@ export default function PreviousLessonDropDown({
           <DialogHeader>
             <DialogTitle>Hausaufgaben teilen</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Teile die Hausaufgaben mit deinen Schüler:innen
+          </DialogDescription>
           <ShareHomework lessonId={currentLesson?.id} />
         </DialogContent>
       </Dialog>

@@ -1,5 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { MessageSquareShare } from 'lucide-react'
 import { useState } from 'react'
 import ShareHomework from './ShareHomework.component'
@@ -115,7 +121,12 @@ ${user?.first_name} ${user?.last_name}\n\n
       </Button>
       <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
         <DialogContent>
-          <DialogTitle>Hausaufgaben teilen</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Hausaufgaben teilen</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Teile die Hausaufgaben mit deinen Schüler:innen
+          </DialogDescription>
           <ShareHomework lessonId={lessonId} />
         </DialogContent>
       </Dialog>

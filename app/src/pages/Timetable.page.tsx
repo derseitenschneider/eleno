@@ -146,9 +146,9 @@ export default function Timetable() {
 
       <Dialog open={modalOpen === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>
-            <DialogHeader>Stundenplan exportieren</DialogHeader>
-          </DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Stundenplan exportieren</DialogTitle>
+          </DialogHeader>
           <ExportTimetable days={days} />
         </DialogContent>
       </Dialog>

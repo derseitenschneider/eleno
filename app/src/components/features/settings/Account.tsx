@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -90,9 +91,12 @@ function Account() {
 
       <Dialog open={modalOpen === 'EDIT_PROFILE'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>
-            <DialogHeader>Profil bearbeiten</DialogHeader>
-          </DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Profil bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite dein Profil
+          </DialogDescription>
           <EditProfile onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
@@ -105,18 +109,24 @@ function Account() {
 
       <Dialog open={modalOpen === 'EDIT_PASSWORD'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>
-            <DialogHeader>Passwort ändern</DialogHeader>
-          </DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Passwort ändern</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Ändere dein Passwort
+          </DialogDescription>
           <EditPassword onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={modalOpen === 'DELETE_ACCOUNT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>
-            <DialogHeader>Benutzerkonto löschen</DialogHeader>
-          </DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Benutzerkonto löschen</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Lösche deinen Benutzerkonto
+          </DialogDescription>
           <DeleteAccount onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>

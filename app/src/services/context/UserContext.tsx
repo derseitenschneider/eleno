@@ -129,6 +129,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const logout = useCallback(async () => {
+    if (isDemoMode) {
+      window.location.href = 'https://eleno.net'
+      return
+    }
     queryClient.clear()
     await supabase.auth.signOut()
     navigate('/?page=login', { replace: true })

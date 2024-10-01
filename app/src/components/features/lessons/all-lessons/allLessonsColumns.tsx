@@ -3,6 +3,7 @@ import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -132,6 +133,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Lektion bearbeiten</DialogTitle>
               </DialogHeader>
+              <DialogDescription>Bearbeite die Lektion.</DialogDescription>
               <EditLesson
                 lessonId={row.original.id}
                 onCloseModal={closeModal}
@@ -144,6 +146,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
               <DialogHeader>
                 <DialogTitle>Hausaufgaben teilen</DialogTitle>
               </DialogHeader>
+              <DialogDescription>Teile die Hausaufgaben</DialogDescription>
               <ShareHomework lessonId={row.original.id} />
             </DialogContent>
           </Dialog>

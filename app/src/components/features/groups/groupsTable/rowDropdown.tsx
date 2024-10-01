@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -137,6 +138,9 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
           <DialogHeader>
             <DialogTitle>Gruppe bearbeiten</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite die Gruppe
+          </DialogDescription>
           <UpdateGroup groupId={groupId} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
@@ -145,12 +149,15 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
-            <CreateTodo
-              holderType='g'
-              holderId={groupId}
-              onCloseModal={closeModal}
-            />
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Erstelle eine neue Todo für die Gruppe
+          </DialogDescription>
+          <CreateTodo
+            holderType='g'
+            holderId={groupId}
+            onCloseModal={closeModal}
+          />
         </DialogContent>
       </Dialog>
 
@@ -158,12 +165,15 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
         <DialogContent onClick={(e) => e.stopPropagation()}>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
-            <ExportLessons
-              onSuccess={closeModal}
-              holderId={groupId}
-              holderType='g'
-            />
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Exportiere die Lektionsliste der Gruppe
+          </DialogDescription>
+          <ExportLessons
+            onSuccess={closeModal}
+            holderId={groupId}
+            holderType='g'
+          />
         </DialogContent>
       </Dialog>
     </>

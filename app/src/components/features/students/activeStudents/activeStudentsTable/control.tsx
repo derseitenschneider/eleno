@@ -96,8 +96,8 @@ export default function StudentsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schülerliste exportieren</DialogTitle>
-            <ExportStudentList students={activeStudents} />
           </DialogHeader>
+          <ExportStudentList students={activeStudents} />
         </DialogContent>
       </Dialog>
 
@@ -105,8 +105,8 @@ export default function StudentsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schüler:innen erfassen</DialogTitle>
-            <CreateStudents onSuccess={closeModal} />
           </DialogHeader>
+          <CreateStudents onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
     </div>

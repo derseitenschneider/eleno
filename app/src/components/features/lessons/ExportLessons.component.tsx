@@ -18,6 +18,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
 import mockLast3Lessons from '@/services/api/mock-db/mockLast3Lessons'
 import { isDemoMode } from '@/config'
+import { DialogDescription } from '@/components/ui/dialog'
 
 type ExportLessonsProps = {
   holderId: number
@@ -204,12 +205,12 @@ function ExportLessons({
 
   return (
     <div className='w-[500px]'>
-      <p>
+      <DialogDescription>
         Exportiere die Lektionsliste von{' '}
         <b className='text-primary'>{holderFullName}</b>. Du kannst entweder
         einen bestimmten Zeitraum wählen oder sämtliche erfassten Lektionen
         exportieren.
-      </p>
+      </DialogDescription>
       <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>
         <div className='flex flex-col gap-2 items-start grow-0'>

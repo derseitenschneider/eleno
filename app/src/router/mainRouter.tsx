@@ -105,10 +105,10 @@ const mainRouter = createBrowserRouter(
             },
           ],
         },
-        {
-          path: 'logout',
-          element: <Logout />,
-        },
+        // {
+        //   path: 'logout',
+        //   element: <Logout />,
+        // },
       ],
     },
   ],

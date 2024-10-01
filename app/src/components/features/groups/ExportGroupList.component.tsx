@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import GrouplistPDF from '../pdf/GrouplistPDF.component'
+import { DialogDescription } from '@/components/ui/dialog'
 
 interface ExportGroupListProps {
   activeGroups: Group[]
@@ -36,7 +37,9 @@ export default function ExportGroupList({
 
   return (
     <div className='space-y-8'>
-      <p>Exportiere eine Liste mit allen aktiven Gruppen.</p>
+      <DialogDescription>
+        Exportiere eine Liste mit allen aktiven Gruppen.
+      </DialogDescription>
       <div>
         <Label htmlFor='title'>
           Titel (optional){' '}

@@ -81,8 +81,8 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
-            <UpdateNote noteId={noteId} onCloseModal={closeModal} />
           </DialogHeader>
+          <UpdateNote noteId={noteId} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 
@@ -90,8 +90,8 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Notiz löschen</DialogTitle>
-            <DeleteNote noteId={noteId} onCloseModal={closeModal} />
           </DialogHeader>
+          <DeleteNote noteId={noteId} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
     </>

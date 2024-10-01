@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button"
-import MiniLoader from "@/components/ui/MiniLoader.component"
-import { useDeleteLesson } from "./useDeleteLesson"
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useDeleteLesson } from './useDeleteLesson'
+import { DialogDescription } from '@/components/ui/dialog'
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -17,7 +18,9 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
   }
   return (
     <div>
-      <p>Möchtest du diese Lektion wirklich löschen?</p>
+      <DialogDescription>
+        Möchtest du diese Lektion wirklich löschen?
+      </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
         <Button
           disabled={isDeleting}

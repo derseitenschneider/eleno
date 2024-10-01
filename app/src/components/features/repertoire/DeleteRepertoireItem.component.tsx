@@ -3,6 +3,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { RepertoireItem } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDeleteRepertoireItem } from './useDeleteRepertoireItem'
+import { DialogDescription } from '@/components/ui/dialog'
 
 interface DeleteRepertoireItemProps {
   itemId: number
@@ -33,10 +34,10 @@ function DeleteRepertoireItem({
 
   return (
     <div className='max-w-[450px]'>
-      <p>
+      <DialogDescription>
         Möchtest du den Song <b>«{itemToDelete.title}»</b> wirklich aus dem
         Repertoire entfernen?
-      </p>
+      </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
         <Button
           variant='outline'

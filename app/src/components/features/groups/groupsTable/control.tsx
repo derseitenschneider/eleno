@@ -90,8 +90,8 @@ export default function GroupsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Gruppenliste exportieren</DialogTitle>
-            <ExportGroupList activeGroups={activeGroups} />
           </DialogHeader>
+          <ExportGroupList activeGroups={activeGroups} />
         </DialogContent>
       </Dialog>
 

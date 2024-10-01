@@ -68,8 +68,8 @@ export default function RepertoireControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Repertoire exportieren</DialogTitle>
-            <ExportRepertoire lessonHolder={currentLessonHolder} />
           </DialogHeader>
+          <ExportRepertoire lessonHolder={currentLessonHolder} />
         </DialogContent>
       </Dialog>
     </div>

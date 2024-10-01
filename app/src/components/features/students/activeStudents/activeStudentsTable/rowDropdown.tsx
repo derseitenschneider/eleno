@@ -155,7 +155,9 @@ export default function ActiveStudentRowDropdown({
       </div>
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
-          <DialogHeader>Schüler:in bearbeiten</DialogHeader>
+          <DialogHeader>
+            <DialogTitle>Schüler:in bearbeiten</DialogTitle>
+          </DialogHeader>
           <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>

@@ -26,6 +26,7 @@ import ButtonRemove from '@/components/ui/buttonRemove'
 import { toast } from 'sonner'
 import { Label } from '@/components/ui/label'
 import { useCallback } from 'react'
+import { DialogDescription } from '@/components/ui/dialog'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -131,6 +132,9 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
 
   return (
     <div className='w-[85vw]'>
+      <DialogDescription className='hidden'>
+        Erstelle eine neue Gruppe
+      </DialogDescription>
       <div className={cn(grid, 'hidden lg:grid')}>
         <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Tag</span>

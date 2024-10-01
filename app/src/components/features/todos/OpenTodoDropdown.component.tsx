@@ -45,8 +45,8 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Todo bearbeiten</DialogTitle>
-            <UpdateTodo id={id} onSuccess={closeModal} />
           </DialogHeader>
+          <UpdateTodo id={id} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
     </>

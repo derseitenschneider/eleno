@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
@@ -57,17 +61,17 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
   if (success)
     return (
       <div className='sm:w-[350px]'>
-        <DialogTitle>
-          <DialogHeader>Bestätige deine E-Mail Adresse</DialogHeader>
-        </DialogTitle>
+        <DialogHeader>
+          <DialogTitle>Bestätige deine E-Mail Adresse</DialogTitle>
+        </DialogHeader>
         <div className='flex h-12 sm:h-16'>
           <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
         </div>
-        <p>
+        <DialogDescription>
           Ein Bestätigungslink wurde an <strong>{input.email1}</strong>{' '}
           verschickt. Die Änderung tritt erst nach Bestätigung deiner neuen
           Email-Adresse in Kraft.
-        </p>
+        </DialogDescription>
       </div>
     )
 
@@ -78,12 +82,15 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
         'sm:min-w-[350px]',
       )}
     >
-      <DialogTitle>
-        <DialogHeader>E-Mail Adresse ändern</DialogHeader>
-      </DialogTitle>
+      <DialogHeader>
+        <DialogTitle>E-Mail Adresse ändern</DialogTitle>
+      </DialogHeader>
+      <DialogDescription className='hidden'>
+        Ändere deine E-Mail Adresse
+      </DialogDescription>
       <div className='space-y-6'>
         <div>
-          <Label htmlFor='email'>Neue Email-Adresse</Label>
+          <Label htmlFor='email'>Neue E-Mail Adresse</Label>
           <Input
             id='email'
             type='email'
@@ -94,7 +101,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
           />
         </div>
         <div>
-          <Label htmlFor='email2'>Neue Email-Adresse bestätigen</Label>
+          <Label htmlFor='email2'>Neue E-Mail Adresse bestätigen</Label>
           <Input
             id='email2'
             type='email'

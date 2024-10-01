@@ -8,7 +8,7 @@ import { useActiveNotesQuery } from './notesQueries'
 import type { Note as TNote } from '@/types/types'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { useUpdateNote } from './useUpdateNote'
 import { cn } from '@/lib/utils'
@@ -100,7 +100,9 @@ function NoteList() {
         onOpenChange={() => setOpenModal(undefined)}
       >
         <DialogContent>
-          <DialogTitle>Neue Notiz erstellen</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Neue Notiz erstellen</DialogTitle>
+          </DialogHeader>
           <CreateNote
             holderType={currentLessonHolder.type}
             holderId={currentLessonHolder.holder.id}

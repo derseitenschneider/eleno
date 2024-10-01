@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -208,12 +209,12 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song bearbeiten</DialogTitle>
-                <UpdateRepertoireItem
-                  holder={holder}
-                  itemId={row.original.id}
-                  onCloseModal={closeModal}
-                />
               </DialogHeader>
+              <UpdateRepertoireItem
+                holder={holder}
+                itemId={row.original.id}
+                onCloseModal={closeModal}
+              />
             </DialogContent>
           </Dialog>
 
@@ -221,12 +222,12 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song löschen</DialogTitle>
-                <DeleteRepertoireItem
-                  holder={holder}
-                  itemId={row.original.id}
-                  onCloseModal={closeModal}
-                />
               </DialogHeader>
+              <DeleteRepertoireItem
+                holder={holder}
+                itemId={row.original.id}
+                onCloseModal={closeModal}
+              />
             </DialogContent>
           </Dialog>
         </>

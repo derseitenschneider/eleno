@@ -115,12 +115,12 @@ export default function AllLessonsControl({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
-            <ExportLessons
-              onSuccess={closeModal}
-              holderType={currentLessonHolder.type}
-              holderId={currentLessonHolder.holder.id}
-            />
           </DialogHeader>
+          <ExportLessons
+            onSuccess={closeModal}
+            holderType={currentLessonHolder.type}
+            holderId={currentLessonHolder.holder.id}
+          />
         </DialogContent>
       </Dialog>
     </div>
