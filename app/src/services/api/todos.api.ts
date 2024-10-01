@@ -7,6 +7,7 @@ export const fetchTodosApi = async (
   userId: string,
 ): Promise<Array<TTodoItem>> => {
   if (isDemoMode) return mockTodos
+
   const { data: todos, error } = await supabase
     .from('todos')
     .select('*')
@@ -73,7 +74,9 @@ export const updateTodoApi = async (todo: TTodoItem) => {
     if (mockTodos[index]) {
       mockTodos[index] = todo
     }
+    return
   }
+
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
   const todoDb = { ...todo, due: utcDue ? utcDue.toISOString() : null }
@@ -110,7 +113,9 @@ export const deleteTodosApi = async (ids: Array<number>) => {
         mockTodos.splice(index, 1)
       }
     }
+    return
   }
+
   const { error } = await supabase.from('todos').delete().in('id', ids)
   if (error) throw new Error(error.message)
 }

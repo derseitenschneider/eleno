@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/Error'
 
@@ -17,7 +16,6 @@ import Dashboard from '@/pages/Dashboard'
 import Todos from '@/pages/Todos.page'
 import Timetable from '@/pages/Timetable.page'
 import Settings from '@/pages/Settings.page'
-import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 

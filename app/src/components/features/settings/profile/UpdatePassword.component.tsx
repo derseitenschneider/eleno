@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/ui/password-input'
 import { toast } from 'sonner'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { isDemoMode } from '@/config'
 
 interface EditPasswordProps {
   onCloseModal?: () => void
@@ -48,6 +49,14 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
     } finally {
       setIsPending(false)
     }
+  }
+
+  if (isDemoMode) {
+    return (
+      <p className='text-base'>
+        Diese Funktion ist in der Demoversion leider nicht verfügbar.
+      </p>
+    )
   }
 
   return (

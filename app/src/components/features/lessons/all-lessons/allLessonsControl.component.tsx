@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dialog'
 import ExportLessons from '../ExportLessons.component'
 import useCurrentHolder from '../useCurrentHolder'
+import { isDemoMode } from '@/config'
 
 type AllLessonsControlPros = {
   table: Table<Lesson>
@@ -44,7 +45,10 @@ export default function AllLessonsControl({
     },
   ]) as Array<{ entity_id: number; years: Array<number> }> | undefined
 
-  const lessonYears = yearsData?.[0]?.years
+  let lessonYears = yearsData?.[0]?.years
+  if (isDemoMode) {
+    lessonYears = [new Date().getFullYear()]
+  }
   const selectedYear = searchParams.get('year')
   const hasLessonYears = lessonYears?.length ? lessonYears.length > 0 : false
 

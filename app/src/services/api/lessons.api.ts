@@ -101,7 +101,6 @@ export const fetchAllLessonsCSVApi = async ({
   startDate,
   endDate,
 }: FetchAllLessonProps) => {
-  if (isDemo) return
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)

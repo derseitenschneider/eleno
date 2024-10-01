@@ -17,6 +17,7 @@ import JSZip from 'jszip'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 import stripHtmlTags from '@/utils/stripHtmlTags'
 import { useUser } from '@/services/context/UserContext'
+import { isDemoMode } from '@/config'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -233,11 +234,18 @@ export default function BulkExportLessons({
       toast.success('Export abgeschlossen.')
     } catch (e) {
       fetchErrorToast()
-      console.log(e)
     } finally {
       setIsLoading(false)
       onSuccess?.()
     }
+  }
+
+  if (isDemoMode) {
+    return (
+      <p className='text-base'>
+        Diese Funktion ist in der Demoversion leider nicht verfügbar.
+      </p>
+    )
   }
 
   return (

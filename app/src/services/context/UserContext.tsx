@@ -82,6 +82,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [getUserProfiles])
 
   const updateUserMeta = useCallback(async (data: UserMeta) => {
+    if (isDemoMode) {
+      mockUser.first_name = data.firstName
+      mockUser.last_name = data.lastName
+      return
+    }
     try {
       await updateUserMetaApi(data)
       setUserProfile((prev) =>
@@ -95,6 +100,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const updateEmail = useCallback(async (email: string) => {
+    if (isDemoMode) {
+      mockUser.email = email
+      return
+    }
     try {
       await updateEmailSupabase(email)
       setUserProfile((prev) => (prev ? { ...prev, email } : undefined))

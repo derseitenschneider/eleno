@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { isDemoMode } from '@/config'
+import { toast } from 'sonner'
 
 interface EditEmailProps {
   onCloseModal?: () => void
@@ -38,6 +40,10 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
     setIsPending(true)
     try {
       await updateEmail(input.email1)
+      if (isDemoMode) {
+        toast.success('E-Mail Adresse geändert.')
+        return onCloseModal?.()
+      }
       setSuccess(true)
       return null
     } catch (err) {

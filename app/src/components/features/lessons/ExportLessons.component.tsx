@@ -1,5 +1,5 @@
 import { createElement, useState } from 'react'
-import type { Group, LessonHolder, Student } from '../../../types/types'
+import type { Group, Lesson, LessonHolder, Student } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
@@ -16,6 +16,8 @@ import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
+import mockLast3Lessons from '@/services/api/mock-db/mockLast3Lessons'
+import { isDemoMode } from '@/config'
 
 type ExportLessonsProps = {
   holderId: number
@@ -44,13 +46,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-        type: 's',
-        holder: allStudents.find((student) => student.id === holderId),
-      } as LessonHolder)
+          type: 's',
+          holder: allStudents.find((student) => student.id === holderId),
+        } as LessonHolder)
       : ({
-        type: 'g',
-        holder: allGroups.find((group) => group.id === holderId),
-      } as LessonHolder)
+          type: 'g',
+          holder: allGroups.find((group) => group.id === holderId),
+        } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -190,6 +192,14 @@ function ExportLessons({
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (isDemoMode) {
+    return (
+      <p className='text-base'>
+        Diese Funktion ist in der Demoversion leider nicht verfügbar.
+      </p>
+    )
   }
 
   return (

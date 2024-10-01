@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { isDemoMode } from '@/config'
 
 interface DeleteAccountProps {
   onCloseModal?: () => void
@@ -36,6 +37,14 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
     } finally {
       setIsPending(false)
     }
+  }
+
+  if (isDemoMode) {
+    return (
+      <p className='text-base'>
+        Diese Funktion ist in der Demoversion leider nicht verfügbar.
+      </p>
+    )
   }
 
   return (
