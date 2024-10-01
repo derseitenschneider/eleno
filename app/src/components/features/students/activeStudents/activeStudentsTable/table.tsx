@@ -40,11 +40,6 @@ export default function ActiveStudentsTable({
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
-  const activeSortedStudents = useMemo(
-    () => students?.filter((student) => !student.archive).sort(compareLastName),
-    [students],
-  )
-
   const fuzzyFilter: FilterFn<Student> = (row, _, searchValue) => {
     const firstName = row.original.firstName
     const lastName = row.original.lastName
@@ -63,7 +58,7 @@ export default function ActiveStudentsTable({
   }
 
   const table = useReactTable({
-    data: activeSortedStudents,
+    data: students,
     columns: studentsColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -91,7 +86,7 @@ export default function ActiveStudentsTable({
         selected={rowSelection}
         setSelected={setRowSelection}
       />
-      {activeSortedStudents.length > 0 ? (
+      {students.length > 0 ? (
         <DataTable
           table={table}
           columns={studentsColumns}

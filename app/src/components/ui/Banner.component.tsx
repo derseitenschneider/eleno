@@ -9,8 +9,12 @@ function Banner() {
     return (
       <div className='z-40 fixed top-0 text-4 text-center w-full bg-primary p-1 text-white'>
         <b>Demo</b>
-        <Link to='https://eleno.net' className='text-white ml-3 underline'>
-          Zurück zur Homepage
+        <Link
+          target='_blank'
+          to='https://app.eleno.net/?page=signup'
+          className='text-white ml-3 underline'
+        >
+          Jetzt Benutzerkonto erstellen
         </Link>
       </div>
     )
