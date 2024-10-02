@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -69,6 +70,9 @@ export default function RepertoireControl({
           <DialogHeader>
             <DialogTitle>Repertoire exportieren</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Exportiere die Repertoireliste.
+          </DialogDescription>
           <ExportRepertoire lessonHolder={currentLessonHolder} />
         </DialogContent>
       </Dialog>

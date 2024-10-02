@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -158,6 +159,9 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Schüler:in bearbeiten</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Schüler:in bearbeiten
+          </DialogDescription>
           <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
@@ -166,6 +170,9 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Neue Todo erstellen</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Todo erstellen
+          </DialogDescription>
           <CreateTodo
             onCloseModal={closeModal}
             holderId={studentId}
@@ -178,6 +185,9 @@ export default function ActiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Lektionsliste exportieren
+          </DialogDescription>
           <ExportLessons
             onSuccess={closeModal}
             holderId={studentId}

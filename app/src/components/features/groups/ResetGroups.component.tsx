@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { useResetGroups } from './useResetGroups'
+import { DialogDescription } from '@/components/ui/dialog'
 
 interface ResetStudentsProps {
   selectedGroupIds: Array<number>
@@ -19,12 +20,12 @@ export default function ResetGroups({
   }
 
   return (
-    <div className=''>
-      <p className='text-sm mb-6'>
+    <div>
+      <DialogDescription className='text-sm mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Gruppen zurücksetzen?
-      </p>
+      </DialogDescription>
       <div className='flex items-center gap-4 justify-end'>
         <Button variant='outline' size='sm' onClick={onSuccess}>
           Abbrechen

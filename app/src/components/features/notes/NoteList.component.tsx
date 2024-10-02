@@ -8,7 +8,12 @@ import { useActiveNotesQuery } from './notesQueries'
 import type { Note as TNote } from '@/types/types'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+} from '@/components/ui/dialog'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { useUpdateNote } from './useUpdateNote'
 import { cn } from '@/lib/utils'
@@ -103,6 +108,9 @@ function NoteList() {
           <DialogHeader>
             <DialogTitle>Neue Notiz erstellen</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Neue Notiz erstellen
+          </DialogDescription>
           <CreateNote
             holderType={currentLessonHolder.type}
             holderId={currentLessonHolder.holder.id}

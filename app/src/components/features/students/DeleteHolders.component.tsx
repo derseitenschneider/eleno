@@ -5,7 +5,11 @@ import { useDeleteStudents } from './useDeleteStudents'
 import { useDeleteGroups } from '../groups/useDeleteGroups'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { toast } from 'sonner'
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 
 interface DeleteStudentsProps {
@@ -93,41 +97,41 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
       </DialogHeader>
 
       {hasOnlyGroups && isSingularGroup && (
-        <p>
+        <DialogDescription>
           Möchtest du{' '}
           <span className='font-medium text-primary'>
             {groupsToDelete[0]?.name}
           </span>{' '}
           und alle zugehörigen Daten löschen?
-        </p>
+        </DialogDescription>
       )}
       {hasOnlyGroups && !isSingularGroup && (
-        <p>
+        <DialogDescription>
           Möchtest du die ausgewählten Gruppen und alle zugehörigen Daten
           löschen?
-        </p>
+        </DialogDescription>
       )}
       {hasOnlyStudents && isSingularStudent && (
-        <p>
+        <DialogDescription>
           Möchtest du{' '}
           <span className='font-medium text-primary'>
             {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName}
           </span>{' '}
           und alle zugehörigen Daten löschen?
-        </p>
+        </DialogDescription>
       )}
       {hasOnlyStudents && !isSingularStudent && (
-        <p>
+        <DialogDescription>
           Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten
           löschen?
-        </p>
+        </DialogDescription>
       )}
 
       {hasStudentsAndGroups && (
-        <p>
+        <DialogDescription>
           Möchtest du die ausgewählten Schüler:innen und Gruppen und alle
           zugehörigen Daten löschen?
-        </p>
+        </DialogDescription>
       )}
       <div className='flex justify-end gap-4 mt-4'>
         <Button size='sm' variant='outline' onClick={onSuccess}>

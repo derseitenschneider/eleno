@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -103,6 +104,9 @@ export default function InactiveStudentRowDropdown({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Exportiere die Lektionsliste
+          </DialogDescription>
           <ExportLessons
             onSuccess={closeModal}
             holderId={holder.holder.id}

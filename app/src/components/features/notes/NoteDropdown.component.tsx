@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -82,6 +83,9 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
           <DialogHeader>
             <DialogTitle>Notiz bearbeiten</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite die Notiz.
+          </DialogDescription>
           <UpdateNote noteId={noteId} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
@@ -91,6 +95,9 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
           <DialogHeader>
             <DialogTitle>Notiz löschen</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Lösche die Notiz.
+          </DialogDescription>
           <DeleteNote noteId={noteId} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>

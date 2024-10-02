@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -83,7 +88,9 @@ export function GroupsActionDropdown({
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          </DialogHeader>
           <BulkExportLessons
             holderIds={selectedGroupIds}
             holderType='g'

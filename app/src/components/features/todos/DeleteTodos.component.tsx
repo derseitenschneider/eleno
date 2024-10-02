@@ -1,5 +1,9 @@
 import { Button } from '@/components/ui/button'
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { TTodoItem } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -40,11 +44,11 @@ export default function DeleteTodos({
       </DialogHeader>
       <div>
         {todoIds.length === 1 ? (
-          <p>
+          <DialogDescription>
             Möchtest du die Todo{' '}
             <span className='font-bold text-primary hyphens-auto'>{text}</span>{' '}
             unwiederruflich löschen?
-          </p>
+          </DialogDescription>
         ) : (
           <p>Möchtest du alle erledigten Todos unwiederruflich löschen?</p>
         )}

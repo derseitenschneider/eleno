@@ -18,6 +18,7 @@ import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 import stripHtmlTags from '@/utils/stripHtmlTags'
 import { useUser } from '@/services/context/UserContext'
 import { isDemoMode } from '@/config'
+import { DialogDescription } from '@/components/ui/dialog'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -250,12 +251,12 @@ export default function BulkExportLessons({
 
   return (
     <div className='w-[500px]'>
-      <p>
+      <DialogDescription>
         Exportiere die Lektionslisten der ausgewählten{' '}
         {holderType === 's' ? 'Schüler:innen' : 'Gruppen'}. Du kannst entweder
         einen bestimmten Zeitraum wählen oder sämtliche erfassten Lektionen
         exportieren
-      </p>
+      </DialogDescription>
       <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>
         <div className='flex flex-col gap-2 items-start grow-0'>

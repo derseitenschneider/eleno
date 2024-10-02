@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -46,6 +47,9 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
           <DialogHeader>
             <DialogTitle>Todo bearbeiten</DialogTitle>
           </DialogHeader>
+          <DialogDescription className='hidden'>
+            Todo bearbeiten
+          </DialogDescription>
           <UpdateTodo id={id} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>

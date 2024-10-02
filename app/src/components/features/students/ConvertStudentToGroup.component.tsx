@@ -30,6 +30,7 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useConvertStudentToGroup } from './useConvertStudentToGroup'
 import { toast } from 'sonner'
 import { useCallback } from 'react'
+import { DialogDescription } from '@radix-ui/react-dialog'
 
 type ConvertStudentToGroupProps = {
   studentId: number
@@ -102,13 +103,13 @@ export default function ConvertStudentToGroup({
           {student?.firstName} {student?.lastName} in Gruppe umwandeln
         </DialogTitle>
       </DialogHeader>
-      <p className='mb-6'>
+      <DialogDescription className='mb-6'>
         Nach der Umwandlung hast du eine neue Gruppe statt eines Einzelschülers.
         Alle bisherigen Informationen und Einträge bleiben erhalten, sind aber
         nun der Gruppe zugeordnet. Du kannst jederzeit weitere Schüler zur
         Gruppe hinzufügen. Beachte: Diese Änderung kann nicht rückgängig gemacht
         werden.
-      </p>
+      </DialogDescription>
       <div className={cn(grid)}>
         <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
         <span className='text-sm pl-3 text-foreground/80'>Tag</span>

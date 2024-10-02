@@ -1,5 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -96,7 +102,12 @@ export function ActiveStudentsActionDropdown({
 
       <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Schüler:innen bearbeiten
+          </DialogDescription>
           <UpdateStudents
             studentIds={selectedStudentIds}
             onSuccess={closeModal}
@@ -106,7 +117,12 @@ export function ActiveStudentsActionDropdown({
 
       <Dialog open={openModal === 'EXPORT'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Lektionslisten exportieren</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Schüler:innen bearbeiten
+          </DialogDescription>
           <BulkExportLessons
             onSuccess={closeModal}
             holderIds={selectedStudentIds}
@@ -117,7 +133,12 @@ export function ActiveStudentsActionDropdown({
 
       <Dialog open={openModal === 'RESET'} onOpenChange={closeModal}>
         <DialogContent>
-          <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
+          <DialogHeader>
+            <DialogTitle>Unterrichtsdaten zurücksetzen</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Schüler:innen bearbeiten
+          </DialogDescription>
           <ResetStudents
             selectedStudentIds={selectedStudentIds}
             onSuccess={closeModal}

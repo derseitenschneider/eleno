@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import sortTimeTableDays from '@/utils/sortTimetableDays'
+import { DialogDescription } from '@/components/ui/dialog'
 
 interface ExportTimeTableProps {
   days: TimetableDay[]
@@ -46,7 +47,9 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
 
   return (
     <div>
-      <p>Exportiere den gesamten Stundenplan oder einzelne Tage.</p>
+      <DialogDescription>
+        Exportiere den gesamten Stundenplan oder einzelne Tage.
+      </DialogDescription>
       <ul className='my-5'>
         <li className='mb-3 flex items-center'>
           <Checkbox
