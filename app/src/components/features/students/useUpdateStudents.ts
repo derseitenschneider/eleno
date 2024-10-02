@@ -1,6 +1,4 @@
-import { appConfig } from '@/config'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
-import mockStudents from '@/services/api/mock-db/mockStudents'
 import { updateStudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -14,30 +12,27 @@ export function useUpdateStudents() {
     isSuccess,
   } = useMutation({
     mutationFn: updateStudentsApi,
+
     onMutate: (updatedStudents) => {
       const previousStudents = queryClient.getQueryData(['students']) as
         | Array<Student>
         | undefined
-
       queryClient.setQueryData(
         ['students'],
         (prev: Array<Student> | undefined) => {
-          return prev?.map((prevStudent) => {
-            const updatedStudentsIds = updatedStudents.map(
-              (student) => student.id,
+          if (!prev) return updatedStudents
+          return prev.map((prevStudent) => {
+            const updatedStudent = updatedStudents.find(
+              (student) => student.id === prevStudent.id,
             )
-            if (prevStudent.id in updatedStudentsIds)
-              return updatedStudents.find(
-                (student) => student.id === prevStudent.id,
-              )
-            return prevStudent
+            return updatedStudent
+              ? { ...prevStudent, ...updatedStudent }
+              : prevStudent
           })
         },
       )
-
       return { previousStudents }
     },
-
     onSuccess: () => {
       toast.success('Änderungen gespeichert.')
       queryClient.invalidateQueries({

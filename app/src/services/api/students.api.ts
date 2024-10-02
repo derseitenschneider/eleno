@@ -81,15 +81,11 @@ export const reactivateStudentsApi = async (studentIds: number[]) => {
 
 export const deletestudentsApi = async (studentIds: number[]) => {
   if (isDemoMode) {
-    const indexes = []
     for (const studentId of studentIds) {
       const index = mockStudents.findIndex((st) => st.id === studentId)
-      indexes.push(index)
-    }
-
-    for (const index of indexes) {
       mockStudents.splice(index, 1)
     }
+
     return
   }
   const { error } = await supabase
@@ -108,7 +104,7 @@ export const updateStudentsApi = async (students: Array<Student>) => {
         mockStudents[index] = student
       }
     }
-    return [...students]
+    return students
   }
   const { data: updatedStudents, error } = await supabase
     .from('students')

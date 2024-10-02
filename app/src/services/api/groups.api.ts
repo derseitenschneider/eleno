@@ -21,7 +21,7 @@ export const createGroupApi = async (group: GroupPartial) => {
       ...group,
       user_id: 'mock-user-123456',
       created_at: new Date().toISOString(),
-      id: Math.random() * 1_000_000,
+      id: Math.ceil(Math.random() * 1_000_000),
       archive: false,
     }
     mockGroups.push(newGroup)
