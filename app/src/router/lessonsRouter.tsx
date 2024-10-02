@@ -7,7 +7,6 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import LessonsPage from '@/pages/Lessons.page'
 import LessonNav from '@/components/features/lessons/LessonNav.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
-import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 
