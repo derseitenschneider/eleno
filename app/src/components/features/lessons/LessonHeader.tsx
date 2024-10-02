@@ -14,7 +14,6 @@ import useHasBanner from '@/hooks/useHasBanner'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
-  console.log(currentLessonHolder)
   const hasBanner = useHasBanner()
 
   if (!currentLessonHolder) return null
