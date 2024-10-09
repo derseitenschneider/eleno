@@ -19,6 +19,7 @@ import Settings from '@/pages/Settings.page'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import SubscriptionPage from '@/pages/Subscription.page'
+import Onboarding from '@/pages/Onboarding'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -67,6 +68,7 @@ const SettingsWrapper = () => {
 
 const mainRouter = createBrowserRouter(
   [
+    { path: '/first-steps', element: <Onboarding /> },
     {
       path: '/',
       element: <Application />,
