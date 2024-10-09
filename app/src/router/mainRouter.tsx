@@ -18,6 +18,7 @@ import Timetable from '@/pages/Timetable.page'
 import Settings from '@/pages/Settings.page'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
+import SubscriptionPage from '@/pages/Subscription.page'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -99,9 +100,13 @@ const mainRouter = createBrowserRouter(
               element: <Account />,
             },
             {
-              index: true,
+              // index: true,
               path: 'view',
               element: <View />,
+            },
+            {
+              path: 'subscription',
+              element: <SubscriptionPage />,
             },
           ],
         },
