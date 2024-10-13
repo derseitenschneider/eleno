@@ -8,28 +8,61 @@ import {
 import { useState } from 'react'
 import CreateStudents from '../../students/CreateStudents.component'
 import { Button } from '@/components/ui/button'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import UpdateStudents from '../../students/UpdateStudents.component'
 
 export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
+  const { activeSortedHolders } = useLessonHolders()
+
+  const students = activeSortedHolders.filter((holder) => holder.type === 's')
+
   return (
     <>
       <h2>Schüler:innen erfassen</h2>
       <div className='flex flex-col space-y-4'>
-        <p>
-          Bevor du überhaupt mit dem Unterrichten anfangen kannst, solltest du
-          einen oder mehrere Schüler:innen erfassen.
-        </p>
+        {students.length === 0 ? (
+          <>
+            <p>
+              Bevor du überhaupt mit dem Unterrichten anfangen kannst, solltest
+              du einen oder mehrere Schüler:innen erfassen.
+            </p>
 
-        <Button
-          type='button'
-          size='sm'
-          onClick={() => setIsModalOpen(true)}
-          className='ml-auto'
-        >
-          Schüler:innen erfassen
-        </Button>
+            <Button
+              type='button'
+              size='sm'
+              onClick={() => setModalOpen('CREATE')}
+              className='ml-auto'
+            >
+              Schüler:innen erfassen
+            </Button>
+          </>
+        ) : (
+          <div className='flex flex-col space-y-4'>
+            <p>
+              Wunderbar, du hast nun {students.length}{' '}
+              {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'} erfasst.
+            </p>
+            <div className='flex items-center justify-between gap-2'>
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => setModalOpen('EDIT')}
+              >
+                Schüler:innen bearbeiten
+              </Button>
+              <Button size='sm' onClick={() => setModalOpen('CREATE')}>
+                Weitere erfassen
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
-      <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
+
+      <Dialog
+        open={modalOpen === 'CREATE'}
+        onOpenChange={() => setModalOpen(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Schüler:innen erfassen</DialogTitle>
@@ -37,7 +70,25 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
           <DialogDescription className='hidden'>
             Erfasse neue Schüler:innen
           </DialogDescription>
-          <CreateStudents onSuccess={onSuccess} />
+          <CreateStudents onSuccess={() => setModalOpen(null)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={modalOpen === 'EDIT'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite bestehende Schüler:innen
+          </DialogDescription>
+          <UpdateStudents
+            studentIds={students.map((student) => student.holder.id)}
+            onSuccess={() => setModalOpen(null)}
+          />
         </DialogContent>
       </Dialog>
     </>

@@ -1,9 +1,6 @@
-import Welcome from './steps/Welcome.component'
-import StepperProgress, { type Step } from '@/components/ui/stepper.component'
 import { Button } from '@/components/ui/button'
-import AddStudents from './steps/AddStudents.component'
-import AddGroup from './steps/AddGroup.component'
-import ImportantLinks from './steps/ImportantLinks.component'
+import StepperProgress, { type Step } from '@/components/ui/stepper.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import {
   CheckIcon,
   ChevronLeftIcon,
@@ -13,11 +10,21 @@ import {
   Users2,
 } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import AddGroup from './steps/AddGroup.component'
+import AddStudents from './steps/AddStudents.component'
+import ImportantLinks from './steps/ImportantLinks.component'
+import Welcome from './steps/Welcome.component'
+import { useEffect } from 'react'
 
 export default function OnboardingWizzard() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const isMobile = useIsMobileDevice()
   const navigate = useNavigate()
   const currentStep = Number(searchParams.get('step')) || 0
+
+  useEffect(() => {
+    if (isMobile) navigate('/')
+  }, [isMobile, navigate])
 
   function goBack() {
     searchParams.set('step', String(currentStep - 1))
@@ -50,7 +57,7 @@ export default function OnboardingWizzard() {
     },
     {
       id: 3,
-      label: 'Geschafft',
+      label: "Los geht's!",
       component: <ImportantLinks />,
       icon: <CheckIcon strokeWidth={1.5} />,
     },
