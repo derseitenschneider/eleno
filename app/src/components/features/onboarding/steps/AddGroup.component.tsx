@@ -31,8 +31,8 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
         {groups.length === 0 ? (
           <>
             <p>
-              Falls du Gruppen, Ensembles, Bands etc. unterrichtest, kannstu du
-              die auch gleich erfassen.
+              Falls du Gruppen, Ensembles, Bands etc. unterrichtest, kannst du
+              diese ebenfalls bereits erfassen.
             </p>
 
             <Button

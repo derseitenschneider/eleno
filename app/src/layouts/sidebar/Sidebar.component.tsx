@@ -92,7 +92,10 @@ function Sidebar() {
           }
         />
         <SidebarElement
-          isActive={window.location.pathname.includes('students')}
+          isActive={
+            window.location.pathname.includes('students') &&
+            !window.location.pathname.includes('no-')
+          }
           onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
           to='/students'

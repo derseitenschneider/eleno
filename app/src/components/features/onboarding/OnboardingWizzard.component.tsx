@@ -81,7 +81,7 @@ export default function OnboardingWizzard() {
           </Button>
         ) : (
           <Button
-            className='flex gap-2 items-center justify-between'
+            className='flex gap-1 items-center justify-between'
             variant='outline'
             type='button'
             size='sm'
@@ -95,7 +95,7 @@ export default function OnboardingWizzard() {
           <Button
             type='button'
             size='sm'
-            className='flex gap-2 items-center justify-between'
+            className='flex gap-1 items-center justify-between'
             onClick={goToNext}
           >
             Weiter
