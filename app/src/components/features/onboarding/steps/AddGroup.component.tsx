@@ -86,10 +86,10 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Schüler:innen erfassen</DialogTitle>
+            <DialogTitle>Gruppe erfassen</DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
-            Erfasse neue Schüler:innen
+            Erfasse eine neue Gruppe
           </DialogDescription>
           <CreateGroup onSuccess={() => setModalOpen(null)} />
         </DialogContent>
