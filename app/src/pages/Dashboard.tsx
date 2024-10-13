@@ -7,7 +7,6 @@ import Overview from '../components/features/dashboard/overview/Overview.compone
 import QuickLinks from '../components/features/dashboard/quickLinks/QuickLinks.component'
 import { useLoading } from '../services/context/LoadingContext'
 import { cn } from '@/lib/utils'
-import useIsOnline from '@/hooks/useIsOnline'
 import useHasBanner from '@/hooks/useHasBanner'
 
 function Dashboard() {

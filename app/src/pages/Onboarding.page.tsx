@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import CreateStudents from '@/components/features/students/CreateStudents.component'
 import { Link, useNavigate } from 'react-router-dom'
+import OnboardingWizzard from '@/components/features/onboarding/OnboardingWizzard.component'
 
 // SVG-Symbol-Komponenten mit Barrierefreiheit
 const WelcomeSymbol: React.FC = () => (
@@ -97,7 +98,7 @@ const OnboardingStep: React.FC<OnboardingStepProps> = ({
   onSkip,
   Symbol: Deko,
 }) => (
-  <div className='w-fit mx-auto bg-white p-6 rounded-lg shadow-md relative overflow-hidden'>
+  <div className=''>
     {Deko && <Deko />}
     <h2 className='text-2xl font-bold mb-4'>{title}</h2>
     <div className='mb-6 relative z-10'>{children}</div>
@@ -134,7 +135,7 @@ interface Step {
   Symbol?: React.FC
 }
 
-const Onboarding: React.FC = () => {
+const OnboardingPage: React.FC = () => {
   const [step, setStep] = useState(1)
   const navigate = useNavigate()
 
@@ -158,24 +159,6 @@ const Onboarding: React.FC = () => {
 
   const steps: Step[] = [
     {
-      title: 'Willkommen bei Eleno',
-      content: (
-        <div className='w-[800px] text-base'>
-          <p className='mb-2'>Herzlich willkommen bei Eleno!</p>
-          <p className='mb-2'>
-            Vielen Dank, dass du dich für unsere App entschieden haben. Mit
-            Eleno kannst du als Instrumentallehrer:in deinen Unterricht
-            effizient verwalten, Todos erstellen und vieles mehr.
-          </p>
-          <p>
-            Lass' uns gemeinsam die ersten Schritte gehen, um deine Erfahrung zu
-            optimieren.
-          </p>
-        </div>
-      ),
-      Symbol: WelcomeSymbol,
-    },
-    {
       title: 'Schüler:innen hinzufügen',
       content: (
         <div className='max-h-[75vh]'>
@@ -194,7 +177,7 @@ const Onboarding: React.FC = () => {
       content: (
         <div>
           <p className='mb-2'>
-            Großartig! Sie haben das Onboarding abgeschlossen.
+            Großartig! Du hast das Onboarding abgeschlossen.
           </p>
           <p className='mb-2'>
             Hier sind einige weitere nützliche Links, um mit Eleno zu starten:
@@ -215,27 +198,27 @@ const Onboarding: React.FC = () => {
           </ul>
         </div>
       ),
-      // Symbol: FinishSymbol,
     },
   ]
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
-      <OnboardingStep
-        title={steps[step - 1].title}
-        currentStep={step}
-        totalSteps={steps.length}
-        onNext={step === steps.length ? skipToEnd : nextStep}
-        onPrevious={previousStep}
-        previousTitle={step > 1 ? steps[step - 2].title : ''}
-        nextTitle={step < steps.length ? steps[step].title : ''}
-        onSkip={skipToEnd}
-        Symbol={steps[step - 1].Symbol}
-      >
-        {steps[step - 1].content}
-      </OnboardingStep>
+    <div className='bg-background100 fixed size-full ml-[-50px] z-[60] grid items-center'>
+      <OnboardingWizzard />
+      {/* <OnboardingStep */}
+      {/*   title={steps[step - 1].title} */}
+      {/*   currentStep={step} */}
+      {/*   totalSteps={steps.length} */}
+      {/*   onNext={step === steps.length ? skipToEnd : nextStep} */}
+      {/*   onPrevious={previousStep} */}
+      {/*   previousTitle={step > 1 ? steps[step - 2].title : ''} */}
+      {/*   nextTitle={step < steps.length ? steps[step].title : ''} */}
+      {/*   onSkip={skipToEnd} */}
+      {/*   Symbol={steps[step - 1].Symbol} */}
+      {/* > */}
+      {/*   {steps[step - 1].content} */}
+      {/* </OnboardingStep> */}
     </div>
   )
 }
 
-export default Onboarding
+export default OnboardingPage

@@ -8,7 +8,6 @@ import TodosCompleted from '../components/features/todos/TodosCompleted.componen
 import TodosOpen from '../components/features/todos/TodosOpen.component'
 
 import View from '../components/features/settings/View'
-import Logout from '@/components/features/user/Logout.component'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -19,7 +18,7 @@ import Settings from '@/pages/Settings.page'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import SubscriptionPage from '@/pages/Subscription.page'
-import Onboarding from '@/pages/Onboarding'
+import OnboardingPage from '@/pages/Onboarding.page'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -68,7 +67,6 @@ const SettingsWrapper = () => {
 
 const mainRouter = createBrowserRouter(
   [
-    { path: '/first-steps', element: <Onboarding /> },
     {
       path: '/',
       element: <Application />,
@@ -80,6 +78,10 @@ const mainRouter = createBrowserRouter(
         },
         ...lessonsRoutes,
         ...studentsRoutes,
+        {
+          path: 'first-steps',
+          element: <OnboardingPage />,
+        },
         {
           path: 'todos',
           element: <TodosWrapper />,
