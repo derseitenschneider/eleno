@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use Psr\Http\Message\ResponseInterface as Response;
 use Stripe\Stripe;
-use Stripe\Checkout\Session;
-use Stripe\Exception\ApiErrorException;
+use Stripe\Event;
 
 class StripeService
 {
@@ -14,27 +14,27 @@ class StripeService
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
     }
 
-    static function createCheckoutSession(string $priceId)
+    public static function handleWebhook(Response $response)
     {
-        try {
-            $session = Session::create(
-                [
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price' => $priceId,
-                    'quantity' => 1,
-                ]],
-                'mode' => 'subscription',
-                'success_url' => 'https://app.eleno.net/success?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => 'https://app.eleno.net/cancel',
-                ]
-            );
 
-                   return ['id' => $session->id];
-        } catch (ApiErrorException $e) {
-            return ['error' => $e->getMessage()];
-        }    
+        $payload = @file_get_contents('php://input');
+        $event = null;
+
+        try{
+            $event = Event::constructFrom(
+                json_decode($payload, true)
+            );
+        } catch(\UnexpectedValueException $e){
+            http_response_code(400);
+            exit();
+        }
+
+        logDebug($event);
+
+
+        return $response->withStatus(200);
     }
+
 
 
     // Add more methods as needed for other Stripe operations
