@@ -39,12 +39,13 @@ $container->set(
 );
 
 AppFactory::setContainer($container);
-//
+
 // Initialize Stripe
 StripeService::initialize();
 
 // Create App
 $app = AppFactory::create();
+
 
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);

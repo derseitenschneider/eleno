@@ -1,27 +1,33 @@
+import { useUser } from '@/services/context/UserContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { Link } from 'react-router-dom'
 
 export default function SubscriptionPage() {
-  const linkYearly = 'https://buy.stripe.com/test_3csg305lh2sS7mw5kl'
+  const { user } = useUser()
+  const { userLocale } = useUserLocale()
 
-  const linkMonthly = 'https://buy.stripe.com/test_6oEeYWeVR3wW7mwfZ0'
-  const prefilledEmail = 'test@test.com'
-  const locale = 'de'
+  const basePathYearly = 'https://buy.stripe.com/test_6oEeYWeVR3wW7mwfZ0'
+
+  if (!user) return null
+
+  const searchParams = {
+    prefilled_email: user.email,
+    locale: userLocale,
+    client_reference_id: user.id,
+  } as const
+
+  const queryString = `?${Object.keys(searchParams)
+    .map((k) => `${k}=${searchParams[k]}`)
+    .join('&')}`
 
   return (
     <div>
       <h1>Subscribe</h1>
-      <Link
-        to={`${linkMonthly}?prefilled_email=${prefilledEmail}&locale=${locale}`}
-        target='_blank'
-      >
-        Monatlich abschliessen
-      </Link>
-      <Link
-        to={`${linkYearly}?prefilled_email=${prefilledEmail}&locale=${locale}`}
-        target='_blank'
-      >
-        Jährlich abschliessen
-      </Link>
+      <div className='flex gap-4'>
+        <Link to={basePathYearly + queryString} target='_blank'>
+          Jährlich abschliessen
+        </Link>
+      </div>
     </div>
   )
 }

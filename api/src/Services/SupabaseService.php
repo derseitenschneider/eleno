@@ -6,18 +6,18 @@ use GuzzleHttp\Client;
 
 class SupabaseService
 {
-    private $client;
-    private $config;
+    private $_client;
+    private $_config;
 
     public function __construct(array $config)
     {
-        $this->config = $config;
-        $this->client = new Client(
+        $this->_config = $config;
+        $this->_client = new Client(
             [
-            'base_uri' => $this->config['url'],
+            'base_uri' => $this->_config['url'],
             'headers' => [
-                'apikey' => $this->config['anon_key'],
-                'Authorization' => 'Bearer ' . $this->config['service_role_key'],
+                'apikey' => $this->_config['anon_key'],
+                'Authorization' => 'Bearer ' . $this->_config['service_role_key'],
             ],
             ]
         );
@@ -25,7 +25,7 @@ class SupabaseService
 
     public function getLesson(string $homeworkKey)
     {
-        $response = $this->client->get(
+        $response = $this->_client->get(
             'rest/v1/lessons', [
             'query' => [
                 'select' => '*,students(id,firstName),groups(id,name)',
@@ -38,5 +38,72 @@ class SupabaseService
         return $data[0] ?? null;
     }
 
-    // Add more methods for interacting with Supabase as needed
+    // Get product
+    public function getProduct(string $stripe_product_id)
+    {
+        $product = $this->_client->get(
+            'rest/v1/products', 
+            array('query' => array('select' => '*', 'stripe_product_id' => $stripe_product_id))
+        );
+
+        return $product;
+    }
+
+    // Get user
+
+    public function isSubscription($product)
+    {
+        if($product->type === 'subscription') {  
+
+            return true;
+        }
+        
+        return false; 
+
+    }
+
+    // Set stripe_customer
+    public function createStripeCustomer(string $user_id, string $stripe_customer_id)
+    {
+        $res=  $this->_client->post(
+            'rest/v1/stripe_customers',
+            array('body' =>json_encode(
+                array(
+                'user_id' => $user_id,
+                'stripe_customer_id' => $stripe_customer_id
+                )
+            ))
+        );
+
+        logDebug($res);
+    }
+
+    public function createPayment(
+        string $stripe_customer_id,
+        string $stripe_invoice_id,
+        string $stripe_product_id,
+        int $amount,
+        string $currency,
+        string $status,
+    ) {
+        $res = $this->_client->post(
+            'rest/v1/payments',
+            array(
+            'body' => json_encode(
+                array(
+                'stripe_customer_id' => $stripe_customer_id,
+                'stripe_invoice_id' => $stripe_invoice_id,
+                'stripe_product_id' => $stripe_product_id,
+                'amount' => $amount,
+                'currency' => $currency,
+                'status' => $status,
+                )
+            )
+            )
+        );
+        logDebug($res);
+
+    }
+
+    // Set subscription
 }

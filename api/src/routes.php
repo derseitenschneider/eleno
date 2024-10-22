@@ -18,11 +18,9 @@ return function (App $app) {
 
 
     $app->post(
-        '/stripe-webhooks', fn(Request $request, Response $response) 
-        => StripeService::handleWebhook($response)
+        '/stripe-webhooks', [StripeService::class, 'handleWebhook']    
     );
 
-    // Catch all route
     $app->any(
         '{route:.*}', function (Request $request, Response $response) {
             return $response

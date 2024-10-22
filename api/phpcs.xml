@@ -25,6 +25,8 @@
     <severity>0</severity>
   </rule>
 
+  <exclude-pattern>/vendor/*</exclude-pattern>
+
   <!-- Define your source files or directories -->
   <file>src</file>
   <file>tests</file>
