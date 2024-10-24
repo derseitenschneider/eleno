@@ -6,7 +6,8 @@
     "php-di/php-di": "^6.4",
     "vlucas/phpdotenv": "^5.5",
     "guzzlehttp/guzzle": "^7.0",
-    "stripe/stripe-php": "^16.1"
+    "stripe/stripe-php": "^16.1",
+    "supabase/supabase-php": "^0.0.3"
   },
   "config": {
     "allow-plugins": {

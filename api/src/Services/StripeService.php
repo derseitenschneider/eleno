@@ -43,16 +43,16 @@ class StripeService
         switch ($event->type) {
         case 'invoice.payment_succeeded':
             $invoice =  new Invoice($event->data->object);
-            $this->_handleInvoicePaymentSucceeded($invoice);
+            $this->_handleCreatePayment($invoice);
             break;
 
         case 'checkout.session.completed':
             $checkoutSession = new Session($event->data->object);
+            $this->_handleCreateStripeCustomer($checkoutSession);
 
-            $user_id = $checkoutSession->client_reference_id;
-            $stripe_customer_id = $checkoutSession->customer;
-
-            $this->supabase->createStripeCustomer($user_id, $stripe_customer_id);
+            if('subscription' === $checkoutSession->mode) {
+                $this->_handleCreateSubscription($checkoutSession);
+            }
             break;
         }
 
@@ -60,8 +60,9 @@ class StripeService
         return $response->withStatus(200);
     }
 
-    private function _handleInvoicePaymentSucceeded(Invoice $invoice)
+    private function _handleCreatePayment(Invoice $invoice)
     {
+        // Update table payments
         $attrs = array(
           'stripe_customer_id' => $invoice->customer,
           'stripe_invoice_id' => $invoice->lines->data[0]->invoice,
@@ -72,6 +73,25 @@ class StripeService
         );
 
         $this->supabase->createPayment(...$attrs);
+    }
+
+    private function _handleCreateStripeCustomer(Session $session)
+    {
+            $user_id = $session->client_reference_id;
+            $stripe_customer_id = $session->customer;
+
+            $this->supabase->createStripeCustomer($user_id, $stripe_customer_id);
+    }
+
+    private function _handleCreateSubscription(Session $session)
+    {
+        $attrs = array(
+        'user_id' => $session->client_reference_id,
+        'stripe_subscription_id' => $session->subscription,
+        'status' => $session->status,
+        'current_period_start' => $session->created,
+        'current_period_end' => $session->after_expiration
+        );
     }
 
 
