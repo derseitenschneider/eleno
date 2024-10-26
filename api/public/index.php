@@ -5,25 +5,22 @@ use DI\Container;
 use App\Services\SupabaseService;
 use App\Controllers\HomeworkController;
 use App\Services\StripeService;
+use Supabase\CreateClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/functions.php';
 
-// Load environment variables
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// Create Container and add our services
 $container = new Container();
 
-// Add settings to the container
 $container->set(
     'settings', function () {
         return include __DIR__ . '/../src/Config/settings.php';
     }
 );
 
-// Add SupabaseService to the container
 $container->set(
     SupabaseService::class, function ($c) {
         $settings = $c->get('settings');
@@ -31,10 +28,10 @@ $container->set(
     }
 );
 
-// Add HomeworkController to the container
 $container->set(
-    HomeworkController::class, function ($c) {
-        return new HomeworkController($c->get(SupabaseService::class));
+    'db', function ($c) {
+        $settings = $c->get('settings');
+        return new CreateClient($settings['service_role_key'], $settings['reference_id']);
     }
 );
 

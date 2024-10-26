@@ -25,9 +25,20 @@
     <severity>0</severity>
   </rule>
 
-  <exclude-pattern>/vendor/*</exclude-pattern>
 
   <!-- Define your source files or directories -->
   <file>src</file>
   <file>tests</file>
+
+ <!-- Exclude vendor directory with multiple patterns -->
+  <exclude-pattern>*/api/vendor/*</exclude-pattern>
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern type="relative">^vendor/.*$</exclude-pattern>
+  <exclude-pattern>/vendor/</exclude-pattern>
+  <exclude-pattern>*/vendor/</exclude-pattern>
+  <exclude-pattern>./vendor/*</exclude-pattern>
+
+  <!-- Arguments -->
+  <arg name="ignore" value="vendor"/>
+  <arg name="basepath" value="."/>
 </ruleset>

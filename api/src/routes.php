@@ -16,7 +16,6 @@ return function (App $app) {
         }
     );
 
-
     $app->post(
         '/stripe-webhooks', [StripeService::class, 'handleWebhook']    
     );
