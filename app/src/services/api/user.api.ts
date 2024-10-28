@@ -12,6 +12,7 @@ export const signUpSupabase = async (inputData: {
     email,
     password,
     options: {
+      emailRedirectTo: 'https://app.eleno.net/first-steps',
       data: {
         firstName,
         lastName,

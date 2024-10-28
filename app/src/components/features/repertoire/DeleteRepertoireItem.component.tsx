@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import parse from 'html-react-parser'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { RepertoireItem } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -35,8 +37,9 @@ function DeleteRepertoireItem({
   return (
     <div className='max-w-[450px]'>
       <DialogDescription>
-        Möchtest du den Song <b>«{itemToDelete.title}»</b> wirklich aus dem
-        Repertoire entfernen?
+        Möchtest du den Song{' '}
+        <b>«{parse(removeHTMLAttributes(itemToDelete.title))}»</b> wirklich aus
+        dem Repertoire entfernen?
       </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
         <Button

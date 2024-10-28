@@ -6,6 +6,7 @@ import ButtonRemove from '@/components/ui/buttonRemove'
 import { useCreateRepertoireItem } from './useCreateRepertoireItem'
 import { useState } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import CustomEditor from '@/components/ui/CustomEditor.component'
 
 interface AddRepertoireItemProps {
   holderId: number
@@ -34,6 +35,10 @@ function CreateRepertoireItem({
     setItem((prev) => ({ ...prev, title: e.target.value }))
   }
 
+  const handleChangeHTMLTitle = (e: string) => {
+    setItem((prev) => ({ ...prev, title: e }))
+  }
+
   const handleChangeStart = (date: Date | undefined) => {
     setItem((prev) => ({ ...prev, startDate: date }))
   }
@@ -53,20 +58,28 @@ function CreateRepertoireItem({
   }
   return (
     <div className='flex gap-2 items-end sm:items-center sm:mb-12 mb-8 mt-6'>
-      <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
+      <div className='bg-background100 grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <span className='hidden sm:block absolute left-1 top-[-26px] text-foreground/80 text-sm'>
             Song
           </span>
-          <Input
-            autoFocus={!isMobile}
-            placeholder='Song...'
-            className='border-none'
-            type='text'
-            name='title'
-            onChange={handleChangeTitle}
-            value={item.title}
-          />
+          {isMobile ? (
+            <Input
+              autoFocus={!isMobile}
+              placeholder='Song...'
+              className='border-none'
+              type='text'
+              name='title'
+              onChange={handleChangeTitle}
+              value={item.title}
+            />
+          ) : (
+            <CustomEditor
+              type='mini'
+              value={item.title}
+              onChange={(e) => handleChangeHTMLTitle(e)}
+            />
+          )}
         </div>
 
         <div>
