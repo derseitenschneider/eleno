@@ -134,7 +134,7 @@ function CustomEditor({
               opacity: isFocus ? '1' : '0',
               pointerEvents: isFocus ? 'all' : 'none',
               visibility: isFocus ? 'visible' : 'hidden',
-              transition: 'opacity ease-in 150ms',
+              transition: 'all ease-in 180ms',
             }}
             tabIndex={-1}
             aria-disabled={disabled}
