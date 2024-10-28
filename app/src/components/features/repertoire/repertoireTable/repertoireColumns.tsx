@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
@@ -53,22 +55,22 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
       const { userLocale } = useUserLocale()
       const startDate = row.getValue('startDate')
         ? new Date(row.getValue('startDate')).toLocaleString(userLocale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-          })
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        })
         : null
       const endDate = row.getValue('endDate')
         ? new Date(row.getValue('endDate')).toLocaleString(userLocale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-          })
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        })
         : null
 
       return (
         <div className='flex gap-2 items-center'>
-          <span>{row.getValue('title')}</span>
+          <span>{parse(removeHTMLAttributes(row.getValue('title')))}</span>
           <Popover>
             <PopoverTrigger>
               <InfoIcon className='sm:hidden h-3 w-3 text-primary' />

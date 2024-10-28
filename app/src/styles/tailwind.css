@@ -176,6 +176,7 @@ h5 {
   @apply !border-hairline mt-[10px] text-base;
 }
 
+
 .rsw-toolbar {
   @apply justify-between !bg-background50 !border-hairline
 }
@@ -201,6 +202,23 @@ h5 {
   @apply bg-background50/40 h-[170px] overflow-auto no-scrollbar text-foreground !p-[10px] focus:bg-background100;
 }
 
+/* Mini Editor */
+.rsw-editor:has(span[data-type="mini"]) {
+
+  @apply bg-background100;
+  margin-top: unset;
+  min-height: unset;
+  font-size: 16px;
+}
+
+.rsw-editor:has(span[data-type="mini"]) .rsw-ce {
+  height: 36px;
+  padding: 8px 12px !important;
+}
+
+.rsw-editor:has(span[data-type="mini"]) .rsw-toolbar {
+  @apply !bg-background100 border border-hairline rounded-b-md;
+}
 
 .rsw-ce ul,
 .rsw-ce ol {

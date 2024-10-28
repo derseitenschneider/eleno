@@ -7,6 +7,8 @@ import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
 import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 import { DialogDescription } from '@/components/ui/dialog'
+import CustomEditor from '@/components/ui/CustomEditor.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface UpdateRepertoireItemProps {
   itemId: number
@@ -20,6 +22,7 @@ function UpdateRepertoireItem({
   onCloseModal,
 }: UpdateRepertoireItemProps) {
   const queryClient = useQueryClient()
+  const isMobile = useIsMobileDevice()
 
   const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
   const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
@@ -50,20 +53,28 @@ function UpdateRepertoireItem({
   }
 
   return (
-    <div className='md:min-w-[700px] lg:min-w-[800px] flex gap-2 items-end sm:items-center'>
+    <div className='md:min-w-[700px] pb-10 lg:min-w-[800px] flex gap-2 items-end sm:items-center'>
       <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <DialogDescription className='hidden'>
             Bearbeite den Song
           </DialogDescription>
-          <Input
-            placeholder='Song...'
-            className='border-none'
-            type='text'
-            name='title'
-            onChange={handleChangeTitle}
-            value={item.title}
-          />
+          {isMobile ? (
+            <Input
+              placeholder='Song...'
+              className='border-none'
+              type='text'
+              name='title'
+              onChange={handleChangeTitle}
+              value={item.title}
+            />
+          ) : (
+            <CustomEditor
+              type='mini'
+              value={item.title}
+              onChange={(e) => setItem((prev) => ({ ...prev, title: e }))}
+            />
+          )}
         </div>
 
         <div>

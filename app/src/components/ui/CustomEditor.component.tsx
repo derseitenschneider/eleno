@@ -83,6 +83,7 @@ type CustomEditorProps = {
   onChange: (content: string) => void
   disabled?: boolean
   placeholder?: string
+  type?: 'normal' | 'mini'
 }
 
 function CustomEditor({
@@ -90,9 +91,11 @@ function CustomEditor({
   onChange,
   disabled,
   placeholder = '',
+  type = 'normal',
 }: CustomEditorProps) {
   const [showPlaceholder, setShowPlaceholder] = useState(!value)
   const [selectedButtons, setSelectedButtons] = useState<Array<string>>([])
+  const [isFocus, setIsFocus] = useState(false)
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
@@ -107,12 +110,55 @@ function CustomEditor({
 
   function handlePaste(e: ClipboardEvent) {
     e.preventDefault()
-
     const pastedText =
       e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
     const cleanedText = saniziteHtmlforEditor(pastedText)
     document.execCommand('insertHTML', false, cleanedText)
   }
+
+  if (type === 'mini')
+    return (
+      <EditorProvider>
+        <Editor
+          onPaste={handlePaste}
+          value={value}
+          disabled={disabled}
+          onChange={onChangeEditor}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+        >
+          <Toolbar
+            style={{
+              position: 'absolute',
+              bottom: 'calc(-100% + 4px)',
+              opacity: isFocus ? '1' : '0',
+              pointerEvents: isFocus ? 'all' : 'none',
+              visibility: isFocus ? 'visible' : 'hidden',
+              transition: 'opacity ease-in 150ms',
+            }}
+            tabIndex={-1}
+            aria-disabled={disabled}
+          >
+            <div className='flex'>
+              <BtnBold title='Fett' tabIndex={-1} className='p-2' />
+              <BtnItalic title='Kursiv' tabIndex={-1} />
+              <BtnUnderline title='Unterstrich' tabIndex={-1} />
+              <BtnStrikeThrough title='Durchgestrichen' tabIndex={-1} />
+              <BtnLink title='Link' tabIndex={-1} />
+            </div>
+          </Toolbar>
+          <span data-type='mini' />
+          <span
+            className={cn(
+              'text-foreground/70 pointer-events-none',
+              'absolute bottom-[5px] left-[10px]',
+            )}
+          >
+            {value ? '' : placeholder}
+          </span>
+        </Editor>
+      </EditorProvider>
+    )
 
   return (
     <EditorProvider>
