@@ -12,16 +12,23 @@
 
     <!-- Exclude the rule for missing function comment -->
     <exclude name="PEAR.Commenting.FunctionComment"/>
+    <exclude name="PEAR.Commenting.ClassComment.Missing"/>
   </rule>
 
   <!-- Explicitly set severity to 0 for FileComment and ClassComment -->
   <rule ref="PEAR.Commenting.FileComment">
     <severity>0</severity>
   </rule>
+
   <rule ref="PEAR.Commenting.ClassComment">
     <severity>0</severity>
   </rule>
+
   <rule ref="PEAR.Commenting.FunctionComment">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="PEAR.Commenting.ClassComment.Missing">
     <severity>0</severity>
   </rule>
 
