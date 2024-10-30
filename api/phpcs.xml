@@ -32,6 +32,10 @@
     <severity>0</severity>
   </rule>
 
+  <rule ref="Generic.Commenting.DocComment.MissingShort">
+    <severity>0</severity>
+  </rule>
+
 
   <!-- Define your source files or directories -->
   <file>src</file>

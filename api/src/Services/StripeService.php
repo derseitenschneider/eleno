@@ -8,8 +8,7 @@ use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Event;
 use Stripe\Invoice;
-use Stripe\PaymentIntent;
-use Stripe\Service\Checkout\CheckoutServiceFactory;
+use Stripe\Subscription;
 
 class StripeService
 {
@@ -42,42 +41,34 @@ class StripeService
         switch ($event->type) {
         case 'invoice.paid':
             /**
-             * The invoice object.
-               *
              * @var Invoice $invoice 
               */
             $invoice =  $event->data->object;
             $this->_handleCreatePayment($invoice);
             break;
 
-        case 'checkout.session.completed':
-            $checkoutSession = new Session($event->data->object);
-            $this->_handleCreateStripeCustomer($checkoutSession);
-
-            if ('subscription' === $checkoutSession->mode) {
-                $this->_handleCreateSubscription($checkoutSession);
-            }
+        // case 'checkout.session.completed':
+        //     $checkoutSession = new Session($event->data->object);
+        //     $this->_handleCreateStripeCustomer($checkoutSession);
+        //
+        //     if ('subscription' === $checkoutSession->mode) {
+        //         $this->_handleCreateSubscription($checkoutSession);
+        //     }
+        //     break;
+        case 'customer.subscription.created':
+            /**
+ * @var Subscription $subscription 
+*/
+            $subscription = $event->data->object;
+            $this->_handleCreateSubscription($subscription);
             break;
         }
-
-
         return $response->withStatus(200);
     }
 
     private function _handleCreatePayment(Invoice $invoice)
     {
-        logDebug($invoice->customer);
-        // Update table payments
-        $attrs = array(
-        'stripe_customer_id' => $invoice->customer,
-        'stripe_invoice_id' => $invoice->lines->data[0]->invoice,
-        'stripe_product_id' => $invoice->lines->data[0]->price->product,
-        'amount' => $invoice->amount_paid,
-        'currency' => $invoice->currency,
-        'status' => $invoice->status
-        );
-
-        $this->supabase->createPayment(...$attrs);
+        $this->supabase->createPayment($invoice);
     }
 
     private function _handleCreateStripeCustomer(Session $session)
@@ -88,14 +79,9 @@ class StripeService
         $this->supabase->createStripeCustomer($user_id, $stripe_customer_id);
     }
 
-    private function _handleCreateSubscription(Session $session)
+    private function _handleCreateSubscription(Subscription $subscription)
     {
-        $attrs = array(
-        'user_id' => $session->client_reference_id,
-        'stripe_subscription_id' => $session->subscription,
-        'status' => $session->status,
-        'current_period_start' => $session->created,
-        'current_period_end' => $session->after_expiration
-        );
+        $subscription->status = 'pending';
+        $this->supabase->createSubscription($subscription);
     }
 }

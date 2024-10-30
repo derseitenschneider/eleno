@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use Stripe\Invoice;
 
 class SupabaseService
 {
@@ -74,35 +75,27 @@ class SupabaseService
                 )
             ))
         );
-
-        logDebug($res);
     }
 
-    public function createPayment(
-        string $stripe_customer_id,
-        string $stripe_invoice_id,
-        string $stripe_product_id,
-        int $amount,
-        string $currency,
-        string $status,
-    ) {
+    public function createPayment( Invoice $invoice)
+    {
         $res = $this->_client->post(
-            'rest/v1/payments',
+            'rest/v1/rpc/handle_invoice_paid',
             array(
-            'body' => json_encode(
-                array(
-                'stripe_customer_id' => $stripe_customer_id,
-                'stripe_invoice_id' => $stripe_invoice_id,
-                'stripe_product_id' => $stripe_product_id,
-                'amount' => $amount,
-                'currency' => $currency,
-                'status' => $status,
-                )
-            )
+            'json' => array( 'invoice_data' => $invoice)            
             )
         );
-        logDebug($res);
     }
 
     // Set subscription
+    public function createSubscription( $args)
+    {
+        $res =  $this->_client->post(
+            'rest/v1/rpc/handle_subscription_created',
+            array(
+            'json' => array( 'subscription_data' => $args)
+            )
+        );
+
+    }
 }
