@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Stripe\Checkout\Session;
@@ -40,25 +41,19 @@ class StripeService
 
         switch ($event->type) {
         case 'invoice.paid':
-            /**
-             * @var Invoice $invoice 
-              */
+            /** @var Invoice $invoice */
             $invoice =  $event->data->object;
             $this->_handleCreatePayment($invoice);
             break;
 
-        // case 'checkout.session.completed':
-        //     $checkoutSession = new Session($event->data->object);
-        //     $this->_handleCreateStripeCustomer($checkoutSession);
-        //
-        //     if ('subscription' === $checkoutSession->mode) {
-        //         $this->_handleCreateSubscription($checkoutSession);
-        //     }
-        //     break;
+        case 'checkout.session.completed':
+            /** @var Session $chekoutSession */
+            $checkoutSession = $event->data->object;
+            $this->_handleCheckoutCompleted($checkoutSession);
+            break;
+
         case 'customer.subscription.created':
-            /**
- * @var Subscription $subscription 
-*/
+            /** @var Subscription $subscription */
             $subscription = $event->data->object;
             $this->_handleCreateSubscription($subscription);
             break;
@@ -66,19 +61,31 @@ class StripeService
         return $response->withStatus(200);
     }
 
+    /**
+     * Handle webhook invoice.paid
+     *
+     * @param Invoice $invoice 
+     */
     private function _handleCreatePayment(Invoice $invoice)
     {
         $this->supabase->createPayment($invoice);
     }
 
-    private function _handleCreateStripeCustomer(Session $session)
+    /**
+     * Handle webhook checkout.session.completed
+     *
+     * @param Session $session 
+     */
+    private function _handleCheckoutCompleted(Session $session)
     {
-        $user_id = $session->client_reference_id;
-        $stripe_customer_id = $session->customer;
-
-        $this->supabase->createStripeCustomer($user_id, $stripe_customer_id);
+        $this->supabase->completeCheckout($session);
     }
 
+    /**
+     * Handle webhook customer.subscription.created
+     *
+     * @param Subscription $subscription 
+     */
     private function _handleCreateSubscription(Subscription $subscription)
     {
         $subscription->status = 'pending';

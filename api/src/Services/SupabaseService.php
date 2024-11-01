@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Stripe\Checkout\Session;
 use Stripe\Invoice;
 
 class SupabaseService
@@ -40,43 +42,27 @@ class SupabaseService
         return $data[0] ?? null;
     }
 
-    // Get product
-    public function getProduct(string $stripe_product_id)
+    /**
+     * Complete checkout
+     *
+     * @param Session $session 
+     */
+    public function completeCheckout(Session $session)
     {
-        $product = $this->_client->get(
-            'rest/v1/products',
-            array('query' => array(
-            'select' => '*',
-            'stripe_product_id' => $stripe_product_id
-            ))
-        );
-
-        return $product;
-    }
-
-    // Get user
-    public function isSubscription($product)
-    {
-        if ($product->type === 'subscription') {
-            return true;
-        }
-        return false;
-    }
-
-    // Set stripe_customer
-    public function createStripeCustomer(string $user_id, string $stripe_customer_id)
-    {
+        logDebug($session);
         $res =  $this->_client->post(
-            'rest/v1/stripe_customers',
-            array('body' => json_encode(
-                array(
-                'user_id' => $user_id,
-                'stripe_customer_id' => $stripe_customer_id
-                )
-            ))
+            'rest/v1/rpc/handle_checkout_completed',
+            array(
+            'json' => array('session_data' => $session)
+            )
         );
     }
 
+    /**
+     *  Create payment
+     *
+     * @param Invoice $invoice 
+     */
     public function createPayment( Invoice $invoice)
     {
         $res = $this->_client->post(
@@ -87,7 +73,11 @@ class SupabaseService
         );
     }
 
-    // Set subscription
+    /**
+     * Create subscription
+     *
+     * @param mixed $args 
+     */
     public function createSubscription( $args)
     {
         $res =  $this->_client->post(

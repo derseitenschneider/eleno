@@ -3,19 +3,14 @@
   <description>Custom coding standard to exclude specific comment errors</description>
   <!-- Include the PEAR standard -->
   <rule ref="PEAR">
-
-    <!-- Exclude the rule for missing file comment -->
     <exclude name="PEAR.Commenting.FileComment"/>
-
-    <!-- Exclude the rule for missing class comment -->
     <exclude name="PEAR.Commenting.ClassComment"/>
-
-    <!-- Exclude the rule for missing function comment -->
     <exclude name="PEAR.Commenting.FunctionComment"/>
     <exclude name="PEAR.Commenting.ClassComment.Missing"/>
+    <exclude name="PEAR.Commenting.InlineComment"/>
+    <exclude name="PEAR.Commenting.BlockComment"/>
   </rule>
 
-  <!-- Explicitly set severity to 0 for FileComment and ClassComment -->
   <rule ref="PEAR.Commenting.FileComment">
     <severity>0</severity>
   </rule>
@@ -32,16 +27,31 @@
     <severity>0</severity>
   </rule>
 
+  <rule ref="Generic.Commenting.DocComment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Commenting.BlockComment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Commenting.InlineComment">
+    <severity>0</severity>
+  </rule>
   <rule ref="Generic.Commenting.DocComment.MissingShort">
     <severity>0</severity>
   </rule>
 
+  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
+      <severity>0</severity>
+  </rule>
 
-  <!-- Define your source files or directories -->
+  <rule ref="Squiz.Commenting.DocCommentAlignment">
+      <severity>0</severity>
+  </rule>
+
+
   <file>src</file>
   <file>tests</file>
 
- <!-- Exclude vendor directory with multiple patterns -->
   <exclude-pattern>*/api/vendor/*</exclude-pattern>
   <exclude-pattern>vendor/*</exclude-pattern>
   <exclude-pattern type="relative">^vendor/.*$</exclude-pattern>
@@ -49,7 +59,6 @@
   <exclude-pattern>*/vendor/</exclude-pattern>
   <exclude-pattern>./vendor/*</exclude-pattern>
 
-  <!-- Arguments -->
   <arg name="ignore" value="vendor"/>
   <arg name="basepath" value="."/>
 </ruleset>
