@@ -6,7 +6,7 @@ export default function SubscriptionPage() {
   const { user } = useUser()
   const { userLocale } = useUserLocale()
 
-  const basePathYearly = 'https://buy.stripe.com/test_6oEeYWeVR3wW7mwfZ0'
+  const basePathYearly = 'https://buy.stripe.com/test_00gbMK5lh5F4gX67sv'
 
   if (!user) return null
 

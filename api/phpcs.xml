@@ -11,6 +11,7 @@
     <exclude name="PEAR.Commenting.BlockComment"/>
   </rule>
 
+    <rule ref="PSR12"/>
   <rule ref="PEAR.Commenting.FileComment">
     <severity>0</severity>
   </rule>
