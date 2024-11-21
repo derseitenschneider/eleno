@@ -8,4 +8,3 @@ $content = <<<HTML
 HTML;
 
 require __DIR__ . '/base.php';
-?>

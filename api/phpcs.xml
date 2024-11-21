@@ -1,65 +1,137 @@
 <?xml version="1.0"?>
-<ruleset name="CustomStandard">
-  <description>Custom coding standard to exclude specific comment errors</description>
-  <!-- Include the PEAR standard -->
-  <rule ref="PEAR">
-    <exclude name="PEAR.Commenting.FileComment"/>
-    <exclude name="PEAR.Commenting.ClassComment"/>
-    <exclude name="PEAR.Commenting.FunctionComment"/>
-    <exclude name="PEAR.Commenting.ClassComment.Missing"/>
-    <exclude name="PEAR.Commenting.InlineComment"/>
-    <exclude name="PEAR.Commenting.BlockComment"/>
-  </rule>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Morntag Custom PHPCS Rules">
+    <description>Morntag rules for PHP_CodeSniffer</description>
 
-    <rule ref="PSR12"/>
-  <rule ref="PEAR.Commenting.FileComment">
-    <severity>0</severity>
-  </rule>
+    <!-- Exclude vendor directory -->
+    <exclude-pattern>/vendor/*</exclude-pattern>
 
-  <rule ref="PEAR.Commenting.ClassComment">
-    <severity>0</severity>
-  </rule>
+    <!-- Include WordPress rulesets -->
+    <!-- <rule ref="WordPress-Extra"/> -->
+    <rule ref="WordPress-Core"/>
+    <!-- <rule ref="WordPress-Docs"/> -->
+    <!-- Exclude specific WordPress rules -->
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
 
-  <rule ref="PEAR.Commenting.FunctionComment">
-    <severity>0</severity>
-  </rule>
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
 
-  <rule ref="PEAR.Commenting.ClassComment.Missing">
-    <severity>0</severity>
-  </rule>
+    <!-- Ignore specific Squiz rules -->
+    <rule ref="Squiz.Commenting.FileComment.Missing">
+        <severity>0</severity>
+    </rule>
 
-  <rule ref="Generic.Commenting.DocComment">
-    <severity>0</severity>
-  </rule>
-  <rule ref="PEAR.Commenting.BlockComment">
-    <severity>0</severity>
-  </rule>
-  <rule ref="PEAR.Commenting.InlineComment">
-    <severity>0</severity>
-  </rule>
-  <rule ref="Generic.Commenting.DocComment.MissingShort">
-    <severity>0</severity>
-  </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.WrongStyle">
+        <severity>0</severity>
+    </rule>
 
-  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.VariableComment.Missing">
       <severity>0</severity>
-  </rule>
+    </rule>
 
-  <rule ref="Squiz.Commenting.DocCommentAlignment">
+    <rule ref="Squiz.Commenting.FileComment.WrongStyle">
       <severity>0</severity>
-  </rule>
+    </rule>
 
+    <rule ref="Squiz.PHP.CommentedOutCode.Found">
+      <severity>0</severity>
+    </rule>
 
-  <file>src</file>
-  <file>tests</file>
+    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
+      <severity>0</severity>
+    </rule>
 
-  <exclude-pattern>*/api/vendor/*</exclude-pattern>
-  <exclude-pattern>vendor/*</exclude-pattern>
-  <exclude-pattern type="relative">^vendor/.*$</exclude-pattern>
-  <exclude-pattern>/vendor/</exclude-pattern>
-  <exclude-pattern>*/vendor/</exclude-pattern>
-  <exclude-pattern>./vendor/*</exclude-pattern>
+    <rule ref="WordPress.PHP.DontExtract.extract_extract">
+      <severity>0</severity>
+    </rule>
 
-  <arg name="ignore" value="vendor"/>
-  <arg name="basepath" value="."/>
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fopen">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.DateTime.RestrictedFunctions.date_date">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.json_encode_json_encode">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fwrite">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fclose">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotValidated">
+      <severity>0</severity>
+    </rule>
+ 
+    <rule ref="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
+      <severity>0</severity>
+    </rule>
+    
+    <rule ref="WordPress.PHP.NoSilencedErrors.Discouraged">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase">
+      <severity>0</severity>
+    </rule>
+  
+    <rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase">
+      <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
+      <severity>0</severity>
+    </rule>
+    <!-- Specify indentation -->
+    <arg name="tab-width" value="4"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="4"/>
+            <property name="tabIndent" value="true"/>
+        </properties>
+    </rule>
 </ruleset>
+

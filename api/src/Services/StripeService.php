@@ -2,84 +2,54 @@
 
 namespace App\Services;
 
+use Config\Config;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Event;
-use Stripe\Subscription;
 
-class StripeService
-{
+class StripeService {
 
-    public function __construct(private SupabaseService $supabase)
-    {
-    }
+	public function __construct( private SupabaseService $supabase ) {
+	}
 
-    public static function initialize()
-    {
-        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
-    }
+	public static function initialize() {
+		Stripe::setApiKey( Config::getInstance()->stripeSecretKey );
+	}
 
-    public function handleWebhook(Request $request, Response $response)
-    {
-        $payload = @file_get_contents('php://input');
-        $event = null;
+	public function handleWebhook( Request $request, Response $response ) {
+		$payload = @file_get_contents( 'php://input' );
+		$event   = null;
 
-        try {
-            $event = Event::constructFrom(
-                json_decode($payload, true)
-            );
-        } catch (\UnexpectedValueException $e) {
-            echo 'Webhook error while parsing basic request.' . $e->getMessage();
-            http_response_code(400);
-            exit();
-        }
+		try {
+			$event = Event::constructFrom(
+				json_decode( $payload, true )
+			);
+		} catch ( \UnexpectedValueException $e ) {
+			echo 'Webhook error while parsing basic request.' . esc_html( $e->getMessage() );
+			http_response_code( 400 );
+			exit();
+		}
 
-        switch ($event->type) {
-        // case 'invoice.paid':
-        //     /** @var Invoice $invoice */
-        //     $invoice =  $event->data->object;
-        //     $this->_handleInvoicePaid($invoice);
-        //     break;
-        //
-        case 'checkout.session.completed':
-            /** @var Session $chekoutSession */
-            $checkoutSession = $event->data->object;
-        
-            $this->_handleCheckoutCompleted($checkoutSession);
-            break;
+		switch ( $event->type ) {
+			case 'checkout.session.completed':
+				/** @var Session $chekoutSession */
+				$checkoutSession = $event->data->object;
 
-//         case 'customer.subscription.created':
-//             /**
-//  * @var Subscription $subscription 
-// */
-//             $subscription = $event->data->object;
-//             $this->_handleCreateSubscription($subscription);
-//             break;
-        }
-        return $response->withStatus(200);
-    }
+				$this->handleCheckoutCompleted( $checkoutSession );
+				break;
+		}
+		return $response->withStatus( 200 );
+	}
 
 
-    /**
-     * Handle webhook checkout.session.completed
-     *
-     * @param Session $session 
-     */
-    private function _handleCheckoutCompleted(Session $session)
-    {
-        $this->supabase->handleCheckoutCompleted($session);
-    }
-
-    /**
-     * Handle webhook customer.subscription.created
-     *
-     * @param Subscription $subscription 
-     */
-    // private function _handleCreateSubscription(Subscription $subscription)
-    // {
-    //     $subscription->status = 'pending';
-    //     $this->supabase->createSubscription($subscription);
-    // }
+	/**
+	 * Handle webhook checkout.session.completed
+	 *
+	 * @param Session $session
+	 */
+	private function handleCheckoutCompleted( Session $session ) {
+		$this->supabase->handleCheckoutCompleted( $session );
+	}
 }

@@ -1,9 +1,9 @@
 <?php
 $pre_text = '';
-if($entity_type === 's') {
-    $pre_text = 'Hier sind deine Hausaufgaben:';
+if ( 's' === $entity_type ) {
+	$pre_text = 'Hier sind deine Hausaufgaben:';
 } else {
-    $pre_text = 'Hier sind eure Hausaufgaben:';
+	$pre_text = 'Hier sind eure Hausaufgaben:';
 }
 $content = <<<HTML
 <section class="section">
@@ -16,4 +16,3 @@ $content = <<<HTML
 HTML;
 
 require __DIR__ . '/base.php';
-?>
