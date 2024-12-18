@@ -19,12 +19,15 @@ import { useState } from 'react'
 import DeleteNote from './DeleteNote.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
+import { useUser } from '@/services/context/UserContext'
+import { isDemoMode } from '@/config'
 
 type NoteDropdownProps = {
   noteId: number
 }
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
+  const { subscriptionIsActive } = useUser()
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<'EDIT' | 'DELETE' | undefined>()
   const notes = queryClient.getQueryData(['notes']) as Array<Note> | undefined
@@ -58,14 +61,16 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
             <span>Notiz bearbeiten</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => handleDuplication()}
-            className='flex items-center gap-2'
-          >
-            <Layers2 className='h-4 w-4 text-primary' />
-            <span>Notiz duplizieren</span>
-          </DropdownMenuItem>
-
+          {subscriptionIsActive ||
+            (isDemoMode && (
+              <DropdownMenuItem
+                onClick={() => handleDuplication()}
+                className='flex items-center gap-2'
+              >
+                <Layers2 className='h-4 w-4 text-primary' />
+                <span>Notiz duplizieren</span>
+              </DropdownMenuItem>
+            ))}
           <DropdownMenuSeparator />
 
           <DropdownMenuItem

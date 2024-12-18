@@ -46,7 +46,7 @@ function Sidebar() {
           ? 'lg:before:h-0 top-[32px] h-[calc(100vh-32px)]'
           : 'top-0 lg:before:h-[1px] h-screen',
         sidebarOpen ? 'w-[180px]' : 'w-[50px]',
-        'hidden md:flex fixed left-0 z-40 flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',
+        'hidden md:flex fixed left-0 z-[60] flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',
         'after:h-full after:w-[1px] after:z-[-1] after:bg-background200 after:absolute after:top-0 after:right-0 ',
         'lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0',
       )}

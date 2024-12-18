@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useUpdateNote } from './useUpdateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Blocker } from '../subscription/Blocker'
 
 interface UpdateNoteProps {
   onCloseModal?: () => void
@@ -43,7 +44,8 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   }
 
   return (
-    <div className='sm:min-w-[500px] text-sm'>
+    <div className='relative sm:min-w-[500px] text-sm'>
+      <Blocker />
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'

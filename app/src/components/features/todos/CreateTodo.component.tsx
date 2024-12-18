@@ -9,6 +9,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useCreateTodoItem } from './useCreateTodoItem'
 import { cn } from '@/lib/utils'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { Blocker } from '../subscription/Blocker'
 
 interface AddTodoProps {
   onCloseModal?: () => void
@@ -56,7 +57,8 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
   }
 
   return (
-    <div>
+    <div className='relative'>
+      <Blocker variant='inline' />
       <form
         onSubmit={onSaveHandler}
         className={cn(

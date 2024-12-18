@@ -8,6 +8,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useQueryClient } from '@tanstack/react-query'
 import { useUpdateLesson } from './useUpdateLesson'
 import { useParams, useSearchParams } from 'react-router-dom'
+import { Blocker } from '../subscription/Blocker'
 
 type EditLessonProps = {
   lessonId: number
@@ -68,7 +69,8 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   }
 
   return (
-    <div>
+    <div className='relative'>
+      <Blocker />
       <div className='flex items-center mb-3 gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />

@@ -53,11 +53,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
 
   const activeTags = ['active', 'trial', 'lifetime']
+  const subscriptionStatus = subscription?.subscription_status || ''
 
-  const subscriptionIsActive =
-    (subscription?.subscription_status &&
-      subscription.subscription_status in activeTags) ||
-    false
+  const subscriptionIsActive = activeTags.includes(subscriptionStatus)
 
   const getUserProfiles = useCallback(async (userId: string) => {
     if (isDemoMode) {

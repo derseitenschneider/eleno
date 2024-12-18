@@ -12,6 +12,7 @@ import { useUser } from '../../../services/context/UserContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { appConfig } from '@/config'
+import { Blocker } from '../subscription/Blocker'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -85,7 +86,8 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   }
   if (!currentHolder) return null
   return (
-    <div className='text-sm'>
+    <div className='text-sm relative'>
+      <Blocker />
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.

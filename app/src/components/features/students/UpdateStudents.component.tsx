@@ -14,6 +14,7 @@ import {
 } from './CreateStudents.component'
 import { useUpdateStudents } from './useUpdateStudents'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Blocker } from '../subscription/Blocker'
 
 const MemoizedStudentFormRow = React.memo(StudentFormRow)
 
@@ -111,7 +112,8 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className={cn('w-[90vw] lg:w-[85vw] lg:min-w-[950px]')}>
+    <div className='relative w-[90vw] lg:w-[85vw] lg:min-w-[950px]'>
+      <Blocker />
       <div className='flex flex-col overflow-hidden h-full'>
         <div className={cn(grid, 'hidden lg:grid')}>
           <span />

@@ -9,6 +9,7 @@ import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 import { DialogDescription } from '@/components/ui/dialog'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { Blocker } from '../subscription/Blocker'
 
 interface UpdateRepertoireItemProps {
   itemId: number
@@ -53,7 +54,8 @@ function UpdateRepertoireItem({
   }
 
   return (
-    <div className='md:min-w-[700px] pb-10 lg:min-w-[800px] flex gap-2 items-end sm:items-center'>
+    <div className='relative md:min-w-[700px] pb-10 lg:min-w-[800px] flex gap-2 items-end sm:items-center'>
+      <Blocker variant='inline' />
       <div className='grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
         <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
           <DialogDescription className='hidden'>

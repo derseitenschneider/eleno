@@ -32,13 +32,13 @@ export const loginSupabase = async (email: string, password: string) => {
 }
 
 export const getSubscriptionApi = async (userId: string) => {
-  const { data: subscription, error } = await supabase
+  const { data: subscriptions, error } = await supabase
     .from('stripe_subscriptions')
     .select('*')
     .eq('user_id', userId)
-    .single()
+
   if (error) throw new Error(error.message)
-  return subscription
+  return subscriptions.at(0)
 }
 
 export const recoverPasswordSupabase = async (email: string) => {

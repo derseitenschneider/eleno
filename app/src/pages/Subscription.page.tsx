@@ -1,3 +1,4 @@
+import { SubscriptionInfos } from '@/components/features/subscription/SubscriptionInfos'
 import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { Link } from 'react-router-dom'
@@ -20,7 +21,7 @@ const slugs = {
 }
 
 export default function SubscriptionPage() {
-  const { user } = useUser()
+  const { user, subscriptionIsActive } = useUser()
   const { userLocale } = useUserLocale()
 
   if (!user) return null
@@ -34,6 +35,8 @@ export default function SubscriptionPage() {
   const queryString = `?${Object.entries(searchParams)
     .map(([k, v]) => `${k}=${v}`)
     .join('&')}`
+
+  if (subscriptionIsActive) return <SubscriptionInfos />
 
   return (
     <div>

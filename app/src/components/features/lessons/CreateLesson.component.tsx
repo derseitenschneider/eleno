@@ -9,8 +9,15 @@ import { useCreateLesson } from './useCreateLesson'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { useUser } from '@/services/context/UserContext'
+import { isDemoMode } from '@/config'
+import { useNavigate } from 'react-router-dom'
+import { Card } from '@/components/ui/card'
+import { Blocker } from '../subscription/Blocker'
 
 function CreateLesson() {
+  const { subscriptionIsActive } = useUser()
+  const navigate = useNavigate()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
   const { createLesson, isCreating } = useCreateLesson()
@@ -153,7 +160,8 @@ function CreateLesson() {
   if (!currentLessonHolder) return null
 
   return (
-    <div className='px-5 pt-6 pb-6 lg:pb-16 min-[1148px]:pb-0 lg:pr-4 sm:pl-6 lg:py-4'>
+    <div className='relative px-5 pt-6 pb-6 lg:pb-16 min-[1148px]:pb-0 lg:pr-4 sm:pl-6 lg:py-4'>
+      <Blocker />
       <div className='flex mb-2 gap-4 items-baseline'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker
@@ -193,7 +201,7 @@ function CreateLesson() {
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
         <div className='ml-auto  lg:mb-8 flex mt-4 items-center gap-1'>
           <Button
-            disabled={isCreating}
+            disabled={isCreating || !subscriptionIsActive}
             size='sm'
             onClick={handleSave}
             className='block ml-auto'
