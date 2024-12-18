@@ -49,15 +49,7 @@ export type Database = {
           students?: Json[] | null
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "groups_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       lessons: {
         Row: {
@@ -106,13 +98,6 @@ export type Database = {
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -172,14 +157,84 @@ export type Database = {
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      prices: {
+        Row: {
+          created_at: string | null
+          currency: Database["public"]["Enums"]["currencies"]
+          id: string
+          product_id: string | null
+          recurring_interval:
+            | Database["public"]["Enums"]["recurring_intervals"]
+            | null
+          recurring_interval_count: number | null
+          stripe_price_id: string
+          unit_amount_cents: number
+        }
+        Insert: {
+          created_at?: string | null
+          currency: Database["public"]["Enums"]["currencies"]
+          id?: string
+          product_id?: string | null
+          recurring_interval?:
+            | Database["public"]["Enums"]["recurring_intervals"]
+            | null
+          recurring_interval_count?: number | null
+          stripe_price_id: string
+          unit_amount_cents: number
+        }
+        Update: {
+          created_at?: string | null
+          currency?: Database["public"]["Enums"]["currencies"]
+          id?: string
+          product_id?: string | null
+          recurring_interval?:
+            | Database["public"]["Enums"]["recurring_intervals"]
+            | null
+          recurring_interval_count?: number | null
+          stripe_price_id?: string
+          unit_amount_cents?: number
+        }
+        Relationships: [
           {
-            foreignKeyName: "notes_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "prices_product_id_fkey"
+            columns: ["product_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
         ]
+      }
+      products: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          stripe_product_id: string
+          type: Database["public"]["Enums"]["product_types"]
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          stripe_product_id: string
+          type: Database["public"]["Enums"]["product_types"]
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          stripe_product_id?: string
+          type?: Database["public"]["Enums"]["product_types"]
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -187,40 +242,23 @@ export type Database = {
           first_name: string | null
           id: string
           last_name: string | null
-          lifetime_membership: boolean
           login_count: number | null
-          stripe_customer: string | null
-          stripe_subscription: boolean
         }
         Insert: {
           email?: string | null
           first_name?: string | null
           id: string
           last_name?: string | null
-          lifetime_membership?: boolean
           login_count?: number | null
-          stripe_customer?: string | null
-          stripe_subscription?: boolean
         }
         Update: {
           email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
-          lifetime_membership?: boolean
           login_count?: number | null
-          stripe_customer?: string | null
-          stripe_subscription?: boolean
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       repertoire: {
         Row: {
@@ -268,13 +306,6 @@ export type Database = {
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "repertoire_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       settings: {
@@ -293,15 +324,64 @@ export type Database = {
           id?: number
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "settings_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
+      }
+      stripe_subscriptions: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          currency: string | null
+          id: string
+          payment_status: string | null
+          payment_type: Database["public"]["Enums"]["payment_type"] | null
+          stripe_customer_id: string | null
+          stripe_invoice_id: string | null
+          stripe_subscription_id: string | null
+          subscription_status:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
+          trial_end: string | null
+          trial_start: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          payment_status?: string | null
+          payment_type?: Database["public"]["Enums"]["payment_type"] | null
+          stripe_customer_id?: string | null
+          stripe_invoice_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          payment_status?: string | null
+          payment_type?: Database["public"]["Enums"]["payment_type"] | null
+          stripe_customer_id?: string | null
+          stripe_invoice_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
       students: {
         Row: {
@@ -346,15 +426,7 @@ export type Database = {
           startOfLesson?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "students_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       todos: {
         Row: {
@@ -402,13 +474,6 @@ export type Database = {
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "todos_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
@@ -438,13 +503,6 @@ export type Database = {
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -483,13 +541,6 @@ export type Database = {
             columns: ["studentId"]
             isOneToOne: false
             referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notes_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -553,6 +604,16 @@ export type Database = {
     }
     Enums: {
       background_colors: "blue" | "red" | "green" | "yellow"
+      currencies: "CHF" | "EUR"
+      payment_type: "trial" | "lifetime" | "subscription"
+      product_types: "one_time" | "subscription"
+      recurring_intervals: "day" | "week" | "month" | "year"
+      subscription_status:
+        | "lifetime"
+        | "active"
+        | "canceled"
+        | "trialing"
+        | "expired"
       weekdays:
         | "Montag"
         | "Dienstag"
@@ -648,4 +709,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

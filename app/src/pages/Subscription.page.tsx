@@ -29,7 +29,7 @@ export default function SubscriptionPage() {
     prefilled_email: user.email,
     locale: userLocale,
     client_reference_id: user.id,
-  } as const
+  }
 
   const queryString = `?${Object.entries(searchParams)
     .map(([k, v]) => `${k}=${v}`)

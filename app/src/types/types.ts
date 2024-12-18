@@ -137,6 +137,11 @@ export type PartialNote = Omit<Note, 'created_at'>
 export type ContextTypeUser = {
   user: Profile | undefined
   setUser: React.Dispatch<React.SetStateAction<Profile | undefined>>
+  subscription: Subscription | undefined
+  subscriptionIsActive: boolean
+  setSubscription: React.Dispatch<
+    React.SetStateAction<Subscription | undefined>
+  >
 
   updateProfile: (data: UserMeta) => Promise<void>
   updateEmail: (email: string) => Promise<void>
@@ -254,6 +259,13 @@ export type News = {
   text: string
 }
 
+/*
+|--------------------------------------------------------------------------
+| Subscription Type
+|--------------------------------------------------------------------------
+*/
+
+export type Subscription = DBTypes['stripe_subscriptions']
 /*
 |--------------------------------------------------------------------------
 | Repertoire Types

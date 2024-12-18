@@ -10,12 +10,18 @@ import { useNavigate } from 'react-router-dom'
 import { isDemoMode } from '../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/LoginPage'
-import type { ContextTypeUser, Profile, UserMeta } from '../../types/types'
+import type {
+  ContextTypeUser,
+  Profile,
+  Subscription,
+  UserMeta,
+} from '../../types/types'
 import mockUser from '../api/mock-db/mockUser'
 import supabase from '../api/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
+  getSubscriptionApi,
   recoverPasswordSupabase,
   updateEmailSupabase,
   updatePasswordSupabase,
@@ -26,21 +32,32 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  subscription: undefined,
+  setSubscription: () => { },
+  subscriptionIsActive: false,
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
+  const [subscription, setSubscription] = useState<Subscription>()
   const [userProfile, setUserProfile] = useState<Profile>()
   const { isLoading, setIsLoading } = useLoading()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+
+  const activeTags = ['active', 'trial', 'lifetime']
+
+  const subscriptionIsActive =
+    (subscription?.subscription_status &&
+      subscription.subscription_status in activeTags) ||
+    false
 
   const getUserProfiles = useCallback(async (userId: string) => {
     if (isDemoMode) {
@@ -68,6 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setCurrentSession(session)
       if (session) {
         getUserProfiles(session.user.id)
+        getSubscription(session.user.id)
       } else {
         // setIsLoading(false)
       }
@@ -128,6 +146,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  const getSubscription = useCallback(async (userId: string) => {
+    try {
+      const subscription = await getSubscriptionApi(userId)
+      setSubscription(subscription)
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+    }
+  }, [])
+
   const logout = useCallback(async () => {
     if (isDemoMode) {
       window.location.href = 'https://eleno.net'
@@ -144,6 +171,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     user: userProfile,
+    subscription,
+    setSubscription,
+    subscriptionIsActive,
     setUser: setUserProfile,
     updateProfile: updateUserMeta,
     updateEmail,

@@ -31,6 +31,16 @@ export const loginSupabase = async (email: string, password: string) => {
   if (error) throw new Error(error.message)
 }
 
+export const getSubscriptionApi = async (userId: string) => {
+  const { data: subscription, error } = await supabase
+    .from('stripe_subscriptions')
+    .select('*')
+    .eq('user_id', userId)
+    .single()
+  if (error) throw new Error(error.message)
+  return subscription
+}
+
 export const recoverPasswordSupabase = async (email: string) => {
   const { error } = await supabase.auth.resetPasswordForEmail(email)
   if (error) throw new Error(error.message)
