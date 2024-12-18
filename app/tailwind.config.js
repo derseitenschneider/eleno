@@ -92,8 +92,10 @@ export const theme = {
     },
   },
 }
+
+import tailwindcssAnimate from 'tailwindcss-animate'
 export const plugins = [
-  require('tailwindcss-animate'),
+  tailwindcssAnimate,
   ({ addUtilities }) => {
     addUtilities({
       '.no-scrollbar': {

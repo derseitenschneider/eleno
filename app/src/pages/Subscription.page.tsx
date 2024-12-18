@@ -2,11 +2,26 @@ import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { Link } from 'react-router-dom'
 
+const urlBasePath = 'https://buy.stripe.com/'
+
+const slugs = {
+  monthly: {
+    test: 'test_00gbMK5lh5F4gX67sv',
+    live: '',
+  },
+  yearly: {
+    test: 'test_fZeg30fZV5F46is6ou',
+    live: '',
+  },
+  lifeTime: {
+    test: 'test_7sIg304hd5F47mw6ov',
+    live: '',
+  },
+}
+
 export default function SubscriptionPage() {
   const { user } = useUser()
   const { userLocale } = useUserLocale()
-
-  const basePathYearly = 'https://buy.stripe.com/test_00gbMK5lh5F4gX67sv'
 
   if (!user) return null
 
@@ -16,16 +31,31 @@ export default function SubscriptionPage() {
     client_reference_id: user.id,
   } as const
 
-  const queryString = `?${Object.keys(searchParams)
-    .map((k) => `${k}=${searchParams[k]}`)
+  const queryString = `?${Object.entries(searchParams)
+    .map(([k, v]) => `${k}=${v}`)
     .join('&')}`
 
   return (
     <div>
       <h1>Subscribe</h1>
       <div className='flex gap-4'>
-        <Link to={basePathYearly + queryString} target='_blank'>
+        <Link
+          to={urlBasePath + slugs.monthly.test + queryString}
+          target='_blank'
+        >
+          Monatlich abschliessen
+        </Link>
+        <Link
+          to={urlBasePath + slugs.yearly.test + queryString}
+          target='_blank'
+        >
           Jährlich abschliessen
+        </Link>
+        <Link
+          to={urlBasePath + slugs.lifeTime.test + queryString}
+          target='_blank'
+        >
+          Lifetime
         </Link>
       </div>
     </div>
