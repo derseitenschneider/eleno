@@ -612,7 +612,7 @@ export type Database = {
         | "lifetime"
         | "active"
         | "canceled"
-        | "trialing"
+        | "trial"
         | "expired"
       weekdays:
         | "Montag"

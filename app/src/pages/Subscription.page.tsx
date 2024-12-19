@@ -36,11 +36,9 @@ export default function SubscriptionPage() {
     .map(([k, v]) => `${k}=${v}`)
     .join('&')}`
 
-  if (subscriptionIsActive) return <SubscriptionInfos />
-
   return (
     <div>
-      <h1>Subscribe</h1>
+      <SubscriptionInfos />
       <div className='flex gap-4'>
         <Link
           to={urlBasePath + slugs.monthly.test + queryString}

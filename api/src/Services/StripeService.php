@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Config\Config;
+use App\Config\Config;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Stripe\Checkout\Session;

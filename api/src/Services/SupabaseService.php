@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Config\Config;
+use App\Config\Config;
 use GuzzleHttp\Client;
 use Stripe\Checkout\Session;
 
@@ -68,14 +68,12 @@ class SupabaseService {
 	public function updateSubscription( string $user_id, array $data ): array {
 		try {
 			$response = $this->client->request(
-				'POST', // PATCH in future
+				'PATCH', // PATCH in future
 				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
 				array(
 					// 'headers' => $this->headers,
-					// 'query' => [
-					// 'user_id' => 'eq.' . $user_id
-					// ],
-					'json' => $data,
+					'query' => array( 'user_id' => 'eq.' . $user_id ),
+					'json'  => $data,
 				)
 			);
 
