@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dialog'
 import { appConfig } from '@/config'
 import { useUser } from '@/services/context/UserContext'
+import supabase from '@/services/api/supabase'
 
 interface CancelSubscriptionProps {
   onCloseModal?: () => void
@@ -15,10 +16,19 @@ interface CancelSubscriptionProps {
 function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const { subscription } = useUser()
   async function handleDelete() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+    const token = session?.access_token
+
     const res = await fetch(
       `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}`,
       {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       },
     )
     console.log(res)

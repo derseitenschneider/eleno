@@ -20,7 +20,10 @@ class StripeService {
 
 	public function destroy( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
-		logDebug( $subscription_id );
+		$headers         = $request->getHeaders();
+		$auth_header     = $headers['Authorization'] ?? '';
+
+		logDebug( $auth_header );
 
 		echo 'destroy';
 		return $response->withStatus( 200 );
