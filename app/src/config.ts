@@ -17,6 +17,7 @@ const configSchema = z.object({
   dbUrl: z.string().url(),
   dbKey: z.string(),
   stripePublishableKey: z.string(),
+  apiUrl: z.string(),
 })
 
 const config = configSchema.parse({
@@ -25,6 +26,9 @@ const config = configSchema.parse({
   dbUrl: env.VITE_SUPABASE_URL,
   dbKey: env.VITE_SUPABASE_KEY,
   stripePublishableKey: env.VITE_STRIPE_PUBLISHABLE_KEY,
+  apiUrl: import.meta.env.DEV
+    ? 'http://localhost:8000'
+    : 'https://api.eleno.net',
 })
 
 type AppConfig = z.infer<typeof configSchema>

@@ -14,29 +14,6 @@ $dotenv->load();
 
 $container = new Container();
 
-$container->set(
-	'settings',
-	function () {
-		return include __DIR__ . '/../src/Config/settings.php';
-	}
-);
-
-$container->set(
-	SupabaseService::class,
-	function ( $c ) {
-		$settings = $c->get( 'settings' );
-		return new SupabaseService( $settings['supabase'] );
-	}
-);
-
-$container->set(
-	'db',
-	function ( $c ) {
-		$settings = $c->get( 'settings' );
-		return new CreateClient( $settings['service_role_key'], $settings['reference_id'] );
-	}
-);
-
 AppFactory::setContainer( $container );
 
 // Initialize Stripe

@@ -18,6 +18,14 @@ class StripeService {
 		Stripe::setApiKey( Config::getInstance()->stripeSecretKey );
 	}
 
+	public function destroy( Request $request, Response $response, $args ) {
+		$subscription_id = $args['subscription_id'];
+		logDebug( $subscription_id );
+
+		echo 'destroy';
+		return $response->withStatus( 200 );
+	}
+
 	public function handleWebhook( Request $request, Response $response ) {
 		$payload = @file_get_contents( 'php://input' );
 		$event   = null;

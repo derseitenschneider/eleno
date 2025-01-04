@@ -47,7 +47,6 @@ class SupabaseService {
 			return $this->updateSubscription(
 				$userId,
 				array(
-					'user_id'                => $userId,
 					'stripe_customer_id'     => $session->customer,
 					'stripe_subscription_id' => $session->subscription,
 					'stripe_invoice_id'      => $session->invoice,

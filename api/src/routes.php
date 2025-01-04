@@ -22,6 +22,11 @@ return function ( App $app ) {
 		array( StripeService::class, 'handleWebhook' )
 	);
 
+	$app->delete(
+		'/subscriptions/{subscription_id}',
+		array( StripeService::class, 'destroy' )
+	);
+
 	$app->any(
 		'{route:.*}',
 		function ( Request $request, Response $response ) {

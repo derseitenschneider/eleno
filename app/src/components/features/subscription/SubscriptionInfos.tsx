@@ -1,13 +1,17 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import CancelSubscription from './CancelSubscription.component'
+import { useState } from 'react'
 
 export function SubscriptionInfos() {
   const { userLocale } = useUserLocale()
   const { subscription, subscriptionIsActive } = useUser()
+  const [modalOpen, setModalOpen] = useState<'CANCEL' | null>(null)
 
   const isTrial = subscription?.subscription_status === 'trial'
 
@@ -46,29 +50,43 @@ export function SubscriptionInfos() {
   })
 
   return (
-    <div className='py-7'>
-      <Card className='py-4 px-6 sm:w-fit'>
-        <div className='grid grid-cols-[150px_1fr] gap-4 mb-6 w-fit'>
-          <p>Status:</p>
-          <Badge
-            variant={subscriptionIsActive ? 'default' : 'secondary'}
-            className='w-fit'
-          >
-            {subscriptionIsActive ? 'Aktiv' : 'Abgelaufen'}
-          </Badge>
-          <p>Plan:</p>
-          <p>{plan}</p>
-          <p>Laufzeit</p>
-          <p className={cn(!subscriptionIsActive && 'text-warning')}>
-            {periodStart} – {trialEnd}
-          </p>
-        </div>
-        {subscriptionIsActive && !isTrial && (
-          <Button size='sm' variant='destructive'>
-            Abo kündigen
-          </Button>
-        )}
-      </Card>
-    </div>
+    <>
+      <div className='py-7'>
+        <Card className='py-4 px-6 sm:w-fit'>
+          <div className='grid grid-cols-[150px_1fr] gap-4 mb-6 w-fit'>
+            <p>Status:</p>
+            <Badge
+              variant={subscriptionIsActive ? 'default' : 'destructive'}
+              className='w-fit'
+            >
+              {subscriptionIsActive ? 'Aktiv' : 'Abgelaufen'}
+            </Badge>
+            <p>Plan:</p>
+            <p>{plan}</p>
+            <p>Laufzeit</p>
+            <p className={cn(!subscriptionIsActive && 'text-warning')}>
+              {periodStart} – {trialEnd}
+            </p>
+          </div>
+          {subscriptionIsActive && !isTrial && (
+            <Button
+              size='sm'
+              variant='destructive'
+              onClick={() => setModalOpen('CANCEL')}
+            >
+              Abo kündigen
+            </Button>
+          )}
+        </Card>
+      </div>
+      <Dialog
+        open={modalOpen === 'CANCEL'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <CancelSubscription onCloseModal={() => setModalOpen(null)} />
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

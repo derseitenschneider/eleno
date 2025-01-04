@@ -1,6 +1,9 @@
+import CancelSubscription from '@/components/features/subscription/CancelSubscription.component'
 import { SubscriptionInfos } from '@/components/features/subscription/SubscriptionInfos'
+import { Dialog } from '@/components/ui/dialog'
 import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const urlBasePath = 'https://buy.stripe.com/'
@@ -37,28 +40,30 @@ export default function SubscriptionPage() {
     .join('&')}`
 
   return (
-    <div>
-      <SubscriptionInfos />
-      <div className='flex gap-4'>
-        <Link
-          to={urlBasePath + slugs.monthly.test + queryString}
-          target='_blank'
-        >
-          Monatlich abschliessen
-        </Link>
-        <Link
-          to={urlBasePath + slugs.yearly.test + queryString}
-          target='_blank'
-        >
-          Jährlich abschliessen
-        </Link>
-        <Link
-          to={urlBasePath + slugs.lifeTime.test + queryString}
-          target='_blank'
-        >
-          Lifetime
-        </Link>
+    <>
+      <div>
+        <SubscriptionInfos />
+        <div className='flex gap-4'>
+          <Link
+            to={urlBasePath + slugs.monthly.test + queryString}
+            target='_blank'
+          >
+            Monatlich abschliessen
+          </Link>
+          <Link
+            to={urlBasePath + slugs.yearly.test + queryString}
+            target='_blank'
+          >
+            Jährlich abschliessen
+          </Link>
+          <Link
+            to={urlBasePath + slugs.lifeTime.test + queryString}
+            target='_blank'
+          >
+            Lifetime
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
