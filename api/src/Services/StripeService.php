@@ -32,6 +32,23 @@ class StripeService {
 			return $auth_response;
 		}
 
+		try {
+			$this->stripeClient
+			->subscriptions
+			->update( $subscription_id, array( 'cancel_at_period_end' => true ) );
+
+		} catch ( \Exception $e ) {
+			$response->getBody()->write(
+				json_encode(
+					array(
+						'status'  => 'error',
+						'message' => $e->getMessage(),
+					)
+				)
+			);
+			return $response->withStatus( 404 );
+		}
+
 		$response->getBody()->write(
 			json_encode(
 				array(
@@ -40,16 +57,8 @@ class StripeService {
 				)
 			)
 		);
+		$this->supabase->cancelSubscription( $subscription_id );
 
-		try {
-			$this->stripeClient
-			->subscriptions
-			->update( $subscription_id, array( 'cancel_at_period_end' => true ) );
-
-		} catch ( \Exception $e ) {
-			return $response->withStatus( 404 );
-
-		}
 		return $response->withStatus( 200 );
 	}
 

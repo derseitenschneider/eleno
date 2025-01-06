@@ -74,6 +74,29 @@ class SupabaseService {
 		return null;
 	}
 
+	public function cancelSubscription( string $subscription_id ) {
+		try {
+			$response = $this->client->request(
+				'PATCH',
+				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
+				array(
+					'query' => array(
+						'stripe_subscription_id' => 'eq.' . $subscription_id,
+					),
+					'json'  => array( 'subscription_status' => 'canceled' ),
+				)
+			);
+
+			return array(
+				'success' => true,
+				'data'    => json_decode( $response->getBody(), true ),
+			);
+
+		} catch ( \Exception $e ) {
+			return array( 'error' => $e->getMessage() );
+		}
+	}
+
 	public function getLesson( string $homeworkKey ) {
 		$response = $this->client->get(
 			'rest/v1/lessons',
@@ -118,10 +141,9 @@ class SupabaseService {
 	public function updateSubscription( string $user_id, array $data ): array {
 		try {
 			$response = $this->client->request(
-				'PATCH', // PATCH in future
+				'PATCH',
 				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
 				array(
-					// 'headers' => $this->headers,
 					'query' => array( 'user_id' => 'eq.' . $user_id ),
 					'json'  => $data,
 				)
