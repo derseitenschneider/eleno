@@ -24,7 +24,7 @@ return function ( App $app ) {
 
 	$app->delete(
 		'/subscriptions/{subscription_id}',
-		array( StripeService::class, 'handleDelete' )
+		array( StripeService::class, 'handleCancelation' )
 	);
 
 	$app->any(
