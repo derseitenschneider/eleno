@@ -1,9 +1,6 @@
-import CancelSubscription from '@/components/features/subscription/CancelSubscription.component'
 import { SubscriptionInfos } from '@/components/features/subscription/SubscriptionInfos'
-import { Dialog } from '@/components/ui/dialog'
 import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const urlBasePath = 'https://buy.stripe.com/'
@@ -24,7 +21,7 @@ const slugs = {
 }
 
 export default function SubscriptionPage() {
-  const { user, subscriptionIsActive } = useUser()
+  const { user } = useUser()
   const { userLocale } = useUserLocale()
 
   if (!user) return null

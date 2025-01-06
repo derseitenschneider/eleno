@@ -29,12 +29,10 @@ import {
 } from '../api/user.api'
 import { useLoading } from './LoadingContext'
 import { useQueryClient } from '@tanstack/react-query'
+import { useSubscription } from './SubscriptionContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  subscription: undefined,
-  setSubscription: () => { },
-  subscriptionIsActive: false,
   setUser: () => { },
   updateProfile: () => new Promise(() => { }),
   updateEmail: () => new Promise(() => { }),
@@ -46,23 +44,11 @@ export const UserContext = createContext<ContextTypeUser>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
-  const [subscription, setSubscription] = useState<Subscription>()
   const [userProfile, setUserProfile] = useState<Profile>()
+  const { getSubscription } = useSubscription()
   const { isLoading, setIsLoading } = useLoading()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-
-  const activeTags = ['active', 'trial', 'lifetime']
-  const subscriptionStatus = subscription?.subscription_status || ''
-
-  let subscriptionIsActive = activeTags.includes(subscriptionStatus)
-
-  if (
-    subscriptionStatus === 'trial' &&
-    subscription?.trial_end &&
-    new Date(subscription.trial_end) < new Date()
-  )
-    subscriptionIsActive = false
 
   const getUserProfiles = useCallback(async (userId: string) => {
     if (isDemoMode) {
@@ -100,9 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setCurrentSession(session)
       if (session) {
         getUserProfiles(session.user.id)
+        getSubscription(session.user.id)
       }
     })
-  }, [getUserProfiles])
+  }, [getUserProfiles, getSubscription])
 
   const updateUserMeta = useCallback(async (data: UserMeta) => {
     if (isDemoMode) {
@@ -151,15 +138,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const getSubscription = useCallback(async (userId: string) => {
-    try {
-      const subscription = await getSubscriptionApi(userId)
-      setSubscription(subscription)
-    } catch (error) {
-      if (error instanceof Error) throw new Error(error.message)
-    }
-  }, [])
-
   const logout = useCallback(async () => {
     if (isDemoMode) {
       window.location.href = 'https://eleno.net'
@@ -176,9 +154,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     user: userProfile,
-    subscription,
-    setSubscription,
-    subscriptionIsActive,
     setUser: setUserProfile,
     updateProfile: updateUserMeta,
     updateEmail,

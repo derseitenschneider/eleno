@@ -27,6 +27,11 @@ return function ( App $app ) {
 		array( StripeService::class, 'handleCancelation' )
 	);
 
+	$app->patch(
+		'/subscriptions/{subscription_id}',
+		array( StripeService::class, 'handleReactivation' )
+	);
+
 	$app->any(
 		'{route:.*}',
 		function ( Request $request, Response $response ) {

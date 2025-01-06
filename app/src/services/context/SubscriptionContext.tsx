@@ -1,0 +1,103 @@
+import { createContext, useCallback, useContext, useState } from 'react'
+import type { ContextTypeSubscription, Subscription } from '../../types/types'
+import { getSubscriptionApi } from '../api/user.api'
+import { useUserLocale } from './UserLocaleContext'
+
+export const SubscriptionContext = createContext<ContextTypeSubscription>({
+  isTrial: true,
+  subscription: undefined,
+  plan: '',
+  periodStart: new Date(),
+  periodEnd: new Date(),
+  periodStartLocalized: '',
+  periodEndLocalized: '',
+  getSubscription: async () => { },
+  subscriptionIsActive: false,
+})
+
+export function SubscriptionProvider({
+  children,
+}: { children: React.ReactNode }) {
+  const { userLocale } = useUserLocale()
+  const [subscription, setSubscription] = useState<Subscription>()
+
+  let plan = ''
+  if (subscription?.subscription_status === 'trial') {
+    plan = 'Probeabo'
+  } else if (subscription?.subscription_status === 'lifetime') {
+    plan = 'Lifetime'
+  } else if (subscription?.amount === 580) {
+    plan = 'Monatlich'
+  } else plan = 'Jährlich'
+
+  const subscriptionStatus = subscription?.subscription_status || ''
+
+  let subscriptionIsActive = true
+
+  if (
+    subscriptionStatus === 'trial' &&
+    subscription?.trial_end &&
+    new Date(subscription.trial_end) < new Date()
+  )
+    subscriptionIsActive = false
+
+  const isTrial = subscription?.subscription_status === 'trial'
+
+  let startDate = ''
+  let endDate = ''
+
+  if (isTrial) {
+    startDate = subscription.trial_start || ''
+    endDate = subscription.trial_end || ''
+  } else if (plan === 'Monatlich') {
+    startDate = subscription?.updated_at || ''
+    const endDateDate = new Date(startDate)
+    endDateDate.setDate(endDateDate.getDate() + 30)
+    endDate = endDateDate.toISOString()
+  }
+
+  const periodStart = new Date(startDate)
+  const periodEnd = new Date(endDate)
+  if (periodEnd < new Date()) subscriptionIsActive = false
+
+  const periodStartLocalized = periodStart.toLocaleString(userLocale, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+
+  const periodEndLocalized = periodEnd.toLocaleString(userLocale, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+
+  const getSubscription = useCallback(async (userId: string) => {
+    try {
+      const subscription = await getSubscriptionApi(userId)
+      setSubscription(subscription)
+    } catch (error) {
+      if (error instanceof Error) throw new Error(error.message)
+    }
+  }, [])
+
+  const value = {
+    subscription,
+    plan,
+    getSubscription,
+    subscriptionIsActive,
+    periodStart,
+    periodEnd,
+    periodStartLocalized,
+    periodEndLocalized,
+    isTrial,
+  }
+
+  return (
+    <SubscriptionContext.Provider value={value}>
+      {children}
+    </SubscriptionContext.Provider>
+  )
+}
+
+export const useSubscription = () => useContext(SubscriptionContext)

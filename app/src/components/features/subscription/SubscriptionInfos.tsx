@@ -3,51 +3,37 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import { useUser } from '@/services/context/UserContext'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import CancelSubscription from './CancelSubscription.component'
 import { useState } from 'react'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import ReactivateSubscription from './ReactivateSubscription.component'
 
 export function SubscriptionInfos() {
-  const { userLocale } = useUserLocale()
-  const { subscription, subscriptionIsActive } = useUser()
-  const [modalOpen, setModalOpen] = useState<'CANCEL' | null>(null)
+  const {
+    periodStartLocalized,
+    periodEndLocalized,
+    subscriptionIsActive,
+    plan,
+    isTrial,
+    subscription,
+  } = useSubscription()
+  const [modalOpen, setModalOpen] = useState<'CANCEL' | 'REACTIVATE' | null>(
+    null,
+  )
 
-  const isTrial = subscription?.subscription_status === 'trial'
-
-  let plan = ''
-  if (subscription?.subscription_status === 'trial') {
-    plan = 'Probeabo'
-  } else if (subscription?.subscription_status === 'lifetime') {
-    plan = 'Lifetime'
-  } else if (subscription?.amount === 580) {
-    plan = 'Monatlich'
-  } else plan = 'Jährlich'
-
-  let startDate = ''
-  let endDate = ''
-
-  if (isTrial) {
-    startDate = subscription.trial_start || ''
-    endDate = subscription.trial_end || ''
-  } else if (plan === 'Monatlich') {
-    startDate = subscription?.updated_at || ''
-    const endDateDate = new Date(startDate)
-    endDateDate.setDate(endDateDate.getDate() + 30)
-    endDate = endDateDate.toISOString()
+  let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
+  let badgeLabel = 'Aktiv'
+  if (
+    subscriptionIsActive &&
+    subscription?.subscription_status === 'canceled'
+  ) {
+    badgeLabel = 'Gekündigt'
+    badgeVariant = 'warning'
   }
-
-  const periodStart = new Date(startDate).toLocaleString(userLocale, {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
-
-  const trialEnd = new Date(endDate).toLocaleString(userLocale, {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
+  if (!subscriptionIsActive) {
+    badgeVariant = 'destructive'
+    badgeLabel = 'Abgelaufen'
+  }
 
   return (
     <>
@@ -55,26 +41,34 @@ export function SubscriptionInfos() {
         <Card className='py-4 px-6 sm:w-fit'>
           <div className='grid grid-cols-[150px_1fr] gap-4 mb-6 w-fit'>
             <p>Status:</p>
-            <Badge
-              variant={subscriptionIsActive ? 'default' : 'destructive'}
-              className='w-fit'
-            >
-              {subscriptionIsActive ? 'Aktiv' : 'Abgelaufen'}
+            <Badge variant={badgeVariant} className='w-fit'>
+              {badgeLabel}
             </Badge>
             <p>Plan:</p>
             <p>{plan}</p>
             <p>Laufzeit</p>
             <p className={cn(!subscriptionIsActive && 'text-warning')}>
-              {periodStart} – {trialEnd}
+              {periodStartLocalized} – {periodEndLocalized}
             </p>
           </div>
-          {subscriptionIsActive && !isTrial && (
+          {subscriptionIsActive &&
+            !isTrial &&
+            subscription?.subscription_status !== 'canceled' && (
+              <Button
+                size='sm'
+                variant='destructive'
+                onClick={() => setModalOpen('CANCEL')}
+              >
+                Abo kündigen
+              </Button>
+            )}
+          {subscription?.subscription_status === 'canceled' && (
             <Button
               size='sm'
-              variant='destructive'
-              onClick={() => setModalOpen('CANCEL')}
+              variant='default'
+              onClick={() => setModalOpen('REACTIVATE')}
             >
-              Abo kündigen
+              Abo reaktivieren
             </Button>
           )}
         </Card>
@@ -85,6 +79,15 @@ export function SubscriptionInfos() {
       >
         <DialogContent>
           <CancelSubscription onCloseModal={() => setModalOpen(null)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={modalOpen === 'REACTIVATE'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <ReactivateSubscription onCloseModal={() => setModalOpen(null)} />
         </DialogContent>
       </Dialog>
     </>

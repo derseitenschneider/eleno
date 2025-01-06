@@ -9,13 +9,13 @@ import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
-interface CancelSubscriptionProps {
+interface ReactivateSubscriptionProps {
   onCloseModal?: () => void
 }
 
-function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
+function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
   const { subscription } = useSubscription()
-  async function handleDelete() {
+  async function handleReactivate() {
     const {
       data: { session },
     } = await supabase.auth.getSession()
@@ -24,7 +24,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
     const res = await fetch(
       `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   return (
     <div>
       <DialogHeader>
-        <DialogTitle>Möchtest du dein Abo wirklich kündigen?</DialogTitle>
+        <DialogTitle>Abo reaktivieren</DialogTitle>
       </DialogHeader>
 
       <DialogDescription>
@@ -52,10 +52,10 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
           <Button
             // disabled={}
             size='sm'
-            variant='destructive'
-            onClick={handleDelete}
+            variant='default'
+            onClick={handleReactivate}
           >
-            Abo kündigen
+            Abo reaktivieren
           </Button>
           {/* {isDeleting && <MiniLoader />} */}
         </div>
@@ -69,4 +69,4 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   )
 }
 
-export default CancelSubscription
+export default ReactivateSubscription

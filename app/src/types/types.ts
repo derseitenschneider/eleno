@@ -137,11 +137,6 @@ export type PartialNote = Omit<Note, 'created_at'>
 export type ContextTypeUser = {
   user: Profile | undefined
   setUser: React.Dispatch<React.SetStateAction<Profile | undefined>>
-  subscription: Subscription | undefined
-  subscriptionIsActive: boolean
-  setSubscription: React.Dispatch<
-    React.SetStateAction<Subscription | undefined>
-  >
 
   updateProfile: (data: UserMeta) => Promise<void>
   updateEmail: (email: string) => Promise<void>
@@ -149,6 +144,18 @@ export type ContextTypeUser = {
   deleteAccount: () => Promise<void>
   logout: () => Promise<void>
   recoverPassword: (email: string) => Promise<void>
+}
+
+export type ContextTypeSubscription = {
+  isTrial: boolean
+  plan: string
+  subscription: Subscription | undefined
+  subscriptionIsActive: boolean
+  getSubscription: (userId: string) => Promise<void>
+  periodStart: Date
+  periodEnd: Date
+  periodStartLocalized: string
+  periodEndLocalized: string
 }
 
 export type ContextTypeTodos = {

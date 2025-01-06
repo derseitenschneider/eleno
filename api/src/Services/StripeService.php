@@ -62,6 +62,45 @@ class StripeService {
 		return $response->withStatus( 200 );
 	}
 
+	public function handleReactivation( Request $request, Response $response, $args ) {
+
+		$subscription_id = $args['subscription_id'];
+		$auth_response   = $this->supabase->authorize( $request, $response );
+
+		if ( $auth_response !== null ) {
+			return $auth_response;
+		}
+
+		try {
+			$this->stripeClient
+			->subscriptions
+			->update( $subscription_id, array( 'cancel_at_period_end' => false ) );
+
+		} catch ( \Exception $e ) {
+			$response->getBody()->write(
+				json_encode(
+					array(
+						'status'  => 'error',
+						'message' => $e->getMessage(),
+					)
+				)
+			);
+			return $response->withStatus( 404 );
+		}
+
+		$response->getBody()->write(
+			json_encode(
+				array(
+					'status' => 'success',
+					'data'   => null,
+				)
+			)
+		);
+		$this->supabase->reactivateSubscription( $subscription_id );
+
+		return $response->withStatus( 200 );
+	}
+
 	public function handleWebhook( Request $request, Response $response ) {
 		$payload = @file_get_contents( 'php://input' );
 		$event   = null;
