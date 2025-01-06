@@ -24,7 +24,7 @@ return function ( App $app ) {
 
 	$app->delete(
 		'/subscriptions/{subscription_id}',
-		array( StripeService::class, 'destroy' )
+		array( StripeService::class, 'handleDelete' )
 	);
 
 	$app->any(

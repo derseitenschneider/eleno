@@ -9,6 +9,7 @@ class Config {
 	public string $supabaseUrl;
 	public string $supabaseAnonKey;
 	public string $supabaseServiceRoleKey;
+	public string $supabaseJwtSecret;
 	public string $supabaseReferenceId = 'brhpqxeowknyhrimssxw';
 	public string $stripeSecretKey;
 
@@ -17,6 +18,7 @@ class Config {
 			'SUPABASE_URL',
 			'SUPABASE_ANON_KEY',
 			'SUPABASE_SERVICE_ROLE_KEY',
+			'SUPABASE_JWT_SECRET',
 			'STRIPE_SECRET_KEY',
 		);
 
@@ -29,6 +31,7 @@ class Config {
 		$this->supabaseUrl            = $_ENV['SUPABASE_URL'];
 		$this->supabaseAnonKey        = $_ENV['SUPABASE_ANON_KEY'];
 		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICE_ROLE_KEY'];
+		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
 	}
 

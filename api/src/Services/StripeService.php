@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Config\Config;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Stripe\Checkout\Session;
@@ -18,14 +20,41 @@ class StripeService {
 		Stripe::setApiKey( Config::getInstance()->stripeSecretKey );
 	}
 
-	public function destroy( Request $request, Response $response, $args ) {
+	protected function authorize( Request $request, Response $response ) {
+		$headers     = $request->getHeaders();
+		$auth_header = $headers['Authorization'][0] ?? '';
+		if ( ! $auth_header || ! preg_match( '/^Bearer\s+(.*)$/', $auth_header, $matches ) ) {
+			$response->getBody()->write( json_encode( array( 'error' => 'No token provided' ) ) );
+			return $response->withStatus( 401 );
+		}
+
+		$jwt = $matches[1];
+
+		try {
+			$decoded = JWT::decode(
+				$jwt,
+				new Key( Config::getInstance()->supabaseJwtSecret, 'HS256' )
+			);
+		} catch ( \Firebase\JWT\ExpiredException $e ) {
+			$response->getBody()->write( json_encode( array( 'error' => 'Token has expired' ) ) );
+			return $response->withStatus( 401 );
+		} catch ( \Exception $e ) {
+			$response->getBody()->write( json_encode( array( 'error' => 'Invalid token' ) ) );
+			return $response->withStatus( 401 );
+		}
+
+		return null;
+	}
+
+	public function handleDelete( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
-		$headers         = $request->getHeaders();
-		$auth_header     = $headers['Authorization'] ?? '';
+		$auth_response   = $this->authorize( $request, $response );
 
-		logDebug( $auth_header );
+		if ( $auth_response !== null ) {
+			return $auth_response;
+		}
 
-		echo 'destroy';
+		$response->getBody()->write( json_encode( array( 'success' => 'Deletion successfull' ) ) );
 		return $response->withStatus( 200 );
 	}
 
