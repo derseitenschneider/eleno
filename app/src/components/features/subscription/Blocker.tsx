@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { appConfig } from '@/config'
-import { useUser } from '@/services/context/UserContext'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useNavigate } from 'react-router-dom'
 
 export type BlockerProps = {
@@ -9,7 +9,7 @@ export type BlockerProps = {
 }
 
 export function Blocker({ variant = 'block' }: BlockerProps) {
-  const { subscriptionIsActive } = useUser()
+  const { subscriptionIsActive } = useSubscription()
   const { isDemoMode } = appConfig
   const navigate = useNavigate()
 

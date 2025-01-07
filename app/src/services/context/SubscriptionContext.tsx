@@ -32,23 +32,15 @@ export function SubscriptionProvider({
 
   const subscriptionStatus = subscription?.subscription_status || ''
 
-  let subscriptionIsActive = true
+  const isTrial = subscriptionStatus === 'trial'
 
-  if (
-    subscriptionStatus === 'trial' &&
-    subscription?.trial_end &&
-    new Date(subscription.trial_end) < new Date()
-  )
-    subscriptionIsActive = false
-
-  const isTrial = subscription?.subscription_status === 'trial'
-
+  let subscriptionIsActive: boolean
   let startDate = ''
   let endDate = ''
 
   if (isTrial) {
-    startDate = subscription.trial_start || ''
-    endDate = subscription.trial_end || ''
+    startDate = subscription?.trial_start || ''
+    endDate = subscription?.trial_end || ''
   } else if (plan === 'Monatlich') {
     startDate = subscription?.updated_at || ''
     const endDateDate = new Date(startDate)
@@ -58,7 +50,11 @@ export function SubscriptionProvider({
 
   const periodStart = new Date(startDate)
   const periodEnd = new Date(endDate)
-  if (periodEnd < new Date()) subscriptionIsActive = false
+  if (periodEnd >= new Date()) {
+    subscriptionIsActive = true
+  } else {
+    subscriptionIsActive = false
+  }
 
   const periodStartLocalized = periodStart.toLocaleString(userLocale, {
     day: '2-digit',

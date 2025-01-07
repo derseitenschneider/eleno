@@ -19,15 +19,15 @@ import { useState } from 'react'
 import DeleteNote from './DeleteNote.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
-import { useUser } from '@/services/context/UserContext'
 import { isDemoMode } from '@/config'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type NoteDropdownProps = {
   noteId: number
 }
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
-  const { subscriptionIsActive } = useUser()
+  const { subscriptionIsActive } = useSubscription()
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<'EDIT' | 'DELETE' | undefined>()
   const notes = queryClient.getQueryData(['notes']) as Array<Note> | undefined
