@@ -8,41 +8,59 @@ import {
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useUser } from '@/services/context/UserContext'
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { toast } from 'sonner'
+import { useState } from 'react'
 
 interface ReactivateSubscriptionProps {
   onCloseModal?: () => void
 }
 
 function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
-  const { subscription } = useSubscription()
-  async function handleReactivate() {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-    const token = session?.access_token
+  const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+  const { user } = useUser()
+  const { subscription, getSubscription } = useSubscription()
 
-    const res = await fetch(
-      `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}`,
-      {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+  async function handleReactivate() {
+    if (!user) return
+    setStatus('LOADING')
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      const token = session?.access_token
+
+      const res = await fetch(
+        `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    )
-    const data = await res.json()
-    console.log(data)
+      )
+      const data = await res.json()
+      if (data.status !== 'success') throw new Error()
+
+      await getSubscription(user.id)
+      toast.info('Dein Abo wurde wiederhergestellt.')
+      setStatus('IDLE')
+      onCloseModal?.()
+    } catch (e) {
+      setStatus('ERROR')
+    }
   }
   return (
     <div>
       <DialogHeader>
-        <DialogTitle>Abo reaktivieren</DialogTitle>
+        <DialogTitle>Abo wiederherstellen</DialogTitle>
       </DialogHeader>
 
       <DialogDescription>
-        Dein Abo ist nach der Kündigung noch bis zum Ende der Laufzeit aktiv. Du
-        kannst alle erfassten Daten auch nach der Kündigung jederzeit einsehen.
+        Wenn du dein Abo wiederherstellst, wird deine Laufzeit automatisch
+        verlängert, sobald sie abläuft.
       </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
         <Button size='sm' variant='outline' onClick={onCloseModal}>
@@ -50,21 +68,21 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
         </Button>
         <div className='flex items-center gap-2'>
           <Button
-            // disabled={}
+            disabled={status === 'LOADING'}
             size='sm'
             variant='default'
             onClick={handleReactivate}
           >
-            Abo reaktivieren
+            Abo wiederherstellen
           </Button>
-          {/* {isDeleting && <MiniLoader />} */}
+          {status === 'LOADING' && <MiniLoader />}
         </div>
       </div>
-      {/* {isError && ( */}
-      {/*   <p className='mt-4 text-center text-sm text-warning'> */}
-      {/*     Es ist etwas schiefgelaufen. Versuch's nochmal. */}
-      {/*   </p> */}
-      {/* )} */}
+      {status === 'ERROR' && (
+        <p className='mt-4 text-center text-sm text-warning'>
+          Es ist etwas schiefgelaufen. Versuch's nochmal.
+        </p>
+      )}
     </div>
   )
 }

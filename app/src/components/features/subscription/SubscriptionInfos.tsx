@@ -38,7 +38,7 @@ export function SubscriptionInfos() {
   return (
     <>
       <div className='py-7'>
-        <Card className='py-4 px-6 sm:w-fit'>
+        <Card className='py-4 px-6 mb-4 sm:w-fit'>
           <div className='grid grid-cols-[150px_1fr] gap-4 mb-6 w-fit'>
             <p>Status:</p>
             <Badge variant={badgeVariant} className='w-fit'>
@@ -51,27 +51,27 @@ export function SubscriptionInfos() {
               {periodStartLocalized} – {periodEndLocalized}
             </p>
           </div>
-          {subscriptionIsActive &&
-            !isTrial &&
-            subscription?.subscription_status !== 'canceled' && (
-              <Button
-                size='sm'
-                variant='destructive'
-                onClick={() => setModalOpen('CANCEL')}
-              >
-                Abo kündigen
-              </Button>
-            )}
-          {subscription?.subscription_status === 'canceled' && (
+        </Card>
+        {subscriptionIsActive &&
+          !isTrial &&
+          subscription?.subscription_status !== 'canceled' && (
             <Button
               size='sm'
-              variant='default'
-              onClick={() => setModalOpen('REACTIVATE')}
+              variant='destructive'
+              onClick={() => setModalOpen('CANCEL')}
             >
-              Abo reaktivieren
+              Abo beenden
             </Button>
           )}
-        </Card>
+        {subscription?.subscription_status === 'canceled' && (
+          <Button
+            size='sm'
+            variant='default'
+            onClick={() => setModalOpen('REACTIVATE')}
+          >
+            Abo wiederherstellen
+          </Button>
+        )}
       </div>
       <Dialog
         open={modalOpen === 'CANCEL'}
