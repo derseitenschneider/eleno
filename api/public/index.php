@@ -1,9 +1,12 @@
 <?php
 
+use App\Config\Config;
+use App\Middleware\JWTAuthMiddleware;
 use Slim\Factory\AppFactory;
 use DI\Container;
 use App\Services\SupabaseService;
 use App\Services\StripeService;
+use Slim\Psr7\Factory\ResponseFactory;
 use Supabase\CreateClient;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -13,6 +16,46 @@ $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/..' );
 $dotenv->load();
 
 $container = new Container();
+
+$container->set(
+	Config::class,
+	function () {
+		return Config::getInstance();
+	}
+);
+
+$container->set(
+	ResponseFactory::class,
+	function () {
+		return new ResponseFactory();
+	}
+);
+
+$container->set(
+	JWTAuthMiddleware::class,
+	function ( $container ) {
+		return new JWTAuthMiddleware(
+			$container->get( Config::class ),
+			$container->get( ResponseFactory::class )
+		);
+	}
+);
+
+$container->set(
+	SupabaseService::class,
+	function ( $container ) {
+		return new SupabaseService( $container->get( Config::class ) );
+	}
+);
+
+$container->set(
+	StripeService::class,
+	function ( $container ) {
+		return new StripeService(
+			$container->get( SupabaseService::class )
+		);
+	}
+);
 
 AppFactory::setContainer( $container );
 

@@ -2,6 +2,7 @@
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use App\Controllers\HomeworkController;
+use App\Middleware\JWTAuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\StripeService;
@@ -17,19 +18,25 @@ return function ( App $app ) {
 		}
 	);
 
+	$app->group(
+		'',
+		function ( RouteCollectorProxy $group ) {
+
+			$group->delete(
+				'/subscriptions/{subscription_id}',
+				array( StripeService::class, 'handleCancelation' )
+			);
+
+			$group->patch(
+				'/subscriptions/{subscription_id}',
+				array( StripeService::class, 'handleReactivation' )
+			);
+		}
+	)->add( JWTAuthMiddleware::class );
+
 	$app->post(
 		'/stripe-webhooks',
 		array( StripeService::class, 'handleWebhook' )
-	);
-
-	$app->delete(
-		'/subscriptions/{subscription_id}',
-		array( StripeService::class, 'handleCancelation' )
-	);
-
-	$app->patch(
-		'/subscriptions/{subscription_id}',
-		array( StripeService::class, 'handleReactivation' )
 	);
 
 	$app->any(

@@ -14,8 +14,8 @@ class SupabaseService {
 	private $client;
 	private Config $config;
 
-	public function __construct() {
-		$this->config = Config::getInstance();
+	public function __construct( Config $config ) {
+		$this->config = $config;
 		$this->client = new Client(
 			array(
 				'base_uri' => $this->config->supabaseUrl,

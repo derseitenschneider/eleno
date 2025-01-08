@@ -26,79 +26,48 @@ class StripeService {
 
 	public function handleCancelation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
-		$auth_response   = $this->supabase->authorize( $request, $response );
-
-		if ( $auth_response !== null ) {
-			return $auth_response;
-		}
 
 		try {
 			$this->stripeClient
 			->subscriptions
 			->update( $subscription_id, array( 'cancel_at_period_end' => true ) );
 
-		} catch ( \Exception $e ) {
-			$response->getBody()->write(
-				json_encode(
-					array(
-						'status'  => 'error',
-						'message' => $e->getMessage(),
-					)
-				)
-			);
-			return $response->withStatus( 404 );
-		}
+			$this->supabase->cancelSubscription( $subscription_id );
 
-		$response->getBody()->write(
-			json_encode(
+			return $this->jsonResponse(
+				$response,
 				array(
 					'status' => 'success',
 					'data'   => null,
 				)
-			)
-		);
-		$this->supabase->cancelSubscription( $subscription_id );
+			);
 
-		return $response->withStatus( 200 );
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
 	}
 
 	public function handleReactivation( Request $request, Response $response, $args ) {
-
 		$subscription_id = $args['subscription_id'];
-		$auth_response   = $this->supabase->authorize( $request, $response );
-
-		if ( $auth_response !== null ) {
-			return $auth_response;
-		}
 
 		try {
 			$this->stripeClient
-			->subscriptions
-			->update( $subscription_id, array( 'cancel_at_period_end' => false ) );
+				->subscriptions
+				->update( $subscription_id, array( 'cancel_at_period_end' => false ) );
 
-		} catch ( \Exception $e ) {
-			$response->getBody()->write(
-				json_encode(
-					array(
-						'status'  => 'error',
-						'message' => $e->getMessage(),
-					)
-				)
-			);
-			return $response->withStatus( 404 );
-		}
+			$this->supabase->reactivateSubscription( $subscription_id );
 
-		$response->getBody()->write(
-			json_encode(
+			return $this->jsonResponse(
+				$response,
 				array(
 					'status' => 'success',
 					'data'   => null,
 				)
-			)
-		);
-		$this->supabase->reactivateSubscription( $subscription_id );
+			);
 
-		return $response->withStatus( 200 );
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
 	}
 
 	public function handleWebhook( Request $request, Response $response ) {
@@ -106,33 +75,37 @@ class StripeService {
 		$event   = null;
 
 		try {
-			$event = Event::constructFrom(
-				json_decode( $payload, true )
-			);
+			$event = Event::constructFrom( json_decode( $payload, true ) );
+
+			switch ( $event->type ) {
+				case 'checkout.session.completed':
+					/** @var Session $chekoutSession */
+					$checkoutSession = $event->data->object;
+
+					$this->supabase->handleCheckoutCompleted( $checkoutSession );
+					break;
+			}
+
+			return $response->withStatus( 200 );
 		} catch ( \UnexpectedValueException $e ) {
-			echo 'Webhook error while parsing basic request.' . esc_html( $e->getMessage() );
-			http_response_code( 400 );
-			exit();
+			return $this->errorResponse( $response, $e->getMessage(), 400 );
 		}
-
-		switch ( $event->type ) {
-			case 'checkout.session.completed':
-				/** @var Session $chekoutSession */
-				$checkoutSession = $event->data->object;
-
-				$this->handleCheckoutCompleted( $checkoutSession );
-				break;
-		}
-		return $response->withStatus( 200 );
 	}
 
+	private function jsonResponse( Response $response, array $data, int $status = 200 ): Response {
+		$response->getBody()->write( json_encode( $data ) );
+		return $response->withStatus( $status )
+			->withHeader( 'Content-Type', 'application/json' );
+	}
 
-	/**
-	 * Handle webhook checkout.session.completed
-	 *
-	 * @param Session $session
-	 */
-	private function handleCheckoutCompleted( Session $session ) {
-		$this->supabase->handleCheckoutCompleted( $session );
+	private function errorResponse( Response $response, string $message, int $status = 404 ): Response {
+		return $this->jsonResponse(
+			$response,
+			array(
+				'status'  => 'error',
+				'message' => $message,
+			),
+			$status
+		);
 	}
 }
