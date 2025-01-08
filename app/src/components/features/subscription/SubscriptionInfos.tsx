@@ -27,7 +27,7 @@ export function SubscriptionInfos() {
     subscriptionIsActive &&
     subscription?.subscription_status === 'canceled'
   ) {
-    badgeLabel = 'Gekündigt'
+    badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }
   if (!subscriptionIsActive) {

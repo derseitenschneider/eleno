@@ -6,12 +6,12 @@ class Config {
 
 	private static ?self $instance = null;
 
-	public string $supabaseUrl;
-	public string $supabaseAnonKey;
-	public string $supabaseServiceRoleKey;
-	public string $supabaseJwtSecret;
-	public string $supabaseReferenceId = 'brhpqxeowknyhrimssxw';
-	public string $stripeSecretKey;
+	public readonly string $supabaseUrl;
+	public readonly string $supabaseAnonKey;
+	public readonly string $supabaseServiceRoleKey;
+	public readonly string $supabaseJwtSecret;
+	public readonly string $stripeSecretKey;
+	public readonly array $corsAllowedOrigins;
 
 	private function __construct() {
 		$required = array(
@@ -33,6 +33,15 @@ class Config {
 		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICE_ROLE_KEY'];
 		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
+
+		// Load CORS origins from environment or use defaults
+		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
+			? explode( ',', $_ENV['CORS_ALLOWED_ORIGINS'] )
+			: array(
+				'https://app.eleno.net',
+				'http://localhost:5173',
+				'http://127.0.0.1:5173',
+			);
 	}
 
 	public static function getInstance(): self {

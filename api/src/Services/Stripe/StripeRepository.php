@@ -30,7 +30,7 @@ class StripeRepository {
 				'payment_status'         => $subscription->paymentStatus,
 				'amount'                 => $subscription->amount,
 				'currency'               => $subscription->currency,
-				'updated_at'             => time(),
+				'updated_at'             => date( 'Y-m-d H:i:s' ),
 			)
 		);
 	}

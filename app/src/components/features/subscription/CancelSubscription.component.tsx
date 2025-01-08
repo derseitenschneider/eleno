@@ -20,7 +20,8 @@ interface CancelSubscriptionProps {
 function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { user } = useUser()
-  const { subscription, getSubscription } = useSubscription()
+  const { subscription, getSubscription, periodEndLocalized } =
+    useSubscription()
 
   async function handleDelete() {
     if (!user) return
@@ -60,9 +61,9 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       </DialogHeader>
 
       <DialogDescription>
-        Dein Abo ist nach der Kündigung noch bis zum Ende der Laufzeit aktiv.
-        Danach kannst du keine neuen Daten erfassen. Alle bereits erfassten
-        Daten sind aber auch nach Ende der Laufzeit jederzeit für dich
+        Dein Abo ist nach der Kündigung noch bis zum <b>{periodEndLocalized}</b>{' '}
+        aktiv. Danach kannst du keine neuen Daten erfassen. Alle bereits
+        erfassten Daten sind aber auch nach Ende der Laufzeit jederzeit für dich
         verfügbar.
       </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
