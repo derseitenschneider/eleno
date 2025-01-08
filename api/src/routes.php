@@ -31,6 +31,11 @@ return function ( App $app ) {
 				'/subscriptions/{subscription_id}',
 				array( StripeService::class, 'handleReactivation' )
 			);
+
+			$group->get(
+				'/customers/{customer_id}/payment-methods',
+				array( StripeService::class, 'paymentMethods' )
+			);
 		}
 	)->add( JWTAuthMiddleware::class );
 

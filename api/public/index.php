@@ -24,9 +24,6 @@ $container = new Container();
 ( require __DIR__ . '/../src/dependencies.php' )( $container );
 AppFactory::setContainer( $container );
 
-// Initialize Stripe
-StripeAPIService::initialize();
-
 // Create App
 $app = AppFactory::create();
 

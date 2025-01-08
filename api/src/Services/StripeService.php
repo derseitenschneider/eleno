@@ -25,8 +25,24 @@ class StripeService {
 	) {
 	}
 
+	public function paymentMethods( Request $request, Response $response, $args ) {
+		$customer_id = $args['customer_id'];
 
+		try {
+			$data = $this->stripeAPI->paymentMethods( $customer_id );
 
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => $data,
+				)
+			);
+
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
+	}
 	public function handleCancelation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
 

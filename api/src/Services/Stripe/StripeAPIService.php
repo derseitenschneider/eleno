@@ -3,6 +3,8 @@
 namespace App\Services\Stripe;
 
 use App\Config\Config;
+use Stripe\Collection;
+use Stripe\PaymentMethod;
 use Stripe\StripeClient;
 use Stripe\Subscription;
 
@@ -17,11 +19,11 @@ class StripeAPIService {
 		return $this->client->subscriptions->update( $subscriptionId, $params );
 	}
 
-	public function getSubscription( string $subscriptionId ): Subscription {
+	public function subscription( string $subscriptionId ): Subscription {
 		return $this->client->subscriptions->retrieve( $subscriptionId );
 	}
 
-	public static function initialize(): void {
-		\Stripe\Stripe::setApiKey( Config::getInstance()->stripeSecretKey );
+	public function paymentMethods( string $customerId ): Collection {
+		return $this->client->customers->allPaymentMethods( $customerId );
 	}
 }

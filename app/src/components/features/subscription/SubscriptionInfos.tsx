@@ -7,6 +7,9 @@ import CancelSubscription from './CancelSubscription.component'
 import { useState } from 'react'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import ReactivateSubscription from './ReactivateSubscription.component'
+import { appConfig } from '@/config'
+import supabase from '@/services/api/supabase'
+import PaymentInfos from './PaymentInfos.component'
 
 export function SubscriptionInfos() {
   const {
@@ -17,9 +20,9 @@ export function SubscriptionInfos() {
     isTrial,
     subscription,
   } = useSubscription()
-  const [modalOpen, setModalOpen] = useState<'CANCEL' | 'REACTIVATE' | null>(
-    null,
-  )
+  const [modalOpen, setModalOpen] = useState<
+    'CANCEL' | 'REACTIVATE' | 'PAYMENT_METHODS' | null
+  >(null)
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
@@ -72,6 +75,13 @@ export function SubscriptionInfos() {
             Abo wiederherstellen
           </Button>
         )}
+        <Button
+          size='sm'
+          variant='default'
+          onClick={() => setModalOpen('PAYMENT_METHODS')}
+        >
+          Zahlungsmittel anpassen
+        </Button>
       </div>
       <Dialog
         open={modalOpen === 'CANCEL'}
@@ -88,6 +98,15 @@ export function SubscriptionInfos() {
       >
         <DialogContent>
           <ReactivateSubscription onCloseModal={() => setModalOpen(null)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={modalOpen === 'PAYMENT_METHODS'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <PaymentInfos onCloseModal={() => setModalOpen(null)} />
         </DialogContent>
       </Dialog>
     </>
