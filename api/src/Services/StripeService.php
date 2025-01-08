@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Config\Config;
+use App\Services\Stripe\StripeAPIService;
+use App\Services\Stripe\StripeRepository;
+use App\Services\Stripe\WebhookHandler;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,24 +18,28 @@ use Stripe\StripeClient;
 class StripeService {
 	private StripeClient $stripeClient;
 
-	public function __construct( private SupabaseService $supabase ) {
-		$this->stripeClient = new StripeClient( Config::getInstance()->stripeSecretKey );
+	public function __construct(
+		private StripeAPIService $stripeAPI,
+		private StripeRepository $repository,
+		private WebhookHandler $webhookHandler
+	) {
 	}
 
-	public static function initialize() {
-		Stripe::setApiKey( Config::getInstance()->stripeSecretKey );
-	}
 
 
 	public function handleCancelation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
 
 		try {
-			$this->stripeClient
-			->subscriptions
-			->update( $subscription_id, array( 'cancel_at_period_end' => true ) );
+			$this->stripeAPI->updateSubscription(
+				$subscription_id,
+				array( 'cancel_at_period_end' => true )
+			);
 
-			$this->supabase->cancelSubscription( $subscription_id );
+			$this->repository->updateSubscriptionStatus(
+				$subscription_id,
+				'canceled'
+			);
 
 			return $this->jsonResponse(
 				$response,
@@ -51,11 +58,15 @@ class StripeService {
 		$subscription_id = $args['subscription_id'];
 
 		try {
-			$this->stripeClient
-				->subscriptions
-				->update( $subscription_id, array( 'cancel_at_period_end' => false ) );
+			$this->stripeAPI->updateSubscription(
+				$subscription_id,
+				array( 'cancel_at_period_end' => false )
+			);
 
-			$this->supabase->reactivateSubscription( $subscription_id );
+			$this->repository->updateSubscriptionStatus(
+				$subscription_id,
+				'active'
+			);
 
 			return $this->jsonResponse(
 				$response,
@@ -77,14 +88,7 @@ class StripeService {
 		try {
 			$event = Event::constructFrom( json_decode( $payload, true ) );
 
-			switch ( $event->type ) {
-				case 'checkout.session.completed':
-					/** @var Session $chekoutSession */
-					$checkoutSession = $event->data->object;
-
-					$this->supabase->handleCheckoutCompleted( $checkoutSession );
-					break;
-			}
+			$this->webhookHandler->handleEvent( $event );
 
 			return $response->withStatus( 200 );
 		} catch ( \UnexpectedValueException $e ) {

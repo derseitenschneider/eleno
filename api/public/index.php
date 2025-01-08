@@ -2,6 +2,9 @@
 
 use App\Config\Config;
 use App\Middleware\JWTAuthMiddleware;
+use App\Services\Stripe\StripeAPIService;
+use App\Services\Stripe\StripeRepository;
+use App\Services\Stripe\WebhookHandler;
 use Slim\Factory\AppFactory;
 use DI\Container;
 use App\Services\SupabaseService;
@@ -49,18 +52,46 @@ $container->set(
 );
 
 $container->set(
-	StripeService::class,
+	StripeAPIService::class,
+	function () {
+		return new StripeAPIService();
+	}
+);
+
+$container->set(
+	StripeRepository::class,
 	function ( $container ) {
-		return new StripeService(
+		return new StripeRepository(
 			$container->get( SupabaseService::class )
 		);
 	}
 );
 
+$container->set(
+	WebhookHandler::class,
+	function ( $container ) {
+		return new WebhookHandler(
+			$container->get( StripeRepository::class )
+		);
+	}
+);
+
+$container->set(
+	StripeService::class,
+	function ( $container ) {
+		return new StripeService(
+			$container->get( StripeAPIService::class ),
+			$container->get( StripeRepository::class ),
+			$container->get( WebhookHandler::class )
+		);
+	}
+);
+
+StripeAPIService::initialize();
+
 AppFactory::setContainer( $container );
 
 // Initialize Stripe
-StripeService::initialize();
 
 // Create App
 $app = AppFactory::create();
