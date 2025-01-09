@@ -6,6 +6,7 @@ class Config {
 
 	private static ?self $instance = null;
 
+	public readonly string $appBaseUrl;
 	public readonly string $supabaseUrl;
 	public readonly string $supabaseAnonKey;
 	public readonly string $supabaseServiceRoleKey;
@@ -15,6 +16,7 @@ class Config {
 
 	private function __construct() {
 		$required = array(
+			'APP_BASE_URL',
 			'SUPABASE_URL',
 			'SUPABASE_ANON_KEY',
 			'SUPABASE_SERVICE_ROLE_KEY',
@@ -28,6 +30,7 @@ class Config {
 			}
 		}
 
+		$this->appBaseUrl             = $_ENV['APP_BASE_URL'];
 		$this->supabaseUrl            = $_ENV['SUPABASE_URL'];
 		$this->supabaseAnonKey        = $_ENV['SUPABASE_ANON_KEY'];
 		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICE_ROLE_KEY'];

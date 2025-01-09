@@ -36,6 +36,11 @@ return function ( App $app ) {
 				'/customers/{customer_id}/payment-methods',
 				array( StripeService::class, 'paymentMethods' )
 			);
+
+			$group->post(
+				'/customers/{customer_id}/portal',
+				array( StripeService::class, 'customerPortal' )
+			);
 		}
 	)->add( JWTAuthMiddleware::class );
 

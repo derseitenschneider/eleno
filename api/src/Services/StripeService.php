@@ -43,6 +43,29 @@ class StripeService {
 			return $this->errorResponse( $response, $e->getMessage() );
 		}
 	}
+
+	public function customerPortal( Request $request, Response $response, $args ) {
+		$customer_id = $args['customer_id'];
+
+		$body        = $request->getParsedBody();
+		$user_locale = $body['locale'] ?? '';
+
+		try {
+			$data = $this->stripeAPI->customerPortal( $customer_id, $user_locale );
+
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => $data,
+				)
+			);
+
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
+	}
+
 	public function handleCancelation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
 

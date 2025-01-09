@@ -11,16 +11,53 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useEffect, useState } from 'react'
 import type { PaymentMethod } from '@stripe/stripe-js'
 import PaymentDetail from './PaymentDetail.component'
+import { Link } from 'react-router-dom'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 
 interface PaymentInfosProps {
   onCloseModal?: () => void
 }
 
 function PaymentInfos({ onCloseModal }: PaymentInfosProps) {
+  const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+  const [portalLink, setPortalLink] = useState('')
   const [paymentMethods, setPaymentMethods] =
     useState<Array<PaymentMethod> | null>(null)
   const { subscription } = useSubscription()
+
+  useEffect(() => {
+    async function getPortalSession() {
+      setStatus('LOADING')
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
+        const token = session?.access_token
+
+        const res = await fetch(
+          `${appConfig.apiUrl}/customers/${subscription?.stripe_customer_id}/portal`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ locale: userLocale }),
+          },
+        )
+        const data = await res.json()
+        if (data.status !== 'success') throw new Error()
+        const portalSession = data.data
+        setPortalLink(portalSession.url)
+
+        setStatus('IDLE')
+      } catch (e) {
+        setStatus('ERROR')
+      }
+    }
+    getPortalSession()
+  }, [subscription?.stripe_customer_id, userLocale])
 
   useEffect(() => {
     async function getPaymentMethods() {
@@ -67,6 +104,9 @@ function PaymentInfos({ onCloseModal }: PaymentInfosProps) {
           Es ist etwas schiefgelaufen. Versuch's nochmal.
         </p>
       )}
+      <Link to={portalLink} target='_blank'>
+        Abo bearbeiten
+      </Link>
 
       {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
       {paymentMethods !== null &&

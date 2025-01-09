@@ -26,4 +26,19 @@ class StripeAPIService {
 	public function paymentMethods( string $customerId ): Collection {
 		return $this->client->customers->allPaymentMethods( $customerId );
 	}
+
+	public function customerPortal(
+		string $customerId,
+		string $locale
+		// string $returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription'
+	) {
+		$returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription';
+		return $this->client->billingPortal->sessions->create(
+			array(
+				'customer'   => $customerId,
+				'locale'     => $locale,
+				'return_url' => $returnUrl,
+			)
+		);
+	}
 }

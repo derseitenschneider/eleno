@@ -27,6 +27,9 @@ AppFactory::setContainer( $container );
 // Create App
 $app = AppFactory::create();
 
+// Body parsing middleware to support raw json post requests.
+$app->addBodyParsingMiddleware();
+
 // Add error middleware
 $app->addErrorMiddleware( true, true, true );
 
