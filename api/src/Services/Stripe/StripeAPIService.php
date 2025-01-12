@@ -19,18 +19,34 @@ class StripeAPIService {
 		return $this->client->subscriptions->update( $subscriptionId, $params );
 	}
 
-	public function subscription( string $subscriptionId ): Subscription {
-		return $this->client->subscriptions->retrieve( $subscriptionId );
+	public function updateSubscriptionSession(
+		string $customerId,
+		string $subscriptionId,
+		string $locale
+	) {
+		$returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription';
+		return $this->client->billingPortal->sessions->create(
+			array(
+				'customer'   => $customerId,
+				'locale'     => $locale,
+				'return_url' => $returnUrl,
+				'flow_data'  => array(
+					'type'                => 'subscription_update',
+					'subscription_update' => array(
+						'subscription' => $subscriptionId,
+					),
+				),
+			)
+		);
 	}
 
-	public function paymentMethods( string $customerId ): Collection {
-		return $this->client->customers->allPaymentMethods( $customerId );
+	public function subscription( string $subscriptionId ): Subscription {
+		return $this->client->subscriptions->retrieve( $subscriptionId );
 	}
 
 	public function customerPortal(
 		string $customerId,
 		string $locale
-		// string $returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription'
 	) {
 		$returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription';
 		return $this->client->billingPortal->sessions->create(

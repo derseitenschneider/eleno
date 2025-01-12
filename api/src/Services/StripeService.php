@@ -25,11 +25,19 @@ class StripeService {
 	) {
 	}
 
-	public function paymentMethods( Request $request, Response $response, $args ) {
-		$customer_id = $args['customer_id'];
+	public function updateSubscriptionSession( Request $request, Response $response, $args ) {
+		$subscriptionId = $args['subscription_id'];
+		$body           = $request->getParsedBody();
+		$customerId     = $body['customer_id'] ?? '';
+		$customerLocale = $body['locale'] ?? '';
 
 		try {
-			$data = $this->stripeAPI->paymentMethods( $customer_id );
+
+			$data = $this->stripeAPI->updateSubscriptionSession(
+				$customerId,
+				$subscriptionId,
+				$customerLocale
+			);
 
 			return $this->jsonResponse(
 				$response,
@@ -43,6 +51,8 @@ class StripeService {
 			return $this->errorResponse( $response, $e->getMessage() );
 		}
 	}
+
+
 
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];

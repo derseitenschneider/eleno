@@ -22,19 +22,22 @@ return function ( App $app ) {
 		'',
 		function ( RouteCollectorProxy $group ) {
 
+			// Cancel subscription
 			$group->delete(
 				'/subscriptions/{subscription_id}',
 				array( StripeService::class, 'handleCancelation' )
 			);
 
+			// Reactivate subscription
 			$group->patch(
 				'/subscriptions/{subscription_id}',
 				array( StripeService::class, 'handleReactivation' )
 			);
 
-			$group->get(
-				'/customers/{customer_id}/payment-methods',
-				array( StripeService::class, 'paymentMethods' )
+			// Upgrade/downgrade subscription
+			$group->post(
+				'/subscriptions/{subscription_id}/update',
+				array( StripeService::class, 'updateSubscriptionSession' )
 			);
 
 			$group->post(
