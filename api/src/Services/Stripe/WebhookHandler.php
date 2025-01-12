@@ -14,11 +14,17 @@ class WebhookHandler {
 	public function handleEvent( Event $event ): void {
 		match ( $event->type ) {
 			'checkout.session.completed' => $this->handleCheckoutCompleted( $event->data->object ),
-			default => null, // Ignore unhandled event types
+			'customer.subscription.updated' => $this->handleSubscriptionUpdated( $event->data->object ),
+			default => null,
 		};
 	}
 
 	private function handleCheckoutCompleted( Session $session ): void {
+		$subscriptionDTO = StripeSubscriptionDTO::fromCheckoutSession( $session );
+		$this->repository->saveCheckoutSession( $subscriptionDTO );
+	}
+
+	private function handleSubscriptionUpdated( Session $session ): void {
 		$subscriptionDTO = StripeSubscriptionDTO::fromCheckoutSession( $session );
 		$this->repository->saveCheckoutSession( $subscriptionDTO );
 	}
