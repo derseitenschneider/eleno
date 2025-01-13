@@ -25,6 +25,23 @@ class StripeService {
 	) {
 	}
 
+	public function createSessionMonthly( Request $request, Response $response ) {
+
+		try {
+			$data = $this->stripeAPI->createSession();
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => $data,
+				)
+			);
+		} catch ( \Exception $e ) {
+
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
+	}
+
 	public function updateSubscriptionSession( Request $request, Response $response, $args ) {
 		$subscriptionId = $args['subscription_id'];
 		$body           = $request->getParsedBody();

@@ -11,7 +11,7 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   periodEnd: new Date(),
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => { },
+  getSubscription: async () => {},
   subscriptionIsActive: false,
 })
 
@@ -23,7 +23,7 @@ export function SubscriptionProvider({
 
   let plan = ''
   if (subscription?.subscription_status === 'trial') {
-    plan = 'Probeabo'
+    plan = 'Testabo'
   } else if (subscription?.subscription_status === 'lifetime') {
     plan = 'Lifetime'
   } else if (subscription?.amount === 580) {
@@ -42,10 +42,8 @@ export function SubscriptionProvider({
     startDate = subscription?.trial_start || ''
     endDate = subscription?.trial_end || ''
   } else if (plan === 'Monatlich') {
-    startDate = subscription?.updated_at || ''
-    const endDateDate = new Date(startDate)
-    endDateDate.setDate(endDateDate.getDate() + 30)
-    endDate = endDateDate.toISOString()
+    startDate = subscription?.period_start || ''
+    endDate = subscription?.period_end || ''
   }
 
   const periodStart = new Date(startDate)

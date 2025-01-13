@@ -41,6 +41,11 @@ return function ( App $app ) {
 			);
 
 			$group->post(
+				'/sessions/create/monthly',
+				array( StripeService::class, 'createSessionMonthly' )
+			);
+
+			$group->post(
 				'/customers/{customer_id}/portal',
 				array( StripeService::class, 'customerPortal' )
 			);

@@ -159,83 +159,6 @@ export type Database = {
           },
         ]
       }
-      prices: {
-        Row: {
-          created_at: string | null
-          currency: Database["public"]["Enums"]["currencies"]
-          id: string
-          product_id: string | null
-          recurring_interval:
-            | Database["public"]["Enums"]["recurring_intervals"]
-            | null
-          recurring_interval_count: number | null
-          stripe_price_id: string
-          unit_amount_cents: number
-        }
-        Insert: {
-          created_at?: string | null
-          currency: Database["public"]["Enums"]["currencies"]
-          id?: string
-          product_id?: string | null
-          recurring_interval?:
-            | Database["public"]["Enums"]["recurring_intervals"]
-            | null
-          recurring_interval_count?: number | null
-          stripe_price_id: string
-          unit_amount_cents: number
-        }
-        Update: {
-          created_at?: string | null
-          currency?: Database["public"]["Enums"]["currencies"]
-          id?: string
-          product_id?: string | null
-          recurring_interval?:
-            | Database["public"]["Enums"]["recurring_intervals"]
-            | null
-          recurring_interval_count?: number | null
-          stripe_price_id?: string
-          unit_amount_cents?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "prices_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      products: {
-        Row: {
-          active: boolean | null
-          created_at: string | null
-          description: string | null
-          id: string
-          name: string
-          stripe_product_id: string
-          type: Database["public"]["Enums"]["product_types"]
-        }
-        Insert: {
-          active?: boolean | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          name: string
-          stripe_product_id: string
-          type: Database["public"]["Enums"]["product_types"]
-        }
-        Update: {
-          active?: boolean | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          name?: string
-          stripe_product_id?: string
-          type?: Database["public"]["Enums"]["product_types"]
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           email: string | null
@@ -333,7 +256,9 @@ export type Database = {
           currency: string | null
           id: string
           payment_status: string | null
-          payment_type: Database["public"]["Enums"]["payment_type"] | null
+          period_end: string | null
+          period_start: string | null
+          plan: Database["public"]["Enums"]["subscription_plan"] | null
           stripe_customer_id: string | null
           stripe_invoice_id: string | null
           stripe_subscription_id: string | null
@@ -342,7 +267,6 @@ export type Database = {
             | null
           trial_end: string | null
           trial_start: string | null
-          updated_at: string | null
           user_id: string | null
         }
         Insert: {
@@ -351,7 +275,9 @@ export type Database = {
           currency?: string | null
           id?: string
           payment_status?: string | null
-          payment_type?: Database["public"]["Enums"]["payment_type"] | null
+          period_end?: string | null
+          period_start?: string | null
+          plan?: Database["public"]["Enums"]["subscription_plan"] | null
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
@@ -360,7 +286,6 @@ export type Database = {
             | null
           trial_end?: string | null
           trial_start?: string | null
-          updated_at?: string | null
           user_id?: string | null
         }
         Update: {
@@ -369,7 +294,9 @@ export type Database = {
           currency?: string | null
           id?: string
           payment_status?: string | null
-          payment_type?: Database["public"]["Enums"]["payment_type"] | null
+          period_end?: string | null
+          period_start?: string | null
+          plan?: Database["public"]["Enums"]["subscription_plan"] | null
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
@@ -378,7 +305,6 @@ export type Database = {
             | null
           trial_end?: string | null
           trial_start?: string | null
-          updated_at?: string | null
           user_id?: string | null
         }
         Relationships: []
@@ -606,8 +532,8 @@ export type Database = {
       background_colors: "blue" | "red" | "green" | "yellow"
       currencies: "CHF" | "EUR"
       payment_type: "trial" | "lifetime" | "subscription"
-      product_types: "one_time" | "subscription"
       recurring_intervals: "day" | "week" | "month" | "year"
+      subscription_plan: "month" | "year"
       subscription_status:
         | "lifetime"
         | "active"

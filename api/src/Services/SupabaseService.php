@@ -135,39 +135,24 @@ class SupabaseService {
 		return $data[0] ?? null;
 	}
 
-
-	public function handleCheckoutCompleted( Session $session ): array {
-		$userId     = $session->client_reference_id;
-		$isLifetime = empty( $session->subscription );
-
-		try {
-			return $this->updateSubscription(
-				$userId,
-				array(
-					'stripe_customer_id'     => $session->customer,
-					'stripe_subscription_id' => $session->subscription,
-					'stripe_invoice_id'      => $session->invoice,
-					'payment_type'           => $isLifetime ? 'lifetime' : 'subscription',
-					'subscription_status'    => $isLifetime ? 'lifetime' : 'active',
-					'payment_status'         => $session->payment_status,
-					'amount'                 => $session->amount_total,
-					'currency'               => $session->currency,
-				)
-			);
-
-		} catch ( \Exception $e ) {
-			return array( 'error' => $e->getMessage() );
-		}
-	}
-
-
-	public function updateSubscription( string $user_id, array $data ): array {
+	public function updateSubscription(
+		array $data,
+		string $query_data,
+		string $query_field = 'user_id'
+	): array {
+		logDebug(
+			array(
+				'data'        => $data,
+				'query_data'  => $query_data,
+				'query_field' => $query_field,
+			)
+		);
 		try {
 			$response = $this->client->request(
 				'PATCH',
 				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
 				array(
-					'query' => array( 'user_id' => 'eq.' . $user_id ),
+					'query' => array( $query_field => 'eq.' . $query_data ),
 					'json'  => $data,
 				)
 			);
@@ -178,6 +163,7 @@ class SupabaseService {
 			);
 
 		} catch ( \Exception $e ) {
+			logDebug( $e->getMessage() );
 			return array( 'error' => $e->getMessage() );
 		}
 	}

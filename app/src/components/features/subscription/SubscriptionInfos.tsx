@@ -10,6 +10,7 @@ import ReactivateSubscription from './ReactivateSubscription.component'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import ButtonCustomerPortal from './ButtonCustomerPortal.component'
 import ButtonUpdatePlan from './ButtonUpdatePlan.component'
+import ButtonCheckoutMonthly from './ButtonCheckoutMonthly.component'
 
 export function SubscriptionInfos() {
   const {
@@ -77,6 +78,7 @@ export function SubscriptionInfos() {
         )}
         <ButtonCustomerPortal />
         <ButtonUpdatePlan />
+        <ButtonCheckoutMonthly />
       </div>
       <Dialog
         open={modalOpen === 'CANCEL'}

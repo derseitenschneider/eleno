@@ -2,7 +2,8 @@
 
 namespace App\Services\Stripe;
 
-use App\Services\Stripe\DTO\StripeSubscriptionDTO;
+use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
+use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\SupabaseService;
 
 class StripeRepository {
@@ -18,34 +19,28 @@ class StripeRepository {
 		};
 	}
 
-	public function saveCheckoutSession( StripeSubscriptionDTO $subscription ): array {
+	public function saveCheckoutSession( StripeCheckoutCompletedDTO $subscription ): array {
 		return $this->supabase->updateSubscription(
-			$subscription->userId,
-			array(
-				'stripe_customer_id'     => $subscription->customerId,
+			query_data: $subscription->userId,
+			data: array(
 				'stripe_subscription_id' => $subscription->subscriptionId,
 				'stripe_invoice_id'      => $subscription->invoiceId,
-				'payment_type'           => $subscription->paymentType,
 				'subscription_status'    => $subscription->subscriptionStatus,
 				'payment_status'         => $subscription->paymentStatus,
 				'amount'                 => $subscription->amount,
 				'currency'               => $subscription->currency,
-				'updated_at'             => date( 'Y-m-d H:i:s' ),
 			)
 		);
 	}
-	public function saveSubpscriptionUpdate( StripeSubscriptionDTO $subscription ): array {
+	public function saveSubpscriptionUpdated( StripeSubscriptionUpdatedDTO $subscription ): array {
 		return $this->supabase->updateSubscription(
-			$subscription->userId,
-			array(
-				'stripe_subscription_id' => $subscription->subscriptionId,
-				'stripe_invoice_id'      => $subscription->invoiceId,
-				'payment_type'           => $subscription->paymentType,
-				'subscription_status'    => $subscription->subscriptionStatus,
-				'payment_status'         => $subscription->paymentStatus,
-				'amount'                 => $subscription->amount,
-				'currency'               => $subscription->currency,
-				'updated_at'             => date( 'Y-m-d H:i:s' ),
+			query_data: $subscription->stripe_customer_id,
+			query_field: 'stripe_customer_id',
+			data: array(
+				'period_start'        => $subscription->period_start,
+				'period_end'          => $subscription->period_end,
+				'plan'                => $subscription->plan,
+				'subscription_status' => $subscription->subscription_status,
 			)
 		);
 	}
