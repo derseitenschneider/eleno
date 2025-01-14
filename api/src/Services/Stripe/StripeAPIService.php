@@ -17,7 +17,12 @@ class StripeAPIService {
 		$this->client = new StripeClient( Config::getInstance()->stripeSecretKey );
 	}
 
-	public function createSession(): Session {
+	public function createSubscriptionSession(
+		string $userId,
+		string $stripeCustomerId,
+		string $priceId,
+		string $locale,
+	): Session {
 		$baseUrl = Config::getInstance()->appBaseUrl;
 
 		$session = $this->client->checkout->sessions->create(
@@ -27,17 +32,17 @@ class StripeAPIService {
 				'consent_collection'         => array(
 					'terms_of_service' => 'required',
 				),
-				'client_reference_id'        => '13c1e634-0906-4c30-8622-c786957553ae',
-				'customer'                   => 'cus_RZdQnaJ0cjl2gg',
+				'client_reference_id'        => $userId,
+				'customer'                   => $stripeCustomerId,
 				'line_items'                 => array(
 					array(
-						'price'    => 'price_1QNJcRGqCC0x0Xxsq5LagLin',
+						'price'    => $priceId,
 						'quantity' => 1,
 					),
 				),
-				'locale'                     => 'de',
+				'locale'                     => $locale,
 				'mode'                       => 'subscription',
-				'success_url'                => $baseUrl . '/settings/subscription?success=true',
+				'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
 			)
 		);
 

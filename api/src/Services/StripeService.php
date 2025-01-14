@@ -26,9 +26,17 @@ class StripeService {
 	}
 
 	public function createSessionMonthly( Request $request, Response $response ) {
-
+		$body             = $request->getParsedBody();
+		$userId           = $body['user_id'];
+		$stripeCustomerId = $body['stripe_customer_id'];
+		$locale           = $body['locale'];
 		try {
-			$data = $this->stripeAPI->createSession();
+			$data = $this->stripeAPI->createSubscriptionSession(
+				userId: $userId,
+				stripeCustomerId: $stripeCustomerId,
+				priceId: Config::getInstance()->priceIdMonthly,
+				locale: $locale
+			);
 			return $this->jsonResponse(
 				$response,
 				array(

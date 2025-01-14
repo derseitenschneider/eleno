@@ -25,10 +25,11 @@ export default function ButtonCheckoutMonthly() {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   locale: userLocale,
-        //   customer_id: subscription?.stripe_customer_id,
-        // }),
+        body: JSON.stringify({
+          user_id: subscription?.user_id,
+          stripe_customer_id: subscription?.stripe_customer_id,
+          locale: userLocale,
+        }),
       })
 
       const data = await res.json()
