@@ -14,6 +14,7 @@ class WebhookHandler {
 	) {}
 
 	public function handleEvent( Event $event ): void {
+		$eventObject = $event->data->object;
 		match ( $event->type ) {
 			'checkout.session.completed' => $this->handleCheckoutCompleted( $event->data->object ),
 			'customer.subscription.updated' => $this->handleSubscriptionUpdated( $event->data->object ),
@@ -27,6 +28,7 @@ class WebhookHandler {
 	}
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {
+		logDebug( $subscription );
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}

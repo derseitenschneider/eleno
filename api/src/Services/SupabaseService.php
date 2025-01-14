@@ -27,52 +27,52 @@ class SupabaseService {
 		);
 	}
 
-	public function authorize( Request $request, Response $response ) {
-		$headers     = $request->getHeaders();
-		$auth_header = $headers['Authorization'][0] ?? '';
-		if ( ! $auth_header || ! preg_match( '/^Bearer\s+(.*)$/', $auth_header, $matches ) ) {
-			$response->getBody()->write(
-				json_encode(
-					array(
-						'status'  => 'error',
-						'message' => 'No token provided',
-					)
-				)
-			);
-			return $response->withStatus( 401 );
-		}
-
-		$jwt = $matches[1];
-
-		try {
-			$decoded = JWT::decode(
-				$jwt,
-				new Key( Config::getInstance()->supabaseJwtSecret, 'HS256' )
-			);
-		} catch ( \Firebase\JWT\ExpiredException $e ) {
-			$response->getBody()->write(
-				json_encode(
-					array(
-						'status'  => 'error',
-						'message' => 'Token has expired',
-					)
-				)
-			);
-			return $response->withStatus( 401 );
-		} catch ( \Exception $e ) {
-			$response->getBody()->write(
-				json_encode(
-					array(
-						'status'  => 'error',
-						'message' => 'Invalid token',
-					)
-				)
-			);
-			return $response->withStatus( 401 );
-		}
-
-		return null;
-	}
+	// public function authorize( Request $request, Response $response ) {
+	// $headers     = $request->getHeaders();
+	// $auth_header = $headers['Authorization'][0] ?? '';
+	// if ( ! $auth_header || ! preg_match( '/^Bearer\s+(.*)$/', $auth_header, $matches ) ) {
+	// $response->getBody()->write(
+	// json_encode(
+	// array(
+	// 'status'  => 'error',
+	// 'message' => 'No token provided',
+	// )
+	// )
+	// );
+	// return $response->withStatus( 401 );
+	// }
+	//
+	// $jwt = $matches[1];
+	//
+	// try {
+	// $decoded = JWT::decode(
+	// $jwt,
+	// new Key( Config::getInstance()->supabaseJwtSecret, 'HS256' )
+	// );
+	// } catch ( \Firebase\JWT\ExpiredException $e ) {
+	// $response->getBody()->write(
+	// json_encode(
+	// array(
+	// 'status'  => 'error',
+	// 'message' => 'Token has expired',
+	// )
+	// )
+	// );
+	// return $response->withStatus( 401 );
+	// } catch ( \Exception $e ) {
+	// $response->getBody()->write(
+	// json_encode(
+	// array(
+	// 'status'  => 'error',
+	// 'message' => 'Invalid token',
+	// )
+	// )
+	// );
+	// return $response->withStatus( 401 );
+	// }
+	//
+	// return null;
+	// }
 
 	public function cancelSubscription( string $subscription_id ) {
 		try {
@@ -137,22 +137,14 @@ class SupabaseService {
 
 	public function updateSubscription(
 		array $data,
-		string $query_data,
-		string $query_field = 'user_id'
+		array $query,
 	): array {
-		logDebug(
-			array(
-				'data'        => $data,
-				'query_data'  => $query_data,
-				'query_field' => $query_field,
-			)
-		);
 		try {
 			$response = $this->client->request(
 				'PATCH',
 				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
 				array(
-					'query' => array( $query_field => 'eq.' . $query_data ),
+					'query' => $query,
 					'json'  => $data,
 				)
 			);
@@ -163,7 +155,31 @@ class SupabaseService {
 			);
 
 		} catch ( \Exception $e ) {
-			logDebug( $e->getMessage() );
+			return array( 'error' => $e->getMessage() );
+		}
+	}
+
+	public function patch(
+		string $endpoint,
+		array $data,
+		array $query,
+	): array {
+		try {
+			$response = $this->client->request(
+				'PATCH',
+				"{$this->config->supabaseUrl}/rest/v1/{$endpoint}",
+				array(
+					'query' => $query,
+					'json'  => $data,
+				)
+			);
+
+			return array(
+				'success' => true,
+				'data'    => json_decode( $response->getBody(), true ),
+			);
+
+		} catch ( \Exception $e ) {
 			return array( 'error' => $e->getMessage() );
 		}
 	}

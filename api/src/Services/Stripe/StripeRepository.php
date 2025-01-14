@@ -19,23 +19,26 @@ class StripeRepository {
 		};
 	}
 
-	public function saveCheckoutSession( StripeCheckoutCompletedDTO $subscription ): array {
+	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
 		return $this->supabase->updateSubscription(
-			query_data: $subscription->userId,
+			query: array(
+				'user_id' => 'eq.' . $session->userId,
+			),
 			data: array(
-				'stripe_subscription_id' => $subscription->subscriptionId,
-				'stripe_invoice_id'      => $subscription->invoiceId,
-				'subscription_status'    => $subscription->subscriptionStatus,
-				'payment_status'         => $subscription->paymentStatus,
-				'amount'                 => $subscription->amount,
-				'currency'               => $subscription->currency,
+				'stripe_subscription_id' => $session->subscriptionId,
+				'stripe_invoice_id'      => $session->invoiceId,
+				'subscription_status'    => $session->subscriptionStatus,
+				'payment_status'         => $session->paymentStatus,
+				'amount'                 => $session->amount,
+				'currency'               => $session->currency,
 			)
 		);
 	}
 	public function saveSubpscriptionUpdated( StripeSubscriptionUpdatedDTO $subscription ): array {
 		return $this->supabase->updateSubscription(
-			query_data: $subscription->stripe_customer_id,
-			query_field: 'stripe_customer_id',
+			query: array(
+				'stripe_customer_id' => 'eq.' . $subscription->stripe_customer_id,
+			),
 			data: array(
 				'period_start'        => $subscription->period_start,
 				'period_end'          => $subscription->period_end,
