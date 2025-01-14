@@ -27,133 +27,53 @@ class SupabaseService {
 		);
 	}
 
-	// public function authorize( Request $request, Response $response ) {
-	// $headers     = $request->getHeaders();
-	// $auth_header = $headers['Authorization'][0] ?? '';
-	// if ( ! $auth_header || ! preg_match( '/^Bearer\s+(.*)$/', $auth_header, $matches ) ) {
-	// $response->getBody()->write(
-	// json_encode(
-	// array(
-	// 'status'  => 'error',
-	// 'message' => 'No token provided',
-	// )
-	// )
-	// );
-	// return $response->withStatus( 401 );
-	// }
-	//
-	// $jwt = $matches[1];
-	//
-	// try {
-	// $decoded = JWT::decode(
-	// $jwt,
-	// new Key( Config::getInstance()->supabaseJwtSecret, 'HS256' )
-	// );
-	// } catch ( \Firebase\JWT\ExpiredException $e ) {
-	// $response->getBody()->write(
-	// json_encode(
-	// array(
-	// 'status'  => 'error',
-	// 'message' => 'Token has expired',
-	// )
-	// )
-	// );
-	// return $response->withStatus( 401 );
-	// } catch ( \Exception $e ) {
-	// $response->getBody()->write(
-	// json_encode(
-	// array(
-	// 'status'  => 'error',
-	// 'message' => 'Invalid token',
-	// )
-	// )
-	// );
-	// return $response->withStatus( 401 );
-	// }
-	//
-	// return null;
-	// }
+	public function getLesson( string $homeworkKey ) {
+		$this->get(
+			endpoint: 'lessons',
+			query:array(
+				'select'      => '*,students(id,firstName),groups(id,name)',
+				'homeworkKey' => 'eq.' . $homeworkKey,
+			),
+		);
+	}
+
 
 	public function cancelSubscription( string $subscription_id ) {
-		try {
-			$response = $this->client->request(
-				'PATCH',
-				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
-				array(
-					'query' => array(
-						'stripe_subscription_id' => 'eq.' . $subscription_id,
-					),
-					'json'  => array( 'subscription_status' => 'canceled' ),
-				)
-			);
-
-			return array(
-				'success' => true,
-				'data'    => json_decode( $response->getBody(), true ),
-			);
-
-		} catch ( \Exception $e ) {
-			return array( 'error' => $e->getMessage() );
-		}
+		$this->updateSubscription(
+			data: array( 'subscription_status' => 'canceled' ),
+			query: array( 'stripe_subscription_id' => 'eq.' . $subscription_id ),
+		);
 	}
 
 	public function reactivateSubscription( string $subscription_id ) {
-		try {
-			$response = $this->client->request(
-				'PATCH',
-				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
-				array(
-					'query' => array(
-						'stripe_subscription_id' => 'eq.' . $subscription_id,
-					),
-					'json'  => array( 'subscription_status' => 'active' ),
-				)
-			);
-
-			return array(
-				'success' => true,
-				'data'    => json_decode( $response->getBody(), true ),
-			);
-
-		} catch ( \Exception $e ) {
-			return array( 'error' => $e->getMessage() );
-		}
-	}
-
-	public function getLesson( string $homeworkKey ) {
-		$response = $this->client->get(
-			'rest/v1/lessons',
-			array(
-				'query' => array(
-					'select'      => '*,students(id,firstName),groups(id,name)',
-					'homeworkKey' => 'eq.' . $homeworkKey,
-				),
-			)
+		$this->updateSubscription(
+			data: array( 'subscription_status' => 'active' ),
+			query: array( 'stripe_subscription_id' => 'eq.' . $subscription_id ),
 		);
-
-		$data = json_decode( $response->getBody(), true );
-		return $data[0] ?? null;
 	}
 
-	public function updateSubscription(
-		array $data,
-		array $query,
-	): array {
+	public function updateSubscription( array $data, array $query ) {
+		$this->patch(
+			endpoint: 'stripe_subscriptions',
+			data: $data,
+			query:$query
+		);
+	}
+
+	public function get(
+		string $endpoint,
+		array $query
+	) {
 		try {
-			$response = $this->client->request(
-				'PATCH',
-				"{$this->config->supabaseUrl}/rest/v1/stripe_subscriptions",
-				array(
-					'query' => $query,
-					'json'  => $data,
-				)
+			$response = $this->client->get(
+				"rest/v1/{$endpoint}",
+				array( 'query' => $query )
 			);
 
 			return array(
 				'success' => true,
 				'data'    => json_decode( $response->getBody(), true ),
 			);
-
 		} catch ( \Exception $e ) {
 			return array( 'error' => $e->getMessage() );
 		}
