@@ -40,9 +40,20 @@ return function ( App $app ) {
 				array( StripeService::class, 'updateSubscriptionSession' )
 			);
 
+			// Checkout Sessions
 			$group->post(
 				'/sessions/create/monthly',
 				array( StripeService::class, 'createSessionMonthly' )
+			);
+
+			$group->post(
+				'/sessions/create/yearly',
+				array( StripeService::class, 'createSessionYearly' )
+			);
+
+			$group->post(
+				'/sessions/create/lifetime',
+				array( StripeService::class, 'createSessionLifetime' )
 			);
 
 			$group->post(

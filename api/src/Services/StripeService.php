@@ -26,15 +26,31 @@ class StripeService {
 	}
 
 	public function createSessionMonthly( Request $request, Response $response ) {
+		return $this->createSession(
+			request: $request,
+			response: $response,
+			priceId: Config::getInstance()->priceIdMonthly
+		);
+	}
+
+	public function createSessionYearly( Request $request, Response $response ) {
+		return $this->createSession(
+			request:$request,
+			response:$response,
+			priceId:Config::getInstance()->priceIdYearly
+		);
+	}
+
+	public function createSessionLifetime( Request $request, Response $response ) {
 		$body             = $request->getParsedBody();
 		$userId           = $body['user_id'];
 		$stripeCustomerId = $body['stripe_customer_id'];
 		$locale           = $body['locale'];
 		try {
-			$data = $this->stripeAPI->createSubscriptionSession(
+			$data = $this->stripeAPI->lifetimeSession(
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
-				priceId: Config::getInstance()->priceIdMonthly,
+				priceId: Config::getInstance()->priceIdLifetime,
 				locale: $locale
 			);
 			return $this->jsonResponse(
@@ -45,7 +61,30 @@ class StripeService {
 				)
 			);
 		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
+	}
 
+	public function createSession( Request $request, Response $response, string $priceId ) {
+		$body             = $request->getParsedBody();
+		$userId           = $body['user_id'];
+		$stripeCustomerId = $body['stripe_customer_id'];
+		$locale           = $body['locale'];
+		try {
+			$data = $this->stripeAPI->subscriptionSession(
+				userId: $userId,
+				stripeCustomerId: $stripeCustomerId,
+				priceId: $priceId,
+				locale: $locale
+			);
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => $data,
+				)
+			);
+		} catch ( \Exception $e ) {
 			return $this->errorResponse( $response, $e->getMessage() );
 		}
 	}
@@ -71,7 +110,6 @@ class StripeService {
 					'data'   => $data,
 				)
 			);
-
 		} catch ( \Exception $e ) {
 			return $this->errorResponse( $response, $e->getMessage() );
 		}
@@ -81,13 +119,11 @@ class StripeService {
 
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];
-
 		$body        = $request->getParsedBody();
 		$user_locale = $body['locale'] ?? '';
 
 		try {
 			$data = $this->stripeAPI->customerPortal( $customer_id, $user_locale );
-
 			return $this->jsonResponse(
 				$response,
 				array(

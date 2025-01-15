@@ -30,7 +30,7 @@ const ToolButton: React.FC<ToolButtonProps> = ({
     <Button
       variant='outline'
       size='icon'
-      className='rounded-md  size-14 bg-background100 hover:bg-accent border-hairline text-foreground'
+      className='rounded-md size-14 bg-background100 hover:bg-accent border-hairline text-foreground'
       onClick={onClick}
     >
       <Icon strokeWidth={1.5} className='size-5' />
@@ -92,7 +92,7 @@ const Toolbox: React.FC = () => {
             <LayoutGrid strokeWidth={2} className='size-5' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto bg-background100 border-hairline'>
+        <PopoverContent className='w-auto bg-background100 border-hairline z-[70]'>
           <div className='flex space-x-4'>
             <ToolButton
               icon={TbMetronome}

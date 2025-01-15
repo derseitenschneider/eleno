@@ -9,7 +9,6 @@ use Stripe\PaymentMethod;
 use Stripe\StripeClient;
 use Stripe\Subscription;
 
-/** @package App\Services\Stripe */
 class StripeAPIService {
 	private StripeClient $client;
 
@@ -17,7 +16,7 @@ class StripeAPIService {
 		$this->client = new StripeClient( Config::getInstance()->stripeSecretKey );
 	}
 
-	public function createSubscriptionSession(
+	public function subscriptionSession(
 		string $userId,
 		string $stripeCustomerId,
 		string $priceId,
@@ -42,6 +41,38 @@ class StripeAPIService {
 				),
 				'locale'                     => $locale,
 				'mode'                       => 'subscription',
+				'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
+			)
+		);
+
+		return $session;
+	}
+
+	public function lifetimeSession(
+		string $userId,
+		string $stripeCustomerId,
+		string $priceId,
+		string $locale,
+	): Session {
+		$baseUrl = Config::getInstance()->appBaseUrl;
+
+		$session = $this->client->checkout->sessions->create(
+			array(
+				'billing_address_collection' => 'required',
+				'cancel_url'                 => $baseUrl . '/settings/subscription',
+				'consent_collection'         => array(
+					'terms_of_service' => 'required',
+				),
+				'client_reference_id'        => $userId,
+				'customer'                   => $stripeCustomerId,
+				'line_items'                 => array(
+					array(
+						'price'    => $priceId,
+						'quantity' => 1,
+					),
+				),
+				'locale'                     => $locale,
+				'mode'                       => 'payment',
 				'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
 			)
 		);

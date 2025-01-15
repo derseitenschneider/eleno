@@ -53,7 +53,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
     <li
       className={cn(
         'grid-cols-[30px_1fr_30px] items-center',
-        'bg-background50/30 mb-2 mt-5 p-2 justify-between rounded-sm shadow-sm border-background200 border',
+        'bg-background50/30 mb-2 mt-5 p-2 justify-between rounded-sm shadow-sm border-hairline border',
         'md:mt-0 grid',
         isOverdue && 'border-warning/20 bg-warning/5',
       )}

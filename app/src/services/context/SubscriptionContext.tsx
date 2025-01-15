@@ -48,7 +48,10 @@ export function SubscriptionProvider({
 
   const periodStart = new Date(startDate)
   const periodEnd = new Date(endDate)
-  if (periodEnd >= new Date()) {
+  if (
+    periodEnd >= new Date() ||
+    subscription?.subscription_status === 'lifetime'
+  ) {
     subscriptionIsActive = true
   } else {
     subscriptionIsActive = false

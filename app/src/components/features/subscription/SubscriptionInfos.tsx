@@ -11,6 +11,8 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import ButtonCustomerPortal from './ButtonCustomerPortal.component'
 import ButtonUpdatePlan from './ButtonUpdatePlan.component'
 import ButtonCheckoutMonthly from './ButtonCheckoutMonthly.component'
+import ButtonCheckoutYearly from './ButtonCheckoutYearly.component'
+import ButtonCheckoutLifetime from './ButtonCheckoutLifetime.component'
 
 export function SubscriptionInfos() {
   const {
@@ -79,6 +81,8 @@ export function SubscriptionInfos() {
         <ButtonCustomerPortal />
         <ButtonUpdatePlan />
         <ButtonCheckoutMonthly />
+        <ButtonCheckoutYearly />
+        <ButtonCheckoutLifetime />
       </div>
       <Dialog
         open={modalOpen === 'CANCEL'}

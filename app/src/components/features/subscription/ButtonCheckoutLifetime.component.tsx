@@ -6,7 +6,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
-export default function ButtonCheckoutMonthly() {
+export default function ButtonCheckoutLifetime() {
   const { subscription } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
@@ -19,7 +19,7 @@ export default function ButtonCheckoutMonthly() {
       } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      const res = await fetch(`${appConfig.apiUrl}/sessions/create/monthly`, {
+      const res = await fetch(`${appConfig.apiUrl}/sessions/create/lifetime`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ export default function ButtonCheckoutMonthly() {
         disabled={status === 'LOADING'}
         variant='outline'
       >
-        Monatsabo
+        Lifetime
         {status === 'LOADING' && <MiniLoader />}
       </Button>
     </div>
