@@ -8,17 +8,15 @@ import { useState } from 'react'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import ReactivateSubscription from './ReactivateSubscription.component'
 import ButtonUpdateSubscription from './buttons/ButtonCustomerPortal.component'
-import ButtonUpdatePlan from './buttons/ButtonUpdatePlan.component'
-import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
-import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
-import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 import PricingPlans from './PricingPlans.component'
+import ButtonCancelSubscription from './buttons/ButtonCancelSubscription.component'
+import ButtonReactivateSubscription from './buttons/ButtonReactivateSubscription.component'
 
 export function SubscriptionInfos() {
   const {
     periodStartLocalized,
     periodEndLocalized,
-    subscriptionIsActive: isActiveSubscription,
+    isActiveSubscription: isActiveSubscription,
     plan,
     isTrial,
     subscription,
@@ -63,48 +61,13 @@ export function SubscriptionInfos() {
             )}
           </div>
         </Card>
-        {isActiveSubscription && !isTrial && !isLifetime && (
-          <Button
-            size='sm'
-            variant='destructive'
-            onClick={() => setModalOpen('CANCEL')}
-          >
-            Abo beenden
-          </Button>
-        )}
-        {subscription?.subscription_status === 'canceled' && !isLifetime && (
-          <Button
-            size='sm'
-            variant='default'
-            onClick={() => setModalOpen('REACTIVATE')}
-          >
-            Abo wiederherstellen
-          </Button>
-        )}
-        <ButtonUpdateSubscription />
-        {/* <ButtonUpdatePlan /> */}
-        <ButtonCheckoutMonthly />
-        <ButtonCheckoutYearly />
-        <ButtonCheckoutLifetime />
+        <div className='flex gap-4 items-center'>
+          <ButtonUpdateSubscription />
+          <ButtonCancelSubscription />
+          <ButtonReactivateSubscription />
+        </div>
         <PricingPlans />
       </div>
-      <Dialog
-        open={modalOpen === 'CANCEL'}
-        onOpenChange={() => setModalOpen(null)}
-      >
-        <DialogContent>
-          <CancelSubscription onCloseModal={() => setModalOpen(null)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={modalOpen === 'REACTIVATE'}
-        onOpenChange={() => setModalOpen(null)}
-      >
-        <DialogContent>
-          <ReactivateSubscription onCloseModal={() => setModalOpen(null)} />
-        </DialogContent>
-      </Dialog>
     </>
   )
 }

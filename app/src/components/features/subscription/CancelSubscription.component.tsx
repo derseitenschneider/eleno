@@ -42,6 +42,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
         },
       )
       const data = await res.json()
+
       if (data.status !== 'success') throw new Error()
 
       await getSubscription(user?.id)

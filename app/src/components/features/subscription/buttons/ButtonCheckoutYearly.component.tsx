@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
@@ -6,7 +6,10 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
-export default function ButtonCheckoutYearly() {
+export default function ButtonCheckoutYearly({
+  children,
+  ...props
+}: ButtonProps) {
   const { subscription } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
@@ -47,13 +50,12 @@ export default function ButtonCheckoutYearly() {
   return (
     <div>
       <Button
-        size='sm'
-        className='flex gap-2'
+        className='w-full flex gap-2'
         onClick={getPaymentUpdateLink}
         disabled={status === 'LOADING'}
-        variant='outline'
+        {...props}
       >
-        Jahresabo
+        {children}
         {status === 'LOADING' && <MiniLoader />}
       </Button>
     </div>

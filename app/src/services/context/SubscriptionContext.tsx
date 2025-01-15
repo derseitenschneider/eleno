@@ -15,7 +15,7 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   periodStartLocalized: '',
   periodEndLocalized: '',
   getSubscription: async () => {},
-  subscriptionIsActive: false,
+  isActiveSubscription: false,
 })
 
 export function SubscriptionProvider({
@@ -41,7 +41,7 @@ export function SubscriptionProvider({
   const isSubscription =
     subscriptionStatus === 'active' || subscriptionStatus === 'canceled'
 
-  let subscriptionIsActive: boolean
+  let isActiveSubscription: boolean
   let startDate = ''
   let endDate = ''
 
@@ -59,9 +59,9 @@ export function SubscriptionProvider({
     periodEnd >= new Date() ||
     subscription?.subscription_status === 'lifetime'
   ) {
-    subscriptionIsActive = true
+    isActiveSubscription = true
   } else {
-    subscriptionIsActive = false
+    isActiveSubscription = false
   }
 
   const periodStartLocalized = periodStart.toLocaleString(userLocale, {
@@ -92,7 +92,7 @@ export function SubscriptionProvider({
     isSubscription,
     plan,
     getSubscription,
-    subscriptionIsActive,
+    isActiveSubscription,
     periodStart,
     periodEnd,
     periodStartLocalized,

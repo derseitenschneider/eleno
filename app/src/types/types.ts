@@ -153,7 +153,7 @@ export type ContextTypeSubscription = {
   isSubscription: boolean
   plan: string
   subscription: Subscription | undefined
-  subscriptionIsActive: boolean
+  isActiveSubscription: boolean
   getSubscription: (userId: string) => Promise<void>
   periodStart: Date
   periodEnd: Date

@@ -25,7 +25,7 @@ const TodosWrapper = () => {
   return (
     <ScrollArea
       className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
+        hasBanner ? 'mt-[28px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
       )}
     >
       <div className='container-page'>
@@ -40,7 +40,7 @@ const TimetableWrapper = () => {
   return (
     <ScrollArea
       className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
       )}
     >
       <div className='py-4 pl-6 pr-4'>
@@ -55,7 +55,7 @@ const SettingsWrapper = () => {
   return (
     <ScrollArea
       className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
       )}
     >
       <div className='container-page'>
@@ -104,7 +104,6 @@ const mainRouter = createBrowserRouter(
               element: <Account />,
             },
             {
-              // index: true,
               path: 'view',
               element: <View />,
             },
@@ -114,10 +113,6 @@ const mainRouter = createBrowserRouter(
             },
           ],
         },
-        // {
-        //   path: 'logout',
-        //   element: <Logout />,
-        // },
       ],
     },
   ],

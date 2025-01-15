@@ -43,7 +43,7 @@ function Sidebar() {
       ref={sidebarRef}
       className={cn(
         hasBanner
-          ? 'lg:before:h-0 top-[32px] h-[calc(100vh-32px)]'
+          ? 'lg:before:h-0 top-[28px] h-[calc(100vh-28px)]'
           : 'top-0 lg:before:h-[1px] h-screen',
         sidebarOpen ? 'w-[180px]' : 'w-[50px]',
         'hidden md:flex fixed left-0 z-[60] flex-col items-stretch justify-start bg-background100 shadow-lg realtive transition-width duration-150 ',

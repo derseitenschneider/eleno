@@ -17,7 +17,7 @@ import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 function CreateLesson() {
-  const { subscriptionIsActive } = useSubscription()
+  const { isActiveSubscription: subscriptionIsActive } = useSubscription()
   const navigate = useNavigate()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()

@@ -9,7 +9,7 @@ export type BlockerProps = {
 }
 
 export function Blocker({ variant = 'block' }: BlockerProps) {
-  const { subscriptionIsActive } = useSubscription()
+  const { isActiveSubscription: subscriptionIsActive } = useSubscription()
   const { isDemoMode } = appConfig
   const navigate = useNavigate()
 

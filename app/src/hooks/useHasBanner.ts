@@ -1,7 +1,9 @@
 import { isDemoMode } from '@/config'
 import useIsOnline from './useIsOnline'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 export default function useHasBanner() {
   const isOnline = useIsOnline()
-  return !isOnline || isDemoMode
+  const { isTrial } = useSubscription()
+  return !isOnline || isDemoMode || isTrial
 }

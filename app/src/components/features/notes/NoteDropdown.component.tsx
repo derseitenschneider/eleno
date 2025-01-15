@@ -27,7 +27,7 @@ type NoteDropdownProps = {
 }
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
-  const { subscriptionIsActive } = useSubscription()
+  const { isActiveSubscription: subscriptionIsActive } = useSubscription()
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<'EDIT' | 'DELETE' | undefined>()
   const notes = queryClient.getQueryData(['notes']) as Array<Note> | undefined
