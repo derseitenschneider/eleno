@@ -7,21 +7,22 @@ import CancelSubscription from './CancelSubscription.component'
 import { useState } from 'react'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import ReactivateSubscription from './ReactivateSubscription.component'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import ButtonCustomerPortal from './ButtonCustomerPortal.component'
-import ButtonUpdatePlan from './ButtonUpdatePlan.component'
-import ButtonCheckoutMonthly from './ButtonCheckoutMonthly.component'
-import ButtonCheckoutYearly from './ButtonCheckoutYearly.component'
-import ButtonCheckoutLifetime from './ButtonCheckoutLifetime.component'
+import ButtonUpdateSubscription from './buttons/ButtonCustomerPortal.component'
+import ButtonUpdatePlan from './buttons/ButtonUpdatePlan.component'
+import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
+import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
+import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
+import PricingPlans from './PricingPlans.component'
 
 export function SubscriptionInfos() {
   const {
     periodStartLocalized,
     periodEndLocalized,
-    subscriptionIsActive,
+    subscriptionIsActive: isActiveSubscription,
     plan,
     isTrial,
     subscription,
+    isLifetime,
   } = useSubscription()
   const [modalOpen, setModalOpen] = useState<
     'CANCEL' | 'REACTIVATE' | 'PAYMENT_METHODS' | null
@@ -30,13 +31,13 @@ export function SubscriptionInfos() {
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
   if (
-    subscriptionIsActive &&
+    isActiveSubscription &&
     subscription?.subscription_status === 'canceled'
   ) {
     badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }
-  if (!subscriptionIsActive) {
+  if (!isActiveSubscription) {
     badgeVariant = 'destructive'
     badgeLabel = 'Abgelaufen'
   }
@@ -52,24 +53,26 @@ export function SubscriptionInfos() {
             </Badge>
             <p>Plan:</p>
             <p>{plan}</p>
-            <p>Laufzeit</p>
-            <p className={cn(!subscriptionIsActive && 'text-warning')}>
-              {periodStartLocalized} – {periodEndLocalized}
-            </p>
+            <p>Laufzeit:</p>
+            {subscription?.subscription_status === 'lifetime' ? (
+              <p>&infin;</p>
+            ) : (
+              <p className={cn(!isActiveSubscription && 'text-warning')}>
+                {periodStartLocalized} – {periodEndLocalized}
+              </p>
+            )}
           </div>
         </Card>
-        {subscriptionIsActive &&
-          !isTrial &&
-          subscription?.subscription_status !== 'canceled' && (
-            <Button
-              size='sm'
-              variant='destructive'
-              onClick={() => setModalOpen('CANCEL')}
-            >
-              Abo beenden
-            </Button>
-          )}
-        {subscription?.subscription_status === 'canceled' && (
+        {isActiveSubscription && !isTrial && !isLifetime && (
+          <Button
+            size='sm'
+            variant='destructive'
+            onClick={() => setModalOpen('CANCEL')}
+          >
+            Abo beenden
+          </Button>
+        )}
+        {subscription?.subscription_status === 'canceled' && !isLifetime && (
           <Button
             size='sm'
             variant='default'
@@ -78,11 +81,12 @@ export function SubscriptionInfos() {
             Abo wiederherstellen
           </Button>
         )}
-        <ButtonCustomerPortal />
-        <ButtonUpdatePlan />
+        <ButtonUpdateSubscription />
+        {/* <ButtonUpdatePlan /> */}
         <ButtonCheckoutMonthly />
         <ButtonCheckoutYearly />
         <ButtonCheckoutLifetime />
+        <PricingPlans />
       </div>
       <Dialog
         open={modalOpen === 'CANCEL'}

@@ -5,6 +5,9 @@ import { useUserLocale } from './UserLocaleContext'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   isTrial: true,
+  isLifetime: true,
+  isCancelable: true,
+  isSubscription: true,
   subscription: undefined,
   plan: '',
   periodStart: new Date(),
@@ -33,6 +36,10 @@ export function SubscriptionProvider({
   const subscriptionStatus = subscription?.subscription_status || ''
 
   const isTrial = subscriptionStatus === 'trial'
+  const isLifetime = subscriptionStatus === 'lifetime'
+  const isCancelable = subscriptionStatus === 'active'
+  const isSubscription =
+    subscriptionStatus === 'active' || subscriptionStatus === 'canceled'
 
   let subscriptionIsActive: boolean
   let startDate = ''
@@ -80,6 +87,9 @@ export function SubscriptionProvider({
 
   const value = {
     subscription,
+    isLifetime,
+    isCancelable,
+    isSubscription,
     plan,
     getSubscription,
     subscriptionIsActive,

@@ -6,10 +6,12 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
-export default function ButtonCustomerPortal() {
-  const { subscription } = useSubscription()
+export default function ButtonUpdateSubscription() {
+  const { subscription, isSubscription } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+
+  if (!isSubscription) return null
 
   async function getPaymentUpdateLink() {
     setStatus('LOADING')
@@ -51,7 +53,7 @@ export default function ButtonCustomerPortal() {
         disabled={status === 'LOADING'}
         variant='outline'
       >
-        Zahlungsmittel anpassen
+        Abo anpassen
         {status === 'LOADING' && <MiniLoader />}
       </Button>
     </div>

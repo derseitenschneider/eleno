@@ -148,6 +148,9 @@ export type ContextTypeUser = {
 
 export type ContextTypeSubscription = {
   isTrial: boolean
+  isLifetime: boolean
+  isCancelable: boolean
+  isSubscription: boolean
   plan: string
   subscription: Subscription | undefined
   subscriptionIsActive: boolean
