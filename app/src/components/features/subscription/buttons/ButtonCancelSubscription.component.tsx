@@ -6,8 +6,15 @@ import CancelSubscription from '../CancelSubscription.component'
 
 export default function ButtonCancelSubscription() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { isActiveSubscription, isTrial, isLifetime } = useSubscription()
-  if (!isActiveSubscription || isTrial || isLifetime) return null
+  const { isActiveSubscription, isTrial, isLifetime, subscription } =
+    useSubscription()
+  if (
+    !isActiveSubscription ||
+    isTrial ||
+    isLifetime ||
+    subscription?.cancel_at_period_end
+  )
+    return null
 
   return (
     <>

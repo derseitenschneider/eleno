@@ -11,7 +11,8 @@ class StripeSubscriptionUpdatedDTO {
 		public readonly string $period_end,
 		public readonly string $stripe_customer_id,
 		public readonly string $plan,
-		public readonly string $subscription_status
+		public readonly string $subscription_status,
+		public readonly bool $cancel_at_period_end
 	) {
 	}
 
@@ -21,7 +22,8 @@ class StripeSubscriptionUpdatedDTO {
 			period_end: date( 'Y-m-d H:i:s', $subscription->current_period_end ),
 			stripe_customer_id: $subscription->customer,
 			plan: $subscription->plan->interval,
-			subscription_status: $subscription->status
+			subscription_status: $subscription->status,
+			cancel_at_period_end: $subscription->cancel_at_period_end
 		);
 	}
 }

@@ -40,10 +40,11 @@ class StripeRepository {
 				'stripe_customer_id' => 'eq.' . $subscription->stripe_customer_id,
 			),
 			data: array(
-				'period_start'        => $subscription->period_start,
-				'period_end'          => $subscription->period_end,
-				'plan'                => $subscription->plan,
-				'subscription_status' => $subscription->subscription_status,
+				'period_start'         => $subscription->period_start,
+				'period_end'           => $subscription->period_end,
+				'plan'                 => $subscription->plan,
+				'subscription_status'  => $subscription->subscription_status,
+				'cancel_at_period_end' => $subscription->cancel_at_period_end,
 			)
 		);
 	}

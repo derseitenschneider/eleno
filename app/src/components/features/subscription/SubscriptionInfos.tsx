@@ -1,12 +1,8 @@
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import CancelSubscription from './CancelSubscription.component'
 import { useState } from 'react'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import ReactivateSubscription from './ReactivateSubscription.component'
 import ButtonUpdateSubscription from './buttons/ButtonCustomerPortal.component'
 import PricingPlans from './PricingPlans.component'
 import ButtonCancelSubscription from './buttons/ButtonCancelSubscription.component'
@@ -16,7 +12,7 @@ export function SubscriptionInfos() {
   const {
     periodStartLocalized,
     periodEndLocalized,
-    isActiveSubscription: isActiveSubscription,
+    isActiveSubscription,
     plan,
     isTrial,
     subscription,
@@ -28,10 +24,7 @@ export function SubscriptionInfos() {
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
-  if (
-    isActiveSubscription &&
-    subscription?.subscription_status === 'canceled'
-  ) {
+  if (isActiveSubscription && subscription?.cancel_at_period_end) {
     badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }

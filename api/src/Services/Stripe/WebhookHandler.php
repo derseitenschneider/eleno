@@ -28,7 +28,6 @@ class WebhookHandler {
 	}
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {
-		logDebug( $subscription );
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}

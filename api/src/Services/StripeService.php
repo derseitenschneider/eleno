@@ -146,11 +146,6 @@ class StripeService {
 				array( 'cancel_at_period_end' => true )
 			);
 
-			$this->repository->updateSubscriptionStatus(
-				$subscription_id,
-				'canceled'
-			);
-
 			return $this->jsonResponse(
 				$response,
 				array(
@@ -171,11 +166,6 @@ class StripeService {
 			$this->stripeAPI->updateSubscription(
 				$subscription_id,
 				array( 'cancel_at_period_end' => false )
-			);
-
-			$this->repository->updateSubscriptionStatus(
-				$subscription_id,
-				'active'
 			);
 
 			return $this->jsonResponse(

@@ -20,8 +20,10 @@ class SupabaseService {
 			array(
 				'base_uri' => $this->config->supabaseUrl,
 				'headers'  => array(
-					'apikey'        => $this->config->supabaseAnonKey,
+					'apikey'        => $this->config->supabaseServiceRoleKey,
 					'Authorization' => 'Bearer ' . $this->config->supabaseServiceRoleKey,
+					'Content-Type'  => 'application/json',
+					'Prefer'        => 'return=minimal',
 				),
 			)
 		);
@@ -39,7 +41,7 @@ class SupabaseService {
 
 
 	public function cancelSubscription( string $subscription_id ) {
-		$this->updateSubscription(
+		return $this->updateSubscription(
 			data: array( 'subscription_status' => 'canceled' ),
 			query: array( 'stripe_subscription_id' => 'eq.' . $subscription_id ),
 		);
@@ -53,7 +55,7 @@ class SupabaseService {
 	}
 
 	public function updateSubscription( array $data, array $query ) {
-		$this->patch(
+		return $this->patch(
 			endpoint: 'stripe_subscriptions',
 			data: $data,
 			query:$query
@@ -93,6 +95,7 @@ class SupabaseService {
 					'json'  => $data,
 				)
 			);
+			logDebug( $response );
 
 			return array(
 				'success' => true,

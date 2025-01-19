@@ -252,6 +252,7 @@ export type Database = {
       stripe_subscriptions: {
         Row: {
           amount: number | null
+          cancel_at_period_end: boolean
           created_at: string | null
           currency: string | null
           id: string
@@ -271,6 +272,7 @@ export type Database = {
         }
         Insert: {
           amount?: number | null
+          cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
           id?: string
@@ -290,6 +292,7 @@ export type Database = {
         }
         Update: {
           amount?: number | null
+          cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
           id?: string
