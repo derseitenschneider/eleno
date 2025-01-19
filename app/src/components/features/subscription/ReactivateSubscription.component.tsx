@@ -43,8 +43,6 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
       )
       const data = await res.json()
       if (data.status !== 'success') throw new Error()
-
-      await getSubscription(user.id)
       toast.info('Dein Abo wurde wiederhergestellt.')
       setStatus('IDLE')
       onCloseModal?.()

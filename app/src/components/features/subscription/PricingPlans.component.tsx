@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import commonFeatures from './commonFeatures'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
@@ -8,22 +9,13 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 
 const PricingPlans = () => {
   const { isActiveSubscription } = useSubscription()
-  const commonFeatures = [
-    'Lektions- und Schülerverwaltung',
-    'Todos',
-    'Repertoirelisten',
-    'Notizen',
-    'Unbegrenzte Anzahl Schüler:innen',
-    'Regelmäßige Updates',
-    'Mehrere Geräte',
-  ]
 
   if (isActiveSubscription) return null
 
   return (
     <div
       id='pricing'
-      className='flex items-center justify-center bg-background p-4'
+      className='flex items-center justify-center bg-background p-7'
     >
       <div className='flex flex-col sm:flex-row gap-8 max-w-5xl w-full'>
         {/* Monatlich */}

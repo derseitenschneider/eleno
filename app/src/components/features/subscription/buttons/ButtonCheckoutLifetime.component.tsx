@@ -56,7 +56,13 @@ export default function ButtonCheckoutLifetime({
         {...props}
       >
         {children}
-        {status === 'LOADING' && <MiniLoader />}
+        {status === 'LOADING' && (
+          <MiniLoader
+            color={
+              props.variant === 'default' ? 'text-white' : 'text-primary/50'
+            }
+          />
+        )}
       </Button>
     </div>
   )

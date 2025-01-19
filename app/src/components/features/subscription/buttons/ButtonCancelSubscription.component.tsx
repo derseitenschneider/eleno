@@ -23,7 +23,7 @@ export default function ButtonCancelSubscription() {
         variant='destructive'
         onClick={() => setIsModalOpen(true)}
       >
-        Abo beenden
+        Abo kündigen
       </Button>
       <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
         <DialogContent>

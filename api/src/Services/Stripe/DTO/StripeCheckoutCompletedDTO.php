@@ -12,7 +12,6 @@ class StripeCheckoutCompletedDTO {
 		public readonly ?string $invoiceId,
 		public readonly string $subscriptionStatus,
 		public readonly string $paymentStatus,
-		public readonly int $amount,
 		public readonly string $currency
 	) {}
 
@@ -26,7 +25,6 @@ class StripeCheckoutCompletedDTO {
 			invoiceId: $session->invoice,
 			subscriptionStatus: $isLifetime ? 'lifetime' : 'active',
 			paymentStatus: $session->payment_status,
-			amount: $session->amount_total,
 			currency: $session->currency
 		);
 	}

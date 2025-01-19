@@ -53,7 +53,7 @@ export default function ButtonUpdateSubscription() {
         disabled={status === 'LOADING'}
         variant='outline'
       >
-        Abo anpassen
+        Abo verwalten
         {status === 'LOADING' && <MiniLoader />}
       </Button>
     </div>

@@ -19,8 +19,7 @@ interface CancelSubscriptionProps {
 function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { user } = useUser()
-  const { subscription, getSubscription, periodEndLocalized } =
-    useSubscription()
+  const { subscription, getSubscription } = useSubscription()
 
   async function handleDelete() {
     if (!user) return
@@ -42,11 +41,10 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
         },
       )
       const data = await res.json()
-
       if (data.status !== 'success') throw new Error()
 
       await getSubscription(user?.id)
-      toast.info('Abo erfolgreich gekündigt.')
+      toast.info('Dein Abo wurde gekündigt.')
       setStatus('IDLE')
       onCloseModal?.()
     } catch (e) {
@@ -61,10 +59,8 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       </DialogHeader>
 
       <DialogDescription>
-        Dein Abo ist nach der Kündigung noch bis zum <b>{periodEndLocalized}</b>{' '}
-        aktiv. Danach kannst du keine neuen Daten erfassen. Alle bereits
-        erfassten Daten sind aber auch nach Ende der Laufzeit jederzeit für dich
-        verfügbar.
+        Dein Abo ist nach der Kündigung noch bis zum Ende der Laufzeit aktiv. Du
+        kannst alle erfassten Daten auch nach der Kündigung jederzeit einsehen.
       </DialogDescription>
       <div className='flex justify-end gap-4 mt-4'>
         <Button size='sm' variant='outline' onClick={onCloseModal}>
@@ -77,7 +73,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
             variant='destructive'
             onClick={handleDelete}
           >
-            Abo beenden
+            Abo kündigen
           </Button>
           {status === 'LOADING' && <MiniLoader />}
         </div>

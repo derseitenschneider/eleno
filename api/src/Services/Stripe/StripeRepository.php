@@ -29,7 +29,6 @@ class StripeRepository {
 				'stripe_invoice_id'      => $session->invoiceId,
 				'subscription_status'    => $session->subscriptionStatus,
 				'payment_status'         => $session->paymentStatus,
-				'amount'                 => $session->amount,
 				'currency'               => $session->currency,
 			)
 		);

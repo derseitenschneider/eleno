@@ -1,5 +1,6 @@
-import { Loader2 } from "lucide-react"
+import { cn } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
 
-export default function MiniLoader() {
-  return <Loader2 className='size-6 text-primary/50 animate-spin' />
+export default function MiniLoader({ color = 'text-primary/50' }) {
+  return <Loader2 className={cn('size-6 animate-spin', color)} />
 }

@@ -2,6 +2,9 @@ import { createContext, useCallback, useContext, useState } from 'react'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import { getSubscriptionApi } from '../api/user.api'
 import { useUserLocale } from './UserLocaleContext'
+import supabase from '../api/supabase'
+import { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import fetchErrorToast from '@/hooks/fetchErrorToast'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   isTrial: true,
@@ -29,7 +32,7 @@ export function SubscriptionProvider({
     plan = 'Testabo'
   } else if (subscription?.subscription_status === 'lifetime') {
     plan = 'Lifetime'
-  } else if (subscription?.amount === 580) {
+  } else if (subscription?.plan === 'month') {
     plan = 'Monatlich'
   } else plan = 'Jährlich'
 
@@ -48,7 +51,7 @@ export function SubscriptionProvider({
   if (isTrial) {
     startDate = subscription?.trial_start || ''
     endDate = subscription?.trial_end || ''
-  } else if (plan === 'Monatlich') {
+  } else if (!isLifetime) {
     startDate = subscription?.period_start || ''
     endDate = subscription?.period_end || ''
   }
@@ -84,6 +87,26 @@ export function SubscriptionProvider({
       if (error instanceof Error) throw new Error(error.message)
     }
   }, [])
+
+  function handleRealtime(data: RealtimePostgresUpdatePayload<Subscription>) {
+    if (data.errors) {
+      return fetchErrorToast()
+    }
+    setSubscription(data.new)
+  }
+
+  supabase
+    .channel('stripe_subscriptions')
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'stripe_subscriptions',
+      },
+      handleRealtime,
+    )
+    .subscribe()
 
   const value = {
     subscription,

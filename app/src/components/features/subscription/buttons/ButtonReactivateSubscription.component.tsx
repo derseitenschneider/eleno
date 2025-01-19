@@ -6,8 +6,8 @@ import ReactivateSubscription from '../ReactivateSubscription.component'
 
 export default function ButtonReactivateSubscription() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { subscription, isLifetime } = useSubscription()
-  if (!subscription?.cancel_at_period_end || isLifetime) return null
+  const { subscription, isLifetime, isTrial } = useSubscription()
+  if (!subscription?.cancel_at_period_end || isLifetime || isTrial) return null
 
   return (
     <>

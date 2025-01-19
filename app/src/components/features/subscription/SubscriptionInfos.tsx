@@ -1,10 +1,7 @@
 import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import ButtonUpdateSubscription from './buttons/ButtonCustomerPortal.component'
-import PricingPlans from './PricingPlans.component'
 import ButtonCancelSubscription from './buttons/ButtonCancelSubscription.component'
 import ButtonReactivateSubscription from './buttons/ButtonReactivateSubscription.component'
 
@@ -14,13 +11,8 @@ export function SubscriptionInfos() {
     periodEndLocalized,
     isActiveSubscription,
     plan,
-    isTrial,
     subscription,
-    isLifetime,
   } = useSubscription()
-  const [modalOpen, setModalOpen] = useState<
-    'CANCEL' | 'REACTIVATE' | 'PAYMENT_METHODS' | null
-  >(null)
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
@@ -34,33 +26,30 @@ export function SubscriptionInfos() {
   }
 
   return (
-    <>
-      <div className='py-7'>
-        <Card className='py-4 px-6 mb-4 sm:w-fit'>
-          <div className='grid grid-cols-[150px_1fr] gap-4 mb-6 w-fit'>
-            <p>Status:</p>
-            <Badge variant={badgeVariant} className='w-fit'>
-              {badgeLabel}
-            </Badge>
-            <p>Plan:</p>
-            <p>{plan}</p>
-            <p>Laufzeit:</p>
-            {subscription?.subscription_status === 'lifetime' ? (
-              <p>&infin;</p>
-            ) : (
-              <p className={cn(!isActiveSubscription && 'text-warning')}>
-                {periodStartLocalized} – {periodEndLocalized}
-              </p>
-            )}
-          </div>
-        </Card>
-        <div className='flex gap-4 items-center'>
+    <div className='py-7 border-b border-hairline'>
+      <div className='flex justify-between items-end'>
+        <div className='grid grid-cols-[150px_1fr] gap-4 w-fit'>
+          <p>Status:</p>
+          <Badge variant={badgeVariant} className='w-fit'>
+            {badgeLabel}
+          </Badge>
+          <p>Plan:</p>
+          <p>{plan}</p>
+          <p>Laufzeit:</p>
+          {subscription?.subscription_status === 'lifetime' ? (
+            <p>&infin;</p>
+          ) : (
+            <p className={cn(!isActiveSubscription && 'text-warning')}>
+              {periodStartLocalized} – {periodEndLocalized}
+            </p>
+          )}
+        </div>
+        <div className='flex flex-col items-end gap-2'>
           <ButtonUpdateSubscription />
           <ButtonCancelSubscription />
           <ButtonReactivateSubscription />
         </div>
-        <PricingPlans />
       </div>
-    </>
+    </div>
   )
 }
