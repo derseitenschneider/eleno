@@ -10,22 +10,22 @@ class StripeCheckoutCompletedDTO {
 		public readonly string $customerId,
 		public readonly ?string $subscriptionId,
 		public readonly ?string $invoiceId,
+		public readonly bool $isLifetime,
 		public readonly string $subscriptionStatus,
 		public readonly string $paymentStatus,
 		public readonly string $currency
 	) {}
 
 	public static function create( Session $session ): self {
-		$isLifetime = empty( $session->subscription );
-
 		return new self(
 			userId: $session->client_reference_id,
 			customerId: $session->customer,
 			subscriptionId: $session->subscription,
 			invoiceId: $session->invoice,
-			subscriptionStatus: $isLifetime ? 'lifetime' : 'active',
+			subscriptionStatus:  'active',
 			paymentStatus: $session->payment_status,
-			currency: $session->currency
+			currency: $session->currency,
+			isLifetime:empty( $session->subscription )
 		);
 	}
 }

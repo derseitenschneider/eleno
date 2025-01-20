@@ -4,13 +4,15 @@ namespace App\Services\Stripe;
 
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
+use App\Services\StripeService;
 use Stripe\Event;
 use Stripe\Checkout\Session;
 use Stripe\Subscription;
 
 class WebhookHandler {
 	public function __construct(
-		private StripeRepository $repository
+		private StripeRepository $repository,
+		private StripeAPIService $stripeAPI
 	) {}
 
 	public function handleEvent( Event $event ): void {
@@ -25,6 +27,9 @@ class WebhookHandler {
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 		$this->repository->saveCheckoutSession( $checkoutDTO );
+		if ( $checkoutDTO->isLifetime ) {
+			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO );
+		}
 	}
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {

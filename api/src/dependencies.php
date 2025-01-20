@@ -3,11 +3,11 @@
 use DI\Container;
 use App\Config\Config;
 use App\Services\SupabaseService;
-use App\Services\Stripe\StripeService;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use App\Middleware\JWTAuthMiddleware;
+use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
 
 return function ( Container $container ) {
@@ -59,7 +59,8 @@ return function ( Container $container ) {
 		WebhookHandler::class,
 		function ( $container ) {
 			return new WebhookHandler(
-				$container->get( StripeRepository::class )
+				$container->get( StripeRepository::class ),
+				$container->get( StripeAPIService::class )
 			);
 		}
 	);

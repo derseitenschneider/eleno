@@ -3,6 +3,7 @@
 namespace App\Services\Stripe;
 
 use App\Config\Config;
+use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use Stripe\Checkout\Session;
 use Stripe\Collection;
 use Stripe\PaymentMethod;
@@ -46,6 +47,17 @@ class StripeAPIService {
 		);
 
 		return $session;
+	}
+
+	public function customer( string $customerId ) {
+		return $this->client->customers->retrieve( $customerId );
+	}
+
+	public function cancelAllSubscriptions( StripeCheckoutCompletedDTO $checkoutDTO ) {
+		$customer      = $this->customer( $checkoutDTO->customerId );
+		$subscriptions = $this->client->subscriptions->all();
+		logDebug( $subscriptions );
+		$subscriptions = $customer->subscriptions->all();
 	}
 
 	public function lifetimeSession(

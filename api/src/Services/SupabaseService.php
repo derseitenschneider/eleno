@@ -95,7 +95,6 @@ class SupabaseService {
 					'json'  => $data,
 				)
 			);
-			logDebug( $response );
 
 			return array(
 				'success' => true,

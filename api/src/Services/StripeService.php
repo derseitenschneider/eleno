@@ -115,8 +115,6 @@ class StripeService {
 		}
 	}
 
-
-
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];
 		$body        = $request->getParsedBody();
