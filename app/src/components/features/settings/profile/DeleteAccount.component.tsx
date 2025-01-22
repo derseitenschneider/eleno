@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../../../../services/context/UserContext'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
+import useFetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -14,6 +14,7 @@ interface DeleteAccountProps {
 }
 
 function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
+  const showFetcherror = useFetchErrorToast()
   const { user, deleteAccount } = useUser()
   const [input, setInput] = useState('')
   const [isPending, setIsPending] = useState(false)
@@ -33,7 +34,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
       await deleteAccount()
       navigate('/')
     } catch (error) {
-      fetchErrorToast()
+      showFetcherror()
     } finally {
       setIsPending(false)
     }

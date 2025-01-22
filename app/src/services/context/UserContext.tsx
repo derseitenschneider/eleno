@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { isDemoMode } from '../../config'
+import { appConfig, isDemoMode } from '../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/LoginPage'
 import type {
@@ -44,6 +44,7 @@ export const UserContext = createContext<ContextTypeUser>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentSession, setCurrentSession] = useState<Session | null>()
+  const { subscription } = useSubscription()
   const [userProfile, setUserProfile] = useState<Profile>()
   const { getSubscription } = useSubscription()
   const { isLoading, setIsLoading } = useLoading()
@@ -132,11 +133,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const deleteAccount = useCallback(async () => {
     try {
+      const res = await fetch(
+        `${appConfig.apiUrl}/customers/${subscription?.stripe_customer_id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${currentSession?.access_token}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const data = await res.json()
+      if (data.status !== 'success') {
+        throw new Error('Stripe deletion error')
+      }
       await deleteAccountSupabase()
+      setCurrentSession(null)
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message)
     }
-  }, [])
+  }, [currentSession, subscription])
 
   const logout = useCallback(async () => {
     if (isDemoMode) {

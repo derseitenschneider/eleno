@@ -8,9 +8,9 @@ import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 const PricingPlans = () => {
-  const { isActiveSubscription } = useSubscription()
+  const { isActiveSubscription, isTrial } = useSubscription()
 
-  if (isActiveSubscription) return null
+  if (isActiveSubscription && !isTrial) return null
 
   return (
     <div

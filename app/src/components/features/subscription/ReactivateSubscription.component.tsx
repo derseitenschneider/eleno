@@ -9,7 +9,6 @@ import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUser } from '@/services/context/UserContext'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { toast } from 'sonner'
 import { useState } from 'react'
 
@@ -20,7 +19,7 @@ interface ReactivateSubscriptionProps {
 function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { user } = useUser()
-  const { subscription, getSubscription } = useSubscription()
+  const { subscription } = useSubscription()
 
   async function handleReactivate() {
     if (!user) return

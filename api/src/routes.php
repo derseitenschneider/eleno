@@ -35,10 +35,10 @@ return function ( App $app ) {
 			);
 
 			// Upgrade/downgrade subscription
-			$group->post(
-				'/subscriptions/{subscription_id}/update',
-				array( StripeService::class, 'updateSubscriptionSession' )
-			);
+			// $group->post(
+			// '/subscriptions/{subscription_id}/update',
+			// array( StripeService::class, 'updateSubscriptionSession' )
+			// );
 
 			// Checkout Sessions
 			$group->post(
@@ -60,9 +60,10 @@ return function ( App $app ) {
 				'/customers/{customer_id}/portal',
 				array( StripeService::class, 'customerPortal' )
 			);
-			$group->post(
-				'/customers/{customer_id}/cancel-all-subscriptions',
-				array( StripeService::class, 'cancelAllSubscriptions' )
+
+			$group->delete(
+				'/customers/{customer_id}',
+				array( StripeService::class, 'deleteCustomer' )
 			);
 		}
 	)->add( JWTAuthMiddleware::class );

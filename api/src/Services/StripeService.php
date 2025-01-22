@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Config\Config;
@@ -25,11 +24,29 @@ class StripeService {
 	) {
 	}
 
-
 	public function cancelAllSubscriptions( Request $request, Response $response ) {
 		$body       = $request->getParsedBody();
 		$customerId = $body['customer_id'];
 		$this->stripeAPI->cancelAllSubscriptions( $customerId );
+	}
+
+	public function deleteCustomer( Request $request, Response $response, $args ) {
+		$customerId = $args['customer_id'] ?? '';
+		try {
+			$this->stripeAPI->cancelAllSubscriptions( $customerId );
+			$this->stripeAPI->deleteCustomer( $customerId );
+
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => null,
+				),
+			);
+
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
 	}
 
 	public function createSessionMonthly( Request $request, Response $response ) {
@@ -96,31 +113,31 @@ class StripeService {
 		}
 	}
 
-	public function updateSubscriptionSession( Request $request, Response $response, $args ) {
-		$subscriptionId = $args['subscription_id'];
-		$body           = $request->getParsedBody();
-		$customerId     = $body['customer_id'] ?? '';
-		$customerLocale = $body['locale'] ?? '';
-
-		try {
-
-			$data = $this->stripeAPI->updateSubscriptionSession(
-				$customerId,
-				$subscriptionId,
-				$customerLocale
-			);
-
-			return $this->jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => $data,
-				)
-			);
-		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
-		}
-	}
+	// public function updateSubscriptionSession( Request $request, Response $response, $args ) {
+	// $subscriptionId = $args['subscription_id'];
+	// $body           = $request->getParsedBody();
+	// $customerId     = $body['customer_id'] ?? '';
+	// $customerLocale = $body['locale'] ?? '';
+	//
+	// try {
+	//
+	// $data = $this->stripeAPI->updateSubscriptionSession(
+	// $customerId,
+	// $subscriptionId,
+	// $customerLocale
+	// );
+	//
+	// return $this->jsonResponse(
+	// $response,
+	// array(
+	// 'status' => 'success',
+	// 'data'   => $data,
+	// )
+	// );
+	// } catch ( \Exception $e ) {
+	// return $this->errorResponse( $response, $e->getMessage() );
+	// }
+	// }
 
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];
