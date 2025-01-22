@@ -251,11 +251,11 @@ export type Database = {
       }
       stripe_subscriptions: {
         Row: {
-          amount: number | null
           cancel_at_period_end: boolean
           created_at: string | null
           currency: string | null
           id: string
+          is_lifetime: boolean
           payment_status: string | null
           period_end: string | null
           period_start: string | null
@@ -263,19 +263,17 @@ export type Database = {
           stripe_customer_id: string | null
           stripe_invoice_id: string | null
           stripe_subscription_id: string | null
-          subscription_status:
-            | Database["public"]["Enums"]["subscription_status"]
-            | null
+          subscription_status: Database["public"]["Enums"]["subscription_status"]
           trial_end: string | null
           trial_start: string | null
           user_id: string | null
         }
         Insert: {
-          amount?: number | null
           cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
           id?: string
+          is_lifetime?: boolean
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
@@ -283,19 +281,17 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
-          subscription_status?:
-            | Database["public"]["Enums"]["subscription_status"]
-            | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
           trial_end?: string | null
           trial_start?: string | null
           user_id?: string | null
         }
         Update: {
-          amount?: number | null
           cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
           id?: string
+          is_lifetime?: boolean
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
@@ -303,9 +299,7 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
-          subscription_status?:
-            | Database["public"]["Enums"]["subscription_status"]
-            | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
           trial_end?: string | null
           trial_start?: string | null
           user_id?: string | null
@@ -537,12 +531,7 @@ export type Database = {
       payment_type: "trial" | "lifetime" | "subscription"
       recurring_intervals: "day" | "week" | "month" | "year"
       subscription_plan: "month" | "year"
-      subscription_status:
-        | "lifetime"
-        | "active"
-        | "canceled"
-        | "trial"
-        | "expired"
+      subscription_status: "active" | "canceled" | "trial" | "expired"
       weekdays:
         | "Montag"
         | "Dienstag"

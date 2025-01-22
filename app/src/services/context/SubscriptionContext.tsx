@@ -3,7 +3,7 @@ import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import { getSubscriptionApi } from '../api/user.api'
 import { useUserLocale } from './UserLocaleContext'
 import supabase from '../api/supabase'
-import { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
@@ -17,7 +17,7 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   periodEnd: new Date(),
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => {},
+  getSubscription: async () => { },
   isActiveSubscription: false,
 })
 
@@ -27,22 +27,22 @@ export function SubscriptionProvider({
   const { userLocale } = useUserLocale()
   const [subscription, setSubscription] = useState<Subscription>()
 
+  const subscriptionStatus = subscription?.subscription_status || ''
+  const isTrial = subscriptionStatus === 'trial'
+  const isLifetime = subscription?.is_lifetime || false
+  const isCancelable = subscriptionStatus === 'active'
+  const isSubscription =
+    (subscriptionStatus === 'active' || subscriptionStatus === 'canceled') &&
+    !isLifetime
+
   let plan = ''
   if (subscription?.subscription_status === 'trial') {
     plan = 'Testabo'
-  } else if (subscription?.subscription_status === 'lifetime') {
-    plan = 'Lifetime'
+  } else if (subscription?.is_lifetime) {
+    plan = 'Lifetime 🏅'
   } else if (subscription?.plan === 'month') {
     plan = 'Monatlich'
   } else plan = 'Jährlich'
-
-  const subscriptionStatus = subscription?.subscription_status || ''
-
-  const isTrial = subscriptionStatus === 'trial'
-  const isLifetime = subscriptionStatus === 'lifetime'
-  const isCancelable = subscriptionStatus === 'active'
-  const isSubscription =
-    subscriptionStatus === 'active' || subscriptionStatus === 'canceled'
 
   let isActiveSubscription: boolean
   let startDate = ''
@@ -58,10 +58,8 @@ export function SubscriptionProvider({
 
   const periodStart = new Date(startDate)
   const periodEnd = new Date(endDate)
-  if (
-    periodEnd >= new Date() ||
-    subscription?.subscription_status === 'lifetime'
-  ) {
+
+  if (periodEnd >= new Date() || subscription?.is_lifetime) {
     isActiveSubscription = true
   } else {
     isActiveSubscription = false

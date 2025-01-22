@@ -36,7 +36,7 @@ export function SubscriptionInfos() {
           <p>Plan:</p>
           <p>{plan}</p>
           <p>Laufzeit:</p>
-          {subscription?.subscription_status === 'lifetime' ? (
+          {subscription?.is_lifetime ? (
             <p>&infin;</p>
           ) : (
             <p className={cn(!isActiveSubscription && 'text-warning')}>

@@ -49,15 +49,21 @@ class StripeAPIService {
 		return $session;
 	}
 
-	public function customer( string $customerId ) {
-		return $this->client->customers->retrieve( $customerId );
-	}
+	// public function customer( string $customerId ) {
+	// return $this->client->customers->retrieve( $customerId );
+	// }
 
 	public function cancelAllSubscriptions( StripeCheckoutCompletedDTO $checkoutDTO ) {
-		$customer      = $this->customer( $checkoutDTO->customerId );
-		$subscriptions = $this->client->subscriptions->all();
-		logDebug( $subscriptions );
-		$subscriptions = $customer->subscriptions->all();
+		$subscriptions = $this->client->subscriptions->all(
+			array(
+				'customer' => $checkoutDTO->customerId,
+				'status'   => 'active',
+			)
+		);
+
+		foreach ( $subscriptions->data as $subscription ) {
+			$this->client->subscriptions->cancel( $subscription->id, );
+		}
 	}
 
 	public function lifetimeSession(

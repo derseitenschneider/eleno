@@ -30,6 +30,7 @@ class StripeRepository {
 				'subscription_status'    => $session->subscriptionStatus,
 				'payment_status'         => $session->paymentStatus,
 				'currency'               => $session->currency,
+				'is_lifetime'            => $session->isLifetime,
 			)
 		);
 	}
