@@ -10,6 +10,7 @@ use Stripe\PaymentMethod;
 use Stripe\StripeClient;
 use Stripe\Subscription;
 
+
 class StripeAPIService {
 	private StripeClient $client;
 
@@ -49,14 +50,10 @@ class StripeAPIService {
 		return $session;
 	}
 
-	// public function customer( string $customerId ) {
-	// return $this->client->customers->retrieve( $customerId );
-	// }
-
-	public function cancelAllSubscriptions( StripeCheckoutCompletedDTO $checkoutDTO ) {
+	public function cancelAllSubscriptions( string $customerId ) {
 		$subscriptions = $this->client->subscriptions->all(
 			array(
-				'customer' => $checkoutDTO->customerId,
+				'customer' => $customerId,
 				'status'   => 'active',
 			)
 		);
@@ -66,6 +63,7 @@ class StripeAPIService {
 		}
 	}
 
+	// TODO: Refactor all sessions into StripeSessionService class
 	public function lifetimeSession(
 		string $userId,
 		string $stripeCustomerId,

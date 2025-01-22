@@ -25,6 +25,13 @@ class StripeService {
 	) {
 	}
 
+
+	public function cancelAllSubscriptions( Request $request, Response $response ) {
+		$body       = $request->getParsedBody();
+		$customerId = $body['customer_id'];
+		$this->stripeAPI->cancelAllSubscriptions( $customerId );
+	}
+
 	public function createSessionMonthly( Request $request, Response $response ) {
 		return $this->createSession(
 			request: $request,
