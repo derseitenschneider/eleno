@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Config\Config;
+use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
@@ -15,9 +16,10 @@ use Stripe\Event;
 use Stripe\StripeClient;
 
 class StripeService {
-	private StripeClient $stripeClient;
+	use StripeSecurityChecks;
 
 	public function __construct(
+		private SupabaseService $supabase,
 		private StripeAPIService $stripeAPI,
 		private StripeRepository $repository,
 		private WebhookHandler $webhookHandler
@@ -33,16 +35,20 @@ class StripeService {
 	public function deleteCustomer( Request $request, Response $response, $args ) {
 		$customerId = $args['customer_id'] ?? '';
 		try {
-			$this->stripeAPI->cancelAllSubscriptions( $customerId );
-			$this->stripeAPI->deleteCustomer( $customerId );
+			if ( ! $this->verifyCustomerAccess( $customerId, $this->getUserIdFromRequest( $request ) ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
 
-			return $this->jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => null,
-				),
-			);
+				$this->stripeAPI->cancelAllSubscriptions( $customerId );
+				$this->stripeAPI->deleteCustomer( $customerId );
+
+				return $this->jsonResponse(
+					$response,
+					array(
+						'status' => 'success',
+						'data'   => null,
+					),
+				);
 
 		} catch ( \Exception $e ) {
 			return $this->errorResponse( $response, $e->getMessage() );
@@ -50,7 +56,7 @@ class StripeService {
 	}
 
 	public function createSessionMonthly( Request $request, Response $response ) {
-		return $this->createSession(
+		return $this->createSubscriptionSession(
 			request: $request,
 			response: $response,
 			priceId: Config::getInstance()->priceIdMonthly
@@ -58,43 +64,24 @@ class StripeService {
 	}
 
 	public function createSessionYearly( Request $request, Response $response ) {
-		return $this->createSession(
+		return $this->createSubscriptionSession(
 			request:$request,
 			response:$response,
 			priceId:Config::getInstance()->priceIdYearly
 		);
 	}
 
-	public function createSessionLifetime( Request $request, Response $response ) {
-		$body             = $request->getParsedBody();
-		$userId           = $body['user_id'];
-		$stripeCustomerId = $body['stripe_customer_id'];
-		$locale           = $body['locale'];
-		try {
-			$data = $this->stripeAPI->lifetimeSession(
-				userId: $userId,
-				stripeCustomerId: $stripeCustomerId,
-				priceId: Config::getInstance()->priceIdLifetime,
-				locale: $locale
-			);
-			return $this->jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => $data,
-				)
-			);
-		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
-		}
-	}
 
-	public function createSession( Request $request, Response $response, string $priceId ) {
+	public function createSubscriptionSession( Request $request, Response $response, string $priceId ) {
 		$body             = $request->getParsedBody();
 		$userId           = $body['user_id'];
 		$stripeCustomerId = $body['stripe_customer_id'];
 		$locale           = $body['locale'];
 		try {
+			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
+
 			$data = $this->stripeAPI->subscriptionSession(
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
@@ -113,31 +100,33 @@ class StripeService {
 		}
 	}
 
-	// public function updateSubscriptionSession( Request $request, Response $response, $args ) {
-	// $subscriptionId = $args['subscription_id'];
-	// $body           = $request->getParsedBody();
-	// $customerId     = $body['customer_id'] ?? '';
-	// $customerLocale = $body['locale'] ?? '';
-	//
-	// try {
-	//
-	// $data = $this->stripeAPI->updateSubscriptionSession(
-	// $customerId,
-	// $subscriptionId,
-	// $customerLocale
-	// );
-	//
-	// return $this->jsonResponse(
-	// $response,
-	// array(
-	// 'status' => 'success',
-	// 'data'   => $data,
-	// )
-	// );
-	// } catch ( \Exception $e ) {
-	// return $this->errorResponse( $response, $e->getMessage() );
-	// }
-	// }
+	public function createLifetimeSession( Request $request, Response $response ) {
+		$body             = $request->getParsedBody();
+		$userId           = $body['user_id'];
+		$stripeCustomerId = $body['stripe_customer_id'];
+		$locale           = $body['locale'];
+		try {
+			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
+
+			$data = $this->stripeAPI->lifetimeSession(
+				userId: $userId,
+				stripeCustomerId: $stripeCustomerId,
+				priceId: Config::getInstance()->priceIdLifetime,
+				locale: $locale
+			);
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => $data,
+				)
+			);
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage() );
+		}
+	}
 
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];
@@ -145,6 +134,10 @@ class StripeService {
 		$user_locale = $body['locale'] ?? '';
 
 		try {
+			if ( ! $this->verifyCustomerAccess( $customer_id, $this->getUserIdFromRequest( $request ) ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
+
 			$data = $this->stripeAPI->customerPortal( $customer_id, $user_locale );
 			return $this->jsonResponse(
 				$response,
@@ -163,6 +156,10 @@ class StripeService {
 		$subscription_id = $args['subscription_id'];
 
 		try {
+			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
+
 			$this->stripeAPI->updateSubscription(
 				$subscription_id,
 				array( 'cancel_at_period_end' => true )
@@ -185,6 +182,10 @@ class StripeService {
 		$subscription_id = $args['subscription_id'];
 
 		try {
+			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {
+				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			}
+
 			$this->stripeAPI->updateSubscription(
 				$subscription_id,
 				array( 'cancel_at_period_end' => false )

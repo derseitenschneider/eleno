@@ -65,23 +65,24 @@ return function ( Container $container ) {
 		}
 	);
 
-	$container->set(
-		StripeService::class,
-		function ( $container ) {
-			return new StripeService(
-				$container->get( StripeAPIService::class ),
-				$container->get( StripeRepository::class ),
-				$container->get( WebhookHandler::class )
-			);
-		}
-	);
-
 	// Supabase Service
 	$container->set(
 		SupabaseService::class,
 		function ( $container ) {
 			return new SupabaseService(
 				$container->get( Config::class )
+			);
+		}
+	);
+
+	$container->set(
+		StripeService::class,
+		function ( $container ) {
+			return new StripeService(
+				$container->get( SupabaseService::class ),
+				$container->get( StripeAPIService::class ),
+				$container->get( StripeRepository::class ),
+				$container->get( WebhookHandler::class )
 			);
 		}
 	);

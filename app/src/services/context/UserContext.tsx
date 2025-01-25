@@ -33,13 +33,13 @@ import { useSubscription } from './SubscriptionContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

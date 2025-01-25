@@ -11,14 +11,6 @@ class StripeRepository {
 		private SupabaseService $supabase
 	) {}
 
-	public function updateSubscriptionStatus( string $subscriptionId, string $status ): array {
-		return match ( $status ) {
-			'canceled' => $this->supabase->cancelSubscription( $subscriptionId ),
-			'active' => $this->supabase->reactivateSubscription( $subscriptionId ),
-			default => throw new \InvalidArgumentException( 'Invalid subscription status' )
-		};
-	}
-
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
 		return $this->supabase->updateSubscription(
 			query: array(

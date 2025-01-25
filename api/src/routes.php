@@ -34,12 +34,6 @@ return function ( App $app ) {
 				array( StripeService::class, 'handleReactivation' )
 			);
 
-			// Upgrade/downgrade subscription
-			// $group->post(
-			// '/subscriptions/{subscription_id}/update',
-			// array( StripeService::class, 'updateSubscriptionSession' )
-			// );
-
 			// Checkout Sessions
 			$group->post(
 				'/sessions/create/monthly',
@@ -53,7 +47,7 @@ return function ( App $app ) {
 
 			$group->post(
 				'/sessions/create/lifetime',
-				array( StripeService::class, 'createSessionLifetime' )
+				array( StripeService::class, 'createLifetimeSession' )
 			);
 
 			$group->post(
