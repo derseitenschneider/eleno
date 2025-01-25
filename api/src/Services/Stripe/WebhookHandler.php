@@ -2,6 +2,8 @@
 
 namespace App\Services\Stripe;
 
+use App\Services\Message\MessageService;
+use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\StripeService;
@@ -12,7 +14,8 @@ use Stripe\Subscription;
 class WebhookHandler {
 	public function __construct(
 		private StripeRepository $repository,
-		private StripeAPIService $stripeAPI
+		private StripeAPIService $stripeAPI,
+		private DatabaseMessageStrategy $dbMessageStrategy
 	) {}
 
 	public function handleEvent( Event $event ): void {
@@ -34,6 +37,9 @@ class WebhookHandler {
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
+
+		$messageService = new MessageService( 'database', $this->dbMessageStrategy );
+
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}
 }

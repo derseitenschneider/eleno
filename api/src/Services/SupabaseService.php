@@ -105,4 +105,27 @@ class SupabaseService {
 			return array( 'error' => $e->getMessage() );
 		}
 	}
+
+	public function insert(
+		string $endpoint,
+		array $data,
+	): array {
+		try {
+			$response = $this->client->request(
+				'POST',
+				"{$this->config->supabaseUrl}/rest/v1/{$endpoint}",
+				array(
+					'json' => $data,
+				)
+			);
+
+			return array(
+				'success' => true,
+				'data'    => json_decode( $response->getBody(), true ),
+			);
+
+		} catch ( \Exception $e ) {
+			return array( 'error' => $e->getMessage() );
+		}
+	}
 }

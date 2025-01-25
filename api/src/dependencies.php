@@ -7,6 +7,8 @@ use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use App\Middleware\JWTAuthMiddleware;
+use App\Services\Message\MessageService;
+use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
 
@@ -60,7 +62,8 @@ return function ( Container $container ) {
 		function ( $container ) {
 			return new WebhookHandler(
 				$container->get( StripeRepository::class ),
-				$container->get( StripeAPIService::class )
+				$container->get( StripeAPIService::class ),
+				$container->get( DatabaseMessageStrategy::class )
 			);
 		}
 	);
@@ -71,6 +74,16 @@ return function ( Container $container ) {
 		function ( $container ) {
 			return new SupabaseService(
 				$container->get( Config::class )
+			);
+		}
+	);
+
+	// Message Service dependencies
+	$container->set(
+		DatabaseMessageStrategy::class,
+		function ( Container $container ) {
+			return new DatabaseMessageStrategy(
+				$container->get( SupabaseService::class )
 			);
 		}
 	);
