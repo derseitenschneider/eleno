@@ -13,9 +13,9 @@ class DatabaseMessageStrategy implements MessageStrategy {
 			$data = $this->supabase->insert(
 				'messages',
 				array(
-					'user_id' => $recipient,
-					'header'  => $header,
-					'body'    => $body,
+					'recipient' => $recipient,
+					'header'    => $header,
+					'body'      => $body,
 				)
 			);
 			if ( $data['success'] === true ) {

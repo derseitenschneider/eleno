@@ -29,6 +29,10 @@ class WebhookHandler {
 
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
+
+		$messageService = new MessageService( 'database', $this->dbMessageStrategy );
+		$messageService->send( '13c1e634-0906-4c30-8622-c786957553ae', 'test', 'test' );
+
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 		if ( $checkoutDTO->isLifetime ) {
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
@@ -39,6 +43,7 @@ class WebhookHandler {
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
 
 		$messageService = new MessageService( 'database', $this->dbMessageStrategy );
+		$messageService->send( '13c1e634-0906-4c30-8622-c786957553ae', 'test', 'test' );
 
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}
