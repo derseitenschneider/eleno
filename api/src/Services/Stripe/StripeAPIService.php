@@ -18,6 +18,10 @@ class StripeAPIService {
 		$this->client = new StripeClient( Config::getInstance()->stripeSecretKey );
 	}
 
+	public function getInvoiceLink( string $invoiceId ): string {
+		return $this->client->invoices->retrieve( $invoiceId )->hosted_invoice_url ?? '';
+	}
+
 	public function subscriptionSession(
 		string $userId,
 		string $stripeCustomerId,
@@ -85,6 +89,9 @@ class StripeAPIService {
 				),
 				'client_reference_id'        => $userId,
 				'customer'                   => $stripeCustomerId,
+				'invoice_creation'           => array(
+					'enabled' => true,
+				),
 				'line_items'                 => array(
 					array(
 						'price'    => $priceId,

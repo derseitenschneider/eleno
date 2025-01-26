@@ -7,8 +7,10 @@ use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use App\Middleware\JWTAuthMiddleware;
+use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
+use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
 
@@ -63,7 +65,7 @@ return function ( Container $container ) {
 			return new WebhookHandler(
 				$container->get( StripeRepository::class ),
 				$container->get( StripeAPIService::class ),
-				$container->get( DatabaseMessageStrategy::class )
+				$container->get( LifetimeUpgradeHandler::class )
 			);
 		}
 	);
@@ -83,6 +85,27 @@ return function ( Container $container ) {
 		DatabaseMessageStrategy::class,
 		function ( Container $container ) {
 			return new DatabaseMessageStrategy(
+				$container->get( SupabaseService::class )
+			);
+		}
+	);
+
+	$container->set(
+		MessageTemplateService::class,
+		function ( Container $container ) {
+			return new MessageTemplateService(
+				$container->get( SupabaseService::class )
+			);
+		}
+	);
+
+	$container->set(
+		LifetimeUpgradeHandler::class,
+		function ( Container $container ) {
+			return new LifetimeUpgradeHandler(
+				$container->get( DatabaseMessageStrategy::class ),
+				$container->get( MessageTemplateService::class ),
+				$container->get( StripeAPIService::class ),
 				$container->get( SupabaseService::class )
 			);
 		}

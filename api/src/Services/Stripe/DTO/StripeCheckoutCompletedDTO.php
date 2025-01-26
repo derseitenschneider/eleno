@@ -13,7 +13,8 @@ class StripeCheckoutCompletedDTO {
 		public readonly bool $isLifetime,
 		public readonly string $subscriptionStatus,
 		public readonly string $paymentStatus,
-		public readonly string $currency
+		public readonly string $currency,
+		public readonly string $locale
 	) {}
 
 	public static function create( Session $session ): self {
@@ -25,7 +26,8 @@ class StripeCheckoutCompletedDTO {
 			subscriptionStatus:  'active',
 			paymentStatus: $session->payment_status,
 			currency: $session->currency,
-			isLifetime:empty( $session->subscription )
+			isLifetime:empty( $session->subscription ),
+			locale: $session->locale
 		);
 	}
 }

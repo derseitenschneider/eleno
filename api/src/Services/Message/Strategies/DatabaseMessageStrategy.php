@@ -8,13 +8,13 @@ class DatabaseMessageStrategy implements MessageStrategy {
 	public function __construct( private SupabaseService $supabase ) {
 	}
 
-	public function send( string $recipient, string $header, string $body ): bool {
+	public function send( string $recipient, string $subject, string $body ): bool {
 		try {
 			$data = $this->supabase->insert(
 				'messages',
 				array(
 					'recipient' => $recipient,
-					'header'    => $header,
+					'subject'   => $subject,
 					'body'      => $body,
 				)
 			);

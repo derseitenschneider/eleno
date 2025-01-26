@@ -2,6 +2,7 @@
 
 namespace App\Services\Stripe;
 
+use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
@@ -15,7 +16,7 @@ class WebhookHandler {
 	public function __construct(
 		private StripeRepository $repository,
 		private StripeAPIService $stripeAPI,
-		private DatabaseMessageStrategy $dbMessageStrategy
+		private LifetimeUpgradeHandler $lifetimeUpgradeHandler,
 	) {}
 
 	public function handleEvent( Event $event ): void {
@@ -30,20 +31,15 @@ class WebhookHandler {
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 
-		$messageService = new MessageService( 'database', $this->dbMessageStrategy );
-		$messageService->send( '13c1e634-0906-4c30-8622-c786957553ae', 'test', 'test' );
-
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 		if ( $checkoutDTO->isLifetime ) {
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
+			$this->lifetimeUpgradeHandler->handle( $checkoutDTO );
 		}
 	}
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
-
-		$messageService = new MessageService( 'database', $this->dbMessageStrategy );
-		$messageService->send( '13c1e634-0906-4c30-8622-c786957553ae', 'test', 'test' );
 
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}
