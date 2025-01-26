@@ -25,10 +25,10 @@ const MessageDetail = ({ message, onBack }: MessageDetailProps) => {
           onClick={() => {}}
           variant='ghost'
           size='sm'
-          className='text-warning'
+          className='text-warning hover:text-warning'
         >
           Löschen
-          <Trash2 strokeWidth={1.5} className='ml-2 h-5 w-5 text-warning' />
+          <Trash2 strokeWidth={1.5} className='ml-2 h-5 w-5' />
         </Button>
       </div>
       <CardHeader className='border-b border-hairline flex-row items-center justify-between space-y-0'>
