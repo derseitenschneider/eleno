@@ -102,6 +102,54 @@ export type Database = {
           },
         ]
       }
+      message_templates: {
+        Row: {
+          body: string
+          id: number
+          name: string
+          subject: string
+        }
+        Insert: {
+          body: string
+          id?: number
+          name: string
+          subject: string
+        }
+        Update: {
+          body?: string
+          id?: number
+          name?: string
+          subject?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: number
+          recipient: string
+          status: Database["public"]["Enums"]["message_status"]
+          subject: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: number
+          recipient: string
+          status?: Database["public"]["Enums"]["message_status"]
+          subject?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: number
+          recipient?: string
+          status?: Database["public"]["Enums"]["message_status"]
+          subject?: string | null
+        }
+        Relationships: []
+      }
       notes: {
         Row: {
           backgroundColor:
@@ -528,6 +576,7 @@ export type Database = {
     Enums: {
       background_colors: "blue" | "red" | "green" | "yellow"
       currencies: "CHF" | "EUR"
+      message_status: "sent" | "read" | "trash"
       payment_type: "trial" | "lifetime" | "subscription"
       recurring_intervals: "day" | "week" | "month" | "year"
       subscription_plan: "month" | "year"

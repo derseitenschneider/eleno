@@ -13,6 +13,7 @@ import {
   CheckSquare2,
   GaugeCircle,
   GraduationCap,
+  Inbox,
   LogOut,
   Settings,
   Users,
@@ -141,6 +142,20 @@ function Sidebar() {
       </ul>
 
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
+        <SidebarElement
+          isActive={window.location.pathname.includes('inbox')}
+          onClick={() => setSidebarOpen(false)}
+          sidebarOpen={sidebarOpen}
+          to='/inbox'
+          name='Nachrichten'
+          icon={
+            <Inbox
+              strokeWidth={
+                window.location.pathname.includes('inbox') ? 1.55 : 1
+              }
+            />
+          }
+        />
         <SidebarElement
           isActive={window.location.pathname.includes('settings')}
           onClick={() => setSidebarOpen(false)}

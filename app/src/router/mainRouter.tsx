@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import SubscriptionPage from '@/pages/Subscription.page'
 import OnboardingPage from '@/pages/Onboarding.page'
+import Inbox from '@/pages/Inbox.page'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -60,6 +61,20 @@ const SettingsWrapper = () => {
     >
       <div className='container-page'>
         <Settings />
+      </div>
+    </ScrollArea>
+  )
+}
+const InboxWrapper = () => {
+  const hasBanner = useHasBanner()
+  return (
+    <ScrollArea
+      className={cn(
+        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
+      )}
+    >
+      <div className='container-page'>
+        <Inbox />
       </div>
     </ScrollArea>
   )
@@ -112,6 +127,10 @@ const mainRouter = createBrowserRouter(
               element: <SubscriptionPage />,
             },
           ],
+        },
+        {
+          path: 'inbox',
+          element: <InboxWrapper />,
         },
       ],
     },

@@ -6,7 +6,7 @@ import useStudentsQuery from '../../components/features/students/studentsQueries
 import useTodosQuery from '../../components/features/todos/todosQuery'
 import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
-import DemoBanner from '@/components/ui/DemoBanner.component'
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
 
 interface DataProviderProps {
   children: React.ReactNode
@@ -20,6 +20,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingLatestLessons } = useLatestLessons()
   const { isLoading: isLoadingTodos } = useTodosQuery()
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
+  const { isLoading: isLoadingMessages } = useMessagesQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -28,6 +29,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingLatestLessons ||
       isLoadingTodos ||
       isLoadingNotes ||
+      isLoadingMessages ||
       false
     setIsLoading(compoundIsLoading)
   }, [
@@ -37,13 +39,12 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingLatestLessons,
     isLoadingTodos,
     isLoadingNotes,
+    isLoadingMessages,
   ])
 
   return (
     <>
       <Banner />
-      {/* <DemoBanner /> */}
-
       <div id='main'>{children}</div>
     </>
   )

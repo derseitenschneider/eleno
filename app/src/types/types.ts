@@ -161,6 +161,10 @@ export type ContextTypeSubscription = {
   periodEndLocalized: string
 }
 
+export type ContextTypeMessages = {
+  messages: Array<Message> | null
+}
+
 export type ContextTypeTodos = {
   todos: TTodoItem[] | null
   setTodos: React.Dispatch<React.SetStateAction<TTodoItem[]>>
@@ -276,6 +280,14 @@ export type News = {
 */
 
 export type Subscription = DBTypes['stripe_subscriptions']
+
+/*
+|--------------------------------------------------------------------------
+| Message Type
+|--------------------------------------------------------------------------
+*/
+
+export type Message = DBTypes['messages']
 /*
 |--------------------------------------------------------------------------
 | Repertoire Types

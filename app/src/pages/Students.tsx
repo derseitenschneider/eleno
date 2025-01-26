@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
-import useIsOnline from '@/hooks/useIsOnline'
 import useHasBanner from '@/hooks/useHasBanner'
 
 const navLinks = [
