@@ -22,15 +22,21 @@ import useTodosQuery from '@/components/features/todos/todosQuery'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
 
 function Sidebar() {
   const hasBanner = useHasBanner()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
+  const { data: messages } = useMessagesQuery()
   const { logout } = useUser()
   const overdueTodos = todos?.filter(
     (todo) => todo.due && todo?.due <= new Date() && !todo.completed,
+  )
+
+  const unreadMessages = messages?.filter(
+    (message) => message.status === 'sent',
   )
 
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
@@ -146,6 +152,8 @@ function Sidebar() {
           isActive={window.location.pathname.includes('inbox')}
           onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}
+          notificationContent={unreadMessages?.length}
+          notificationColor='bg-primary'
           to='/inbox'
           name='Nachrichten'
           icon={

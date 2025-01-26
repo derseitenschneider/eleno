@@ -4,38 +4,48 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import type { Message } from '@/types/types'
 import { ArrowLeft, Trash2 } from 'lucide-react'
+import { formatDateString } from '@/utils/formatDate'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 
 export type MessageDetailProps = {
   message: Message
   onBack: () => void
 }
 
-const MessageDetail = ({ message, onBack }: MessageDetailProps) => (
-  <Card className='h-screen rounded-none border-0'>
-    <CardHeader className='border-b'>
-      <div className='flex items-center justify-between mb-4'>
-        <Button onClick={onBack} className='p-2 hover:bg-gray-100 rounded-full'>
-          <ArrowLeft className='h-5 w-5' />
+const MessageDetail = ({ message, onBack }: MessageDetailProps) => {
+  const { userLocale } = useUserLocale()
+  return (
+    <Card className='h-screen border-hairline'>
+      <div className='flex items-center bg-background50 border-b border-hairline justify-between p-2'>
+        <Button variant='ghost' size='sm' onClick={onBack}>
+          <ArrowLeft className='h-4 w-4 mr-2' />
+          Zurück
         </Button>
         <Button
           onClick={() => {}}
-          className='p-2 hover:bg-gray-100 rounded-full text-red-600'
+          variant='ghost'
+          size='sm'
+          className='text-warning'
         >
-          <Trash2 className='h-5 w-5' />
+          Löschen
+          <Trash2 strokeWidth={1.5} className='ml-2 h-5 w-5 text-warning' />
         </Button>
       </div>
-      <CardTitle>{message.subject}</CardTitle>
-      <p className='text-sm text-gray-500 mt-1'>
-        {/* {forDmatDate(email.created_at)} */}
-        {message.created_at}
-      </p>
-    </CardHeader>
-    <CardContent className='pt-6'>
-      <ScrollArea className='h-[calc(100vh-16rem)]'>
-        <div className='prose'>{parse(message.body || '')}</div>
-        <ScrollBar />
-      </ScrollArea>
-    </CardContent>
-  </Card>
-)
+      <CardHeader className='border-b border-hairline flex-row items-center justify-between space-y-0'>
+        <CardTitle className='text-xl mb-1'>{message.subject}</CardTitle>
+        <p className='text-sm text-foreground/80'>
+          {formatDateString(message.created_at, userLocale)}
+        </p>
+      </CardHeader>
+      <CardContent className='pt-6'>
+        <ScrollArea className='h-full'>
+          <div className='max-w-[90ch] space-y-2 prose'>
+            {parse(message.body || '')}
+          </div>
+          <ScrollBar />
+        </ScrollArea>
+      </CardContent>
+    </Card>
+  )
+}
 export default MessageDetail

@@ -9,6 +9,7 @@ type TSidebarProps = {
   target?: HTMLAttributeAnchorTarget
   sidebarOpen: boolean
   notificationContent?: number
+  notificationColor?: string
   onClick?: () => void
   isButton?: boolean
   isActive?: boolean
@@ -24,6 +25,7 @@ export default function SidebarElement({
   notificationContent,
   isButton = false,
   isActive = false,
+  notificationColor = 'bg-warning',
 }: TSidebarProps) {
   if (isButton)
     return (
@@ -93,10 +95,12 @@ export default function SidebarElement({
           {icon}
           {notificationContent ? (
             <div
-              className='z-100 absolute bottom-0 right-0 flex
-            aspect-square !size-[15px] translate-x-[25%] translate-y-[25%]
-            items-center justify-center rounded-full bg-warning'
+              className={cn(
+                'z-100 absolute bottom-0 right-0 flex aspect-square !size-[15px] translate-x-[25%] translate-y-[25%] items-center justify-center rounded-full',
+                notificationColor,
+              )}
             >
+              {' '}
               <span className='text-[10px] text-white'>
                 {notificationContent}
               </span>

@@ -11,13 +11,12 @@ const MessageListItem = ({ message, onClick }: MessageListItemProps) => {
   return (
     <div
       onClick={onClick}
-      className='p-4 cursor-pointer hover:bg-background200/10'
+      className='p-4  flex justify-between items-center cursor-pointer hover:bg-background200/10'
     >
-      <h4 className='font-semibold text-md mb-1'>{message.subject}</h4>
-      <p className='text-sm text-gray-500'>
+      <h4 className='font-semibold text-base mb-1'>{message.subject}</h4>
+      <p className='text-sm text-foreground/80'>
         {formatDateString(message.created_at, userLocale)}
       </p>
-      {/* <p className='text-sm text-gray-500'>{message.created_at}</p> */}
     </div>
   )
 }

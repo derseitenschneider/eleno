@@ -14,7 +14,7 @@ const MessageList = ({ onSelectEmail }: MessageListProps) => {
   if (!messages) return null
 
   return (
-    <Card className='h-full rounded-none '>
+    <Card className='h-full'>
       <ScrollArea className='h-[calc(100vh-5rem)]'>
         {messages.map((message) => (
           <React.Fragment key={message.id}>
