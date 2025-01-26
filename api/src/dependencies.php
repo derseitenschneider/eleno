@@ -82,6 +82,17 @@ return function ( Container $container ) {
 
 	// Message Service dependencies
 	$container->set(
+		MessageService::class,
+		function ( Container $container ) {
+			return new MessageService(
+				array(
+					'database' => $container->get( DatabaseMessageStrategy::class ),
+				)
+			);
+		}
+	);
+
+	$container->set(
 		DatabaseMessageStrategy::class,
 		function ( Container $container ) {
 			return new DatabaseMessageStrategy(
@@ -105,6 +116,7 @@ return function ( Container $container ) {
 			return new LifetimeUpgradeHandler(
 				$container->get( DatabaseMessageStrategy::class ),
 				$container->get( MessageTemplateService::class ),
+				$container->get( MessageService::class ),
 				$container->get( StripeAPIService::class ),
 				$container->get( SupabaseService::class )
 			);

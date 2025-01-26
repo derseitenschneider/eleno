@@ -14,6 +14,7 @@ class LifetimeUpgradeHandler {
 	public function __construct(
 		private DatabaseMessageStrategy $databaseMessageStrategy,
 		private MessageTemplateService $templateService,
+		private MessageService $messageService,
 		private StripeAPIService $stripeApiService,
 		private SupabaseService $supabase
 	) {
@@ -38,7 +39,6 @@ class LifetimeUpgradeHandler {
 		$template = $this->templateService->getTemplate( 'lifetime_upgrade' );
 		$template = $this->templateService->fillTemplate( $template, $data );
 
-		$messageService = new MessageService( 'database', $this->databaseMessageStrategy );
-		$messageService->send( $checkoutDTO->userId, $template->subject, $template->body );
+		$this->messageService->send( $checkoutDTO->userId, $template->subject, $template->body );
 	}
 }

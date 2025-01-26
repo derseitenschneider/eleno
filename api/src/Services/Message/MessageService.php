@@ -5,14 +5,13 @@ namespace App\Services\Message;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 
 class MessageService {
-	public function __construct( private string $strategy, private DatabaseMessageStrategy $dbStrategy ) {
+	public function __construct( private readonly array $strategies ) {
 	}
 
-	public function send( string $recipient, string $subject, string $body ) {
-		return match ( $this->strategy ) {
-			'database' => $this->dbStrategy->send( $recipient, $subject, $body ),
-			// 'email' => $this->emailStrategy->send( $recipient, $header, $body ),
-			default=> throw new \InvalidArgumentException( "Unknown strategy: {$this->strategy}" )
-		};
+	public function send( string $recipient, string $subject, string $body, string $strategy = 'database', ) {
+		if ( ! isset( $this->strategies[ $strategy ] ) ) {
+			throw new \InvalidArgumentException( "Unknown strategy: {$strategy}" );
+		}
+		return $this->strategies[ $strategy ]->send( $recipient, $subject, $body );
 	}
 }
