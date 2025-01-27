@@ -7,6 +7,7 @@ import {
   GraduationCap,
   LogOut,
   Settings,
+  Settings2,
 } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
@@ -75,7 +76,7 @@ function NavbarMobile() {
           isActive={window.location.pathname.includes('settings')}
           to='/settings'
           icon={
-            <Settings
+            <Settings2
               strokeWidth={
                 window.location.pathname.includes('settings') ? 1.3 : 1
               }

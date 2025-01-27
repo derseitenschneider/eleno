@@ -18,7 +18,7 @@ const MessageDetail = ({ message, onBack }: MessageDetailProps) => {
     <Card className='h-screen border-hairline'>
       <div className='flex items-center bg-background50 border-b border-hairline justify-between p-2'>
         <Button variant='ghost' size='sm' onClick={onBack}>
-          <ArrowLeft className='h-4 w-4 mr-2' />
+          <ArrowLeft className='h-4 w-4 mr-1' />
           Zurück
         </Button>
         <Button
@@ -28,7 +28,7 @@ const MessageDetail = ({ message, onBack }: MessageDetailProps) => {
           className='text-warning hover:text-warning'
         >
           Löschen
-          <Trash2 strokeWidth={1.5} className='ml-2 h-5 w-5' />
+          <Trash2 strokeWidth={1.5} className='ml-1 h-5 w-5' />
         </Button>
       </div>
       <CardHeader className='border-b border-hairline flex-row items-center justify-between space-y-0'>

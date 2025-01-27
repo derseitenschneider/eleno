@@ -9,13 +9,14 @@ import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
 import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
 import {
   BookMarked,
+  BookOpen,
   CalendarDays,
   CheckSquare2,
   GaugeCircle,
   GraduationCap,
   Inbox,
   LogOut,
-  Settings,
+  Settings2,
   Users,
 } from 'lucide-react'
 import useTodosQuery from '@/components/features/todos/todosQuery'
@@ -171,7 +172,7 @@ function Sidebar() {
           to='/settings'
           name='Einstellungen'
           icon={
-            <Settings
+            <Settings2
               strokeWidth={
                 window.location.pathname.includes('settings') ? 1.55 : 1
               }
@@ -184,7 +185,7 @@ function Sidebar() {
           to='https://manual.eleno.net'
           target={'_blank'}
           name='Anleitung'
-          icon={<BookMarked strokeWidth={1} />}
+          icon={<BookOpen strokeWidth={1} />}
         />
         <SidebarElement
           isButton

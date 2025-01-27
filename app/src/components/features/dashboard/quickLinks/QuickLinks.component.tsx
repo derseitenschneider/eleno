@@ -1,8 +1,10 @@
 import {
   BookMarked,
+  BookOpen,
   CheckSquare2,
   GraduationCap,
   Settings,
+  Settings2,
   UserRoundPlus,
 } from 'lucide-react'
 import QuickLinkItem from './QuickLinkItem.component'
@@ -41,12 +43,12 @@ function QuickLinks() {
         />
         <QuickLinkItem
           title='Einstellungen'
-          icon={<Settings strokeWidth={1.5} />}
+          icon={<Settings2 strokeWidth={1.5} />}
           link='settings'
         />
         <QuickLinkItem
           title='Anleitung'
-          icon={<BookMarked strokeWidth={1.5} />}
+          icon={<BookOpen strokeWidth={1.5} />}
           link='https://manual.eleno.net'
           target='_blank'
         />
