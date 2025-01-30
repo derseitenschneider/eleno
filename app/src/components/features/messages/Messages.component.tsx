@@ -7,14 +7,13 @@ const Messages = () => {
   const [selectedEmail, setSelectedEmail] = useState<Message | null>(null)
 
   return (
-    <div className='h-full'>
-      {selectedEmail ? (
+    <div className='h-full flex'>
+      <MessageList onSelectEmail={setSelectedEmail} />
+      {selectedEmail !== null && (
         <MessageDetail
           message={selectedEmail}
           onBack={() => setSelectedEmail(null)}
         />
-      ) : (
-        <MessageList onSelectEmail={setSelectedEmail} />
       )}
     </div>
   )

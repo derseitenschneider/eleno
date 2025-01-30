@@ -1,7 +1,12 @@
-function Logo() {
+import { cn } from '@/lib/utils'
+
+type LogoProps = {
+  className?: string
+}
+function Logo({ className }: LogoProps) {
   return (
     <svg
-      className='w-[28px] h-full'
+      className={cn('w-[28px] h-full', className)}
       viewBox='0 0 128 109'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
