@@ -4,8 +4,6 @@ const commonFeatures = [
   'Repertoirelisten',
   'Notizen',
   'Unbegrenzte Anzahl Schüler:innen',
-  'Regelmäßige Updates',
-  'Mehrere Geräte',
 ]
 
 export default commonFeatures

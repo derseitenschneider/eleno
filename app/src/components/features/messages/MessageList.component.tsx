@@ -5,6 +5,7 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 import React from 'react'
 import MessageListItem from './MessageListItem.component'
 import useMessagesQuery from './messagesQueries'
+import Empty from '@/components/ui/Empty.component'
 
 export type MessageListProps = {
   onSelectEmail: (message: Message) => void
