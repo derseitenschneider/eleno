@@ -6,10 +6,15 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
+type ButtonCheckoutMonthlyProps = ButtonProps & {
+  currency: string
+}
+
 export default function ButtonCheckoutMonthly({
   children,
+  currency,
   ...props
-}: ButtonProps) {
+}: ButtonCheckoutMonthlyProps) {
   const { subscription } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
@@ -32,6 +37,7 @@ export default function ButtonCheckoutMonthly({
           user_id: subscription?.user_id,
           stripe_customer_id: subscription?.stripe_customer_id,
           locale: userLocale,
+          currency,
         }),
       })
 

@@ -39,7 +39,7 @@ export function SubscriptionProvider({
   if (subscription?.subscription_status === 'trial') {
     plan = 'Testabo'
   } else if (subscription?.is_lifetime) {
-    plan = 'Lifetime 🏅'
+    plan = '🚀 Lifetime'
   } else if (subscription?.plan === 'month') {
     plan = 'Monatlich'
   } else plan = 'Jährlich'

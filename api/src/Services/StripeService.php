@@ -56,7 +56,7 @@ class StripeService {
 	}
 
 	public function createSessionMonthly( Request $request, Response $response ) {
-		return $this->createSubscriptionSession(
+		return $this->createPaymentSession(
 			request: $request,
 			response: $response,
 			priceId: Config::getInstance()->priceIdMonthly
@@ -64,7 +64,7 @@ class StripeService {
 	}
 
 	public function createSessionYearly( Request $request, Response $response ) {
-		return $this->createSubscriptionSession(
+		return $this->createPaymentSession(
 			request:$request,
 			response:$response,
 			priceId:Config::getInstance()->priceIdYearly
@@ -72,11 +72,13 @@ class StripeService {
 	}
 
 
-	public function createSubscriptionSession( Request $request, Response $response, string $priceId ) {
+	public function createPaymentSession( Request $request, Response $response, string $priceId ) {
 		$body             = $request->getParsedBody();
 		$userId           = $body['user_id'];
 		$stripeCustomerId = $body['stripe_customer_id'];
 		$locale           = $body['locale'];
+		$currency         = $body['currency'];
+
 		try {
 			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
@@ -86,7 +88,8 @@ class StripeService {
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
 				priceId: $priceId,
-				locale: $locale
+				locale: $locale,
+				currency: $currency
 			);
 			return $this->jsonResponse(
 				$response,
@@ -105,6 +108,7 @@ class StripeService {
 		$userId           = $body['user_id'];
 		$stripeCustomerId = $body['stripe_customer_id'];
 		$locale           = $body['locale'];
+		$currency         = $body['currency'];
 		try {
 			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
@@ -114,7 +118,8 @@ class StripeService {
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
 				priceId: Config::getInstance()->priceIdLifetime,
-				locale: $locale
+				locale: $locale,
+				currency: $currency
 			);
 			return $this->jsonResponse(
 				$response,

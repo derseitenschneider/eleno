@@ -27,6 +27,7 @@ class StripeAPIService {
 		string $stripeCustomerId,
 		string $priceId,
 		string $locale,
+		string $currency
 	): Session {
 		$baseUrl = Config::getInstance()->appBaseUrl;
 
@@ -39,6 +40,7 @@ class StripeAPIService {
 				),
 				'client_reference_id'        => $userId,
 				'customer'                   => $stripeCustomerId,
+				'currency'                   => $currency,
 				'line_items'                 => array(
 					array(
 						'price'    => $priceId,
@@ -77,6 +79,7 @@ class StripeAPIService {
 		string $stripeCustomerId,
 		string $priceId,
 		string $locale,
+		string $currency
 	): Session {
 		$baseUrl = Config::getInstance()->appBaseUrl;
 
@@ -89,6 +92,7 @@ class StripeAPIService {
 				),
 				'client_reference_id'        => $userId,
 				'customer'                   => $stripeCustomerId,
+				'currency'                   => $currency,
 				'invoice_creation'           => array(
 					'enabled' => true,
 				),
