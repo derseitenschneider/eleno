@@ -6,10 +6,11 @@ import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
 import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 import { Check } from 'lucide-react'
 
-export default function PricingPlanCH() {
-  const currency = 'CHF'
+export default function PricingPlanEUR() {
+  const currency = 'EUR'
+
   return (
-    <div className='flex flex-col sm:flex-row gap-8 max-w-5xl w-full'>
+    <div className='flex flex-col sm:flex-row gap-4 max-w-5xl w-full'>
       {/* Monatlich */}
       <Card className='flex-1'>
         <CardHeader>
@@ -25,7 +26,10 @@ export default function PricingPlanCH() {
           </div>
         </CardHeader>
         <CardContent>
-          <ul className='space-y-4 mb-8'>
+          <ButtonCheckoutMonthly variant='outline' currency={currency}>
+            Jetzt starten
+          </ButtonCheckoutMonthly>
+          <ul className='space-y-4 mt-8'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />
@@ -33,14 +37,11 @@ export default function PricingPlanCH() {
               </li>
             ))}
           </ul>
-          <ButtonCheckoutMonthly variant='outline' currency={currency}>
-            Jetzt starten
-          </ButtonCheckoutMonthly>
         </CardContent>
       </Card>
 
       {/* Jährlich */}
-      <Card className='flex-1 border-primary shadow-lg relative'>
+      <Card className='flex-1 border-primary translate-y-[-28px] shadow-lg relative'>
         <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
           <Badge
             variant='default'
@@ -64,7 +65,10 @@ export default function PricingPlanCH() {
           </div>
         </CardHeader>
         <CardContent>
-          <ul className='space-y-4 mb-8'>
+          <ButtonCheckoutYearly variant='default' currency={currency}>
+            Jetzt starten
+          </ButtonCheckoutYearly>
+          <ul className='space-y-4 mt-8'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />
@@ -72,9 +76,6 @@ export default function PricingPlanCH() {
               </li>
             ))}
           </ul>
-          <ButtonCheckoutYearly currency={currency}>
-            Jetzt starten
-          </ButtonCheckoutYearly>
         </CardContent>
       </Card>
 
@@ -94,7 +95,10 @@ export default function PricingPlanCH() {
           </div>
         </CardHeader>
         <CardContent>
-          <ul className='space-y-4 mb-8'>
+          <ButtonCheckoutLifetime variant='outline' currency={currency}>
+            Jetzt starten
+          </ButtonCheckoutLifetime>
+          <ul className='space-y-4 mt-8'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />
@@ -102,9 +106,6 @@ export default function PricingPlanCH() {
               </li>
             ))}
           </ul>
-          <ButtonCheckoutLifetime variant='outline' currency='EUR'>
-            Jetzt starten
-          </ButtonCheckoutLifetime>
         </CardContent>
       </Card>
     </div>

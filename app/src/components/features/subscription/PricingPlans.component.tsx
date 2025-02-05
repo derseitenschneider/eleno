@@ -1,6 +1,7 @@
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import PricingPlanCH from './PricingPlanCH.component'
+import PricingPlanCHF from './PricingPlanCHF.component'
+import PricingPlanEUR from './PricingPlanEUR.component'
 
 const PricingPlans = () => {
   const { isActiveSubscription, isTrial } = useSubscription()
@@ -8,17 +9,19 @@ const PricingPlans = () => {
   if (isActiveSubscription && !isTrial) return null
 
   return (
-    <div id='pricing' className=''>
-      <h3 className='text-center font-bold'>Jetzt upgraden!</h3>
+    <div id='pricing'>
+      <h3 className='text-center mt-6 font-bold'>Jetzt upgraden!</h3>
       <Tabs defaultValue='chf' className='w-full flex flex-col items-center'>
-        <TabsList>
+        <TabsList className='mb-12'>
           <TabsTrigger value='chf'>CHF</TabsTrigger>
           <TabsTrigger value='eur'>EUR</TabsTrigger>
         </TabsList>
         <TabsContent value='chf'>
-          <PricingPlanCH />
+          <PricingPlanCHF />
         </TabsContent>
-        <TabsContent value='password'>Change your password here.</TabsContent>
+        <TabsContent value='eur'>
+          <PricingPlanEUR />
+        </TabsContent>
       </Tabs>
     </div>
   )

@@ -23,15 +23,18 @@ class HomeworkController {
 
 		try {
 			$lesson = $this->supabase->getLesson( $homeworkKey );
+			if ( ! $lesson || ! isset( $lesson['data'] ) ) {
+				return $this->renderError( $response );
+			}
+			$lessonData = $lesson['data'][0];
 
-			if ( ! $lesson
-				|| ( $entity_id !== $lesson['studentId']
-				&& $entity_id !== $lesson['groupId'] )
+			if ( $entity_id !== $lessonData['studentId']
+				&& $entity_id !== $lessonData['groupId']
 			) {
 				return $this->renderError( $response );
 			}
 
-			$formattedLesson = $this->formatLesson( $lesson );
+			$formattedLesson = $this->formatLesson( $lessonData );
 
 			$response->getBody()->write(
 				$this->renderView( 'homework', $formattedLesson )
@@ -43,13 +46,13 @@ class HomeworkController {
 		}
 	}
 
-	private function formatLesson( $lesson ): array {
+	private function formatLesson( $lessonData ): array {
 		return array(
-			'date'        => $this->formatDate( $lesson['date'] ),
-			'entity_name' => $lesson['students']['firstName']
-			?? $lesson['groups']['name'],
-			'entity_type' => $lesson['students'] ? 's' : 'g',
-			'homework'    => $lesson['homework'] ?? '',
+			'date'        => $this->formatDate( $lessonData['date'] ),
+			'entity_name' => $lessonData['students']['firstName']
+			?? $lessonData['groups']['name'],
+			'entity_type' => $lessonData['students'] ? 's' : 'g',
+			'homework'    => $lessonData['homework'] ?? '',
 		);
 	}
 

@@ -30,13 +30,14 @@ class SupabaseService {
 	}
 
 	public function getLesson( string $homeworkKey ) {
-		$this->get(
+		$lesson = $this->get(
 			endpoint: 'lessons',
 			query:array(
 				'select'      => '*,students(id,firstName),groups(id,name)',
 				'homeworkKey' => 'eq.' . $homeworkKey,
 			),
 		);
+		return $lesson;
 	}
 
 
