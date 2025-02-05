@@ -1,22 +1,92 @@
-import { useState } from 'react'
+import { Search } from 'lucide-react'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@/components/ui/resizable'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Input } from '@/components/ui/input'
+import useMessagesQuery from './messagesQueries'
 import MessageList from './MessageList.component'
+import { useState } from 'react'
 import type { Message } from '@/types/types'
-import MessageDetail from './MessageDetail.component'
+import MessageDisplay from './MessageDisplay.component'
 
-const Messages = () => {
-  const [selectedEmail, setSelectedEmail] = useState<Message | null>(null)
+export default function Messages() {
+  const layout = [20, 32, 48]
+  const { data: messages, isLoading } = useMessagesQuery()
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
 
   return (
-    <div className='h-full flex'>
-      <MessageList onSelectEmail={setSelectedEmail} />
-      {selectedEmail !== null && (
-        <MessageDetail
-          message={selectedEmail}
-          onBack={() => setSelectedEmail(null)}
-        />
-      )}
+    <div className='h-full rounded-lg border border-hairline'>
+      <TooltipProvider delayDuration={0}>
+        <ResizablePanelGroup
+          direction='horizontal'
+          onLayout={(sizes: number[]) => {
+            document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+              sizes,
+            )}`
+          }}
+          className=''
+        >
+          <ResizablePanel defaultSize={layout[1]} minSize={30}>
+            <Tabs defaultValue='all'>
+              <div className='flex items-center px-4 py-2'>
+                <h1 className='text-xl font-bold'>Nachrichten</h1>
+                <TabsList className='ml-auto'>
+                  <TabsTrigger
+                    value='all'
+                    className='text-zinc-600 dark:text-zinc-200'
+                  >
+                    Alle
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='unread'
+                    className='text-zinc-600 dark:text-zinc-200'
+                  >
+                    Ungelesen
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              <Separator />
+              <div className='bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+                <form>
+                  <div className='relative'>
+                    <Search className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
+                    <Input placeholder='Search' className='pl-8' />
+                  </div>
+                </form>
+              </div>
+              <TabsContent value='all' className='m-0'>
+                {messages && messages.length !== 0 && (
+                  <MessageList
+                    setSelectedMessage={setSelectedMessage}
+                    selectedMessage={selectedMessage}
+                    messages={messages}
+                  />
+                )}
+              </TabsContent>
+              <TabsContent value='unread' className='m-0'>
+                {messages && messages.length !== 0 && (
+                  <MessageList
+                    selectedMessage={selectedMessage}
+                    setSelectedMessage={setSelectedMessage}
+                    messages={messages.filter(
+                      (message) => message.status === 'sent',
+                    )}
+                  />
+                )}
+              </TabsContent>
+            </Tabs>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={layout[2]} minSize={30}>
+            <MessageDisplay message={selectedMessage} />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </TooltipProvider>
     </div>
   )
 }
-
-export default Messages
