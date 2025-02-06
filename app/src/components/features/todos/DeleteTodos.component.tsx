@@ -8,6 +8,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { TTodoItem } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDeleteTodos } from './useDeleteTodos'
+import { Blocker } from '../subscription/Blocker'
 
 type DeleteTodosProps = {
   onCloseModal?: () => void
@@ -43,6 +44,7 @@ export default function DeleteTodos({
         <DialogTitle>Todo{todoIds.length > 1 && 's'} löschen</DialogTitle>
       </DialogHeader>
       <div>
+        <Blocker />
         {todoIds.length === 1 ? (
           <DialogDescription>
             Möchtest du die Todo{' '}

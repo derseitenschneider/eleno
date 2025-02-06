@@ -10,6 +10,7 @@ import { useState } from 'react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { Blocker } from '../subscription/Blocker'
 
 type UpdateTodoProps = {
   id: number
@@ -59,6 +60,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
 
   return (
     <div className={cn('md:w-[90vw] lg:w-[800px]')}>
+      <Blocker />
       <form
         onSubmit={onSaveHandler}
         className={cn(
