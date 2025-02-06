@@ -1,4 +1,3 @@
-import { Search } from 'lucide-react'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import {
   ResizableHandle,
@@ -6,8 +5,6 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
 import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Input } from '@/components/ui/input'
 import useMessagesQuery from './messagesQueries'
 import MessageList from './MessageList.component'
 import { useState } from 'react'
@@ -32,58 +29,32 @@ export default function Messages() {
           className=''
         >
           <ResizablePanel defaultSize={layout[1]} minSize={30}>
-            <Tabs defaultValue='all'>
-              <div className='flex items-center px-4 py-2'>
-                <h1 className='text-xl font-bold'>Nachrichten</h1>
-                <TabsList className='ml-auto'>
-                  <TabsTrigger
-                    value='all'
-                    className='text-zinc-600 dark:text-zinc-200'
-                  >
-                    Alle
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value='unread'
-                    className='text-zinc-600 dark:text-zinc-200'
-                  >
-                    Ungelesen
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-              <Separator />
-              <div className='bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-                <form>
-                  <div className='relative'>
-                    <Search className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
-                    <Input placeholder='Search' className='pl-8' />
-                  </div>
-                </form>
-              </div>
-              <TabsContent value='all' className='m-0'>
-                {messages && messages.length !== 0 && (
-                  <MessageList
-                    setSelectedMessage={setSelectedMessage}
-                    selectedMessage={selectedMessage}
-                    messages={messages}
-                  />
-                )}
-              </TabsContent>
-              <TabsContent value='unread' className='m-0'>
-                {messages && messages.length !== 0 && (
-                  <MessageList
-                    selectedMessage={selectedMessage}
-                    setSelectedMessage={setSelectedMessage}
-                    messages={messages.filter(
-                      (message) => message.status === 'sent',
-                    )}
-                  />
-                )}
-              </TabsContent>
-            </Tabs>
+            <div className='flex items-center px-4 h-14'>
+              <p className='text-xl font-bold'>Nachrichten</p>
+            </div>
+            <Separator />
+            <div className='mt-4'>
+              {messages && messages.length !== 0 ? (
+                <MessageList
+                  setSelectedMessage={setSelectedMessage}
+                  selectedMessage={selectedMessage}
+                  messages={messages}
+                />
+              ) : (
+                <div className='p-6 text-center text-muted-foreground'>
+                  Keine Nachrichten Vorhanden
+                </div>
+              )}
+            </div>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={layout[2]} minSize={30}>
-            <MessageDisplay message={selectedMessage} />
+            {messages?.length !== 0 && (
+              <MessageDisplay
+                message={selectedMessage}
+                setSelectedMessage={setSelectedMessage}
+              />
+            )}
           </ResizablePanel>
         </ResizablePanelGroup>
       </TooltipProvider>

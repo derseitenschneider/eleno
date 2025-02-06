@@ -1,4 +1,4 @@
-import type { Profile, UserMeta } from '../../types/types'
+import type { Message, Profile, UserMeta } from '../../types/types'
 import supabase from './supabase'
 
 export const getMessagesApi = async (userId: string) => {
@@ -14,7 +14,17 @@ export const getMessagesApi = async (userId: string) => {
   return messages
 }
 
-export const updateMessageApi = async (data: UserMeta) => {
-  const { error } = await supabase.auth.updateUser({ data })
+export const updateMessageApi = async (message: Message) => {
+  const { error } = await supabase
+    .from('messages')
+    .update({ ...message })
+    .eq('id', message.id)
+
+  if (error) throw new Error(error.message)
+}
+
+export const deleteMessageApi = async (id: number) => {
+  const { error } = await supabase.from('messages').delete().eq('id', id)
+
   if (error) throw new Error(error.message)
 }

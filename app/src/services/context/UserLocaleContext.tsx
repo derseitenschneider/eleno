@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type TLocale = 'en' | 'de'
+export type TLocale = 'en' | 'de'
 type UserLocaleContextType = {
   userLocale: TLocale
   setUserLocale: (locale: TLocale) => void
@@ -8,7 +8,7 @@ type UserLocaleContextType = {
 
 const UserLocaleContext = createContext<UserLocaleContextType>({
   userLocale: 'en',
-  setUserLocale: () => {},
+  setUserLocale: () => { },
 })
 
 export function UserLocaleProvider({
