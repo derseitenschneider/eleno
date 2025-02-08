@@ -14,7 +14,7 @@ import getLocale from '@/utils/getLocale'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useDeleteMessage } from './useDeleteMessage'
 import type { SetStateAction } from 'react'
-import { ScrollArea } from '@radix-ui/react-scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface MailDisplayProps {
   message: Message | null
@@ -35,7 +35,7 @@ export default function MessageDisplay({
   }
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='h-full flex flex-col'>
       <div className='flex items-center p-2'>
         <div className='flex items-center gap-2'>
           <Tooltip>
@@ -56,7 +56,7 @@ export default function MessageDisplay({
       </div>
       <Separator />
       {message ? (
-        <div className='flex flex-1 flex-col'>
+        <>
           <div className='flex items-start p-4'>
             <div className='flex items-start gap-4 text-sm'>
               <Logo className='self-center' />
@@ -74,13 +74,13 @@ export default function MessageDisplay({
             )}
           </div>
           <Separator />
-          <div className='flex-grow max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
-            <ScrollArea className='max-h-[300px]'>
+          <ScrollArea type='hover' className='h-full'>
+            <div className='h-full max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
               <div className='p-4'>{parse(message.body || '')}</div>
-            </ScrollArea>
-          </div>
+            </div>
+          </ScrollArea>
           <Separator className='mt-auto' />
-        </div>
+        </>
       ) : (
         <div className='p-8 text-center text-muted-foreground'>
           Keine Nachricht ausgewählt
