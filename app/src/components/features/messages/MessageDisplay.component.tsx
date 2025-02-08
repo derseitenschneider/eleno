@@ -76,7 +76,9 @@ export default function MessageDisplay({
           <Separator />
           <ScrollArea type='hover' className='h-full'>
             <div className='h-full max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
-              <div className='p-4'>{parse(message.body || '')}</div>
+              <div className='p-4 flex flex-col space-y-4'>
+                {parse(message.body || '')}
+              </div>
             </div>
           </ScrollArea>
           <Separator className='mt-auto' />

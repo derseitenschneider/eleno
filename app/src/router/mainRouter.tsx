@@ -68,15 +68,14 @@ const SettingsWrapper = () => {
 const InboxWrapper = () => {
   const hasBanner = useHasBanner()
   return (
-    <ScrollArea
+    <div
       className={cn(
+        'container-page h-full',
         hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
       )}
     >
-      <div className='container-page'>
-        <Inbox />
-      </div>
-    </ScrollArea>
+      <Inbox />
+    </div>
   )
 }
 
