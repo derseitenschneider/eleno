@@ -14,6 +14,7 @@ import getLocale from '@/utils/getLocale'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useDeleteMessage } from './useDeleteMessage'
 import type { SetStateAction } from 'react'
+import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 interface MailDisplayProps {
   message: Message | null
@@ -73,10 +74,10 @@ export default function MessageDisplay({
             )}
           </div>
           <Separator />
-          <div className='flex-1 whitespace-pre-wrap p-4 text-sm'>
-            <div className='max-w-[90ch] space-y-2 [*&]:break-all [*&]:break-word '>
-              {parse(message.body || '')}
-            </div>
+          <div className='flex-grow max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
+            <ScrollArea className='max-h-[300px]'>
+              <div className='p-4'>{parse(message.body || '')}</div>
+            </ScrollArea>
           </div>
           <Separator className='mt-auto' />
         </div>

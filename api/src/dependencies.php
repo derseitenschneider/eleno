@@ -7,6 +7,7 @@ use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use App\Middleware\JWTAuthMiddleware;
+use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
@@ -54,7 +55,8 @@ return function ( Container $container ) {
 		StripeRepository::class,
 		function ( $container ) {
 			return new StripeRepository(
-				$container->get( SupabaseService::class )
+				$container->get( SupabaseService::class ),
+				$container->get( FirstTimeSubscriptionHandler::class )
 			);
 		}
 	);
@@ -110,6 +112,17 @@ return function ( Container $container ) {
 		}
 	);
 
+	$container->set(
+		FirstTimeSubscriptionHandler::class,
+		function ( Container $container ) {
+			return new FirstTimeSubscriptionHandler(
+				$container->get( DatabaseMessageStrategy::class ),
+				$container->get( MessageTemplateService::class ),
+				$container->get( MessageService::class ),
+				$container->get( SupabaseService::class )
+			);
+		}
+	);
 	$container->set(
 		LifetimeUpgradeHandler::class,
 		function ( Container $container ) {

@@ -32,6 +32,7 @@ class WebhookHandler {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 
 		$this->repository->saveCheckoutSession( $checkoutDTO );
+
 		if ( $checkoutDTO->isLifetime ) {
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
 			$this->lifetimeUpgradeHandler->handle( $checkoutDTO );

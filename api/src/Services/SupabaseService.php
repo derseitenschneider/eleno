@@ -29,6 +29,17 @@ class SupabaseService {
 		);
 	}
 
+	public function getSubscriptionStatus( string $userId ) {
+		$subscriptionStatus = $this->get(
+			endpoint: 'stripe_subscriptions',
+			query:array(
+				'select'  => 'subscription_status',
+				'user_id' => 'eq.' . $userId,
+			),
+		);
+		return $subscriptionStatus['data'][0]['subscription_status'] ?? '';
+	}
+
 	public function getLesson( string $homeworkKey ) {
 		$lesson = $this->get(
 			endpoint: 'lessons',

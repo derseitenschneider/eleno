@@ -2,16 +2,26 @@
 
 namespace App\Services\Stripe;
 
+use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\SupabaseService;
 
+/** @package App\Services\Stripe */
 class StripeRepository {
 	public function __construct(
-		private SupabaseService $supabase
+		private SupabaseService $supabase,
+		private FirstTimeSubscriptionHandler $firstTimeSubscriptionHandler
 	) {}
 
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
+		$statusBeforeUpdate = $this->supabase->getSubscriptionStatus( $session->userId );
+
+		// Handle first time subscription.
+		if ( $statusBeforeUpdate === 'trial' ) {
+			$this->firstTimeSubscriptionHandler->handle( $session );
+		}
+
 		return $this->supabase->updateSubscription(
 			query: array(
 				'user_id' => 'eq.' . $session->userId,

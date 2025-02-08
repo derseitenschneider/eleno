@@ -218,7 +218,6 @@ class StripeService {
 		$event     = null;
 
 		try {
-			// $event = Event::constructFrom( json_decode( $payload, true ) );
 			$event = Webhook::constructEvent( $payload, $sigHeader, $webhookSecret );
 
 			$this->webhookHandler->handleEvent( $event );
