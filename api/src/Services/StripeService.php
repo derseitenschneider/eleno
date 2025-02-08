@@ -14,6 +14,7 @@ use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Event;
 use Stripe\StripeClient;
+use Stripe\Webhook;
 
 class StripeService {
 	use StripeSecurityChecks;
@@ -210,17 +211,30 @@ class StripeService {
 	}
 
 	public function handleWebhook( Request $request, Response $response ) {
-		$payload = @file_get_contents( 'php://input' );
-		$event   = null;
+		$webhookSecret = Config::getInstance()->stripeWebhookSignature;
+
+		$payload   = @file_get_contents( 'php://input' );
+		$sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+		$event     = null;
 
 		try {
-			$event = Event::constructFrom( json_decode( $payload, true ) );
+			// $event = Event::constructFrom( json_decode( $payload, true ) );
+			$event = Webhook::constructEvent( $payload, $sigHeader, $webhookSecret );
 
 			$this->webhookHandler->handleEvent( $event );
 
 			return $response->withStatus( 200 );
+
 		} catch ( \UnexpectedValueException $e ) {
+
 			return $this->errorResponse( $response, $e->getMessage(), 400 );
+
+		} catch ( \Stripe\Exception\SignatureVerificationException $e ) {
+			return $this->errorResponse(
+				$response,
+				'Error verifying webhook signature: ' . $e->getMessage()
+			);
+			exit();
 		}
 	}
 

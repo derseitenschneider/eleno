@@ -12,6 +12,7 @@ class Config {
 	public readonly string $supabaseServiceRoleKey;
 	public readonly string $supabaseJwtSecret;
 	public readonly string $stripeSecretKey;
+	public readonly string $stripeWebhookSignature;
 	public readonly array $corsAllowedOrigins;
 	public readonly string $priceIdMonthly;
 	public readonly string $priceIdYearly;
@@ -28,6 +29,7 @@ class Config {
 			'STRIPE_PRICE_ID_MONTHLY',
 			'STRIPE_PRICE_ID_YEARLY',
 			'STRIPE_PRICE_ID_LIFETIME',
+			'STRIPE_SIGNATURE',
 		);
 
 		foreach ( $required as $var ) {
@@ -45,6 +47,7 @@ class Config {
 		$this->priceIdMonthly         = $_ENV['STRIPE_PRICE_ID_MONTHLY'];
 		$this->priceIdYearly          = $_ENV['STRIPE_PRICE_ID_YEARLY'];
 		$this->priceIdLifetime        = $_ENV['STRIPE_PRICE_ID_LIFETIME'];
+		$this->stripeWebhookSignature = $_ENV['STRIPE_SIGNATURE'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
