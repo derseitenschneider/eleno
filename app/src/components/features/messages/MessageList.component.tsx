@@ -58,7 +58,10 @@ export default function MessageList({
               <div className='flex items-center'>
                 <div className='flex items-center gap-2'>
                   <div
-                    className={cn(message.status === 'sent' && 'font-semibold')}
+                    className={cn(
+                      'text-foreground/75',
+                      message.status === 'sent' && 'font-semibold',
+                    )}
                   >
                     Team ELENO
                   </div>
@@ -77,7 +80,14 @@ export default function MessageList({
                   {formatMessageDate(new Date(message.created_at))}
                 </div>
               </div>
-              <div className=''>{message.subject}</div>
+              <div
+                className={cn(
+                  'text-base',
+                  message.status === 'sent' && 'font-[500]',
+                )}
+              >
+                {message.subject}
+              </div>
             </div>
           </button>
         ))}
