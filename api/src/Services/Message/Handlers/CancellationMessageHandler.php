@@ -9,32 +9,28 @@ use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\SupabaseService;
 
-class SuscriptionCancellationHandler {
+class CancellationMessageHandler {
 
 	public function __construct(
 		private DatabaseMessageStrategy $databaseMessageStrategy,
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
-		private SupabaseService $supabase
 	) {
 	}
 
-	public function handle( string $subscriptionId ) {
-		$userId = $this->supabase->get(
-			'stripe_subscriptions',
-			array(
-				'select'                 => 'user_id',
-				'stripe_subscription_id' => 'eq.' . $subscriptionId,
-			)
-		) ?? '';
+	public function handle( string $userId, string $firstName ) {
 
 		$data = array(
-			'{{customerName}}' => $firstName['data'][0]['first_name'],
+			'{{customerName}}' => $firstName,
 		);
 
 		$template = $this->templateService->getTemplate( 'subscription_cancellation' );
 		$template = $this->templateService->fillTemplate( $template, $data );
 
-		$this->messageService->send( $checkoutDTO->userId, $template->subject, $template->body );
+		$this->messageService->send(
+			recipient:$userId,
+			subject:$template->subject,
+			body:$template->body
+		);
 	}
 }

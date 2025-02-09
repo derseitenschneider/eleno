@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Config\Config;
+use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
@@ -23,7 +24,8 @@ class StripeService {
 		private SupabaseService $supabase,
 		private StripeAPIService $stripeAPI,
 		private StripeRepository $repository,
-		private WebhookHandler $webhookHandler
+		private WebhookHandler $webhookHandler,
+		private CancellationMessageHandler $cancellationMessageHandler,
 	) {
 	}
 
@@ -162,15 +164,24 @@ class StripeService {
 		$subscription_id = $args['subscription_id'];
 		$body            = $request->getParsedBody();
 		$firstName       = $body['firstName'] ?? '';
+		$userId          = $body['userId'] ?? '';
 
 		try {
-			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {
+			if ( ! $this->verifySubscriptionAccess(
+				subscriptionId: $subscription_id,
+				userId: $this->getUserIdFromRequest( $request )
+			) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$this->stripeAPI->updateSubscription(
 				$subscription_id,
 				array( 'cancel_at_period_end' => true )
+			);
+
+			$this->cancellationMessageHandler->handle(
+				userId: $userId,
+				firstName:$firstName
 			);
 
 			return $this->jsonResponse(
