@@ -16,7 +16,11 @@ export function SubscriptionInfos() {
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
-  if (isActiveSubscription && subscription?.cancel_at_period_end) {
+  if (
+    isActiveSubscription &&
+    subscription?.cancel_at_period_end &&
+    !subscription.is_lifetime
+  ) {
     badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }
