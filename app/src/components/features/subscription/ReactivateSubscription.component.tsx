@@ -34,6 +34,10 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
         `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}`,
         {
           method: 'PATCH',
+          body: JSON.stringify({
+            userId: user.id,
+            firstName: user.first_name,
+          }),
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

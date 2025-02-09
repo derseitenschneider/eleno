@@ -10,6 +10,7 @@ use App\Middleware\JWTAuthMiddleware;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
+use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
@@ -150,6 +151,17 @@ return function ( Container $container ) {
 	);
 
 	$container->set(
+		ReactivationMessageHandler::class,
+		function ( Container $container ) {
+			return new ReactivationMessageHandler(
+				$container->get( DatabaseMessageStrategy::class ),
+				$container->get( MessageTemplateService::class ),
+				$container->get( MessageService::class ),
+			);
+		}
+	);
+
+	$container->set(
 		StripeService::class,
 		function ( $container ) {
 			return new StripeService(
@@ -157,7 +169,8 @@ return function ( Container $container ) {
 				$container->get( StripeAPIService::class ),
 				$container->get( StripeRepository::class ),
 				$container->get( WebhookHandler::class ),
-				$container->get( CancellationMessageHandler::class )
+				$container->get( CancellationMessageHandler::class ),
+				$container->get( ReactivationMessageHandler::class )
 			);
 		}
 	);

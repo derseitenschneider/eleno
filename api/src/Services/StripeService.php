@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Config\Config;
 use App\Services\Message\Handlers\CancellationMessageHandler;
+use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
@@ -26,6 +27,7 @@ class StripeService {
 		private StripeRepository $repository,
 		private WebhookHandler $webhookHandler,
 		private CancellationMessageHandler $cancellationMessageHandler,
+		private ReactivationMessageHandler $reactivationMessageHandler,
 	) {
 	}
 
@@ -199,6 +201,9 @@ class StripeService {
 
 	public function handleReactivation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
+		$body            = $request->getParsedBody();
+		$userId          = $body['userId'];
+		$firstName       = $body['firstName'];
 
 		try {
 			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {
@@ -208,6 +213,11 @@ class StripeService {
 			$this->stripeAPI->updateSubscription(
 				$subscription_id,
 				array( 'cancel_at_period_end' => false )
+			);
+
+			$this->reactivationMessageHandler->handle(
+				userId: $userId,
+				firstName: $firstName
 			);
 
 			return $this->jsonResponse(
