@@ -13,7 +13,7 @@ export default function Messages() {
   return (
     <div className='h-full rounded-lg border border-hairline flex '>
       <TooltipProvider delayDuration={0}>
-        <div className='basis-[400px] flex-grow-0 flex flex-col flex-1'>
+        <div className='basis-[500px] flex-grow-0 flex flex-col flex-1'>
           <div className='flex items-center px-4 h-14 shrink-0'>
             <p className='text-xl font-bold'>Nachrichten</p>
           </div>
