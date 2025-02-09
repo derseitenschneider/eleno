@@ -160,6 +160,8 @@ class StripeService {
 
 	public function handleCancelation( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
+		$body            = $request->getParsedBody();
+		$firstName       = $body['firstName'] ?? '';
 
 		try {
 			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {

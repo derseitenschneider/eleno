@@ -2,6 +2,7 @@ import ButtonCheckoutLifetime from '@/components/features/subscription/buttons/B
 import PricingPlans from '@/components/features/subscription/PricingPlans.component'
 import { SubscriptionInfos } from '@/components/features/subscription/SubscriptionInfos'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 export default function SubscriptionPage() {
   const { subscription, isLifetime, isTrial } = useSubscription()
@@ -21,20 +22,56 @@ export default function SubscriptionPage() {
               zukünftigen Premium-Features.
             </p>
           </div>
-          <Card className='sm:w-fit'>
-            <CardHeader>
-              <CardTitle>Lifetime</CardTitle>
-              <div className='mt-4'>
-                <span className='text-3xl font-bold'>CHF 199</span>
-                <span className='text-muted-foreground'>/einmalig</span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ButtonCheckoutLifetime variant='default'>
-                Jetzt upgraden
-              </ButtonCheckoutLifetime>
-            </CardContent>
-          </Card>
+          <Tabs defaultValue='chf' className='flex flex-col items-center'>
+            <TabsList className=''>
+              <TabsTrigger value='chf'>CHF</TabsTrigger>
+              <TabsTrigger value='eur'>EUR</TabsTrigger>
+            </TabsList>
+            <TabsContent value='chf'>
+              <Card className='sm:w-fit'>
+                <CardHeader>
+                  <CardTitle>Lifetime</CardTitle>
+                  <div className='mt-4'>
+                    <span className='text-3xl font-bold'>
+                      {new Intl.NumberFormat('de-CH', {
+                        style: 'currency',
+                        currency: 'CHF',
+                        trailingZeroDisplay: 'stripIfInteger',
+                      }).format(199)}
+                    </span>
+                    <span className='text-muted-foreground'>/einmalig</span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ButtonCheckoutLifetime currency='CHF' variant='default'>
+                    Jetzt upgraden
+                  </ButtonCheckoutLifetime>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value='eur'>
+              <Card className='sm:w-fit'>
+                <CardHeader>
+                  <CardTitle>Lifetime</CardTitle>
+                  <div className='mt-4'>
+                    <span className='text-3xl font-bold'>
+                      {new Intl.NumberFormat('de-CH', {
+                        style: 'currency',
+                        currency: 'EUR',
+                        trailingZeroDisplay: 'stripIfInteger',
+                      }).format(199)}
+                    </span>
+                    <span className='text-muted-foreground'>/einmalig</span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ButtonCheckoutLifetime currency='EUR' variant='default'>
+                    Jetzt upgraden
+                  </ButtonCheckoutLifetime>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       )}
       <PricingPlans />
