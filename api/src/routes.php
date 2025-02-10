@@ -34,7 +34,7 @@ return function ( App $app ) {
 				array( StripeService::class, 'handleReactivation' )
 			);
 
-			// Checkout Sessions
+			// // Checkout Sessions
 			$group->post(
 				'/sessions/create/monthly',
 				array( StripeService::class, 'createSessionMonthly' )

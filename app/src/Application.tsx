@@ -20,16 +20,15 @@ export default function Application() {
   const isOnline = useIsOnline()
   // Hides loader when app is loaded.
   useEffect(() => {
+    console.log('loaded')
     const loader = document.getElementById('loader')
     const body = document.body
     if (loader) {
-      setTimeout(() => {
-        loader.classList.add('fade-out')
-        setTimeout(() => {
-          loader.style.display = 'none'
-          body.removeAttribute('style')
-        }, 1000)
-      }, 500)
+      loader.style.display = 'none'
+      // setTimeout(() => {
+      //   loader.style.display = 'none'
+      //   body.removeAttribute('style')
+      // }, 1000)
     }
   }, [])
   return (
