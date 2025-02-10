@@ -10,6 +10,7 @@ use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\StripeService;
 use Stripe\Event;
 use Stripe\Checkout\Session;
+use Stripe\Invoice;
 use Stripe\Subscription;
 
 class WebhookHandler {
@@ -22,10 +23,18 @@ class WebhookHandler {
 	public function handleEvent( Event $event ): void {
 		$eventObject = $event->data->object;
 		match ( $event->type ) {
-			'checkout.session.completed' => $this->handleCheckoutCompleted( $event->data->object ),
-			'customer.subscription.updated' => $this->handleSubscriptionUpdated( $event->data->object ),
+			'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
+			'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
+			'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
 			default => null,
 		};
+	}
+
+	private function handlePaymentFailed( Invoice $invoice ) {
+		$this->repository->handlePaymentFailed(
+			stripeCustomer:$invoice->customer,
+			firstName: explode( ' ', $invoice->customer_name )[0]
+		);
 	}
 
 	private function handleCheckoutCompleted( Session $session ): void {

@@ -3,6 +3,7 @@
 namespace App\Services\Stripe;
 
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
+use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\SupabaseService;
@@ -11,8 +12,22 @@ use App\Services\SupabaseService;
 class StripeRepository {
 	public function __construct(
 		private SupabaseService $supabase,
-		private FirstTimeSubscriptionHandler $firstTimeSubscriptionHandler
+		private FirstTimeSubscriptionHandler $firstTimeSubscriptionHandler,
+		private PaymentFailedMessageHandler $paymentFailedMessageHandler
 	) {}
+
+	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
+		$data   = $this->supabase->get(
+			endpoint:'stripe_subscriptions',
+			query: array(
+				'select'             => 'user_id',
+				'stripe_customer_id' => 'eq.' . $stripeCustomer,
+			)
+		);
+		$userId = $data['data'][0]['user_id'];
+
+		$this->paymentFailedMessageHandler->handle( $userId, $firstName );
+	}
 
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
 		$statusBeforeUpdate = $this->supabase->getSubscriptionStatus( $session->userId );

@@ -10,6 +10,7 @@ use App\Middleware\JWTAuthMiddleware;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
+use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
@@ -58,7 +59,8 @@ return function ( Container $container ) {
 		function ( $container ) {
 			return new StripeRepository(
 				$container->get( SupabaseService::class ),
-				$container->get( FirstTimeSubscriptionHandler::class )
+				$container->get( FirstTimeSubscriptionHandler::class ),
+				$container->get( PaymentFailedMessageHandler::class )
 			);
 		}
 	);
@@ -154,6 +156,17 @@ return function ( Container $container ) {
 		ReactivationMessageHandler::class,
 		function ( Container $container ) {
 			return new ReactivationMessageHandler(
+				$container->get( DatabaseMessageStrategy::class ),
+				$container->get( MessageTemplateService::class ),
+				$container->get( MessageService::class ),
+			);
+		}
+	);
+
+	$container->set(
+		PaymentFailedMessageHandler::class,
+		function ( Container $container ) {
+			return new PaymentFailedMessageHandler(
 				$container->get( DatabaseMessageStrategy::class ),
 				$container->get( MessageTemplateService::class ),
 				$container->get( MessageService::class ),
