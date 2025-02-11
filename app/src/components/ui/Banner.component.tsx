@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 
 function Banner() {
   const isOnline = useIsOnline()
-  const { isTrial, periodEnd } = useSubscription()
-  const diffInTime = periodEnd.getTime() - new Date().getTime()
+  const { isTrial, subscription } = useSubscription()
+  const diffInTime =
+    new Date(subscription?.period_end || '').getTime() - new Date().getTime()
   const daysRemaining = diffInTime / (1000 * 60 * 60 * 24)
 
   if (isDemoMode)

@@ -151,12 +151,10 @@ export type ContextTypeSubscription = {
   isLifetime: boolean
   isCancelable: boolean
   isSubscription: boolean
-  plan: string
   subscription: Subscription | undefined
-  isActiveSubscription: boolean
+  whichPlan: () => string
+  hasAccess: () => boolean
   getSubscription: (userId: string) => Promise<void>
-  periodStart: Date
-  periodEnd: Date
   periodStartLocalized: string
   periodEndLocalized: string
 }

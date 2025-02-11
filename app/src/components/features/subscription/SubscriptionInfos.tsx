@@ -10,22 +10,23 @@ export function SubscriptionInfos() {
   const {
     periodStartLocalized,
     periodEndLocalized,
-    isActiveSubscription,
-    plan,
     subscription,
+    hasAccess,
+    whichPlan,
+    isLifetime,
   } = useSubscription()
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
   if (
-    isActiveSubscription &&
+    hasAccess() &&
     subscription?.cancel_at_period_end &&
     !subscription.is_lifetime
   ) {
     badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }
-  if (!isActiveSubscription) {
+  if (!hasAccess()) {
     badgeVariant = 'destructive'
     badgeLabel = 'Abgelaufen'
   }
@@ -39,16 +40,16 @@ export function SubscriptionInfos() {
             {badgeLabel}
           </Badge>
           <p>Plan:</p>
-          <p>{plan}</p>
+          <p>{whichPlan()}</p>
           <p>Laufzeit:</p>
           {subscription?.is_lifetime ? (
             <p>&infin;</p>
           ) : (
-            <p className={cn(!isActiveSubscription && 'text-warning')}>
+            <p className={cn(!hasAccess() && 'text-warning')}>
               {periodStartLocalized} – {periodEndLocalized}
             </p>
           )}
-          {subscription?.is_lifetime && (
+          {isLifetime && (
             <ButtonGetInvoice />
           )}
         </div>

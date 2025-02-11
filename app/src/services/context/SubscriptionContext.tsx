@@ -12,13 +12,11 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   isCancelable: true,
   isSubscription: true,
   subscription: undefined,
-  plan: '',
-  periodStart: new Date(),
-  periodEnd: new Date(),
   periodStartLocalized: '',
   periodEndLocalized: '',
   getSubscription: async () => { },
-  isActiveSubscription: false,
+  whichPlan: () => '',
+  hasAccess: () => false
 })
 
 export function SubscriptionProvider({
@@ -35,43 +33,39 @@ export function SubscriptionProvider({
     (subscriptionStatus === 'active' || subscriptionStatus === 'canceled') &&
     !isLifetime
 
-  let plan = ''
-  if (subscription?.subscription_status === 'trial') {
-    plan = 'Testabo'
-  } else if (subscription?.is_lifetime) {
-    plan = 'Lifetime 🚀'
-  } else if (subscription?.plan === 'month') {
-    plan = 'Monatlich'
-  } else plan = 'Jährlich'
+  function hasAccess(): boolean {
+    // Always false without subscription object.
+    if (!subscription) return false
 
-  let isActiveSubscription: boolean
-  let startDate = ''
-  let endDate = ''
+    // Always true with lifetime.
+    if (isLifetime) return true;
 
-  if (isTrial) {
-    startDate = subscription?.trial_start || ''
-    endDate = subscription?.trial_end || ''
-  } else if (!isLifetime) {
-    startDate = subscription?.period_start || ''
-    endDate = subscription?.period_end || ''
+    // False if subscription is cancelled and periodEnd is after today.
+    const periodEnd = new Date(subscription.period_end || '')
+    if (periodEnd < new Date() && subscription.subscription_status === 'canceled') {
+      return false
+    }
+
+    // When in doubt, return false.
+    return false
   }
 
-  const periodStart = new Date(startDate)
-  const periodEnd = new Date(endDate)
+  function whichPlan(): string {
+    if (isLifetime) return 'Lifetime 🚀'
+    if (isTrial) return 'Testabo'
+    if (subscription?.plan === 'month') return 'Monatlich'
 
-  if (periodEnd >= new Date() || subscription?.is_lifetime) {
-    isActiveSubscription = true
-  } else {
-    isActiveSubscription = false
+    return 'Jährlich'
+
   }
 
-  const periodStartLocalized = periodStart.toLocaleString(userLocale, {
+  const periodStartLocalized = new Date(subscription?.period_start || '').toLocaleString(userLocale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   })
 
-  const periodEndLocalized = periodEnd.toLocaleString(userLocale, {
+  const periodEndLocalized = new Date(subscription?.period_end || '').toLocaleString(userLocale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -110,12 +104,10 @@ export function SubscriptionProvider({
     subscription,
     isLifetime,
     isCancelable,
+    hasAccess,
+    whichPlan,
     isSubscription,
-    plan,
     getSubscription,
-    isActiveSubscription,
-    periodStart,
-    periodEnd,
     periodStartLocalized,
     periodEndLocalized,
     isTrial,
