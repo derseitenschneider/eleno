@@ -17,16 +17,81 @@ class StripeRepository {
 	) {}
 
 	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
-		$data   = $this->supabase->get(
+		$data                  = $this->supabase->get(
 			endpoint:'stripe_subscriptions',
 			query: array(
 				'select'             => 'user_id',
 				'stripe_customer_id' => 'eq.' . $stripeCustomer,
 			)
 		);
-		$userId = $data['data'][0]['user_id'];
+		$subscription          = $data['data'][0];
+		$subscriptionId        = $data['stripe_subscription_id'];
+		$userId                = $subscription['user_id'];
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
+		$customer              = $subscription['stripe_customer_id'];
 
-		$this->paymentFailedMessageHandler->handle( $userId, $firstName );
+		switch ( $failedPaymentAttempts ) {
+			case null:
+				$this->bumpFailedPaymentAttempts(
+					customer: $customer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 1,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+			case 1:
+				$this->bumpFailedPaymentAttempts(
+					customer: $customer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 2,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+			case 2:
+				$this->bumpFailedPaymentAttempts(
+					customer: $customer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+			case 3:
+				$this->bumpFailedPaymentAttempts(
+					customer: $customer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				$this->supabase->cancelSubscription( $subscriptionId );
+				// TODO: Cancel subscription also in stripe api
+				break;
+		}
+	}
+
+	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
+		$this->supabase->updateSubscription(
+			data: array( 'failed_payment_attempts' => $prevValue++ ),
+			query: array( 'stripe_customer_id' => 'eq.' . $customer )
+		);
+	}
+
+	public function resetFailedPaymentAttempts( string $customer ) {
+		$this->supabase->updateSubscription(
+			data: array( 'failed_payment_attempts' => null ),
+			query: array( 'stripe_customer_id' => 'eq.' . $customer )
+		);
 	}
 
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
