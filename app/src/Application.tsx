@@ -6,7 +6,7 @@ import Sidebar from './layouts/sidebar/Sidebar.component'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 import { DarkModeProvider } from './services/context/DarkModeContext'
 import { LoadingProvider } from './services/context/LoadingContext'
-import { AuthProvider } from './services/context/UserContext'
+import { AuthProvider, useUser } from './services/context/UserContext'
 import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
@@ -18,19 +18,6 @@ import { SubscriptionProvider } from './services/context/SubscriptionContext'
 
 export default function Application() {
   const isOnline = useIsOnline()
-  // Hides loader when app is loaded.
-  useEffect(() => {
-    console.log('loaded')
-    const loader = document.getElementById('loader')
-    const body = document.body
-    if (loader) {
-      loader.style.display = 'none'
-      // setTimeout(() => {
-      //   loader.style.display = 'none'
-      //   body.removeAttribute('style')
-      // }, 1000)
-    }
-  }, [])
   return (
     <div
       className={cn(

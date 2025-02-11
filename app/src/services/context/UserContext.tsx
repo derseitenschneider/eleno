@@ -21,7 +21,6 @@ import supabase from '../api/supabase'
 import {
   deleteAccountSupabase,
   getProfilesSupabase,
-  getSubscriptionApi,
   recoverPasswordSupabase,
   updateEmailSupabase,
   updatePasswordSupabase,
@@ -33,13 +32,13 @@ import { useSubscription } from './SubscriptionContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -47,26 +46,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { subscription } = useSubscription()
   const [userProfile, setUserProfile] = useState<Profile>()
   const { getSubscription } = useSubscription()
-  const { isLoading, setIsLoading } = useLoading()
+  const [isLoading, setIsLoading] = useState(true)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  const getUserProfiles = useCallback(async (userId: string) => {
-    if (isDemoMode) {
-      setUserProfile(mockUser)
-      // setIsLoading(false)
-      return
+  // Hides loader when app is loaded.
+  useEffect(() => {
+    if (!isLoading) {
+      const loader = document.getElementById('loader')
+      const body = document.body
+      if (loader) {
+        loader.style.display = 'none'
+        body.removeAttribute('style')
+      }
     }
-    try {
-      const [data] = await getProfilesSupabase(userId)
-      if (!data) throw new Error('No user found.')
-      setUserProfile(data)
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      // setIsLoading(false)
-    }
-  }, [])
+  }, [isLoading])
+
+  const getUserProfiles = useCallback(
+    async (userId: string) => {
+      if (isDemoMode) {
+        setUserProfile(mockUser)
+        setIsLoading(false)
+        return
+      }
+      try {
+        const [data] = await getProfilesSupabase(userId)
+        if (!data) throw new Error('No user found.')
+        setUserProfile(data)
+      } catch (error) {
+        fetchErrorToast()
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [setIsLoading],
+  )
 
   useEffect(() => {
     if (isDemoMode) {
@@ -79,7 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         getUserProfiles(session.user.id)
         getSubscription(session.user.id)
       } else {
-        // setIsLoading(false)
+        setIsLoading(false)
       }
     })
 

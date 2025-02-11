@@ -3,7 +3,7 @@ import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },
-  { path: 'subscription', label: 'Abo', key: 2 },
+  { path: 'subscription', label: 'Mein Abo', key: 2 },
   { path: 'view', label: 'Ansicht', key: 3 },
 ]
 

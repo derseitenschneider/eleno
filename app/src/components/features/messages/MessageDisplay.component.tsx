@@ -15,6 +15,7 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useDeleteMessage } from './useDeleteMessage'
 import type { SetStateAction } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useNavigate } from 'react-router-dom'
 
 interface MailDisplayProps {
   message: Message | null
@@ -27,11 +28,32 @@ export default function MessageDisplay({
 }: MailDisplayProps) {
   const { deleteMessage } = useDeleteMessage()
   const { userLocale } = useUserLocale()
+  const navigate = useNavigate()
 
   function handleDelete(message: Message | null) {
     if (!message) return
     deleteMessage(message.id)
     setSelectedMessage(null)
+  }
+
+  function handleMessageClick(
+    event:
+      | React.MouseEvent<HTMLDivElement>
+      | React.KeyboardEvent<HTMLDivElement>,
+  ) {
+    const target = event.target as HTMLElement
+    if (target.tagName === 'A') {
+      event.preventDefault()
+      const href = target.getAttribute('href')
+      if (!href) return
+
+      if (href.startsWith('/')) {
+        console.log(href)
+        navigate(href)
+      } else {
+        window.open(href)
+      }
+    }
   }
 
   return (
@@ -76,7 +98,11 @@ export default function MessageDisplay({
           <Separator />
           <ScrollArea type='hover' className='h-full'>
             <div className='h-full max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
-              <div className='p-4 flex flex-col space-y-4'>
+              <div
+                onClick={handleMessageClick}
+                onKeyUp={handleMessageClick}
+                className='p-4 flex flex-col space-y-4'
+              >
                 {parse(message.body || '')}
               </div>
             </div>
