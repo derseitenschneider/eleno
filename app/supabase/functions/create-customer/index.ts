@@ -33,10 +33,10 @@ serve(async (req: Request) => {
     });
 
     // Calculate trial dates
-    const trialStart = new Date().toISOString().split("T")[0]; // Today in YYYY-MM-DD
-    const trialEnd = new Date();
-    trialEnd.setDate(trialEnd.getDate() + 30);
-    const trialEndFormatted = trialEnd.toISOString().split("T")[0]; // Today + 30 days in YYYY-MM-DD
+    const periodStart = new Date().toISOString().split("T")[0]; // Today in YYYY-MM-DD
+    const periodEnd = new Date();
+    periodEnd.setDate(periodEnd.getDate() + 30);
+    const periodEndFormatted = periodEnd.toISOString().split("T")[0]; // Today + 30 days in YYYY-MM-DD
 
     // Insert into database
     const { error: dbError } = await supabaseAdmin
@@ -45,8 +45,8 @@ serve(async (req: Request) => {
         user_id: userId,
         stripe_customer_id: customer.id,
         created_at: new Date().toISOString(),
-        trial_start: trialStart,
-        trial_end: trialEndFormatted,
+        period_start: periodStart,
+        period_end: periodEndFormatted,
       });
 
     if (dbError) {
@@ -70,9 +70,10 @@ serve(async (req: Request) => {
     );
   } catch (error) {
     console.error("Error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
+    if (error instanceof Error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+      });
+    }
   }
 });
-
