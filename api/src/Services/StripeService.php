@@ -31,6 +31,26 @@ class StripeService {
 	) {
 	}
 
+	public function getInvoice( Request $request, Response $response ) {
+		$body      = $request->getParsedBody();
+		$invoiceId = $body ['invoiceId'];
+		try {
+			$invoiceUrl = $this->stripeAPI->getInvoiceLink( $invoiceId );
+			return $this->jsonResponse(
+				$response,
+				array(
+					'status' => 'success',
+					'data'   => array(
+						'invoiceUrl' => $invoiceUrl,
+					),
+				)
+			);
+
+		} catch ( \Exception $e ) {
+			return $this->errorResponse( $response, $e->getMessage(), $e->getCode() );
+		}
+	}
+
 	public function cancelAllSubscriptions( Request $request, Response $response ) {
 		$body       = $request->getParsedBody();
 		$customerId = $body['customer_id'];

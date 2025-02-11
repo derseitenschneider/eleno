@@ -4,6 +4,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import ButtonUpdateSubscription from './buttons/ButtonCustomerPortal.component'
 import ButtonCancelSubscription from './buttons/ButtonCancelSubscription.component'
 import ButtonReactivateSubscription from './buttons/ButtonReactivateSubscription.component'
+import ButtonGetInvoice from './buttons/ButtonGetInvoice.component'
 
 export function SubscriptionInfos() {
   const {
@@ -46,6 +47,9 @@ export function SubscriptionInfos() {
             <p className={cn(!isActiveSubscription && 'text-warning')}>
               {periodStartLocalized} – {periodEndLocalized}
             </p>
+          )}
+          {subscription?.is_lifetime && (
+            <ButtonGetInvoice />
           )}
         </div>
         <div className='flex flex-col items-end gap-2'>

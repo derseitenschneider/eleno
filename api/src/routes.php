@@ -55,6 +55,11 @@ return function ( App $app ) {
 				array( StripeService::class, 'customerPortal' )
 			);
 
+			$group->post(
+				'/customers/{customer_id}/invoice',
+				array( StripeService::class, 'getInvoice' )
+			);
+
 			$group->delete(
 				'/customers/{customer_id}',
 				array( StripeService::class, 'deleteCustomer' )
