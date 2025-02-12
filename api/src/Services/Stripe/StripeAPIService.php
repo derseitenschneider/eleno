@@ -60,6 +60,10 @@ class StripeAPIService {
 		$this->client->customers->delete( $customerId );
 	}
 
+	public function cancelSubscription( string $subscriptionId ) {
+		$this->client->subscriptions->cancel( $subscriptionId );
+	}
+
 	public function cancelAllSubscriptions( string $customerId ) {
 		$subscriptions = $this->client->subscriptions->all(
 			array(

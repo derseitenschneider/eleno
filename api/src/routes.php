@@ -25,7 +25,7 @@ return function ( App $app ) {
 			// Cancel subscription
 			$group->delete(
 				'/subscriptions/{subscription_id}',
-				array( StripeService::class, 'handleCancelation' )
+				array( StripeService::class, 'cancelAtPeriodEnd' )
 			);
 
 			// Reactivate subscription

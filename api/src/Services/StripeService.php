@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Config\Config;
 use App\Services\Message\Handlers\CancellationMessageHandler;
+use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
@@ -28,7 +29,69 @@ class StripeService {
 		private WebhookHandler $webhookHandler,
 		private CancellationMessageHandler $cancellationMessageHandler,
 		private ReactivationMessageHandler $reactivationMessageHandler,
+		private PaymentFailedMessageHandler $paymentFailedMessageHandler
 	) {
+	}
+
+	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
+		$subscription          = $this->repository->getSubscription( $stripeCustomer );
+		$userId                = $subscription['user_id'];
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
+		$subscriptionId        = $subscription['stripe_subscription_id'];
+
+		switch ( $failedPaymentAttempts ) {
+			case null:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 1,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 1:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 2,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 2:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 3:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+
+				$this->supabase->cancelSubscription( $subscriptionId );
+				$this->stripeAPI->cancelSubscription( $subscriptionId );
+
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+		}
 	}
 
 	public function getInvoice( Request $request, Response $response ) {
@@ -182,7 +245,7 @@ class StripeService {
 		}
 	}
 
-	public function handleCancelation( Request $request, Response $response, $args ) {
+	public function cancelAtPeriodEnd( Request $request, Response $response, $args ) {
 		$subscription_id = $args['subscription_id'];
 		$body            = $request->getParsedBody();
 		$firstName       = $body['firstName'] ?? '';

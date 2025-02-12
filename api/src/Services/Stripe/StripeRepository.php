@@ -3,7 +3,6 @@
 namespace App\Services\Stripe;
 
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
-use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\SupabaseService;
@@ -13,71 +12,19 @@ class StripeRepository {
 	public function __construct(
 		private SupabaseService $supabase,
 		private FirstTimeSubscriptionHandler $firstTimeSubscriptionHandler,
-		private PaymentFailedMessageHandler $paymentFailedMessageHandler
 	) {}
 
-	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
-		$data                  = $this->supabase->get(
+	public function getSubscription( string $stripeCustomer ) {
+		$data         = $this->supabase->get(
 			endpoint:'stripe_subscriptions',
 			query: array(
 				'select'             => 'user_id',
 				'stripe_customer_id' => 'eq.' . $stripeCustomer,
 			)
 		);
-		$subscription          = $data['data'][0];
-		$subscriptionId        = $data['stripe_subscription_id'];
-		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
-		$customer              = $subscription['stripe_customer_id'];
+		$subscription = $data['data'][0];
 
-		switch ( $failedPaymentAttempts ) {
-			case null:
-				$this->bumpFailedPaymentAttempts(
-					customer: $customer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 1,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
-			case 1:
-				$this->bumpFailedPaymentAttempts(
-					customer: $customer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 2,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
-			case 2:
-				$this->bumpFailedPaymentAttempts(
-					customer: $customer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
-			case 3:
-				$this->bumpFailedPaymentAttempts(
-					customer: $customer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				$this->supabase->cancelSubscription( $subscriptionId );
-				// TODO: Cancel subscription also in stripe api
-				break;
-		}
+		return $subscription;
 	}
 
 	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
@@ -116,6 +63,7 @@ class StripeRepository {
 			)
 		);
 	}
+
 	public function saveSubpscriptionUpdated( StripeSubscriptionUpdatedDTO $subscription ): array {
 		return $this->supabase->updateSubscription(
 			query: array(

@@ -60,7 +60,6 @@ return function ( Container $container ) {
 			return new StripeRepository(
 				$container->get( SupabaseService::class ),
 				$container->get( FirstTimeSubscriptionHandler::class ),
-				$container->get( PaymentFailedMessageHandler::class )
 			);
 		}
 	);
@@ -71,6 +70,7 @@ return function ( Container $container ) {
 			return new WebhookHandler(
 				$container->get( StripeRepository::class ),
 				$container->get( StripeAPIService::class ),
+				$container->get( StripeService::class ),
 				$container->get( LifetimeUpgradeHandler::class )
 			);
 		}
@@ -183,7 +183,8 @@ return function ( Container $container ) {
 				$container->get( StripeRepository::class ),
 				$container->get( WebhookHandler::class ),
 				$container->get( CancellationMessageHandler::class ),
-				$container->get( ReactivationMessageHandler::class )
+				$container->get( ReactivationMessageHandler::class ),
+				$container->get( PaymentFailedMessageHandler::class ),
 			);
 		}
 	);

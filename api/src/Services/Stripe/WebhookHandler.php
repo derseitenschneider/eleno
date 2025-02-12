@@ -17,6 +17,7 @@ class WebhookHandler {
 	public function __construct(
 		private StripeRepository $repository,
 		private StripeAPIService $stripeAPI,
+		private StripeService $stripeService,
 		private LifetimeUpgradeHandler $lifetimeUpgradeHandler,
 	) {}
 
@@ -31,7 +32,7 @@ class WebhookHandler {
 	}
 
 	private function handlePaymentFailed( Invoice $invoice ) {
-		$this->repository->handlePaymentFailed(
+		$this->stripeService->handlePaymentFailed(
 			stripeCustomer:$invoice->customer,
 			firstName: explode( ' ', $invoice->customer_name )[0]
 		);

@@ -4,9 +4,9 @@ import PricingPlanCHF from './PricingPlanCHF.component'
 import PricingPlanEUR from './PricingPlanEUR.component'
 
 const PricingPlans = () => {
-  const { isActiveSubscription, isTrial } = useSubscription()
+  const { hasAccess, isTrial } = useSubscription()
 
-  if (isActiveSubscription && !isTrial) return null
+  if (hasAccess() && !isTrial) return null
 
   return (
     <div id='pricing'>
