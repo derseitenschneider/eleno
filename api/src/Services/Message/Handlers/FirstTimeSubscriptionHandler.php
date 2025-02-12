@@ -9,7 +9,7 @@ use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\SupabaseService;
 
-class FirstTimeSubscriptionHandler {
+class FirstSubHandler {
 
 	public function __construct(
 		private DatabaseMessageStrategy $databaseMessageStrategy,

@@ -8,7 +8,7 @@ use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use App\Middleware\JWTAuthMiddleware;
 use App\Services\Message\Handlers\CancellationMessageHandler;
-use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
+use App\Services\Message\Handlers\FirstSubHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
@@ -20,58 +20,46 @@ use Slim\Psr7\Factory\ResponseFactory;
 
 return function ( Container $container ) {
 	// Config
-	$container->set(
-		Config::class,
-		function () {
-			return Config::getInstance();
-		}
-	);
+	$container->set( Config::class, Config::getInstance() );
 
 	// Response Factory
-	$container->set(
-		ResponseFactory::class,
-		function () {
-			return new ResponseFactory();
-		}
-	);
+	$container->set( ResponseFactory::class, new ResponseFactory() );
 
 	// Auth Middleware
 	$container->set(
 		JWTAuthMiddleware::class,
 		function ( $container ) {
-			return new JWTAuthMiddleware(
-				$container->get( Config::class ),
-				$container->get( ResponseFactory::class )
-			);
+			$config          = $container->get( Config::class );
+			$responseFactory = $container->get( ResponseFactory::class );
+			return new JWTAuthMiddleware( $config, $responseFactory );
 		}
 	);
 
 	// Stripe Services
-	$container->set(
-		StripeAPIService::class,
-		function () {
-			return new StripeAPIService();
-		}
-	);
+	$container->set( StripeAPIService::class, new StripeAPIService() );
 
 	$container->set(
 		StripeRepository::class,
 		function ( $container ) {
-			return new StripeRepository(
-				$container->get( SupabaseService::class ),
-				$container->get( FirstTimeSubscriptionHandler::class ),
-			);
+			$supabaseService = $container->get( SupabaseService::class );
+			$firstSubHandler = $container->get( FirstSubHandler::class );
+			return new StripeRepository( $supabaseService, $firstSubHandler, );
 		}
 	);
 
 	$container->set(
 		WebhookHandler::class,
 		function ( $container ) {
+			$stripeRepository           = $container->get( StripeRepository::class );
+			$stripeApiService           = $container->get( StripeAPIService::class );
+			$paymentFailedMessageHander = $container->get( PaymentFailedMessageHandler::class );
+			$lifetimeUpgradeHandler     = $container->get( LifetimeUpgradeHandler::class );
+
 			return new WebhookHandler(
-				$container->get( StripeRepository::class ),
-				$container->get( StripeAPIService::class ),
-				$container->get( PaymentFailedMessageHandler::class ),
-				$container->get( LifetimeUpgradeHandler::class )
+				$stripeRepository,
+				$stripeApiService,
+				$paymentFailedMessageHander,
+				$lifetimeUpgradeHandler
 			);
 		}
 	);
@@ -80,9 +68,8 @@ return function ( Container $container ) {
 	$container->set(
 		SupabaseService::class,
 		function ( $container ) {
-			return new SupabaseService(
-				$container->get( Config::class )
-			);
+			$config = $container->get( Config::class );
+			return new SupabaseService( $config );
 		}
 	);
 
@@ -90,40 +77,43 @@ return function ( Container $container ) {
 	$container->set(
 		MessageService::class,
 		function ( Container $container ) {
-			return new MessageService(
-				array(
-					'database' => $container->get( DatabaseMessageStrategy::class ),
-				)
+			$strategies = array(
+				'database' => $container->get( DatabaseMessageStrategy::class ),
 			);
+
+			return new MessageService( $strategies );
 		}
 	);
 
 	$container->set(
 		DatabaseMessageStrategy::class,
 		function ( Container $container ) {
-			return new DatabaseMessageStrategy(
-				$container->get( SupabaseService::class )
-			);
+			$subapaseService = $container->get( SupabaseService::class );
+			return new DatabaseMessageStrategy( $subapaseService );
 		}
 	);
 
 	$container->set(
 		MessageTemplateService::class,
 		function ( Container $container ) {
-			return new MessageTemplateService(
-				$container->get( SupabaseService::class )
-			);
+			$subapaseService = $container->get( SupabaseService::class );
+			return new MessageTemplateService( $subapaseService );
 		}
 	);
 
 	$container->set(
-		FirstTimeSubscriptionHandler::class,
+		FirstSubHandler::class,
 		function ( Container $container ) {
-			return new FirstTimeSubscriptionHandler(
-				$container->get( DatabaseMessageStrategy::class ),
-				$container->get( MessageTemplateService::class ),
-				$container->get( MessageService::class ),
-				$container->get( SupabaseService::class )
+				$dataBaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
+				$messageTemplateService  = $container->get( MessageTemplateService::class );
+				$messageService          = $container->get( MessageService::class );
+				$supabaseService         = $container->get( SupabaseService::class );
+
+			return new FirstSubHandler(
+				$dataBaseMessageStrategy,
+				$messageTemplateService,
+				$messageService,
+				$supabaseService
 			);
 		}
 	);
@@ -131,12 +121,18 @@ return function ( Container $container ) {
 	$container->set(
 		LifetimeUpgradeHandler::class,
 		function ( Container $container ) {
+				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
+				$messageTemplateService  = $container->get( MessageTemplateService::class );
+				$messageService          = $container->get( MessageService::class );
+				$stripeApiService        = $container->get( StripeAPIService::class );
+				$subapaseService         = $container->get( SupabaseService::class );
+
 			return new LifetimeUpgradeHandler(
-				$container->get( DatabaseMessageStrategy::class ),
-				$container->get( MessageTemplateService::class ),
-				$container->get( MessageService::class ),
-				$container->get( StripeAPIService::class ),
-				$container->get( SupabaseService::class )
+				$databaseMessageStrategy,
+				$messageTemplateService,
+				$messageService,
+				$stripeApiService,
+				$subapaseService
 			);
 		}
 	);
@@ -144,10 +140,14 @@ return function ( Container $container ) {
 	$container->set(
 		CancellationMessageHandler::class,
 		function ( Container $container ) {
+				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
+				$messageTemplateService  = $container->get( MessageTemplateService::class );
+				$messageService          = $container->get( MessageService::class );
+
 			return new CancellationMessageHandler(
-				$container->get( DatabaseMessageStrategy::class ),
-				$container->get( MessageTemplateService::class ),
-				$container->get( MessageService::class ),
+				$databaseMessageStrategy,
+				$messageTemplateService,
+				$messageService
 			);
 		}
 	);
@@ -155,10 +155,14 @@ return function ( Container $container ) {
 	$container->set(
 		ReactivationMessageHandler::class,
 		function ( Container $container ) {
+				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
+				$messageTemplateService  = $container->get( MessageTemplateService::class );
+				$messageService          = $container->get( MessageService::class );
+
 			return new ReactivationMessageHandler(
-				$container->get( DatabaseMessageStrategy::class ),
-				$container->get( MessageTemplateService::class ),
-				$container->get( MessageService::class ),
+				$databaseMessageStrategy,
+				$messageTemplateService,
+				$messageService
 			);
 		}
 	);
@@ -166,10 +170,14 @@ return function ( Container $container ) {
 	$container->set(
 		PaymentFailedMessageHandler::class,
 		function ( Container $container ) {
+				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
+				$messageTemplateService  = $container->get( MessageTemplateService::class );
+				$messageService          = $container->get( MessageService::class );
+
 			return new PaymentFailedMessageHandler(
-				$container->get( DatabaseMessageStrategy::class ),
-				$container->get( MessageTemplateService::class ),
-				$container->get( MessageService::class ),
+				$databaseMessageStrategy,
+				$messageTemplateService,
+				$messageService
 			);
 		}
 	);
@@ -177,14 +185,21 @@ return function ( Container $container ) {
 	$container->set(
 		StripeService::class,
 		function ( $container ) {
+				$supabaseService            = $container->get( SupabaseService::class );
+				$stripeApiService           = $container->get( StripeAPIService::class );
+				$stripeRepository           = $container->get( StripeRepository::class );
+				$webhookHander              = $container->get( WebhookHandler::class );
+				$cancellationMessageHandler = $container->get( CancellationMessageHandler::class );
+				$reactivationMessageHandler = $container->get( ReactivationMessageHandler::class );
+				$paymentFailedMessageHander = $container->get( PaymentFailedMessageHandler::class );
 			return new StripeService(
-				$container->get( SupabaseService::class ),
-				$container->get( StripeAPIService::class ),
-				$container->get( StripeRepository::class ),
-				$container->get( WebhookHandler::class ),
-				$container->get( CancellationMessageHandler::class ),
-				$container->get( ReactivationMessageHandler::class ),
-				$container->get( PaymentFailedMessageHandler::class ),
+				$supabaseService,
+				$stripeApiService,
+				$stripeRepository,
+				$webhookHander,
+				$cancellationMessageHandler,
+				$reactivationMessageHandler,
+				$paymentFailedMessageHander
 			);
 		}
 	);
