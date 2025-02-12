@@ -14,7 +14,14 @@ use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 
 return function ( Container $container ) {
-	$container->set( StripeAPIService::class, new StripeAPIService() );
+	$container->set(
+		StripeAPIService::class,
+		function ( $container ) {
+			$config = $container->get( Config::class );
+
+			return new StripeAPIService( $config );
+		}
+	);
 
 	$container->set(
 		StripeRepository::class,
@@ -46,6 +53,7 @@ return function ( Container $container ) {
 	$container->set(
 		StripeService::class,
 		function ( $container ) {
+			$config               = $container->get( Config::class );
 			$supabase             = $container->get( SupabaseService::class );
 			$stripeAPIService     = $container->get( StripeAPIService::class );
 			$stripeRepository     = $container->get( StripeRepository::class );
@@ -55,6 +63,7 @@ return function ( Container $container ) {
 			$paymentFailedHandler = $container->get( PaymentFailedMessageHandler::class );
 
 			return new StripeService(
+				$config,
 				$supabase,
 				$stripeAPIService,
 				$stripeRepository,

@@ -23,6 +23,7 @@ class StripeService {
 	use StripeSecurityChecks;
 
 	public function __construct(
+		private Config $config,
 		private SupabaseService $supabase,
 		private StripeAPIService $stripeAPI,
 		private StripeRepository $repository,
@@ -146,15 +147,15 @@ class StripeService {
 		return $this->createPaymentSession(
 			request: $request,
 			response: $response,
-			priceId: Config::getInstance()->priceIdMonthly
+			priceId: $this->config->priceIdMonthly
 		);
 	}
 
 	public function createSessionYearly( Request $request, Response $response ) {
 		return $this->createPaymentSession(
-			request:$request,
-			response:$response,
-			priceId:Config::getInstance()->priceIdYearly
+			request: $request,
+			response: $response,
+			priceId: $this->config->priceIdYearly
 		);
 	}
 
@@ -204,7 +205,7 @@ class StripeService {
 			$data = $this->stripeAPI->lifetimeSession(
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
-				priceId: Config::getInstance()->priceIdLifetime,
+				priceId: $this->config->priceIdLifetime,
 				locale: $locale,
 				currency: $currency
 			);
@@ -316,7 +317,7 @@ class StripeService {
 	}
 
 	public function handleWebhook( Request $request, Response $response ) {
-		$webhookSecret = Config::getInstance()->stripeWebhookSignature;
+		$webhookSecret = $this->config->stripeWebhookSignature;
 
 		$payload   = @file_get_contents( 'php://input' );
 		$sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];

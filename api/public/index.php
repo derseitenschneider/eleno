@@ -46,7 +46,7 @@ $app->options(
 );
 
 // Add CORS middleware
-$app->add( CorsMiddleware::class );
+$app->add( $container->get( CorsMiddleware::class ) );
 
 // Add routes
 ( require __DIR__ . '/../src/routes.php' )( $app );

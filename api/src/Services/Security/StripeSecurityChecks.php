@@ -9,6 +9,7 @@ use Psr\http\Message\ServerRequestInterface as Request;
 
 trait StripeSecurityChecks {
 	private SupabaseService $supabase;
+	private Config $config;
 
 	private function verifyCustomerAccess( string $customerId, string $userId ): bool {
 		$result = $this->supabase->get(
@@ -45,7 +46,7 @@ trait StripeSecurityChecks {
 		try {
 			$decoded = JWT::decode(
 				$matches[1],
-				new Key( Config::getInstance()->supabaseJwtSecret, 'HS256' )
+				new Key( $this->config->supabaseJwtSecret, 'HS256' )
 			);
 			return $decoded->sub ?? null;
 		} catch ( \Exception $e ) {

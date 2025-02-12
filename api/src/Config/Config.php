@@ -4,7 +4,7 @@ namespace App\Config;
 
 class Config {
 
-	private static ?self $instance = null;
+	// private static ?self $instance = null;
 
 	public readonly string $appBaseUrl;
 	public readonly string $supabaseUrl;
@@ -18,7 +18,7 @@ class Config {
 	public readonly string $priceIdYearly;
 	public readonly string $priceIdLifetime;
 
-	private function __construct() {
+	public function __construct() {
 		$required = array(
 			'APP_BASE_URL',
 			'SUPABASE_URL',
@@ -59,17 +59,17 @@ class Config {
 			);
 	}
 
-	public static function getInstance(): self {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	// Prevent cloning
-	private function __clone() {}
-
-	// Prevent unserialization
-	private function __wakeup() {}
+	// public static function getInstance(): self {
+	// if ( null === self::$instance ) {
+	// self::$instance = new self();
+	// }
+	//
+	// return self::$instance;
+	// }
+	//
+	// // Prevent cloning
+	// private function __clone() {}
+	//
+	// // Prevent unserialization
+	// private function __wakeup() {}
 }

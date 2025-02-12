@@ -14,8 +14,8 @@ use Stripe\Subscription;
 class StripeAPIService {
 	private StripeClient $client;
 
-	public function __construct() {
-		$this->client = new StripeClient( Config::getInstance()->stripeSecretKey );
+	public function __construct( private Config $config ) {
+		$this->client = new StripeClient( $this->config->stripeSecretKey );
 	}
 
 	public function getInvoiceLink( string $invoiceId ): string {
@@ -29,7 +29,7 @@ class StripeAPIService {
 		string $locale,
 		string $currency
 	): Session {
-		$baseUrl = Config::getInstance()->appBaseUrl;
+		$baseUrl = $this->config->appBaseUrl;
 
 		$session = $this->client->checkout->sessions->create(
 			array(
@@ -85,7 +85,7 @@ class StripeAPIService {
 		string $locale,
 		string $currency
 	): Session {
-		$baseUrl = Config::getInstance()->appBaseUrl;
+		$baseUrl = $this->config->appBaseUrl;
 
 		$session = $this->client->checkout->sessions->create(
 			array(
@@ -127,7 +127,7 @@ class StripeAPIService {
 		string $customerId,
 		string $locale
 	) {
-		$returnUrl = Config::getInstance()->appBaseUrl . '/settings/subscription';
+		$returnUrl = $this->config->appBaseUrl . '/settings/subscription';
 		return $this->client->billingPortal->sessions->create(
 			array(
 				'customer'   => $customerId,
