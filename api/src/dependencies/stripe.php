@@ -12,6 +12,7 @@ use App\Services\Message\Handlers\FirstSubHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
+use App\Services\Security\StripeSecurityChecks;
 
 return function ( Container $container ) {
 	$container->set(
@@ -30,6 +31,16 @@ return function ( Container $container ) {
 			$firstTimeHandler = $container->get( FirstSubHandler::class );
 
 			return new StripeRepository( $supabase, $firstTimeHandler );
+		}
+	);
+
+	$container->set(
+		StripeSecurityChecks::class,
+		function ( $container ) {
+			$supabase = $container->get( SupabaseService::class );
+			$config   = $container->get( Config::class );
+
+			return new StripeSecurityChecks( $supabase, $config );
 		}
 	);
 
@@ -57,6 +68,7 @@ return function ( Container $container ) {
 			$supabase             = $container->get( SupabaseService::class );
 			$stripeAPIService     = $container->get( StripeAPIService::class );
 			$stripeRepository     = $container->get( StripeRepository::class );
+			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
 			$webhookHandler       = $container->get( WebhookHandler::class );
 			$cancellationHandler  = $container->get( CancellationMessageHandler::class );
 			$reactivationHandler  = $container->get( ReactivationMessageHandler::class );
@@ -67,6 +79,7 @@ return function ( Container $container ) {
 				$supabase,
 				$stripeAPIService,
 				$stripeRepository,
+				$stripeSecurityChecks,
 				$webhookHandler,
 				$cancellationHandler,
 				$reactivationHandler,

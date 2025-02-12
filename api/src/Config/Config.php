@@ -3,9 +3,6 @@
 namespace App\Config;
 
 class Config {
-
-	// private static ?self $instance = null;
-
 	public readonly string $appBaseUrl;
 	public readonly string $supabaseUrl;
 	public readonly string $supabaseAnonKey;
@@ -58,18 +55,4 @@ class Config {
 				'http://127.0.0.1:5173',
 			);
 	}
-
-	// public static function getInstance(): self {
-	// if ( null === self::$instance ) {
-	// self::$instance = new self();
-	// }
-	//
-	// return self::$instance;
-	// }
-	//
-	// // Prevent cloning
-	// private function __clone() {}
-	//
-	// // Prevent unserialization
-	// private function __wakeup() {}
 }

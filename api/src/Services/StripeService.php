@@ -20,13 +20,13 @@ use Stripe\StripeClient;
 use Stripe\Webhook;
 
 class StripeService {
-	use StripeSecurityChecks;
 
 	public function __construct(
 		private Config $config,
 		private SupabaseService $supabase,
 		private StripeAPIService $stripeAPI,
 		private StripeRepository $repository,
+		private StripeSecurityChecks $securityChecks,
 		private WebhookHandler $webhookHandler,
 		private CancellationMessageHandler $cancellationMessageHandler,
 		private ReactivationMessageHandler $reactivationMessageHandler,
@@ -123,7 +123,7 @@ class StripeService {
 	public function deleteCustomer( Request $request, Response $response, $args ) {
 		$customerId = $args['customer_id'] ?? '';
 		try {
-			if ( ! $this->verifyCustomerAccess( $customerId, $this->getUserIdFromRequest( $request ) ) ) {
+			if ( ! $this->securityChecks->verifyCustomerAccess( $customerId, $this->securityChecks->getUserIdFromRequest( $request ) ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
@@ -168,7 +168,7 @@ class StripeService {
 		$currency         = $body['currency'];
 
 		try {
-			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
+			if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
@@ -198,7 +198,7 @@ class StripeService {
 		$locale           = $body['locale'];
 		$currency         = $body['currency'];
 		try {
-			if ( ! $this->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
+			if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
@@ -227,7 +227,7 @@ class StripeService {
 		$user_locale = $body['locale'] ?? '';
 
 		try {
-			if ( ! $this->verifyCustomerAccess( $customer_id, $this->getUserIdFromRequest( $request ) ) ) {
+			if ( ! $this->securityChecks->verifyCustomerAccess( $customer_id, $this->securityChecks->getUserIdFromRequest( $request ) ) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
@@ -252,9 +252,9 @@ class StripeService {
 		$userId          = $body['userId'] ?? '';
 
 		try {
-			if ( ! $this->verifySubscriptionAccess(
+			if ( ! $this->securityChecks->verifySubscriptionAccess(
 				subscriptionId: $subscription_id,
-				userId: $this->getUserIdFromRequest( $request )
+				userId: $this->securityChecks->getUserIdFromRequest( $request )
 			) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
@@ -289,7 +289,10 @@ class StripeService {
 		$firstName       = $body['firstName'];
 
 		try {
-			if ( ! $this->verifySubscriptionAccess( $subscription_id, $this->getUserIdFromRequest( $request ) ) ) {
+			if ( ! $this->securityChecks->verifySubscriptionAccess(
+				$subscription_id,
+				$this->securityChecks->getUserIdFromRequest( $request )
+			) ) {
 				return $this->errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
