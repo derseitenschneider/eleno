@@ -3,6 +3,7 @@
 namespace App\Services\Stripe;
 
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
+use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
@@ -17,7 +18,7 @@ class WebhookHandler {
 	public function __construct(
 		private StripeRepository $repository,
 		private StripeAPIService $stripeAPI,
-		private StripeService $stripeService,
+		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
 		private LifetimeUpgradeHandler $lifetimeUpgradeHandler,
 	) {}
 
@@ -32,10 +33,66 @@ class WebhookHandler {
 	}
 
 	private function handlePaymentFailed( Invoice $invoice ) {
-		$this->stripeService->handlePaymentFailed(
-			stripeCustomer:$invoice->customer,
-			firstName: explode( ' ', $invoice->customer_name )[0]
-		);
+		$stripeCustomer        = $invoice->customer;
+		$firstName             = explode( ' ', $invoice->customer_name )[0];
+		$subscription          = $this->repository->getSubscription( $stripeCustomer );
+		$userId                = $subscription['user_id'];
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
+		$subscriptionId        = $subscription['stripe_subscription_id'];
+
+		switch ( $failedPaymentAttempts ) {
+			case null:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 1,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 1:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 2,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 2:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+
+			case 3:
+				$this->repository->bumpFailedPaymentAttempts(
+					customer: $stripeCustomer,
+					prevValue: $failedPaymentAttempts
+				);
+
+				$this->repository->cancelSubscription( $subscriptionId );
+				$this->stripeAPI->cancelSubscription( $subscriptionId );
+
+				$this->paymentFailedMessageHandler->handle(
+					level: 3,
+					userId: $userId,
+					firstName:$firstName
+				);
+				break;
+		}
 	}
 
 	private function handleCheckoutCompleted( Session $session ): void {

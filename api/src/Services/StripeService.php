@@ -82,8 +82,8 @@ class StripeService {
 					prevValue: $failedPaymentAttempts
 				);
 
-				$this->supabase->cancelSubscription( $subscriptionId );
-				$this->stripeAPI->cancelSubscription( $subscriptionId );
+				$this->repository->cancelSubscription( subscriptionId: $subscriptionId );
+				$this->stripeAPI->cancelSubscription( subscriptionId:$subscriptionId );
 
 				$this->paymentFailedMessageHandler->handle(
 					level: 3,
@@ -108,7 +108,6 @@ class StripeService {
 					),
 				)
 			);
-
 		} catch ( \Exception $e ) {
 			return $this->errorResponse( $response, $e->getMessage(), $e->getCode() );
 		}

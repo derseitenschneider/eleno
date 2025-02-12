@@ -70,7 +70,7 @@ return function ( Container $container ) {
 			return new WebhookHandler(
 				$container->get( StripeRepository::class ),
 				$container->get( StripeAPIService::class ),
-				$container->get( StripeService::class ),
+				$container->get( PaymentFailedMessageHandler::class ),
 				$container->get( LifetimeUpgradeHandler::class )
 			);
 		}

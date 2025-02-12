@@ -27,6 +27,13 @@ class StripeRepository {
 		return $subscription;
 	}
 
+	public function cancelSubscription( string $subscriptionId ) {
+		return $this->supabase->updateSubscription(
+			data: array( 'subscription_status' => 'canceled' ),
+			query: array( 'stripe_subscription_id' => 'eq.' . $subscriptionId ),
+		);
+	}
+
 	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
 		$this->supabase->updateSubscription(
 			data: array( 'failed_payment_attempts' => $prevValue++ ),
@@ -43,6 +50,7 @@ class StripeRepository {
 
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
 		$statusBeforeUpdate = $this->supabase->getSubscriptionStatus( $session->userId );
+		logDebug( $statusBeforeUpdate );
 
 		// Handle first time subscription.
 		if ( $statusBeforeUpdate === 'trial' ) {

@@ -9,11 +9,11 @@ export type BlockerProps = {
 }
 
 export function Blocker({ variant = 'block' }: BlockerProps) {
-  const { isActiveSubscription: subscriptionIsActive } = useSubscription()
+  const { hasAccess } = useSubscription()
   const { isDemoMode } = appConfig
   const navigate = useNavigate()
 
-  if (subscriptionIsActive || isDemoMode) return null
+  if (hasAccess() || isDemoMode) return null
 
   if (variant === 'inline')
     return (

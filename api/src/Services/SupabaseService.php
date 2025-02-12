@@ -51,14 +51,6 @@ class SupabaseService {
 		return $lesson;
 	}
 
-
-	public function cancelSubscription( string $subscription_id ) {
-		return $this->updateSubscription(
-			data: array( 'subscription_status' => 'canceled' ),
-			query: array( 'stripe_subscription_id' => 'eq.' . $subscription_id ),
-		);
-	}
-
 	public function reactivateSubscription( string $subscription_id ) {
 		$this->updateSubscription(
 			data: array( 'subscription_status' => 'active' ),

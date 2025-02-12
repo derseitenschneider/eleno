@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import { getSubscriptionApi } from '../api/user.api'
 import { useUserLocale } from './UserLocaleContext'
@@ -14,9 +20,9 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => { },
+  getSubscription: async () => {},
   whichPlan: () => '',
-  hasAccess: () => false
+  hasAccess: () => false,
 })
 
 export function SubscriptionProvider({
@@ -36,16 +42,20 @@ export function SubscriptionProvider({
   const hasAccess = useCallback(() => {
     // Always false without subscription object.
     if (!subscription) return false
-    // Always true with lifetime.
-    if (isLifetime) return true;
-    // False if subscription is cancelled and periodEnd is after today.
-    const periodEnd = new Date(subscription.period_end || '')
-    if (periodEnd < new Date() && subscription.subscription_status === 'canceled') {
+
+    // Calc period end and add 1 day so it's inactive AFTER the last day.
+    let periodEnd = new Date(subscription.period_end || '')
+    periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() + 1))
+
+    // False if period is over and subscription is cancelled or trial.
+    if (
+      periodEnd < new Date() &&
+      (subscription.subscription_status === 'canceled' || isTrial)
+    ) {
       return false
     }
-    // When in doubt, return false.
-    return false
-  }, [subscription, isLifetime])
+    return true
+  }, [subscription, isTrial])
 
   const whichPlan = useCallback(() => {
     if (isLifetime) return 'Lifetime 🚀'
@@ -53,22 +63,27 @@ export function SubscriptionProvider({
     if (subscription?.plan === 'month') return 'Monatlich'
 
     return 'Jährlich'
-
   }, [isLifetime, isTrial, subscription?.plan])
 
   const periodStartLocalized = useMemo(
-    () => new Date(subscription?.period_start || '').toLocaleString(userLocale, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }), [subscription?.period_start, userLocale])
+    () =>
+      new Date(subscription?.period_start || '').toLocaleString(userLocale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
+    [subscription?.period_start, userLocale],
+  )
 
   const periodEndLocalized = useMemo(
-    () => new Date(subscription?.period_end || '').toLocaleString(userLocale, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }), [subscription?.period_end, userLocale])
+    () =>
+      new Date(subscription?.period_end || '').toLocaleString(userLocale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
+    [subscription?.period_end, userLocale],
+  )
 
   const getSubscription = useCallback(async (userId: string) => {
     try {
@@ -79,12 +94,15 @@ export function SubscriptionProvider({
     }
   }, [])
 
-  const handleRealtime = useCallback((data: RealtimePostgresUpdatePayload<Subscription>) => {
-    if (data.errors) {
-      return fetchErrorToast()
-    }
-    setSubscription(data.new)
-  }, [])
+  const handleRealtime = useCallback(
+    (data: RealtimePostgresUpdatePayload<Subscription>) => {
+      if (data.errors) {
+        return fetchErrorToast()
+      }
+      setSubscription(data.new)
+    },
+    [],
+  )
 
   supabase
     .channel('stripe_subscriptions')
