@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Config\Config;
+use App\Core\Http;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
@@ -37,61 +38,34 @@ class StripeService {
 	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
 		$subscription          = $this->repository->getSubscription( $stripeCustomer );
 		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0; // Default to 0
 		$subscriptionId        = $subscription['stripe_subscription_id'];
 
-		switch ( $failedPaymentAttempts ) {
-			case null:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 1,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		$messageLevels = array(
+			0 => 1,
+			1 => 2,
+			2 => 3,
+			3 => 3,
+		);
 
-			case 1:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 2,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
 
-			case 2:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		if ( $level !== null ) {
+			$this->repository->bumpFailedPaymentAttempts(
+				customer: $stripeCustomer,
+				prevValue: $failedPaymentAttempts
+			);
 
-			case 3:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
+			$this->paymentFailedMessageHandler->handle(
+				level: $level,
+				userId: $userId,
+				firstName: $firstName
+			);
 
+			if ( $level === 3 ) {
 				$this->repository->cancelSubscription( subscriptionId: $subscriptionId );
-				$this->stripeAPI->cancelSubscription( subscriptionId:$subscriptionId );
-
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+				$this->stripeAPI->cancelSubscription( subscriptionId: $subscriptionId );
+			}
 		}
 	}
 
@@ -100,7 +74,7 @@ class StripeService {
 		$invoiceId = $body ['invoiceId'];
 		try {
 			$invoiceUrl = $this->stripeAPI->getInvoiceLink( $invoiceId );
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -110,7 +84,7 @@ class StripeService {
 				)
 			);
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage(), $e->getCode() );
+			return Http::errorResponse( $response, $e->getMessage(), $e->getCode() );
 		}
 	}
 
@@ -123,14 +97,17 @@ class StripeService {
 	public function deleteCustomer( Request $request, Response $response, $args ) {
 		$customerId = $args['customer_id'] ?? '';
 		try {
-			if ( ! $this->securityChecks->verifyCustomerAccess( $customerId, $this->securityChecks->getUserIdFromRequest( $request ) ) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			if ( ! $this->securityChecks->verifyCustomerAccess(
+				$customerId,
+				$this->securityChecks->getUserIdFromRequest( $request )
+			) ) {
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 				$this->stripeAPI->cancelAllSubscriptions( $customerId );
 				$this->stripeAPI->deleteCustomer( $customerId );
 
-				return $this->jsonResponse(
+				return Http::jsonResponse(
 					$response,
 					array(
 						'status' => 'success',
@@ -139,7 +116,7 @@ class StripeService {
 				);
 
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -169,7 +146,7 @@ class StripeService {
 
 		try {
 			if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$data = $this->stripeAPI->subscriptionSession(
@@ -179,7 +156,7 @@ class StripeService {
 				locale: $locale,
 				currency: $currency
 			);
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -187,7 +164,7 @@ class StripeService {
 				)
 			);
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -199,7 +176,7 @@ class StripeService {
 		$currency         = $body['currency'];
 		try {
 			if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$data = $this->stripeAPI->lifetimeSession(
@@ -209,7 +186,7 @@ class StripeService {
 				locale: $locale,
 				currency: $currency
 			);
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -217,7 +194,7 @@ class StripeService {
 				)
 			);
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -227,12 +204,15 @@ class StripeService {
 		$user_locale = $body['locale'] ?? '';
 
 		try {
-			if ( ! $this->securityChecks->verifyCustomerAccess( $customer_id, $this->securityChecks->getUserIdFromRequest( $request ) ) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+			if ( ! $this->securityChecks->verifyCustomerAccess(
+				$customer_id,
+				$this->securityChecks->getUserIdFromRequest( $request )
+			) ) {
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$data = $this->stripeAPI->customerPortal( $customer_id, $user_locale );
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -241,7 +221,7 @@ class StripeService {
 			);
 
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -256,7 +236,7 @@ class StripeService {
 				subscriptionId: $subscription_id,
 				userId: $this->securityChecks->getUserIdFromRequest( $request )
 			) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$this->stripeAPI->updateSubscription(
@@ -269,7 +249,7 @@ class StripeService {
 				firstName:$firstName
 			);
 
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -278,7 +258,7 @@ class StripeService {
 			);
 
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -293,7 +273,7 @@ class StripeService {
 				$subscription_id,
 				$this->securityChecks->getUserIdFromRequest( $request )
 			) ) {
-				return $this->errorResponse( $response, 'Unauthorized access', 403 );
+				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
 			$this->stripeAPI->updateSubscription(
@@ -306,7 +286,7 @@ class StripeService {
 				firstName: $firstName
 			);
 
-			return $this->jsonResponse(
+			return Http::jsonResponse(
 				$response,
 				array(
 					'status' => 'success',
@@ -315,7 +295,7 @@ class StripeService {
 			);
 
 		} catch ( \Exception $e ) {
-			return $this->errorResponse( $response, $e->getMessage() );
+			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
 
@@ -335,31 +315,14 @@ class StripeService {
 
 		} catch ( \UnexpectedValueException $e ) {
 
-			return $this->errorResponse( $response, $e->getMessage(), 400 );
+			return Http::errorResponse( $response, $e->getMessage(), 400 );
 
 		} catch ( \Stripe\Exception\SignatureVerificationException $e ) {
-			return $this->errorResponse(
+			return Http::errorResponse(
 				$response,
 				'Error verifying webhook signature: ' . $e->getMessage()
 			);
 			exit();
 		}
-	}
-
-	private function jsonResponse( Response $response, array $data, int $status = 200 ): Response {
-		$response->getBody()->write( json_encode( $data ) );
-		return $response->withStatus( $status )
-			->withHeader( 'Content-Type', 'application/json' );
-	}
-
-	private function errorResponse( Response $response, string $message, int $status = 404 ): Response {
-		return $this->jsonResponse(
-			$response,
-			array(
-				'status'  => 'error',
-				'message' => $message,
-			),
-			$status
-		);
 	}
 }

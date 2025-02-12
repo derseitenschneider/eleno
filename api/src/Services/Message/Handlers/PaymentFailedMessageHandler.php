@@ -24,21 +24,7 @@ class PaymentFailedMessageHandler {
 			'{{customerName}}' => $firstName,
 		);
 
-		switch ( $level ) {
-			case 1:
-				$template = $this->templateService->getTemplate( 'subscription_payment_failed_1' );
-				break;
-			case 2:
-				$template = $this->templateService->getTemplate( 'subscription_payment_failed_2' );
-				break;
-			case 3:
-				$template = $this->templateService->getTemplate( 'subscription_payment_failed_3' );
-				break;
-
-			default:
-				$template = $this->templateService->getTemplate( 'subscription_payment_failed_1' );
-		}
-
+		$template = $this->templateService->getTemplate( "subscription_payment_failes_{$level}" );
 		$template = $this->templateService->fillTemplate( $template, $data );
 
 		$this->messageService->send(
