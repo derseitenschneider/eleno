@@ -10,12 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { appConfig, isDemoMode } from '../../config'
 import fetchErrorToast from '../../hooks/fetchErrorToast'
 import LoginPage from '../../pages/LoginPage'
-import type {
-  ContextTypeUser,
-  Profile,
-  Subscription,
-  UserMeta,
-} from '../../types/types'
+import type { ContextTypeUser, Profile, UserMeta } from '../../types/types'
 import mockUser from '../api/mock-db/mockUser'
 import supabase from '../api/supabase'
 import {
@@ -26,19 +21,18 @@ import {
   updatePasswordSupabase,
   updateUserMetaApi,
 } from '../api/user.api'
-import { useLoading } from './LoadingContext'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSubscription } from './SubscriptionContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => { },
-  updateProfile: () => new Promise(() => { }),
-  updateEmail: () => new Promise(() => { }),
-  updatePassword: () => new Promise(() => { }),
-  deleteAccount: () => new Promise(() => { }),
-  logout: () => new Promise(() => { }),
-  recoverPassword: () => new Promise(() => { }),
+  setUser: () => {},
+  updateProfile: () => new Promise(() => {}),
+  updateEmail: () => new Promise(() => {}),
+  updatePassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => {}),
+  logout: () => new Promise(() => {}),
+  recoverPassword: () => new Promise(() => {}),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -55,32 +49,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!isLoading) {
       const loader = document.getElementById('loader')
       const body = document.body
+      const root = document.getElementById('root')
       if (loader) {
         loader.style.display = 'none'
         body.removeAttribute('style')
+        root?.classList.remove('hidden-root')
       }
     }
   }, [isLoading])
 
-  const getUserProfiles = useCallback(
-    async (userId: string) => {
-      if (isDemoMode) {
-        setUserProfile(mockUser)
-        setIsLoading(false)
-        return
-      }
-      try {
-        const [data] = await getProfilesSupabase(userId)
-        if (!data) throw new Error('No user found.')
-        setUserProfile(data)
-      } catch (error) {
-        fetchErrorToast()
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [setIsLoading],
-  )
+  const getUserProfiles = useCallback(async (userId: string) => {
+    if (isDemoMode) {
+      setUserProfile(mockUser)
+      setIsLoading(false)
+      return
+    }
+    try {
+      const [data] = await getProfilesSupabase(userId)
+      if (!data) throw new Error('No user found.')
+      setUserProfile(data)
+    } catch (error) {
+      fetchErrorToast()
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
     if (isDemoMode) {

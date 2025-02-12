@@ -1,0 +1,68 @@
+<?php
+
+use App\Config\Config;
+use App\Services\Message\Handlers\CancellationMessageHandler;
+use DI\Container;
+use App\Services\Stripe\StripeAPIService;
+use App\Services\Stripe\StripeRepository;
+use App\Services\Stripe\WebhookHandler;
+use App\Services\StripeService;
+use App\Services\SupabaseService;
+use App\Services\Message\Handlers\FirstSubHandler;
+use App\Services\Message\Handlers\LifetimeMessageHandler;
+use App\Services\Message\Handlers\PaymentFailedMessageHandler;
+use App\Services\Message\Handlers\ReactivationMessageHandler;
+
+return function ( Container $container ) {
+	$container->set( StripeAPIService::class, new StripeAPIService() );
+
+	$container->set(
+		StripeRepository::class,
+		function ( $container ) {
+			$supabase         = $container->get( SupabaseService::class );
+			$firstTimeHandler = $container->get( FirstSubHandler::class );
+
+			return new StripeRepository( $supabase, $firstTimeHandler );
+		}
+	);
+
+	$container->set(
+		WebhookHandler::class,
+		function ( $container ) {
+			$stripeRepository       = $container->get( StripeRepository::class );
+			$stripeAPIService       = $container->get( StripeAPIService::class );
+			$paymentFailedHandler   = $container->get( PaymentFailedMessageHandler::class );
+			$lifetimeUpgradeHandler = $container->get( LifetimeMessageHandler::class );
+
+			return new WebhookHandler(
+				$stripeRepository,
+				$stripeAPIService,
+				$paymentFailedHandler,
+				$lifetimeUpgradeHandler
+			);
+		}
+	);
+
+	$container->set(
+		StripeService::class,
+		function ( $container ) {
+			$supabase             = $container->get( SupabaseService::class );
+			$stripeAPIService     = $container->get( StripeAPIService::class );
+			$stripeRepository     = $container->get( StripeRepository::class );
+			$webhookHandler       = $container->get( WebhookHandler::class );
+			$cancellationHandler  = $container->get( CancellationMessageHandler::class );
+			$reactivationHandler  = $container->get( ReactivationMessageHandler::class );
+			$paymentFailedHandler = $container->get( PaymentFailedMessageHandler::class );
+
+			return new StripeService(
+				$supabase,
+				$stripeAPIService,
+				$stripeRepository,
+				$webhookHandler,
+				$cancellationHandler,
+				$reactivationHandler,
+				$paymentFailedHandler
+			);
+		}
+	);
+};

@@ -176,6 +176,14 @@
       transform-box: fill-box;
     }
 
+    #root {
+      transition: opacity ease 400ms;
+    }
+
+    .hidden-root {
+      opacity: 0;
+    }
+
 
     .logo-path {
       animation: colorChange 3s ease-in-out infinite alternate,
@@ -235,7 +243,7 @@
         stroke="#4794AE" stroke-width="33.8983" stroke-linecap="round" />
     </svg>
   </div>
-  <div id="root"></div>
+  <div id="root" class="hidden-root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

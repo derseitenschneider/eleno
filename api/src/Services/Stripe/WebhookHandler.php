@@ -2,6 +2,7 @@
 
 namespace App\Services\Stripe;
 
+use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\MessageService;
@@ -19,7 +20,7 @@ class WebhookHandler {
 		private StripeRepository $repository,
 		private StripeAPIService $stripeAPI,
 		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
-		private LifetimeUpgradeHandler $lifetimeUpgradeHandler,
+		private LifetimeMessageHandler $lifetimeMessageHandler,
 	) {}
 
 	public function handleEvent( Event $event ): void {
@@ -103,7 +104,7 @@ class WebhookHandler {
 
 		if ( $checkoutDTO->isLifetime ) {
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
-			$this->lifetimeUpgradeHandler->handle( $checkoutDTO );
+			$this->lifetimeMessageHandler->handle( $checkoutDTO );
 		}
 	}
 
