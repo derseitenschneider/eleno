@@ -37,7 +37,7 @@ class JWTAuthMiddleware implements MiddlewareInterface {
 		} catch ( \Firebase\JWT\ExpiredException $e ) {
 			return $this->createErrorResponse( 'Token has expired', 401 );
 		} catch ( \Exception $e ) {
-			return $this->createErrorResponse( 'Invalid token', 401 );
+			return $this->createErrorResponse( $e->getMessage(), 401 );
 		}
 	}
 

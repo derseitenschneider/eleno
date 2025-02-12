@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import { getSubscriptionApi } from '../api/user.api'
 import { useUserLocale } from './UserLocaleContext'
@@ -33,43 +33,42 @@ export function SubscriptionProvider({
     (subscriptionStatus === 'active' || subscriptionStatus === 'canceled') &&
     !isLifetime
 
-  function hasAccess(): boolean {
+  const hasAccess = useCallback(() => {
     // Always false without subscription object.
     if (!subscription) return false
-
     // Always true with lifetime.
     if (isLifetime) return true;
-
     // False if subscription is cancelled and periodEnd is after today.
     const periodEnd = new Date(subscription.period_end || '')
     if (periodEnd < new Date() && subscription.subscription_status === 'canceled') {
       return false
     }
-
     // When in doubt, return false.
     return false
-  }
+  }, [subscription, isLifetime])
 
-  function whichPlan(): string {
+  const whichPlan = useCallback(() => {
     if (isLifetime) return 'Lifetime 🚀'
     if (isTrial) return 'Testabo'
     if (subscription?.plan === 'month') return 'Monatlich'
 
     return 'Jährlich'
 
-  }
+  }, [isLifetime, isTrial, subscription?.plan])
 
-  const periodStartLocalized = new Date(subscription?.period_start || '').toLocaleString(userLocale, {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
+  const periodStartLocalized = useMemo(
+    () => new Date(subscription?.period_start || '').toLocaleString(userLocale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }), [subscription?.period_start, userLocale])
 
-  const periodEndLocalized = new Date(subscription?.period_end || '').toLocaleString(userLocale, {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
+  const periodEndLocalized = useMemo(
+    () => new Date(subscription?.period_end || '').toLocaleString(userLocale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }), [subscription?.period_end, userLocale])
 
   const getSubscription = useCallback(async (userId: string) => {
     try {
@@ -80,12 +79,12 @@ export function SubscriptionProvider({
     }
   }, [])
 
-  function handleRealtime(data: RealtimePostgresUpdatePayload<Subscription>) {
+  const handleRealtime = useCallback((data: RealtimePostgresUpdatePayload<Subscription>) => {
     if (data.errors) {
       return fetchErrorToast()
     }
     setSubscription(data.new)
-  }
+  }, [])
 
   supabase
     .channel('stripe_subscriptions')
