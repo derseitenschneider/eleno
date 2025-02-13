@@ -40,16 +40,6 @@ return function ( App $app ) {
 				array( StripeService::class, 'createPaymentSession' )
 			);
 
-			$group->post(
-				'/sessions/create/yearly',
-				array( StripeService::class, 'createSessionYearly' )
-			);
-
-			$group->post(
-				'/sessions/create/lifetime',
-				array( StripeService::class, 'createLifetimeSession' )
-			);
-
 			// Customer portal
 			$group->post(
 				'/customers/{customer_id}/portal',

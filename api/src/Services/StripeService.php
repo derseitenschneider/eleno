@@ -10,14 +10,8 @@ use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
-use Stripe\Event;
-use Stripe\StripeClient;
 use Stripe\Webhook;
 
 class StripeService {
@@ -38,7 +32,7 @@ class StripeService {
 	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
 		$subscription          = $this->repository->getSubscription( $stripeCustomer );
 		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0; // Default to 0
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0;
 		$subscriptionId        = $subscription['stripe_subscription_id'];
 
 		$messageLevels = array(
@@ -72,17 +66,17 @@ class StripeService {
 	public function getInvoice( Request $request, Response $response ) {
 		$body      = $request->getParsedBody();
 		$invoiceId = $body ['invoiceId'];
+
 		try {
-			$invoiceUrl = $this->stripeAPI->getInvoiceLink( $invoiceId );
-			return Http::jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => array(
-						'invoiceUrl' => $invoiceUrl,
-					),
-				)
+			$invoiceUrl = $this->stripeAPI->getInvoiceUrl( $invoiceId );
+			$data       = array(
+				'status' => 'success',
+				'data'   => array(
+					'invoiceUrl' => $invoiceUrl,
+				),
 			);
+
+			return Http::jsonResponse( $response, $data );
 		} catch ( \Exception $e ) {
 			return Http::errorResponse( $response, $e->getMessage(), $e->getCode() );
 		}
@@ -97,10 +91,11 @@ class StripeService {
 	public function deleteCustomer( Request $request, Response $response, $args ) {
 		$customerId = $args['customer_id'] ?? '';
 		try {
-			if ( ! $this->securityChecks->verifyCustomerAccess(
-				$customerId,
-				$this->securityChecks->getUserIdFromRequest( $request )
-			) ) {
+			if ( ! $this->securityChecks
+				->verifyCustomerAccess(
+					$customerId,
+					$this->securityChecks->getUserIdFromRequest( $request )
+				) ) {
 				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
@@ -119,23 +114,6 @@ class StripeService {
 			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
-
-	// public function createSessionMonthly( Request $request, Response $response ) {
-	// return $this->createPaymentSession(
-	// request: $request,
-	// response: $response,
-	// priceId: $this->config->priceIdMonthly
-	// );
-	// }
-	//
-	// public function createSessionYearly( Request $request, Response $response ) {
-	// return $this->createPaymentSession(
-	// request: $request,
-	// response: $response,
-	// priceId: $this->config->priceIdYearly
-	// );
-	// }
-
 
 	public function createPaymentSession( Request $request, Response $response ) {
 		$body             = $request->getParsedBody();
@@ -171,36 +149,6 @@ class StripeService {
 		}
 	}
 
-	// public function createLifetimeSession( Request $request, Response $response ) {
-	// $body             = $request->getParsedBody();
-	// $userId           = $body['user_id'];
-	// $stripeCustomerId = $body['stripe_customer_id'];
-	// $locale           = $body['locale'];
-	// $currency         = $body['currency'];
-	// try {
-	// if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
-	// return Http::errorResponse( $response, 'Unauthorized access', 403 );
-	// }
-	//
-	// $data = $this->stripeAPI->lifetimeSession(
-	// userId: $userId,
-	// stripeCustomerId: $stripeCustomerId,
-	// priceId: $this->config->priceIdLifetime,
-	// locale: $locale,
-	// currency: $currency
-	// );
-	// return Http::jsonResponse(
-	// $response,
-	// array(
-	// 'status' => 'success',
-	// 'data'   => $data,
-	// )
-	// );
-	// } catch ( \Exception $e ) {
-	// return Http::errorResponse( $response, $e->getMessage() );
-	// }
-	// }
-
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];
 		$body        = $request->getParsedBody();
@@ -214,7 +162,7 @@ class StripeService {
 				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
-			$data = $this->stripeAPI->customerPortal( $customer_id, $user_locale );
+			$data = $this->stripeAPI->createCustomerPortal( $customer_id, $user_locale );
 			return Http::jsonResponse(
 				$response,
 				array(

@@ -18,7 +18,7 @@ class StripeAPIService {
 		$this->client = new StripeClient( $this->config->stripeSecretKey );
 	}
 
-	public function getInvoiceLink( string $invoiceId ): string {
+	public function getInvoiceUrl( string $invoiceId ): string {
 		return $this->client->invoices->retrieve( $invoiceId )->hosted_invoice_url ?? '';
 	}
 
@@ -30,30 +30,31 @@ class StripeAPIService {
 		string $locale,
 		string $currency
 	): Session {
-		$baseUrl = $this->config->appBaseUrl;
+		$baseUrl   = $this->config->appBaseUrl;
+		$cancelUrl = "{$baseUrl}/settings/subscription";
+		$succesUrl = "{$baseUrl}/settings/subscription?session_type={$mode}&success=true";
 
-		$session = $this->client->checkout->sessions->create(
-			array(
-				'billing_address_collection' => 'required',
-				'cancel_url'                 => $baseUrl . '/settings/subscription',
-				'consent_collection'         => array(
-					'terms_of_service' => 'required',
+		$params = array(
+			'billing_address_collection' => 'required',
+			'cancel_url'                 => $cancelUrl,
+			'consent_collection'         => array(
+				'terms_of_service' => 'required',
+			),
+			'client_reference_id'        => $userId,
+			'customer'                   => $stripeCustomerId,
+			'currency'                   => $currency,
+			'line_items'                 => array(
+				array(
+					'price'    => $priceId,
+					'quantity' => 1,
 				),
-				'client_reference_id'        => $userId,
-				'customer'                   => $stripeCustomerId,
-				'currency'                   => $currency,
-				'line_items'                 => array(
-					array(
-						'price'    => $priceId,
-						'quantity' => 1,
-					),
-				),
-				'locale'                     => $locale,
-				'mode'                       => $mode,
-				'success_url'                => $baseUrl . "/settings/subscription?session_type={$mode}&success=true",
-			)
+			),
+			'locale'                     => $locale,
+			'mode'                       => $mode,
+			'success_url'                => $succesUrl,
 		);
-		logDebug( $session );
+
+		$session = $this->client->checkout->sessions->create( $params );
 
 		return $session;
 	}
@@ -67,74 +68,39 @@ class StripeAPIService {
 	}
 
 	public function cancelAllSubscriptions( string $customerId ) {
-		$subscriptions = $this->client->subscriptions->all(
-			array(
-				'customer' => $customerId,
-				'status'   => 'active',
-			)
+		$params        = array(
+			'customer' => $customerId,
+			'status'   => 'active',
 		);
+		$subscriptions = $this->client->subscriptions->all( $params );
 
 		foreach ( $subscriptions->data as $subscription ) {
 			$this->client->subscriptions->cancel( $subscription->id, );
 		}
 	}
 
-	// public function lifetimeSession(
-	// string $userId,
-	// string $stripeCustomerId,
-	// string $priceId,
-	// string $locale,
-	// string $currency
-	// ): Session {
-	// $baseUrl = $this->config->appBaseUrl;
-	//
-	// $session = $this->client->checkout->sessions->create(
-	// array(
-	// 'billing_address_collection' => 'required',
-	// 'cancel_url'                 => $baseUrl . '/settings/subscription',
-	// 'consent_collection'         => array(
-	// 'terms_of_service' => 'required',
-	// ),
-	// 'client_reference_id'        => $userId,
-	// 'customer'                   => $stripeCustomerId,
-	// 'currency'                   => $currency,
-	// 'invoice_creation'           => array(
-	// 'enabled' => true,
-	// ),
-	// 'line_items'                 => array(
-	// array(
-	// 'price'    => $priceId,
-	// 'quantity' => 1,
-	// ),
-	// ),
-	// 'locale'                     => $locale,
-	// 'mode'                       => 'payment',
-	// 'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
-	// )
-	// );
-	//
-	// return $session;
-	// }
-
-	public function updateSubscription( string $subscriptionId, array $params ): Subscription {
+	public function updateSubscription(
+		string $subscriptionId,
+		array $params
+	): Subscription {
 		return $this->client->subscriptions->update( $subscriptionId, $params );
 	}
 
-	public function subscription( string $subscriptionId ): Subscription {
+	public function getSubscription( string $subscriptionId ): Subscription {
 		return $this->client->subscriptions->retrieve( $subscriptionId );
 	}
 
-	public function customerPortal(
+	public function createCustomerPortal(
 		string $customerId,
 		string $locale
 	) {
 		$returnUrl = $this->config->appBaseUrl . '/settings/subscription';
-		return $this->client->billingPortal->sessions->create(
-			array(
-				'customer'   => $customerId,
-				'locale'     => $locale,
-				'return_url' => $returnUrl,
-			)
+		$params    = array(
+			'customer'   => $customerId,
+			'locale'     => $locale,
+			'return_url' => $returnUrl,
 		);
+
+		return $this->client->billingPortal->sessions->create( $params );
 	}
 }

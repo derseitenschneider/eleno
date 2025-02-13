@@ -21,7 +21,7 @@ class LifetimeUpgradeHandler {
 	}
 
 	public function handle( StripeCheckoutCompletedDTO $checkoutDTO ) {
-		$invoiceUrl = $this->stripeApiService->getInvoiceLink( $checkoutDTO->invoiceId );
+		$invoiceUrl = $this->stripeApiService->getInvoiceUrl( $checkoutDTO->invoiceId );
 		$firstName  = $this->supabase->get(
 			'profiles',
 			array(
