@@ -22,10 +22,11 @@ class StripeAPIService {
 		return $this->client->invoices->retrieve( $invoiceId )->hosted_invoice_url ?? '';
 	}
 
-	public function subscriptionSession(
+	public function createSesssion(
 		string $userId,
 		string $stripeCustomerId,
 		string $priceId,
+		string $mode,
 		string $locale,
 		string $currency
 	): Session {
@@ -48,10 +49,11 @@ class StripeAPIService {
 					),
 				),
 				'locale'                     => $locale,
-				'mode'                       => 'subscription',
-				'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
+				'mode'                       => $mode,
+				'success_url'                => $baseUrl . "/settings/subscription?session_type={$mode}&success=true",
 			)
 		);
+		logDebug( $session );
 
 		return $session;
 	}
@@ -77,43 +79,42 @@ class StripeAPIService {
 		}
 	}
 
-	// TODO: Refactor all sessions into StripeSessionService class
-	public function lifetimeSession(
-		string $userId,
-		string $stripeCustomerId,
-		string $priceId,
-		string $locale,
-		string $currency
-	): Session {
-		$baseUrl = $this->config->appBaseUrl;
-
-		$session = $this->client->checkout->sessions->create(
-			array(
-				'billing_address_collection' => 'required',
-				'cancel_url'                 => $baseUrl . '/settings/subscription',
-				'consent_collection'         => array(
-					'terms_of_service' => 'required',
-				),
-				'client_reference_id'        => $userId,
-				'customer'                   => $stripeCustomerId,
-				'currency'                   => $currency,
-				'invoice_creation'           => array(
-					'enabled' => true,
-				),
-				'line_items'                 => array(
-					array(
-						'price'    => $priceId,
-						'quantity' => 1,
-					),
-				),
-				'locale'                     => $locale,
-				'mode'                       => 'payment',
-				'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
-			)
-		);
-
-		return $session;
-	}
+	// public function lifetimeSession(
+	// string $userId,
+	// string $stripeCustomerId,
+	// string $priceId,
+	// string $locale,
+	// string $currency
+	// ): Session {
+	// $baseUrl = $this->config->appBaseUrl;
+	//
+	// $session = $this->client->checkout->sessions->create(
+	// array(
+	// 'billing_address_collection' => 'required',
+	// 'cancel_url'                 => $baseUrl . '/settings/subscription',
+	// 'consent_collection'         => array(
+	// 'terms_of_service' => 'required',
+	// ),
+	// 'client_reference_id'        => $userId,
+	// 'customer'                   => $stripeCustomerId,
+	// 'currency'                   => $currency,
+	// 'invoice_creation'           => array(
+	// 'enabled' => true,
+	// ),
+	// 'line_items'                 => array(
+	// array(
+	// 'price'    => $priceId,
+	// 'quantity' => 1,
+	// ),
+	// ),
+	// 'locale'                     => $locale,
+	// 'mode'                       => 'payment',
+	// 'success_url'                => $baseUrl . '/settings/subscription?subscription=success',
+	// )
+	// );
+	//
+	// return $session;
+	// }
 
 	public function updateSubscription( string $subscriptionId, array $params ): Subscription {
 		return $this->client->subscriptions->update( $subscriptionId, $params );

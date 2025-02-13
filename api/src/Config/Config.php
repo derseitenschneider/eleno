@@ -23,9 +23,9 @@ class Config {
 			'SUPABASE_SERVICE_ROLE_KEY',
 			'SUPABASE_JWT_SECRET',
 			'STRIPE_SECRET_KEY',
-			'STRIPE_PRICE_ID_MONTHLY',
-			'STRIPE_PRICE_ID_YEARLY',
-			'STRIPE_PRICE_ID_LIFETIME',
+			// 'STRIPE_PRICE_ID_MONTHLY',
+			// 'STRIPE_PRICE_ID_YEARLY',
+			// 'STRIPE_PRICE_ID_LIFETIME',
 			'STRIPE_SIGNATURE',
 		);
 
@@ -41,9 +41,9 @@ class Config {
 		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICE_ROLE_KEY'];
 		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
-		$this->priceIdMonthly         = $_ENV['STRIPE_PRICE_ID_MONTHLY'];
-		$this->priceIdYearly          = $_ENV['STRIPE_PRICE_ID_YEARLY'];
-		$this->priceIdLifetime        = $_ENV['STRIPE_PRICE_ID_LIFETIME'];
+		// $this->priceIdMonthly         = $_ENV['STRIPE_PRICE_ID_MONTHLY'];
+		// $this->priceIdYearly          = $_ENV['STRIPE_PRICE_ID_YEARLY'];
+		// $this->priceIdLifetime        = $_ENV['STRIPE_PRICE_ID_LIFETIME'];
 		$this->stripeWebhookSignature = $_ENV['STRIPE_SIGNATURE'];
 
 		// Load CORS origins from environment or use defaults

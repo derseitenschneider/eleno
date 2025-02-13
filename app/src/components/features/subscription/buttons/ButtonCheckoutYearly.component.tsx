@@ -26,19 +26,24 @@ export default function ButtonCheckoutYearly({
       } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      const res = await fetch(`${appConfig.apiUrl}/sessions/create/yearly`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `${appConfig.apiUrl}/sessions/create/payment-session`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            price_id: appConfig.priceIdYearly,
+            mode: 'subscription',
+            user_id: subscription?.user_id,
+            stripe_customer_id: subscription?.stripe_customer_id,
+            locale: userLocale,
+            currency,
+          }),
         },
-        body: JSON.stringify({
-          user_id: subscription?.user_id,
-          stripe_customer_id: subscription?.stripe_customer_id,
-          locale: userLocale,
-          currency,
-        }),
-      })
+      )
 
       const data = await res.json()
       if (data.status !== 'success') throw new Error()

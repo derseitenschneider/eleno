@@ -120,25 +120,27 @@ class StripeService {
 		}
 	}
 
-	public function createSessionMonthly( Request $request, Response $response ) {
-		return $this->createPaymentSession(
-			request: $request,
-			response: $response,
-			priceId: $this->config->priceIdMonthly
-		);
-	}
+	// public function createSessionMonthly( Request $request, Response $response ) {
+	// return $this->createPaymentSession(
+	// request: $request,
+	// response: $response,
+	// priceId: $this->config->priceIdMonthly
+	// );
+	// }
+	//
+	// public function createSessionYearly( Request $request, Response $response ) {
+	// return $this->createPaymentSession(
+	// request: $request,
+	// response: $response,
+	// priceId: $this->config->priceIdYearly
+	// );
+	// }
 
-	public function createSessionYearly( Request $request, Response $response ) {
-		return $this->createPaymentSession(
-			request: $request,
-			response: $response,
-			priceId: $this->config->priceIdYearly
-		);
-	}
 
-
-	public function createPaymentSession( Request $request, Response $response, string $priceId ) {
+	public function createPaymentSession( Request $request, Response $response ) {
 		$body             = $request->getParsedBody();
+		$priceId          = $body['price_id'];
+		$mode             = $body['mode'];
 		$userId           = $body['user_id'];
 		$stripeCustomerId = $body['stripe_customer_id'];
 		$locale           = $body['locale'];
@@ -149,10 +151,11 @@ class StripeService {
 				return Http::errorResponse( $response, 'Unauthorized access', 403 );
 			}
 
-			$data = $this->stripeAPI->subscriptionSession(
+			$data = $this->stripeAPI->createSesssion(
 				userId: $userId,
 				stripeCustomerId: $stripeCustomerId,
 				priceId: $priceId,
+				mode: $mode,
 				locale: $locale,
 				currency: $currency
 			);
@@ -168,35 +171,35 @@ class StripeService {
 		}
 	}
 
-	public function createLifetimeSession( Request $request, Response $response ) {
-		$body             = $request->getParsedBody();
-		$userId           = $body['user_id'];
-		$stripeCustomerId = $body['stripe_customer_id'];
-		$locale           = $body['locale'];
-		$currency         = $body['currency'];
-		try {
-			if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
-				return Http::errorResponse( $response, 'Unauthorized access', 403 );
-			}
-
-			$data = $this->stripeAPI->lifetimeSession(
-				userId: $userId,
-				stripeCustomerId: $stripeCustomerId,
-				priceId: $this->config->priceIdLifetime,
-				locale: $locale,
-				currency: $currency
-			);
-			return Http::jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => $data,
-				)
-			);
-		} catch ( \Exception $e ) {
-			return Http::errorResponse( $response, $e->getMessage() );
-		}
-	}
+	// public function createLifetimeSession( Request $request, Response $response ) {
+	// $body             = $request->getParsedBody();
+	// $userId           = $body['user_id'];
+	// $stripeCustomerId = $body['stripe_customer_id'];
+	// $locale           = $body['locale'];
+	// $currency         = $body['currency'];
+	// try {
+	// if ( ! $this->securityChecks->verifyCustomerAccess( $stripeCustomerId, $userId ) ) {
+	// return Http::errorResponse( $response, 'Unauthorized access', 403 );
+	// }
+	//
+	// $data = $this->stripeAPI->lifetimeSession(
+	// userId: $userId,
+	// stripeCustomerId: $stripeCustomerId,
+	// priceId: $this->config->priceIdLifetime,
+	// locale: $locale,
+	// currency: $currency
+	// );
+	// return Http::jsonResponse(
+	// $response,
+	// array(
+	// 'status' => 'success',
+	// 'data'   => $data,
+	// )
+	// );
+	// } catch ( \Exception $e ) {
+	// return Http::errorResponse( $response, $e->getMessage() );
+	// }
+	// }
 
 	public function customerPortal( Request $request, Response $response, $args ) {
 		$customer_id = $args['customer_id'];

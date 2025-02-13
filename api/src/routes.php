@@ -36,8 +36,8 @@ return function ( App $app ) {
 
 			// // Checkout Sessions
 			$group->post(
-				'/sessions/create/monthly',
-				array( StripeService::class, 'createSessionMonthly' )
+				'/sessions/create/payment-session',
+				array( StripeService::class, 'createPaymentSession' )
 			);
 
 			$group->post(
@@ -50,16 +50,19 @@ return function ( App $app ) {
 				array( StripeService::class, 'createLifetimeSession' )
 			);
 
+			// Customer portal
 			$group->post(
 				'/customers/{customer_id}/portal',
 				array( StripeService::class, 'customerPortal' )
 			);
 
+			// Invoice link
 			$group->post(
 				'/customers/{customer_id}/invoice',
 				array( StripeService::class, 'getInvoice' )
 			);
 
+			// Delete customer
 			$group->delete(
 				'/customers/{customer_id}',
 				array( StripeService::class, 'deleteCustomer' )

@@ -1,5 +1,3 @@
-// src/Core/Http.php
-
 <?php
 namespace App\Core;
 

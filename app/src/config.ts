@@ -7,6 +7,10 @@ const envSchema = z.object({
   VITE_SUPABASE_URL: z.string().url(),
   VITE_SUPABASE_KEY: z.string(),
   VITE_STRIPE_PUBLISHABLE_KEY: z.string(),
+  VITE_API_URL: z.string(),
+  VITE_STRIPE_PRICE_ID_MONTHLY: z.string(),
+  VITE_STRIPE_PRICE_ID_YEARLY: z.string(),
+  VITE_STRIPE_PRICE_ID_LIFETIME: z.string(),
 })
 
 const env = envSchema.parse(import.meta.env)
@@ -18,6 +22,9 @@ const configSchema = z.object({
   dbKey: z.string(),
   stripePublishableKey: z.string(),
   apiUrl: z.string(),
+  priceIdMonthly: z.string(),
+  priceIdYearly: z.string(),
+  priceIdLifetime: z.string(),
 })
 
 const config = configSchema.parse({
@@ -26,9 +33,10 @@ const config = configSchema.parse({
   dbUrl: env.VITE_SUPABASE_URL,
   dbKey: env.VITE_SUPABASE_KEY,
   stripePublishableKey: env.VITE_STRIPE_PUBLISHABLE_KEY,
-  apiUrl: import.meta.env.DEV
-    ? 'http://localhost:8000'
-    : 'https://api.eleno.net',
+  apiUrl: env.VITE_API_URL,
+  priceIdMonthly: env.VITE_STRIPE_PRICE_ID_MONTHLY,
+  priceIdYearly: env.VITE_STRIPE_PRICE_ID_YEARLY,
+  priceIdLifetime: env.VITE_STRIPE_PRICE_ID_LIFETIME,
 })
 
 type AppConfig = z.infer<typeof configSchema>
