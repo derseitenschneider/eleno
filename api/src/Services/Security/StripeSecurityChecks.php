@@ -11,27 +11,39 @@ class StripeSecurityChecks {
 	public function __construct( private SupabaseService $supabase, private Config $config ) {
 	}
 
-	public function verifyCustomerAccess( string $customerId, string $userId ): bool {
-		$result = $this->supabase->get(
-			endpoint: 'stripe_subscriptions',
-			query: array(
-				'select'             => 'user_id,stripe_customer_id',
-				'user_id'            => 'eq.' . $userId,
-				'stripe_customer_id' => 'eq.' . $customerId,
-			)
+	public function verifyInvoiceAccess( string $invoiceId, string $userId ): bool {
+		$query = array(
+			'select'            => 'user_id,stripe_customer_id',
+			'user_id'           => 'eq.' . $userId,
+			'stripe_invoice_id' => 'eq.' . $invoiceId,
 		);
+
+		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
+
+		return ! empty( $result['data'] );
+	}
+
+	public function verifyCustomerAccess( string $customerId, string $userId ): bool {
+		$query = array(
+			'select'             => 'user_id,stripe_customer_id',
+			'user_id'            => 'eq.' . $userId,
+			'stripe_customer_id' => 'eq.' . $customerId,
+		);
+
+		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
+
 		return ! empty( $result['data'] );
 	}
 
 	public function verifySubscriptionAccess( string $subscriptionId, string $userId ): bool {
-		$result = $this->supabase->get(
-			endpoint: 'stripe_subscriptions',
-			query: array(
-				'select'                 => 'user_id,stripe_subscription_id',
-				'user_id'                => 'eq.' . $userId,
-				'stripe_subscription_id' => 'eq.' . $subscriptionId,
-			)
+		$query = array(
+			'select'                 => 'user_id,stripe_subscription_id',
+			'user_id'                => 'eq.' . $userId,
+			'stripe_subscription_id' => 'eq.' . $subscriptionId,
 		);
+
+		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
+
 		return ! empty( $result['data'] );
 	}
 

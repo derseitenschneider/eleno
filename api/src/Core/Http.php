@@ -4,7 +4,14 @@ namespace App\Core;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class Http {
-	public static function jsonResponse( Response $response, array $data, int $status = 200 ): Response {
+	public static function jsonResponse(
+		Response $response,
+		array $data = array(
+			'status' => 'success',
+			'data'   => null,
+		),
+		int $status = 200
+	): Response {
 		$response->getBody()->write( json_encode( $data ) );
 		return $response->withStatus( $status )
 						->withHeader( 'Content-Type', 'application/json' );

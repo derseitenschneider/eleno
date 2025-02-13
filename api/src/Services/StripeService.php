@@ -25,23 +25,8 @@ class StripeService {
 	}
 
 
-	public function getInvoice( Request $request, Response $response ) {
-		$body      = $request->getParsedBody();
-		$invoiceId = $body ['invoiceId'];
-
-		try {
-			$invoiceUrl = $this->stripeAPI->getInvoiceUrl( $invoiceId );
-			$data       = array(
-				'status' => 'success',
-				'data'   => array(
-					'invoiceUrl' => $invoiceUrl,
-				),
-			);
-
-			return Http::jsonResponse( $response, $data );
-		} catch ( \Exception $e ) {
-			return Http::errorResponse( $response, $e->getMessage(), $e->getCode() );
-		}
+	public function getInvoice( $invoiceId ) {
+			return $this->stripeAPI->getInvoiceUrl( $invoiceId );
 	}
 
 	public function cancelAllSubscriptions( Request $request, Response $response ) {
@@ -111,49 +96,17 @@ class StripeService {
 		}
 	}
 
-	public function customerPortal( Request $request, Response $response, $args ) {
-		$customer_id = $args['customer_id'];
-		$body        = $request->getParsedBody();
-		$user_locale = $body['locale'] ?? '';
-
-		try {
-			if ( ! $this->securityChecks->verifyCustomerAccess(
-				$customer_id,
-				$this->securityChecks->getUserIdFromRequest( $request )
-			) ) {
-				return Http::errorResponse( $response, 'Unauthorized access', 403 );
-			}
-
-			$data = $this->stripeAPI->createCustomerPortal( $customer_id, $user_locale );
-			return Http::jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => $data,
-				)
-			);
-
-		} catch ( \Exception $e ) {
-			return Http::errorResponse( $response, $e->getMessage() );
-		}
+	public function createCustomerPortal( string $customerId, string $userLocale ) {
+			return $this->stripeAPI->createCustomerPortal( $customerId, $userLocale );
 	}
 
-	public function cancelAtPeriodEnd( Request $request, Response $response, $args ) {
-		$subscription_id = $args['subscription_id'];
-		$body            = $request->getParsedBody();
-		$firstName       = $body['firstName'] ?? '';
-		$userId          = $body['userId'] ?? '';
-
-		try {
-			if ( ! $this->securityChecks->verifySubscriptionAccess(
-				subscriptionId: $subscription_id,
-				userId: $this->securityChecks->getUserIdFromRequest( $request )
-			) ) {
-				return Http::errorResponse( $response, 'Unauthorized access', 403 );
-			}
-
+	public function cancelAtPeriodEnd(
+		string $subscriptionId,
+		string $userId,
+		string $firstName
+	) {
 			$this->stripeAPI->updateSubscription(
-				$subscription_id,
+				$subscriptionId,
 				array( 'cancel_at_period_end' => true )
 			);
 
@@ -161,36 +114,15 @@ class StripeService {
 				userId: $userId,
 				firstName:$firstName
 			);
-
-			return Http::jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => null,
-				)
-			);
-
-		} catch ( \Exception $e ) {
-			return Http::errorResponse( $response, $e->getMessage() );
-		}
 	}
 
-	public function handleReactivation( Request $request, Response $response, $args ) {
-		$subscription_id = $args['subscription_id'];
-		$body            = $request->getParsedBody();
-		$userId          = $body['userId'];
-		$firstName       = $body['firstName'];
-
-		try {
-			if ( ! $this->securityChecks->verifySubscriptionAccess(
-				$subscription_id,
-				$this->securityChecks->getUserIdFromRequest( $request )
-			) ) {
-				return Http::errorResponse( $response, 'Unauthorized access', 403 );
-			}
-
+	public function handleReactivation(
+		string $subscriptionId,
+		string $userId,
+		string $firstName
+	) {
 			$this->stripeAPI->updateSubscription(
-				$subscription_id,
+				$subscriptionId,
 				array( 'cancel_at_period_end' => false )
 			);
 
@@ -198,18 +130,6 @@ class StripeService {
 				userId: $userId,
 				firstName: $firstName
 			);
-
-			return Http::jsonResponse(
-				$response,
-				array(
-					'status' => 'success',
-					'data'   => null,
-				)
-			);
-
-		} catch ( \Exception $e ) {
-			return Http::errorResponse( $response, $e->getMessage() );
-		}
 	}
 
 	public function handleWebhook( Request $request, Response $response ) {

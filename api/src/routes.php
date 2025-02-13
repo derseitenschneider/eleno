@@ -2,6 +2,7 @@
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use App\Controllers\HomeworkController;
+use App\Controllers\StripeController;
 use App\Middleware\JWTAuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,16 +23,16 @@ return function ( App $app ) {
 		'',
 		function ( RouteCollectorProxy $group ) {
 
-			// Cancel subscription
-			$group->delete(
-				'/subscriptions/{subscription_id}',
-				array( StripeService::class, 'cancelAtPeriodEnd' )
+			// Cancel at period end
+			$group->post(
+				'/subscriptions/{subscription_id}/cancel',
+				array( StripeController::class, 'cancelAtPeriodEnd' )
 			);
 
 			// Reactivate subscription
-			$group->patch(
-				'/subscriptions/{subscription_id}',
-				array( StripeService::class, 'handleReactivation' )
+			$group->post(
+				'/subscriptions/{subscription_id}/reactivate',
+				array( StripeController::class, 'handleReactivation' )
 			);
 
 			// // Checkout Sessions
@@ -43,13 +44,13 @@ return function ( App $app ) {
 			// Customer portal
 			$group->post(
 				'/customers/{customer_id}/portal',
-				array( StripeService::class, 'customerPortal' )
+				array( StripeController::class, 'createCustomerPortal' )
 			);
 
 			// Invoice link
 			$group->post(
 				'/customers/{customer_id}/invoice',
-				array( StripeService::class, 'getInvoice' )
+				array( StripeController::class, 'getInvoice' )
 			);
 
 			// Delete customer
