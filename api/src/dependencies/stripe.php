@@ -65,25 +65,19 @@ return function ( Container $container ) {
 		StripeService::class,
 		function ( $container ) {
 			$config               = $container->get( Config::class );
-			$supabase             = $container->get( SupabaseService::class );
 			$stripeAPIService     = $container->get( StripeAPIService::class );
-			$stripeRepository     = $container->get( StripeRepository::class );
 			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
 			$webhookHandler       = $container->get( WebhookHandler::class );
 			$cancellationHandler  = $container->get( CancellationMessageHandler::class );
 			$reactivationHandler  = $container->get( ReactivationMessageHandler::class );
-			$paymentFailedHandler = $container->get( PaymentFailedMessageHandler::class );
 
 			return new StripeService(
 				$config,
-				$supabase,
 				$stripeAPIService,
-				$stripeRepository,
 				$stripeSecurityChecks,
 				$webhookHandler,
 				$cancellationHandler,
 				$reactivationHandler,
-				$paymentFailedHandler
 			);
 		}
 	);

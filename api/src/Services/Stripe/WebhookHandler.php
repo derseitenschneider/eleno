@@ -35,64 +35,29 @@ class WebhookHandler {
 
 	private function handlePaymentFailed( Invoice $invoice ) {
 		$stripeCustomer        = $invoice->customer;
-		$firstName             = explode( ' ', $invoice->customer_name )[0];
+		$firstName             = explode( ' ', $invoice->customer_name )[0] ?? '';
 		$subscription          = $this->repository->getSubscription( $stripeCustomer );
 		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'];
+		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0;
 		$subscriptionId        = $subscription['stripe_subscription_id'];
 
-		switch ( $failedPaymentAttempts ) {
-			case null:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 1,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		$messageLevels = array(
+			0 => 1,
+			1 => 2,
+			2 => 3,
+			3 => 3,
+		);
 
-			case 1:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 2,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
 
-			case 2:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+		if ( $level !== null ) {
+			$this->repository->bumpFailedPaymentAttempts( customer: $stripeCustomer, prevValue: $failedPaymentAttempts );
+			$this->paymentFailedMessageHandler->handle( level: $level, userId: $userId, firstName: $firstName );
 
-			case 3:
-				$this->repository->bumpFailedPaymentAttempts(
-					customer: $stripeCustomer,
-					prevValue: $failedPaymentAttempts
-				);
-
+			if ( $level === 3 ) {
 				$this->repository->cancelSubscription( $subscriptionId );
 				$this->stripeAPI->cancelSubscription( $subscriptionId );
-
-				$this->paymentFailedMessageHandler->handle(
-					level: 3,
-					userId: $userId,
-					firstName:$firstName
-				);
-				break;
+			}
 		}
 	}
 

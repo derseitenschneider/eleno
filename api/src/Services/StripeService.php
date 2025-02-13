@@ -4,11 +4,9 @@ namespace App\Services;
 use App\Config\Config;
 use App\Core\Http;
 use App\Services\Message\Handlers\CancellationMessageHandler;
-use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Security\StripeSecurityChecks;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,50 +16,14 @@ class StripeService {
 
 	public function __construct(
 		private Config $config,
-		private SupabaseService $supabase,
 		private StripeAPIService $stripeAPI,
-		private StripeRepository $repository,
 		private StripeSecurityChecks $securityChecks,
 		private WebhookHandler $webhookHandler,
 		private CancellationMessageHandler $cancellationMessageHandler,
 		private ReactivationMessageHandler $reactivationMessageHandler,
-		private PaymentFailedMessageHandler $paymentFailedMessageHandler
 	) {
 	}
 
-	public function handlePaymentFailed( string $stripeCustomer, string $firstName ) {
-		$subscription          = $this->repository->getSubscription( $stripeCustomer );
-		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0;
-		$subscriptionId        = $subscription['stripe_subscription_id'];
-
-		$messageLevels = array(
-			0 => 1,
-			1 => 2,
-			2 => 3,
-			3 => 3,
-		);
-
-		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
-
-		if ( $level !== null ) {
-			$this->repository->bumpFailedPaymentAttempts(
-				customer: $stripeCustomer,
-				prevValue: $failedPaymentAttempts
-			);
-
-			$this->paymentFailedMessageHandler->handle(
-				level: $level,
-				userId: $userId,
-				firstName: $firstName
-			);
-
-			if ( $level === 3 ) {
-				$this->repository->cancelSubscription( subscriptionId: $subscriptionId );
-				$this->stripeAPI->cancelSubscription( subscriptionId: $subscriptionId );
-			}
-		}
-	}
 
 	public function getInvoice( Request $request, Response $response ) {
 		$body      = $request->getParsedBody();
