@@ -3,7 +3,9 @@
 namespace App\Services\Stripe;
 
 use App\Config\Config;
+use App\Services\Stripe\DTO\CheckoutSessionDTO;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
+use App\Services\Stripe\DTO\StripeSessionDTO;
 use Stripe\Checkout\Session;
 use Stripe\Collection;
 use Stripe\PaymentMethod;
@@ -22,42 +24,36 @@ class StripeAPIService {
 		return $this->client->invoices->retrieve( $invoiceId )->hosted_invoice_url ?? '';
 	}
 
-	public function createSesssion(
-		string $userId,
-		string $stripeCustomerId,
-		string $priceId,
-		string $mode,
-		string $locale,
-		string $currency
-	): Session {
-		$baseUrl   = $this->config->appBaseUrl;
-		$cancelUrl = "{$baseUrl}/settings/subscription";
-		$succesUrl = "{$baseUrl}/settings/subscription?session_type={$mode}&success=true";
+	public function createSession( CheckoutSessionDTO $sessionDTO ): Session {
 
-		$params = array(
+		$args = array(
 			'billing_address_collection' => 'required',
-			'cancel_url'                 => $cancelUrl,
+			'cancel_url'                 => $sessionDTO->cancelUrl,
 			'consent_collection'         => array(
 				'terms_of_service' => 'required',
 			),
-			'client_reference_id'        => $userId,
-			'customer'                   => $stripeCustomerId,
-			'currency'                   => $currency,
-			'invoice_creation'           => array(
-				'enabled' => true,
-			),
+			'client_reference_id'        => $sessionDTO->userId,
+			'customer'                   => $sessionDTO->stripeCustomerId,
+			'currency'                   => $sessionDTO->currency,
 			'line_items'                 => array(
 				array(
-					'price'    => $priceId,
+					'price'    => $sessionDTO->priceId,
 					'quantity' => 1,
 				),
 			),
-			'locale'                     => $locale,
-			'mode'                       => $mode,
-			'success_url'                => $succesUrl,
+			'locale'                     => $sessionDTO->locale,
+			'mode'                       => $sessionDTO->mode,
+			'success_url'                => $sessionDTO->succesUrl,
 		);
 
-		$session = $this->client->checkout->sessions->create( $params );
+		if ( $sessionDTO->mode === 'payment' ) {
+			$args['invoice_creation'] = array(
+				'enabled' => ( $sessionDTO->mode === 'payment' ),
+			);
+
+		}
+
+		$session = $this->client->checkout->sessions->create( $args );
 
 		return $session;
 	}
@@ -71,11 +67,11 @@ class StripeAPIService {
 	}
 
 	public function cancelAllSubscriptions( string $customerId ) {
-		$params        = array(
+		$args          = array(
 			'customer' => $customerId,
 			'status'   => 'active',
 		);
-		$subscriptions = $this->client->subscriptions->all( $params );
+		$subscriptions = $this->client->subscriptions->all( $args );
 
 		foreach ( $subscriptions->data as $subscription ) {
 			$this->client->subscriptions->cancel( $subscription->id, );
@@ -98,12 +94,12 @@ class StripeAPIService {
 		string $locale
 	) {
 		$returnUrl = $this->config->appBaseUrl . '/settings/subscription';
-		$params    = array(
+		$args      = array(
 			'customer'   => $customerId,
 			'locale'     => $locale,
 			'return_url' => $returnUrl,
 		);
 
-		return $this->client->billingPortal->sessions->create( $params );
+		return $this->client->billingPortal->sessions->create( $args );
 	}
 }

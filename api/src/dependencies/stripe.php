@@ -21,8 +21,13 @@ return function ( Container $container ) {
 		function ( $container ) {
 			$stripeService        = $container->get( StripeService::class );
 			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
+			$config               = $container->get( Config::class );
 
-			return new StripeController( $stripeService, $stripeSecurityChecks );
+			return new StripeController(
+				$stripeService,
+				$stripeSecurityChecks,
+				$config
+			);
 		}
 	);
 
@@ -75,17 +80,17 @@ return function ( Container $container ) {
 	$container->set(
 		StripeService::class,
 		function ( $container ) {
-			$config               = $container->get( Config::class );
-			$stripeAPIService     = $container->get( StripeAPIService::class );
-			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
-			$webhookHandler       = $container->get( WebhookHandler::class );
-			$cancellationHandler  = $container->get( CancellationMessageHandler::class );
-			$reactivationHandler  = $container->get( ReactivationMessageHandler::class );
+			$config              = $container->get( Config::class );
+			$stripeAPIService    = $container->get( StripeAPIService::class );
+			$repository          = $container->get( StripeRepository::class );
+			$webhookHandler      = $container->get( WebhookHandler::class );
+			$cancellationHandler = $container->get( CancellationMessageHandler::class );
+			$reactivationHandler = $container->get( ReactivationMessageHandler::class );
 
 			return new StripeService(
 				$config,
 				$stripeAPIService,
-				$stripeSecurityChecks,
+				$repository,
 				$webhookHandler,
 				$cancellationHandler,
 				$reactivationHandler,

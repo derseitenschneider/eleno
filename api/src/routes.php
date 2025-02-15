@@ -38,7 +38,7 @@ return function ( App $app ) {
 			// // Checkout Sessions
 			$group->post(
 				'/sessions/create/payment-session',
-				array( StripeService::class, 'createPaymentSession' )
+				array( StripeController::class, 'createCheckoutSession' )
 			);
 
 			// Customer portal
@@ -56,7 +56,7 @@ return function ( App $app ) {
 			// Delete customer
 			$group->delete(
 				'/customers/{customer_id}',
-				array( StripeService::class, 'deleteCustomer' )
+				array( StripeController::class, 'deleteCustomer' )
 			);
 		}
 	)->add( JWTAuthMiddleware::class );
