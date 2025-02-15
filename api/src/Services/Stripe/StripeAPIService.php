@@ -43,6 +43,9 @@ class StripeAPIService {
 			'client_reference_id'        => $userId,
 			'customer'                   => $stripeCustomerId,
 			'currency'                   => $currency,
+			'invoice_creation'           => array(
+				'enabled' => true,
+			),
 			'line_items'                 => array(
 				array(
 					'price'    => $priceId,

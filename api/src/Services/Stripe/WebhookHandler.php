@@ -63,6 +63,7 @@ class WebhookHandler {
 
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
+		logDebug( $session );
 
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 		$this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );

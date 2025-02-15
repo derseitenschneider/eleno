@@ -50,7 +50,6 @@ class StripeRepository {
 
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): array {
 		$statusBeforeUpdate = $this->supabase->getSubscriptionStatus( $session->userId );
-		logDebug( $statusBeforeUpdate );
 
 		// Handle first time subscription.
 		if ( $statusBeforeUpdate === 'trial' ) {

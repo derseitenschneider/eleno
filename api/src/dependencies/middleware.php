@@ -27,7 +27,6 @@ return function ( Container $container ) {
 		CorsMiddleware::class,
 		function ( $container ) {
 			$config = $container->get( Config::class );
-			logDebug( $config );
 
 			return new CorsMiddleware( $config );
 		}

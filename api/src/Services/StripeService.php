@@ -10,7 +10,6 @@ use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\WebhookHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Stripe\Webhook;
 
 class StripeService {
 
@@ -130,32 +129,5 @@ class StripeService {
 				userId: $userId,
 				firstName: $firstName
 			);
-	}
-
-	public function handleWebhook( Request $request, Response $response ) {
-		$webhookSecret = $this->config->stripeWebhookSignature;
-
-		$payload   = @file_get_contents( 'php://input' );
-		$sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-		$event     = null;
-
-		try {
-			$event = Webhook::constructEvent( $payload, $sigHeader, $webhookSecret );
-
-			$this->webhookHandler->handleEvent( $event );
-
-			return $response->withStatus( 200 );
-
-		} catch ( \UnexpectedValueException $e ) {
-
-			return Http::errorResponse( $response, $e->getMessage(), 400 );
-
-		} catch ( \Stripe\Exception\SignatureVerificationException $e ) {
-			return Http::errorResponse(
-				$response,
-				'Error verifying webhook signature: ' . $e->getMessage()
-			);
-			exit();
-		}
 	}
 }

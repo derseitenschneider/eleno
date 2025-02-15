@@ -3,6 +3,7 @@ use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use App\Controllers\HomeworkController;
 use App\Controllers\StripeController;
+use App\Controllers\WebhookController;
 use App\Middleware\JWTAuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,7 +23,6 @@ return function ( App $app ) {
 	$app->group(
 		'',
 		function ( RouteCollectorProxy $group ) {
-
 			// Cancel at period end
 			$group->post(
 				'/subscriptions/{subscription_id}/cancel',
@@ -63,7 +63,7 @@ return function ( App $app ) {
 
 	$app->post(
 		'/stripe-webhooks',
-		array( StripeService::class, 'handleWebhook' )
+		array( WebhookController::class, 'handleWebhook' )
 	);
 
 	$app->any(

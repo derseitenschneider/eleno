@@ -22,6 +22,7 @@ $dotenv->load();
 // Create Container
 $container = new Container();
 ( require __DIR__ . '/../src/dependencies/config.php' )( $container );
+( require __DIR__ . '/../src/dependencies/controller.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/database.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/message.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/stripe.php' )( $container );
