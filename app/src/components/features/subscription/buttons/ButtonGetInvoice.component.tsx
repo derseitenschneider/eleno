@@ -20,7 +20,7 @@ export default function ButtonGetInvoice() {
       const token = session?.access_token
 
       const res = await fetch(
-        `${appConfig.apiUrl}/customers/${subscription?.stripe_customer_id}/invoice`,
+        `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}/invoice`,
         {
           method: 'POST',
           headers: {

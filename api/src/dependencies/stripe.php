@@ -1,7 +1,6 @@
 <?php
 
 use App\Config\Config;
-use App\Controllers\StripeController;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use DI\Container;
 use App\Services\Stripe\StripeAPIService;
@@ -16,20 +15,6 @@ use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Security\StripeSecurityChecks;
 
 return function ( Container $container ) {
-	$container->set(
-		StripeController::class,
-		function ( $container ) {
-			$stripeService        = $container->get( StripeService::class );
-			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
-			$config               = $container->get( Config::class );
-
-			return new StripeController(
-				$stripeService,
-				$stripeSecurityChecks,
-				$config
-			);
-		}
-	);
 
 	$container->set(
 		StripeAPIService::class,

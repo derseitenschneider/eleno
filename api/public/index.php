@@ -32,6 +32,8 @@ AppFactory::setContainer( $container );
 // Create App
 $app = AppFactory::create();
 
+$app->addRoutingMiddleware();
+
 // Body parsing middleware to support raw json post requests.
 $app->addBodyParsingMiddleware();
 

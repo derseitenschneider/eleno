@@ -27,7 +27,7 @@ export default function ButtonCheckoutYearly({
       const token = session?.access_token
 
       const res = await fetch(
-        `${appConfig.apiUrl}/sessions/create/payment-session`,
+        `${appConfig.apiUrl}/stripe/sessions/create/payment-session`,
         {
           method: 'POST',
           headers: {

@@ -31,7 +31,7 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
       const token = session?.access_token
 
       const res = await fetch(
-        `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}/reactivate`,
+        `${appConfig.apiUrl}/stripe/subscriptions/${subscription?.stripe_subscription_id}/reactivate`,
         {
           method: 'POST',
           body: JSON.stringify({

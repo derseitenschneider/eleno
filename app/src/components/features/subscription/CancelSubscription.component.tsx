@@ -31,7 +31,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       const token = session?.access_token
 
       const res = await fetch(
-        `${appConfig.apiUrl}/subscriptions/${subscription?.stripe_subscription_id}/cancel`,
+        `${appConfig.apiUrl}/stripe/subscriptions/${subscription?.stripe_subscription_id}/cancel`,
         {
           method: 'POST',
           body: JSON.stringify({

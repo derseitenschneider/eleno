@@ -2,12 +2,18 @@
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use App\Controllers\HomeworkController;
-use App\Controllers\StripeController;
+use App\Controllers\Stripe\CustomerController;
+use App\Controllers\Stripe\SessionController;
+use App\Controllers\Stripe\SubscriptionController;
 use App\Controllers\WebhookController;
+use App\Middleware\CustomerAccessMiddleware;
 use App\Middleware\JWTAuthMiddleware;
+use App\Middleware\SessionAccessMiddleware;
+use App\Middleware\SubscriptionAccessMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\StripeService;
+use Stripe\Customer;
 
 return function ( App $app ) {
 	$app->group(
@@ -21,43 +27,57 @@ return function ( App $app ) {
 	);
 
 	$app->group(
-		'',
+		'/stripe',
 		function ( RouteCollectorProxy $group ) {
-			// Cancel at period end
-			$group->post(
-				'/subscriptions/{subscription_id}/cancel',
-				array( StripeController::class, 'cancelAtPeriodEnd' )
-			);
+			// Subscriptions with access middleware.
+			$group->group(
+				'/subscriptions/{subscription_id}',
+				function ( RouteCollectorProxy $group ) {
+					$group->post(
+						'/cancel',
+						array( SubscriptionController::class, 'cancelAtPeriodEnd' )
+					);
 
-			// Reactivate subscription
-			$group->post(
-				'/subscriptions/{subscription_id}/reactivate',
-				array( StripeController::class, 'handleReactivation' )
-			);
+					$group->post(
+						'/reactivate',
+						array( SubscriptionController::class, 'handleReactivation' )
+					);
+				}
+			)->add( SubscriptionAccessMiddleware::class );
 
-			// // Checkout Sessions
-			$group->post(
-				'/sessions/create/payment-session',
-				array( StripeController::class, 'createCheckoutSession' )
-			);
+			// Session with access middleware
+			$group->group(
+				'/session',
+				function ( RouteCollectorProxy $group ) {
 
-			// Customer portal
-			$group->post(
-				'/customers/{customer_id}/portal',
-				array( StripeController::class, 'createCustomerPortal' )
-			);
+					$group->post(
+						'/create',
+						array( SessionController::class, 'createSession' )
+					);
+				}
+			)->add( SessionAccessMiddleware::class );
 
-			// Invoice link
-			$group->post(
-				'/customers/{customer_id}/invoice',
-				array( StripeController::class, 'getInvoice' )
-			);
-
-			// Delete customer
-			$group->delete(
+			// Customer with access middleware
+			$group->group(
 				'/customers/{customer_id}',
-				array( StripeController::class, 'deleteCustomer' )
-			);
+				function ( RouteCollectorProxy $group ) {
+
+					$group->post(
+						'/portal',
+						array( CustomerController::class, 'createPortal' )
+					);
+
+					$group->post(
+						'/invoice',
+						array( CustomerController::class, 'getInvoice' )
+					);
+
+					$group->delete(
+						'',
+						array( CustomerController::class, 'deleteCustomer' )
+					);
+				}
+			)->add( CustomerAccessMiddleware::class );
 		}
 	)->add( JWTAuthMiddleware::class );
 

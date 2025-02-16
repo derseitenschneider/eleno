@@ -22,7 +22,7 @@ export default function ButtonUpdateSubscription() {
       const token = session?.access_token
 
       const res = await fetch(
-        `${appConfig.apiUrl}/customers/${subscription?.stripe_customer_id}/portal`,
+        `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}/portal`,
         {
           method: 'POST',
           headers: {
