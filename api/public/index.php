@@ -52,6 +52,9 @@ $app->options(
 $app->add( $container->get( CorsMiddleware::class ) );
 
 // Add routes
-( require __DIR__ . '/../src/routes.php' )( $app );
+( require __DIR__ . '/../src/routes/homework.php' )( $app );
+( require __DIR__ . '/../src/routes/stripe.php' )( $app );
+( require __DIR__ . '/../src/routes/webhooks.php' )( $app );
+( require __DIR__ . '/../src/routes/catch-all.php' )( $app );
 
 $app->run();

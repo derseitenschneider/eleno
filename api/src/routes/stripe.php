@@ -1,31 +1,16 @@
 <?php
-use Slim\App;
-use Slim\Routing\RouteCollectorProxy;
-use App\Controllers\HomeworkController;
+
 use App\Controllers\Stripe\CustomerController;
 use App\Controllers\Stripe\SessionController;
 use App\Controllers\Stripe\SubscriptionController;
-use App\Controllers\WebhookController;
 use App\Middleware\CustomerAccessMiddleware;
 use App\Middleware\JWTAuthMiddleware;
 use App\Middleware\SessionAccessMiddleware;
 use App\Middleware\SubscriptionAccessMiddleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Services\StripeService;
-use Stripe\Customer;
+use Slim\App;
+use Slim\Routing\RouteCollectorProxy;
 
 return function ( App $app ) {
-	$app->group(
-		'/homework',
-		function ( RouteCollectorProxy $group ) {
-			$group->get(
-				'/{entity_id}/{homework_key}',
-				array( HomeworkController::class, 'getHomework' )
-			);
-		}
-	);
-
 	$app->group(
 		'/stripe',
 		function ( RouteCollectorProxy $group ) {
@@ -80,18 +65,4 @@ return function ( App $app ) {
 			)->add( CustomerAccessMiddleware::class );
 		}
 	)->add( JWTAuthMiddleware::class );
-
-	$app->post(
-		'/stripe-webhooks',
-		array( WebhookController::class, 'handleWebhook' )
-	);
-
-	$app->any(
-		'{route:.*}',
-		function ( Request $request, Response $response ) {
-			return $response
-				->withHeader( 'Location', 'https://eleno.net' )
-				->withStatus( 302 );
-		}
-	);
 };
