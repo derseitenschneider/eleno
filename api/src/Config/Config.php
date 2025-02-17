@@ -11,9 +11,6 @@ class Config {
 	public readonly string $stripeSecretKey;
 	public readonly string $stripeWebhookSignature;
 	public readonly array $corsAllowedOrigins;
-	public readonly string $priceIdMonthly;
-	public readonly string $priceIdYearly;
-	public readonly string $priceIdLifetime;
 
 	public function __construct() {
 		$required = array(

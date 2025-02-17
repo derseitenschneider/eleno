@@ -26,13 +26,13 @@ import { useSubscription } from './SubscriptionContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  setUser: () => {},
-  updateProfile: () => new Promise(() => {}),
-  updateEmail: () => new Promise(() => {}),
-  updatePassword: () => new Promise(() => {}),
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  setUser: () => { },
+  updateProfile: () => new Promise(() => { }),
+  updateEmail: () => new Promise(() => { }),
+  updatePassword: () => new Promise(() => { }),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const deleteAccount = useCallback(async () => {
     try {
       const res = await fetch(
-        `${appConfig.apiUrl}/customers/${subscription?.stripe_customer_id}`,
+        `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}`,
         {
           method: 'DELETE',
           headers: {

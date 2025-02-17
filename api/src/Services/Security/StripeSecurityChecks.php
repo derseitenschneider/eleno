@@ -5,7 +5,7 @@ use App\Config\Config;
 use App\Services\SupabaseService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Psr\http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StripeSecurityChecks {
 	public function __construct( private SupabaseService $supabase, private Config $config ) {

@@ -28,7 +28,7 @@ export default function ButtonCheckoutMonthly({
       } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      const res = await fetch(`${appConfig.apiUrl}/stripe/sessions/create`, {
+      const res = await fetch(`${appConfig.apiUrl}/stripe/session/create`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
