@@ -6,9 +6,13 @@ use App\Core\Http;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\StripeService;
+use Monolog\Logger;
 
 class CustomerController {
-	public function __construct( private StripeService $stripeService ) {
+	public function __construct(
+		private StripeService $stripeService,
+		private Logger $logger
+	) {
 	}
 
 	public function createPortal( Request $request, Response $response, $args ) {

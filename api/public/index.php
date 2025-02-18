@@ -3,6 +3,7 @@
 use App\Config\Config;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\JWTAuthMiddleware;
+use App\Middleware\RequestLoggerMiddleware;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
@@ -24,15 +25,18 @@ $container = new Container();
 ( require __DIR__ . '/../src/dependencies/config.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/controller.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/database.php' )( $container );
+( require __DIR__ . '/../src/dependencies/logger.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/message.php' )( $container );
-( require __DIR__ . '/../src/dependencies/stripe.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/middleware.php' )( $container );
+( require __DIR__ . '/../src/dependencies/stripe.php' )( $container );
 AppFactory::setContainer( $container );
 
 // Create App
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
+
+$app->add( RequestLoggerMiddleware::class );
 
 // Body parsing middleware to support raw json post requests.
 $app->addBodyParsingMiddleware();

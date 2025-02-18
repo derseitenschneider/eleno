@@ -4,6 +4,7 @@ use App\Config\Config;
 use App\Middleware\CorsMiddleware;
 use DI\Container;
 use App\Middleware\JWTAuthMiddleware;
+use App\Middleware\RequestLoggerMiddleware;
 use Slim\Psr7\Factory\ResponseFactory;
 
 return function ( Container $container ) {
@@ -29,6 +30,15 @@ return function ( Container $container ) {
 			$config = $container->get( Config::class );
 
 			return new CorsMiddleware( $config );
+		}
+	);
+
+	$container->set(
+		RequestLoggerMiddleware::class,
+		function ( $container ) {
+			$config = $container->get( 'requestLogger' );
+
+			return new RequestLoggerMiddleware( $config );
 		}
 	);
 };
