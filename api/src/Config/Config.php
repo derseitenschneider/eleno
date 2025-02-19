@@ -8,6 +8,11 @@ class Config {
 	public readonly string $supabaseAnonKey;
 	public readonly string $supabaseServiceRoleKey;
 	public readonly string $supabaseJwtSecret;
+	public readonly string $supabaseHost;
+	public readonly string $supabasePort;
+	public readonly string $subapaseDbName;
+	public readonly string $supabaseUser;
+	public readonly string $supabasePassword;
 	public readonly string $stripeSecretKey;
 	public readonly string $stripeWebhookSignature;
 	public readonly array $corsAllowedOrigins;
@@ -19,6 +24,11 @@ class Config {
 			'SUPABASE_ANON_KEY',
 			'SUPABASE_SERVICE_ROLE_KEY',
 			'SUPABASE_JWT_SECRET',
+			'SUPABASE_HOST',
+			'SUPABASE_PORT',
+			'SUPABASE_DBNAME',
+			'SUPABASE_USER',
+			'SUPABASE_PASSWORD',
 			'STRIPE_SECRET_KEY',
 			'STRIPE_SIGNATURE',
 		);
@@ -36,6 +46,11 @@ class Config {
 		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
 		$this->stripeWebhookSignature = $_ENV['STRIPE_SIGNATURE'];
+		$this->supabaseHost           = $_ENV['SUPABASE_HOST'];
+		$this->supabasePort           = $_ENV['SUPABASE_PORT'];
+		$this->subapaseDbName         = $_ENV['SUPABASE_DBNAME'];
+		$this->supabaseUser           = $_ENV['SUPABASE_USER'];
+		$this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )

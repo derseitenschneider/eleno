@@ -1,15 +1,21 @@
 <?php
-
-require_once __DIR__ . '/vendor/autoload.php'; // Path to your autoloader
+$currentErrorReporting = error_reporting();
+error_reporting( $currentErrorReporting & ~E_DEPRECATED & ~E_USER_DEPRECATED );
+require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Config\Config;
-use App\Services\SupabaseService;
+use App\Database\Database;
 
 $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ );
 $dotenv->load();
 
-$config = Config::getInstance();
+$config = new Config();
+$db     = new Database( $config );
 
-$supabase = new SupabaseService( $config );
-$status   = $supabase->getSubscriptionStatus( '13c1e634-0906-4c30-8622-c786957553ae' );
-var_dump( $status );
+$delete = $db->delete(
+	table:'stripe_subscriptions',
+	where: array(
+		'stripe_subscription_id' => 'test',
+	)
+);
+var_dump( $delete );

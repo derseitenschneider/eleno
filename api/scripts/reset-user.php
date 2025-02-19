@@ -24,7 +24,6 @@ if ( $userId === null ) {
 
 // 1. Supabase Reset
 
-// Find the user's stripe subscription id
 $stripeSubscription = $supabase->get(
 	endpoint: 'stripe_subscriptions',
 	query: array(
