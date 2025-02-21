@@ -27,10 +27,10 @@ return function ( Container $container ) {
 	$container->set(
 		StripeSecurityChecks::class,
 		function ( $container ) {
-			$supabase = $container->get( SubscriptionRepository::class );
-			$config   = $container->get( Config::class );
+			$repository = $container->get( SubscriptionRepository::class );
+			$config     = $container->get( Config::class );
 
-			return new StripeSecurityChecks( $supabase, $config );
+			return new StripeSecurityChecks( $repository, $config );
 		}
 	);
 

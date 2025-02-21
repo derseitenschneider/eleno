@@ -1,16 +1,16 @@
 <?php
 
 use App\Controllers\HomeworkController;
-use App\Services\SupabaseService;
+use App\Repositories\LessonRepository;
 use DI\Container;
 
 return function ( Container $container ) {
 	$container->set(
 		HomeworkController::class,
 		function ( $container ) {
-			$supabaseService = $container->get( SupabaseService::class );
+			$repository = $container->get( LessonRepository::class );
 
-			return new HomeworkController( $supabaseService );
+			return new HomeworkController( $repository );
 		}
 	);
 };

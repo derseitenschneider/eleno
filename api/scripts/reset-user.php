@@ -24,12 +24,12 @@ if ( $userId === null ) {
 	exit( 1 );
 }
 
-// 1. Supabase Reset
+// 1. Database Reset
 
 $stripeSubscription   = $repository->getSubscription( $userId );
 $stripeSubscriptionId = $stripeSubscription[0]['stripe_subscription_id'] ?? '';
 
-// Reset user data in Supabase
+// Reset user data in db
 $repository->updateSubscription(
 	data: array(
 		'stripe_subscription_id' => null,

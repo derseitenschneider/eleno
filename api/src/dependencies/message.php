@@ -27,18 +27,18 @@ return function ( Container $container ) {
 	$container->set(
 		DatabaseMessageStrategy::class,
 		function ( $container ) {
-			$supabase = $container->get( Database::class );
+			$db = $container->get( Database::class );
 
-			return new DatabaseMessageStrategy( $supabase );
+			return new DatabaseMessageStrategy( $db );
 		}
 	);
 
 	$container->set(
 		MessageTemplateService::class,
 		function ( $container ) {
-			$supabase = $container->get( Database::class );
+			$db = $container->get( Database::class );
 
-			return new MessageTemplateService( $supabase );
+			return new MessageTemplateService( $db );
 		}
 	);
 

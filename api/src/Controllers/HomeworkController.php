@@ -2,15 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Repositories\LessonRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Services\SupabaseService;
 
 class HomeworkController {
-	private $supabase;
 
-	public function __construct( SupabaseService $supabase ) {
-		$this->supabase = $supabase;
+	public function __construct( private LessonRepository $repository ) {
 	}
 
 	public function getHomework(
@@ -18,15 +16,16 @@ class HomeworkController {
 		Response $response,
 		array $args
 	): Response {
-		$entity_id   = (int) $args['entity_id'];
+		$entity_id   = $args['entity_id'];
 		$homeworkKey = $args['homework_key'];
 
 		try {
-			$lesson = $this->supabase->getLesson( $homeworkKey );
-			if ( ! $lesson || ! isset( $lesson['data'] ) ) {
+			$lesson = $this->repository->getLesson( $homeworkKey );
+			if ( ! $lesson || ! isset( $lesson[0] ) ) {
 				return $this->renderError( $response );
 			}
-			$lessonData = $lesson['data'][0];
+			$lessonData = $lesson[0];
+			logDebug( $lessonData );
 
 			if ( $entity_id !== $lessonData['studentId']
 				&& $entity_id !== $lessonData['groupId']
@@ -47,6 +46,7 @@ class HomeworkController {
 	}
 
 	private function formatLesson( $lessonData ): array {
+		$type = $lessonData['studentId'] ? 's' : 'g';
 		return array(
 			'date'        => $this->formatDate( $lessonData['date'] ),
 			'entity_name' => $lessonData['students']['firstName']

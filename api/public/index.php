@@ -8,7 +8,6 @@ use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\WebhookHandler;
 use Slim\Factory\AppFactory;
 use DI\Container;
-use App\Services\SupabaseService;
 use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
 
