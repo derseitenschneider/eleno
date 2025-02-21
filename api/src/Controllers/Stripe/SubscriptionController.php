@@ -3,6 +3,7 @@
 namespace App\Controllers\Stripe;
 
 use App\Core\Http;
+use App\Repositories\SubscriptionRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\StripeService;

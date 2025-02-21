@@ -28,4 +28,13 @@ return function ( Container $container ) {
 			return $log;
 		}
 	);
+
+	$container->set(
+		'webhookLogger',
+		function () use ( $logDirectory ) {
+			$log = new Logger( 'webhooks' );
+			$log->pushHandler( new StreamHandler( $logDirectory . '/webhooks.log', Level::Debug ) );
+			return $log;
+		}
+	);
 };

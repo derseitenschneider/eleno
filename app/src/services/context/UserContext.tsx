@@ -122,6 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       mockUser.email = email
       return
     }
+
     try {
       await updateEmailSupabase(email)
       setUserProfile((prev) => (prev ? { ...prev, email } : undefined))

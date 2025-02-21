@@ -7,7 +7,6 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\SupabaseService;
 
 class PaymentFailedMessageHandler {
 

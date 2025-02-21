@@ -2,6 +2,8 @@
 
 namespace App\Services\Stripe;
 
+use App\Repositories\SubscriptionRepository;
+use App\Services\Message\Handlers\FirstSubHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
@@ -10,6 +12,7 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\StripeService;
+use Monolog\Logger;
 use Stripe\Event;
 use Stripe\Checkout\Session;
 use Stripe\Invoice;
@@ -17,20 +20,46 @@ use Stripe\Subscription;
 
 class WebhookHandler {
 	public function __construct(
-		private StripeRepository $repository,
+		private SubscriptionRepository $repository,
 		private StripeAPIService $stripeAPI,
-		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
+		private FirstSubHandler $firstSubHandler,
 		private LifetimeMessageHandler $lifetimeMessageHandler,
+		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
+		private Logger $logger
 	) {}
 
+	/**
+	 * @param Event $event
+	 * @return void
+	 */
 	public function handleEvent( Event $event ): void {
 		$eventObject = $event->data->object;
-		match ( $event->type ) {
-			'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
-			'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
-			'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
-			default => null,
-		};
+
+		$this->logger->info(
+			'Received Stripe webhook event',
+			[
+				'type' => $event->type,
+				'data' => $event->data,
+			]
+		);
+
+		try {
+			match ( $event->type ) {
+				'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
+				'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
+				'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
+				default => null,
+			};
+		} catch ( \Exception $e ) {
+			$this->logger->error(
+				'Error handling Stripe webhook event',
+				[
+					'type'      => $event->type,
+					'data'      => $event->data,
+					'exception' => $e,
+				]
+			);
+		}
 	}
 
 	private function handlePaymentFailed( Invoice $invoice ) {
@@ -51,8 +80,15 @@ class WebhookHandler {
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
 
 		if ( $level !== null ) {
-			$this->repository->bumpFailedPaymentAttempts( customer: $stripeCustomer, prevValue: $failedPaymentAttempts );
-			$this->paymentFailedMessageHandler->handle( level: $level, userId: $userId, firstName: $firstName );
+			$this->repository->bumpFailedPaymentAttempts(
+				customer: $stripeCustomer,
+				prevValue: $failedPaymentAttempts
+			);
+			$this->paymentFailedMessageHandler->handle(
+				level: $level,
+				userId: $userId,
+				firstName: $firstName
+			);
 
 			if ( $level === 3 ) {
 				$this->repository->cancelSubscription( $subscriptionId );
@@ -63,6 +99,13 @@ class WebhookHandler {
 
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
+
+		$statusBeforeUpdate = $this->repository->getSubscriptionStatus( $checkoutDTO->userId );
+
+		// Handle first time subscription.
+		if ( $statusBeforeUpdate === 'trial' ) {
+			$this->firstSubHandler->handle( $checkoutDTO );
+		}
 
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 		$this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );

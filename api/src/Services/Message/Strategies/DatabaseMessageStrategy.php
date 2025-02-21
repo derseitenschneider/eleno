@@ -1,28 +1,23 @@
 <?php
 namespace App\Services\Message\Strategies;
 
+use App\Database\Database;
 use App\Services\Message\Contracts\MessageStrategy;
-use App\Services\SupabaseService;
 
 class DatabaseMessageStrategy implements MessageStrategy {
-	public function __construct( private SupabaseService $supabase ) {
+	public function __construct( private Database $db ) {
 	}
 
 	public function send( string $recipient, string $subject, string $body ): bool {
 		try {
-			$data = $this->supabase->insert(
-				'messages',
-				array(
-					'recipient' => $recipient,
-					'subject'   => $subject,
-					'body'      => $body,
-				)
+			$data     = array(
+				'recipient' => $recipient,
+				'subject'   => $subject,
+				'body'      => $body,
 			);
-			if ( $data['success'] === true ) {
-				return true;
-			} else {
-				return false;
-			}
+			$response = $this->db->insert( 'messages', $data );
+
+			return $response;
 		} catch ( \Exception $e ) {
 			logDebug( 'Failed to store message in database: ' . $e->getMessage() );
 			return false;

@@ -40,6 +40,6 @@ class RequestLoggerMiddleware implements MiddlewareInterface {
 
 		$this->requestLogger->info( 'Request received', $requestData );
 
-		return $handler->handle( $request ); // Process the request
+		return $handler->handle( $request );
 	}
 }

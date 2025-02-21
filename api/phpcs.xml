@@ -5,17 +5,12 @@
     <!-- Exclude vendor directory -->
     <exclude-pattern>/vendor/*</exclude-pattern>
 
-    <!-- Include WordPress rulesets -->
-    <!-- <rule ref="WordPress-Extra"/> -->
-    <rule ref="WordPress-Core"/>
-    <!-- <rule ref="WordPress-Docs"/> -->
-    <!-- Exclude specific WordPress rules -->
-    <rule ref="WordPress">
-        <exclude name="WordPress.Files.FileName"/>
+    <rule ref="WordPress-Core">
     </rule>
 
     <rule ref="WordPress">
         <exclude name="WordPress.Files.FileName"/>
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
     </rule>
 
     <!-- Ignore specific Squiz rules -->

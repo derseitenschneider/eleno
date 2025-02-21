@@ -1,24 +1,26 @@
 <?php
 namespace App\Services\Message\Templates;
 
-use App\Services\SupabaseService;
+use App\Database\Database;
 
 class MessageTemplateService {
 	public function __construct(
-		private SupabaseService $supabase
+		private Database $db
 	) {}
 
 	public function getTemplate( string $templateName ): Template {
-		$template = $this->supabase->get(
-			'message_templates',
-			array(
-				'name' => 'eq.' . $templateName,
-			)
-		);
+		$sql = '
+            SELECT *
+            FROM message_templates
+            WHERE name = $1
+        ';
+
+		$template = $this->db->query( $sql, [ $templateName ] );
+
 		return new Template(
 			$templateName,
-			$template['data'][0]['subject'],
-			$template['data'][0]['body'],
+			$template[0]['subject'],
+			$template[0]['body'],
 		);
 	}
 

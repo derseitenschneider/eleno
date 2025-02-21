@@ -1,5 +1,6 @@
 <?php
 
+use App\Database\Database;
 use DI\Container;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\FirstSubHandler;
@@ -11,7 +12,6 @@ use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\SupabaseService;
 
 return function ( Container $container ) {
 
@@ -27,7 +27,7 @@ return function ( Container $container ) {
 	$container->set(
 		DatabaseMessageStrategy::class,
 		function ( $container ) {
-			$supabase = $container->get( SupabaseService::class );
+			$supabase = $container->get( Database::class );
 
 			return new DatabaseMessageStrategy( $supabase );
 		}
@@ -36,7 +36,7 @@ return function ( Container $container ) {
 	$container->set(
 		MessageTemplateService::class,
 		function ( $container ) {
-			$supabase = $container->get( SupabaseService::class );
+			$supabase = $container->get( Database::class );
 
 			return new MessageTemplateService( $supabase );
 		}
@@ -49,13 +49,13 @@ return function ( Container $container ) {
 			$databaseStrategy = $container->get( DatabaseMessageStrategy::class );
 			$templateService  = $container->get( MessageTemplateService::class );
 			$messageService   = $container->get( MessageService::class );
-			$supabase         = $container->get( SupabaseService::class );
+			$db               = $container->get( Database::class );
 
 			return new FirstSubHandler(
 				$databaseStrategy,
 				$templateService,
 				$messageService,
-				$supabase
+				$db
 			);
 		}
 	);
@@ -67,14 +67,14 @@ return function ( Container $container ) {
 				$messageTemplateService  = $container->get( MessageTemplateService::class );
 				$messageService          = $container->get( MessageService::class );
 				$stripeApiService        = $container->get( StripeAPIService::class );
-				$subapaseService         = $container->get( SupabaseService::class );
+				$db                      = $container->get( Database::class );
 
 			return new LifetimeMessageHandler(
 				$databaseMessageStrategy,
 				$messageTemplateService,
 				$messageService,
 				$stripeApiService,
-				$subapaseService
+				$db
 			);
 		}
 	);

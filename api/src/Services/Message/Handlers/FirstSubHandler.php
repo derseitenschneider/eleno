@@ -2,12 +2,12 @@
 
 namespace App\Services\Message\Handlers;
 
+use App\Database\Database;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\SupabaseService;
 
 class FirstSubHandler {
 
@@ -15,22 +15,21 @@ class FirstSubHandler {
 		private DatabaseMessageStrategy $databaseMessageStrategy,
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
-		private SupabaseService $supabase
+		private Database $db
 	) {
 	}
 
 	public function handle( StripeCheckoutCompletedDTO $checkoutDTO ) {
-		$firstName = $this->supabase->get(
-			'profiles',
-			array(
-				'select' => 'first_name',
-				'id'     => 'eq.' . $checkoutDTO->userId,
-			)
-		) ?? '';
+		$sql =
+			'
+            SELECT first_name
+            FROM profiles
+            WHERE id = $1
+            ';
 
-		$data = array(
-			'{{customerName}}' => $firstName['data'][0]['first_name'],
-		);
+		$params    = [ $checkoutDTO->userId ];
+		$firstName = $this->db->query( $sql, $params ) ?? '';
+		$data      = [ '{{customerName}}' => $firstName['data'][0]['first_name'] ];
 
 		$template = $this->templateService->getTemplate( 'first_time_subscription' );
 		$template = $this->templateService->fillTemplate( $template, $data );

@@ -7,13 +7,15 @@ $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/..' );
 $dotenv->load();
 
 use App\Config\Config;
+use App\Database\Database;
+use App\Repositories\SubscriptionRepository;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\SupabaseService;
 use Stripe\Stripe;
 
-$config    = new Config();
-$supabase  = new SupabaseService( $config );
-$stripeApi = new StripeAPIService( $config );
+$config     = new Config();
+$db         = new Database( $config );
+$repository = new SubscriptionRepository( $db );
+$stripeApi  = new StripeAPIService( $config );
 
 $userId = $argv[1] ?? '13c1e634-0906-4c30-8622-c786957553ae';
 
@@ -24,19 +26,11 @@ if ( $userId === null ) {
 
 // 1. Supabase Reset
 
-$stripeSubscription = $supabase->get(
-	endpoint: 'stripe_subscriptions',
-	query: array(
-		'select'  => 'stripe_subscription_id',
-		'user_id' => 'eq.' . $userId,
-	)
-);
-
-$stripeSubscriptionId = $stripeSubscription['data'][0]['stripe_subscription_id'];
+$stripeSubscription   = $repository->getSubscription( $userId );
+$stripeSubscriptionId = $stripeSubscription[0]['stripe_subscription_id'] ?? '';
 
 // Reset user data in Supabase
-$supabase->patch(
-	endpoint: 'stripe_subscriptions',
+$repository->updateSubscription(
 	data: array(
 		'stripe_subscription_id' => null,
 		'stripe_invoice_id'      => null,
@@ -47,7 +41,7 @@ $supabase->patch(
 		'is_lifetime'            => false,
 		'subscription_status'    => 'trial',
 	),
-	query: array( 'user_id' => 'eq.' . $userId )
+	where: array( 'user_id' => $userId )
 );
 
 if ( empty( $stripeSubscriptionId ) ) {

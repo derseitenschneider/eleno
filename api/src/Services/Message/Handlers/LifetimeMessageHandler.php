@@ -2,12 +2,12 @@
 
 namespace App\Services\Message\Handlers;
 
+use App\Database\Database;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\SupabaseService;
 
 class LifetimeMessageHandler {
 
@@ -16,23 +16,25 @@ class LifetimeMessageHandler {
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
 		private StripeAPIService $stripeApiService,
-		private SupabaseService $supabase
+		private Database $db
 	) {
 	}
 
 	public function handle( StripeCheckoutCompletedDTO $checkoutDTO ) {
 		$invoiceUrl = $this->stripeApiService->getInvoiceUrl( $checkoutDTO->invoiceId );
-		$firstName  = $this->supabase->get(
-			'profiles',
-			array(
-				'select' => 'first_name',
-				'id'     => 'eq.' . $checkoutDTO->userId,
-			)
-		) ?? '';
+		$sql        =
+			'
+            SELECT first_name
+            FROM profiles
+            WHERE id = $1
+            ';
+
+		$params    = [ $checkoutDTO->userId ];
+		$firstName = $this->db->query( $sql, $params ) ?? '';
 
 		$data = array(
 			'{{planName}}'     => 'Lifetime',
-			'{{customerName}}' => $firstName['data'][0]['first_name'],
+			'{{customerName}}' => $firstName[0]['first_name'],
 			'{{invoiceUrl}}'   => $invoiceUrl . "&locale=$checkoutDTO->locale",
 		);
 

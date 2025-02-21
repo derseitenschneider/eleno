@@ -5,14 +5,12 @@ use App\Middleware\CorsMiddleware;
 use App\Middleware\JWTAuthMiddleware;
 use App\Middleware\RequestLoggerMiddleware;
 use App\Services\Stripe\StripeAPIService;
-use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 use Slim\Factory\AppFactory;
 use DI\Container;
 use App\Services\SupabaseService;
 use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
-use Supabase\CreateClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/functions.php';

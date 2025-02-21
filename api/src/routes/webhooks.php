@@ -6,6 +6,6 @@ use Slim\App;
 return function ( App $app ) {
 	$app->post(
 		'/stripe-webhooks',
-		array( WebhookController::class, 'handleWebhook' )
+		[ WebhookController::class, 'handleWebhook' ]
 	);
 };

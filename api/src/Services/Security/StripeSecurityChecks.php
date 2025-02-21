@@ -2,49 +2,35 @@
 namespace App\Services\Security;
 
 use App\Config\Config;
-use App\Services\SupabaseService;
+use App\Database\Database;
+use App\Repositories\SubscriptionRepository;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StripeSecurityChecks {
-	public function __construct( private SupabaseService $supabase, private Config $config ) {
+	public function __construct( private SubscriptionRepository $repository, private Config $config ) {
 	}
 
 	public function verifyInvoiceAccess( string $invoiceId, string $userId ): bool {
-		$query = array(
-			'select'            => 'user_id,stripe_customer_id',
-			'user_id'           => 'eq.' . $userId,
-			'stripe_invoice_id' => 'eq.' . $invoiceId,
-		);
+		$subscription = $this->repository->getSubscription( $userId );
+		$hasAccess    = ( $subscription[0]['stripe_invoice_id'] === $invoiceId );
 
-		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
-
-		return ! empty( $result['data'] );
+		return $hasAccess;
 	}
 
 	public function verifyCustomerAccess( string $customerId, string $userId ): bool {
-		$query = array(
-			'select'             => 'user_id,stripe_customer_id',
-			'user_id'            => 'eq.' . $userId,
-			'stripe_customer_id' => 'eq.' . $customerId,
-		);
+		$subscription = $this->repository->getSubscription( $userId );
+		$hasAccess    = ( $subscription[0]['stripe_customer_id'] === $customerId );
 
-		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
-
-		return ! empty( $result['data'] );
+		return $hasAccess;
 	}
 
 	public function verifySubscriptionAccess( string $subscriptionId, string $userId ): bool {
-		$query = array(
-			'select'                 => 'user_id,stripe_subscription_id',
-			'user_id'                => 'eq.' . $userId,
-			'stripe_subscription_id' => 'eq.' . $subscriptionId,
-		);
+		$subscription = $this->repository->getSubscription( $userId );
+		$hasAccess    = ( $subscription[0]['stripe_subscription_id'] === $subscriptionId );
 
-		$result = $this->supabase->get( endpoint: 'stripe_subscriptions', query: $query );
-
-		return ! empty( $result['data'] );
+		return $hasAccess;
 	}
 
 	public function getUserIdFromRequest( Request $request ): ?string {

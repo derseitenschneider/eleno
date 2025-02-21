@@ -20,12 +20,12 @@ return function ( App $app ) {
 				function ( RouteCollectorProxy $group ) {
 					$group->post(
 						'/cancel',
-						array( SubscriptionController::class, 'cancelAtPeriodEnd' )
+						[ SubscriptionController::class, 'cancelAtPeriodEnd' ]
 					);
 
 					$group->post(
 						'/reactivate',
-						array( SubscriptionController::class, 'handleReactivation' )
+						[ SubscriptionController::class, 'handleReactivation' ]
 					);
 				}
 			)->add( SubscriptionAccessMiddleware::class );
@@ -37,7 +37,7 @@ return function ( App $app ) {
 
 					$group->post(
 						'/create',
-						array( SessionController::class, 'createSession' )
+						[ SessionController::class, 'createSession' ]
 					);
 				}
 			)->add( SessionAccessMiddleware::class );
@@ -49,17 +49,17 @@ return function ( App $app ) {
 
 					$group->post(
 						'/portal',
-						array( CustomerController::class, 'createPortal' )
+						[ CustomerController::class, 'createPortal' ]
 					);
 
 					$group->post(
 						'/invoice',
-						array( CustomerController::class, 'getInvoice' )
+						[ CustomerController::class, 'getInvoice' ]
 					);
 
 					$group->delete(
 						'',
-						array( CustomerController::class, 'deleteCustomer' )
+						[ CustomerController::class, 'deleteCustomer' ]
 					);
 				}
 			)->add( CustomerAccessMiddleware::class );
