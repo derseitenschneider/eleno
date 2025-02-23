@@ -34,7 +34,6 @@ class WebhookController {
 
 		} catch ( \UnexpectedValueException $e ) {
 			$this->logger->error( 'Webhook controller error: ' . $e->getMessage() );
-
 			return Http::errorResponse( $response, $e->getMessage(), 400 );
 
 		} catch ( \Stripe\Exception\SignatureVerificationException $e ) {

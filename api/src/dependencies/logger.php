@@ -13,7 +13,7 @@ return function ( Container $container ) {
 		throw new Error( 'Log directory not found: ' . $logDirectory );
 	}
 
-	$output          = "%channel%.%level_name% | %datetime% | %message% | %context% %extra%\n";
+	$output          = "[%datetime%] [%level_name%] %message% | %context% | %extra%\n";
 	$dateFormat      = 'Y-m-d, H:i:s';
 	$customFormatter = new LineFormatter( $output, $dateFormat );
 
