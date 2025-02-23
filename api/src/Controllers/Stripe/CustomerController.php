@@ -35,6 +35,7 @@ class CustomerController {
 			);
 
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'Create Portal error: ' . $e->getMessage() );
 			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}
@@ -51,6 +52,7 @@ class CustomerController {
 
 			return Http::jsonResponse( $response, $data );
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'Get Invoice error: ' . $e->getMessage() );
 			return Http::errorResponse( $response, $e->getMessage(), $e->getCode() );
 		}
 	}
@@ -70,6 +72,7 @@ class CustomerController {
 				);
 
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'Delete customer error: ' . $e->getMessage() );
 			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}

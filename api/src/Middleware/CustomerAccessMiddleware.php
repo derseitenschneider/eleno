@@ -5,6 +5,7 @@ namespace App\Middleware;
 use App\Config\Config;
 use App\Core\Http;
 use App\Services\Security\StripeSecurityChecks;
+use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
@@ -16,7 +17,8 @@ class CustomerAccessMiddleware implements MiddlewareInterface {
 	public function __construct(
 		private Config $config,
 		private ResponseFactory $responseFactory,
-		private StripeSecurityChecks $securityChecks
+		private StripeSecurityChecks $securityChecks,
+		private Logger $logger
 	) {}
 
 	public function process( Request $request, RequestHandlerInterface $handler ): Response {
@@ -30,6 +32,7 @@ class CustomerAccessMiddleware implements MiddlewareInterface {
 
 			return $handler->handle( $request );
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'Customer access middleware: ' . $e->getMessage() );
 			return $this->createErrorResponse( $e->getMessage(), $e->getCode() );
 		}
 	}

@@ -17,6 +17,10 @@ class DatabaseMessageStrategy implements MessageStrategy {
 				'body'      => $body,
 			);
 			$response = $this->db->insert( 'messages', $data );
+			$this->logger->info(
+				'Database Message sent',
+				[ 'data' => $data ]
+			);
 
 			return $response;
 		} catch ( \Exception $e ) {

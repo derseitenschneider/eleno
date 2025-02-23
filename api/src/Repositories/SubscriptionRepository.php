@@ -31,7 +31,7 @@ class SubscriptionRepository {
 			"
             SELECT subscription_status 
             FROM {$this->table} 
-            WHERE user_id = $1
+            WHERE stripe_customer_id = $1
             ",
 			[ $userId ]
 		);

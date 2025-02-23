@@ -7,7 +7,7 @@ use DI\Container;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\WebhookHandler;
 use App\Services\StripeService;
-use App\Services\Message\Handlers\FirstSubHandler;
+use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
@@ -29,8 +29,9 @@ return function ( Container $container ) {
 		function ( $container ) {
 			$repository = $container->get( SubscriptionRepository::class );
 			$config     = $container->get( Config::class );
+			$logger     = $container->get( 'appLogger' );
 
-			return new StripeSecurityChecks( $repository, $config );
+			return new StripeSecurityChecks( $repository, $config, $logger );
 		}
 	);
 
@@ -39,7 +40,7 @@ return function ( Container $container ) {
 		function ( $container ) {
 			$subscriptionRepository = $container->get( SubscriptionRepository::class );
 			$stripeAPIService       = $container->get( StripeAPIService::class );
-			$firstSubHandler        = $container->get( FirstSubHandler::class );
+			$firstSubHandler        = $container->get( SubscriptionMessageHandler::class );
 			$lifetimeUpgradeHandler = $container->get( LifetimeMessageHandler::class );
 			$paymentFailedHandler   = $container->get( PaymentFailedMessageHandler::class );
 			$logger                 = $container->get( 'webhookLogger' );

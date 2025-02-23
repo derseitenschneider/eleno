@@ -3,7 +3,7 @@
 use App\Database\Database;
 use DI\Container;
 use App\Services\Message\Handlers\CancellationMessageHandler;
-use App\Services\Message\Handlers\FirstSubHandler;
+use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
@@ -45,14 +45,14 @@ return function ( Container $container ) {
 
 	// Message Handlers (Example - adapt for others)
 	$container->set(
-		FirstSubHandler::class,
+		SubscriptionMessageHandler::class,
 		function ( $container ) {
 			$databaseStrategy = $container->get( DatabaseMessageStrategy::class );
 			$templateService  = $container->get( MessageTemplateService::class );
 			$messageService   = $container->get( MessageService::class );
 			$db               = $container->get( Database::class );
 
-			return new FirstSubHandler(
+			return new SubscriptionMessageHandler(
 				$databaseStrategy,
 				$templateService,
 				$messageService,

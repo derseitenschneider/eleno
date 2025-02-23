@@ -3,7 +3,7 @@
 namespace App\Services\Stripe;
 
 use App\Repositories\SubscriptionRepository;
-use App\Services\Message\Handlers\FirstSubHandler;
+use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
@@ -22,7 +22,7 @@ class WebhookHandler {
 	public function __construct(
 		private SubscriptionRepository $repository,
 		private StripeAPIService $stripeAPI,
-		private FirstSubHandler $firstSubHandler,
+		private SubscriptionMessageHandler $subscriptionMessageHandler,
 		private LifetimeMessageHandler $lifetimeMessageHandler,
 		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
 		private Logger $logger
@@ -116,21 +116,7 @@ class WebhookHandler {
 	}
 
 	private function handleCheckoutCompleted( Session $session ): void {
-		$checkoutDTO        = StripeCheckoutCompletedDTO::create( $session );
-		$statusBeforeUpdate = $this->repository->getSubscriptionStatus( $checkoutDTO->userId );
-
-		$this->logger->info(
-			'Checkout session completed',
-			[
-				'checkout_dto'         => $checkoutDTO,
-				'status_before_update' => $statusBeforeUpdate,
-			]
-		);
-
-		// Handle first time subscription.
-		if ( $statusBeforeUpdate === 'trial' ) {
-			$this->firstSubHandler->handle( $checkoutDTO );
-		}
+		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 		$this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );
@@ -138,10 +124,17 @@ class WebhookHandler {
 		if ( $checkoutDTO->isLifetime ) {
 			$this->logger->info(
 				'Lifetime purchase completed',
-				[ 'customer_id' => $checkoutDTO->customerId ]
+				[ 'checkout_dto' => $checkoutDTO ]
 			);
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
 			$this->lifetimeMessageHandler->handle( $checkoutDTO );
+
+		} else {
+			$this->logger->info(
+				'Subscription purchase completed',
+				[ 'checkout_dto' => $checkoutDTO ]
+			);
+			$this->subscriptionMessageHandler->handle( $checkoutDTO );
 		}
 	}
 

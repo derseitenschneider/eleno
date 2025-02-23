@@ -14,7 +14,7 @@ use Slim\Psr7\Factory\ResponseFactory;
 class JWTAuthMiddleware implements MiddlewareInterface {
 	public function __construct(
 		private Config $config,
-		private ResponseFactory $responseFactory
+		private ResponseFactory $responseFactory,
 	) {}
 
 	public function process( Request $request, RequestHandlerInterface $handler ): Response {

@@ -8,11 +8,13 @@ use App\Services\Stripe\DTO\CheckoutSessionDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\StripeService;
+use Monolog\Logger;
 
 class SessionController {
 	public function __construct(
 		private StripeService $stripeService,
-		private Config $config
+		private Config $config,
+		private Logger $logger
 	) {
 	}
 
@@ -50,6 +52,7 @@ class SessionController {
 				)
 			);
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'Create Session error: ' . $e->getMessage() );
 			return Http::errorResponse( $response, $e->getMessage() );
 		}
 	}

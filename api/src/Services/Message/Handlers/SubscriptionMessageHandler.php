@@ -9,7 +9,7 @@ use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
 
-class FirstSubHandler {
+class SubscriptionMessageHandler {
 
 	public function __construct(
 		private DatabaseMessageStrategy $databaseMessageStrategy,
@@ -27,9 +27,9 @@ class FirstSubHandler {
             WHERE id = $1
             ';
 
-		$params    = [ $checkoutDTO->userId ];
-		$firstName = $this->db->query( $sql, $params ) ?? '';
-		$data      = [ '{{customerName}}' => $firstName['data'][0]['first_name'] ];
+		$params = [ $checkoutDTO->userId ];
+		$result = $this->db->query( $sql, $params ) ?? '';
+		$data   = [ '{{customerName}}' => $result[0]['first_name'] ];
 
 		$template = $this->templateService->getTemplate( 'first_time_subscription' );
 		$template = $this->templateService->fillTemplate( $template, $data );

@@ -6,10 +6,15 @@ use App\Database\Database;
 use App\Repositories\SubscriptionRepository;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StripeSecurityChecks {
-	public function __construct( private SubscriptionRepository $repository, private Config $config ) {
+	public function __construct(
+		private SubscriptionRepository $repository,
+		private Config $config,
+		private Logger $logger
+	) {
 	}
 
 	public function verifyInvoiceAccess( string $invoiceId, string $userId ): bool {
@@ -48,6 +53,7 @@ class StripeSecurityChecks {
 			);
 			return $decoded->sub ?? null;
 		} catch ( \Exception $e ) {
+			$this->logger->error( 'JWT decoding error: ' . $e->getMessage() );
 			return null;
 		}
 	}

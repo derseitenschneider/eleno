@@ -97,7 +97,7 @@ export default function MessageDisplay({
           </div>
           <Separator />
           <ScrollArea type='hover' className='h-full'>
-            <div className='h-full max-w-[65ch] [*&]:break-word whitespace-pre-wrap p-4'>
+            <div className='h-full max-w-[70ch] [*&]:break-word whitespace-pre-wrap p-4'>
               <div
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}

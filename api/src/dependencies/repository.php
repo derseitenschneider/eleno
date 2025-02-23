@@ -3,7 +3,7 @@
 use App\Database\Database;
 use App\Repositories\LessonRepository;
 use App\Repositories\SubscriptionRepository;
-use App\Services\Message\Handlers\FirstSubHandler;
+use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use DI\Container;
 
 return function ( Container $container ) {

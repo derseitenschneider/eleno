@@ -14,7 +14,7 @@ return function ( Container $container ) {
 	}
 
 	$output          = "%channel%.%level_name% | %datetime% | %message% | %context% %extra%\n";
-	$dateFormat      = 'Y-m-d, H:i';
+	$dateFormat      = 'Y-m-d, H:i:s';
 	$customFormatter = new LineFormatter( $output, $dateFormat );
 
 	$appFileHandler = ( new RotatingFileHandler(
