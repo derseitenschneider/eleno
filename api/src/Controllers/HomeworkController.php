@@ -25,7 +25,6 @@ class HomeworkController {
 				return $this->renderError( $response );
 			}
 			$lessonData = $lesson[0];
-			logDebug( $lessonData );
 
 			if ( $entity_id !== $lessonData['studentId']
 				&& $entity_id !== $lessonData['groupId']
@@ -48,11 +47,10 @@ class HomeworkController {
 	private function formatLesson( $lessonData ): array {
 		$type = $lessonData['studentId'] ? 's' : 'g';
 		return array(
-			'date'        => $this->formatDate( $lessonData['date'] ),
-			'entity_name' => $lessonData['students']['firstName']
-			?? $lessonData['groups']['name'],
-			'entity_type' => $lessonData['students'] ? 's' : 'g',
-			'homework'    => $lessonData['homework'] ?? '',
+			'date'         => $this->formatDate( $lessonData['date'] ),
+			'entity_type'  => $type,
+			'homework'     => $lessonData['homework'] ?? '',
+			'related_name' => $lessonData['related_name'],
 		);
 	}
 

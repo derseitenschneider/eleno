@@ -8,7 +8,7 @@ if ( 's' === $entity_type ) {
 $content = <<<HTML
 <section class="section">
     <h2 class="heading-2">Hausaufgaben vom {$date}</h2>
-    <p>Hallo {$entity_name}</p>
+    <p>Hallo {$related_name}</p>
     <p>{$pre_text}</p>
     <div class="homework">{$homework}</div>
     <p>Viel Spass und bis zum nächsten Mal.</p>

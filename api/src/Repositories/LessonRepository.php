@@ -13,8 +13,30 @@ class LessonRepository {
 	) {
 	}
 
+	/**
+	 * Get Lesson
+	 *
+	 * Retrieves lesson based on homework key combined with either
+	 * the first name if it's from a student or the name if it's
+	 * from a group as 'related_name'.
+	 *
+	 * @param string $homeworkKey
+	 * @return array|false
+	 */
 	public function getLesson( string $homeworkKey ) {
-		$sql     = sprintf( 'SELECT * FROM %s WHERE lessons."homeworkKey" = $1', $this->table );
+		$raw_sql = '
+        SELECT 
+            l.*, COALESCE(s."firstName", g.name) AS related_name 
+        FROM 
+            lessons l 
+        LEFT JOIN 
+            students s ON l."studentId" = s.id 
+        LEFT JOIN 
+            groups g ON l."groupId" = g.id 
+        WHERE 
+            l."homeworkKey" = $1
+        ';
+		$sql     = sprintf( $raw_sql, $this->table );
 		$results = $this->db->query( $sql, [ $homeworkKey ] );
 
 		return $results;
