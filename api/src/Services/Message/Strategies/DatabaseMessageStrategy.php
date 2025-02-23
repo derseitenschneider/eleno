@@ -3,9 +3,10 @@ namespace App\Services\Message\Strategies;
 
 use App\Database\Database;
 use App\Services\Message\Contracts\MessageStrategy;
+use Monolog\Logger;
 
 class DatabaseMessageStrategy implements MessageStrategy {
-	public function __construct( private Database $db ) {
+	public function __construct( private Database $db, private Logger $logger ) {
 	}
 
 	public function send( string $recipient, string $subject, string $body ): bool {
@@ -19,7 +20,9 @@ class DatabaseMessageStrategy implements MessageStrategy {
 
 			return $response;
 		} catch ( \Exception $e ) {
-			logDebug( 'Failed to store message in database: ' . $e->getMessage() );
+			$this->logger->error(
+				'Failed to store message in database: ' . $e->getMessage()
+			);
 			return false;
 		}
 	}

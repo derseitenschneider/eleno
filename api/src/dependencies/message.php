@@ -27,9 +27,10 @@ return function ( Container $container ) {
 	$container->set(
 		DatabaseMessageStrategy::class,
 		function ( $container ) {
-			$db = $container->get( Database::class );
+			$db     = $container->get( Database::class );
+			$logger = $container->get( 'appLogger' );
 
-			return new DatabaseMessageStrategy( $db );
+			return new DatabaseMessageStrategy( $db, $logger );
 		}
 	);
 
