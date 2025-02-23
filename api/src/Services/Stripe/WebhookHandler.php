@@ -80,10 +80,21 @@ class WebhookHandler {
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
 
 		if ( $level !== null ) {
+			$this->logger->warning(
+				'Payment failed for invoice',
+				array(
+					'invoice_id'      => $invoice->id,
+					'customer_id'     => $stripeCustomer,
+					'failed_attempts' => $failedPaymentAttempts,
+					'level'           => $level,
+				)
+			);
+
 			$this->repository->bumpFailedPaymentAttempts(
 				customer: $stripeCustomer,
 				prevValue: $failedPaymentAttempts
 			);
+
 			$this->paymentFailedMessageHandler->handle(
 				level: $level,
 				userId: $userId,
@@ -91,6 +102,13 @@ class WebhookHandler {
 			);
 
 			if ( $level === 3 ) {
+				$this->logger->warning(
+					'Subscription cancelled due to multiple failed payments',
+					array(
+						'subscription_id' => $subscriptionId,
+						'customer_id'     => $stripeCustomer,
+					)
+				);
 				$this->repository->cancelSubscription( $subscriptionId );
 				$this->stripeAPI->cancelSubscription( $subscriptionId );
 			}
@@ -98,9 +116,16 @@ class WebhookHandler {
 	}
 
 	private function handleCheckoutCompleted( Session $session ): void {
-		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
-
+		$checkoutDTO        = StripeCheckoutCompletedDTO::create( $session );
 		$statusBeforeUpdate = $this->repository->getSubscriptionStatus( $checkoutDTO->userId );
+
+		$this->logger->info(
+			'Checkout session completed',
+			[
+				'checkout_dto'         => $checkoutDTO,
+				'status_before_update' => $statusBeforeUpdate,
+			]
+		);
 
 		// Handle first time subscription.
 		if ( $statusBeforeUpdate === 'trial' ) {
@@ -111,6 +136,10 @@ class WebhookHandler {
 		$this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );
 
 		if ( $checkoutDTO->isLifetime ) {
+			$this->logger->info(
+				'Lifetime purchase completed',
+				[ 'customer_id' => $checkoutDTO->customerId ]
+			);
 			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
 			$this->lifetimeMessageHandler->handle( $checkoutDTO );
 		}
@@ -118,6 +147,11 @@ class WebhookHandler {
 
 	private function handleSubscriptionUpdated( Subscription $subscription ): void {
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
+
+		$this->logger->info(
+			'Subscription updated',
+			[ 'subscription_dto' => $subscriptionDTO ]
+		);
 
 		$this->repository->saveSubpscriptionUpdated( $subscriptionDTO );
 	}

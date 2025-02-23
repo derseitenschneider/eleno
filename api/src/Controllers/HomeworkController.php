@@ -3,12 +3,16 @@
 namespace App\Controllers;
 
 use App\Repositories\LessonRepository;
+use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class HomeworkController {
 
-	public function __construct( private LessonRepository $repository ) {
+	public function __construct(
+		private LessonRepository $repository,
+		private Logger $logger
+	) {
 	}
 
 	public function getHomework(
@@ -22,6 +26,10 @@ class HomeworkController {
 		try {
 			$lesson = $this->repository->getLesson( $homeworkKey );
 			if ( ! $lesson || ! isset( $lesson[0] ) ) {
+				$this->logger->warning(
+					'Lesson not found',
+					[ 'homework_key' => $homeworkKey ]
+				);
 				return $this->renderError( $response );
 			}
 			$lessonData = $lesson[0];
@@ -29,6 +37,10 @@ class HomeworkController {
 			if ( $entity_id !== $lessonData['studentId']
 				&& $entity_id !== $lessonData['groupId']
 			) {
+				$this->logger->warning(
+					'Unauthorized access attempt',
+					[ 'homework_key' => $homeworkKey ]
+				);
 				return $this->renderError( $response );
 			}
 
@@ -38,8 +50,23 @@ class HomeworkController {
 				$this->renderView( 'homework', $formattedLesson )
 			);
 
+			$this->logger->info(
+				'Rendered homework template',
+				[
+					'entity_id'    => $entity_id,
+					'homework_key' => $homeworkKey,
+				]
+			);
+
 			return $response->withHeader( 'Content-Type', 'text/html' );
 		} catch ( \Exception $e ) {
+			$this->logger->error(
+				'Error rendering homework',
+				[
+					'entity_id'    => $entity_id,
+					'homework_key' => $homeworkKey,
+				]
+			);
 			return $this->renderError( $response );
 		}
 	}

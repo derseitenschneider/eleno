@@ -9,8 +9,9 @@ return function ( Container $container ) {
 		HomeworkController::class,
 		function ( $container ) {
 			$repository = $container->get( LessonRepository::class );
+			$logger     = $container->get( 'logger' );
 
-			return new HomeworkController( $repository );
+			return new HomeworkController( $repository, $logger );
 		}
 	);
 };
