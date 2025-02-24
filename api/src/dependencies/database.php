@@ -10,9 +10,8 @@ return function ( Container $container ) {
 		Database::class,
 		function ( $container ) {
 			$config = $container->get( Config::class );
-			$logger = $container->get( 'appLogger' );
 
-			return new Database( $config, $logger );
+			return new Database( $config );
 		}
 	);
 };

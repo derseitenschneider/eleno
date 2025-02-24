@@ -103,8 +103,9 @@ class SubscriptionRepository {
 	}
 
 	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
-		$this->updateSubscription(
-			data: [ 'failed_payment_attempts' => $prevValue++ ],
+		$newValue = $prevValue + 1;
+		$result   = $this->updateSubscription(
+			data: [ 'failed_payment_attempts' => $newValue ],
 			where: [ 'stripe_customer_id' => $customer ]
 		);
 	}

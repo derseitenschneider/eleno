@@ -1,5 +1,8 @@
 <?php
 
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../src/functions.php';
+
 use App\Config\Config;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\JWTAuthMiddleware;
@@ -11,8 +14,6 @@ use DI\Container;
 use App\Services\StripeService;
 use Slim\Psr7\Factory\ResponseFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/functions.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/..' );
 $dotenv->load();

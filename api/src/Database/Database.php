@@ -8,18 +8,17 @@ use Monolog\Logger;
 class Database {
 	private $conn;
 
-	public function __construct( private Config $config, private Logger $logger ) {
+	public function __construct( private Config $config ) {
 		$connectionString = "
         host={$config->supabaseHost} 
         port={$config->supabasePort} 
-        dbname={$config->subapaseDbName} 
+        dbname={$config->subapaseDbName}
         user={$config->supabaseUser} 
         password={$config->supabasePassword}
         ";
 
 		$this->conn = pg_connect( $connectionString );
 
-		logDebug( $this->conn );
 		if ( ! $this->conn ) {
 			throw new \Exception( 'Failed to connect to Postgres' );
 		}
