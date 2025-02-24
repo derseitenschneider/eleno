@@ -45,7 +45,7 @@ export default function ButtonUpdateSubscription() {
     }
   }
   return (
-    <div>
+    <div className='flex flex-col items-end'>
       <Button
         size='sm'
         className='flex gap-2'
@@ -56,6 +56,11 @@ export default function ButtonUpdateSubscription() {
         Abo verwalten
         {status === 'LOADING' && <MiniLoader />}
       </Button>
+      {status === 'ERROR' && (
+        <span className='text-warning mt-2 block text-sm'>
+          Etwas ist schiefgelaufen. Bitte versuch's nochmal.
+        </span>
+      )}
     </div>
   )
 }

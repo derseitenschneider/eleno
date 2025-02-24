@@ -7,6 +7,7 @@ use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Stripe\DTO\CheckoutSessionDTO;
 use App\Services\Stripe\StripeAPIService;
+use App\Services\Stripe\StripeRepository;
 use App\Services\Stripe\WebhookHandler;
 
 class StripeService {
@@ -22,7 +23,7 @@ class StripeService {
 	}
 
 	public function getInvoice( $invoiceId ) {
-			return $this->stripeAPI->getInvoiceUrl( $invoiceId );
+		return $this->stripeAPI->getInvoiceUrl( $invoiceId );
 	}
 
 	public function deleteCustomer( string $customerId ) {

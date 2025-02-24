@@ -84,7 +84,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       </div>
       {status === 'ERROR' && (
         <p className='mt-4 text-center text-sm text-warning'>
-          Es ist etwas schiefgelaufen. Versuch's nochmal.
+          Es ist etwas schiefgelaufen. Bitte versuch's nochmal.
         </p>
       )}
     </div>

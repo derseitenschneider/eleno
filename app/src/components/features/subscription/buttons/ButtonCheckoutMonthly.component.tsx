@@ -73,6 +73,11 @@ export default function ButtonCheckoutMonthly({
           />
         )}
       </Button>
+      {status === 'ERROR' && (
+        <span className='text-warning mt-4 block text-sm'>
+          Etwas ist schiefgelaufen. Bitte versuch's nochmal.
+        </span>
+      )}
     </div>
   )
 }

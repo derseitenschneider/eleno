@@ -12,7 +12,7 @@ use Stripe\Webhook;
 
 class WebhookController {
 	public function __construct(
-		private Config $config,
+		private config $config,
 		private WebhookHandler $webhookHandler,
 		private Logger $logger,
 	) {

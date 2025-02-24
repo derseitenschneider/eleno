@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use Monolog\Level;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -40,6 +41,40 @@ class RequestLoggerMiddleware implements MiddlewareInterface {
 
 		$this->requestLogger->info( 'Request received', $requestData );
 
-		return $handler->handle( $request );
+		$response = $handler->handle( $request );
+
+		$responseHeadersToLog = [
+			'Content-Type',
+		];
+
+		$loggedResponseHeaders = [];
+		foreach ( $responseHeadersToLog as $headerName ) {
+			if ( $response->hasHeader( $headerName ) ) {
+				$loggedResponseHeaders[ $headerName ] = $response->getHeaderLine( $headerName );
+			}
+		}
+
+		$responseBody    = (string) $response->getBody();
+		$responseBodyLog = strlen( $responseBody ) > 500
+			? substr( $responseBody, 0, 500 ) . '...'
+			: $responseBody;
+
+		$statusCode   = $response->getStatusCode();
+		$responseData = [
+			'statusCode' => $statusCode,
+			'requestUri' => (string) $request->getUri(),
+			'headers'    => $loggedResponseHeaders,
+			'body'       => $responseBodyLog,
+		];
+
+		$logLevel = Level::Info;
+		if ( $statusCode >= 400 && $statusCode < 500 ) {
+			$logLevel = Level::Warning;
+		} elseif ( $statusCode >= 500 ) {
+			$logLevel = Level::Error;
+		}
+
+		$this->requestLogger->log( $logLevel, 'Response sent', $responseData );
+		return $response;
 	}
 }

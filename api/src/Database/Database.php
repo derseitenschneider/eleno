@@ -3,11 +3,12 @@
 namespace App\Database;
 
 use App\Config\Config;
+use Monolog\Logger;
 
 class Database {
 	private $conn;
 
-	public function __construct( Config $config ) {
+	public function __construct( private Config $config, private Logger $logger ) {
 		$connectionString = "
         host={$config->supabaseHost} 
         port={$config->supabasePort} 
@@ -18,6 +19,7 @@ class Database {
 
 		$this->conn = pg_connect( $connectionString );
 
+		logDebug( $this->conn );
 		if ( ! $this->conn ) {
 			throw new \Exception( 'Failed to connect to Postgres' );
 		}

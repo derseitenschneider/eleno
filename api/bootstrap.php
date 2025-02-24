@@ -14,5 +14,5 @@ $config = new Config();
 $db     = new Database( $config );
 $repo   = new SubscriptionRepository( $db );
 
-$status = $repo->reactivateSubscription( 'test' );
+$status = $repo->reactivateSubscription( 'cus_RcfTR2wGQHTOm4' );
 var_dump( $status );

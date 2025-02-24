@@ -45,7 +45,7 @@ export default function ButtonGetInvoice() {
     }
   }
   return (
-    <div>
+    <div className='col-span-2'>
       <Button
         size='sm'
         className='flex gap-2'
@@ -56,6 +56,11 @@ export default function ButtonGetInvoice() {
         Rechnung herunterladen
         {status === 'LOADING' && <MiniLoader />}
       </Button>
+      {status === 'ERROR' && (
+        <span className='text-warning mt-4 block text-sm'>
+          Etwas ist schiefgelaufen. Bitte versuch's nochmal.
+        </span>
+      )}
     </div>
   )
 }
