@@ -23,7 +23,7 @@ class PaymentFailedMessageHandler {
 			'{{customerName}}' => $firstName,
 		);
 
-		$template = $this->templateService->getTemplate( "subscription_payment_failes_{$level}" );
+		$template = $this->templateService->getTemplate( "subscription_payment_failed_{$level}" );
 		$template = $this->templateService->fillTemplate( $template, $data );
 
 		$this->messageService->send(

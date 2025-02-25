@@ -20,7 +20,7 @@ export function SubscriptionInfos() {
   let badgeLabel = 'Aktiv'
   if (
     hasAccess() &&
-    subscription?.cancel_at_period_end &&
+    subscription?.subscription_status === 'canceled' &&
     !subscription.is_lifetime
   ) {
     badgeLabel = 'Auslaufend'

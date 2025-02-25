@@ -62,14 +62,16 @@ class StripeService {
 		string $userId,
 		string $firstName
 	) {
-			$this->stripeAPI->updateSubscription(
-				$subscriptionId,
-				array( 'cancel_at_period_end' => false )
-			);
+		$this->stripeAPI->updateSubscription(
+			$subscriptionId,
+			array( 'cancel_at_period_end' => false )
+		);
 
-			$this->reactivationMessageHandler->handle(
-				userId: $userId,
-				firstName: $firstName
-			);
+		$this->repository->reactivateSubscription( $subscriptionId );
+
+		$this->reactivationMessageHandler->handle(
+			userId: $userId,
+			firstName: $firstName
+		);
 	}
 }

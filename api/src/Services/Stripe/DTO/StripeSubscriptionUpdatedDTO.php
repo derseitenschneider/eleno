@@ -12,7 +12,6 @@ class StripeSubscriptionUpdatedDTO {
 		public readonly string $stripe_customer_id,
 		public readonly string $plan,
 		public readonly string $subscription_status,
-		public readonly bool $cancel_at_period_end
 	) {
 	}
 
@@ -23,7 +22,6 @@ class StripeSubscriptionUpdatedDTO {
 			stripe_customer_id: $subscription->customer,
 			plan: $subscription->plan->interval,
 			subscription_status: $subscription->status,
-			cancel_at_period_end: $subscription->cancel_at_period_end
 		);
 	}
 }

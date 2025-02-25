@@ -62,15 +62,13 @@ class WebhookHandler {
 		}
 	}
 
-	// TODO: fix getSubscription with uuid or customerId
 	private function handlePaymentFailed( Invoice $invoice ) {
 		$stripeCustomer        = $invoice->customer;
 		$firstName             = explode( ' ', $invoice->customer_name )[0] ?? '';
-		$subscription          = $this->repository->getSubscription( $stripeCustomer );
+		$subscription          = $this->repository->getSubscription( customerId: $stripeCustomer );
 		$userId                = $subscription['user_id'];
-		$failedPaymentAttempts = $subscription['failed_payment_attempts'] ?? 0;
+		$failedPaymentAttempts = intval( $subscription['failed_payment_attempts'] );
 		$subscriptionId        = $subscription['stripe_subscription_id'];
-		logDebug( $subscription );
 
 		$messageLevels = array(
 			0 => 1,
@@ -80,6 +78,7 @@ class WebhookHandler {
 		);
 
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
+		logDebug( $level );
 
 		if ( $level !== null ) {
 			$this->logger->warning(

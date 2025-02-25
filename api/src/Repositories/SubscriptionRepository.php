@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Database\Database;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
+use Exception;
 
 class SubscriptionRepository {
 	private $table = 'stripe_subscriptions';
@@ -13,17 +14,36 @@ class SubscriptionRepository {
 	) {
 	}
 
-	public function getSubscription( string $userId ) {
-		$results = $this->db->query(
-			"
-            SELECT *
-            FROM {$this->table}
-            WHERE user_id = $1
-            ",
-			[ $userId ]
-		);
+	/**
+	 * Get subscription
+	 *
+	 * Takes either the userId or the customerId and returns the subscription
+	 * or null.
+	 *
+	 * @param string|null $userId The database user_id.
+	 * @param string|null $customerId The stripe customer id.
+	 *
+	 * @return array|null The subscription object or null.
+	 * @throws Exception
+	 */
+	public function getSubscription(
+		string $userId = null,
+		string $customerId = null
+	) {
+		if ( $userId === null && $customerId === null ) {
+			throw new \Exception( 'Must provide userId or customerId' );
+		}
 
-		return $results;
+		$sql     = "SELECT * FROM {$this->table} WHERE ";
+		$sql    .= $userId ? 'user_id = $1' : 'stripe_customer_id = $1';
+		$results = $this->db->query( $sql, [ $userId ?? $customerId ] );
+
+		if ( count( $results ) > 0 ) {
+			$subscription = $results[0];
+			return $subscription;
+		} else {
+			return null;
+		}
 	}
 
 	public function getSubscriptionStatus( string $userId ) {
@@ -93,19 +113,30 @@ class SubscriptionRepository {
 		return $this->updateSubscription(
 			where:[ 'stripe_customer_id' => $subscription->stripe_customer_id ],
 			data: array(
-				'period_start'         => $subscription->period_start,
-				'period_end'           => $subscription->period_end,
-				'plan'                 => $subscription->plan,
-				'subscription_status'  => $subscription->subscription_status,
-				'cancel_at_period_end' => $subscription->cancel_at_period_end,
+				'period_start'        => $subscription->period_start,
+				'period_end'          => $subscription->period_end,
+				'plan'                => $subscription->plan,
+				'subscription_status' => $subscription->subscription_status,
 			)
 		);
 	}
 
+	/**
+	 * Bump failed payment attempts
+	 *
+	 * Bumps the failed payment attempts in the database and sets the
+	 * subscrition status to "expired".
+	 *
+	 * @param string $customer
+	 * @param int    $prevValue
+	 */
 	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
 		$newValue = $prevValue + 1;
 		$result   = $this->updateSubscription(
-			data: [ 'failed_payment_attempts' => $newValue ],
+			data: [
+				'failed_payment_attempts' => $newValue ,
+				'subscription_status'     => 'expired',
+			],
 			where: [ 'stripe_customer_id' => $customer ]
 		);
 	}
