@@ -32,14 +32,16 @@ $stripeSubscriptionId = $stripeSubscription[0]['stripe_subscription_id'] ?? '';
 // Reset user data in db
 $repository->updateSubscription(
 	data: array(
-		'stripe_subscription_id' => null,
-		'stripe_invoice_id'      => null,
-		'payment_status'         => null,
-		'currency'               => null,
-		'plan'                   => null,
-		'cancel_at_period_end'   => false,
-		'is_lifetime'            => false,
-		'subscription_status'    => 'trial',
+		'stripe_subscription_id'  => null,
+		'stripe_invoice_id'       => null,
+		'failed_payment_attempts' => 0,
+		'period_start'            => date( 'Y-m-d' ),
+		'period_end'              => date( 'Y-m-d', strtotime( '+30 days' ) ),
+		'payment_status'          => null,
+		'currency'                => null,
+		'plan'                    => null,
+		'is_lifetime'             => false,
+		'subscription_status'     => 'trial',
 	),
 	where: array( 'user_id' => $userId )
 );

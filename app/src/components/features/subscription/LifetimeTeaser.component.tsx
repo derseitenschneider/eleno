@@ -4,8 +4,8 @@ import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 export default function LifetimeTeaser() {
-  const { isLifetime, isCancelable } = useSubscription()
-  if (!isCancelable || isLifetime) {
+  const { isLifetime, isTrial } = useSubscription()
+  if (isLifetime || isTrial) {
     return null
   }
 

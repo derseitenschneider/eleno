@@ -27,8 +27,8 @@ class SubscriptionRepository {
 	 * @throws Exception
 	 */
 	public function getSubscription(
-		string $userId = null,
-		string $customerId = null
+		?string $userId = null,
+		?string $customerId = null
 	) {
 		if ( $userId === null && $customerId === null ) {
 			throw new \Exception( 'Must provide userId or customerId' );

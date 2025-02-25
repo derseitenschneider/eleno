@@ -65,7 +65,9 @@ class WebhookHandler {
 	private function handlePaymentFailed( Invoice $invoice ) {
 		$stripeCustomer        = $invoice->customer;
 		$firstName             = explode( ' ', $invoice->customer_name )[0] ?? '';
-		$subscription          = $this->repository->getSubscription( customerId: $stripeCustomer );
+		$subscription          = $this->repository->getSubscription(
+			customerId: $stripeCustomer
+		);
 		$userId                = $subscription['user_id'];
 		$failedPaymentAttempts = intval( $subscription['failed_payment_attempts'] );
 		$subscriptionId        = $subscription['stripe_subscription_id'];
@@ -78,7 +80,6 @@ class WebhookHandler {
 		);
 
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
-		logDebug( $level );
 
 		if ( $level !== null ) {
 			$this->logger->warning(
