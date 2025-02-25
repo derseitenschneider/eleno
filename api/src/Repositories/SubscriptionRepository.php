@@ -46,7 +46,14 @@ class SubscriptionRepository {
 		}
 	}
 
-	public function getSubscriptionStatus( string $userId ) {
+	/**
+	 * Get subscription status
+	 *
+	 * Retrieves the subscription status from the database.
+	 *
+	 * @param string $userId
+	 */
+	public function getSubscriptionStatus( string $userId ): ?string {
 		$results = $this->db->query(
 			"
             SELECT subscription_status 
@@ -56,10 +63,16 @@ class SubscriptionRepository {
 			[ $userId ]
 		);
 
-		return $results ? $results[0]['subscription_status'] ?? '' : '';
+		return $results ? $results[0]['subscription_status'] ?? '' : null;
 	}
 
-	public function updateSubscription( array $data, array $where ) {
+	/**
+	 *  Update subscription
+	 *
+	 * @param array $data
+	 * @param array $where
+	 */
+	public function updateSubscription( array $data, array $where ): bool {
 		$response = $this->db->update(
 			table: $this->table,
 			data: $data,
@@ -68,7 +81,14 @@ class SubscriptionRepository {
 		return $response;
 	}
 
-	public function reactivateSubscription( string $subscription_id ) {
+	/**
+	 * Reactivate subscription
+	 *
+	 * Sets the subscription status to "active".
+	 *
+	 * @param string $subscription_id
+	 */
+	public function reactivateSubscription( string $subscription_id ): bool {
 		$data  = [ 'subscription_status' => 'active' ];
 		$where = [ 'stripe_subscription_id' => $subscription_id ];
 
@@ -81,7 +101,14 @@ class SubscriptionRepository {
 		return $response;
 	}
 
-	public function cancelSubscription( string $subscription_id ) {
+	/**
+	 * Cancel subscription
+	 *
+	 * Sets the subscription status to "canceled".
+	 *
+	 * @param string $subscription_id
+	 */
+	public function cancelSubscription( string $subscription_id ): bool {
 		$data  = [ 'subscription_status' => 'canceled' ];
 		$where = [ 'stripe_subscription_id' => $subscription_id ];
 
@@ -94,8 +121,14 @@ class SubscriptionRepository {
 		return $response;
 	}
 
+	/**
+	 * Save checkout session
+	 *
+	 * Saves checkout session to the database.
+	 *
+	 * @param StripeCheckoutCompletedDTO $session
+	 */
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): bool {
-
 		return $this->updateSubscription(
 			where: [ 'user_id' => $session->userId ],
 			data: array(
@@ -109,6 +142,14 @@ class SubscriptionRepository {
 		);
 	}
 
+	/**
+	 * Save subscription update
+	 *
+	 * Saves subscription updates to the database.
+	 *
+	 * @param StripeSubscriptionUpdatedDTO $subscription
+	 * @return bool
+	 */
 	public function saveSubpscriptionUpdated( StripeSubscriptionUpdatedDTO $subscription ): bool {
 		return $this->updateSubscription(
 			where:[ 'stripe_customer_id' => $subscription->stripe_customer_id ],
@@ -130,19 +171,25 @@ class SubscriptionRepository {
 	 * @param string $customer
 	 * @param int    $prevValue
 	 */
-	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ) {
-		$newValue = $prevValue + 1;
-		$result   = $this->updateSubscription(
-			data: [
-				'failed_payment_attempts' => $newValue ,
-				'subscription_status'     => 'expired',
-			],
-			where: [ 'stripe_customer_id' => $customer ]
-		);
+	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ): bool {
+		$data  = [
+			'failed_payment_attempts' => $prevValue++,
+			'subscription_status'     => 'expired',
+		];
+		$where = [ 'stripe_customer_id' => $customer ];
+
+		return $this->updateSubscription( data: $data, where:  $where );
 	}
 
-	public function resetFailedPaymentAttempts( string $customer ) {
-		$this->updateSubscription(
+	/**
+	 * Reset failed payment attempts
+	 *
+	 * Sets failed payment attempts in the database back to 0.
+	 *
+	 * @param string $customer
+	 */
+	public function resetFailedPaymentAttempts( string $customer ): bool {
+		return $this->updateSubscription(
 			data: [ 'failed_payment_attempts' => null ],
 			where: [ 'stripe_customer_id' => $customer ]
 		);
