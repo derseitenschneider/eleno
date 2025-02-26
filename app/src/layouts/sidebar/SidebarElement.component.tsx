@@ -10,7 +10,8 @@ import { NavLink } from 'react-router-dom'
 
 type TSidebarProps = {
   to?: string
-  icon: React.ReactNode
+  children?: React.ReactNode
+  icon?: React.ReactNode
   name: string
   target?: HTMLAttributeAnchorTarget
   sidebarOpen: boolean
@@ -25,6 +26,7 @@ export default function SidebarElement({
   to = '',
   onClick,
   icon,
+  children,
   name,
   target,
   sidebarOpen,
@@ -33,6 +35,27 @@ export default function SidebarElement({
   isActive = false,
   notificationColor = 'bg-warning',
 }: TSidebarProps) {
+  if (children)
+    return (
+      <li
+        className={cn(
+          'size-full p-2 relative',
+          isActive && !sidebarOpen
+            ? 'before:h-[calc(100%-12px)] before:w-[1px] before:absolute before:bg-primary before:right-0 before:top-[6px]'
+            : '',
+        )}
+      >
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className='w-full'>{children}</TooltipTrigger>
+            <TooltipContent side='right' hidden={sidebarOpen}>
+              <p>{name}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </li>
+    )
+
   if (isButton)
     return (
       <li

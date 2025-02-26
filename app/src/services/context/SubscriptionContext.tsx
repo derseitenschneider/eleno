@@ -20,14 +20,14 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   hasAccess: false,
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => { },
+  getSubscription: async () => {},
 })
 export type TSubscriptionPlan =
   | 'Monatlich'
   | 'Jährlich'
   | 'Lifetime'
   | 'Probeabo'
-  | ''
+  | '—'
 
 export function SubscriptionProvider({
   children,
@@ -39,12 +39,13 @@ export function SubscriptionProvider({
     () => getSubscriptionState(subscription),
     [subscription],
   )
-  let plan: TSubscriptionPlan = ''
+  let plan: TSubscriptionPlan = '—'
 
   if (subscriptionState === 'LIFETIME') plan = 'Lifetime'
   if (subscription?.subscription_status === 'trial') plan = 'Probeabo'
   if (subscription?.plan === 'month') plan = 'Monatlich'
   if (subscription?.plan === 'year') plan = 'Jährlich'
+  if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
 
   const hasAccess =
     subscriptionState !== 'TRIAL_EXPIRED' &&

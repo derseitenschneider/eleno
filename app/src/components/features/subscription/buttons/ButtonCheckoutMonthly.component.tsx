@@ -1,10 +1,11 @@
 import { Button, type ButtonProps } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 type ButtonCheckoutMonthlyProps = ButtonProps & {
@@ -18,7 +19,15 @@ export default function ButtonCheckoutMonthly({
 }: ButtonCheckoutMonthlyProps) {
   const { subscription } = useSubscription()
   const { userLocale } = useUserLocale()
+  const fetchErrorToast = useFetchErrorToast()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+
+  useEffect(() => {
+    if (status === 'ERROR') {
+      fetchErrorToast()
+      setStatus('IDLE')
+    }
+  }, [fetchErrorToast, status])
 
   async function getPaymentUpdateLink() {
     setStatus('LOADING')
@@ -73,11 +82,6 @@ export default function ButtonCheckoutMonthly({
           />
         )}
       </Button>
-      {status === 'ERROR' && (
-        <span className='text-warning mt-4 block text-sm'>
-          Etwas ist schiefgelaufen. Bitte versuch's nochmal.
-        </span>
-      )}
     </div>
   )
 }

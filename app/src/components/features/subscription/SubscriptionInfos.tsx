@@ -41,7 +41,7 @@ export function SubscriptionInfos() {
 
   return (
     <div className='py-7 border-b border-hairline'>
-      <div className='flex justify-between items-start'>
+      <div className='sm:flex justify-between items-start'>
         <div className='grid items-start grid-cols-[150px_1fr] gap-4 w-fit'>
           <p>Status:</p>
           <Badge variant={badgeVariant} className='w-fit'>
@@ -50,7 +50,9 @@ export function SubscriptionInfos() {
           <p>Plan:</p>
           <p>{plan}</p>
           <p>Laufzeit:</p>
-          {subscriptionState === 'LIFETIME' ? (
+          {subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ? (
+            '—'
+          ) : subscriptionState === 'LIFETIME' ? (
             <InfinityLogo className='text-primary' />
           ) : (
             <p className={cn(!hasAccess && 'text-warning')}>
@@ -59,9 +61,9 @@ export function SubscriptionInfos() {
           )}
           <ButtonGetInvoice />
         </div>
-        <div className='flex flex-col items-end gap-5'>
+        <div className='sm:flex flex-col items-end gap-5'>
           <PaymentFailedNotification />
-          <div className='flex gap-4 items-center'>
+          <div className='flex flex-col sm:flex-row gap-4 '>
             <ButtonUpdateSubscription />
             <ButtonCancelSubscription />
             <ButtonReactivateSubscription />

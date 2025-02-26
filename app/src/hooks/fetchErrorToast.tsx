@@ -7,7 +7,7 @@ const useFetchErrorToast = () => {
 
   return (
     error = 'Fehlermeldung',
-    message = "Etwas ist schiefgelaufen, versuch's nochmal.",
+    message = "Es ist etwas schiefgelaufen. Bitte versuch's nochmal.",
   ) => {
     if (isOnline) {
       return toast.error(message, {

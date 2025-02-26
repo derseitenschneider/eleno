@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 function Banner() {
   const isOnline = useIsOnline()
-  const { isTrial, subscription } = useSubscription()
+  const { subscriptionState, subscription } = useSubscription()
   const diffInTime =
     new Date(subscription?.period_end || '').getTime() - new Date().getTime()
   const daysRemaining = diffInTime / (1000 * 60 * 60 * 24)
@@ -31,7 +31,7 @@ function Banner() {
       </div>
     )
 
-  if (isTrial && daysRemaining > 0)
+  if (subscriptionState === 'TRIAL_ACTIVE')
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-background100 p-1'>
         <p>
@@ -47,13 +47,25 @@ function Banner() {
       </div>
     )
 
-  if (isTrial && daysRemaining <= 0)
+  if (subscriptionState === 'TRIAL_EXPIRED')
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
         <p>
           <b className=''>Dein Testabo ist abgelaufen!</b>{' '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen
+          </Link>
+        </p>
+      </div>
+    )
+  if (subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED')
+    return (
+      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
+        <p>
+          <b>Zahlung fehlgeschlagen!</b>
+          {'  '}
+          <Link to='/settings/subscription#pricing' className='underline'>
+            Zahlungsinformationen anpassen
           </Link>
         </p>
       </div>

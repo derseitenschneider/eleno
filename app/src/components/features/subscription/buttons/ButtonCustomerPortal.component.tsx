@@ -1,15 +1,24 @@
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function ButtonUpdateSubscription() {
   const { subscription, subscriptionState } = useSubscription()
+  const fetchErrorToast = useFetchErrorToast()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+
+  useEffect(() => {
+    if (status === 'ERROR') {
+      fetchErrorToast('test')
+      setStatus('IDLE')
+    }
+  }, [fetchErrorToast, status])
 
   if (
     subscriptionState !== 'SUBSCRIPTION_ACTIVE' &&
@@ -49,10 +58,10 @@ export default function ButtonUpdateSubscription() {
     }
   }
   return (
-    <div className='flex flex-col items-end'>
+    <div className='flex flex-col'>
       <Button
         size='sm'
-        className='flex gap-2'
+        className='w-fit flex gap-2'
         onClick={getPaymentUpdateLink}
         disabled={status === 'LOADING'}
         variant='outline'
@@ -60,11 +69,6 @@ export default function ButtonUpdateSubscription() {
         Abo verwalten
         {status === 'LOADING' && <MiniLoader />}
       </Button>
-      {status === 'ERROR' && (
-        <span className='text-warning mt-2 block text-sm'>
-          Etwas ist schiefgelaufen. Bitte versuch's nochmal.
-        </span>
-      )}
     </div>
   )
 }

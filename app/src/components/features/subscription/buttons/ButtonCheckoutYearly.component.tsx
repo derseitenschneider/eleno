@@ -1,10 +1,11 @@
 import { Button, type ButtonProps } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type ButtonCheckoutYearlyProps = ButtonProps & {
   currency: string
@@ -16,7 +17,15 @@ export default function ButtonCheckoutYearly({
 }: ButtonCheckoutYearlyProps) {
   const { subscription } = useSubscription()
   const { userLocale } = useUserLocale()
+  const fetchErrorToast = useFetchErrorToast()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+
+  useEffect(() => {
+    if (status === 'ERROR') {
+      fetchErrorToast()
+      setStatus('IDLE')
+    }
+  }, [fetchErrorToast, status])
 
   async function getPaymentUpdateLink() {
     setStatus('LOADING')

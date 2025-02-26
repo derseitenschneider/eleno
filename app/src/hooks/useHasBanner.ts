@@ -4,6 +4,12 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 
 export default function useHasBanner() {
   const isOnline = useIsOnline()
-  const { isTrial } = useSubscription()
-  return !isOnline || isDemoMode || isTrial
+  const { subscriptionState } = useSubscription()
+  return (
+    !isOnline ||
+    isDemoMode ||
+    subscriptionState === 'TRIAL_ACTIVE' ||
+    subscriptionState === 'TRIAL_EXPIRED' ||
+    subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED'
+  )
 }

@@ -8,7 +8,6 @@ import useOutsideClick from '@/hooks/useOutsideClick'
 import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
 import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
 import {
-  BookMarked,
   BookOpen,
   CalendarDays,
   CheckSquare2,
@@ -24,9 +23,11 @@ import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
+import { UserMenuContent } from '@/components/features/user/UserMenuContent.component'
 
 function Sidebar() {
   const hasBanner = useHasBanner()
+  const { user } = useUser()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
@@ -45,6 +46,7 @@ function Sidebar() {
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
+  if (!user) return null
 
   return (
     <nav
