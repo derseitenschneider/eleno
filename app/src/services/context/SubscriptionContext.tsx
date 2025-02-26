@@ -11,18 +11,15 @@ import { useUserLocale } from './UserLocaleContext'
 import supabase from '../api/supabase'
 import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { getSubscriptionState } from '@/utils/getSubscriptionState'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
-  isTrial: true,
-  isLifetime: true,
-  isCancelable: true,
-  isSubscription: true,
   subscription: undefined,
+  subscriptionState: '',
+  hasAccess: false,
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => {},
-  whichPlan: () => '',
-  hasAccess: () => false,
+  getSubscription: async () => { },
 })
 
 export function SubscriptionProvider({
@@ -31,39 +28,13 @@ export function SubscriptionProvider({
   const { userLocale } = useUserLocale()
   const [subscription, setSubscription] = useState<Subscription>()
 
-  const subscriptionStatus = subscription?.subscription_status || ''
-  const isTrial = subscriptionStatus === 'trial'
-  const isLifetime = subscription?.is_lifetime || false
-  const isCancelable = subscriptionStatus === 'active'
-  const isSubscription =
-    (subscriptionStatus === 'active' || subscriptionStatus === 'canceled') &&
-    !isLifetime
-
-  const hasAccess = useCallback(() => {
-    // Always false without subscription object.
-    if (!subscription) return false
-
-    // Calc period end and add 1 day so it's inactive AFTER the last day.
-    let periodEnd = new Date(subscription.period_end || '')
-    periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() + 1))
-
-    // False if period is over and subscription is cancelled or trial.
-    if (
-      periodEnd < new Date() &&
-      (subscription.subscription_status === 'canceled' || isTrial)
-    ) {
-      return false
-    }
-    return true
-  }, [subscription, isTrial])
-
-  const whichPlan = useCallback(() => {
-    if (isLifetime) return 'Lifetime 🚀'
-    if (isTrial) return 'Testabo'
-    if (subscription?.plan === 'month') return 'Monatlich'
-
-    return 'Jährlich'
-  }, [isLifetime, isTrial, subscription?.plan])
+  const subscriptionState = useMemo(
+    () => getSubscriptionState(subscription),
+    [subscription],
+  )
+  const hasAccess =
+    subscriptionState !== 'TRIAL_EXPIRED' &&
+    subscriptionState !== 'SUBSCRIPTION_CANCELED_EXPIRED'
 
   const periodStartLocalized = useMemo(
     () =>
@@ -119,15 +90,11 @@ export function SubscriptionProvider({
 
   const value = {
     subscription,
-    isLifetime,
-    isCancelable,
     hasAccess,
-    whichPlan,
-    isSubscription,
     getSubscription,
     periodStartLocalized,
     periodEndLocalized,
-    isTrial,
+    subscriptionState,
   }
 
   return (

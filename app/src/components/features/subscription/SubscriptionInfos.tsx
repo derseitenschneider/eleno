@@ -12,21 +12,20 @@ export function SubscriptionInfos() {
     periodEndLocalized,
     subscription,
     hasAccess,
-    whichPlan,
-    isLifetime,
+    subscriptionState,
   } = useSubscription()
 
   let badgeVariant: 'default' | 'warning' | 'destructive' = 'default'
   let badgeLabel = 'Aktiv'
   if (
-    hasAccess() &&
+    hasAccess &&
     subscription?.subscription_status === 'canceled' &&
     !subscription.is_lifetime
   ) {
     badgeLabel = 'Auslaufend'
     badgeVariant = 'warning'
   }
-  if (!hasAccess()) {
+  if (!hasAccess) {
     badgeVariant = 'destructive'
     badgeLabel = 'Abgelaufen'
   }

@@ -147,13 +147,9 @@ export type ContextTypeUser = {
 }
 
 export type ContextTypeSubscription = {
-  isTrial: boolean
-  isLifetime: boolean
-  isCancelable: boolean
-  isSubscription: boolean
+  subscriptionState: TSubscriptionState
   subscription: Subscription | undefined
-  whichPlan: () => string
-  hasAccess: () => boolean
+  hasAccess: boolean
   getSubscription: (userId: string) => Promise<void>
   periodStartLocalized: string
   periodEndLocalized: string
@@ -325,6 +321,7 @@ export type PartialRepertoireItem = Omit<
   'id' | 'user_id' | 'created_at'
 >
 import type { ColumnMeta, Row, RowData } from '@tanstack/react-table'
+import { TSubscriptionState } from '@/utils/getSubscriptionState'
 
 export type CustomColumnMeta<TData> = ColumnMeta<TData, unknown> & {
   colSpan?: (row: Row<TData>) => number
