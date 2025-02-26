@@ -202,7 +202,7 @@ function CreateLesson() {
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
         <div className='ml-auto  lg:mb-8 flex mt-4 items-center gap-1'>
           <Button
-            disabled={isCreating || !hasAccess()}
+            disabled={isCreating || !hasAccess}
             size='sm'
             onClick={handleSave}
             className='block ml-auto'

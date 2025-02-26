@@ -7,7 +7,7 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
 export default function ButtonGetInvoice() {
-  const { subscription } = useSubscription()
+  const { subscription, subscriptionState } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
 
@@ -44,6 +44,7 @@ export default function ButtonGetInvoice() {
       setStatus('ERROR')
     }
   }
+  if (subscriptionState !== 'LIFETIME') return null
   return (
     <div className='col-span-2'>
       <Button

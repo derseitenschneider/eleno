@@ -3,6 +3,8 @@ $currentErrorReporting = error_reporting();
 error_reporting( $currentErrorReporting & ~E_DEPRECATED & ~E_USER_DEPRECATED );
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/parse-arguments.php';
+
 $dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/..' );
 $dotenv->load();
 
@@ -17,7 +19,19 @@ $db         = new Database( $config );
 $repository = new SubscriptionRepository( $db );
 $stripeApi  = new StripeAPIService( $config );
 
-$userId = $argv[1] ?? '13c1e634-0906-4c30-8622-c786957553ae';
+$args = parseArguments( $argv );
+
+if ( isset( $args['userId'] ) ) {
+	$userId = $args['userId'];
+} else {
+	$userId = '13c1e634-0906-4c30-8622-c786957553ae';
+}
+
+if ( isset( $args['expired'] ) ) {
+	$expired = true;
+} else {
+	$expired = false;
+}
 
 if ( $userId === null ) {
 	echo "Usage: php reset_user.php <user_id>\n";
@@ -29,14 +43,17 @@ if ( $userId === null ) {
 $stripeSubscription   = $repository->getSubscription( $userId );
 $stripeSubscriptionId = $stripeSubscription[0]['stripe_subscription_id'] ?? '';
 
+$periodStart = $expired ? date( 'Y-m-d', strtotime( '-31 days' ) ) : date( 'Y-m-d' );
+$periodEnd   = $expired ? date( 'Y-m-d', strtotime( '-1 day' ) ) : date( 'Y-m-d', strtotime( '+30 days' ) );
+
 // Reset user data in db
 $repository->updateSubscription(
 	data: array(
 		'stripe_subscription_id'  => null,
 		'stripe_invoice_id'       => null,
 		'failed_payment_attempts' => 0,
-		'period_start'            => date( 'Y-m-d' ),
-		'period_end'              => date( 'Y-m-d', strtotime( '+30 days' ) ),
+		'period_start'            => $periodStart,
+		'period_end'              => $periodEnd,
 		'payment_status'          => null,
 		'currency'                => null,
 		'plan'                    => null,

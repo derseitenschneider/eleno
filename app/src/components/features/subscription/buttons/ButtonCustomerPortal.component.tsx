@@ -7,11 +7,15 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
 
 export default function ButtonUpdateSubscription() {
-  const { subscription, isSubscription } = useSubscription()
+  const { subscription, subscriptionState } = useSubscription()
   const { userLocale } = useUserLocale()
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
 
-  if (!isSubscription) return null
+  if (
+    subscriptionState !== 'SUBSCRIPTION_ACTIVE' &&
+    subscriptionState !== 'SUBSCRIPTION_ACTIVE_EXPIRED'
+  )
+    return null
 
   async function getPaymentUpdateLink() {
     setStatus('LOADING')

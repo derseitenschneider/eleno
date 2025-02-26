@@ -48,7 +48,6 @@ export default function MessageDisplay({
       if (!href) return
 
       if (href.startsWith('/')) {
-        console.log(href)
         navigate(href)
       } else {
         window.open(href)
@@ -88,7 +87,7 @@ export default function MessageDisplay({
               </div>
             </div>
             {message.created_at && (
-              <div className='ml-auto text-xs text-muted-foreground'>
+              <div className='ml-auto text-xs text-foreground/75'>
                 {format(new Date(message.created_at), 'PPp', {
                   locale: getLocale(userLocale),
                 })}

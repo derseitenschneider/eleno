@@ -147,6 +147,7 @@ export type ContextTypeUser = {
 }
 
 export type ContextTypeSubscription = {
+  plan: TSubscriptionPlan
   subscriptionState: TSubscriptionState
   subscription: Subscription | undefined
   hasAccess: boolean
@@ -322,6 +323,7 @@ export type PartialRepertoireItem = Omit<
 >
 import type { ColumnMeta, Row, RowData } from '@tanstack/react-table'
 import { TSubscriptionState } from '@/utils/getSubscriptionState'
+import { TSubscriptionPlan } from '@/services/context/SubscriptionContext'
 
 export type CustomColumnMeta<TData> = ColumnMeta<TData, unknown> & {
   colSpan?: (row: Row<TData>) => number
