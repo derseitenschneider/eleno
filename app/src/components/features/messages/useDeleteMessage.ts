@@ -26,9 +26,9 @@ export function useDeleteMessage() {
     },
 
     onSuccess: () => {
-      toast('Nachricht gelöscht')
+      toast('Nachricht gelöscht.')
       queryClient.invalidateQueries({
-        queryKey: ['todos'],
+        queryKey: ['messages'],
       })
     },
 

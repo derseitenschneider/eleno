@@ -7,7 +7,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useEffect, useState } from 'react'
 
-export default function ButtonUpdateSubscription() {
+export default function ButtonManageSubscription() {
   const { subscription, subscriptionState } = useSubscription()
   const fetchErrorToast = useFetchErrorToast()
   const { userLocale } = useUserLocale()
@@ -22,6 +22,7 @@ export default function ButtonUpdateSubscription() {
 
   if (
     subscriptionState !== 'SUBSCRIPTION_ACTIVE' &&
+    subscriptionState !== 'SUBSCRIPTION_ACTIVE_CANCELED' &&
     subscriptionState !== 'SUBSCRIPTION_ACTIVE_EXPIRED'
   )
     return null

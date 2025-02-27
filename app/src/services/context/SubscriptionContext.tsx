@@ -15,7 +15,7 @@ import { getSubscriptionState } from '@/utils/getSubscriptionState'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
-  plan: '',
+  plan: '—',
   subscriptionState: '',
   hasAccess: false,
   periodStartLocalized: '',
@@ -41,11 +41,15 @@ export function SubscriptionProvider({
   )
   let plan: TSubscriptionPlan = '—'
 
-  if (subscriptionState === 'LIFETIME') plan = 'Lifetime'
-  if (subscription?.subscription_status === 'trial') plan = 'Probeabo'
-  if (subscription?.plan === 'month') plan = 'Monatlich'
-  if (subscription?.plan === 'year') plan = 'Jährlich'
-  if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
+  if (subscriptionState === 'LIFETIME') {
+    plan = 'Lifetime'
+  } else if (subscription?.subscription_status === 'trial') {
+    plan = 'Probeabo'
+  } else if (subscription?.plan === 'month') {
+    plan = 'Monatlich'
+  } else if (subscription?.plan === 'year') {
+    plan = 'Jährlich'
+  } else if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
 
   const hasAccess =
     subscriptionState !== 'TRIAL_EXPIRED' &&
