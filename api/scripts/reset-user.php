@@ -21,12 +21,21 @@ $stripeApi  = new StripeAPIService( $config );
 
 $args = parseArguments( $argv );
 
+// User id
 if ( isset( $args['userId'] ) ) {
 	$userId = $args['userId'];
 } else {
 	$userId = '13c1e634-0906-4c30-8622-c786957553ae';
 }
 
+// Dry run
+if ( isset( $args['dry'] ) ) {
+	$dry = true;
+} else {
+	$dry = false;
+}
+
+// Set subscription to dates in past (expired)
 if ( isset( $args['expired'] ) ) {
 	$expired = true;
 } else {
@@ -38,13 +47,28 @@ if ( $userId === null ) {
 	exit( 1 );
 }
 
-// 1. Database Reset
+if ( $dry ) {
+	echo "|--------------- START DRY RUN ---------------|\n\n";
+}
 
+// 1. Database Reset
+echo "Fetching subscription id from database.\n";
 $stripeSubscription   = $repository->getSubscription( $userId );
-$stripeSubscriptionId = $stripeSubscription[0]['stripe_subscription_id'] ?? '';
+$stripeSubscriptionId = $stripeSubscription['stripe_subscription_id'] ?? '';
 
 $periodStart = $expired ? date( 'Y-m-d', strtotime( '-31 days' ) ) : date( 'Y-m-d' );
 $periodEnd   = $expired ? date( 'Y-m-d', strtotime( '-1 day' ) ) : date( 'Y-m-d', strtotime( '+30 days' ) );
+
+echo "Found subscription:\n\n";
+echo json_encode( $stripeSubscription, JSON_PRETTY_PRINT ) . "\n\n";
+echo "Subscription ID: {$stripeSubscriptionId}\n";
+echo "Resetting subscription to trial with period set to:\n";
+echo "{$periodStart} - {$periodEnd}\n\n";
+
+if ( $dry ) {
+	echo "|--------------- END DRY RUN ---------------|\n";
+	exit( 1 );
+}
 
 // Reset user data in db
 $repository->updateSubscription(
@@ -63,17 +87,13 @@ $repository->updateSubscription(
 	where: array( 'user_id' => $userId )
 );
 
-if ( empty( $stripeSubscriptionId ) ) {
-	echo "User {$userId} reset successfully.\nNo subscription found therefore no stripe action required.";
-	exit;
-}
-
 // 2. Stripe Reset
-try {
-	$stripeApi->cancelSubscription( $stripeSubscriptionId );
-} catch ( \Stripe\Exception\ApiErrorException $e ) {
-	echo 'Stripe error: ' . $e->getMessage() . "\n";
-	exit( 1 );
+if ( $stripeSubscriptionId ) {
+	try {
+		$stripeApi->cancelSubscription( $stripeSubscriptionId );
+	} catch ( \Stripe\Exception\ApiErrorException $e ) {
+		echo 'Stripe error: ' . $e->getMessage() . "\n";
+		exit( 1 );
+	}
 }
-
-echo "User $userId reset successfully.\n";
+echo "User $userId reset successful!\n";
