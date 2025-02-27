@@ -17,7 +17,7 @@ export const getSubscriptionState = (
     return '' // No subscription, return empty state
   }
 
-  if (subscription.is_lifetime) {
+  if (subscription.plan === 'lifetime') {
     return 'LIFETIME'
   }
 

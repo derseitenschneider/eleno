@@ -299,12 +299,10 @@ export type Database = {
       }
       stripe_subscriptions: {
         Row: {
-          cancel_at_period_end: boolean
           created_at: string | null
           currency: string | null
-          failed_payment_attempts: number | null
+          failed_payment_attempts: number
           id: string
-          is_lifetime: boolean
           payment_status: string | null
           period_end: string | null
           period_start: string | null
@@ -316,12 +314,10 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
-          cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
-          failed_payment_attempts?: number | null
+          failed_payment_attempts?: number
           id?: string
-          is_lifetime?: boolean
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
@@ -333,12 +329,10 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
-          cancel_at_period_end?: boolean
           created_at?: string | null
           currency?: string | null
-          failed_payment_attempts?: number | null
+          failed_payment_attempts?: number
           id?: string
-          is_lifetime?: boolean
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
@@ -574,9 +568,8 @@ export type Database = {
       background_colors: "blue" | "red" | "green" | "yellow"
       currencies: "CHF" | "EUR"
       message_status: "sent" | "read" | "trash"
-      payment_type: "trial" | "lifetime" | "subscription"
       recurring_intervals: "day" | "week" | "month" | "year"
-      subscription_plan: "month" | "year"
+      subscription_plan: "month" | "year" | "lifetime"
       subscription_status: "active" | "canceled" | "trial" | "expired"
       weekdays:
         | "Montag"

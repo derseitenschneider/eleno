@@ -18,7 +18,6 @@ class StripeCheckoutCompletedDTO {
 	) {}
 
 	public static function create( Session $session ): self {
-		$isLifetime = empty( $session->subscription );
 		return new self(
 			userId: $session->client_reference_id,
 			customerId: $session->customer,

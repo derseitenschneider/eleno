@@ -52,7 +52,7 @@ if ( $dry ) {
 }
 
 // 1. Database Reset
-echo "Fetching subscription id from database.\n";
+echo "Fetching subscription from database.\n";
 $stripeSubscription   = $repository->getSubscription( $userId );
 $stripeSubscriptionId = $stripeSubscription['stripe_subscription_id'] ?? '';
 
@@ -81,7 +81,6 @@ $repository->updateSubscription(
 		'payment_status'          => null,
 		'currency'                => null,
 		'plan'                    => null,
-		'is_lifetime'             => false,
 		'subscription_status'     => 'trial',
 	),
 	where: array( 'user_id' => $userId )

@@ -129,16 +129,21 @@ class SubscriptionRepository {
 	 * @param StripeCheckoutCompletedDTO $session
 	 */
 	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): bool {
+		$data = array(
+			'stripe_subscription_id' => $session->subscriptionId,
+			'stripe_invoice_id'      => $session->invoiceId,
+			'subscription_status'    => $session->subscriptionStatus,
+			'payment_status'         => $session->paymentStatus,
+			'currency'               => $session->currency,
+		);
+
+		if ( $session->isLifetime ) {
+			$data['plan'] = 'lifetime';
+		}
+
 		return $this->updateSubscription(
 			where: [ 'user_id' => $session->userId ],
-			data: array(
-				'stripe_subscription_id' => $session->subscriptionId,
-				'stripe_invoice_id'      => $session->invoiceId,
-				'subscription_status'    => $session->subscriptionStatus,
-				'payment_status'         => $session->paymentStatus,
-				'currency'               => $session->currency,
-				'is_lifetime'            => $session->isLifetime,
-			)
+			data:$data
 		);
 	}
 
