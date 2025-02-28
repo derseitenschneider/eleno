@@ -6,6 +6,8 @@ import { useState } from 'react'
 import type { Message } from '@/types/types'
 import MessageDisplay from './MessageDisplay.component'
 
+// TODO: Query params for selected messages
+// TODO: Consume isLoading
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
