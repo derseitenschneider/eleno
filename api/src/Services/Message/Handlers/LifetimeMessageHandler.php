@@ -33,9 +33,10 @@ class LifetimeMessageHandler {
 		$firstName = $this->db->query( $sql, $params ) ?? '';
 
 		$data = array(
-			'{{planName}}'     => 'Lifetime',
-			'{{customerName}}' => $firstName[0]['first_name'],
-			'{{invoiceUrl}}'   => $invoiceUrl . "&locale=$checkoutDTO->locale",
+			'{{planName}}'   => 'Lifetime',
+			'{{userName}}'   => $firstName[0]['first_name'],
+			'{{year}}'       => date( 'Y' ),
+			'{{invoiceUrl}}' => $invoiceUrl . "&locale=$checkoutDTO->locale",
 		);
 
 		$template = $this->templateService->getTemplate( 'lifetime_upgrade' );

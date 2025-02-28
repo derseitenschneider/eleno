@@ -96,11 +96,11 @@ export default function MessageDisplay({
           </div>
           <Separator />
           <ScrollArea type='hover' className='h-full'>
-            <div className='h-full max-w-[70ch] [*&]:break-word whitespace-pre-wrap p-4'>
+            <div className='h-full max-w-[70ch] [*&]:break-word p-4'>
               <div
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}
-                className='p-4 flex flex-col space-y-4'
+                className='p-5 flex flex-col space-y-4'
               >
                 {parse(message.body || '')}
               </div>

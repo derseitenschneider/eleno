@@ -29,7 +29,10 @@ class SubscriptionMessageHandler {
 
 		$params = [ $checkoutDTO->userId ];
 		$result = $this->db->query( $sql, $params ) ?? '';
-		$data   = [ '{{customerName}}' => $result[0]['first_name'] ];
+		$data   = [
+			'{{userName}}' => $result[0]['first_name'],
+			'{{year}}'     => date( 'Y' ),
+		];
 
 		$template = $this->templateService->getTemplate( 'first_time_subscription' );
 		$template = $this->templateService->fillTemplate( $template, $data );

@@ -20,7 +20,8 @@ class PaymentFailedMessageHandler {
 	public function handle( int $level, string $userId, string $firstName ) {
 
 		$data = array(
-			'{{customerName}}' => $firstName,
+			'{{userName}}' => $firstName,
+			'{{year}}'     => date( 'Y' ),
 		);
 
 		$template = $this->templateService->getTemplate( "subscription_payment_failed_{$level}" );

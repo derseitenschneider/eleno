@@ -20,7 +20,8 @@ class ReactivationMessageHandler {
 	public function handle( string $userId, string $firstName ) {
 
 		$data = array(
-			'{{customerName}}' => $firstName,
+			'{{userName}}' => $firstName,
+			'{{year}}'     => date( 'Y' ),
 		);
 
 		$template = $this->templateService->getTemplate( 'subscription_reactivation' );

@@ -5,7 +5,6 @@ namespace App\Services\Stripe;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
-use App\Services\Message\Handlers\LifetimeUpgradeHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
