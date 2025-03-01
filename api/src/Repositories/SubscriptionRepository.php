@@ -178,11 +178,10 @@ class SubscriptionRepository {
 	 */
 	public function bumpFailedPaymentAttempts( string $customer, int $prevValue ): bool {
 		$data  = [
-			'failed_payment_attempts' => $prevValue++,
+			'failed_payment_attempts' => $prevValue + 1,
 			'subscription_status'     => 'expired',
 		];
 		$where = [ 'stripe_customer_id' => $customer ];
-
 		return $this->updateSubscription( data: $data, where:  $where );
 	}
 
@@ -195,7 +194,7 @@ class SubscriptionRepository {
 	 */
 	public function resetFailedPaymentAttempts( string $customer ): bool {
 		return $this->updateSubscription(
-			data: [ 'failed_payment_attempts' => null ],
+			data: [ 'failed_payment_attempts' => 0 ],
 			where: [ 'stripe_customer_id' => $customer ]
 		);
 	}

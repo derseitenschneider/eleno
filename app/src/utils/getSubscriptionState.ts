@@ -36,15 +36,14 @@ export const getSubscriptionState = (
       }
       return 'TRIAL_ACTIVE'
     case 'active':
-      if (periodEnd && periodEnd < now) {
-        return 'SUBSCRIPTION_ACTIVE_EXPIRED'
-      }
       return 'SUBSCRIPTION_ACTIVE'
     case 'canceled':
       if (periodEnd && periodEnd < now) {
         return 'SUBSCRIPTION_CANCELED_EXPIRED'
       }
       return 'SUBSCRIPTION_ACTIVE_CANCELED'
+    case 'expired':
+      return 'SUBSCRIPTION_ACTIVE_EXPIRED'
     default:
       return ''
   }

@@ -70,5 +70,18 @@ function Banner() {
         </p>
       </div>
     )
+
+  if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED')
+    return (
+      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-primary/5 p-1'>
+        <p>
+          <b>Dein Abo ist inaktiv</b>
+          {'  '}
+          <Link to='/settings/subscription#pricing' className='underline'>
+            Jetzt Abo abschliessen
+          </Link>
+        </p>
+      </div>
+    )
 }
 export default Banner

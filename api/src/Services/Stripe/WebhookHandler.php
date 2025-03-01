@@ -47,6 +47,7 @@ class WebhookHandler {
 				'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
 				'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
 				'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
+				'invoice.payment_succeded' => $this->handlePaymentSucceeded( $eventObject ),
 				default => null,
 			};
 		} catch ( \Exception $e ) {
@@ -59,6 +60,17 @@ class WebhookHandler {
 				]
 			);
 		}
+	}
+
+	private function handlePaymentSucceeded( Invoice $invoice ) {
+		logDebug( 'payment succeeded!' );
+		$customerId = $invoice->customer;
+		$this->logger->info(
+			'Payment succeeded, reset failed payment attempts',
+			[ 'customerId' => $customerId ]
+		);
+
+		$this->repository->resetFailedPaymentAttempts( customer: $customerId );
 	}
 
 	private function handlePaymentFailed( Invoice $invoice ) {
@@ -118,16 +130,18 @@ class WebhookHandler {
 
 	private function handleCheckoutCompleted( Session $session ): void {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
+		$customerId  = $checkoutDTO->customerId;
 
 		$this->repository->saveCheckoutSession( $checkoutDTO );
-		$this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );
+		// $this->repository->resetFailedPaymentAttempts( $checkoutDTO->customerId );
 
 		if ( $checkoutDTO->isLifetime ) {
 			$this->logger->info(
 				'Lifetime purchase completed',
 				[ 'checkout_dto' => $checkoutDTO ]
 			);
-			$this->stripeAPI->cancelAllSubscriptions( $checkoutDTO->customerId );
+			// $this->repository->resetFailedPaymentAttempts( customer: $customerId );
+			$this->stripeAPI->cancelAllSubscriptions( customerId:$customerId );
 			$this->lifetimeMessageHandler->handle( $checkoutDTO );
 
 		} else {

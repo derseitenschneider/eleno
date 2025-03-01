@@ -10,6 +10,7 @@ export default function useHasBanner() {
     isDemoMode ||
     subscriptionState === 'TRIAL_ACTIVE' ||
     subscriptionState === 'TRIAL_EXPIRED' ||
-    subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED'
+    subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED' ||
+    subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED'
   )
 }
