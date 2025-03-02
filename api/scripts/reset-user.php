@@ -1,23 +1,6 @@
 <?php
-$currentErrorReporting = error_reporting();
-error_reporting( $currentErrorReporting & ~E_DEPRECATED & ~E_USER_DEPRECATED );
-
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/parse-arguments.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/..' );
-$dotenv->load();
-
-use App\Config\Config;
-use App\Database\Database;
-use App\Repositories\SubscriptionRepository;
-use App\Services\Stripe\StripeAPIService;
-use Stripe\Stripe;
-
-$config     = new Config();
-$db         = new Database( $config );
-$repository = new SubscriptionRepository( $db );
-$stripeApi  = new StripeAPIService( $config );
+require_once __DIR__ . '/helpers/base.php';
+require_once __DIR__ . '/functions.php';
 
 $args = parseArguments( $argv );
 
@@ -56,14 +39,15 @@ echo "Fetching subscription from database.\n";
 $stripeSubscription   = $repository->getSubscription( $userId );
 $stripeSubscriptionId = $stripeSubscription['stripe_subscription_id'] ?? '';
 
-$periodStart = $expired ? date( 'Y-m-d', strtotime( '-31 days' ) ) : date( 'Y-m-d' );
-$periodEnd   = $expired ? date( 'Y-m-d', strtotime( '-1 day' ) ) : date( 'Y-m-d', strtotime( '+30 days' ) );
 
 echo "Found subscription:\n\n";
 echo json_encode( $stripeSubscription, JSON_PRETTY_PRINT ) . "\n\n";
 echo "Subscription ID: {$stripeSubscriptionId}\n";
-echo "Resetting subscription to trial with period set to:\n";
-echo "{$periodStart} - {$periodEnd}\n\n";
+if ( $expired ) {
+	expirePeriod( userId: $userId, repo: $repository, dry: $dry );
+} else {
+	renewPeriod( userId: $userId, repo: $repository, dry: $dry );
+}
 
 if ( $dry ) {
 	echo "|--------------- END DRY RUN ---------------|\n";
@@ -76,8 +60,6 @@ $repository->updateSubscription(
 		'stripe_subscription_id'  => null,
 		'stripe_invoice_id'       => null,
 		'failed_payment_attempts' => 0,
-		'period_start'            => $periodStart,
-		'period_end'              => $periodEnd,
 		'payment_status'          => null,
 		'currency'                => null,
 		'plan'                    => null,

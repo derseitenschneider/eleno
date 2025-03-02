@@ -138,7 +138,9 @@ class SubscriptionRepository {
 		);
 
 		if ( $session->isLifetime ) {
-			$data['plan'] = 'lifetime';
+			$data['plan']         = 'lifetime';
+			$data['period_start'] = null;
+			$data['period_end']   = null;
 		}
 
 		return $this->updateSubscription(
