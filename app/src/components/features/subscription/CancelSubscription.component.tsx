@@ -11,6 +11,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUser } from '@/services/context/UserContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import useMessagesQuery from '../messages/messagesQueries'
 
 interface CancelSubscriptionProps {
   onCloseModal?: () => void
@@ -18,6 +19,7 @@ interface CancelSubscriptionProps {
 
 function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
+  const { refetch: refetchMessages } = useMessagesQuery()
   const { user } = useUser()
   const { subscription, getSubscription } = useSubscription()
 
@@ -50,6 +52,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       await getSubscription(user?.id)
       toast.info('Dein Abo wurde gekündigt.')
       setStatus('IDLE')
+      refetchMessages()
       onCloseModal?.()
     } catch (e) {
       setStatus('ERROR')

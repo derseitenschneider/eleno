@@ -2,15 +2,11 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { Separator } from '@/components/ui/separator'
 import useMessagesQuery from './messagesQueries'
 import MessageList from './MessageList.component'
-import { useState } from 'react'
-import type { Message } from '@/types/types'
 import MessageDisplay from './MessageDisplay.component'
 
-// TODO: Query params for selected messages
 // TODO: Consume isLoading
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
 
   return (
     <div className='h-full rounded-lg border border-hairline flex '>
@@ -22,11 +18,7 @@ export default function Messages() {
           <Separator />
           <div className='mt-4 flex-grow overflow-y-auto'>
             {messages && messages.length !== 0 ? (
-              <MessageList
-                setSelectedMessage={setSelectedMessage}
-                selectedMessage={selectedMessage}
-                messages={messages}
-              />
+              <MessageList messages={messages} />
             ) : (
               <div className='p-6 text-center text-muted-foreground'>
                 Keine Nachrichten Vorhanden
@@ -36,11 +28,8 @@ export default function Messages() {
         </div>
         <Separator orientation='vertical' />
         <div className='flex-grow h-full'>
-          {messages?.length !== 0 && (
-            <MessageDisplay
-              message={selectedMessage}
-              setSelectedMessage={setSelectedMessage}
-            />
+          {messages && messages.length !== 0 && (
+            <MessageDisplay messages={messages} />
           )}
         </div>
       </TooltipProvider>

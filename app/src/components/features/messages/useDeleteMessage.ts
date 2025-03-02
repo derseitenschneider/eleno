@@ -10,7 +10,7 @@ export function useDeleteMessage() {
   const { mutate: deleteMessage, isPending: isDeleting } = useMutation({
     mutationFn: deleteMessageApi,
 
-    onMutate: (id: number) => {
+    onMutate: (id: string) => {
       const prevMessages = queryClient.getQueryData(['messages']) as
         | Array<Message>
         | undefined

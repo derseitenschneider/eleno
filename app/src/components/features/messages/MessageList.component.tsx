@@ -3,25 +3,21 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { cn } from '@/lib/utils'
 import type { Message } from '@/types/types'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import type { SetStateAction } from 'react'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import getLocale from '@/utils/getLocale'
 import format from 'date-fns/format'
 import { useReadMessage } from './useReadMessage'
+import { useSearchParams } from 'react-router-dom'
 
 interface MailListProps {
   messages: Message[]
-  selectedMessage: Message | null
-  setSelectedMessage: React.Dispatch<SetStateAction<Message | null>>
 }
 
-export default function MessageList({
-  messages,
-  selectedMessage,
-  setSelectedMessage,
-}: MailListProps) {
+export default function MessageList({ messages }: MailListProps) {
   const { userLocale } = useUserLocale()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { readMessage } = useReadMessage()
+  const currentMessageId = searchParams.get('message') || ''
 
   const formatMessageDate = (date: Date) => {
     const oneWeekAgo = new Date()
@@ -30,13 +26,14 @@ export default function MessageList({
     return date < oneWeekAgo
       ? format(date, 'PP', { locale: getLocale(userLocale) })
       : formatDistanceToNow(date, {
-        addSuffix: true,
-        locale: getLocale(userLocale),
-      })
+          addSuffix: true,
+          locale: getLocale(userLocale),
+        })
   }
 
   function handleClick(message: Message) {
-    setSelectedMessage(message)
+    searchParams.set('message', message.id.toString())
+    setSearchParams(searchParams)
     if (message.status === 'sent') {
       readMessage(message)
     }
@@ -50,7 +47,7 @@ export default function MessageList({
             key={message.id}
             className={cn(
               'flex w-full flex-col items-start gap-2 rounded-lg border border-hairline p-3 text-left text-sm transition-all hover:bg-accent',
-              selectedMessage === message && 'bg-accent',
+              currentMessageId === message.id && 'bg-accent',
             )}
             onClick={() => handleClick(message)}
           >
@@ -72,7 +69,7 @@ export default function MessageList({
                 <div
                   className={cn(
                     'ml-auto text-xs',
-                    selectedMessage === message
+                    currentMessageId === message.id
                       ? 'text-foreground'
                       : 'text-foreground/50',
                   )}

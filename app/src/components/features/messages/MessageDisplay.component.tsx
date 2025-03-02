@@ -13,27 +13,28 @@ import Logo from '@/components/ui/Logo.component'
 import getLocale from '@/utils/getLocale'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useDeleteMessage } from './useDeleteMessage'
-import type { SetStateAction } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 interface MailDisplayProps {
-  message: Message | null
-  setSelectedMessage: React.Dispatch<SetStateAction<Message | null>>
+  messages: Array<Message>
 }
 
-export default function MessageDisplay({
-  message,
-  setSelectedMessage,
-}: MailDisplayProps) {
+export default function MessageDisplay({ messages }: MailDisplayProps) {
   const { deleteMessage } = useDeleteMessage()
   const { userLocale } = useUserLocale()
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+
+  const message = messages.find(
+    (message) => message.id === searchParams.get('message') || '',
+  )
 
   function handleDelete(message: Message | null) {
     if (!message) return
+    searchParams.delete('message')
+    setSearchParams(searchParams)
     deleteMessage(message.id)
-    setSelectedMessage(null)
   }
 
   function handleMessageClick(
@@ -65,7 +66,7 @@ export default function MessageDisplay({
                 variant='ghost'
                 size='icon'
                 disabled={!message}
-                onClick={() => handleDelete(message)}
+                onClick={() => handleDelete(message || null)}
               >
                 <Trash2 className='h-4 w-4 text-warning' />
                 <span className='sr-only'>Löschen</span>

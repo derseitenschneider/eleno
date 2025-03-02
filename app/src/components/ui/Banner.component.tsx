@@ -62,8 +62,8 @@ function Banner() {
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
         <p>
-          <b>Zahlung fehlgeschlagen!</b>
-          {'  '}
+          <b>Aktion erforderlich:</b>
+          {'  '}Deine Zahlung ist fehlgeschlagen!{'  '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Zahlungsinformationen anpassen
           </Link>

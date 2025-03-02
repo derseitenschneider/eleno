@@ -127,7 +127,7 @@ export type Database = {
         Row: {
           body: string | null
           created_at: string
-          id: number
+          id: string
           recipient: string
           status: Database["public"]["Enums"]["message_status"]
           subject: string | null
@@ -135,7 +135,7 @@ export type Database = {
         Insert: {
           body?: string | null
           created_at?: string
-          id?: number
+          id?: string
           recipient: string
           status?: Database["public"]["Enums"]["message_status"]
           subject?: string | null
@@ -143,7 +143,7 @@ export type Database = {
         Update: {
           body?: string | null
           created_at?: string
-          id?: number
+          id?: string
           recipient?: string
           status?: Database["public"]["Enums"]["message_status"]
           subject?: string | null

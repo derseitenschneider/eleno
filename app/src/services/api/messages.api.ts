@@ -23,7 +23,7 @@ export const updateMessageApi = async (message: Message) => {
   if (error) throw new Error(error.message)
 }
 
-export const deleteMessageApi = async (id: number) => {
+export const deleteMessageApi = async (id: string) => {
   const { error } = await supabase.from('messages').delete().eq('id', id)
 
   if (error) throw new Error(error.message)

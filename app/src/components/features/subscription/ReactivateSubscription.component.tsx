@@ -11,6 +11,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUser } from '@/services/context/UserContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import useMessagesQuery from '../messages/messagesQueries'
 
 interface ReactivateSubscriptionProps {
   onCloseModal?: () => void
@@ -20,6 +21,7 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { user } = useUser()
   const { subscription } = useSubscription()
+  const { refetch: refetchMessages } = useMessagesQuery()
 
   async function handleReactivate() {
     if (!user) return
@@ -48,6 +50,7 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
       if (data.status !== 'success') throw new Error()
       toast.info('Dein Abo wurde wiederhergestellt.')
       setStatus('IDLE')
+      refetchMessages()
       onCloseModal?.()
     } catch (e) {
       setStatus('ERROR')
