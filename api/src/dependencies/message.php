@@ -10,6 +10,7 @@ use App\Services\Message\Handlers\PaymentFailedMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Message\MessageService;
 use App\Services\Message\Strategies\DatabaseMessageStrategy;
+use App\Services\Message\Strategies\MailMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\StripeAPIService;
 
@@ -19,8 +20,21 @@ return function ( Container $container ) {
 		MessageService::class,
 		function ( $container ) {
 			$databaseStrategy = $container->get( DatabaseMessageStrategy::class );
+			$mailStrategy     = $container->get( MailMessageStrategy::class );
 
-			return new MessageService( array( 'database' => $databaseStrategy ) );
+			return new MessageService(
+				array(
+					'database' => $databaseStrategy,
+					'mail'     => $mailStrategy,
+				)
+			);
+		}
+	);
+
+	$container->set(
+		MailMessageStrategy::class,
+		function ( $container ) {
+			return new DatabaseMessageStrategy();
 		}
 	);
 

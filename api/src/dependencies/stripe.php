@@ -3,6 +3,7 @@
 use App\Config\Config;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Message\Handlers\CancellationMessageHandler;
+use App\Services\Message\Handlers\DisputeMessageHandler;
 use DI\Container;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\WebhookHandler;
@@ -43,6 +44,7 @@ return function ( Container $container ) {
 			$firstSubHandler        = $container->get( SubscriptionMessageHandler::class );
 			$lifetimeUpgradeHandler = $container->get( LifetimeMessageHandler::class );
 			$paymentFailedHandler   = $container->get( PaymentFailedMessageHandler::class );
+			$disputeMessageHandler  = $container->get( DisputeMessageHandler::class );
 			$logger                 = $container->get( 'webhookLogger' );
 
 			return new WebhookHandler(
@@ -51,6 +53,7 @@ return function ( Container $container ) {
 				$firstSubHandler,
 				$lifetimeUpgradeHandler,
 				$paymentFailedHandler,
+				$disputeMessageHandler,
 				$logger
 			);
 		}

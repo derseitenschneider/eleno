@@ -3,6 +3,7 @@
 namespace App\Services\Stripe;
 
 use App\Repositories\SubscriptionRepository;
+use App\Services\Message\Handlers\DisputeMessageHandler;
 use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
 use App\Services\Message\Handlers\PaymentFailedMessageHandler;
@@ -12,6 +13,7 @@ use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\StripeService;
 use Monolog\Logger;
+use Stripe\Charge;
 use Stripe\Event;
 use Stripe\Checkout\Session;
 use Stripe\Invoice;
@@ -24,6 +26,7 @@ class WebhookHandler {
 		private SubscriptionMessageHandler $subscriptionMessageHandler,
 		private LifetimeMessageHandler $lifetimeMessageHandler,
 		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
+		private DisputeMessageHandler $disputeMessageHandler,
 		private Logger $logger
 	) {}
 
@@ -48,6 +51,7 @@ class WebhookHandler {
 				'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
 				'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
 				'invoice.payment_succeeded' => $this->handlePaymentSucceeded( $eventObject ),
+				'charge.dispute.created' => $this->handleDispute( $eventObject ),
 				default => null,
 			};
 		} catch ( \Exception $e ) {
@@ -60,6 +64,10 @@ class WebhookHandler {
 				]
 			);
 		}
+	}
+
+	private function handleDispute( Charge $charge ) {
+		$this->disputeMessageHandler->handle( subject: 'test', recipient: 'test', body:'test' );
 	}
 
 	private function handlePaymentSucceeded( Invoice $invoice ) {
