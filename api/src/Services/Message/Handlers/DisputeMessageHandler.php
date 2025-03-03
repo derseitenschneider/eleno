@@ -8,6 +8,7 @@ use App\Services\Message\Strategies\MailMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
+use Stripe\Dispute;
 
 class DisputeMessageHandler {
 
@@ -16,10 +17,10 @@ class DisputeMessageHandler {
 	) {
 	}
 
-	public function handle( string $subject, string $recipient, string $body ) {
-		$subject   = 'test';
-		$recipient = 'test';
-		$body      = 'test';
+	public function handle( Dispute $dispute ) {
+		$recipient = 'brian.boy@gmx.ch';
+		$subject   = 'A new dispute is pending';
+		$body      = print_r( $dispute, true );
 
 		$this->messageService->send(
 			recipient:$recipient,

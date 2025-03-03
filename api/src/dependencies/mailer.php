@@ -20,8 +20,6 @@ return function ( Container $container ) {
 			$mail->Password   = $config->smtpPassword;
 			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 			$mail->Port       = 587;
-			$smtpConnect      = $mail->smtpConnect();
-			logDebug( $smtpConnect );
 			return $mail;
 		}
 	);

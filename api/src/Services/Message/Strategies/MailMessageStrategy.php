@@ -12,11 +12,11 @@ class MailMessageStrategy implements MessageStrategy {
 
 	public function send( string $recipient, string $subject, string $body ): bool {
 		try {
-			// logDebug( $this->mailer );
-			$this->mailer->setFrom( 'info@eleno.net', 'Brian von Eleno' );
-			$this->mailer->addAddress( 'brian.boy@gmx.ch' );
-			$this->mailer->Subject = 'This is a test';
-			$this->mailer->Body    = 'Hello from testing';
+			$this->mailer->setFrom( 'info@eleno.net' );
+			$this->mailer->addAddress( $recipient );
+			$this->mailer->Subject  = $subject;
+			$this->mailer->Body     = $body;
+			$this->mailer->Priority = 1;
 
 			$response = $this->mailer->send();
 

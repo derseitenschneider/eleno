@@ -68,7 +68,7 @@ class WebhookHandler {
 	}
 
 	private function handleDispute( Dispute $dispute ) {
-		$this->disputeMessageHandler->handle( subject: 'test', recipient: 'test', body:'test' );
+		$this->disputeMessageHandler->handle( $dispute );
 	}
 
 	private function handlePaymentSucceeded( Invoice $invoice ) {
