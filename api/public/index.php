@@ -25,6 +25,7 @@ $container = new Container();
 ( require __DIR__ . '/../src/dependencies/database.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/homework.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/logger.php' )( $container );
+( require __DIR__ . '/../src/dependencies/mailer.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/message.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/middleware.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/repository.php' )( $container );

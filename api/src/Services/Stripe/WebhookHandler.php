@@ -16,6 +16,7 @@ use Monolog\Logger;
 use Stripe\Charge;
 use Stripe\Event;
 use Stripe\Checkout\Session;
+use Stripe\Dispute;
 use Stripe\Invoice;
 use Stripe\Subscription;
 
@@ -66,7 +67,7 @@ class WebhookHandler {
 		}
 	}
 
-	private function handleDispute( Charge $charge ) {
+	private function handleDispute( Dispute $dispute ) {
 		$this->disputeMessageHandler->handle( subject: 'test', recipient: 'test', body:'test' );
 	}
 

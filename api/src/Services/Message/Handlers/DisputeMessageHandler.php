@@ -12,7 +12,6 @@ use App\Services\Stripe\StripeAPIService;
 class DisputeMessageHandler {
 
 	public function __construct(
-		private MessageTemplateService $templateService,
 		private MessageService $messageService,
 	) {
 	}

@@ -11,7 +11,6 @@ use App\Services\Stripe\StripeAPIService;
 class ReactivationMessageHandler {
 
 	public function __construct(
-		private DatabaseMessageStrategy $databaseMessageStrategy,
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
 	) {

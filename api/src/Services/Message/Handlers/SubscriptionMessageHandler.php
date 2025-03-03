@@ -12,7 +12,6 @@ use App\Services\Stripe\StripeAPIService;
 class SubscriptionMessageHandler {
 
 	public function __construct(
-		private DatabaseMessageStrategy $databaseMessageStrategy,
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
 		private Database $db

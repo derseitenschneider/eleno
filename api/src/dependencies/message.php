@@ -3,6 +3,7 @@
 use App\Database\Database;
 use DI\Container;
 use App\Services\Message\Handlers\CancellationMessageHandler;
+use App\Services\Message\Handlers\DisputeMessageHandler;
 use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\FirstTimeSubscriptionHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
@@ -13,6 +14,7 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Strategies\MailMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\StripeAPIService;
+use PHPMailer\PHPMailer\PHPMailer;
 
 return function ( Container $container ) {
 
@@ -34,7 +36,8 @@ return function ( Container $container ) {
 	$container->set(
 		MailMessageStrategy::class,
 		function ( $container ) {
-			return new DatabaseMessageStrategy();
+			$mailer = $container->get( 'customMailer' );
+			return new MailMessageStrategy( $mailer );
 		}
 	);
 
@@ -61,13 +64,11 @@ return function ( Container $container ) {
 	$container->set(
 		SubscriptionMessageHandler::class,
 		function ( $container ) {
-			$databaseStrategy = $container->get( DatabaseMessageStrategy::class );
-			$templateService  = $container->get( MessageTemplateService::class );
-			$messageService   = $container->get( MessageService::class );
-			$db               = $container->get( Database::class );
+			$templateService = $container->get( MessageTemplateService::class );
+			$messageService  = $container->get( MessageService::class );
+			$db              = $container->get( Database::class );
 
 			return new SubscriptionMessageHandler(
-				$databaseStrategy,
 				$templateService,
 				$messageService,
 				$db
@@ -78,14 +79,12 @@ return function ( Container $container ) {
 	$container->set(
 		LifetimeMessageHandler::class,
 		function ( Container $container ) {
-				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
-				$messageTemplateService  = $container->get( MessageTemplateService::class );
-				$messageService          = $container->get( MessageService::class );
-				$stripeApiService        = $container->get( StripeAPIService::class );
-				$db                      = $container->get( Database::class );
+				$messageTemplateService = $container->get( MessageTemplateService::class );
+				$messageService         = $container->get( MessageService::class );
+				$stripeApiService       = $container->get( StripeAPIService::class );
+				$db                     = $container->get( Database::class );
 
 			return new LifetimeMessageHandler(
-				$databaseMessageStrategy,
 				$messageTemplateService,
 				$messageService,
 				$stripeApiService,
@@ -97,12 +96,10 @@ return function ( Container $container ) {
 	$container->set(
 		CancellationMessageHandler::class,
 		function ( Container $container ) {
-				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
-				$messageTemplateService  = $container->get( MessageTemplateService::class );
-				$messageService          = $container->get( MessageService::class );
+				$messageTemplateService = $container->get( MessageTemplateService::class );
+				$messageService         = $container->get( MessageService::class );
 
 			return new CancellationMessageHandler(
-				$databaseMessageStrategy,
 				$messageTemplateService,
 				$messageService
 			);
@@ -112,12 +109,10 @@ return function ( Container $container ) {
 	$container->set(
 		ReactivationMessageHandler::class,
 		function ( Container $container ) {
-				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
-				$messageTemplateService  = $container->get( MessageTemplateService::class );
-				$messageService          = $container->get( MessageService::class );
+				$messageTemplateService = $container->get( MessageTemplateService::class );
+				$messageService         = $container->get( MessageService::class );
 
 			return new ReactivationMessageHandler(
-				$databaseMessageStrategy,
 				$messageTemplateService,
 				$messageService
 			);
@@ -127,13 +122,22 @@ return function ( Container $container ) {
 	$container->set(
 		PaymentFailedMessageHandler::class,
 		function ( Container $container ) {
-				$databaseMessageStrategy = $container->get( DatabaseMessageStrategy::class );
-				$messageTemplateService  = $container->get( MessageTemplateService::class );
-				$messageService          = $container->get( MessageService::class );
+				$messageTemplateService = $container->get( MessageTemplateService::class );
+				$messageService         = $container->get( MessageService::class );
 
 			return new PaymentFailedMessageHandler(
-				$databaseMessageStrategy,
 				$messageTemplateService,
+				$messageService
+			);
+		}
+	);
+
+	$container->set(
+		DisputeMessageHandler::class,
+		function ( Container $container ) {
+				$messageService = $container->get( MessageService::class );
+
+			return new DisputeMessageHandler(
 				$messageService
 			);
 		}

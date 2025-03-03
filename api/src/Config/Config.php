@@ -15,6 +15,9 @@ class Config {
 	public readonly string $supabasePassword;
 	public readonly string $stripeSecretKey;
 	public readonly string $stripeWebhookSignature;
+	public readonly string $smtpHost;
+	public readonly string $smtpUsername;
+	public readonly string $smtpPassword;
 	public readonly array $corsAllowedOrigins;
 
 	public function __construct() {
@@ -31,6 +34,9 @@ class Config {
 			'SUPABASE_PASSWORD',
 			'STRIPE_SECRET_KEY',
 			'STRIPE_SIGNATURE',
+			'SMTP_HOST',
+			'SMTP_USERNAME',
+			'SMTP_PASSWORD',
 		);
 
 		foreach ( $required as $var ) {
@@ -51,6 +57,9 @@ class Config {
 		$this->subapaseDbName         = $_ENV['SUPABASE_DBNAME'];
 		$this->supabaseUser           = $_ENV['SUPABASE_USER'];
 		$this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
+		$this->smtpHost               = $_ENV['SMTP_HOST'];
+		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
+		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
