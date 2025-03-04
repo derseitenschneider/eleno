@@ -22,10 +22,20 @@ export function useDeleteMessage() {
         },
       )
 
-      return { prevMessages }
+      return { prevMessages, id }
     },
 
-    onSuccess: () => {
+    onSuccess: (_, __, context) => {
+      const notifiedMessageIds = JSON.parse(
+        localStorage.getItem('eleno_notifiedMessageIds') || '[]',
+      ) as Array<string>
+
+      const newMessageIds = notifiedMessageIds.filter((id) => id !== context.id)
+
+      localStorage.setItem(
+        'eleno_notifiedMessageIds',
+        JSON.stringify(newMessageIds),
+      )
       toast('Nachricht gelöscht.')
       queryClient.invalidateQueries({
         queryKey: ['messages'],
