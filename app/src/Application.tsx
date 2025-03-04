@@ -6,12 +6,11 @@ import Sidebar from './layouts/sidebar/Sidebar.component'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 import { DarkModeProvider } from './services/context/DarkModeContext'
 import { LoadingProvider } from './services/context/LoadingContext'
-import { AuthProvider, useUser } from './services/context/UserContext'
+import { AuthProvider } from './services/context/UserContext'
 import { UserLocaleProvider } from './services/context/UserLocaleContext'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import MainContext from './services/context/MainContext'
 import { Info } from 'lucide-react'
-import { useEffect } from 'react'
 import useIsOnline from './hooks/useIsOnline'
 import { cn } from './lib/utils'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
@@ -47,11 +46,14 @@ export default function Application() {
       <Sonner
         position='top-right'
         duration={2500}
+        expand={true}
         toastOptions={{
           classNames: {
             toast: 'bg-background50 border-hairline',
             title: 'text-foreground',
+            description: 'text-foreground/75',
             icon: 'text-foreground',
+            actionButton: '!text-primary !bg-background50 hover:underline',
             closeButton:
               'text-foreground/50 bg-background50 border-foreground/30 size-4 hover:!bg-background50 hover:text-foreground/50 hover:!border-foreground/30',
           },

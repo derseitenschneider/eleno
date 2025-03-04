@@ -3,7 +3,10 @@ import { getMessagesApi } from '@/services/api/messages.api'
 import supabase from '@/services/api/supabase'
 import { useUser } from '@/services/context/UserContext'
 import type { Message } from '@/types/types'
-import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import type {
+  RealtimePostgresInsertPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
@@ -21,16 +24,19 @@ export default function useMessagesQuery() {
   useEffect(() => {
     if (!user) return
 
-    function handleRealtime(data: RealtimePostgresUpdatePayload<Message>) {
+    function handleRealtime(data: RealtimePostgresInsertPayload<Message>) {
       if (data.errors) {
         return fetchErrorToast()
       }
-      queryClient.setQueryData(['messages'], (oldData: Array<Message>) => {
-        if (!oldData?.find((message) => message.id === data.new?.id)) {
-          return [data.new, ...(oldData || [])]
-        }
-        return oldData
-      })
+      queryClient.setQueryData(
+        ['messages'],
+        (oldData: Array<Message> | undefined) => {
+          if (!oldData?.find((message) => message.id === data.new?.id)) {
+            return [data.new, ...(oldData || [])]
+          }
+          return oldData
+        },
+      )
     }
 
     const channel = supabase

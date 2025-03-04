@@ -26,7 +26,7 @@ export type TSubscriptionPlan =
   | 'Monatlich'
   | 'Jährlich'
   | 'Lifetime'
-  | 'Probeabo'
+  | 'Testabo'
   | '—'
 
 export function SubscriptionProvider({
@@ -44,7 +44,7 @@ export function SubscriptionProvider({
   if (subscriptionState === 'LIFETIME') {
     plan = 'Lifetime'
   } else if (subscription?.subscription_status === 'trial') {
-    plan = 'Probeabo'
+    plan = 'Testabo'
   } else if (subscription?.plan === 'month') {
     plan = 'Monatlich'
   } else if (subscription?.plan === 'year') {

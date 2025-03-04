@@ -23,7 +23,7 @@ import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
-import { UserMenuContent } from '@/components/features/user/UserMenuContent.component'
+import { useMessageNotification } from '@/hooks/useMessageNotification'
 
 function Sidebar() {
   const hasBanner = useHasBanner()
@@ -40,6 +40,7 @@ function Sidebar() {
   const unreadMessages = messages?.filter(
     (message) => message.status === 'sent',
   )
+  useMessageNotification(unreadMessages)
 
   const sidebarRef = useOutsideClick(() => setSidebarOpen(false))
 
