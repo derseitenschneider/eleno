@@ -1,15 +1,16 @@
-name: ⚙️  Deploy API to FTP
-
+name: 🗃️ Deploy API staging on push dev
 on:
-  push:
-    branches:
-      - main # or your default branch name
-    paths:
-      - "api/**" # This ensures the workflow only runs when changes are made in the api directory
-
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - dev
+  #   paths:
+  #     - "api/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: api.staging
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,9 +28,22 @@ jobs:
       - name: Create .env file
         run: |
           cd api
+          echo "APP_BASE_URL=${{ secrets.APP_BASE_URL }}" >> .env
+
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
-          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
-          echo "SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" >> .env
+          echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
+          echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
+          echo "SUPABASE_PORT=${{ secrets.SUPABASE_PORT }}" >> .env
+          echo "SUPABASE_DBNAME=${{ secrets.SUPABASE_DBNAME }}" >> .env
+          echo "SUPABASE_USER=${{ secrets.SUPABASE_USER }}" >> .env
+          echo "SUPABASE_PASSWORD=${{ secrets.SUPABASE_PASSWORD }}" >> .env
+
+          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_TEST_SECRET_KEY }}" >> .env
+          echo "STRIPE_SIGNATURE=${{ secrets.STRIPE_TEST_SIGNATURE }}" >> .env
+
+          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> .env
+          echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
