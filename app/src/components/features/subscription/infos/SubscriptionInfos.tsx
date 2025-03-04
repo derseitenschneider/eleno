@@ -6,6 +6,7 @@ import ButtonGetInvoice from '../buttons/ButtonGetInvoice.component'
 import PaymentFailedNotification from '../PaymentFailedNotification.component'
 import StatusRow from './StatusRow.component'
 import PeriodRow from './PeriodRow.component'
+import PlanRow from './PlanRow.component'
 
 export function SubscriptionInfos() {
   const { plan } = useSubscription()
@@ -15,8 +16,7 @@ export function SubscriptionInfos() {
       <div className='sm:flex justify-between items-start'>
         <div className='grid items-start grid-cols-[150px_1fr] gap-4 w-fit'>
           <StatusRow />
-          <p>Plan:</p>
-          <p>{plan}</p>
+          <PlanRow />
           <PeriodRow />
         </div>
         <div className='sm:flex flex-col self-end items-end gap-5'>
