@@ -1,4 +1,3 @@
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import ButtonManageSubscription from '../buttons/ButtonManageSubscription.component'
 import ButtonCancelSubscription from '../buttons/ButtonCancelSubscription.component'
 import ButtonReactivateSubscription from '../buttons/ButtonReactivateSubscription.component'
@@ -9,8 +8,6 @@ import PeriodRow from './PeriodRow.component'
 import PlanRow from './PlanRow.component'
 
 export function SubscriptionInfos() {
-  const { plan } = useSubscription()
-
   return (
     <div className='py-7 border-b border-hairline'>
       <div className='sm:flex justify-between items-start'>

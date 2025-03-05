@@ -1,4 +1,4 @@
-# This workflow deploys the demo application from [main] to production.
+# Deploys the demo application from [main] to production.
 
 name: 🕹️ [PRODUCTION] Deploy demo on dispatch
 on:

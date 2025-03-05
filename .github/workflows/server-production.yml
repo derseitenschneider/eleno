@@ -1,4 +1,4 @@
-# This workflow deploys the api server from [main] to production.
+# Deploys the api server from [main] to production.
 
 name: 🔌 [PRODUCTION] Deploy server on push main
 on:
