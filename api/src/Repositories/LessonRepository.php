@@ -24,7 +24,7 @@ class LessonRepository {
 	 * @return array|false
 	 */
 	public function getLesson( string $homeworkKey ) {
-		$raw_sql = '
+		$sql     = '
         SELECT 
             l.*, COALESCE(s."firstName", g.name) AS related_name 
         FROM 
@@ -36,7 +36,6 @@ class LessonRepository {
         WHERE 
             l."homeworkKey" = $1
         ';
-		$sql     = sprintf( $raw_sql, $this->table );
 		$results = $this->db->query( $sql, [ $homeworkKey ] );
 
 		return $results;

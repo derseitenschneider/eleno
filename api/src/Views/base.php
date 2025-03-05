@@ -14,7 +14,7 @@
 		</div>
 	</header>
 	
-	<?php echo $content; ?>
+	<?php echo $content ?? ''; ?>
 
 	<footer class="footer"></footer>
 </body>

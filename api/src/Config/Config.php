@@ -5,16 +5,18 @@ namespace App\Config;
 class Config {
 
 	public readonly string $appBaseUrl;
+
 	public readonly string $supabaseUrl;
-	public readonly string $supabaseServiceRoleKey;
 	public readonly string $supabaseJwtSecret;
 	public readonly string $supabaseHost;
 	public readonly string $supabasePort;
 	public readonly string $subapaseDbName;
 	public readonly string $supabaseUser;
 	public readonly string $supabasePassword;
+
 	public readonly string $stripeSecretKey;
 	public readonly string $stripeWebhookSignature;
+
 	public readonly string $smtpHost;
 	public readonly string $smtpUsername;
 	public readonly string $smtpPassword;
