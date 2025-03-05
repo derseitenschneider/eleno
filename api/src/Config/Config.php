@@ -54,6 +54,8 @@ class Config {
 		$this->supabaseUser           = $_ENV['SUPABASE_USER'];
 		$this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
 		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
+		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
+		$this->smtpHost               = $_ENV['SMTP_HOST'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
