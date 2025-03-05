@@ -1,15 +1,12 @@
-name: 🧪 Deploy Main to Test Server
+# This workflow deploys the demo application from [main] to production.
+
+name: 🕹️ [PRODUCTION] Deploy demo on dispatch
 on:
   workflow_dispatch:
-
 jobs:
   web-deploy:
-    name: 🎉 Deploy Main App
+    name: 🎉 Deploy Demo App
     runs-on: ubuntu-latest
-    env:
-      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
-      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -17,7 +14,7 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
         with:
-          ref: main
+          ref: dev
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@master
         with:
@@ -26,13 +23,13 @@ jobs:
         run: |
           cd app
           npm install
-          npm run build
+          npm run build:demo
       - name: List output files
         run: find app/dist/ -print
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.FTP_TEST_SERVER }}
-          username: ${{ secrets.FTP_TEST_USERNAME }}
-          password: ${{ secrets.FTP_TEST_PASSWORD }}
+          server: ${{ secrets.FTP_DEMO_SERVER }}
+          username: ${{ secrets.FTP_DEMO_USERNAME }}
+          password: ${{ secrets.FTP_DEMO_PASSWORD }}
           local-dir: app/dist/

@@ -1,11 +1,14 @@
-name: 🧪 Deploy Dev API to Test Server
+# This workflow deploys the api server from [main] to production.
+
+name: 🔌 [PRODUCTION] Deploy server on push main
 on:
   push:
     branches:
-      - main # or your default branch name
+      - main
+    # This ensures the workflow only runs when changes are made
+    # in the api directory
     paths:
-      - "api/**" # This ensures the workflow only runs when changes are made in the api directory
-
+      - "api/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest

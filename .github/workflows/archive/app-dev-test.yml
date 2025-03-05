@@ -1,3 +1,5 @@
+# This workflow deploys the application from [dev] to the staging server.
+
 name: 🧪 Deploy Dev to Test Server
 on:
   workflow_dispatch:

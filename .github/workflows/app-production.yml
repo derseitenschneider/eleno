@@ -1,13 +1,16 @@
-name: 💻 Deploy staging App on push dev
+# This workflow deploys the application  from [main] to production.
+
+name: 📱 [PRODUCTION] Deploy application on push main
 on:
   push:
     branches:
-      - dev
+      - main
     paths:
       - "app/**"
+
 jobs:
   web-deploy:
-    name: 🎉 Deploy Staging App
+    name: 🎉 Deploy App
     runs-on: ubuntu-latest
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
@@ -31,7 +34,7 @@ jobs:
         run: |
           cd app
           npm install
-          npm run build:staging
+          npm run build
 
       - name: List output files
         run: find app/dist/ -print
@@ -39,7 +42,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ${{ secrets.FTP_STAGING_SERVER }}
-          username: ${{ secrets.FTP_STAGING_USERNAME }}
-          password: ${{ secrets.FTP_STAGING_PASSWORD }}
+          server: ${{ secrets.SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: app/dist/
