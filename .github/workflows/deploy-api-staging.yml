@@ -1,11 +1,11 @@
 name: 🗃️ Deploy API staging on push dev
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - dev
-    paths:
-      - "api/**"
+  # push:
+  #   branches:
+  #     - dev
+  #   paths:
+  #     - "api/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
