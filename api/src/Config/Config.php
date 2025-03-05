@@ -54,8 +54,6 @@ class Config
         $this->subapaseDbName         = $_ENV['SUPABASE_DBNAME'];
         $this->supabaseUser           = $_ENV['SUPABASE_USER'];
         $this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
-        $this->smtpHost               = $_ENV['SMTP_HOST'];
-        $this->smtpUsername           = $_ENV['SMTP_USERNAME'];
         $this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
 
         // Load CORS origins from environment or use defaults
@@ -63,6 +61,7 @@ class Config
         ? explode(',', $_ENV['CORS_ALLOWED_ORIGINS'])
         : array(
         'https://app.eleno.net',
+        'https://dev.app.eleno.net',
         'http://localhost:5173',
         'http://127.0.0.1:5173',
         );
