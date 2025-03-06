@@ -49,7 +49,7 @@ return function ( Container $container ) {
 
 	$container->set(
 		'appLogger',
-		function () use ( $logDirectory, $appFileHandler ) {
+		function () use ( $appFileHandler ) {
 			$log = new Logger( 'app' );
 			$log->pushHandler( $appFileHandler );
 			return $log;
@@ -58,7 +58,7 @@ return function ( Container $container ) {
 
 	$container->set(
 		'requestLogger',
-		function () use ( $logDirectory, $requestFileHandler ) {
+		function () use ( $requestFileHandler ) {
 			$log = new Logger( 'requests' );
 			$log->pushHandler( $requestFileHandler );
 			return $log;
