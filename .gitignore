@@ -1,3 +1,6 @@
+# Individual files
+bootstrap.php
+
 # Logs
 *.log
 npm-debug.log*
