@@ -67,7 +67,7 @@ return function ( Container $container ) {
 
 	$container->set(
 		'webhookLogger',
-		function () use ( $logDirectory, $webhookFilehandler ) {
+		function () use ( $webhookFilehandler ) {
 			$log = new Logger( 'webhooks' );
 			$log->pushHandler( $webhookFilehandler );
 			return $log;

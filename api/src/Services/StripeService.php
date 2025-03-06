@@ -1,22 +1,18 @@
 <?php
 namespace App\Services;
 
-use App\Config\Config;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Stripe\DTO\CheckoutSessionDTO;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\Stripe\StripeRepository;
-use App\Services\Stripe\WebhookHandler;
 
 class StripeService {
 
 	public function __construct(
-		private Config $config,
 		private StripeAPIService $stripeAPI,
 		private SubscriptionRepository $repository,
-		private WebhookHandler $webhookHandler,
 		private CancellationMessageHandler $cancellationMessageHandler,
 		private ReactivationMessageHandler $reactivationMessageHandler,
 	) {

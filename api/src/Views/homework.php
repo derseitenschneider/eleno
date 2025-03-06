@@ -10,8 +10,6 @@ if ( 's' === $entity_type ) {
 } else {
 	$pre_text = 'Hier sind eure Hausaufgaben:';
 }
-$related_name = $related_name || '';
-$homework     = $homework || '';
 
 $content = <<<HTML
 <section class="section">

@@ -36,17 +36,17 @@ class WebhookHandler {
 	 * @return void
 	 */
 	public function handleEvent( Event $event ): void {
-		$eventObject = $event->data->object;
-
-		$this->logger->info(
-			'Received Stripe webhook event',
-			[
-				'type' => $event->type,
-				'data' => $event->data,
-			]
-		);
-
 		try {
+			$eventObject = $event->data->object; // @phpstan-ignore-line
+
+			$this->logger->info(
+				'Received Stripe webhook event',
+				[
+					'type' => $event->type,
+					'data' => $event->data,
+				]
+			);
+
 			match ( $event->type ) {
 				'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
 				'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
@@ -83,7 +83,7 @@ class WebhookHandler {
 
 	private function handlePaymentFailed( Invoice $invoice ) {
 		$stripeCustomer        = $invoice->customer;
-		$firstName             = explode( ' ', $invoice->customer_name )[0] ?? '';
+		$firstName             = explode( ' ', $invoice->customer_name )[0];
 		$subscription          = $this->repository->getSubscription(
 			customerId: $stripeCustomer
 		);

@@ -6,7 +6,6 @@ use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 
 class LessonRepository {
-	private $table = 'lessons';
 
 	public function __construct(
 		private Database $db,

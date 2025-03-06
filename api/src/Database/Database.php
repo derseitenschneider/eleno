@@ -8,7 +8,7 @@ use Monolog\Logger;
 class Database {
 	private $conn;
 
-	public function __construct( private Config $config ) {
+	public function __construct( Config $config ) {
 		$connectionString = "
         host={$config->supabaseHost} 
         port={$config->supabasePort} 

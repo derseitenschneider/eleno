@@ -42,7 +42,6 @@ class WebhookController {
 				$response,
 				'Error verifying webhook signature: ' . $e->getMessage()
 			);
-			exit();
 		}
 	}
 }

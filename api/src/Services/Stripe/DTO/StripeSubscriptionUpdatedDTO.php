@@ -22,7 +22,7 @@ class StripeSubscriptionUpdatedDTO {
 			period_start: date( 'Y-m-d', $subscription->current_period_start ),
 			period_end: date( 'Y-m-d', $subscription->current_period_end ),
 			stripe_customer_id: $subscription->customer,
-			plan: $subscription->plan->interval,
+			plan: $subscription->plan->interval, // @phpstan-ignore-line
 			subscription_status: $status
 		);
 	}

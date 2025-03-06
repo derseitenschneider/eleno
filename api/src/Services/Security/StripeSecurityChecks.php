@@ -24,8 +24,6 @@ class StripeSecurityChecks {
 	 *
 	 * @param string $invoiceId
 	 * @param string $userId
-	 *
-	 * @throws Exception
 	 */
 	public function verifyInvoiceAccess( string $invoiceId, string $userId ): bool {
 		$subscription = $this->repository->getSubscription( userId: $userId );
@@ -42,8 +40,6 @@ class StripeSecurityChecks {
 	 *
 	 * @param string $customerId
 	 * @param string $userId
-	 *
-	 * @throws Exception
 	 */
 	public function verifyCustomerAccess( string $customerId, string $userId ): bool {
 		$subscription = $this->repository->getSubscription( userId: $userId );
@@ -60,8 +56,6 @@ class StripeSecurityChecks {
 	 *
 	 * @param string $subscriptionId
 	 * @param string $userId
-	 *
-	 * @throws Exception
 	 */
 	public function verifySubscriptionAccess( string $subscriptionId, string $userId ): bool {
 		$subscription = $this->repository->getSubscription( userId: $userId );

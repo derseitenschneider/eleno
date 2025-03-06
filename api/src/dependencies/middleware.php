@@ -49,13 +49,11 @@ return function ( Container $container ) {
 	$container->set(
 		CustomerAccessMiddleware::class,
 		function ( $container ) {
-			$config               = $container->get( Config::class );
 			$responseFactory      = $container->get( ResponseFactory::class );
 			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
 			$logger               = $container->get( 'appLogger' );
 
 			return new CustomerAccessMiddleware(
-				$config,
 				$responseFactory,
 				$stripeSecurityChecks,
 				$logger
@@ -66,13 +64,11 @@ return function ( Container $container ) {
 	$container->set(
 		SubscriptionAccessMiddleware::class,
 		function ( $container ) {
-			$config               = $container->get( Config::class );
 			$responseFactory      = $container->get( ResponseFactory::class );
 			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
 			$logger               = $container->get( 'appLogger' );
 
 			return new SubscriptionAccessMiddleware(
-				$config,
 				$responseFactory,
 				$stripeSecurityChecks,
 				$logger
@@ -83,13 +79,11 @@ return function ( Container $container ) {
 	$container->set(
 		SessionAccessMiddleware::class,
 		function ( $container ) {
-			$config               = $container->get( Config::class );
 			$responseFactory      = $container->get( ResponseFactory::class );
 			$stripeSecurityChecks = $container->get( StripeSecurityChecks::class );
 			$logger               = $container->get( 'appLogger' );
 
 			return new SessionAccessMiddleware(
-				$config,
 				$responseFactory,
 				$stripeSecurityChecks,
 				$logger

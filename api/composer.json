@@ -25,6 +25,7 @@
     "phpstan/phpstan": "^2.1"
   },
   "scripts": {
-    "stan": "vendor/bin/phpstan analyse --memory-limit 512M"
+    "stan": "vendor/bin/phpstan analyse --memory-limit 512M",
+    "stan:cache": "vendor/bin/phpstan clear-result-cache"
   }
 }

@@ -62,18 +62,14 @@ return function ( Container $container ) {
 	$container->set(
 		StripeService::class,
 		function ( $container ) {
-			$config              = $container->get( Config::class );
 			$stripeAPIService    = $container->get( StripeAPIService::class );
 			$repository          = $container->get( SubscriptionRepository::class );
-			$webhookHandler      = $container->get( WebhookHandler::class );
 			$cancellationHandler = $container->get( CancellationMessageHandler::class );
 			$reactivationHandler = $container->get( ReactivationMessageHandler::class );
 
 			return new StripeService(
-				$config,
 				$stripeAPIService,
 				$repository,
-				$webhookHandler,
 				$cancellationHandler,
 				$reactivationHandler,
 			);

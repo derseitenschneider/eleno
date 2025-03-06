@@ -2,7 +2,6 @@
 
 namespace App\Middleware;
 
-use App\Config\Config;
 use App\Core\Http;
 use App\Services\Security\StripeSecurityChecks;
 use Monolog\Logger;
@@ -15,7 +14,6 @@ use Slim\Routing\RouteContext;
 
 class CustomerAccessMiddleware implements MiddlewareInterface {
 	public function __construct(
-		private Config $config,
 		private ResponseFactory $responseFactory,
 		private StripeSecurityChecks $securityChecks,
 		private Logger $logger

@@ -46,9 +46,9 @@ class StripeAPIService {
 			'success_url'                => $sessionDTO->succesUrl,
 		);
 
-		if ( $sessionDTO->mode === 'payment' ) {
+		if ( 'payment' === $sessionDTO->mode ) {
 			$args['invoice_creation'] = array(
-				'enabled' => ( $sessionDTO->mode === 'payment' ),
+				'enabled' => true,
 			);
 
 		}
