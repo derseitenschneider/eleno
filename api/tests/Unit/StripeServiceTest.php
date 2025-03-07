@@ -6,159 +6,218 @@ use App\Services\Message\Handlers\ReactivationMessageHandler;
 use App\Services\Stripe\DTO\CheckoutSessionDTO;
 use App\Services\Stripe\StripeAPIService;
 use App\Services\StripeService;
-use phpDocumentor\Reflection\Types\Void_;
 use Stripe\BillingPortal\Session as BillingPortalSession;
 use Stripe\Checkout\Session;
-use Stripe\Subscription;
 
-function createStripeApiMock() {
-	$stripeApi         = Mockery::mock( StripeAPIService::class );
-	$mockSession       = Mockery::mock( Session::class );
-	$mockPortalSession = Mockery::mock( BillingPortalSession::class );
-	$mockSubscription  = Mockery::mock( Subscription::class );
-	$stripeApi->allows(
-		[
-			'getInvoiceUrl'          => 'invoice-url',
-			'createCustomerPortal'   => $mockPortalSession,
-			'createSession'          => $mockSession,
-			'deleteCustomer'         => null,
-			'cancelAllSubscriptions' => null,
-			'updateSubscription'     => $mockSubscription,
-		]
-	);
-
-	return $stripeApi;
-}
-
-function createRepositoryMock() {
-	$subscriptionRepository = Mockery::mock( SubscriptionRepository::class );
-	$subscriptionRepository->allows(
-		[
-			'cancelSubscription'     => true,
-			'reactivateSubscription' => true,
-		]
-	);
-	return $subscriptionRepository;
-}
-
-function createCancellationMessageHandlerMock() {
-	$cancellationMessageHandler = Mockery::mock( CancellationMessageHandler::class );
-	$cancellationMessageHandler->allows(
-		[
-			'handle' => null,
-		]
-	);
-	return $cancellationMessageHandler;
-}
-
-function createReactivationMessageHandlerMock() {
-	$reactivationMessageHandler = Mockery::mock( ReactivationMessageHandler::class );
-	$reactivationMessageHandler->allows(
-		[
-			'handle' => null,
-		]
-	);
-	return $reactivationMessageHandler;
-}
-
-beforeEach(
+it(
+	'correctly retrieves invoice URL from Stripe Api.',
 	function () {
-		$this->stripeApi                  = createStripeApiMock();
-		$this->subscriptionRepository     = createRepositoryMock();
-		$this->cancellationMessageHandler = createCancellationMessageHandlerMock();
-		$this->reactivationMessageHandler = createReactivationMessageHandlerMock();
-		$this->stripeService              = new StripeService(
-			$this->stripeApi,
-			$this->subscriptionRepository,
-			$this->cancellationMessageHandler,
-			$this->reactivationMessageHandler
+		// ARRANGE
+		$invoiceId   = 'invoice-id';
+		$expectedUrl = 'invoice-url';
+
+		// Create a mock for StripeAPIService.
+		$stripeApiMock = Mockery::mock( StripeAPIService::class );
+
+		// Set up the expectation that the getInvoiceUrl method will be called
+		// once with the correct invoice ID and will return the expected URL.
+		$stripeApiMock
+			->shouldReceive( 'getInvoiceUrl' )
+			->once()
+			->with( $invoiceId )
+			->andReturn( $expectedUrl );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			Mockery::mock( SubscriptionRepository::class ),
+			Mockery::mock( CancellationMessageHandler::class ),
+			Mockery::mock( ReactivationMessageHandler::class ),
 		);
+
+		// ACT
+		$invoiceUrl = $stripeService->getInvoiceUrl( $invoiceId );
+
+		// ASSERT
+		expect( $invoiceUrl )->toBe( $expectedUrl );
 	}
 );
 
 it(
-	'has a method named createCheckoutsession that returns a checkoutsession.',
+	'cancels all subscriptions and deletes the customer.',
 	function () {
-		// Arrange
-		$sessionDto = CheckoutSessionDTO::create(
-			userId: 1,
-			priceId: 'price_123',
-			stripeCustomerId: 'cus_abc',
-			mode: 'subscription',
-			locale: 'en',
-			currency: 'usd',
-			cancelUrl: 'https://example.com/cancel',
-			succesUrl: 'https://example.com/success'
+		// ARRANGE
+		$customerId = 'customer-id';
+
+		// Create a mock for StripeAPIService.
+		$stripeApiMock = Mockery::mock( StripeAPIService::class );
+
+		// Set up the expectation that the cancelAllSubscriptions method will
+		// be called once with the customer ID.
+		$stripeApiMock
+			->shouldReceive( 'cancelAllSubscriptions' )
+			->once()
+			->with( $customerId );
+
+		// Set up the expectation that the deleteCustomer method will be called
+		// once with the customer ID.
+		$stripeApiMock
+			->shouldReceive( 'deleteCustomer' )
+			->once()
+			->with( $customerId );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			Mockery::mock( SubscriptionRepository::class ),
+			Mockery::mock( CancellationMessageHandler::class ),
+			Mockery::mock( ReactivationMessageHandler::class ),
 		);
 
-		// Act
-		$checkoutSession = $this->stripeService->createCheckoutSession( $sessionDto );
+		// ACT
+		$result = $stripeService->deleteCustomer( $customerId );
 
-		// Assert
-		expect( $checkoutSession )->toBeInstanceOf( Session::class );
+		// ASSERT (Method returns void, implicitly done by shouldReceive).
 	}
 );
 
 it(
-	'has a method named createCustomerPortal that returns a portal session.',
+	'creates and returns a stripe checkout session.',
 	function () {
-		// Act
-		$customerPortal = $this
-			->stripeService
-			->createCustomerPortal( 'customer-id', 'userLocale' );
+		// ARRANGE
+		$sessionDTO = CheckoutSessionDTO::create(
+			userId: 'user-id',
+			stripeCustomerId: 'customer-id',
+			priceId: 'price-id',
+			mode: 'mode',
+			locale: 'locale',
+			currency: 'curreny',
+			cancelUrl: 'cancel-url',
+			succesUrl: 'success-url',
+		);
 
-		// Assert
+		$mockSession = Mockery::mock( Session::class );
+
+		// Create a mock for StripeAPIService.
+		$stripeApiMock = Mockery::mock( StripeAPIService::class );
+
+		// Set up the expectation that the cancelAllSubscriptions method will
+		// be called once with the customer ID.
+		$stripeApiMock
+			->shouldReceive( 'createSession' )
+			->once()
+			->with( $sessionDTO )
+			->andReturn( $mockSession );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			Mockery::mock( SubscriptionRepository::class ),
+			Mockery::mock( CancellationMessageHandler::class ),
+			Mockery::mock( ReactivationMessageHandler::class ),
+		);
+
+		// ACT
+		$session = $stripeService->createCheckoutSession( $sessionDTO );
+
+		// ASSERT
+		expect( $session )->toBeInstanceOf( Session::class );
+	}
+);
+
+it(
+	'creates and returns a customer portal session.',
+	function () {
+		// ARRANGE
+		$customerId = 'customer-id';
+		$userLocale = 'user-locale';
+
+		$mockPortal = Mockery::mock( BillingPortalSession::class );
+		// Create a mock for StripeAPIService.
+		$stripeApiMock = Mockery::mock( StripeAPIService::class );
+
+		// Set up the expectation that the createCustomerPortal method will
+		// be called once with the customer ID and the user locale and return
+		// the customer portal session.
+		$stripeApiMock
+			->shouldReceive( 'createCustomerPortal' )
+			->once()
+			->with( $customerId, $userLocale )
+			->andReturn( $mockPortal );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			Mockery::mock( SubscriptionRepository::class ),
+			Mockery::mock( CancellationMessageHandler::class ),
+			Mockery::mock( ReactivationMessageHandler::class ),
+		);
+
+		// ACT
+		$customerPortal = $stripeService->createCustomerPortal(
+			$customerId,
+			$userLocale
+		);
+
+		// ASSERT
 		expect( $customerPortal )->toBeInstanceOf( BillingPortalSession::class );
 	}
 );
 
 it(
-	'has a method named getInvoice that returns the invoice-url.',
+	'cancels a subscription at period end.',
 	function () {
-		// Act
-		$invoiceUrl = $this->stripeService->getInvoice( 'invoice-id' );
+		// ARRANGE
+		$subscriptionId = 'subscription-id';
+		$userId         = 'user-id';
+		$firstName      = 'first-name';
 
-		// Assert
-		expect( $invoiceUrl )->toBe( 'invoice-url' );
-	}
-);
+		// Create mocks for method calls
+		$stripeApiMock                  = Mockery::mock( StripeAPIService::class );
+		$repositoryMock                 = Mockery::mock( SubscriptionRepository::class );
+		$cancellationMessageHandlerMock = Mockery::mock( CancellationMessageHandler::class );
 
-it(
-	'has a method named deleteCustomer that returns void.',
-	function () {
-		// Act
-		$result = $this->stripeService->deleteCustomer( 'customer-id' );
+		// Set up the expectation that the updateSubscription method will
+		// be called once on the stripe API with the subscription ID and an
+		// array with 'cancel_at_period_end' set to true.
+		$stripeApiMock
+			->shouldReceive( 'updateSubscription' )
+			->once()
+			->with(
+				$subscriptionId,
+				[ 'cancel_at_period_end' => true ]
+			);
 
-		// Assert
-		expect( $result )->toBeNull;
-	}
-);
+		// Set up the expectation that the cancelSubscription method will
+		// be called once on the repository  with the subscription ID.
+		$repositoryMock
+			->shouldReceive( 'cancelSubscription' )
+			->once()
+			->with( $subscriptionId );
 
-it(
-	'has a method named cancelAtPeriodEnd that returns void.',
-	function () {
-		// Act
-		$result = $this->stripeService->cancelAtPeriodEnd(
-			'subscription-id',
-			'user-id',
-			'first-name'
+		// Set up the expectation that the handle method will be called once
+		// on the cancellation message hander with the user ID and the
+		// first name.
+		$cancellationMessageHandlerMock
+			->shouldReceive( 'handle' )
+			->once()
+			->with( $userId, $firstName );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			$repositoryMock,
+			$cancellationMessageHandlerMock,
+			Mockery::mock( ReactivationMessageHandler::class ),
 		);
-		// Assert
-		expect( $result )->toBeNull;
-	}
-);
 
-it(
-	'has a method named handleReactivation that returns void.',
-	function () {
-		// Act
-		$result = $this->stripeService->handleReactivation(
-			'subscription-id',
-			'user-id',
-			'first-name'
+		// ACT
+		$stripeService->cancelAtPeriodEnd(
+			$subscriptionId,
+			$userId,
+			$firstName
 		);
 
-		// Assert
-		expect( $result )->toBeNull;
+		// ASSERT (Method returns void, implicitly done by shouldReceive).
 	}
 );

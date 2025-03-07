@@ -54,7 +54,7 @@ return function ( App $app ) {
 
 					$group->post(
 						'/invoice',
-						[ CustomerController::class, 'getInvoice' ]
+						[ CustomerController::class, 'getInvoiceUrlUrl' ]
 					);
 
 					$group->delete(

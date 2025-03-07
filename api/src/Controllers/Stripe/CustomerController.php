@@ -40,10 +40,10 @@ class CustomerController {
 		}
 	}
 
-	public function getInvoice( Request $request, Response $response ) {
+	public function getInvoiceUrlUrl( Request $request, Response $response ) {
 		try {
 			$invoiceId  = $request->getParsedBody()['invoiceId'];
-			$invoiceUrl = $this->stripeService->getInvoice( $invoiceId );
+			$invoiceUrl = $this->stripeService->getInvoiceUrl( $invoiceId );
 
 			$data = array(
 				'status' => 'success',

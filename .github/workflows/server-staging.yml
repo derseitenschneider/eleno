@@ -1,5 +1,4 @@
 # Deploys the api server from [dev] to staging.
-
 name: 🔌 [STAGING] Deploy server on push dev
 on:
   workflow_dispatch:
@@ -21,11 +20,22 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.1"
+          extensions: mbstring, intl
 
       - name: Install Composer dependencies
         run: |
           cd api
           composer install --no-dev --optimize-autoloader
+
+      - name: PHPStan Analysis
+        run: |
+          cd api
+          composer stan
+
+      - name: Run Pest Tests
+        run: |
+          cd api
+          composer test
 
       - name: Create .env file
         run: |
