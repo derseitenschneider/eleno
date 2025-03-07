@@ -25,7 +25,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           cd api
-          composer install --no-dev --optimize-autoloader
+          composer install --optimize-autoloader
 
       - name: PHPStan Analysis
         run: |
