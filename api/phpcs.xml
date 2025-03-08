@@ -1,126 +1,11 @@
 <?xml version="1.0"?>
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Morntag Custom PHPCS Rules">
-    <description>Morntag rules for PHP_CodeSniffer</description>
+    <description>Morntag rules for PHP_CodeSniffer (Modern PSR-12 with Method Comments)</description>
 
-    <!-- Exclude vendor directory -->
     <exclude-pattern>/vendor/*</exclude-pattern>
 
-    <rule ref="WordPress-Core">
-    </rule>
+    <rule ref="PSR12"/>
 
-    <rule ref="WordPress">
-        <exclude name="WordPress.Files.FileName"/>
-        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
-    </rule>
-
-    <!-- Ignore specific Squiz rules -->
-    <rule ref="Squiz.Commenting.FileComment.Missing">
-        <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.WrongStyle">
-        <severity>0</severity>
-    </rule>
-
-    <rule ref="Generic.Commenting.DocComment.MissingShort">
-        <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
-        <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.ClassComment.Missing">
-        <severity>0</severity>
-    </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.Missing">
-        <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.VariableComment.Missing">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FileComment.WrongStyle">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.PHP.CommentedOutCode.Found">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.PHP.DontExtract.extract_extract">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fopen">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.DateTime.RestrictedFunctions.date_date">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.WP.AlternativeFunctions.json_encode_json_encode">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fwrite">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fclose">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotValidated">
-      <severity>0</severity>
-    </rule>
- 
-    <rule ref="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
-      <severity>0</severity>
-    </rule>
-    
-    <rule ref="WordPress.PHP.NoSilencedErrors.Discouraged">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase">
-      <severity>0</severity>
-    </rule>
-  
-    <rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase">
-      <severity>0</severity>
-    </rule>
-
-    <rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-      <severity>0</severity>
-    </rule>
-    <!-- Specify indentation -->
     <arg name="tab-width" value="4"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
@@ -128,5 +13,39 @@
             <property name="tabIndent" value="true"/>
         </properties>
     </rule>
-</ruleset>
 
+
+    <rule ref="Squiz.Commenting.FileComment.Missing">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <severity>5</severity>
+    </rule>
+
+    <!-- <rule ref="Squiz.Commenting.ClassComment.Missing"> -->
+    <!--     <severity>5</severity> -->
+    <!-- </rule> -->
+
+    <rule ref="Squiz.PHP.CommentedOutCode.Found">
+        <severity>10</severity>
+    </rule>
+
+
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.MissingReturn">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.IncorrectParamVarName">
+        <severity>5</severity>
+    </rule>
+
+</ruleset>
