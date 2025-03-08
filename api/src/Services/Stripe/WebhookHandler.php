@@ -48,11 +48,11 @@ class WebhookHandler {
 			);
 
 			match ( $event->type ) {
+				'charge.dispute.created' => $this->handleDispute( $eventObject ),
 				'checkout.session.completed' => $this->handleCheckoutCompleted( $eventObject ),
 				'customer.subscription.updated' => $this->handleSubscriptionUpdated( $eventObject ),
 				'invoice.payment_failed' => $this->handlePaymentFailed( $eventObject ),
 				'invoice.payment_succeeded' => $this->handlePaymentSucceeded( $eventObject ),
-				'charge.dispute.created' => $this->handleDispute( $eventObject ),
 				default => null,
 			};
 		} catch ( \Exception $e ) {
