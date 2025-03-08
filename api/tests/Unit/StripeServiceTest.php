@@ -196,7 +196,7 @@ it(
 			->with( $subscriptionId );
 
 		// Set up the expectation that the handle method will be called once
-		// on the cancellation message hander with the user ID and the
+		// on the cancellation message handler with the user ID and the
 		// first name.
 		$cancellationMessageHandlerMock
 			->shouldReceive( 'handle' )
@@ -213,6 +213,64 @@ it(
 
 		// ACT
 		$stripeService->cancelAtPeriodEnd(
+			$subscriptionId,
+			$userId,
+			$firstName
+		);
+
+		// ASSERT (Method returns void, implicitly done by shouldReceive).
+	}
+);
+
+it(
+	'handles reactivating the user',
+	function () {
+		// ARRANGE
+		$subscriptionId = 'subscription-id';
+		$userId         = 'user-id';
+		$firstName      = 'first-name';
+
+		// Create mocks for method calls
+		$stripeApiMock                  = Mockery::mock( StripeAPIService::class );
+		$repositoryMock                 = Mockery::mock( SubscriptionRepository::class );
+		$reactivationMessageHandlerMock = Mockery::mock( ReactivationMessageHandler::class );
+
+		// Set up the expectation that the updateSubscription method will
+		// be called once on the stripe API with the subscription ID and an
+		// array with 'cancel_at_period_end' set to false.
+		$stripeApiMock
+			->shouldReceive( 'updateSubscription' )
+			->once()
+			->with(
+				$subscriptionId,
+				array( 'cancel_at_period_end' => false ),
+			);
+
+		// Set up the expectation that the reactivateSubscription method will
+		// be called once on the repository  with the subscription ID.
+		$repositoryMock
+			->shouldReceive( 'reactivateSubscription' )
+			->once()
+			->with( $subscriptionId );
+
+		// Set up the expectation that the handle method will be called once
+		// on the reactivation message handler with the user ID and the
+		// first name.
+		$reactivationMessageHandlerMock
+			->shouldReceive( 'handle' )
+			->once()
+			->with( $userId, $firstName );
+
+		// Create a StripeService instance with only the necessary dependency.
+		$stripeService = new StripeService(
+			$stripeApiMock,
+			$repositoryMock,
+			Mockery::mock( CancellationMessageHandler::class ),
+			$reactivationMessageHandlerMock
+		);
+
+		// ACT
+		$stripeService->handleReactivation(
 			$subscriptionId,
 			$userId,
 			$firstName
