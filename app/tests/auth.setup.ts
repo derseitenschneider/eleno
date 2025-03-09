@@ -13,7 +13,7 @@ setup('authenticate', async ({ page }) => {
   const testUserEmail = process.env.TESTUSER_EMAIL || ''
   const testUserPassword = process.env.TESTUSER_PASSWORD || ''
 
-  await page.goto('localhost:5173?page=login')
+  await page.goto('/?page=login')
   await page.getByTestId('login-email').fill(testUserEmail)
   await page.getByTestId('login-password').fill(testUserPassword)
   await page.getByTestId('login-submit').click()

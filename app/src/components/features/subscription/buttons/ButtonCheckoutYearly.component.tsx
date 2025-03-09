@@ -66,6 +66,7 @@ export default function ButtonCheckoutYearly({
   return (
     <div>
       <Button
+        data-testid='pricing-checkout-yearly'
         className='w-full flex gap-2'
         onClick={getPaymentUpdateLink}
         disabled={status === 'LOADING'}
