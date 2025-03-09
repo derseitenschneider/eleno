@@ -6,7 +6,7 @@ export default function PlanRow() {
   return (
     <>
       <p>Plan:</p>
-      <div className='flex gap-1 items-center'>
+      <div data-testid='subscription-plan' className='flex gap-1 items-center'>
         {subscriptionState === 'LIFETIME' && (
           <BadgeCheckIcon className='text-primary' size={20} />
         )}

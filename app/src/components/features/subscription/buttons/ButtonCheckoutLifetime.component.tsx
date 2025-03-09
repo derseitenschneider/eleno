@@ -67,6 +67,7 @@ export default function ButtonCheckoutLifetime({
   return (
     <div>
       <Button
+        data-testid='pricing-checkout-lifetime'
         className='w-full flex gap-2'
         onClick={getPaymentUpdateLink}
         disabled={status === 'LOADING'}
