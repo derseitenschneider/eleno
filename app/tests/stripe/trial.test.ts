@@ -80,6 +80,7 @@ test.describe('trial user', () => {
       expect(url).toContain('checkout.stripe.com')
     })
   })
+  //TODO: EUR checkouts
 
   test.describe('user has access to otherwise blocked functionality', () => {
     test.fixme('create lesson is not blocked', () => { })
