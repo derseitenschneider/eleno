@@ -1,33 +1,44 @@
 import { test, expect } from '@playwright/test'
-import dotenv from 'dotenv'
-import path from 'node:path'
-const dotenvPath = '../../.env'
-dotenv.config({ path: path.dirname(dotenvPath) })
-
-const TESTUSER_EMAIL = process.env.TESTUSER_EMAIL || ''
-const TESTUSER_PASSWORD = process.env.TESTUSER_PASSWORD || ''
+import { request } from 'http'
 
 test.describe('trial user', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('https://dev.eleno.net/?page=login')
-    await page
-      .getByRole('textbox', { name: 'E-Mail Adresse' })
-      .fill(TESTUSER_EMAIL)
-    await page
-      .getByRole('textbox', { name: 'Passwort' })
-      .fill(TESTUSER_PASSWORD)
-    await page.getByRole('button', { name: 'Login' }).click()
-    await page.getByTitle('Einstellungen').click()
-    await page.getByRole('link', { name: /Abo/i }).click()
+    await page.goto('localhost:5173')
+    await page.getByTestId('sidebar-nav-settings').click()
+    await page.getByTestId('settings-nav-subscription').click()
   })
 
-  test('it shows that it status is active', async ({ page }) => {
-    const statusBadge = page.getByText(/Aktiv/i)
-    expect(statusBadge).toBeVisible()
-  })
-  test('it shows pricing plans', async ({ page }) => {
-    const titlePricingSection = page.getByRole('heading', { name: /upgrade/i })
+  test.describe('show correct settings page', () => {
+    test('it shows that it status is active', async ({ page }) => {
+      const statusBadge = page.getByTestId('subscription-status-badge')
+      expect(statusBadge).toHaveText('aktiv', {
+        ignoreCase: true,
+      })
+    })
 
-    expect(titlePricingSection).toBeVisible()
+    test('it shows pricing plans', async ({ page }) => {
+      const pricingTable = page.getByTestId('pricing-table')
+
+      expect(pricingTable).toBeVisible()
+    })
+  })
+
+  test.describe('upgrade', () => {
+    test('it creates a monthly checkout session for CHF', async ({ page }) => {
+      await page.getByTestId('currency-switcher-chf').click()
+      await page.getByTestId('pricing-checkout-monthly').click()
+
+      // await page.route('**/stripe/session/create', async (route) => {
+      await page.route('checkout.stripe.com/**', async (route) => {
+        const response = await route.fetch()
+        const responseBody = await response.json()
+
+        expect(response.status()).toBe('exsdfasdf')
+        expect(responseBody.data.url).toContain('checkout.stripe.com/**')
+
+        await route.continue()
+      })
+      await page.waitForTimeout(2000)
+    })
   })
 })

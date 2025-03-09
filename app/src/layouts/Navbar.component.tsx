@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 type NavbarProps = {
   navLinks: {
     path: string
+    testId?: string
     label: string
     key: number
     end?: boolean
@@ -17,6 +18,7 @@ function Navbar({ navLinks }: NavbarProps) {
         {navLinks.map((link) => (
           <li key={link.key} className='px-1 relative overflow-hidden'>
             <NavLink
+              data-testid={link.testId || ''}
               to={link.path}
               end={link.end}
               className={cn(

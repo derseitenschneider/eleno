@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom'
 
 type TSidebarProps = {
   to?: string
+  testId?: string
   children?: React.ReactNode
   icon?: React.ReactNode
   name: string
@@ -23,6 +24,7 @@ type TSidebarProps = {
 }
 
 export default function SidebarElement({
+  testId = '',
   to = '',
   onClick,
   icon,
@@ -70,6 +72,7 @@ export default function SidebarElement({
           <Tooltip>
             <TooltipTrigger className='w-full'>
               <button
+                data-testId={testId}
                 className={cn(
                   'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
                   'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:bg-primary/20',
@@ -118,6 +121,7 @@ export default function SidebarElement({
         <Tooltip>
           <TooltipTrigger className='w-full'>
             <NavLink
+              data-testId={testId}
               onClick={() => onClick?.()}
               title={name}
               to={to}

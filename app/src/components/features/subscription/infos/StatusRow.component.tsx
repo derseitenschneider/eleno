@@ -28,7 +28,11 @@ export default function StatusRow() {
   return (
     <>
       <p>Status:</p>
-      <Badge variant={badgeVariant} className='w-fit'>
+      <Badge
+        data-testid='subscription-status-badge'
+        variant={badgeVariant}
+        className='w-fit'
+      >
         {badgeLabel}
       </Badge>
     </>

@@ -169,6 +169,7 @@ function Sidebar() {
           }
         />
         <SidebarElement
+          testId='sidebar-nav-settings'
           isActive={window.location.pathname.includes('settings')}
           onClick={() => setSidebarOpen(false)}
           sidebarOpen={sidebarOpen}

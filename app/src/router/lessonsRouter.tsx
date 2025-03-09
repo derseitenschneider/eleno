@@ -18,7 +18,7 @@ const LessonsWrapper = () => {
       <ScrollArea
         className={cn(
           hasBanner
-            ? 'mt-[28px] md:h-[calc(100vh-120px)]'
+            ? 'mt-[32px] md:h-[calc(100vh-120px)]'
             : 'md:h-[calc(100vh-88px)]',
         )}
       >

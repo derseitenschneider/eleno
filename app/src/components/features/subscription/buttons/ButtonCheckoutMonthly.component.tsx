@@ -6,7 +6,6 @@ import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 
 type ButtonCheckoutMonthlyProps = ButtonProps & {
   currency: string
@@ -29,7 +28,7 @@ export default function ButtonCheckoutMonthly({
     }
   }, [fetchErrorToast, status])
 
-  async function getPaymentUpdateLink() {
+  async function getCheckoutSessionLink() {
     setStatus('LOADING')
     try {
       const {
@@ -68,8 +67,9 @@ export default function ButtonCheckoutMonthly({
   return (
     <div>
       <Button
+        data-testid='pricing-checkout-monthly'
         className='w-full flex gap-2'
-        onClick={getPaymentUpdateLink}
+        onClick={getCheckoutSessionLink}
         disabled={status === 'LOADING'}
         {...props}
       >

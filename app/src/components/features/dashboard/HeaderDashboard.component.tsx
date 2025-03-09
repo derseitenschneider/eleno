@@ -16,7 +16,7 @@ function HeaderDashboard() {
       )}
     >
       <div>
-        <h1>Dashboard</h1>
+        <h1 data-testid='dashboard-heading'>Dashboard</h1>
 
         <div>
           {appConfig.isDemoMode ? (

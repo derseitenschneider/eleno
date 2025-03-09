@@ -19,7 +19,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:cov": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ptest": "playwright test"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",

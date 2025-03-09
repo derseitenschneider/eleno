@@ -88,6 +88,7 @@ export default function LoginCard() {
                   </FormLabel>
                   <FormControl>
                     <Input
+                      data-testid='login-email'
                       type='email'
                       disabled={form.formState.isSubmitting}
                       className={cn(
@@ -113,6 +114,7 @@ export default function LoginCard() {
                   <FormLabel className='text-zinc-700'>Passwort</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      data-testid='login-password'
                       disabled={form.formState.isSubmitting}
                       placeholder='Passwort'
                       className={cn(
@@ -136,6 +138,7 @@ export default function LoginCard() {
             </Link>
             <div className='flex gap-2 items-center'>
               <Button
+                data-testid='login-submit'
                 disabled={form.formState.isSubmitting}
                 className='w-full'
                 type='submit'
