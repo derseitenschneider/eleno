@@ -1,36 +1,36 @@
 import { test, expect } from '@playwright/test'
+import { SubscriptionPMO } from '../pmo/SubscriptionPMO'
 
 test.describe('trial user', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.goto('/settings/subscription')
-    await expect(page.locator('#loader')).toBeHidden()
+    const subscrptionPMO = new SubscriptionPMO(page)
+    subscrptionPMO.goto()
   })
 
   test.describe('show correct elements on subscrition page', () => {
-    test('it shows that it status is active.', async ({ page }) => {
-      const statusBadge = page.getByTestId('subscription-status-badge')
+    test('subscription status should be active', async ({ page }) => {
+      const subscriptionPmo = new SubscriptionPMO(page)
 
-      await expect(statusBadge).toHaveText(/aktiv/i)
+      await expect(subscriptionPmo.statusBadge).toHaveText(/aktiv/i)
     })
 
-    test('it shows correct subscription plan.', async ({ page }) => {
-      const plan = page.getByTestId('subscription-plan')
+    test('plan should be "Testabo" ', async ({ page }) => {
+      const { plan } = new SubscriptionPMO(page)
 
       await expect(plan).toHaveText(/test/i)
     })
 
-    test('it shows subscription period.', async ({ page }) => {
-      const startDate = page.getByTestId('subscription-period-start')
-      const endDate = page.getByTestId('subscription-period-end')
+    test('period start and end should not be empty', async ({ page }) => {
+      const { startDate } = new SubscriptionPMO(page)
+      const { endDate } = new SubscriptionPMO(page)
 
       await expect(startDate).not.toBeEmpty()
       await expect(endDate).not.toBeEmpty()
     })
 
-    test('it shows pricing table.', async ({ page }) => {
-      const heading = page.getByRole('heading', { name: 'upgrade' })
-      await expect(heading).toBeVisible()
+    test('pricing table title should be visible', async ({ page }) => {
+      const { pricingTitle } = new SubscriptionPMO(page)
+      await expect(pricingTitle).toBeVisible()
     })
   })
 
