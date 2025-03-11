@@ -37,4 +37,22 @@ export class SubscriptionPMO extends BasePMO {
     await this.currencySwitchCHF.click()
     await this.buttonCheckoutMonthly.click()
   }
+
+  async interceptServerResponse() {
+    await this.page.route('**/stripe/session/create', (route) => {
+      route.fulfill({
+        status: 200,
+        body: 'Stripe server intercepted',
+      })
+    })
+  }
+
+  async interceptStripeResponse() {
+    await this.page.route('https://checkout.stripe.com/**', (route) => {
+      route.fulfill({
+        status: 200,
+        body: 'Stripe checkout intercepted',
+      })
+    })
+  }
 }
