@@ -13,6 +13,7 @@ export class SubscriptionPMO extends BasePMO {
   readonly buttonCheckoutMonthly: Locator
   readonly buttonCheckoutYearly: Locator
   readonly buttonCheckoutLifetime: Locator
+  readonly trialBanner: Locator
 
   constructor(page: Page) {
     super(page)
@@ -27,6 +28,7 @@ export class SubscriptionPMO extends BasePMO {
     this.buttonCheckoutMonthly = page.getByTestId('pricing-checkout-monthly')
     this.buttonCheckoutYearly = page.getByTestId('pricing-checkout-yearly')
     this.buttonCheckoutLifetime = page.getByTestId('pricing-checkout-lifetime')
+    this.trialBanner = page.getByTestId('banner-trial')
   }
 
   async goto() {

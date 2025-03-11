@@ -33,7 +33,10 @@ function Banner() {
 
   if (subscriptionState === 'TRIAL_ACTIVE')
     return (
-      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-background100 p-1'>
+      <div
+        data-testid='banner-trial'
+        className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-background100 p-1'
+      >
         <p>
           Du bist aktuell im Testabo und kannst noch{' '}
           <b className='text-primary'>

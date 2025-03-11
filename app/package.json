@@ -21,6 +21,7 @@
     "test:cov": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "pw": "NODE_NO_WARNINGS=1 playwright test",
+    "pw:local": "LOCAL_TEST=1 NODE_NO_WARNINGS=1 playwright test",
     "pw:debug": "npm run pw -- --debug",
     "pw:ui": "npm run pw -- --ui",
     "pw:headed": "npm run pw -- --headed",

@@ -31,4 +31,13 @@ test.describe('show correct UI on subscrition page', () => {
     const { pricingTitle } = new SubscriptionPMO(page)
     await expect(pricingTitle).toBeVisible()
   })
+
+  test('trial banner with correct number of days is visible', async ({
+    page,
+  }) => {
+    const { trialBanner } = new SubscriptionPMO(page)
+
+    await expect(trialBanner).toBeVisible()
+    await expect(trialBanner).toContainText('30')
+  })
 })
