@@ -115,4 +115,14 @@ class StripeAPIService
 
         return $this->client->billingPortal->sessions->create($args);
     }
+    public function createCustomer($userId, $email)
+    {
+        $params = array(
+            'email' => $email,
+            'metadata' => array(
+                'uid' => $userId
+            )
+        );
+        $this->client->customers->create($params);
+    }
 }

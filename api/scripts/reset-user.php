@@ -78,7 +78,10 @@ if ($stripeCustomerId) {
     }
 }
 
-// Create new user in stripe
+// Create new stripe customer
+echo "Creating new stripe customer";
+
+
 
 // Reset user data in subscription table.
 // $repository->updateSubscription(
