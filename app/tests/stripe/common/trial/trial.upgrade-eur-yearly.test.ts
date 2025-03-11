@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
 
-test.describe('monthly subscription EUR', () => {
+test.describe('yearly subscription EUR', () => {
   test.beforeEach(async ({ page }) => {
     const subscrptionPMO = new SubscriptionPMO(page)
     subscrptionPMO.goto()
@@ -17,7 +17,7 @@ test.describe('monthly subscription EUR', () => {
       request.url().includes('stripe/session/create'),
     )
 
-    await subscriptionPmo.buttonCheckoutMonthly.click()
+    await subscriptionPmo.buttonCheckoutYearly.click()
 
     const serverRequest = await serverRequestPromise
     const postData = JSON.parse(serverRequest.postData() || '')
@@ -29,7 +29,7 @@ test.describe('monthly subscription EUR', () => {
     expect(postData.stripe_customer_id).not.toBe('')
   })
 
-  test('create a monthly checkout session', async ({ page }) => {
+  test('create a yearly checkout session', async ({ page }) => {
     const subscriptionPmo = new SubscriptionPMO(page)
 
     subscriptionPmo.interceptStripeResponse()
@@ -40,7 +40,7 @@ test.describe('monthly subscription EUR', () => {
     )
 
     // 3. Take actions that trigger the checkout flow
-    await subscriptionPmo.buttonCheckoutMonthly.click()
+    await subscriptionPmo.buttonCheckoutYearly.click()
 
     // 4. Wait for the Stripe request and get its URL
     const stripeRequest = await stripeRequestPromise
