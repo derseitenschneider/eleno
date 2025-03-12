@@ -1,7 +1,6 @@
 <?php
 function deleteMessages( string $userId, App\Database\Database $db ) {
-	echo 'Fetching profile from database';
-
+	echo 'Deleting old messages from user';
 	$sql =
 		' 
 		DELETE

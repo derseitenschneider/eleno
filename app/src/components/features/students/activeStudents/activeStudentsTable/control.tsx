@@ -85,6 +85,7 @@ export default function StudentsControl({
         disabled={isDisabledControls}
       />
       <Button
+        data-testid='active-students-control-create'
         disabled={isFetching}
         size='sm'
         onClick={() => setModalOpen('CREATE')}

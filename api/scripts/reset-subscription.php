@@ -59,8 +59,6 @@ if ( $dry ) {
 	echo "|--------------- END DRY RUN ---------------|\n";
 	exit( 1 );
 }
-// Delete messages
-deleteMessages( userId: $userId, db: $db );
 // Delete user from stripe
 echo 'Deleting stripe customer';
 if ( $stripeCustomerId ) {
@@ -102,5 +100,8 @@ if ( $newCustomer->id ) {
 	);
 
 }
+// Delete messages
+deleteMessages( userId: $userId, db: $db );
+
 echo "User $userId reset successful!\n";
 echo $newCustomer->id;
