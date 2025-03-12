@@ -2,7 +2,7 @@
 
 # Delete stripe customer, create a new one and reset the user in the database.
 cd ../api/scripts;
-php reset-user.php;
+php reset-subscription.php;
 
 # Run all trial tests.
 cd ../../app;

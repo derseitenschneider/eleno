@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/helpers/base.php';
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/functions/get-profile.php';
+require_once __DIR__ . '/functions/delete-messages.php';
 
 $args = parseArguments( $argv );
 
@@ -26,7 +28,7 @@ if ( isset( $args['expired'] ) ) {
 	$expired = false;
 }
 
-if ( $userId === null ) {
+if ( null === $userId ) {
 	echo "Usage: php reset_user.php <user_id>\n";
 	exit( 1 );
 }
@@ -51,22 +53,14 @@ if ( $expired ) {
 	renewPeriod( userId: $userId, repo: $repository, dry: $dry );
 }
 
-echo 'Fetching profile from database';
-$sql         = ' 
-SELECT *
-FROM profiles
-WHERE id = $1
-';
-$params      = [ $userId ];
-$userProfile = $db->query( $sql, $params );
-
-echo "Found user profile\n\n";
-echo json_encode( $userProfile, JSON_PRETTY_PRINT ) . "\n\n";
+$userProfile = getProfile( userId: $userId, db: $db );
 
 if ( $dry ) {
 	echo "|--------------- END DRY RUN ---------------|\n";
 	exit( 1 );
 }
+// Delete messages
+deleteMessages( userId: $userId, db: $db );
 // Delete user from stripe
 echo 'Deleting stripe customer';
 if ( $stripeCustomerId ) {
@@ -81,7 +75,7 @@ if ( $stripeCustomerId ) {
 // Create new stripe customer
 echo "Creating new stripe customer\n";
 try {
-	$newCustomer = $stripeApi->createCustomer( email: $userProfile[0]['email'], userId: $userId );
+	$newCustomer = $stripeApi->createCustomer( email: $userProfile['email'], userId: $userId );
 } catch ( \Stripe\Exception\ApiErrorException $e ) {
 	echo 'Stripe error: ' . $e->getMessage() . "\n";
 }

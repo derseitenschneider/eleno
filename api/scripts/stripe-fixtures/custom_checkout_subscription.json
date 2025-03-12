@@ -22,7 +22,9 @@
             "quantity": 1
           }
         ],
-        "customer": "${.env:CUSTOMER_ID}"
+        "customer": "${.env:CUSTOMER_ID}",
+        "client_reference_id": "${.env:USER_ID}",
+        "locale": "${.env:LOCALE}"
       }
     },
     {
