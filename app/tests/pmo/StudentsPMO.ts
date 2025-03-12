@@ -9,10 +9,7 @@ export class ActiveStudentsPMO extends BasePMO {
   constructor(page: Page) {
     super(page)
     this.page = page
-    this.controlsBtnCreate = page.getByTestId('active-students-control-create')
-    this.createStudentsFirstRowFirstName = page.getByTestId(
-      'create-student-row-firstname-0',
-    )
+    this.controlsBtnCreate = page.getByRole('button', { name: 'neu' })
   }
 
   async goto() {
