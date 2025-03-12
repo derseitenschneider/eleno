@@ -73,6 +73,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
+                data-testid={`create-student-row-firstname-${index}`}
                 id={field.name}
                 disabled={disabled}
                 placeholder='Vorname'
@@ -96,6 +97,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
+                data-testid={`create-student-row-lastname-${index}`}
                 disabled={disabled}
                 placeholder='Nachname'
                 {...field}
@@ -118,6 +120,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
+                data-testid={`create-student-row-instrument-${index}`}
                 disabled={disabled}
                 placeholder='Instrument'
                 {...field}
@@ -140,6 +143,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Select
+                data-testid={`create-student-row-weekday-${index}`}
                 disabled={disabled}
                 onValueChange={field.onChange}
                 defaultValue={field.value || undefined}
@@ -172,6 +176,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
+                data-testid={`create-student-row-lessonStart-${index}`}
                 disabled={disabled}
                 type='time'
                 {...field}
@@ -199,6 +204,7 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
+                data-testid={`create-student-row-lessonEnd-${index}`}
                 disabled={disabled}
                 type='time'
                 {...field}
@@ -227,6 +233,7 @@ const StudentFormRow = memo(function StudentFormRow({
             <FormControl>
               <div className='relative'>
                 <Input
+                  data-testid={`create-student-row-duration-${index}`}
                   disabled={disabled}
                   placeholder='45 Min.'
                   type='number'
