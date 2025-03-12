@@ -5,7 +5,6 @@ import compareDateTodos from '../../../utils/sortTodos'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import TodoItem from './TodoItem.component'
 import Empty from '@/components/ui/Empty.component'
-import { Blocker } from '../subscription/Blocker'
 
 export default function TodosOpen() {
   const { data: todos, isPending } = useTodosQuery()
@@ -40,9 +39,10 @@ export default function TodosOpen() {
           </ul>
         </>
       ) : (
-        <Empty className='mt-8' emptyMessage=' Keine offenen Todos vorhanden.'>
-          <p>Erfasse neue Todos...</p>
-        </Empty>
+        <Empty
+          className='mt-8'
+          emptyMessage=' Keine offenen Todos vorhanden.'
+        />
       )}
     </div>
   )

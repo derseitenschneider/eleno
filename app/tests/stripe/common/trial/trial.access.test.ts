@@ -1,23 +1,24 @@
 import { test } from '@playwright/test'
 import { ActiveStudentsPMO } from '../../../pmo/StudentsPMO'
-import { CreateStudentsPMO } from '../../../pmo/active-students/CreateStudentsPMO'
+import { CreateMockStudentPMO } from '../../../pmo/active-students/CreateMockStudentPMO'
+import { LessonsPMO } from '../../../pmo/LessonsPMO'
 
-test.describe
-  .serial('trial user has access to all features.', () => {
-    test.skip('can create a student', async ({ page }) => {
-      const studentsPmo = new ActiveStudentsPMO(page)
-      const createStudentPmo = new CreateStudentsPMO(page)
-      const firstName = 'Test'
-      const lastName = 'Student'
-      const instrument = 'Gitarre'
-      studentsPmo.goto()
-      await createStudentPmo.firstName.fill(firstName)
-      await createStudentPmo.lastName.fill(lastName)
-      await createStudentPmo.instrument.fill(instrument)
-      await createStudentPmo.btnSave.click()
+test.describe('trial user has access', () => {
+  test.describe('to features that require a student', () => {
+    test.beforeEach(async ({ page }) => {
+      const activeStudentsPmo = new ActiveStudentsPMO(page)
+      const createMockStudentPmo = new CreateMockStudentPMO(page)
+
+      await activeStudentsPmo.goto()
+      await activeStudentsPmo.controlsBtnCreate.click()
+      await createMockStudentPmo.createMockStudent()
     })
-    test.skip('create lesson is not blocked', () => { })
-    test.skip('create note is not blocked', () => { })
-    test.skip('create repertoire item is not blocked', () => { })
-    test.skip('create todo item is not blocked', () => { })
+    test.only('create lesson is not blocked', async ({ page }) => {
+      const lessonPmo = new LessonsPMO(page)
+      await lessonPmo.goto()
+    })
+    test.skip('create note is not blocked', () => {})
+    test.skip('create repertoire item is not blocked', () => {})
   })
+  test.skip('create todo item is not blocked', () => {})
+})

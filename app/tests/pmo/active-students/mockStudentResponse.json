@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "created_at": "2025-03-12T18:19:10.211544+00:00",
+    "firstName": "Test",
+    "lastName": "User",
+    "instrument": "Gitarre",
+    "startOfLesson": null,
+    "endOfLesson": null,
+    "archive": false,
+    "location": "",
+    "user_id": "c352cb96-41e4-47ac-81bd-a77bf7865c92",
+    "durationMinutes": null,
+    "dayOfLesson": null
+  }
+]

@@ -88,6 +88,7 @@ function Sidebar() {
         />
         <SidebarElement
           isActive={window.location.pathname.includes('lessons')}
+          testId={'lesson-nav-sidebar'}
           isButton
           onClick={() => {
             navigateToCurrentHolder()
