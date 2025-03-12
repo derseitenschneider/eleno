@@ -109,3 +109,4 @@ if ( $newCustomer->id ) {
 
 }
 echo "User $userId reset successful!\n";
+echo $newCustomer->id;
