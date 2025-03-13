@@ -21,6 +21,7 @@
     "test:cov": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "pw": "NODE_NO_WARNINGS=1 playwright test",
+    "pw:codegen": "playwright codegen --load-storage=playwright/.auth/user.json http://localhost:5173",
     "pw:local": "LOCAL_TEST=1 NODE_NO_WARNINGS=1 playwright test",
     "pw:debug": "npm run pw -- --debug",
     "pw:local:debug": "npm run pw:local -- --debug",

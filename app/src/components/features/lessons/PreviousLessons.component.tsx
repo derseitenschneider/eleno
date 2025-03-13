@@ -95,11 +95,14 @@ function PreviousLessons() {
               'h-[250px] md:h-auto overflow-auto sm:overflow-hidden grid md:grid-cols-2 gap-6',
             )}
           >
-            <div className=''>
+            <div>
               <p className='text-foreground/70'>Lektion</p>
               <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'>
+                <div
+                  data-testid='lessons-prev-lesson'
+                  className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'
+                >
                   {parse(
                     removeHTMLAttributes(currentLesson?.lessonContent || ''),
                   )}
@@ -110,7 +113,10 @@ function PreviousLessons() {
               <p className='text-foreground/70'>Hausaufgaben</p>
               <ScrollArea type='auto' className='h-auto sm:h-[160px]'>
                 <ScrollBar orientation='vertical' />
-                <div className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'>
+                <div
+                  data-testid='lessons-prev-homework'
+                  className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'
+                >
                   {parse(
                     removeHTMLAttributes(
                       lessons?.find(

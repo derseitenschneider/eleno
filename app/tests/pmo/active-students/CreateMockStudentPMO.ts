@@ -1,7 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
-import { BasePMO } from '../BasePMO'
 
-export class CreateMockStudentPMO extends BasePMO {
+export class CreateMockStudentPMO {
   readonly page: Page
   readonly firstName: Locator
   readonly lastName: Locator
@@ -23,7 +22,6 @@ export class CreateMockStudentPMO extends BasePMO {
   }
 
   constructor(page: Page) {
-    super(page)
     this.page = page
     this.firstName = page.getByRole('textbox', { name: 'Vorname*' })
     this.lastName = page.getByRole('textbox', { name: 'Nachname' })

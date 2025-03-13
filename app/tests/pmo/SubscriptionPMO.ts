@@ -1,7 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
-import { BasePMO } from './BasePMO'
 
-export class SubscriptionPMO extends BasePMO {
+export class SubscriptionPMO {
   readonly page: Page
   readonly statusBadge: Locator
   readonly plan: Locator
@@ -16,7 +15,6 @@ export class SubscriptionPMO extends BasePMO {
   readonly trialBanner: Locator
 
   constructor(page: Page) {
-    super(page)
     this.page = page
     this.statusBadge = page.getByTestId('subscription-status-badge')
     this.plan = page.getByTestId('subscription-plan')
