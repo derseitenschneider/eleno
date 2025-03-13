@@ -13,7 +13,7 @@ export function Blocker({ variant = 'block' }: BlockerProps) {
   const { isDemoMode } = appConfig
   const navigate = useNavigate()
 
-  // if (hasAccess || isDemoMode) return null
+  if (hasAccess || isDemoMode) return null
 
   if (variant === 'inline')
     return (
