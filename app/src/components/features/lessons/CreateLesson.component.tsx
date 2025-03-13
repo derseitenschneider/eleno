@@ -9,16 +9,11 @@ import { useCreateLesson } from './useCreateLesson'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from './useCurrentHolder'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { useUser } from '@/services/context/UserContext'
-import { isDemoMode } from '@/config'
-import { useNavigate } from 'react-router-dom'
-import { Card } from '@/components/ui/card'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 function CreateLesson() {
   const { hasAccess } = useSubscription()
-  const navigate = useNavigate()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
   const { createLesson, isCreating } = useCreateLesson()

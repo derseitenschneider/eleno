@@ -52,6 +52,9 @@ export class CreateMockStudentPMO {
     const lastName = 'Student'
     const instrument = 'Gitarre'
     const firstNameCell = this.page.getByRole('cell', { name: firstName })
+    const accessBlocker = this.page.getByTestId('access-blocker')
+
+    await expect(accessBlocker).not.toBeVisible()
 
     // ACT
     await this.firstName.fill(firstName)
