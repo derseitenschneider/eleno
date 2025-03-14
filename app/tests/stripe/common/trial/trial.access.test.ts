@@ -19,8 +19,8 @@ test.describe('trial has access to features that require a student', () => {
 
     await expect(accessBlocker).not.toBeVisible()
   })
-  test.only('create note is not blocked', () => {})
-  test.skip('create repertoire item is not blocked', () => {})
+  test.skip('create note is not blocked', () => { })
+  test.skip('create repertoire item is not blocked', () => { })
 })
 
-test.skip('trial sees no blocker in todo creation', () => {})
+test.skip('trial sees no blocker in todo creation', () => { })

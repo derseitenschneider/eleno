@@ -42,23 +42,6 @@ class SubscriptionStates {
 		$definition = self::getStateDefinition( $state );
 		$definition = self::processDateValues( $definition );
 
-		// Build SQL for update
-		$setClauses = [];
-		$params     = [];
-
-		foreach ( $definition as $key => $value ) {
-			$setClauses[] = "{$key} = ?";
-			$params[]     = $value;
-		}
-
-		// Add userId as the last parameter
-		$params[] = $userId;
-
-		$sql = 'UPDATE stripe_subscriptions SET ' .
-		implode( ', ', $setClauses ) .
-		' WHERE user_id = ?';
-
-		// self::$db->query( $sql, $params );
 		self::$db->update(
 			table: 'stripe_subscriptions',
 			data: $definition,

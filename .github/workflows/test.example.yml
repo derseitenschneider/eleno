@@ -1,16 +1,16 @@
-# .github/workflows/test.yml
 name: Tests
-
-on:
+"on":
   push:
-    branches: [dev]
+    branches:
+      - dev
   pull_request:
-    branches: [main]
-
+    branches:
+      - main
 jobs:
   webhook-tests:
     name: Webhook Tests
     runs-on: ubuntu-latest
+    defaults: null
     steps:
       - uses: actions/checkout@v3
       - name: Setup PHP
@@ -21,9 +21,7 @@ jobs:
         run: composer install
       - name: Create .env file
         run: |
-          cd api
           echo "APP_BASE_URL=${{ secrets.APP_BASE_URL }}" >> .env
-
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
           echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
           echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
@@ -42,10 +40,12 @@ jobs:
         run: |
           cd api
           ./vendor/bin/pest --group webhook
-
   ui-tests:
     name: UI Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - uses: actions/checkout@v3
       - name: Setup Node.js

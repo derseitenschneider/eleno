@@ -39,9 +39,10 @@ class UserManager {
 
 		// Request Data
 		$data = [
-			'email'    => $email,
-			'password' => $password,
-			'options'  => [
+			'email'         => $email,
+			'password'      => $password,
+			'email_confirm' => true,
+			'options'       => [
 				'email_confirm' => true,
 			],
 		];
@@ -80,7 +81,11 @@ class UserManager {
 
 		if ( isset( $result['id'] ) && isset( $result['email'] ) ) {
 
-			echo "Test user created!\n";
+			$userId = $result['id'];
+			echo "Test user created! User ID: {$userId}\n";
+
+			// $this->verifyUser( $userId );
+
 			return $result; // Return user ID
 		} else {
 			throw new \Exception( 'Error creating user: ' . json_encode( $result ) );
@@ -119,5 +124,48 @@ class UserManager {
 
 		echo "User deleted!\n";
 		return true;
+	}
+
+	private function verifyUser( string $userId ) {
+		echo "Verifying user with ID: {$userId}\n";
+		$url = $this->_supabaseUrl . '/auth/v1/admin/users/' . $userId;
+
+		$data = [
+			'confirmed_at' => date( 'Y-m-d\TH:i:s.uP' ), // ISO 8601 format
+		];
+
+		$jsonData = json_encode( $data );
+
+		$ch = curl_init( $url );
+
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'PATCH' );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $jsonData );
+		curl_setopt(
+			$ch,
+			CURLOPT_HTTPHEADER,
+			[
+				'Content-Type: application/json',
+				'Authorization: Bearer ' . $this->_supabaseApiKey,
+				'apikey: ' . $this->_supabaseApiKey,
+			]
+		);
+
+		$response = curl_exec( $ch );
+
+		if ( curl_errno( $ch ) ) {
+			throw new \Exception( 'cURL Error: ' . curl_error( $ch ) );
+		}
+
+		curl_close( $ch );
+
+		$result = json_decode( $response, true );
+
+		if ( isset( $result['confirmed_at'] ) ) {
+			echo "User verified!\n";
+			return true;
+		} else {
+			throw new \Exception( 'Error verifying user: ' . json_encode( $result ) . "\n" );
+		}
 	}
 }
