@@ -39,9 +39,9 @@ function Banner() {
       >
         <p>
           Du bist aktuell im Testabo und kannst noch{' '}
-          <b className='text-primary'>
+          <span className='font-medium text-primary'>
             {Math.ceil(daysRemaining)} Tag{daysRemaining > 1 && 'e'}
-          </b>{' '}
+          </span>{' '}
           gratis testen.{' '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen
@@ -54,7 +54,7 @@ function Banner() {
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
         <p>
-          <b className=''>Dein Testabo ist abgelaufen!</b>{' '}
+          <span className='font-medium'>Dein Testabo ist abgelaufen!</span>{' '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen
           </Link>
@@ -65,7 +65,7 @@ function Banner() {
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
         <p>
-          <b>Aktion erforderlich:</b>
+          <span className='font-medium'>Aktion erforderlich:</span>
           {'  '}Deine Zahlung ist fehlgeschlagen!{'  '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Zahlungsinformationen anpassen
@@ -78,7 +78,7 @@ function Banner() {
     return (
       <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-primary/5 p-1'>
         <p>
-          <b>Dein Abo ist inaktiv</b>
+          <span className='font-medium'>Dein Abo ist inaktiv</span>
           {'  '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen

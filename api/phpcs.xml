@@ -120,6 +120,43 @@
     <rule ref="WordPress.NamingConventions.ValidVariableName.InterpolatedVariableNotSnakeCase">
         <severity>0</severity>
     </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_init">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_setopt">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_exec">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_errno">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_error">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_close">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_getinfo">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec">
+        <severity>0</severity>
+    </rule>
+
     <arg name="tab-width" value="4"/>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">

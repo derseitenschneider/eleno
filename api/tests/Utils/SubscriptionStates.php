@@ -1,0 +1,152 @@
+<?php
+
+require_once '../api/src/Database/Database.php';
+require_once '../api/src/Config/Config.php';
+
+
+class SubscriptionStates
+{
+
+    /**
+     * @var Database $db
+     */
+    private static $db;
+
+    /**
+     * @var string  $statesDir
+     */
+    private static $statesDir;
+
+    /**
+     * @param  mixed $db
+     * @param  mixed $statesDir
+     * @return void
+     */
+    public static function init( $db = null, $statesDir = null )
+    {
+        $config          = new App\Config\Config();
+        self::$db        = $db ?? new App\Database\Database($config);
+        self::$statesDir = $statesDir ?? __DIR__ . './subscription-states/';
+    }
+
+    /**
+     * @param  mixed $userId
+     * @param  mixed $state
+     * @return true
+     * @throws Exception Database exception.
+     */
+    public static function apply( $userId, $state )
+    {
+        $definition = self::getStateDefinition($state);
+        $definition = self::processDateValues($definition);
+
+        // Build SQL for update
+        $setClauses = [];
+        $params     = [];
+
+        foreach ( $definition as $key => $value ) {
+            $setClauses[] = "{$key} = ?";
+            $params[]     = $value;
+        }
+
+        // Add userId as the last parameter
+        $params[] = $userId;
+
+        $sql = 'UPDATE subscriptions SET ' .
+        implode(', ', $setClauses) .
+        ' WHERE user_id = ?';
+
+        self::$db->query($sql, $params);
+
+        return true;
+    }
+
+    /**
+     * @param  mixed $userId
+     * @param  mixed $state
+     * @return bool
+     * @throws Exception Database exception.
+     */
+    public static function verify( $userId, $state )
+    {
+        $definition = self::getStateDefinition($state);
+        $dbRow      = self::$db->query(
+            'SELECT * FROM subscriptions WHERE user_id = ?',
+            [ $userId ]
+        )[0];
+
+        // Compare each defined field
+        foreach ( $definition as $key => $expectedValue ) {
+            if (is_string($expectedValue) 
+                && ( strpos($expectedValue, 'CURRENT_DATE') === 0 ) 
+            ) {
+                if (null === $dbRow[ $key ] ) {
+                    return false;
+                }
+            }
+
+            if ($dbRow[ $key ] !== $expectedValue ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param  mixed $state
+     * @return mixed
+     * @throws \Exception Filesystem error when state json file not found.
+     */
+    private static function getStateDefinition( $state )
+    {
+        $filePath = self::$statesDir . "/{$state}.json";
+        if (! file_exists($filePath) ) {
+            throw new \Exception("State definition not found: {$state}");
+        }
+
+        return json_decode(file_get_contents($filePath), true);
+    }
+
+    /**
+     * @param  mixed $definition
+     * @return array
+     * @throws DateMalformedStringException When date is not formatted correctly.
+     */
+    private static function processDateValues( $definition )
+    {
+        $processed = [];
+
+        foreach ( $definition as $key => $value ) {
+            if (is_string($value) ) {
+                // Handle date placeholders
+                if ('CURRENT_DATE' === $value ) {
+                    $processed[ $key ] = date('Y-m-d H:i:s');
+                } elseif (strpos($value, 'CURRENT_DATE + INTERVAL') === 0 ) {
+                    // Extract interval
+                    preg_match("/'(\d+) (\w+)'/", $value, $matches);
+                    if (count($matches) === 3 ) {
+                        $amount = $matches[1];
+                        $unit   = $matches[2];
+
+                        // Calculate future date
+                        $date = new \DateTime();
+                        $date->modify("+{$amount} {$unit}");
+                        $processed[ $key ] = $date->format('Y-m-d H:i:s');
+                    } else {
+                        $processed[ $key ] = $value; // Can't parse, use as is
+                    }
+                } else {
+                    $processed[ $key ] = $value;
+                }
+            } else {
+                $processed[ $key ] = $value;
+            }
+        }
+
+        return $processed;
+    }
+}
+
+// Initialize by default
+SubscriptionStates::init();
