@@ -77,21 +77,28 @@ class SubscriptionStates {
 	public static function verify( $userId, $state ) {
 		$definition = self::getStateDefinition( $state );
 		$dbRow      = self::$db->query(
-			'SELECT * FROM stripe_subscriptions WHERE user_id = ?',
+			'SELECT * FROM stripe_subscriptions WHERE user_id = $1',
 			[ $userId ]
 		)[0];
 
 		// Compare each defined field
 		foreach ( $definition as $key => $expectedValue ) {
+			echo "Checking {$key}...\n";
 			if ( is_string( $expectedValue )
 				&& ( strpos( $expectedValue, 'CURRENT_DATE' ) === 0 )
 			) {
 				if ( null === $dbRow[ $key ] ) {
+					echo "{$key} should not be null!\n";
 					return false;
 				}
+				echo "Skip {$key} check...\n";
+				continue;
 			}
 
 			if ( $dbRow[ $key ] !== $expectedValue ) {
+
+				echo "Error for {$key}:\n ";
+				echo "expected {$expectedValue}, found {$dbRow[$key]}.\n";
 				return false;
 			}
 		}

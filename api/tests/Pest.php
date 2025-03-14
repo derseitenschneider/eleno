@@ -42,20 +42,83 @@ expect()->extend(
 |
 */
 
+use Stripe\Customer;
 use Tests\Helpers\TestUsers;
 
 /**
  * @param string $email
- * @return string $userId
+ * @return mixed $user
  */
 function createTestUser( $email = null ) {
-	return TestUsers::create( $email );
+	return TestUsers::createUser( $email );
 }
 
 /**
  * @param string $userId
  * @return true
  */
-function deleteTestUser( $userId ) {
-	return TestUsers::delete( $userId );
+function deleteTestUser( string $userId ) {
+	return TestUsers::deleteUser( $userId );
+}
+
+/**
+ * @param string $email
+ * @param string $userId
+ *
+ * @return Customer
+ */
+function createStripeCustomer( string $email, string $userId ) {
+	return TestUsers::createStripeCustomer( email: $email, userId: $userId );
+}
+
+/**
+ * @param string $customerId
+ *
+ * @return true
+ */
+function deleteStripeCustomer( string $customerId ) {
+	return TestUsers::deleteStripeCustomer( customerId: $customerId );
+}
+
+/**
+ * @param string $name
+ * @param string $customerId
+ * @param string $userId
+ * @param string $locale
+ * @return void
+ */
+function runFixture(
+	string $name,
+	string $customerId,
+	string $userId,
+	string $locale
+) {
+		$fixtureFilePath = __DIR__ . "/stripe-fixtures/{$name}.json";
+
+		// Construct the Stripe CLI command with environment variables
+		$command = sprintf(
+			'CUSTOMER_ID=%s USER_ID=%s LOCALE=%s stripe fixtures %s',
+			escapeshellarg( $customerId ),
+			escapeshellarg( $userId ),
+			escapeshellarg( $locale ),
+			escapeshellarg( $fixtureFilePath )
+		);
+
+		// Execute the command
+		$output     = [];
+		$returnCode = 0;
+		exec( $command, $output, $returnCode );
+
+		// Handle the output
+	if ( 0 === $returnCode ) {
+		echo "Stripe CLI fixture executed successfully!\n";
+		foreach ( $output as $line ) {
+			echo $line . "\n";
+		}
+	} else {
+		echo 'Stripe CLI fixture execution failed with code: ' . $returnCode . "\n";
+		foreach ( $output as $line ) {
+			echo $line . "\n";
+		}
+	}
 }

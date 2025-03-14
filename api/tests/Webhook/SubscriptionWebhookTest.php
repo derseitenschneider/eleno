@@ -2,30 +2,33 @@
 
 use Tests\Utils\SubscriptionStates;
 
-// beforeEach(
-// function () {
-// Create a test user for each test
-// $this->userId = createTestUser( 'webhook-test-' . uniqid() . '@example.com' );
-// }
-// );
+beforeEach(
+	function () {
+		// Create a test user for each test
+		$this->userEmail = 'webhook-test-' . uniqid() . '@example.com';
+
+		$this->user           = createTestUser( $this->userEmail );
+		$this->stripeCustomer = createStripeCustomer(
+			email: $this->userEmail,
+			userId: $this->user['id']
+		);
+	}
+);
 
 it(
 	'correctly processes checkout.completed  webhook for monthly subscription',
 	function () {
-		var_dump( $_ENV );
-		// Set initial state
-		// SubscriptionStates::apply( $this->userId, 'new' );
-
-		// Run Stripe fixture to trigger webhook
-		// $output = [];
-		// exec( "./stripe-fixtures/create-subscription.sh {$this->userId}", $output, $result );
-		// expect( $result )->toBe( 0 );
-		//
+		runFixture(
+			customerId: $this->stripeCustomer->id,
+			userId: $this->user['id'],
+			name: 'monthly-subscription',
+			locale: 'de'
+		);
 		// // Wait for webhook processing (could be improved with polling)
-		// sleep( 2 );
+		sleep( 2 );
 		//
 		// // Verify database state updated correctly
-		// expect( SubscriptionStates::verify( $this->userId, 'monthly-active' ) )->toBeTrue();
+		expect( SubscriptionStates::verify( $this->user['id'], 'monthly-active' ) )->toBeTrue();
 	}
 );
 
@@ -46,8 +49,9 @@ it(
 // }
 // );
 
-// afterAll(
-// function () {
-// deleteTestUser( $this->userId );
-// }
-// );
+afterEach(
+	function () {
+		deleteStripeCustomer( $this->stripeCustomer->id );
+		deleteTestUser( $this->user['id'] );
+	}
+);
