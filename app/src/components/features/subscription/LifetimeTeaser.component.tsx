@@ -15,7 +15,10 @@ export default function LifetimeTeaser() {
   }
 
   return (
-    <div className='py-7 flex flex-row justify-between gap-4'>
+    <div
+      data-testid='lifetime-teaser'
+      className='py-7 flex flex-row justify-between gap-4'
+    >
       <div>
         <h2 className='text-primary'>Upgrade auf Lifetime</h2>
         <p className='w-[50ch]'>
@@ -27,8 +30,12 @@ export default function LifetimeTeaser() {
       </div>
       <Tabs defaultValue='chf' className='flex flex-col items-center'>
         <TabsList className=''>
-          <TabsTrigger value='chf'>CHF</TabsTrigger>
-          <TabsTrigger value='eur'>EUR</TabsTrigger>
+          <TabsTrigger data-testid='currency-switcher-chf' value='chf'>
+            CHF
+          </TabsTrigger>
+          <TabsTrigger data-testid='currency-switcher-eur' value='eur'>
+            EUR
+          </TabsTrigger>
         </TabsList>
         <TabsContent value='chf'>
           <Card className='sm:w-fit'>

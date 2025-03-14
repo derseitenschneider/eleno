@@ -1,9 +1,9 @@
-import { test, expect, type Request } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPMO = new SubscriptionPMO(page)
-  subscrptionPMO.goto()
+  await subscrptionPMO.goto()
 })
 
 test('subscription status is active', async ({ page }) => {
@@ -27,8 +27,13 @@ test('period start and end are not empty', async ({ page }) => {
 })
 
 test('pricing table title is visible', async ({ page }) => {
-  const { pricingTitle } = new SubscriptionPMO(page)
-  await expect(pricingTitle).toBeVisible()
+  const { pricingTable } = new SubscriptionPMO(page)
+  await expect(pricingTable).toBeVisible()
+})
+
+test('lifetime teaser is hidden', async ({ page }) => {
+  const { lifetimeTeaser } = new SubscriptionPMO(page)
+  await expect(lifetimeTeaser).not.toBeVisible()
 })
 
 test('trial banner with correct number of days is visible', async ({

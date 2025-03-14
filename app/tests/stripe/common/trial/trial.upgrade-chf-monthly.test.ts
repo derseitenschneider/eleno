@@ -3,7 +3,7 @@ import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPMO = new SubscriptionPMO(page)
-  subscrptionPMO.goto()
+  await subscrptionPMO.goto()
   await subscrptionPMO.currencySwitchCHF.click()
 })
 

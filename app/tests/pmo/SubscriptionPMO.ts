@@ -6,7 +6,8 @@ export class SubscriptionPMO {
   readonly plan: Locator
   readonly startDate: Locator
   readonly endDate: Locator
-  readonly pricingTitle: Locator
+  readonly pricingTable: Locator
+  readonly lifetimeTeaser: Locator
   readonly currencySwitchCHF: Locator
   readonly currencySwitchEUR: Locator
   readonly buttonCheckoutMonthly: Locator
@@ -20,7 +21,8 @@ export class SubscriptionPMO {
     this.plan = page.getByTestId('subscription-plan')
     this.startDate = page.getByTestId('subscription-period-start')
     this.endDate = page.getByTestId('subscription-period-end')
-    this.pricingTitle = page.getByRole('heading', { name: 'upgrade' })
+    this.pricingTable = page.getByTestId('pricing-table')
+    this.lifetimeTeaser = page.getByTestId('lifetime-teaser')
     this.currencySwitchCHF = page.getByTestId('currency-switcher-chf')
     this.currencySwitchEUR = page.getByTestId('currency-switcher-eur')
     this.buttonCheckoutMonthly = page.getByTestId('pricing-checkout-monthly')

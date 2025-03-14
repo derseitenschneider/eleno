@@ -3,8 +3,8 @@ import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPMO = new SubscriptionPMO(page)
-  await subscrptionPMO.goto()
-  await subscrptionPMO.currencySwitchCHF.click()
+  subscrptionPMO.goto()
+  await subscrptionPMO.currencySwitchEUR.click()
 })
 
 test('send the right post data to the server', async ({ page }) => {
@@ -22,7 +22,7 @@ test('send the right post data to the server', async ({ page }) => {
   const postData = JSON.parse(serverRequest.postData() || '')
 
   expect(postData.mode).toBe('payment')
-  expect(postData.currency).toBe('CHF')
+  expect(postData.currency).toBe('EUR')
   expect(postData.price_id).not.toBe('')
   expect(postData.user_id).not.toBe('')
   expect(postData.stripe_customer_id).not.toBe('')

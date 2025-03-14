@@ -1,0 +1,8 @@
+{
+  "plan": "month",
+  "payment_status": "paid",
+  "subscription_status": "canceled",
+  "failed_payment_attempts": "0",
+  "period_start": "CURRENT_DATE",
+  "period_end": "CURRENT_DATE + INTERVAL '30 days'"
+}
