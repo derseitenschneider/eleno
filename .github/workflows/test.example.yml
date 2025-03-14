@@ -1,37 +1,24 @@
-# Deploys the api server from [dev] to staging.
+# .github/workflows/test.yml
+name: Tests
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - dev
-    paths:
-      - "api/**"
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    environment:
-      name: api.staging
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    branches: [dev]
+  pull_request:
+    branches: [main]
 
+jobs:
+  webhook-tests:
+    name: Webhook Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
-          extensions: mbstring, intl
-
-      - name: Install Composer dependencies
-        run: |
-          cd api
-          composer install --optimize-autoloader
-
-      - name: PHPStan Analysis
-        run: |
-          cd api
-          composer stan
-
+          php-version: "8.1"
+      - name: Install dependencies
+        run: composer install
       - name: Create .env file
         run: |
           cd api
@@ -51,16 +38,27 @@ jobs:
           echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
           echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> .env
           echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+      - name: Run webhook tests
+        run: |
+          cd api
+          ./vendor/bin/pest --group webhook
 
-      # - name: Run Pest Tests
-      #   run: |
-      #     cd api
-      #     composer test
-
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+  ui-tests:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          server: ${{ secrets.FTP_API_SERVER }}
-          username: ${{ secrets.FTP_API_USERNAME }}
-          password: ${{ secrets.FTP_API_PASSWORD }}
-          local-dir: ./api/
+          node-version: "16"
+      - name: Install Playwright
+        run: npm install && npx playwright install
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+      - name: Install dependencies
+        run: composer install
+      - name: Run UI tests
+        run: ./run-subscription-tests.sh

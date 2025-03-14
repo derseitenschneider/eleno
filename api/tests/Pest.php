@@ -23,6 +23,7 @@
 |
 */
 
+
 expect()->extend(
 	'toBeOne',
 	function () {
@@ -41,6 +42,20 @@ expect()->extend(
 |
 */
 
-function something() {
-	// ..
+use Tests\Helpers\TestUsers;
+
+/**
+ * @param string $email
+ * @return string $userId
+ */
+function createTestUser( $email = null ) {
+	return TestUsers::create( $email );
+}
+
+/**
+ * @param string $userId
+ * @return true
+ */
+function deleteTestUser( $userId ) {
+	return TestUsers::delete( $userId );
 }

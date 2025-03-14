@@ -1,10 +1,11 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+namespace Tests\Utils;
+
+require_once __DIR__ . '/../bootstrap.php';
+
 use App\Config\Config;
 use App\Database\Database;
-
-$dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/../..' );
-$dotenv->load();
+use Dotenv\Dotenv;
 
 class UserManager {
 	private $_supabaseUrl;

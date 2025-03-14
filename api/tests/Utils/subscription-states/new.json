@@ -1,0 +1,11 @@
+{
+  "stripe_subscription_id": null,
+  "stripe_invoice_id": null,
+  "payment_status": null,
+  "currency": "testing-test",
+  "period_start": "CURRENT_DATE",
+  "period_end": "CURRENT_DATE + INTERVAL '30 days'",
+  "plan": null,
+  "subscription_status": "canceled",
+  "failed_payment_attempts": "0"
+}

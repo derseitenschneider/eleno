@@ -85,6 +85,8 @@ class Database {
 			. ' WHERE '
 			. implode( " {$operand} ", $whereClauses );
 
+		echo $sql;
+		var_dump( $params );
 		$result = pg_query_params( $this->conn, $sql, $params );
 
 		return $result ? true : false;
@@ -132,7 +134,7 @@ class Database {
 		return $data;
 	}
 
-	public function __destruct() {
-		pg_close( $this->conn );
-	}
+	// public function __destruct() {
+	// pg_close( $this->conn );
+	// }
 }
