@@ -19,12 +19,31 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/,
     },
     {
-      name: 'chromium',
+      name: 'trial',
+      testMatch: [
+        '**/tests/stripe/trial/**/*.spec.ts',
+        '**/tests/stripe/common/pricing-table/**/*.spec.ts',
+        '**/tests/stripe/common/access-granted.spec.ts',
+      ],
+      dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
+    },
+    {
+      name: 'monthly-active',
+      testMatch: [
+        '**/tests/stripe/monthly-active/**/*.spec.ts',
+        '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
+        '**/tests/stripe/common/access-granted.spec.ts',
+        '**/tests/stripe/common/manage-subscription/manage-active.spec.ts',
+      ],
       dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
     },
   ],
 })

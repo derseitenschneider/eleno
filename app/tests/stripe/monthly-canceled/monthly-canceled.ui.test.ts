@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
+import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
   const subscriptionPmo = new SubscriptionPMO(page)

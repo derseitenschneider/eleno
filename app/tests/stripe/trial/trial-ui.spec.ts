@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
+import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
-  const subscriptionPmo = new SubscriptionPMO(page)
-  await subscriptionPmo.goto()
+  const subscrptionPMO = new SubscriptionPMO(page)
+  await subscrptionPMO.goto()
 })
 
 test('subscription status is active', async ({ page }) => {
@@ -12,10 +12,10 @@ test('subscription status is active', async ({ page }) => {
   await expect(subscriptionPmo.statusBadge).toHaveText(/aktiv/i)
 })
 
-test('plan is "Monatlich" ', async ({ page }) => {
+test('plan is "Testabo" ', async ({ page }) => {
   const { plan } = new SubscriptionPMO(page)
 
-  await expect(plan).toHaveText(/monat/i)
+  await expect(plan).toHaveText(/test/i)
 })
 
 test('period start and end are not empty', async ({ page }) => {
@@ -26,18 +26,21 @@ test('period start and end are not empty', async ({ page }) => {
   await expect(endDate).not.toBeEmpty()
 })
 
-test('pricing table title is hidden', async ({ page }) => {
+test('pricing table title is visible', async ({ page }) => {
   const { pricingTable } = new SubscriptionPMO(page)
-  await expect(pricingTable).not.toBeVisible()
+  await expect(pricingTable).toBeVisible()
 })
 
-test('upgrade to lifetime section to be visible', async ({ page }) => {
+test('lifetime teaser is hidden', async ({ page }) => {
   const { lifetimeTeaser } = new SubscriptionPMO(page)
-  await expect(lifetimeTeaser).toBeVisible()
+  await expect(lifetimeTeaser).not.toBeVisible()
 })
 
-test('trial banner is hidden', async ({ page }) => {
+test('trial banner with correct number of days is visible', async ({
+  page,
+}) => {
   const { trialBanner } = new SubscriptionPMO(page)
 
-  await expect(trialBanner).not.toBeVisible()
+  await expect(trialBanner).toBeVisible()
+  await expect(trialBanner).toContainText('30')
 })

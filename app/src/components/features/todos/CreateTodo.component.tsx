@@ -72,6 +72,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         <div className='sm:flex sm:border-none border p-1 sm:py-[2px] px-[3px] border-hairline rounded-md grow items-center'>
           <div className='shrink grow mb-2 sm:mb-0'>
             <Input
+              data-testid='input-create-todo'
               id='create-todo'
               autoFocus={!isMobile && hasAccess}
               ref={textField}

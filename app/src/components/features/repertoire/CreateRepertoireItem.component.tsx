@@ -67,6 +67,7 @@ function CreateRepertoireItem({
           </span>
           {isMobile ? (
             <Input
+              data-testid='input-create-repertoire'
               autoFocus={!isMobile}
               placeholder='Song...'
               className='border-none'
