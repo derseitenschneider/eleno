@@ -42,9 +42,6 @@ class UserManager {
 			'email'         => $email,
 			'password'      => $password,
 			'email_confirm' => true,
-			'options'       => [
-				'email_confirm' => true,
-			],
 		];
 
 		$jsonData = json_encode( $data );

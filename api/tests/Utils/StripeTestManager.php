@@ -37,7 +37,7 @@ class StripeTestManager {
 		$customer = $this->stripeApi->createCustomer( userId: $userId, email: $email );
 		echo "Stripe test customer created!\n";
 
-		$this->createSubscriptionRow( customer: $customer, userId: $userId );
+		// $this->createSubscriptionRow( customer: $customer, userId: $userId );
 
 		return $customer;
 	}
