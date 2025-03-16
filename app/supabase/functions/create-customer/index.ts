@@ -30,7 +30,7 @@ serve(async (req: Request) => {
     // If it does, then the user has been created by a test run. In that case
     // the test run also creates and destroys the stripe customer and sets a
     // new row in the stripe_subscriptions table.
-    if (!email.includes("webhook-test")) {
+    if (!email.includes("test")) {
       const customer = await stripe.customers.create({
         email: email,
         metadata: {

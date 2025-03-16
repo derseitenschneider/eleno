@@ -15,16 +15,6 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'setup1',
-      testMatch: /setup1/,
-    },
-    {
-      name: 'project1',
-      testMatch: /project1/,
-      dependencies: ['setup1'],
-    },
-
-    {
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },

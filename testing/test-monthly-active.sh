@@ -1,28 +1,22 @@
 #!/usr/bin/env bash
 
-# Configuration
-USER_ID='c352cb96-41e4-47ac-81bd-a77bf7865c92'
-APP_DIR="$PWD/../app"
-SUBSCRIPTION_STATE="monthly-active"
-PLAYWRIGHT_PROJECT="monthly-active"
+echo 'trial user'
+php setup.php
+# JSON file path
+json_file="userinfo.json"
 
-# Apply the subscription state
-echo "-------------------------"
-echo "Setting subscription state to: $SUBSCRIPTION_STATE"
-php set-subscription-state.php --state="$SUBSCRIPTION_STATE" --user="$USER_ID"
-echo "-------------------------"
-# Run Playwright tests
-echo "Running Playwright tests for: $SUBSCRIPTION_STATE"
-cd "$APP_DIR"
-npm run pw -- --project="$PLAYWRIGHT_PROJECT"
-cd ..
+# Extract variables using jq
+EMAIL=$(jq -r '.email' "$json_file")
+PASSWORD=$(jq -r '.password' "$json_file")
+USER_ID=$(jq -r '.userId' "$json_file")
+CUSTOMER_ID=$(jq -r '.customerId' "$json_file")
+LOCALE='de'
 
-# Report status
-TEST_RESULT=$?
-if [ $TEST_RESULT -eq 0 ]; then
-    echo "Tests for $SUBSCRIPTION_STATE completed successfully!"
-else
-    echo "Tests for $SUBSCRIPTION_STATE failed!"
-fi
+export USER_ID
+export CUSTOMER_ID
+export LOCALE
 
-exit $TEST_RESULT
+
+stripe fixtures './stripe-fixtures/monthly-subscription.json' 
+cd ../app
+TESTUSER_EMAIL=$EMAIL TESTUSER_PASSWORD=$PASSWORD npm run pw -- --project='monthly-active'

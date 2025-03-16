@@ -5,45 +5,43 @@ use Tests\Utils\StripeTestManager;
 use Tests\Utils\UserManager;
 
 // Now load and use the UserManager
-function setup()
-{
 
-    $userManager = new UserManager();
-    $stripeManager = new StripeTestManager();
+$userManager = new UserManager();
+$stripeManager = new StripeTestManager();
 
-    $options = getopt('', [ 'email::', 'password::' ]);
-    $email = $options['email'] ?? 'test-' . time() . '@login.com';
-    $password = $options['password'] ?? 'testPassword';
+$options = getopt('', [ 'email::', 'password::' ]);
+$email = $options['email'] ?? 'test-' . time() . '@login.com';
+$password = $options['password'] ?? 'testPassword';
 
 
 
-    try {
-        $user = $userManager->createUser($email, $password);
-        $userId =$user['id'];
-        $customer = $stripeManager->createCustomer($userId, $email);
+try {
+    $user = $userManager->createUser($email, $password);
+    $userId =$user['id'];
+    $customer = $stripeManager->createCustomer($userId, $email);
+    //TODO: create stripe subscription row, looks like its not existing when we
+    //create a user this way
 
-        // file_put_contents(
-        //     './userinfo.json', json_encode(
-        //         array(
-        //         'email' => $email,
-        //         'password' => $password,
-        //         'userId'=> $userId,
-        //         'customerId' => $customer->id
-        //         )
-        //     )
-        // );
-        // echo $userId . "\n"; // Just output the ID for scripts to capture
-        echo "Setup completed\n";
-        echo "----------------------------";
-        $result =  array(
+    file_put_contents(
+        './userinfo.json', json_encode(
+            array(
                 'email' => $email,
                 'password' => $password,
                 'userId'=> $userId,
                 'customerId' => $customer->id
-                );
-        return $result;
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage() . "\n";
-        exit(1);
-    }
+            )
+        )
+    );
+    echo "Setup completed\n";
+    echo "----------------------------";
+    $result =  array(
+        'email' => $email,
+        'password' => $password,
+        'userId'=> $userId,
+        'customerId' => $customer->id
+    );
+    return $result;
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage() . "\n";
+    exit(1);
 }
