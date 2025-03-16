@@ -10,7 +10,6 @@ jobs:
   webhook-tests:
     name: Webhook Tests
     runs-on: ubuntu-latest
-    defaults: null
     steps:
       - uses: actions/checkout@v3
       - name: Setup PHP
