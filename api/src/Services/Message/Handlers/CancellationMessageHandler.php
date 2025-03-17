@@ -7,6 +7,7 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
+use Pest\Mutate\Mutators\Laravel\Remove\LaravelRemoveStringableUpper;
 
 class CancellationMessageHandler {
 
@@ -15,6 +16,7 @@ class CancellationMessageHandler {
 		private MessageService $messageService,
 	) {
 	}
+
 
 	public function handle( string $userId, string $firstName ) {
 

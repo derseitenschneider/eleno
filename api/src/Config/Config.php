@@ -4,24 +4,55 @@ namespace App\Config;
 
 class Config {
 
+	/** @var string $appBaseUrl Base url of the webapp */
 	public readonly string $appBaseUrl;
 
+	/** @var string $supabaseUrl */
 	public readonly string $supabaseUrl;
+
+	/** @var string $supabaseJwtSecret  */
 	public readonly string $supabaseJwtSecret;
+
+	/** @var string $supabaseHost  */
 	public readonly string $supabaseHost;
+
+	/** @var string $supabasePort  */
 	public readonly string $supabasePort;
+
+	/** @var string $subapaseDbName */
 	public readonly string $subapaseDbName;
+
+	/** @var string $supabaseUser  */
 	public readonly string $supabaseUser;
+
+	/** @var string $supabasePassword  */
 	public readonly string $supabasePassword;
 
+
+	/** @var string $stripeSecretKey  */
 	public readonly string $stripeSecretKey;
+
+	/** @var string $stripeWebhookSignature  */
 	public readonly string $stripeWebhookSignature;
 
+
+	/** @var string $smtpHost  */
 	public readonly string $smtpHost;
+
+	/** @var string $smtpUsername  */
 	public readonly string $smtpUsername;
+
+	/** @var string $smtpPassword  */
 	public readonly string $smtpPassword;
+
+	/** @var array $corsAllowedOrigins  */
 	public readonly array $corsAllowedOrigins;
 
+	/**
+	 * Constructor
+	 *
+	 * @throws \RuntimeException Runtime exception if requried env vars missing.
+	 */
 	public function __construct() {
 		$required = array(
 			'APP_BASE_URL',

@@ -14,9 +14,18 @@ export default defineConfig({
   },
 
   projects: [
+    // {
+    //   name: 'setup',
+    //   testMatch: /.*\auth.setup\.ts/,
+    // },
     {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/,
+      name: 'setup-trial',
+      testMatch: /.*\.setup.trial\.ts/,
+      teardown: 'teardown-trial',
+    },
+    {
+      name: 'teardown-trial',
+      testMatch: /.*\.teardown.trial\.ts/,
     },
     {
       name: 'trial',
@@ -25,25 +34,25 @@ export default defineConfig({
         '**/tests/stripe/common/pricing-table/**/*.spec.ts',
         '**/tests/stripe/common/access-granted.spec.ts',
       ],
-      dependencies: ['setup'],
+      dependencies: ['setup-trial'],
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
     },
-    {
-      name: 'monthly-active',
-      testMatch: [
-        '**/tests/stripe/monthly-active/**/*.spec.ts',
-        '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
-        '**/tests/stripe/common/access-granted.spec.ts',
-        '**/tests/stripe/common/manage-subscription/manage-active.spec.ts',
-      ],
-      dependencies: ['setup'],
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
-      },
-    },
+    // {
+    //   name: 'monthly-active',
+    //   testMatch: [
+    //     '**/tests/stripe/monthly-active/**/*.spec.ts',
+    //     '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
+    //     '**/tests/stripe/common/access-granted.spec.ts',
+    //     '**/tests/stripe/common/manage-subscription/manage-active.spec.ts',
+    //   ],
+    //   dependencies: ['setup'],
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    // },
   ],
 })
