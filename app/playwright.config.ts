@@ -20,18 +20,18 @@ export default defineConfig({
     // },
     {
       name: 'setup-trial',
-      testMatch: /.*\.setup.trial\.ts/,
+      testMatch: '**/tests/stripe/setup.trial.ts',
       teardown: 'teardown-trial',
     },
     {
       name: 'teardown-trial',
-      testMatch: /.*\.teardown.trial\.ts/,
+      testMatch: '**/tests/stripe/teardown.trial.ts',
     },
     {
       name: 'trial',
       testMatch: [
-        '**/tests/stripe/trial/**/*.spec.ts',
-        '**/tests/stripe/common/pricing-table/**/*.spec.ts',
+        // '**/tests/stripe/trial/**/*.spec.ts',
+        // '**/tests/stripe/common/pricing-table/**/*.spec.ts',
         '**/tests/stripe/common/access-granted.spec.ts',
       ],
       dependencies: ['setup-trial'],

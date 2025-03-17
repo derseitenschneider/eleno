@@ -23,6 +23,3 @@ export default async function createUser() {
   }
   return user.user
 }
-
-const user = await createUser()
-console.log(user)

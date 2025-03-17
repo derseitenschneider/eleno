@@ -1,14 +1,14 @@
-import { test as setup, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test as teardown } from '../fixtures'
 import path from 'node:path'
-import createUser from '../utils/createUser'
 
 const authFile = path.resolve(
   path.dirname('../../'),
   'playwright/.auth/user.json',
 )
 
-setup('create trial user and authenticate', async ({ page }) => {
-  console.log('I AM THE TRIAL TEARDOWN')
+teardown('create trial user and authenticate', async ({ page, trialState }) => {
+  console.log(trialState)
   // const user = await createUser()
   // const email = user.email || ''
   // const password = 'password123'

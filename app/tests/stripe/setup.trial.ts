@@ -1,16 +1,15 @@
-import { test as setup, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test as setup } from '../fixtures'
 import path from 'node:path'
 import createUser from '../utils/createUser'
 
-const authFile = path.resolve(
-  path.dirname('../../'),
-  'playwright/.auth/user.json',
-)
+const authFile = path.resolve(path.dirname('.'), './playwright/.auth/user.json')
 
-setup('create trial user and authenticate', async ({ page }) => {
+setup('create trial user and authenticate', async ({ page, trialState }) => {
   const user = await createUser()
   const email = user.email || ''
   const password = 'password123'
+  trialState.userId = user.id
 
   await page.goto('/?page=login')
   await page.getByTestId('login-email').fill(email)
