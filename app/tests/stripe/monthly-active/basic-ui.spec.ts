@@ -6,12 +6,6 @@ test.beforeEach(async ({ page }) => {
   await subscriptionPmo.goto()
 })
 
-test('subscription status is active', async ({ page }) => {
-  const subscriptionPmo = new SubscriptionPMO(page)
-
-  await expect(subscriptionPmo.statusBadge).toHaveText(/aktiv/i)
-})
-
 test('plan is "Monatlich" ', async ({ page }) => {
   const { plan } = new SubscriptionPMO(page)
 

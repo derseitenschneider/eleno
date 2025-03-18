@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { subscriptionsConfig } from './tests/stripe/subscriptionsConfig'
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -14,50 +15,49 @@ export default defineConfig({
   },
 
   projects: [
+    ...subscriptionsConfig,
     // {
     //   name: 'setup',
     //   testMatch: /.*\auth.setup\.ts/,
     // },
-    {
-      name: 'base-teardown',
-      testMatch: '**/tests/stripe/teardown.base.ts',
-    },
-    {
-      name: 'setup-trial-active',
-      testMatch: '**/tests/stripe/setup.trial-active.ts',
-      teardown: 'base-teardown',
-    },
-    {
-      name: 'subscription-trial-active',
-      testMatch: [
-        '**/tests/stripe/trial/**/*.spec.ts',
-        '**/tests/stripe/common/pricing-table/**/*.spec.ts',
-        '**/tests/stripe/common/access-granted.spec.ts',
-      ],
-      dependencies: ['setup-trial-active'],
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/trial-active.json',
-      },
-    },
-    {
-      name: 'setup-monthly-active',
-      testMatch: '**/tests/stripe/setup.monthly-active.ts',
-      teardown: 'base-teardown',
-    },
-    {
-      name: 'subscription-monthly-active',
-      testMatch: [
-        '**/tests/stripe/monthly-active/**/*.spec.ts',
-        '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
-        '**/tests/stripe/common/access-granted.spec.ts',
-        '**/tests/stripe/common/manage-subscription/manage-cancel-reactivate.spec.ts',
-      ],
-      dependencies: ['setup-monthly-active'],
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/monthly-active.json',
-      },
-    },
+    // {
+    //   name: 'base-teardown',
+    //   testMatch: '**/tests/stripe/teardown.base.ts',
+    // },
+    // {
+    //   name: 'setup-trial-active',
+    //   testMatch: '**/tests/stripe/setup.trial-active.ts',
+    //   teardown: 'base-teardown',
+    // },
+    // {
+    //   name: 'subscription-trial-active',
+    //   testMatch: [
+    //     '**/tests/stripe/trial/**/*.spec.ts',
+    //     '**/tests/stripe/common/pricing-table/**/*.spec.ts',
+    //     '**/tests/stripe/common/access-granted.spec.ts',
+    //   ],
+    //   dependencies: ['setup-trial-active'],
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     storageState: 'playwright/.auth/trial-active.json',
+    //   },
+    // },
+    // {
+    //   name: 'setup-monthly-active',
+    //   testMatch: '**/tests/stripe/setup.monthly-active.ts',
+    //   teardown: 'base-teardown',
+    // },
+    // {
+    //   name: 'subscription-monthly-active',
+    //   testMatch: [
+    //     '**/tests/stripe/monthly-active/**/*.spec.ts',
+    //     '**/tests/stripe/common/access-granted.spec.ts',
+    //   ],
+    //   dependencies: ['setup-monthly-active'],
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     storageState: 'playwright/.auth/monthly-active.json',
+    //   },
+    // },
   ],
 })

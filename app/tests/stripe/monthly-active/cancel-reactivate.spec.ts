@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPMO } from '../../../pmo/SubscriptionPMO'
+import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPMO = new SubscriptionPMO(page)
@@ -20,4 +20,3 @@ test('can cancel and reactivate subscription', async ({ page }) => {
     'Aktiv',
   )
 })
-test.skip('can manage subscription', async ({ page }) => {})
