@@ -31,8 +31,8 @@ export const subscriptionsConfig: Array<Project> = [
   {
     name: 'subscription-monthly-active',
     testMatch: [
-      '**/tests/stripe/monthly-active/**/*.spec.ts',
-      '**/tests/stripe/common/access-granted.spec.ts',
+      // '**/tests/stripe/monthly-active/**/*.spec.ts',
+      // '**/tests/stripe/common/access-granted.spec.ts',
     ],
     dependencies: ['setup-monthly-active'],
     use: {

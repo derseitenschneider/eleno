@@ -16,7 +16,6 @@ setup(
     const { email, password, customerId, userId } =
       await setupBaseUser(SUBSCRIPTION_STATE)
 
-    // await runStripeFixture('monthly-checkout', customerId, userId)
     await runStripeFixture({
       fixture: 'monthly-checkout',
       customerId,
