@@ -8,7 +8,8 @@ dotenv.config({
 })
 
 export default async function createUser() {
-  const email = `testuser-${Date.now()}@example.com`
+  console.log('Creating new test user...')
+  const email = `playwright-test-${Date.now()}@example.com`
   const password = 'password123'
 
   const { data: user, error: createUserError } =
@@ -21,5 +22,6 @@ export default async function createUser() {
   if (createUserError) {
     throw new Error(`Error creating new user: ${createUserError.message}`)
   }
+
   return user.user
 }

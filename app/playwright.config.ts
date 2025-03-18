@@ -30,8 +30,8 @@ export default defineConfig({
     {
       name: 'trial',
       testMatch: [
-        // '**/tests/stripe/trial/**/*.spec.ts',
-        // '**/tests/stripe/common/pricing-table/**/*.spec.ts',
+        '**/tests/stripe/trial/**/*.spec.ts',
+        '**/tests/stripe/common/pricing-table/**/*.spec.ts',
         '**/tests/stripe/common/access-granted.spec.ts',
       ],
       dependencies: ['setup-trial'],

@@ -9,4 +9,3 @@ dotenv.config({
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || ''
 export const stripeClient = new Stripe(stripeSecretKey)
-console.log(stripeClient)

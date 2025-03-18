@@ -1,23 +1,21 @@
-import { expect } from '@playwright/test'
-import { test as teardown } from '../fixtures'
+import { test as teardown, expect } from '@playwright/test'
+import fs from 'node:fs'
 import path from 'node:path'
+import deleteUser from '../utils/deleteUser'
+import { stripeClient } from '../utils/stripeClient'
 
-const authFile = path.resolve(
-  path.dirname('../../'),
-  'playwright/.auth/user.json',
-)
+type UserData = {
+  userId: string
+  customerId: string
+}
+const dataPath = path.resolve(path.dirname('.'), './tests/stripe/data')
 
-teardown('create trial user and authenticate', async ({ page, trialState }) => {
-  console.log(trialState)
-  // const user = await createUser()
-  // const email = user.email || ''
-  // const password = 'password123'
-  //
-  // await page.goto('/?page=login')
-  // await page.getByTestId('login-email').fill(email)
-  // await page.getByTestId('login-password').fill(password)
-  // await page.getByTestId('login-submit').click()
-  // await expect(page.getByTestId('dashboard-heading')).toBeVisible()
-  //
-  // await page.context().storageState({ path: authFile })
+teardown('create trial user and authenticate', async () => {
+  const data = fs.readFileSync(`${dataPath}/trial-user.json`, 'utf8')
+  const { userId, customerId } = JSON.parse(data) as UserData
+
+  await stripeClient.customers.del(customerId)
+  await deleteUser(userId)
+  fs.unlinkSync(`${dataPath}/trial-user.json`)
+  console.log('Cleanup completed!')
 })

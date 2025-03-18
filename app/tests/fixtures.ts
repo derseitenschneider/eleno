@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test'
+import { test as base, type Worker } from '@playwright/test'
 
 type MyFixture = {
   trialState: Record<string, string>
