@@ -1,11 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'url' // Import fileURLToPath
 import { createCustomer } from './createStripeCustomer.ts'
 import { createSubscriptionRow } from './createSubscriptionRow.ts'
 import createUser from './createUser.ts'
 
 export async function setupBaseUser(userflow: string) {
-  const dataPath = path.resolve(path.dirname('.'), './tests/stripe/data')
+  const __filename = fileURLToPath(import.meta.url) // Get the current file's path
+  const __dirname = path.dirname(__filename) // Get the current directory
+
+  const dataPath = path.resolve(__dirname, '..', 'stripe', 'data')
   const user = await createUser()
   const email = user.email || ''
   const password = 'password123'
@@ -18,9 +22,10 @@ export async function setupBaseUser(userflow: string) {
     customerId: stripeCustomer.id,
   }
 
-  fs.writeFile(`${dataPath}/${userflow}.json`, JSON.stringify(data), (err) => {
-    if (err) throw err
-    console.log(`User data file created for ${userflow}.`)
+  fs.mkdirSync(dataPath, { recursive: true })
+
+  fs.writeFileSync(`${dataPath}/${userflow}.json`, JSON.stringify(data), {
+    encoding: 'utf8',
   })
 
   console.log(`Testuser setup for ${userflow} completed!`)

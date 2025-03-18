@@ -29,6 +29,7 @@ vendor
 *.sln
 *.sw?
 
+.secrets
 .env
 config.env
 .prettierrc
