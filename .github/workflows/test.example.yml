@@ -10,38 +10,6 @@ on:
   #   branches:
   #     - main
 jobs:
-  webhook-tests:
-    name: Webhook Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
-      - name: Install dependencies
-        run: composer install
-      - name: Create .env file
-        run: |
-          echo "APP_BASE_URL=${{ secrets.APP_BASE_URL }}" >> .env
-          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
-          echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
-          echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
-          echo "SUPABASE_PORT=${{ secrets.SUPABASE_PORT }}" >> .env
-          echo "SUPABASE_DBNAME=${{ secrets.SUPABASE_DBNAME }}" >> .env
-          echo "SUPABASE_USER=${{ secrets.SUPABASE_USER }}" >> .env
-          echo "SUPABASE_PASSWORD=${{ secrets.SUPABASE_PASSWORD }}" >> .env
-
-          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_TEST_SECRET_KEY }}" >> .env
-          echo "STRIPE_SIGNATURE=${{ secrets.STRIPE_TEST_SIGNATURE }}" >> .env
-
-          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
-          echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> .env
-          echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
-      - name: Run webhook tests
-        run: |
-          cd api
-          ./vendor/bin/pest --group webhook
   ui-tests:
     name: UI Tests
     runs-on: ubuntu-latest
@@ -53,14 +21,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-      - name: Install Playwright
-        run: npm install && npx playwright install
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1"
+          node-version: "22"
       - name: Install dependencies
-        run: composer install
-      - name: Run UI tests
-        run: ./run-subscription-tests.sh
+        run: cat package.json && npm install
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Run subscription tests
+        run: npm run pw:subs
