@@ -19,40 +19,45 @@ export default defineConfig({
     //   testMatch: /.*\auth.setup\.ts/,
     // },
     {
-      name: 'setup-trial',
-      testMatch: '**/tests/stripe/setup.trial.ts',
-      teardown: 'teardown-trial',
+      name: 'base-teardown',
+      testMatch: '**/tests/stripe/teardown.base.ts',
     },
     {
-      name: 'teardown-trial',
-      testMatch: '**/tests/stripe/teardown.trial.ts',
+      name: 'setup-trial-active',
+      testMatch: '**/tests/stripe/setup.trial-active.ts',
+      teardown: 'base-teardown',
     },
     {
-      name: 'trial',
+      name: 'subscription-trial-active',
       testMatch: [
         '**/tests/stripe/trial/**/*.spec.ts',
         '**/tests/stripe/common/pricing-table/**/*.spec.ts',
         '**/tests/stripe/common/access-granted.spec.ts',
       ],
-      dependencies: ['setup-trial'],
+      dependencies: ['setup-trial-active'],
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: 'playwright/.auth/trial-active.json',
       },
     },
-    // {
-    //   name: 'monthly-active',
-    //   testMatch: [
-    //     '**/tests/stripe/monthly-active/**/*.spec.ts',
-    //     '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
-    //     '**/tests/stripe/common/access-granted.spec.ts',
-    //     '**/tests/stripe/common/manage-subscription/manage-active.spec.ts',
-    //   ],
-    //   dependencies: ['setup'],
-    //   use: {
-    //     ...devices['Desktop Chrome'],
-    //     storageState: 'playwright/.auth/user.json',
-    //   },
-    // },
+    {
+      name: 'setup-monthly-active',
+      testMatch: '**/tests/stripe/setup.monthly-active.ts',
+      teardown: 'base-teardown',
+    },
+    {
+      name: 'subscription-monthly-active',
+      testMatch: [
+        '**/tests/stripe/monthly-active/**/*.spec.ts',
+        '**/tests/stripe/common/lifetime-teaser/**/*.spec.ts',
+        '**/tests/stripe/common/access-granted.spec.ts',
+        '**/tests/stripe/common/manage-subscription/manage-cancel-reactivate.spec.ts',
+      ],
+      dependencies: ['setup-monthly-active'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/monthly-active.json',
+      },
+    },
   ],
 })

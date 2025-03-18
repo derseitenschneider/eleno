@@ -1,5 +1,6 @@
 # Individual files
 phpstan.neon
+bootstrap.ts
 
 # Logs
 *.log
