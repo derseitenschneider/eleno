@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
-export class CreateMockStudentPMO {
+export class CreateMockStudentPOM {
   readonly page: Page
   readonly firstName: Locator
   readonly lastName: Locator

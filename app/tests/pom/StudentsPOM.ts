@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 
-export class ActiveStudentsPMO {
+export class ActiveStudentsPOM {
   readonly page: Page
   readonly controlsBtnCreate: Locator
   readonly createStudentsFirstRowFirstName: Locator

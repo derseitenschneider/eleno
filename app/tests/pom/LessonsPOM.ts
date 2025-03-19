@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
-export class LessonsPMO {
+export class LessonsPOM {
   readonly page: Page
   readonly lessonNavSidebar: Locator
   readonly title: Locator

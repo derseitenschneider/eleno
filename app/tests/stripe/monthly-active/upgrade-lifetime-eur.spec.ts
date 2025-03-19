@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
-  const subscrptionPMO = new SubscriptionPOM(page)
-  subscrptionPMO.goto()
-  await subscrptionPMO.currencySwitchEUR.click()
+  const subscrptionPom = new SubscriptionPOM(page)
+  subscrptionPom.goto()
+  await subscrptionPom.currencySwitchEUR.click()
 })
 
 test('send the right post data to the server', async ({ page }) => {

@@ -1,32 +1,32 @@
 import { expect, test } from '@playwright/test'
-import { ActiveStudentsPMO } from '../../pmo/StudentsPMO'
-import { CreateMockStudentPMO } from '../../pmo/active-students/CreateMockStudentPMO'
-import { LessonsPMO } from '../../pmo/LessonsPMO'
-import { TodosPMO } from '../../pmo/TodosPMO'
-import { RepertoirePMO } from '../../pmo/RepertoirePMO'
+import { ActiveStudentsPOM } from '../../pom/StudentsPOM'
+import { LessonsPOM } from '../../pom/LessonsPOM'
+import { TodosPOM } from '../../pom/TodosPOM'
+import { RepertoirePOM } from '../../pom/RepertoirePOM'
+import { CreateMockStudentPOM } from '../../pom/active-students/CreateMockStudentPOM'
 
 test.describe('has access to features that require a student', () => {
   test.beforeEach(async ({ page }) => {
-    const activeStudentsPmo = new ActiveStudentsPMO(page)
-    const createMockStudentPmo = new CreateMockStudentPMO(page)
+    const activeStudentsPom = new ActiveStudentsPOM(page)
+    const createMockStudentPom = new CreateMockStudentPOM(page)
 
-    await activeStudentsPmo.goto()
-    await activeStudentsPmo.controlsBtnCreate.click()
-    await createMockStudentPmo.createMockStudent()
+    await activeStudentsPom.goto()
+    await activeStudentsPom.controlsBtnCreate.click()
+    await createMockStudentPom.createMockStudent()
   })
   test('create lesson is not blocked', async ({ page }) => {
-    const lessonPmo = new LessonsPMO(page)
-    await lessonPmo.goto()
+    const lessonPom = new LessonsPOM(page)
+    await lessonPom.goto()
     const accessBlocker = page.getByTestId('access-blocker')
 
     await expect(accessBlocker).not.toBeVisible()
   })
 
   test('create note is not blocked', async ({ page }) => {
-    const lessonPmo = new LessonsPMO(page)
+    const lessonPom = new LessonsPOM(page)
 
-    await lessonPmo.goto()
-    await lessonPmo.btnAddNote.click()
+    await lessonPom.goto()
+    await lessonPom.btnAddNote.click()
 
     await expect(
       page.getByRole('dialog', { name: 'Neue Notiz erstellen' }),
@@ -43,14 +43,14 @@ test.describe('has access to features that require a student', () => {
         await page.getByRole('button', { name: 'Close toast' }).click()
       },
     )
-    const repertoirePmo = new RepertoirePMO(page)
-    await repertoirePmo.goto()
+    const repertoirePom = new RepertoirePOM(page)
+    await repertoirePom.goto()
   })
 })
 
 test('blocker in todo createn not visible.', async ({ page }) => {
-  const todosPmo = new TodosPMO(page)
-  await todosPmo.goto()
+  const todosPom = new TodosPOM(page)
+  await todosPom.goto()
   const accessBlocker = page.getByTestId('access-blocker')
 
   await expect(accessBlocker).not.toBeVisible()
