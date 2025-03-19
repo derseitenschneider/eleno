@@ -16,6 +16,19 @@ export default defineConfig({
 
   projects: [
     ...subscriptionsConfig,
+    {
+      name: 'scratch-setup',
+      testMatch: '**/tests/scratch.setup.ts',
+    },
+    {
+      name: 'scratch',
+      testMatch: /.*scratch.spec.ts/,
+      dependencies: ['scratch-setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/scratch.json',
+      },
+    },
     // {
     //   name: 'setup',
     //   testMatch: /.*\auth.setup\.ts/,
