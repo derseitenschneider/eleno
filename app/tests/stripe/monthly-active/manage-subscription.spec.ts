@@ -1,8 +1,8 @@
 import { test, expect, type Route } from '@playwright/test'
-import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
+import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
-  const subscrptionPMO = new SubscriptionPMO(page)
+  const subscrptionPMO = new SubscriptionPOM(page)
   subscrptionPMO.goto()
 })
 

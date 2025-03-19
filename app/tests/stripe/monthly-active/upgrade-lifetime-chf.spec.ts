@@ -1,22 +1,22 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
+import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
-  const subscrptionPMO = new SubscriptionPMO(page)
-  await subscrptionPMO.goto()
-  await subscrptionPMO.currencySwitchCHF.click()
+  const subscrptionPom = new SubscriptionPOM(page)
+  await subscrptionPom.goto()
+  await subscrptionPom.currencySwitchCHF.click()
 })
 
 test('send the right post data to the server', async ({ page }) => {
-  const subscriptionPmo = new SubscriptionPMO(page)
+  const subscriptionPom = new SubscriptionPOM(page)
 
-  subscriptionPmo.interceptServerResponse()
+  subscriptionPom.interceptServerResponse()
 
   const serverRequestPromise = page.waitForRequest((request) =>
     request.url().includes('stripe/session/create'),
   )
 
-  await subscriptionPmo.buttonCheckoutLifetime.click()
+  await subscriptionPom.buttonCheckoutLifetime.click()
 
   const serverRequest = await serverRequestPromise
   const postData = JSON.parse(serverRequest.postData() || '')
@@ -29,9 +29,9 @@ test('send the right post data to the server', async ({ page }) => {
 })
 
 test('create a lifetime checkout session', async ({ page }) => {
-  const subscriptionPmo = new SubscriptionPMO(page)
+  const subscriptionPom = new SubscriptionPOM(page)
 
-  subscriptionPmo.interceptStripeResponse()
+  subscriptionPom.interceptStripeResponse()
 
   // 2. Prepare to wait for the request before taking action
   const stripeRequestPromise = page.waitForRequest((request) =>
@@ -39,7 +39,7 @@ test('create a lifetime checkout session', async ({ page }) => {
   )
 
   // 3. Take actions that trigger the checkout flow
-  await subscriptionPmo.buttonCheckoutLifetime.click()
+  await subscriptionPom.buttonCheckoutLifetime.click()
 
   // 4. Wait for the Stripe request and get its URL
   const stripeRequest = await stripeRequestPromise

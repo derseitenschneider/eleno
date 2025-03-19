@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 
-export class SubscriptionPMO {
+export class SubscriptionPOM {
   readonly page: Page
   readonly statusBadge: Locator
   readonly plan: Locator

@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPMO } from '../../pmo/SubscriptionPMO'
+import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
-  const subscrptionPMO = new SubscriptionPMO(page)
-  subscrptionPMO.goto()
+  const subscrptionPom = new SubscriptionPOM(page)
+  subscrptionPom.goto()
 })
 
-test.skip('can reactivate subscription', async ({ page }) => { })
-test.skip('can manage subscription', async ({ page }) => { })
+test.skip('can reactivate subscription', async ({ page }) => {})
+test.skip('can manage subscription', async ({ page }) => {})
