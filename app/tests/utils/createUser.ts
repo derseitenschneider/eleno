@@ -9,7 +9,11 @@ dotenv.config({
 
 export default async function createUser(userflow: string) {
   console.log('Creating new test user...')
-  const email = `playwright-${userflow}-${Date.now()}@example.com`
+
+  // CAUTION: The email needs necessarily to contain the substring 'test',
+  // otherwhise supabase auth kicks off creating a stripe customer on the live
+  // stripe instance as well
+  const email = `playwright-test-${userflow}-${Date.now()}@example.com`
   const password = 'password123'
 
   const { data: user, error: createUserError } =

@@ -1,8 +1,8 @@
 import { test as setup, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 import path from 'node:path'
-import { setupBaseUser } from '../utils/setupBaseUser'
-import { runStripeFixture } from '../utils/runStripeFixture'
+import { setupBaseUser } from '../../utils/setupBaseUser'
+import { runStripeFixture } from '../../utils/runStripeFixture'
 
 const SUBSCRIPTION_STATE = 'monthly-canceled'
 

@@ -1,62 +1,40 @@
 import { type Project, devices } from '@playwright/test'
+type SubscriptionStates = {
+  state: string
+  hasAccess: boolean
+}
+const subscriptionStates: Array<SubscriptionStates> = [
+  // { state: 'trial-active', hasAccess: true },
+  { state: 'monthly-active', hasAccess: true },
+  { state: 'monthly-canceled', hasAccess: true },
+]
 
 export const subscriptionsConfig: Array<Project> = [
   {
     name: 'base-teardown',
     testMatch: '**/tests/stripe/teardown.base.ts',
   },
-  {
-    name: 'setup-trial-active',
-    testMatch: '**/tests/stripe/setup.trial-active.ts',
-    teardown: 'base-teardown',
-  },
-  {
-    name: 'subscription-trial-active',
-    testMatch: [
-      '**/tests/stripe/trial/**/*.spec.ts',
-      '**/tests/stripe/common/pricing-table/**/*.spec.ts',
-      '**/tests/stripe/common/access-granted.spec.ts',
-    ],
-    dependencies: ['setup-trial-active'],
-    use: {
-      ...devices['Desktop Chrome'],
-      storageState: 'playwright/.auth/trial-active.json',
-    },
-  },
-  {
-    name: 'setup-monthly-active',
-    testMatch: '**/tests/stripe/setup.monthly-active.ts',
-    teardown: 'base-teardown',
-  },
-
-  {
-    name: 'subscription-monthly-active',
-    testMatch: [
-      '**/tests/stripe/monthly-active/**/*.spec.ts',
-      '**/tests/stripe/common/access-granted.spec.ts',
-    ],
-    dependencies: ['setup-monthly-active'],
-    use: {
-      ...devices['Desktop Chrome'],
-      storageState: 'playwright/.auth/monthly-active.json',
-    },
-  },
-
-  {
-    name: 'setup-monthly-canceled',
-    testMatch: '**/tests/stripe/setup.monthly-canceled.ts',
-    teardown: 'base-teardown',
-  },
-  {
-    name: 'subscription-monthly-canceled',
-    testMatch: [
-      '**/tests/stripe/monthly-canceled/**/*.spec.ts',
-      '**/tests/stripe/common/access-granted.spec.ts',
-    ],
-    dependencies: ['setup-monthly-canceled'],
-    use: {
-      ...devices['Desktop Chrome'],
-      storageState: 'playwright/.auth/monthly-canceled.json',
-    },
-  },
 ]
+
+subscriptionStates.forEach((subscriptionState) => {
+  const { state, hasAccess } = subscriptionState
+  const setup = {
+    name: `setup-${state}`,
+    testMatch: `**/tests/stripe/setup/setup.${state}.ts`,
+    teardown: 'base-teardown',
+  }
+  const test = {
+    name: `subscription-${state}`,
+    testMatch: [
+      `**/tests/stripe/${state}/**/*.spec.ts`,
+      `**/tests/stripe/common/access-${hasAccess ? 'granted' : 'blocked'}.spec.ts`,
+    ],
+    dependencies: [`setup-${state}`],
+    use: {
+      ...devices['Desktop Chrome'],
+      storageState: `playwright/.auth/${state}.json`,
+    },
+  }
+
+  subscriptionsConfig.push(setup, test)
+})
