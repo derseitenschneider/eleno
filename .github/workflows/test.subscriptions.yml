@@ -22,6 +22,8 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
     steps:
       - uses: actions/checkout@v3
+      - name: Debug Secret
+        run: echo "STRIPE_SECRET_KEY: $STRIPE_SECRET_KEY"
 
       - name: Install Stripe CLI using apt
         run: |

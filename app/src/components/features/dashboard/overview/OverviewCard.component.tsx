@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
 type OverviewCardProps = {
   children: React.ReactNode
@@ -7,10 +7,10 @@ type OverviewCardProps = {
 
 export default function OverviewCard({ children, title }: OverviewCardProps) {
   return (
-    <Card className='py-3 h-full'>
+    <Card className='h-full py-3'>
       <CardContent>
         <h3>{title}</h3>
-        <div className='text-sm '>{children}</div>
+        <div className='text-sm'>{children}</div>
       </CardContent>
     </Card>
   )

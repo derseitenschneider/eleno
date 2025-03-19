@@ -27,7 +27,7 @@ export default function WrapperCard({
     >
       <Card className='bg-zinc-50 py-3 sm:px-8'>
         <CardContent className={`${width} flex flex-col space-y-3 pt-3`}>
-          <h2 className='mb-4 text-center text-3xl font-bold text-zinc-600'>
+          <h2 className='mb-4  text-center text-3xl font-bold text-zinc-600'>
             {header}
           </h2>
           {children}

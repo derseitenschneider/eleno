@@ -156,9 +156,9 @@ function CreateLesson() {
   if (!currentLessonHolder) return null
 
   return (
-    <div className='relative px-5 pt-6 pb-6 lg:pb-16 min-[1148px]:pb-0 lg:pr-4 sm:pl-6 lg:py-4'>
+    <div className='relative px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0'>
       <Blocker />
-      <div className='flex mb-2 gap-4 items-baseline'>
+      <div className='mb-2 flex items-baseline gap-4'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker
           setDate={handlerInputDate}
@@ -195,12 +195,12 @@ function CreateLesson() {
       </div>
       <div className='flex justify-between gap-1'>
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-        <div className='ml-auto  lg:mb-8 flex mt-4 items-center gap-1'>
+        <div className='ml-auto  mt-4 flex items-center gap-1 lg:mb-8'>
           <Button
             disabled={isCreating || !hasAccess}
             size='sm'
             onClick={handleSave}
-            className='block ml-auto'
+            className='ml-auto block'
           >
             Speichern
           </Button>
