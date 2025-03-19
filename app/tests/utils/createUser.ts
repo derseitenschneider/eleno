@@ -7,9 +7,9 @@ dotenv.config({
   path: dotenvPath,
 })
 
-export default async function createUser() {
+export default async function createUser(userflow: string) {
   console.log('Creating new test user...')
-  const email = `playwright-test-${Date.now()}@example.com`
+  const email = `playwright-${userflow}-${Date.now()}@example.com`
   const password = 'password123'
 
   const { data: user, error: createUserError } =

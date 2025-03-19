@@ -3,7 +3,6 @@ import { SubscriptionPOM } from '../pom/SubscriptionPOM'
 import path from 'node:path'
 import { setupBaseUser } from '../utils/setupBaseUser'
 import { runStripeFixture } from '../utils/runStripeFixture'
-import { stripeClient } from '../utils/stripeClient'
 
 const SUBSCRIPTION_STATE = 'monthly-canceled'
 
@@ -13,7 +12,7 @@ const authFile = path.resolve(
 )
 
 setup(
-  'create a trial user, run checkout fixture and activate',
+  'create a trial user, run checkout fixture and cancel',
   async ({ page }) => {
     const { email, password, customerId, userId } =
       await setupBaseUser(SUBSCRIPTION_STATE)
@@ -31,7 +30,7 @@ setup(
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
     const subscriptionPom = new SubscriptionPOM(page)
-    subscriptionPom.goto()
+    await subscriptionPom.goto()
 
     await page.getByRole('button', { name: 'Abo kündigen' }).click()
     await page.getByRole('button', { name: 'Abo kündigen' }).click()

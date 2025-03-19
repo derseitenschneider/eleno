@@ -10,7 +10,7 @@ export async function setupBaseUser(userflow: string) {
   const __dirname = path.dirname(__filename) // Get the current directory
 
   const dataPath = path.resolve(__dirname, '..', 'stripe', 'data')
-  const user = await createUser()
+  const user = await createUser(userflow)
   const email = user.email || ''
   const password = 'password123'
 

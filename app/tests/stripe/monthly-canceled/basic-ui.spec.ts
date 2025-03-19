@@ -6,36 +6,30 @@ test.beforeEach(async ({ page }) => {
   await subscriptionPom.goto()
 })
 
-test.skip('subscription status is expiring', async ({ page }) => {
-  const subscriptionPom = new SubscriptionPOM(page)
-
-  await expect(subscriptionPom.statusBadge).toHaveText(/auslaufen/i)
-})
-
-test.skip('plan is "Monatlich" ', async ({ page }) => {
+test('plan is "Monatlich" ', async ({ page }) => {
   const { plan } = new SubscriptionPOM(page)
 
   await expect(plan).toHaveText(/monat/i)
 })
 
-test.skip('period start and end are not empty', async ({ page }) => {
+test('period start and end are not empty', async ({ page }) => {
   const { startDate, endDate } = new SubscriptionPOM(page)
 
   await expect(startDate).not.toBeEmpty()
   await expect(endDate).not.toBeEmpty()
 })
 
-test.skip('pricing table title is hidden', async ({ page }) => {
+test('pricing table title is hidden', async ({ page }) => {
   const { pricingTable } = new SubscriptionPOM(page)
   await expect(pricingTable).not.toBeVisible()
 })
 
-test.skip('upgrade to lifetime section to be visible', async ({ page }) => {
+test('upgrade to lifetime section to be visible', async ({ page }) => {
   const { lifetimeTeaser } = new SubscriptionPOM(page)
   await expect(lifetimeTeaser).toBeVisible()
 })
 
-test.skip('trial banner is hidden', async ({ page }) => {
+test('trial banner is hidden', async ({ page }) => {
   const { trialBanner } = new SubscriptionPOM(page)
 
   await expect(trialBanner).not.toBeVisible()

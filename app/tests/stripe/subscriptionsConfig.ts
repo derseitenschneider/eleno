@@ -28,6 +28,7 @@ export const subscriptionsConfig: Array<Project> = [
     testMatch: '**/tests/stripe/setup.monthly-active.ts',
     teardown: 'base-teardown',
   },
+
   {
     name: 'subscription-monthly-active',
     testMatch: [
@@ -38,6 +39,24 @@ export const subscriptionsConfig: Array<Project> = [
     use: {
       ...devices['Desktop Chrome'],
       storageState: 'playwright/.auth/monthly-active.json',
+    },
+  },
+
+  {
+    name: 'setup-monthly-canceled',
+    testMatch: '**/tests/stripe/setup.monthly-canceled.ts',
+    teardown: 'base-teardown',
+  },
+  {
+    name: 'subscription-monthly-canceled',
+    testMatch: [
+      '**/tests/stripe/monthly-canceled/**/*.spec.ts',
+      '**/tests/stripe/common/access-granted.spec.ts',
+    ],
+    dependencies: ['setup-monthly-canceled'],
+    use: {
+      ...devices['Desktop Chrome'],
+      storageState: 'playwright/.auth/monthly-canceled.json',
     },
   },
 ]
