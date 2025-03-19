@@ -16,10 +16,17 @@ dotenv.config({
 })
 
 export async function runStripeFixture(args: RunFixtureArgs) {
-  const apiKey = process.env.STRIPE_SECRET_KEY
   return new Promise((resolve, reject) => {
+    // Since we cannot login into stripe cli with ci/cd because stripe login
+    // only works with interactions, we pass the stripe secret to every command
+    // for authentication.
+    const apiKeyString = `--api-key ${process.env.STRIPE_SECRET_KEY}`
+
+    // Dynamic vars consumed by the fixture when running with the cli
     const envVarString = `USER_ID=${args.userId} CUSTOMER_ID=${args.customerId} LOCALE=${args.locale || 'de'}`
-    const command = `${envVarString} --api-key=${apiKey} stripe fixtures ${fixturesPath}/${args.fixture}.json`
+
+    // Final composition of the command.
+    const command = `${envVarString}  stripe fixtures ${apiKeyString} ${fixturesPath}/${args.fixture}.json`
 
     const childProcess = exec(command)
 

@@ -3,15 +3,15 @@ on:
   workflow_dispatch:
     branches:
       - dev
-  # push:
-  #   branches:
-  #     - dev
+  push:
+    branches:
+      - dev
   # pull_request:
   #   branches:
   #     - main
 jobs:
   ui-tests:
-    name: UI Tests
+    name: Subription userflow tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,7 +20,6 @@ jobs:
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      STRIPE_API_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
     steps:
       - uses: actions/checkout@v3
 
@@ -31,11 +30,6 @@ jobs:
           sudo apt update
           sudo apt install stripe
           stripe --version
-
-      # - name: Authenticate Stripe CLI
-      #   run: |
-      #     stripe config set api_key ${{ secrets.STRIPE_SECRET_KEY }}
-      #     stripe whoami
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
