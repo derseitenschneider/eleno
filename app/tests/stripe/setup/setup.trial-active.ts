@@ -1,6 +1,6 @@
 import { test as setup, expect } from '@playwright/test'
 import path from 'node:path'
-import { setupBaseUser } from '../utils/setupBaseUser'
+import { setupBaseUser } from '../../utils/setupBaseUser'
 
 const authFile = path.resolve(
   path.dirname('.'),
