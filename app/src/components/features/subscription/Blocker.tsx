@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom'
 
 export type BlockerProps = {
   variant?: 'inline' | 'block'
+  blockerId?: string
 }
 
-export function Blocker({ variant = 'block' }: BlockerProps) {
+export function Blocker({ variant = 'block', blockerId = '' }: BlockerProps) {
   const { hasAccess } = useSubscription()
   const { isDemoMode } = appConfig
   const navigate = useNavigate()
@@ -18,10 +19,10 @@ export function Blocker({ variant = 'block' }: BlockerProps) {
   if (variant === 'inline')
     return (
       <div
-        data-testid='access-blocker'
-        className='absolute p-2 inset-0 backdrop-blur-[2px] z-50'
+        data-testid={`access-blocker${blockerId && `-${blockerId}`}`}
+        className='absolute inset-0 z-50 p-2 backdrop-blur-[2px]'
       >
-        <div className='bg-background100 flex w-fit items-center gap-6'>
+        <div className='flex w-fit items-center gap-6 bg-background100'>
           <p>Nur im Abo verfügbar</p>
           <Button size='sm' onClick={() => navigate('/settings/subscription')}>
             Abo abschliessen
@@ -32,10 +33,10 @@ export function Blocker({ variant = 'block' }: BlockerProps) {
 
   return (
     <div
-      data-testid='access-blocker'
-      className='absolute flex flex-col justify-center items-center rounded-md inset-[-12px] backdrop-blur-[2px] z-50'
+      data-testid={`access-blocker${blockerId && `-${blockerId}`}`}
+      className='absolute inset-[-12px] z-50 flex flex-col items-center justify-center rounded-md backdrop-blur-[2px]'
     >
-      <Card className='flex flex-col justify-center items-center p-5'>
+      <Card className='flex flex-col items-center justify-center p-5'>
         <p className='mb-6'>Nur im Abo verfügbar</p>
         <Button size='sm' onClick={() => navigate('/settings/subscription')}>
           Abo abschliessen

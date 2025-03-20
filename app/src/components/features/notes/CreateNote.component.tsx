@@ -54,8 +54,8 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   }
 
   return (
-    <div className='relative sm:w-[500px] text-sm'>
-      <Blocker />
+    <div className='relative text-sm sm:w-[500px]'>
+      <Blocker blockerId='createNote' />
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'
@@ -67,19 +67,19 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
         onChange={handleTitle}
       />
 
-      <div className='mt-5 mb-6'>
+      <div className='mb-6 mt-5'>
         <CustomEditor
           placeholder='Notiz erstellen...'
           value={text || ''}
           onChange={handleText}
         />
         {error && (
-          <span className='block pt-2 text-warning text-sm'>{error}</span>
+          <span className='block pt-2 text-sm text-warning'>{error}</span>
         )}
       </div>
-      <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
+      <div className='flex flex-wrap items-end justify-between gap-x-4 gap-y-5'>
         <NoteColor color={color} setColor={setColor} />
-        <div className='flex gap-4 items-center'>
+        <div className='flex items-center gap-4'>
           <Button
             type='button'
             onClick={onCloseModal}

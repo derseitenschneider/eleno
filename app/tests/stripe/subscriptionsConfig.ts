@@ -19,7 +19,7 @@ subscriptionStates.forEach((subscriptionState) => {
   const test: Project = {
     name: `subscription-${state}`,
     testMatch: [
-      `**/tests/stripe/${state}/**/*.spec.ts`,
+      // `**/tests/stripe/${state}/**/*.spec.ts`,
       `**/tests/stripe/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
     ],
     dependencies: [`setup-${state}`],

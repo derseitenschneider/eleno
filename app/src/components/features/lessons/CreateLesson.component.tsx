@@ -157,7 +157,7 @@ function CreateLesson() {
 
   return (
     <div className='relative px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0'>
-      <Blocker />
+      <Blocker blockerId='createLesson' />
       <div className='mb-2 flex items-baseline gap-4'>
         <h5 className='m-0'>Aktuelle Lektion</h5>
         <DayPicker

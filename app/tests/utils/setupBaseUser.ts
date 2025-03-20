@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url' // Import fileURLToPath
 import { createCustomer } from './createStripeCustomer.ts'
 import { createSubscriptionRow } from './createSubscriptionRow.ts'
 import createUser from './createUser.ts'
+import { populateStudents } from './populate-data/populateStudents.ts'
 
 export async function setupBaseUser(userflow: string) {
   const __filename = fileURLToPath(import.meta.url) // Get the current file's path
@@ -11,6 +12,8 @@ export async function setupBaseUser(userflow: string) {
 
   const dataPath = path.resolve(__dirname, '..', 'stripe', 'data')
   const user = await createUser(userflow)
+  await populateStudents(user.id)
+
   const email = user.email || ''
   const password = 'password123'
 

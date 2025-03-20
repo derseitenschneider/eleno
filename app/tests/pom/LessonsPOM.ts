@@ -14,6 +14,7 @@ export class LessonsPOM {
   }
 
   async goto() {
+    await this.page.goto('/')
     await this.lessonNavSidebar.click()
     await expect(this.title).toBeVisible()
   }
