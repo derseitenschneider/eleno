@@ -12,12 +12,12 @@ function Banner() {
 
   if (isDemoMode)
     return (
-      <div className='z-40 fixed top-0 text-sm text-center w-full bg-primary p-1 text-white'>
+      <div className='fixed top-0 z-40 w-full bg-primary p-1 text-center text-sm text-white'>
         <b>Demo</b>
         <Link
           target='_blank'
           to='https://app.eleno.net/?page=signup'
-          className='text-white ml-3 underline'
+          className='ml-3 text-white underline'
         >
           Jetzt Benutzerkonto erstellen
         </Link>
@@ -26,7 +26,7 @@ function Banner() {
 
   if (!isOnline)
     return (
-      <div className='z-40 fixed top-0 text-sm text-center w-full bg-amber-700 p-1 text-white'>
+      <div className='fixed top-0 z-40 w-full bg-amber-700 p-1 text-center text-sm text-white'>
         Du bist momentan offline.
       </div>
     )
@@ -35,7 +35,7 @@ function Banner() {
     return (
       <div
         data-testid='banner-trial'
-        className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-background100 p-1'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-background100 p-1 text-center text-sm'
       >
         <p>
           Du bist aktuell im Testabo und kannst noch{' '}
@@ -52,7 +52,10 @@ function Banner() {
 
   if (subscriptionState === 'TRIAL_EXPIRED')
     return (
-      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
+      <div
+        data-testid='banner-trial-expired'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'
+      >
         <p>
           <span className='font-medium'>Dein Testabo ist abgelaufen!</span>{' '}
           <Link to='/settings/subscription#pricing' className='underline'>
@@ -63,7 +66,7 @@ function Banner() {
     )
   if (subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED')
     return (
-      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-warning/5 p-1'>
+      <div className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'>
         <p>
           <span className='font-medium'>Aktion erforderlich:</span>
           {'  '}Deine Zahlung ist fehlgeschlagen!{'  '}
@@ -76,7 +79,7 @@ function Banner() {
 
   if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED')
     return (
-      <div className='z-40 border-b border-hairline fixed top-0 flex gap-2 text-sm justify-center text-center w-full bg-primary/5 p-1'>
+      <div className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-primary/5 p-1 text-center text-sm'>
         <p>
           <span className='font-medium'>Dein Abo ist inaktiv</span>
           {'  '}

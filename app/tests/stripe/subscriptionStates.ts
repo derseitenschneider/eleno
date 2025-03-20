@@ -6,13 +6,13 @@ export type SubscriptionStates = {
   manageSubscription: boolean
 }
 export const subscriptionStates: Array<SubscriptionStates> = [
-  // {
-  //   state: 'trial-active',
-  //   access: true,
-  //   pricingTable: true,
-  //   lifetimeTeaser: false,
-  //   manageSubscription: false,
-  // },
+  {
+    state: 'trial-active',
+    access: true,
+    pricingTable: true,
+    lifetimeTeaser: false,
+    manageSubscription: false,
+  },
 
   {
     state: 'trial-expired',
@@ -21,18 +21,20 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: false,
     manageSubscription: false,
   },
-  // {
-  //   state: 'monthly-active',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
-  // {
-  //   state: 'monthly-canceled',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
+
+  {
+    state: 'monthly-active',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
+
+  {
+    state: 'monthly-canceled',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
 ]
