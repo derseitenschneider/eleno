@@ -6,9 +6,6 @@ on:
   push:
     branches:
       - dev
-  # pull_request:
-  #   branches:
-  #     - main
 jobs:
   ui-tests:
     name: Subription userflow tests
@@ -22,9 +19,6 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
     steps:
       - uses: actions/checkout@v3
-      # - name: Debug Secret
-      #   run: "echo 'STRIPE_SECRET_KEY: $STRIPE_SECRET_KEY'"
-      #
       - name: Install Stripe CLI using apt
         run: |
           curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg > /dev/null
