@@ -13,7 +13,7 @@ setup(
   async ({ page }) => {
     const { email, password, userId } = await setupBaseUser('trial-expired')
 
-    expireSubscription(userId)
+    await expireSubscription(userId)
     await page.goto('/?page=login')
     await page.getByTestId('login-email').fill(email)
     await page.getByTestId('login-password').fill(password)

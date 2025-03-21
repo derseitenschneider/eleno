@@ -9,7 +9,7 @@ type UserData = {
   customerId: string
 }
 
-const dataPath = path.resolve(path.dirname('.'), './tests/stripe/data')
+const dataPath = path.resolve(path.dirname('.'), './tests/subscriptions/data')
 
 teardown('cleanup all trial users and customers', async () => {
   const files = fs

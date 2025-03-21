@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
-import { subscriptionsConfig } from './tests/stripe/subscriptionsConfig'
+import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,

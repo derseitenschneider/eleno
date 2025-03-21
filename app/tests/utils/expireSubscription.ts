@@ -19,6 +19,9 @@ export async function expireSubscription(userId: string) {
     .update(data)
     .eq('user_id', userId)
 
+  console.log(
+    `Expired subscription for user ${userId}: ${data.period_start} - ${data.period_end}`,
+  )
   if (error) {
     throw new Error(error.message)
   }

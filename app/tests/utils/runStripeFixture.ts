@@ -8,7 +8,10 @@ type RunFixtureArgs = {
   userId: string
   locale?: string
 }
-const fixturesPath = path.resolve(path.dirname('.'), 'tests/stripe/fixtures')
+const fixturesPath = path.resolve(
+  path.dirname('.'),
+  'tests/subscriptions/fixtures',
+)
 
 const dotenvPath = path.resolve(path.dirname('.'), './tests/.env.test')
 dotenv.config({
