@@ -25,8 +25,8 @@
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
   "include": [
-    "src"
-    // "src/**/*",
+    "src",
+    "tests/utils/TestUser.ts" // "src/**/*",
     // "src/types/**/*",
     // "scripts",
     // "postcss.config.js",

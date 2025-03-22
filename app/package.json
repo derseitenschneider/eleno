@@ -12,6 +12,7 @@
     "build": "vite build",
     "build:demo": "vite build --mode demo",
     "build:staging": "vite build --mode staging ",
+    "build:ci": "vite build && vite preview --host --port 5000",
     "preview": "vite preview",
     "generate-types:prod": "npx supabase gen types typescript --project-id 'brhpqxeowknyhrimssxw' --schema public > src/types/supabase.ts",
     "generate-types:staging": "npx supabase gen types typescript --project-id 'nrzxjxtylpazkoieqjvt' --schema public > src/types/supabase.ts",

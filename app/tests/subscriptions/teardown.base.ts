@@ -1,8 +1,8 @@
 import { test as teardown } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import deleteUser from '../utils/deleteUser'
 import { stripeClient } from '../utils/stripeClient'
+import supabaseAdmin from '../utils/supabaseAdmin'
 
 type UserData = {
   userId: string
@@ -12,6 +12,8 @@ type UserData = {
 const dataPath = path.resolve(path.dirname('.'), './tests/subscriptions/data')
 
 teardown('cleanup all trial users and customers', async () => {
+  console.log('===================================================')
+  console.log('Start cleanup...')
   const files = fs
     .readdirSync(dataPath)
     .filter((file) => file.endsWith('.json'))
@@ -23,7 +25,11 @@ teardown('cleanup all trial users and customers', async () => {
       const { userId, customerId } = JSON.parse(data) as UserData
 
       await stripeClient.customers.del(customerId)
-      await deleteUser(userId)
+      const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
+      if (error) {
+        throw new Error(`Could not delete db user ${userId}: ${error.message}`)
+      }
+
       fs.unlinkSync(filePath)
       console.log(`Cleanup completed for ${file}`)
     } catch (error) {
@@ -31,4 +37,5 @@ teardown('cleanup all trial users and customers', async () => {
     }
   }
   console.log('All cleanup tasks completed!')
+  console.log('===================================================')
 })

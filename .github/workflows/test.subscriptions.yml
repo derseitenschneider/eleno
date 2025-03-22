@@ -35,6 +35,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set environment variables
+        run: |
+          echo "VITE_ENV=${{ secrets.VITE_ENV }}" >> $GITHUB_ENV
+          echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "VITE_SUPABASE_KEY=${{ secrets.VITE_SUPABASE_KEY }}" >> $GITHUB_ENV
+          echo "VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}" >> $GITHUB_ENV
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+          echo "VITE_STRIPE_PRICE_ID_MONTHLY=${{ secrets.VITE_STRIPE_PRICE_ID_MONTHLY }}" >> $GITHUB_ENV
+          echo "VITE_STRIPE_PRICE_ID_YEARLY=${{ secrets.VITE_STRIPE_PRICE_ID_YEARLY }}" >> $GITHUB_ENV
+          echo "VITE_STRIPE_PRICE_ID_LIFETIME=${{ secrets.VITE_STRIPE_PRICE_ID_LIFETIME }}" >> $GITHUB_ENV
+
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
 
