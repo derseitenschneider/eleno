@@ -13,46 +13,97 @@ type UserFlow =
   | 'monthly-expired'
   | 'trial-active'
 
+type StripeFixture = 'monthly-checkout' | 'yearly-checkout' | 'lifetime'
 type Options = {
   userflow: UserFlow
 }
 
 export class TestUser {
-  readonly email
-  readonly password
-  readonly userflow
-  private dataPath
-  private fixturesPath
-  readonly authFile
+  /**
+   * @private
+   *
+   * The path to the temporary data storage.
+   *
+   * This is the path to the file where for the userdata is stored per userflow.
+   * The cleanup after the tests uses this file to delete all test data in the
+   * database and eventually delets also this file.
+   */
+  private dataPath: string
+
+  /**
+   * @private
+   *
+   * The path to the stripe fixture.
+   *
+   * This is the path to the fixture json that gets run by the stripe cli for
+   * given userflow.
+   */
+  private fixturesPath: string
+
+  /**
+   * @readonly
+   *
+   * Fake email adress for test user.
+   *
+   * CAUTION: The email needs necessarily to contain the substring 'test',
+   * otherwhise supabase auth kicks off creating a stripe customer on the live
+   * stripe instance as well.
+   */
+  readonly email: string
+
+  /**
+   * @readonly
+   *
+   * Password for test user, usually "password123".
+   */
+  readonly password: string
+
+  /**
+   * @readonly
+   *
+   * The userflow to set for the testuser.
+   */
+  readonly userflow: UserFlow
+
+  /**
+   * @readonly
+   *
+   * The path to the authfile where auth data is stored for playwright for
+   * easier login after the initial one.
+   */
+  readonly authFile: string
+
+  /**
+   * @protected
+   *
+   * The user created on init().
+   */
   protected user: User | null = null
+
+  /**
+   * @protected
+   *
+   * The customer created on init().
+   */
   protected customer: Stripe.Response<Stripe.Customer> | null = null
 
   constructor(options: Options) {
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
-    this.dataPath = path.resolve(__dirname, '..', 'subscriptions', 'data')
-    this.fixturesPath = path.resolve(
-      __dirname,
-      '..',
-      'subscriptions',
-      'fixtures',
-    )
-    this.authFile = path.resolve(
-      __dirname,
-      '..',
-      '..',
-      'playwright',
-      '.auth',
-      `${options.userflow}.json`,
-    )
-
     this.userflow = options.userflow
 
-    // CAUTION: The email needs necessarily to contain the substring 'test',
-    // otherwhise supabase auth kicks off creating a stripe customer on the live
-    // stripe instance as well.
+    this.dataPath = this.resolveJoin('../subscriptions/data')
+    this.fixturesPath = this.resolveJoin('../subscriptions/fixtures/')
+    this.authFile = this.resolveJoin(
+      `../../playwright/.auth/${this.userflow}.json`,
+    )
+
     this.email = `pw-test-${this.userflow}-${Date.now()}@example.com`
     this.password = 'password123'
+  }
+
+  private resolveJoin(file: string) {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    return path.resolve(path.join(__dirname, file))
   }
 
   async init() {
@@ -167,7 +218,7 @@ export class TestUser {
     }
   }
 
-  async runStripeFixture(fixtureName: string) {
+  async runStripeFixture(fixtureName: StripeFixture) {
     console.log('===================================================')
     console.log(`Start running fixture for ${fixtureName}...`)
     return new Promise((resolve, reject) => {
