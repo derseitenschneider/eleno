@@ -26,12 +26,6 @@ test('create note is not blocked', async ({ page }) => {
 })
 
 test('create repertoire item is not blocked', async ({ page }) => {
-  await page.addLocatorHandler(
-    page.getByText('Neue Nachricht', { exact: true }),
-    async () => {
-      await page.getByRole('button', { name: 'Close toast' }).click()
-    },
-  )
 
   const repertoirePom = new RepertoirePOM(page)
   await repertoirePom.goto()

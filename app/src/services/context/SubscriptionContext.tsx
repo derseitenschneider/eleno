@@ -107,7 +107,6 @@ export function SubscriptionProvider({
     )
     .subscribe()
 
-  console.log(subscriptionState)
   const value = {
     subscription,
     hasAccess,

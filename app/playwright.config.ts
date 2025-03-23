@@ -27,7 +27,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.CI
       ? 'http://localhost:5000'
-      : process.env.LOCAL
+      : process.env.LOCAL_TEST
         ? 'http://localhost:5173'
         : 'https://dev.eleno.net',
     trace: 'on-first-retry',

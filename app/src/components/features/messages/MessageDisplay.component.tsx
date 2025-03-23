@@ -57,7 +57,7 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
   }
 
   return (
-    <div className='h-full flex flex-col'>
+    <div className='flex h-full flex-col'>
       <div className='flex items-center p-2'>
         <div className='flex items-center gap-2'>
           <Tooltip>
@@ -80,7 +80,7 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
       {message ? (
         <>
           <div className='flex items-start p-4'>
-            <div className='flex items-start gap-4 text-sm'>
+            <div data-testid='message-header' className='flex items-start gap-4 text-sm'>
               <Logo className='self-center' />
               <div className='grid gap-1'>
                 <div className='font-semibold'>Team ELENO</div>
@@ -97,11 +97,11 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
           </div>
           <Separator />
           <ScrollArea type='hover' className='h-full'>
-            <div className='h-full max-w-[70ch] [*&]:break-word p-4'>
+            <div className='[*&]:break-word h-full max-w-[70ch] p-4'>
               <div
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}
-                className='p-5 flex flex-col space-y-4'
+                className='flex flex-col space-y-4 p-5'
               >
                 {parse(message.body || '')}
               </div>

@@ -9,20 +9,23 @@ export const subscriptionsConfig: Array<Project> = [
 ]
 
 subscriptionStates.forEach((subscriptionState) => {
+  const setupOnly = process.env.SETUP_ONLY
   const { state, access, pricingTable, lifetimeTeaser, manageSubscription } =
     subscriptionState
   const setup: Project = {
     name: `setup-${state}`,
     testMatch: `**/tests/subscriptions/setup/setup.${state}.ts`,
-    // teardown: 'base-teardown',
+    teardown: setupOnly ? '' : 'base-teardown',
   }
 
   const test: Project = {
     name: `subscription-${state}`,
-    testMatch: [
-      `**/tests/subscriptions/${state}/**/*.spec.ts`,
-      `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
-    ],
+    testMatch: setupOnly
+      ? ''
+      : [
+        `**/tests/subscriptions/${state}/**/*.spec.ts`,
+        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
+      ],
     dependencies: [`setup-${state}`],
     use: {
       ...devices['Desktop Chrome'],
