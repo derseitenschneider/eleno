@@ -45,6 +45,9 @@ $app->addBodyParsingMiddleware();
 // Add error middleware
 $app->addErrorMiddleware( true, true, true );
 
+// Add CORS middleware
+$app->add( $container->get( CorsMiddleware::class ) );
+
 // Handle preflight
 $app->options(
 	'/{routes:.+}',
@@ -54,7 +57,7 @@ $app->options(
 );
 
 // Add CORS middleware
-$app->add( $container->get( CorsMiddleware::class ) );
+// $app->add( $container->get( CorsMiddleware::class ) );
 
 // Add routes
 ( require __DIR__ . '/../src/routes/homework.php' )( $app );

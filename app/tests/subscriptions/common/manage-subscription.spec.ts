@@ -14,7 +14,7 @@ test('can go to stripes subscription management page', async ({ page }) => {
     const responseJson = JSON.parse(body.toString())
     const portalUrl = responseJson.data.url
     expect(portalUrl).toContain('billing.stripe.com')
-    await route.continue()
+    await route.fulfill()
   })
 
   const responsePromise = page.waitForResponse('**/stripe/customers/**')

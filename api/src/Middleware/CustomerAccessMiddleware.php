@@ -20,9 +20,16 @@ class CustomerAccessMiddleware implements MiddlewareInterface {
 	) {}
 
 	public function process( Request $request, RequestHandlerInterface $handler ): Response {
+		// Check if it's an OPTIONS request
+		logDebug( $request->getHeaders() );
+		if ( $request->getMethod() === 'OPTIONS' ) {
+			return $handler->handle( $request ); // Simply pass it along
+		}
+
 		try {
 			$userId     = $this->securityChecks->getUserIdFromRequest( $request );
 			$customerId = RouteContext::fromRequest( $request )->getRoute()->getArgument( 'customer_id' );
+			// logDebug( $userId );
 
 			if ( $customerId && ! $this->securityChecks->verifyCustomerAccess( $customerId, $userId ) ) {
 				return $this->createErrorResponse( 'Unauthorized access', 403 );

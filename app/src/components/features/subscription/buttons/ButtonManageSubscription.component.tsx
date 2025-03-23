@@ -35,6 +35,7 @@ export default function ButtonManageSubscription() {
       } = await supabase.auth.getSession()
       const token = session?.access_token
 
+      console.log(appConfig.apiUrl)
       const res = await fetch(
         `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}/portal`,
         {
@@ -62,7 +63,7 @@ export default function ButtonManageSubscription() {
     <div className='flex flex-col'>
       <Button
         size='sm'
-        className='w-fit flex gap-2'
+        className='flex w-fit gap-2'
         onClick={getPaymentUpdateLink}
         disabled={status === 'LOADING'}
         variant='outline'

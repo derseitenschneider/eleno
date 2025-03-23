@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Middleware;
 
 use App\Config\Config;
@@ -18,10 +17,10 @@ class JWTAuthMiddleware implements MiddlewareInterface {
 	) {}
 
 	public function process( Request $request, RequestHandlerInterface $handler ): Response {
-		$headers    = $request->getHeaders();
-		$authHeader = $headers['Authorization'][0] ?? '';
+		// Get token from header - case-insensitive check
+		$authHeader = $this->getAuthorizationHeader( $request );
 
-		if ( ! $authHeader || ! preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches ) ) {
+		if ( empty( $authHeader ) || ! preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches ) ) {
 			return $this->createErrorResponse( 'No token provided', 401 );
 		}
 
@@ -30,15 +29,35 @@ class JWTAuthMiddleware implements MiddlewareInterface {
 				$matches[1],
 				new Key( $this->config->supabaseJwtSecret, 'HS256' )
 			);
-
 			// Proceed with the request
 			return $handler->handle( $request );
-
 		} catch ( \Firebase\JWT\ExpiredException $e ) {
 			return $this->createErrorResponse( 'Token has expired', 401 );
 		} catch ( \Exception $e ) {
 			return $this->createErrorResponse( $e->getMessage(), 401 );
 		}
+	}
+
+	/**
+	 * Gets the authorization header regardless of case
+	 */
+	private function getAuthorizationHeader( Request $request ): ?string {
+		$headers = $request->getHeaders();
+
+		// Case-insensitive check for both common variations
+		foreach ( [ 'Authorization', 'authorization' ] as $headerName ) {
+			if ( isset( $headers[ $headerName ] ) && ! empty( $headers[ $headerName ][0] ) ) {
+				return $headers[ $headerName ][0];
+			}
+		}
+
+		// Debug code - uncomment during development if needed
+		/*
+		error_log('Headers received: ' . json_encode($headers));
+		error_log('Server vars: ' . json_encode($_SERVER));
+		*/
+
+		return null;
 	}
 
 	private function createErrorResponse( string $message, int $status ): Response {
@@ -51,7 +70,6 @@ class JWTAuthMiddleware implements MiddlewareInterface {
 				)
 			)
 		);
-
 		return $response->withHeader( 'Content-Type', 'application/json' );
 	}
 }

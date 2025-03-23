@@ -22,21 +22,21 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: false,
   // },
   //
-  {
-    state: 'monthly-active',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: true,
-    manageSubscription: true,
-  },
-  //
   // {
-  //   state: 'monthly-canceled',
+  //   state: 'monthly-active',
   //   access: true,
   //   pricingTable: false,
   //   lifetimeTeaser: true,
   //   manageSubscription: true,
   // },
+
+  {
+    state: 'monthly-canceled',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
 
   // {
   //   state: 'monthly-expired',
