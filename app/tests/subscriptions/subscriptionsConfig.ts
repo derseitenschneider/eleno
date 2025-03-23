@@ -14,8 +14,9 @@ subscriptionStates.forEach((subscriptionState) => {
   const setup: Project = {
     name: `setup-${state}`,
     testMatch: `**/tests/subscriptions/setup/setup.${state}.ts`,
-    teardown: 'base-teardown',
+    // teardown: 'base-teardown',
   }
+
   const test: Project = {
     name: `subscription-${state}`,
     testMatch: [

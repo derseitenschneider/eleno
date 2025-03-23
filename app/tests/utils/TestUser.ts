@@ -1,11 +1,9 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 import supabaseAdmin from './supabaseAdmin'
-import { stripeClient } from './stripeClient'
+import { StripeService } from './StripeService'
 import { type User } from '@supabase/supabase-js'
 import Stripe from 'stripe'
-import { exec } from 'node:child_process'
+import { resolveJoin } from './resolveJoin'
 
 type UserFlow =
   | 'monthly-active'
@@ -29,16 +27,6 @@ export class TestUser {
    * database and eventually delets also this file.
    */
   private dataPath: string
-
-  /**
-   * @private
-   *
-   * The path to the stripe fixture.
-   *
-   * This is the path to the fixture json that gets run by the stripe cli for
-   * given userflow.
-   */
-  private fixturesPath: string
 
   /**
    * @readonly
@@ -87,32 +75,39 @@ export class TestUser {
    */
   protected customer: Stripe.Response<Stripe.Customer> | null = null
 
+  /**
+   * @protected
+   *
+   * Helper class with all methods related to stripe.
+   */
+  protected stripeService: StripeService
+
   constructor(options: Options) {
+    this.stripeService = new StripeService()
     this.userflow = options.userflow
 
-    this.dataPath = this.resolveJoin('../subscriptions/data')
-    this.fixturesPath = this.resolveJoin('../subscriptions/fixtures/')
-    this.authFile = this.resolveJoin(
-      `../../playwright/.auth/${this.userflow}.json`,
-    )
+    this.dataPath = resolveJoin('../subscriptions/data')
+    this.authFile = resolveJoin(`../../playwright/.auth/${this.userflow}.json`)
 
     this.email = `pw-test-${this.userflow}-${Date.now()}@example.com`
     this.password = 'password123'
   }
 
-  private resolveJoin(file: string) {
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
-    return path.resolve(path.join(__dirname, file))
-  }
-
   async init() {
     console.log('===================================================')
-    console.log(`Start testUser setup for ${this.userflow}...\n`)
-    await this.createUser()
-    await this.createCustomer()
+    console.log(':::::::::: USER ::::::::::\n')
+
+    console.log(`Start testUser setup for ${this.userflow}...`)
+
+    this.user = await this.createUser()
+    this.customer = await this.stripeService.createCustomer(
+      this.user,
+      this.userflow,
+    )
+
     await this.populateStudents()
     await this.createSubscriptionRow()
+
     this.writeData()
 
     console.log(`Testuser setup for ${this.userflow} completed!`)
@@ -135,25 +130,7 @@ export class TestUser {
       throw new Error(`Error creating new user: ${createUserError.message}`)
     }
     console.log(`User ${user.user.id} created successfully.`)
-    this.user = user.user
-  }
-
-  private async createCustomer() {
-    if (!this.user) {
-      throw new Error('No user present to create a stripe customer from.')
-    }
-    console.log('Creating new stripe customer...')
-    const email = this.email
-    const userId = this.user.id
-    const customer = await stripeClient.customers.create({
-      email,
-      metadata: {
-        uid: userId,
-      },
-    })
-
-    console.log(`Customer ${customer.id} created successfully.`)
-    this.customer = customer
+    return user.user
   }
 
   private writeData() {
@@ -163,6 +140,7 @@ export class TestUser {
     const data = {
       userId: this.user.id,
       customerId: this.customer.id,
+      clockId: this.customer.test_clock,
     }
 
     const fullPath = `${this.dataPath}/${this.userflow}.json`
@@ -201,6 +179,7 @@ export class TestUser {
       throw new Error(error.message)
     }
   }
+
   private async populateStudents() {
     if (!this.user || !this.customer) {
       throw new Error('No data present to populate students for.')
@@ -219,49 +198,14 @@ export class TestUser {
   }
 
   async runStripeFixture(fixtureName: StripeFixture) {
-    console.log('===================================================')
-    console.log(`Start running fixture for ${fixtureName}...`)
-    return new Promise((resolve, reject) => {
-      if (!this.user || !this.customer) {
-        throw new Error("Can't run fixture without user and customer")
-      }
-      // Since we cannot login into stripe cli with ci/cd because stripe login
-      // only works with interactions, we pass the stripe secret to every command
-      // for authentication.
-      const apiKeyString = `--api-key ${process.env.STRIPE_SECRET_KEY}`
+    if (!this.user || !this.customer) {
+      throw new Error("Can't run fixture without user and customer")
+    }
 
-      // Dynamic vars consumed by the fixture when running with the cli
-      const envVarString = `USER_ID=${this.user.id} CUSTOMER_ID=${this.customer.id} LOCALE=de`
-
-      // Final composition of the command.
-      const command = `${envVarString}  stripe fixtures ${apiKeyString} ${this.fixturesPath}/${fixtureName}.json`
-
-      const childProcess = exec(command)
-
-      let stdoutData = ''
-      let stderrData = ''
-
-      childProcess.stdout?.on('data', (data) => {
-        stdoutData += data
-        console.log(data) // Log stdout in real-time
-      })
-
-      childProcess.stderr?.on('data', (data) => {
-        stderrData += data
-        console.error(data) // Log stderr in real-time
-      })
-
-      childProcess.on('close', (code) => {
-        if (code === 0) {
-          console.log(`Fixture for ${fixtureName} competed.`)
-          console.log('===================================================')
-          resolve(stdoutData)
-        } else {
-          reject(
-            new Error(`Stripe CLI exited with code ${code}: ${stderrData}`),
-          )
-        }
-      })
-    })
+    await this.stripeService.runFixture(
+      fixtureName,
+      this.user.id,
+      this.customer.id,
+    )
   }
 }

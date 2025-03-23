@@ -7,6 +7,7 @@ import supabaseAdmin from '../utils/supabaseAdmin'
 type UserData = {
   userId: string
   customerId: string
+  clockId: string
 }
 
 const dataPath = path.resolve(path.dirname('.'), './tests/subscriptions/data')
@@ -22,9 +23,10 @@ teardown('cleanup all trial users and customers', async () => {
     const filePath = path.join(dataPath, file)
     try {
       const data = fs.readFileSync(filePath, 'utf8')
-      const { userId, customerId } = JSON.parse(data) as UserData
+      const { userId, customerId, clockId } = JSON.parse(data) as UserData
 
-      await stripeClient.customers.del(customerId)
+      await stripeClient.testHelpers.testClocks.del(clockId)
+      // await stripeClient.customers.del(customerId)
       const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
       if (error) {
         throw new Error(`Could not delete db user ${userId}: ${error.message}`)

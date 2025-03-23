@@ -32,6 +32,7 @@ test('create repertoire item is not blocked', async ({ page }) => {
       await page.getByRole('button', { name: 'Close toast' }).click()
     },
   )
+
   const repertoirePom = new RepertoirePOM(page)
   await repertoirePom.goto()
 

@@ -4,6 +4,12 @@ import { TestUser } from '../../utils/TestUser'
 setup(
   'create a trial user, run checkout fixture and activate',
   async ({ page }) => {
+    await page.addLocatorHandler(
+      page.getByText('Neue Nachricht', { exact: true }),
+      async () => {
+        await page.getByRole('button', { name: 'Close toast' }).click()
+      },
+    )
     const testUser = new TestUser({ userflow: 'monthly-active' })
     await testUser.init()
     await testUser.runStripeFixture('monthly-checkout')
