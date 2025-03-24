@@ -9,24 +9,30 @@ export const subscriptionsConfig: Array<Project> = [
 ]
 
 subscriptionStates.forEach((subscriptionState) => {
-  const setupOnly = process.env.SETUP_ONLY
+  const noTeardown = process.env.NO_TEARDOWN
+  const noSetup = process.env.NO_SETUP
+  const noTest = process.env.NO_TEST
+
   const { state, access, pricingTable, lifetimeTeaser, manageSubscription } =
     subscriptionState
+
+  // Test setup
   const setup: Project = {
     name: `setup-${state}`,
     testMatch: `**/tests/subscriptions/setup/setup.${state}.ts`,
-    teardown: setupOnly ? '' : 'base-teardown',
+    teardown: noTeardown ? '' : 'base-teardown',
   }
 
+  // Main test
   const test: Project = {
     name: `subscription-${state}`,
-    testMatch: setupOnly
+    testMatch: noTest
       ? ''
       : [
-        `**/tests/subscriptions/${state}/**/*.spec.ts`,
-        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
-      ],
-    dependencies: [`setup-${state}`],
+          `**/tests/subscriptions/${state}/**/*.spec.ts`,
+          `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
+        ],
+    dependencies: noSetup ? undefined : [`setup-${state}`],
     use: {
       ...devices['Desktop Chrome'],
       storageState: `playwright/.auth/${state}.json`,

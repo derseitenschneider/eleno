@@ -1,33 +1,38 @@
 import { test as setup, expect } from '@playwright/test'
-import path from 'node:path'
-import { setupBaseUser } from '../../utils/setupBaseUser'
-import { expireSubscription } from '../../utils/expireSubscription'
-import { runStripeFixture } from '../../utils/runStripeFixture'
-
-const authFile = path.resolve(
-  path.dirname('.'),
-  './playwright/.auth/monthly-expired.json',
-)
+import { TestUser } from '../../utils/TestUser'
 
 setup(
-  'create monthly user, authenticate and then expire subscription',
+  'create a trial user, run checkout fixture and activate',
   async ({ page }) => {
-    const { email, password, userId, customerId } =
-      await setupBaseUser('monthly-expired')
+    // Setup test data.
+    const testUser = new TestUser({ userflow: 'monthly-expired' })
+    await testUser.init()
+    await testUser.runStripeFixture('monthly-checkout')
 
-    await runStripeFixture({
-      fixture: 'monthly-checkout',
-      customerId,
-      userId,
-    })
-
+    // Login
     await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(email)
-    await page.getByTestId('login-password').fill(password)
+    await page.getByTestId('login-email').fill(testUser.email)
+    await page.getByTestId('login-password').fill(testUser.password)
     await page.getByTestId('login-submit').click()
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
-    await expireSubscription(userId)
-    await page.context().storageState({ path: authFile })
+    // Close toast, check activation message and delete it.
+    await page.getByRole('button', { name: 'Close toast' }).click()
+    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.getByRole('button', { name: 'Team ELENO' }).click()
+    await expect(page.getByTestId('message-header')).toContainText('aktiviert')
+    await page.getByRole('button', { name: 'Löschen' }).click()
+
+    // Expire database
+    await testUser.expireSubscription()
+
+    // Add default failing payment method
+    await testUser.addFailingPaymentMethod()
+
+    // Move Stripe Clock forward
+    await testUser.advanceClock(31)
+
+    // Store login state in auth file.
+    await page.context().storageState({ path: testUser.authFile })
   },
 )

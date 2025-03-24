@@ -34,7 +34,10 @@
     "pw:html": "PLAYWRIGHT_HTML_OPEN=always npm run pw -- --reporter=html",
     "pw:repeat": "npm run pw -- --repeat-each 5",
     "pw:repeat:med": "npm run pw -- --repeat-each 15",
-    "pw:repeat:max": "npm run pw -- --repeat-each 50"
+    "pw:repeat:max": "npm run pw -- --repeat-each 50",
+    "pw:local:repeat": "npm run pw:local -- --repeat-each 5",
+    "pw:local:repeat:med": "npm run pw:local -- --repeat-each 15",
+    "pw:local:repeat:max": "npm run pw:local -- --repeat-each 50"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",

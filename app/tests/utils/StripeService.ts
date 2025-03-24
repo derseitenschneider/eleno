@@ -50,6 +50,61 @@ export class StripeService {
     this.clock = testClock
   }
 
+  public async attachFailingPaymentMethod(customerId: string) {
+    const failingPaymentMethod = await this.client.paymentMethods.attach(
+      'pm_card_chargeCustomerFail',
+      {
+        customer: customerId,
+      },
+    )
+
+    await this.client.customers.update(customerId, {
+      invoice_settings: {
+        default_payment_method: failingPaymentMethod.id,
+      },
+    })
+  }
+
+  public async advanceClock(days: number) {
+    if (!this.clock) {
+      throw new Error('No clock set up to advance.')
+    }
+    const today = new Date()
+    const thirtyDaysInMillis = days * 24 * 60 * 60 * 1000
+    const futureDate = new Date(today.getTime() + thirtyDaysInMillis)
+    const unixTimestampSeconds = Math.floor(futureDate.getTime() / 1000)
+
+    await this.client.testHelpers.testClocks.advance(this.clock.id, {
+      frozen_time: unixTimestampSeconds,
+    })
+
+    await this.pollTestClock(this.clock.id)
+  }
+
+  private async pollTestClock(clockId: string, maxAttempts = 10, attempt = 0) {
+    try {
+      const testClock =
+        await this.client.testHelpers.testClocks.retrieve(clockId)
+
+      if (testClock.status === 'ready') {
+        console.log('TestClock is ready!')
+        return // Clock is ready, exit the function
+      } else if (testClock.status === 'advancing') {
+        if (attempt >= maxAttempts) {
+          console.error('TestClock polling timed out.')
+          return
+        }
+        console.log('TestClock is advancing. Waiting...')
+        await new Promise((resolve) => setTimeout(resolve, 1000)) // Wait for 1 second
+        await this.pollTestClock(clockId, maxAttempts, attempt + 1) // Recursive call
+      } else {
+        console.error(`Unexpected TestClock status: ${testClock.status}`)
+      }
+    } catch (error) {
+      console.error('Error polling TestClock:', error)
+    }
+  }
+
   public async runFixture(
     fixtureName: string,
     userId: string,

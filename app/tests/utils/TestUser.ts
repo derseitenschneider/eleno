@@ -82,7 +82,7 @@ export class TestUser {
    */
   protected stripeService: StripeService
 
-  constructor(options: Options) {
+  public constructor(options: Options) {
     this.stripeService = new StripeService()
     this.userflow = options.userflow
 
@@ -93,7 +93,7 @@ export class TestUser {
     this.password = 'password123'
   }
 
-  async init() {
+  public async init() {
     console.log('===================================================')
     console.log(':::::::::: USER ::::::::::\n')
 
@@ -197,7 +197,7 @@ export class TestUser {
     }
   }
 
-  async runStripeFixture(fixtureName: StripeFixture) {
+  public async runStripeFixture(fixtureName: StripeFixture) {
     if (!this.user || !this.customer) {
       throw new Error("Can't run fixture without user and customer")
     }
@@ -207,5 +207,47 @@ export class TestUser {
       this.user.id,
       this.customer.id,
     )
+  }
+
+  public async expireSubscription() {
+    if (!this.user) {
+      throw new Error("Can't run fixture without user and customer")
+    }
+    console.log('Expiring user subscription...')
+
+    const today = new Date()
+    const yesterday = new Date(today)
+    const pastDate = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    pastDate.setDate(today.getDate() - 31)
+
+    const data = {
+      period_start: pastDate.toISOString(),
+      period_end: yesterday.toISOString(),
+    }
+
+    const { error } = await supabaseAdmin
+      .from('stripe_subscriptions')
+      .update(data)
+      .eq('user_id', this.user.id)
+
+    console.log(
+      `Expired subscription for user ${this.user.id}: ${data.period_start} - ${data.period_end}`,
+    )
+    if (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  public async addFailingPaymentMethod() {
+    if (!this.customer) {
+      throw new Error("Can't run fixture without user and customer")
+    }
+    console.log('Adding failing payment method...')
+    await this.stripeService.attachFailingPaymentMethod(this.customer.id)
+  }
+
+  public async advanceClock(days: number) {
+    await this.stripeService.advanceClock(days)
   }
 }

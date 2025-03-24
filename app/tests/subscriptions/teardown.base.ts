@@ -23,10 +23,12 @@ teardown('cleanup all trial users and customers', async () => {
     const filePath = path.join(dataPath, file)
     try {
       const data = fs.readFileSync(filePath, 'utf8')
-      const { userId, customerId, clockId } = JSON.parse(data) as UserData
+      const { userId, clockId } = JSON.parse(data) as UserData
 
+      // Deleting the clock will delete all customers and subscritions
+      // attached to it.
       await stripeClient.testHelpers.testClocks.del(clockId)
-      // await stripeClient.customers.del(customerId)
+
       const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
       if (error) {
         throw new Error(`Could not delete db user ${userId}: ${error.message}`)

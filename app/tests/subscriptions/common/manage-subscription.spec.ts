@@ -1,4 +1,4 @@
-import { test, expect, type Route } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
@@ -7,19 +7,26 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('can go to stripes subscription management page', async ({ page }) => {
-  await page.route('**/stripe/customers/**', async (route: Route) => {
-    const response = await route.fetch()
-    const body = await response.body()
-
-    const responseJson = JSON.parse(body.toString())
-    const portalUrl = responseJson.data.url
-    expect(portalUrl).toContain('billing.stripe.com')
-    await route.fulfill()
+  // 1. Intercept stripe server response
+  await page.route('https://billing.stripe.com/**', (route) => {
+    route.fulfill({
+      status: 200,
+      body: 'Stripe checkout intercepted',
+    })
   })
 
-  const responsePromise = page.waitForResponse('**/stripe/customers/**')
+  // 2. Prepare to wait for the request before taking action
+  const stripeRequestPromise = page.waitForRequest((request) =>
+    request.url().startsWith('https://billing.stripe.com/'),
+  )
 
+  // 3. Take actions that trigger the checkout flow
   await page.getByRole('button', { name: 'Abo verwalten' }).click()
 
-  await responsePromise
+  // 4. Wait for the Stripe request and get its URL
+  const stripeRequest = await stripeRequestPromise
+  const stripeCheckoutUrl = stripeRequest.url()
+
+  // 5. Run assertions on the URL
+  expect(stripeCheckoutUrl).toContain('billing.stripe.com')
 })
