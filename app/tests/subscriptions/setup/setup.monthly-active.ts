@@ -1,13 +1,11 @@
 import { test as setup, expect } from '@playwright/test'
-import { TestUser } from '../../utils/TestUser'
+import { setupMonthlyActive } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run checkout fixture and activate',
   async ({ page }) => {
     // Setup test data.
-    const testUser = new TestUser({ userflow: 'monthly-active' })
-    await testUser.init()
-    await testUser.runStripeFixture('monthly-checkout')
+    const testUser = await setupMonthlyActive()
 
     // Login
     await page.goto('/?page=login')
@@ -17,11 +15,11 @@ setup(
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
     // Close toast, check activation message and delete it.
-    await page.getByRole('button', { name: 'Close toast' }).click();
-    await page.getByRole('link', { name: 'Nachrichten' }).click();
-    await page.getByRole('button', { name: 'Team ELENO' }).click();
-    await expect(page.getByTestId('message-header')).toContainText('aktiviert');
-    await page.getByRole('button', { name: 'Löschen' }).click();
+    await page.getByRole('button', { name: 'Close toast' }).click()
+    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.getByRole('button', { name: 'Team ELENO' }).click()
+    await expect(page.getByTestId('message-header')).toContainText('aktiviert')
+    await page.getByRole('button', { name: 'Löschen' }).click()
 
     // Store login state in auth file.
     await page.context().storageState({ path: testUser.authFile })

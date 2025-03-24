@@ -154,6 +154,14 @@ export class TestUser {
     console.log(`Data created: ${fullPath}`)
   }
 
+  public async cancelAtPeriodEnd() {
+    if (!this.customer) {
+      throw new Error('No data present to cancel a subscription.')
+    }
+    console.log('Canceling subscription on period end...')
+    await this.stripeService.cancelAtPeriodEnd(this.customer.id)
+  }
+
   private async createSubscriptionRow() {
     if (!this.user || !this.customer) {
       throw new Error('No data present to create subscription row for.')

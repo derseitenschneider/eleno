@@ -50,6 +50,18 @@ export class StripeService {
     this.clock = testClock
   }
 
+  public async cancelAtPeriodEnd(customerId: string) {
+    const subscriptions = await this.client.subscriptions.list({
+      customer: customerId,
+    })
+
+    subscriptions.data.forEach(async (sub) => {
+      await this.client.subscriptions.update(sub.id, {
+        cancel_at_period_end: true,
+      })
+    })
+  }
+
   public async attachFailingPaymentMethod(customerId: string) {
     const failingPaymentMethod = await this.client.paymentMethods.attach(
       'pm_card_chargeCustomerFail',

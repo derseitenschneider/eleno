@@ -8,7 +8,7 @@ export default defineConfig({
   retries: 0,
   workers: process.env.CI ? 1 : undefined,
   // reporter: process.env.CI ? 'html' : 'list',
-  reporter: 'list',
+  reporter: [['list'], ['html']],
   webServer: {
     command: `
       VITE_ENV=${process.env.VITE_ENV} \
