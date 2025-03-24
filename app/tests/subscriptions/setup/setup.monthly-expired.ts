@@ -30,7 +30,7 @@ setup(
     await testUser.addFailingPaymentMethod()
 
     // Move Stripe Clock forward
-    await testUser.advanceClock(31)
+    await testUser.advanceClock(50)
 
     // Store login state in auth file.
     await page.context().storageState({ path: testUser.authFile })

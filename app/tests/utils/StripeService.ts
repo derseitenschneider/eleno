@@ -63,6 +63,15 @@ export class StripeService {
         default_payment_method: failingPaymentMethod.id,
       },
     })
+    const subscriptions = await this.client.subscriptions.list({
+      customer: customerId,
+    })
+
+    subscriptions.data.forEach(async (sub) => {
+      await this.client.subscriptions.update(sub.id, {
+        default_payment_method: failingPaymentMethod.id,
+      })
+    })
   }
 
   public async advanceClock(days: number) {
