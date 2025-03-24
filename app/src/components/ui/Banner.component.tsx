@@ -66,7 +66,10 @@ function Banner() {
     )
   if (subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED')
     return (
-      <div className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'>
+      <div
+        data-testid='banner-payment-failed'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'
+      >
         <p>
           <span className='font-medium'>Aktion erforderlich:</span>
           {'  '}Deine Zahlung ist fehlgeschlagen!{'  '}

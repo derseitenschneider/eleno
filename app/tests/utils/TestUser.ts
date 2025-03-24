@@ -247,7 +247,11 @@ export class TestUser {
     await this.stripeService.attachFailingPaymentMethod(this.customer.id)
   }
 
-  public async advanceClock(days: number) {
-    await this.stripeService.advanceClock(days)
+  public async advanceClock(timeOptions: {
+    days: number
+    hours?: number
+    minutes?: number
+  }) {
+    await this.stripeService.advanceClock(timeOptions)
   }
 }

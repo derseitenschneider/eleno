@@ -15,6 +15,7 @@ export class SubscriptionPOM {
   readonly buttonCheckoutLifetime: Locator
   readonly trialBanner: Locator
   readonly trialBannerExpired: Locator
+  readonly paymentFailedBanner: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -30,7 +31,8 @@ export class SubscriptionPOM {
     this.buttonCheckoutYearly = page.getByTestId('pricing-checkout-yearly')
     this.buttonCheckoutLifetime = page.getByTestId('pricing-checkout-lifetime')
     this.trialBanner = page.getByTestId('banner-trial')
-    this.trialBanner = page.getByTestId('banner-trial-expired')
+    this.trialBannerExpired = page.getByTestId('banner-trial-expired')
+    this.paymentFailedBanner = page.getByTestId('banner-payment-failed')
   }
 
   async goto() {

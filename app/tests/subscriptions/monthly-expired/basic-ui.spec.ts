@@ -6,37 +6,41 @@ test.beforeEach(async ({ page }) => {
   await subscrptionPom.goto()
 })
 
-test.skip('subscription status is inactive', async ({ page }) => {
+test('subscription status is expired', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
-  await expect(subscriptionPom.statusBadge).toHaveText(/inaktiv/i)
+  await expect(subscriptionPom.statusBadge).toHaveText(/abgelaufen/i)
 })
 
-test.skip('plan is "Testabo" ', async ({ page }) => {
+test('plan is "Monatlich" ', async ({ page }) => {
   const { plan } = new SubscriptionPOM(page)
 
-  await expect(plan).toHaveText(/test/i)
+  await expect(plan).toHaveText(/monat/i)
 })
 
-test.skip('period start and end are not empty', async ({ page }) => {
+test('period start and end are not empty', async ({ page }) => {
   const { startDate, endDate } = new SubscriptionPOM(page)
 
   await expect(startDate).not.toBeEmpty()
   await expect(endDate).not.toBeEmpty()
 })
 
-test.skip('pricing table title is visible', async ({ page }) => {
+test('pricing table title is hidden', async ({ page }) => {
   const { pricingTable } = new SubscriptionPOM(page)
-  await expect(pricingTable).toBeVisible()
+  await expect(pricingTable).not.toBeVisible()
 })
 
-test.skip('lifetime teaser is hidden', async ({ page }) => {
+test('upgrade to lifetime section to be visible', async ({ page }) => {
   const { lifetimeTeaser } = new SubscriptionPOM(page)
-  await expect(lifetimeTeaser).not.toBeVisible()
+  await expect(lifetimeTeaser).toBeVisible()
 })
 
-test.skip('trial banner expired is visible', async ({ page }) => {
-  const trialBannerExpired = page.getByTestId('banner-trial-expired')
+test('payment-failed banner is visible', async ({ page }) => {
+  const { paymentFailedBanner } = new SubscriptionPOM(page)
 
-  await expect(trialBannerExpired).not.toBeVisible()
+  await expect(paymentFailedBanner).toBeVisible()
+})
+
+test('payment-failed notification is visible', async ({ page }) => {
+  await expect(page.getByTestId('notification-payment-failed')).toBeVisible()
 })

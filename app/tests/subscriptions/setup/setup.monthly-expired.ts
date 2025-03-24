@@ -1,13 +1,13 @@
 import { test as setup, expect } from '@playwright/test'
-import { TestUser } from '../../utils/TestUser'
+import { setupMonthlyExpired } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run checkout fixture and activate',
   async ({ page }) => {
-    // Setup test data.
-    const testUser = new TestUser({ userflow: 'monthly-expired' })
-    await testUser.init()
-    await testUser.runStripeFixture('monthly-checkout')
+    setup.slow()
+
+    // Setup monthly expired subscription.
+    const testUser = await setupMonthlyExpired()
 
     // Login
     await page.goto('/?page=login')
@@ -16,21 +16,14 @@ setup(
     await page.getByTestId('login-submit').click()
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
-    // Close toast, check activation message and delete it.
+    // Clean up notifications and messages.
+    await expect(page.getByRole('status')).toContainText('2 neue Nachrichten')
     await page.getByRole('button', { name: 'Close toast' }).click()
     await page.getByRole('link', { name: 'Nachrichten' }).click()
-    await page.getByRole('button', { name: 'Team ELENO' }).click()
-    await expect(page.getByTestId('message-header')).toContainText('aktiviert')
-    await page.getByRole('button', { name: 'Löschen' }).click()
-
-    // Expire database
-    await testUser.expireSubscription()
-
-    // Add default failing payment method
-    await testUser.addFailingPaymentMethod()
-
-    // Move Stripe Clock forward
-    await testUser.advanceClock(50)
+    await page.getByRole('button', { name: 'aktiviert' }).click()
+    await page.getByRole('button', { name: 'Löschen' }).click();
+    await page.getByRole('button', { name: 'Aktion erforderlich' }).click()
+    await page.getByRole('button', { name: 'Löschen' }).click();
 
     // Store login state in auth file.
     await page.context().storageState({ path: testUser.authFile })

@@ -35,7 +35,6 @@ export default function ButtonManageSubscription() {
       } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      console.log(appConfig.apiUrl)
       const res = await fetch(
         `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}/portal`,
         {

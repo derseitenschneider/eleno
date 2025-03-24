@@ -5,7 +5,10 @@ export default function PaymentFailedNotification() {
   if (subscriptionState !== 'SUBSCRIPTION_ACTIVE_EXPIRED') return null
 
   return (
-    <div className='w-[400px] p-4 rounded-md bg-warning/5 border-warning border'>
+    <div
+      data-testid='notification-payment-failed'
+      className='w-[400px] rounded-md border border-warning bg-warning/5 p-4'
+    >
       <h5 className='text-warning'>Zahlung fehlgeschlagen</h5>
       <p className='mt-2 text-sm'>
         Bitte klicke auf <span className='font-medium'>"Abo verwalten"</span>{' '}

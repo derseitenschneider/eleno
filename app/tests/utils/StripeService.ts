@@ -74,13 +74,23 @@ export class StripeService {
     })
   }
 
-  public async advanceClock(days: number) {
+  public async advanceClock(timeOptions: {
+    days: number
+    hours?: number
+    minutes?: number
+  }) {
     if (!this.clock) {
       throw new Error('No clock set up to advance.')
     }
+    const { days, hours, minutes } = timeOptions
     const today = new Date()
-    const thirtyDaysInMillis = days * 24 * 60 * 60 * 1000
-    const futureDate = new Date(today.getTime() + thirtyDaysInMillis)
+    const daysInMiliseconds = days * 24 * 60 * 60 * 1000
+    const hoursInMiliseconds = hours ? hours * 60 * 60 * 1000 : 0
+    const minutesInMiliseconds = minutes ? minutes * 60 * 1000 : 0
+    const totalMiliseconds =
+      daysInMiliseconds + hoursInMiliseconds + minutesInMiliseconds
+
+    const futureDate = new Date(today.getTime() + totalMiliseconds)
     const unixTimestampSeconds = Math.floor(futureDate.getTime() / 1000)
 
     await this.client.testHelpers.testClocks.advance(this.clock.id, {
@@ -90,7 +100,7 @@ export class StripeService {
     await this.pollTestClock(this.clock.id)
   }
 
-  private async pollTestClock(clockId: string, maxAttempts = 10, attempt = 0) {
+  private async pollTestClock(clockId: string, maxAttempts = 30, attempt = 0) {
     try {
       const testClock =
         await this.client.testHelpers.testClocks.retrieve(clockId)
