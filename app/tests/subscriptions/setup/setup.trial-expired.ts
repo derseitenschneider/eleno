@@ -1,19 +1,11 @@
 import { test as setup, expect } from '@playwright/test'
-import path from 'node:path'
-import { setupBaseUser } from '../../utils/setupBaseUser'
-import { expireSubscription } from '../../utils/expireSubscription'
-
-const authFile = path.resolve(
-  path.dirname('.'),
-  './playwright/.auth/trial-expired.json',
-)
+import { setupTrialExpired } from '../../utils/setupHelpers'
 
 setup(
   'create trial user, authenticate and then expire subscription',
   async ({ page }) => {
-    const { email, password, userId } = await setupBaseUser('trial-expired')
+    const { email, password, authFile } = await setupTrialExpired()
 
-    await expireSubscription(userId)
     await page.goto('/?page=login')
     await page.getByTestId('login-email').fill(email)
     await page.getByTestId('login-password').fill(password)

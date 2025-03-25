@@ -15,6 +15,15 @@ export class LessonsPOM {
 
   async goto() {
     await this.page.goto('/')
+
+    // Wait for dashboard heading to be loaded. This is only the case when
+    // all data is loaded from the database. With this we prevent flakyness
+    // because otherwhise pw might navigate to the lessons page before the
+    // students data is loaded causing it to land on the "no-students" page.
+    await expect(
+      this.page.getByRole('heading', { name: 'Quick Links' }),
+    ).toBeVisible()
+
     await this.lessonNavSidebar.click()
     await expect(this.title).toBeVisible()
   }

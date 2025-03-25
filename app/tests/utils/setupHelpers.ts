@@ -6,6 +6,15 @@ export async function setupTrialActive() {
 
   return testUser
 }
+
+export async function setupTrialExpired() {
+  const testUser = new TestUser({ userflow: 'trial-expired' })
+  await testUser.init()
+  await testUser.expireSubscription()
+
+  return testUser
+}
+
 export async function setupMonthlyActive() {
   const testUser = new TestUser({ userflow: 'monthly-active' })
   await testUser.init()

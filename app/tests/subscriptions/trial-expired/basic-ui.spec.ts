@@ -38,5 +38,5 @@ test('lifetime teaser is hidden', async ({ page }) => {
 test('trial banner expired is visible', async ({ page }) => {
   const trialBannerExpired = page.getByTestId('banner-trial-expired')
 
-  await expect(trialBannerExpired).not.toBeVisible()
+  await expect(trialBannerExpired).toBeVisible()
 })

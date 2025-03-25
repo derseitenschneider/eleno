@@ -10,6 +10,7 @@ type UserFlow =
   | 'monthly-canceled'
   | 'monthly-expired'
   | 'trial-active'
+  | 'trial-expired'
 
 type StripeFixture = 'monthly-checkout' | 'yearly-checkout' | 'lifetime'
 type Options = {
