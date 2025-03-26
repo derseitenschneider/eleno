@@ -7,3 +7,4 @@ node_modules/
 
 # Playwright
 /blob-report/
+/tests/subscriptions/data/*

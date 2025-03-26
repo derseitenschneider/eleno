@@ -131,7 +131,6 @@ class WebhookHandler {
 					)
 				);
 				$this->repository->cancelSubscription( $subscriptionId );
-				$this->repository->resetFailedPaymentAttempts( $stripeCustomer );
 				$this->stripeAPI->cancelSubscription( $subscriptionId );
 			}
 		}
