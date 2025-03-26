@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)
@@ -12,17 +12,17 @@ test('subscription status is inactive', async ({ page }) => {
   await expect(subscriptionPom.statusBadge).toHaveText(/inaktiv/i)
 })
 
-test('plan is "Testabo" ', async ({ page }) => {
+test('plan is "Monatlich" ', async ({ page }) => {
   const { plan } = new SubscriptionPOM(page)
 
-  await expect(plan).toHaveText(/test/i)
+  await expect(plan).toHaveText(/monat/i)
 })
 
-test('period start and end are not empty', async ({ page }) => {
+test('period start and end hidden', async ({ page }) => {
   const { startDate, endDate } = new SubscriptionPOM(page)
 
-  await expect(startDate).not.toBeEmpty()
-  await expect(endDate).not.toBeEmpty()
+  await expect(startDate).toBeHidden()
+  await expect(endDate).toBeHidden()
 })
 
 test('pricing table title is visible', async ({ page }) => {
@@ -35,8 +35,8 @@ test('lifetime teaser is hidden', async ({ page }) => {
   await expect(lifetimeTeaser).not.toBeVisible()
 })
 
-test('trial banner expired is visible', async ({ page }) => {
-  const trialBannerExpired = page.getByTestId('banner-trial-expired')
+test('subscription inactive  banner expired is visible', async ({ page }) => {
+  const trialBannerExpired = page.getByTestId('banner-subscription-inactive')
 
   await expect(trialBannerExpired).toBeVisible()
 })

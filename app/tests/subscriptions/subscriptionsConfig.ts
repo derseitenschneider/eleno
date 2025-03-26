@@ -29,7 +29,7 @@ subscriptionStates.forEach((subscriptionState) => {
     testMatch: noTest
       ? ''
       : [
-          `**/tests/subscriptions/${state}/**/*.spec.ts`,
+          `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
           `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
         ],
     dependencies: noSetup ? undefined : [`setup-${state}`],

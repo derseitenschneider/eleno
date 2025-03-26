@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)

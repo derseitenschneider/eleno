@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
 test('can reactivate  and cancel subscription', async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)
