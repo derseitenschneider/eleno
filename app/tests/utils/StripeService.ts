@@ -114,7 +114,7 @@ export class StripeService {
     await this.pollTestClock(this.clock.id)
   }
 
-  private async pollTestClock(clockId: string, maxAttempts = 30, attempt = 0) {
+  private async pollTestClock(clockId: string, maxAttempts = 60, attempt = 0) {
     try {
       const testClock =
         await this.client.testHelpers.testClocks.retrieve(clockId)
