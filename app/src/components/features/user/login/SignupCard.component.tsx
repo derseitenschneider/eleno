@@ -27,7 +27,10 @@ const signupSchema = z
     email: z
       .string()
       .min(1, { message: 'E-Mail Adresse fehlt.' })
-      .email({ message: 'Ungültige E-Mail Adresse!' }),
+      .email({ message: 'Ungültige E-Mail Adresse!' })
+      .refine((email) => !email.includes('@example'), {
+        message: 'Unerlaubte E-Mail Adresse.',
+      }),
     password: z
       .string()
       .min(1, { message: 'Passwort fehlt.' })
@@ -255,7 +258,7 @@ export default function SignupCard() {
                 </>
               )}
             />
-            <div className='flex gap-2 items-center'>
+            <div className='flex items-center gap-2'>
               <Button
                 disabled={form.formState.isSubmitting}
                 className='w-full'

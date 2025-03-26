@@ -7,45 +7,45 @@ export type SubscriptionStates = {
 }
 
 export const subscriptionStates: Array<SubscriptionStates> = [
-  // {
-  //   state: 'trial-active',
-  //   access: true,
-  //   pricingTable: true,
-  //   lifetimeTeaser: false,
-  //   manageSubscription: false,
-  // },
-  //
-  // {
-  //   state: 'trial-expired',
-  //   access: false,
-  //   pricingTable: true,
-  //   lifetimeTeaser: false,
-  //   manageSubscription: false,
-  // },
-  //
-  // {
-  //   state: 'monthly-active',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
-  //
-  // {
-  //   state: 'monthly-canceled',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
-  //
-  // {
-  //   state: 'monthly-expired',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
+  {
+    state: 'trial-active',
+    access: true,
+    pricingTable: true,
+    lifetimeTeaser: false,
+    manageSubscription: false,
+  },
+
+  {
+    state: 'trial-expired',
+    access: false,
+    pricingTable: true,
+    lifetimeTeaser: false,
+    manageSubscription: false,
+  },
+
+  {
+    state: 'monthly-active',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
+
+  {
+    state: 'monthly-canceled',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
+
+  {
+    state: 'monthly-expired',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
 
   {
     state: 'monthly-expired-canceled',
@@ -55,11 +55,11 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     manageSubscription: false,
   },
 
-  // {
-  //   state: 'monthly-expired-paid',
-  //   access: true,
-  //   pricingTable: false,
-  //   lifetimeTeaser: true,
-  //   manageSubscription: true,
-  // },
+  {
+    state: 'monthly-expired-paid',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+  },
 ]

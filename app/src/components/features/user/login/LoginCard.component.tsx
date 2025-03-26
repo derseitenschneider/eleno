@@ -136,7 +136,7 @@ export default function LoginCard() {
             >
               Passwort vergessen?
             </Link>
-            <div className='flex gap-2 items-center'>
+            <div className='flex items-center gap-2'>
               <Button
                 data-testid='login-submit'
                 disabled={form.formState.isSubmitting}
