@@ -57,17 +57,19 @@ export class SubscriptionPOM {
     await this.buttonCheckoutMonthly.click()
   }
 
-  async interceptServerResponse() {
-    await this.page.route('**/stripe/session/create', (route) => {
+  async interceptAPIResponse(serverRoute: string = '**/stripe/session/create') {
+    await this.page.route(serverRoute, (route) => {
       route.fulfill({
         status: 200,
-        body: 'Stripe server intercepted',
+        body: 'API server intercepted',
       })
     })
   }
 
-  async interceptStripeResponse() {
-    await this.page.route('https://checkout.stripe.com/**', (route) => {
+  async interceptStripeResponse(
+    stripeRoute = 'https://checkout.stripe.com/**',
+  ) {
+    await this.page.route(stripeRoute, (route) => {
       route.fulfill({
         status: 200,
         body: 'Stripe checkout intercepted',

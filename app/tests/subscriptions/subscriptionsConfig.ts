@@ -13,8 +13,14 @@ subscriptionStates.forEach((subscriptionState) => {
   const noSetup = process.env.NO_SETUP
   const noTest = process.env.NO_TEST
 
-  const { state, access, pricingTable, lifetimeTeaser, manageSubscription } =
-    subscriptionState
+  const {
+    state,
+    access,
+    pricingTable,
+    lifetimeTeaser,
+    manageSubscription,
+    downloadInvoice,
+  } = subscriptionState
 
   // Test setup
   const setup: Project = {
@@ -55,6 +61,12 @@ subscriptionStates.forEach((subscriptionState) => {
     if (manageSubscription) {
       test.testMatch.push(
         '**/tests/subscriptions/common/manage-subscription.spec.ts',
+      )
+    }
+
+    if (downloadInvoice) {
+      test.testMatch.push(
+        '**/tests/subscriptions/common/download-invoice.spec.ts',
       )
     }
   }

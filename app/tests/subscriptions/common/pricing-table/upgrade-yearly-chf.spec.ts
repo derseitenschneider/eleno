@@ -7,10 +7,10 @@ test.beforeEach(async ({ page }) => {
   await subscrptionPom.currencySwitchCHF.click()
 })
 
-test('send the right post data to the server', async ({ page }) => {
+test('sends correct post data to the api.', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
-  subscriptionPom.interceptServerResponse()
+  subscriptionPom.interceptAPIResponse()
 
   const serverRequestPromise = page.waitForRequest((request) =>
     request.url().includes('stripe/session/create'),

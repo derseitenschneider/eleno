@@ -48,6 +48,7 @@ export default function ButtonGetInvoice() {
   return (
     <div className='col-span-2'>
       <Button
+        data-testid='button-invoice-lifetime'
         size='sm'
         className='flex gap-2'
         onClick={getPaymentUpdateLink}
@@ -58,7 +59,7 @@ export default function ButtonGetInvoice() {
         {status === 'LOADING' && <MiniLoader />}
       </Button>
       {status === 'ERROR' && (
-        <span className='text-warning mt-4 block text-sm'>
+        <span className='mt-4 block text-sm text-warning'>
           Etwas ist schiefgelaufen. Bitte versuch's nochmal.
         </span>
       )}

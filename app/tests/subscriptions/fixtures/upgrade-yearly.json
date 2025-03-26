@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "template_version": 0
+  },
+  "fixtures": [
+    {
+      "name": "customer",
+      "path": "/v1/customers/${env:CUSTOMER_ID}",
+      "method": "get"
+    },
+    {
+      "name": "yearly_price",
+      "path": "/v1/prices/${env:YEARLY_PRICE_ID}",
+      "method": "get"
+    },
+    {
+      "name": "subscription_id",
+      "path": "/v1/subscriptions",
+      "method": "get",
+      "params": {
+        "customer": "${customer:id}",
+        "status": "active"
+      }
+    },
+    {
+      "name": "subscription_updated",
+      "path": "/v1/subscriptions/${subscription_id:data.0.id}",
+      "method": "post",
+      "params": {
+        "items": [
+          {
+            "price": "${yearly_price:id}"
+          }
+        ]
+      }
+    }
+  ]
+}

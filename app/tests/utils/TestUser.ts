@@ -13,8 +13,14 @@ type UserFlow =
   | 'monthly-expired'
   | 'monthly-expired-paid'
   | 'monthly-expired-canceled'
+  | 'trial-lifetime'
+  | 'monthly-yearly'
 
-type StripeFixture = 'monthly-checkout' | 'yearly-checkout' | 'lifetime'
+type StripeFixture =
+  | 'monthly-checkout'
+  | 'yearly-checkout'
+  | 'lifetime'
+  | 'upgrade-yearly'
 type Options = {
   userflow: UserFlow
 }

@@ -84,3 +84,20 @@ export async function setupMonthlyExpiredPaid() {
 
   return testUser
 }
+
+export async function setupTrialLifetime() {
+  const testUser = new TestUser({ userflow: 'trial-lifetime' })
+  await testUser.init()
+  await testUser.runStripeFixture('lifetime')
+
+  return testUser
+}
+
+export async function monthlyYearly() {
+  const testUser = new TestUser({ userflow: 'monthly-yearly' })
+  await testUser.init()
+  await testUser.runStripeFixture('monthly-checkout')
+  await testUser.runStripeFixture('upgrade-yearly')
+
+  return testUser
+}

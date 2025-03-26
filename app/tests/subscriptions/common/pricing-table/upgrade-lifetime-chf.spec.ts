@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 test('send the right post data to the server', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
-  subscriptionPom.interceptServerResponse()
+  subscriptionPom.interceptAPIResponse()
 
   const serverRequestPromise = page.waitForRequest((request) =>
     request.url().includes('stripe/session/create'),

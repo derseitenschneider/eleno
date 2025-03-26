@@ -29,7 +29,8 @@ export default defineConfig({
       : process.env.LOCAL_TEST
         ? 'http://localhost:5173'
         : 'https://dev.eleno.net',
-    trace: 'retain-on-failure',
+    // trace: 'retain-on-failure',
+    trace: 'on',
     launchOptions: {
       slowMo: process.env.SLOMO ? 1_000 : 0,
     },
