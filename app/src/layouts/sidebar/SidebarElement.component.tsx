@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom'
 
 type TSidebarProps = {
   to?: string
+  disabled?: boolean
   testId?: string
   children?: React.ReactNode
   icon?: React.ReactNode
@@ -25,6 +26,7 @@ type TSidebarProps = {
 
 export default function SidebarElement({
   testId = '',
+  disabled = false,
   to = '',
   onClick,
   icon,
@@ -72,6 +74,7 @@ export default function SidebarElement({
           <Tooltip>
             <TooltipTrigger className='w-full'>
               <button
+                disabled={disabled}
                 data-testid={testId}
                 className={cn(
                   'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',

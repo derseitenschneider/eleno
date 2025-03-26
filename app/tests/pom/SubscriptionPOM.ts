@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 
 export class SubscriptionPOM {
   readonly page: Page
@@ -37,6 +37,19 @@ export class SubscriptionPOM {
 
   async goto() {
     await this.page.goto('/settings/subscription')
+    // Wait for the page to be fully loaded
+    // await this.page.waitForLoadState('networkidle')
+
+    // Wait for subscription data to load
+    try {
+      await expect(
+        this.page.getByTestId('subscription-status-badge'),
+      ).toBeVisible({ timeout: 10000 })
+    } catch (error) {
+      console.warn(
+        'Warning: Subscription status badge not found within timeout',
+      )
+    }
   }
 
   async upgradeMonthly() {

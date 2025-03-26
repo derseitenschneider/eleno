@@ -4,6 +4,8 @@ import type Stripe from 'stripe'
 import { stripeClient } from './stripeClient'
 import { exec } from 'node:child_process'
 
+export type TestCard = 'pm_card_chargeCustomerFail' | 'pm_card_visa'
+
 export class StripeService {
   private client: Stripe
   private clock: Stripe.Response<Stripe.TestHelpers.TestClock> | null = null
@@ -62,26 +64,26 @@ export class StripeService {
     })
   }
 
-  public async attachFailingPaymentMethod(customerId: string) {
-    const failingPaymentMethod = await this.client.paymentMethods.attach(
-      'pm_card_chargeCustomerFail',
-      {
-        customer: customerId,
-      },
-    )
+  public async attachNewPaymentMethod(customerId: string, testCard: TestCard) {
+    const newPaymentMethod = await this.client.paymentMethods.attach(testCard, {
+      customer: customerId,
+    })
 
+    // Set new payment method as default on customer.
     await this.client.customers.update(customerId, {
       invoice_settings: {
-        default_payment_method: failingPaymentMethod.id,
+        default_payment_method: newPaymentMethod.id,
       },
     })
+
+    // Set new payment method as default on all subscriptions.
     const subscriptions = await this.client.subscriptions.list({
       customer: customerId,
     })
 
     subscriptions.data.forEach(async (sub) => {
       await this.client.subscriptions.update(sub.id, {
-        default_payment_method: failingPaymentMethod.id,
+        default_payment_method: newPaymentMethod.id,
       })
     })
   }

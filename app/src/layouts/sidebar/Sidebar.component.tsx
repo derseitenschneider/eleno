@@ -24,8 +24,10 @@ import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import { useMessageNotification } from '@/hooks/useMessageNotification'
+import { useLoading } from '@/services/context/LoadingContext'
 
 function Sidebar() {
+  const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
   const { user } = useUser()
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -69,7 +71,7 @@ function Sidebar() {
         onClick={() => setSidebarOpen(false)}
         className='block w-full'
       >
-        <div className='flex items-center justify-center mt-3 mb-8'>
+        <div className='mb-8 mt-3 flex items-center justify-center'>
           <Logo />
         </div>
       </NavLink>
@@ -90,6 +92,7 @@ function Sidebar() {
           isActive={window.location.pathname.includes('lessons')}
           testId={'lesson-nav-sidebar'}
           isButton
+          disabled={isLoading || false}
           onClick={() => {
             navigateToCurrentHolder()
             setSidebarOpen(false)

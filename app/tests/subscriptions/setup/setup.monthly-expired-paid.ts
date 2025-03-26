@@ -1,13 +1,13 @@
 import { test as setup, expect } from '@playwright/test'
-import { setupMonthlyExpired } from '../../utils/setupHelpers'
+import { setupMonthlyExpiredPaid } from '../../utils/setupHelpers'
 
 setup(
-  'create a montly subscription, attach failing payment, move clock.',
+  'create a montly subscription, attach failing payment, move clock, attach succeeding payment, move clock.',
   async ({ page }) => {
     setup.slow()
 
-    // Setup monthly expired subscription.
-    const { email, password, authFile } = await setupMonthlyExpired()
+    // Setup monthly expired paid subscription.
+    const { email, password, authFile } = await setupMonthlyExpiredPaid()
 
     // Login
     await page.goto('/?page=login')

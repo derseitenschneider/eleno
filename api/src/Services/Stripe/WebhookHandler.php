@@ -95,12 +95,12 @@ class WebhookHandler {
 			0 => 1,
 			1 => 2,
 			2 => 3,
-			3 => 3,
+			// 3 => 3,
 		);
 
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
 
-		if ( $level !== null ) {
+		if ( null !== $level ) {
 			$this->logger->warning(
 				'Payment failed for invoice',
 				array(
@@ -122,7 +122,7 @@ class WebhookHandler {
 				firstName: $firstName
 			);
 
-			if ( $level === 3 ) {
+			if ( 3 === $level ) {
 				$this->logger->warning(
 					'Subscription cancelled due to multiple failed payments',
 					array(
@@ -131,6 +131,7 @@ class WebhookHandler {
 					)
 				);
 				$this->repository->cancelSubscription( $subscriptionId );
+				$this->repository->resetFailedPaymentAttempts( $stripeCustomer );
 				$this->stripeAPI->cancelSubscription( $subscriptionId );
 			}
 		}

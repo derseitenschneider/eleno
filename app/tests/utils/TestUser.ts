@@ -6,11 +6,13 @@ import Stripe from 'stripe'
 import { resolveJoin } from './resolveJoin'
 
 type UserFlow =
+  | 'trial-active'
+  | 'trial-expired'
   | 'monthly-active'
   | 'monthly-canceled'
   | 'monthly-expired'
-  | 'trial-active'
-  | 'trial-expired'
+  | 'monthly-expired-paid'
+  | 'monthly-expired-canceled'
 
 type StripeFixture = 'monthly-checkout' | 'yearly-checkout' | 'lifetime'
 type Options = {
@@ -250,10 +252,26 @@ export class TestUser {
 
   public async addFailingPaymentMethod() {
     if (!this.customer) {
-      throw new Error("Can't run fixture without user and customer")
+      throw new Error("Can't run method without customer")
     }
     console.log('Adding failing payment method...')
-    await this.stripeService.attachFailingPaymentMethod(this.customer.id)
+    await this.stripeService.attachNewPaymentMethod(
+      this.customer.id,
+      'pm_card_chargeCustomerFail',
+    )
+    console.log('Failing payment method added.')
+  }
+
+  public async addSucceedingPaymentMethod() {
+    if (!this.customer) {
+      throw new Error("Can't run method without customer")
+    }
+    console.log('Adding succeeding payment method...')
+    await this.stripeService.attachNewPaymentMethod(
+      this.customer.id,
+      'pm_card_visa',
+    )
+    console.log('Succeeding payment method added.')
   }
 
   public async advanceClock(timeOptions: {

@@ -4,7 +4,7 @@ import { TodosPOM } from '../../pom/TodosPOM'
 import { RepertoirePOM } from '../../pom/RepertoirePOM'
 
 test('create lesson is not blocked', async ({ page }, testInfos) => {
-  const lessonPom = new LessonsPOM(page)
+  const lessonPom = new LessonsPOM(page, testInfos)
   await lessonPom.goto()
 
   await testInfos.attach('create-lesson', {
@@ -18,7 +18,7 @@ test('create lesson is not blocked', async ({ page }, testInfos) => {
 })
 
 test('create note is not blocked', async ({ page }, testInfos) => {
-  const lessonPom = new LessonsPOM(page)
+  const lessonPom = new LessonsPOM(page, testInfos)
 
   await lessonPom.goto()
 
@@ -38,7 +38,7 @@ test('create note is not blocked', async ({ page }, testInfos) => {
 })
 
 test('create repertoire item is not blocked', async ({ page }, testInfos) => {
-  const repertoirePom = new RepertoirePOM(page)
+  const repertoirePom = new RepertoirePOM(page, testInfos)
   await repertoirePom.goto()
 
   await testInfos.attach('create-repertoire-item', {

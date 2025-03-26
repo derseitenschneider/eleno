@@ -7,7 +7,6 @@ export default defineConfig({
   // retries: process.env.CI ? 2 : 0,
   retries: 0,
   workers: process.env.CI ? 1 : undefined,
-  // reporter: process.env.CI ? 'html' : 'list',
   reporter: [['list'], ['html']],
   webServer: {
     command: `
@@ -30,7 +29,7 @@ export default defineConfig({
       : process.env.LOCAL_TEST
         ? 'http://localhost:5173'
         : 'https://dev.eleno.net',
-    trace: 'on-first-retry',
+    trace: 'on',
     launchOptions: {
       slowMo: process.env.SLOMO ? 1_000 : 0,
     },

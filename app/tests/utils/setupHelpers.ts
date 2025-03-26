@@ -47,3 +47,40 @@ export async function setupMonthlyExpired() {
 
   return testUser
 }
+
+export async function setupMonthlyExpiredCanceled() {
+  const testUser = new TestUser({ userflow: 'monthly-expired-canceled' })
+  await testUser.init()
+  await testUser.runStripeFixture('monthly-checkout')
+
+  // Add default failing payment method
+  await testUser.addFailingPaymentMethod()
+
+  // Move Stripe Clock forward
+  await testUser.advanceClock({ days: 60 })
+
+  await testUser.expireSubscription()
+  return testUser
+}
+
+export async function setupMonthlyExpiredPaid() {
+  const testUser = new TestUser({ userflow: 'monthly-expired-paid' })
+  await testUser.init()
+  await testUser.runStripeFixture('monthly-checkout')
+
+  await testUser.expireSubscription()
+
+  // Add default failing payment method
+  await testUser.addFailingPaymentMethod()
+
+  // Move stripe clock forward
+  await testUser.advanceClock({ days: 31, hours: 2 })
+
+  // Add default succeeding payment method
+  await testUser.addSucceedingPaymentMethod()
+
+  // Move stripe clock forward
+  await testUser.advanceClock({ days: 40, hours: 2 })
+
+  return testUser
+}

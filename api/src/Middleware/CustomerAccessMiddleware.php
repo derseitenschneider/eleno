@@ -20,10 +20,6 @@ class CustomerAccessMiddleware implements MiddlewareInterface {
 	) {}
 
 	public function process( Request $request, RequestHandlerInterface $handler ): Response {
-		// Check if it's an OPTIONS request
-		// if ( $request->getMethod() === 'OPTIONS' ) {
-		// return $handler->handle( $request ); // Simply pass it along
-		// }
 
 		try {
 			$userId     = $this->securityChecks->getUserIdFromRequest( $request );

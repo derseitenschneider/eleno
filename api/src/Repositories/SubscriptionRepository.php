@@ -104,12 +104,15 @@ class SubscriptionRepository {
 	/**
 	 * Cancel subscription
 	 *
-	 * Sets the subscription status to "canceled".
+	 * Sets the subscription status to "canceled" and payment_status to null.
 	 *
 	 * @param string $subscription_id
 	 */
 	public function cancelSubscription( string $subscription_id ): bool {
-		$data  = [ 'subscription_status' => 'canceled' ];
+		$data  = [
+			'subscription_status' => 'canceled',
+			'payment_status'      => null,
+		];
 		$where = [ 'stripe_subscription_id' => $subscription_id ];
 
 		$response = $this->db->update(
