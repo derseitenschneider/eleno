@@ -80,12 +80,39 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: true,
   // },
 
+  // {
+  //   state: 'monthly-yearly',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
+
+  // {
+  //   state: 'yearly-active',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
+
+  // {
+  //   state: 'yearly-expired',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
+
   {
-    state: 'monthly-yearly',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: true,
-    manageSubscription: true,
+    state: 'yearly-expired-canceled',
+    access: false,
+    pricingTable: true,
+    lifetimeTeaser: false,
+    manageSubscription: false,
     downloadInvoice: false,
   },
 ]

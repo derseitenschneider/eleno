@@ -101,3 +101,42 @@ export async function monthlyYearly() {
 
   return testUser
 }
+
+export async function setupYearlyActive() {
+  const testUser = new TestUser({ userflow: 'yearly-active' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+
+  return testUser
+}
+
+export async function setupYearlyExpired() {
+  const testUser = new TestUser({ userflow: 'yearly-expired' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+
+  await testUser.expireSubscription()
+
+  // Add default failing payment method
+  await testUser.addFailingPaymentMethod()
+
+  // Move Stripe Clock forward one year.
+  await testUser.advanceClock({ days: 366, hours: 2 })
+
+  return testUser
+}
+
+export async function setupYearlyExpiredCanceled() {
+  const testUser = new TestUser({ userflow: 'yearly-expired-canceled' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+
+  // Add default failing payment method
+  await testUser.addFailingPaymentMethod()
+
+  // Move Stripe Clock forward
+  await testUser.advanceClock({ days: 425 })
+
+  await testUser.expireSubscription()
+  return testUser
+}
