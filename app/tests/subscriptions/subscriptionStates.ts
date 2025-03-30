@@ -64,6 +64,15 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: false,
   // },
   //
+  {
+    state: 'monthly-canceled-expired',
+    access: false,
+    pricingTable: true,
+    lifetimeTeaser: false,
+    manageSubscription: false,
+    downloadInvoice: false,
+  },
+
   // {
   //   state: 'monthly-expired-paid',
   //   access: true,
@@ -81,7 +90,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: false,
   //   downloadInvoice: true,
   // },
-
   // {
   //   state: 'monthly-yearly',
   //   access: true,
@@ -90,7 +98,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-
   // {
   //   state: 'yearly-active',
   //   access: true,
@@ -99,7 +106,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-
   // {
   //   state: 'yearly-expired',
   //   access: true,
@@ -108,7 +114,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-
   // {
   //   state: 'yearly-expired-canceled',
   //   access: false,
@@ -117,7 +122,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: false,
   //   downloadInvoice: false,
   // },
-
   // {
   //   state: 'yearly-canceled',
   //   access: true,
@@ -126,13 +130,12 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-
-  {
-    state: 'yearly-expired-paid',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: true,
-    manageSubscription: true,
-    downloadInvoice: false,
-  },
+  // {
+  //   state: 'yearly-expired-paid',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
 ]

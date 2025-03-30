@@ -32,6 +32,16 @@ export async function setupMonthlyCanceled() {
   return testUser
 }
 
+export async function setupMonthlyCanceledExpired() {
+  const testUser = new TestUser({ userflow: 'monthly-canceled-expired' })
+  await testUser.init()
+  await testUser.runStripeFixture('monthly-checkout')
+  await testUser.cancelAtPeriodEnd()
+  // await testUser.expireSubscription()
+
+  return testUser
+}
+
 export async function setupMonthlyExpired() {
   const testUser = new TestUser({ userflow: 'monthly-expired' })
   await testUser.init()

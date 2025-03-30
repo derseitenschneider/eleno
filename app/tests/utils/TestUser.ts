@@ -10,6 +10,7 @@ export type UserFlow =
   | 'trial-expired'
   | 'monthly-active'
   | 'monthly-canceled'
+  | 'monthly-canceled-expired'
   | 'monthly-expired'
   | 'monthly-expired-paid'
   | 'monthly-expired-canceled'
