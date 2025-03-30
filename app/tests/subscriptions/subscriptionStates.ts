@@ -1,5 +1,7 @@
+import { type UserFlow } from '../utils/TestUser'
+
 export type SubscriptionStates = {
-  state: string
+  state: UserFlow
   access: boolean
   pricingTable: boolean
   lifetimeTeaser: boolean
@@ -107,12 +109,30 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: false,
   // },
 
+  // {
+  //   state: 'yearly-expired-canceled',
+  //   access: false,
+  //   pricingTable: true,
+  //   lifetimeTeaser: false,
+  //   manageSubscription: false,
+  //   downloadInvoice: false,
+  // },
+
+  // {
+  //   state: 'yearly-canceled',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
+
   {
-    state: 'yearly-expired-canceled',
-    access: false,
-    pricingTable: true,
-    lifetimeTeaser: false,
-    manageSubscription: false,
+    state: 'yearly-expired-paid',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
     downloadInvoice: false,
   },
 ]

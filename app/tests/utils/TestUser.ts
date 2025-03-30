@@ -5,7 +5,7 @@ import { type User } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 import { resolveJoin } from './resolveJoin'
 
-type UserFlow =
+export type UserFlow =
   | 'trial-active'
   | 'trial-expired'
   | 'monthly-active'
@@ -16,8 +16,10 @@ type UserFlow =
   | 'trial-lifetime'
   | 'monthly-yearly'
   | 'yearly-active'
+  | 'yearly-canceled'
   | 'yearly-expired'
   | 'yearly-expired-canceled'
+  | 'yearly-expired-paid'
 
 type StripeFixture =
   | 'monthly-checkout'

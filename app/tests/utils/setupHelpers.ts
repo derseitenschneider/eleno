@@ -110,6 +110,15 @@ export async function setupYearlyActive() {
   return testUser
 }
 
+export async function setupYearlyCanceled() {
+  const testUser = new TestUser({ userflow: 'yearly-canceled' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+  await testUser.cancelAtPeriodEnd()
+
+  return testUser
+}
+
 export async function setupYearlyExpired() {
   const testUser = new TestUser({ userflow: 'yearly-expired' })
   await testUser.init()
@@ -138,5 +147,27 @@ export async function setupYearlyExpiredCanceled() {
   await testUser.advanceClock({ days: 425 })
 
   await testUser.expireSubscription()
+  return testUser
+}
+
+export async function setupYearlyExpiredPaid() {
+  const testUser = new TestUser({ userflow: 'yearly-expired-paid' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+
+  await testUser.expireSubscription()
+
+  // Add default failing payment method
+  await testUser.addFailingPaymentMethod()
+
+  // Move stripe clock forward
+  await testUser.advanceClock({ days: 366, hours: 2 })
+
+  // Add default succeeding payment method
+  await testUser.addSucceedingPaymentMethod()
+
+  // Move stripe clock forward
+  await testUser.advanceClock({ days: 375, hours: 2 })
+
   return testUser
 }
