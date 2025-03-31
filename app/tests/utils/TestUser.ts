@@ -21,6 +21,7 @@ export type UserFlow =
   | 'yearly-expired'
   | 'yearly-expired-canceled'
   | 'yearly-expired-paid'
+  | 'yearly-monthly'
 
 type StripeFixture =
   | 'monthly-checkout'
@@ -286,6 +287,29 @@ export class TestUser {
     console.log('Succeeding payment method added.')
   }
 
+  public async upgradeToYearly() {
+    console.log('Upgrading customer to yearly subscription...')
+    if (!this.customer) {
+      throw new Error("Can't run method without customer")
+    }
+    await this.stripeService.updateSubscription(
+      this.customer.id,
+      'price_1Qp7CXGqCC0x0XxsFFPDgzsa',
+    )
+    console.log('Upgrade to yearly subscription successful.')
+  }
+
+  public async downGradeToMonthly() {
+    console.log('Downgrading customer to monthly subscription...')
+    if (!this.customer) {
+      throw new Error("Can't run method without customer")
+    }
+    await this.stripeService.updateSubscription(
+      this.customer.id,
+      'price_1Qp79yGqCC0x0XxstXJPUz84',
+    )
+    console.log('Downgrading customer successfull.')
+  }
   public async advanceClock(timeOptions: {
     days: number
     hours?: number

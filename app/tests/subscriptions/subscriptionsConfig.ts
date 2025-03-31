@@ -1,5 +1,4 @@
-import { type Page, type Project, devices } from '@playwright/test'
-import { test as base } from '../fixture'
+import { type Project, devices } from '@playwright/test'
 import { subscriptionStates } from './subscriptionStates'
 
 export const subscriptionsConfig: Array<Project> = [
@@ -21,7 +20,6 @@ subscriptionStates.forEach((subscriptionState) => {
     lifetimeTeaser,
     manageSubscription,
     downloadInvoice,
-    forwardOneMonth,
   } = subscriptionState
 
   // Test setup
@@ -38,7 +36,7 @@ subscriptionStates.forEach((subscriptionState) => {
       ? ''
       : [
         `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
-        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}${forwardOneMonth ? '-forwardMonth' : ''}.spec.ts`,
+        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
       ],
     dependencies: noSetup ? undefined : [`setup-${state}`],
     use: {

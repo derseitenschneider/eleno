@@ -10,7 +10,7 @@
     },
     {
       "name": "yearly_price",
-      "path": "/v1/prices/${env:YEARLY_PRICE_ID}",
+      "path": "/v1/prices/price_1Qp7CXGqCC0x0XxsFFPDgzsa",
       "method": "get"
     },
     {

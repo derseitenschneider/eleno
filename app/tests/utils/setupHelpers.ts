@@ -37,7 +37,8 @@ export async function setupMonthlyCanceledExpired() {
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
   await testUser.cancelAtPeriodEnd()
-  // await testUser.expireSubscription()
+  await testUser.advanceClock({ days: 31, hours: 2 })
+  await testUser.expireSubscription()
 
   return testUser
 }
@@ -103,11 +104,20 @@ export async function setupTrialLifetime() {
   return testUser
 }
 
-export async function monthlyYearly() {
+export async function setupMonthlyYearly() {
   const testUser = new TestUser({ userflow: 'monthly-yearly' })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
-  await testUser.runStripeFixture('upgrade-yearly')
+  await testUser.upgradeToYearly()
+
+  return testUser
+}
+
+export async function setupYearlyMonthly() {
+  const testUser = new TestUser({ userflow: 'yearly-monthly' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+  await testUser.downGradeToMonthly()
 
   return testUser
 }

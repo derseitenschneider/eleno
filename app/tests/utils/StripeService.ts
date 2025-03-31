@@ -52,18 +52,54 @@ export class StripeService {
     this.clock = testClock
   }
 
-  public async cancelAtPeriodEnd(customerId: string) {
+  private async getSubscriptions(customerId: string) {
     const subscriptions = await this.client.subscriptions.list({
       customer: customerId,
     })
 
-    subscriptions.data.forEach(async (sub) => {
+    return subscriptions.data
+  }
+
+  public async cancelAtPeriodEnd(customerId: string) {
+    const subscriptions = await this.getSubscriptions(customerId)
+
+    subscriptions.forEach(async (sub) => {
       await this.client.subscriptions.update(sub.id, {
         cancel_at_period_end: true,
       })
     })
   }
 
+  public async updateSubscription(customerId: string, priceId: string) {
+    const subscriptions = await this.getSubscriptions(customerId)
+    const activeSubscription = subscriptions.find(
+      (sub) => sub.status === 'active',
+    )
+
+    if (!activeSubscription) {
+      throw new Error(`Customer ${customerId} has no active subscription.`)
+    }
+
+    if (
+      !activeSubscription.items ||
+      activeSubscription.items.data.length === 0
+    ) {
+      throw new Error(
+        `Customer ${customerId} active subscription has no items.`,
+      )
+    }
+
+    const subscriptionItemId = activeSubscription.items.data[0]?.id
+
+    await this.client.subscriptions.update(activeSubscription.id, {
+      items: [
+        {
+          id: subscriptionItemId,
+          price: priceId,
+        },
+      ],
+    })
+  }
   public async attachNewPaymentMethod(customerId: string, testCard: TestCard) {
     const newPaymentMethod = await this.client.paymentMethods.attach(testCard, {
       customer: customerId,

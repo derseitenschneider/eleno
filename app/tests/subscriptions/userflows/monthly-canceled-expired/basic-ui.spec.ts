@@ -1,47 +1,42 @@
-import { expect } from '@playwright/test'
-import { test } from '../../../fixture'
+import { expect, test } from '@playwright/test'
 import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
-test.beforeEach(async ({ forwardOneMonth }) => {
-  const subscrptionPom = new SubscriptionPOM(forwardOneMonth)
+test.beforeEach(async ({ page }) => {
+  const subscrptionPom = new SubscriptionPOM(page)
   await subscrptionPom.goto()
 })
 
-test('subscription status is inactive', async ({ forwardOneMonth }) => {
-  const subscriptionPom = new SubscriptionPOM(forwardOneMonth)
+test('subscription status is inactive', async ({ page }) => {
+  const subscriptionPom = new SubscriptionPOM(page)
 
   await expect(subscriptionPom.statusBadge).toHaveText(/inaktiv/i)
 })
 
-test('plan is "Monatlich" ', async ({ forwardOneMonth }) => {
-  const { plan } = new SubscriptionPOM(forwardOneMonth)
+test('plan is "Monatlich" ', async ({ page }) => {
+  const { plan } = new SubscriptionPOM(page)
 
   await expect(plan).toHaveText(/monat/i)
 })
 
-test('period start and end hidden', async ({ forwardOneMonth }) => {
-  const { startDate, endDate } = new SubscriptionPOM(forwardOneMonth)
+test('period start and end hidden', async ({ page }) => {
+  const { startDate, endDate } = new SubscriptionPOM(page)
 
   await expect(startDate).toBeHidden()
   await expect(endDate).toBeHidden()
 })
 
-test('pricing table title is visible', async ({ forwardOneMonth }) => {
-  const { pricingTable } = new SubscriptionPOM(forwardOneMonth)
+test('pricing table title is visible', async ({ page }) => {
+  const { pricingTable } = new SubscriptionPOM(page)
   await expect(pricingTable).toBeVisible()
 })
 
-test('lifetime teaser is hidden', async ({ forwardOneMonth }) => {
-  const { lifetimeTeaser } = new SubscriptionPOM(forwardOneMonth)
+test('lifetime teaser is hidden', async ({ page }) => {
+  const { lifetimeTeaser } = new SubscriptionPOM(page)
   await expect(lifetimeTeaser).not.toBeVisible()
 })
 
-test('subscription inactive  banner expired is visible', async ({
-  forwardOneMonth,
-}) => {
-  const trialBannerExpired = forwardOneMonth.getByTestId(
-    'banner-subscription-inactive',
-  )
+test('subscription inactive  banner expired is visible', async ({ page }) => {
+  const trialBannerExpired = page.getByTestId('banner-subscription-inactive')
 
   await expect(trialBannerExpired).toBeVisible()
 })

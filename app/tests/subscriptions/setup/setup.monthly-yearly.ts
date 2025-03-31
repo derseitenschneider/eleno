@@ -1,17 +1,16 @@
-import { expect, test as setup } from '@playwright/test'
-import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
-import { setupMonthlyCanceledExpired } from '../../utils/setupHelpers'
+import { test as setup, expect } from '@playwright/test'
+import { setupMonthlyYearly } from '../../utils/setupHelpers'
 
 setup(
-  'create a trial user, run checkout fixture, cancel and then expire.',
+  'create a trial user, run checkout fixture for monthly subscription, activate and upgrade subscription.',
   async ({ page }) => {
     // Setup test data.
-    const { email, password, authFile } = await setupMonthlyCanceledExpired()
+    const testUser = await setupMonthlyYearly()
 
     // Login
     await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(email)
-    await page.getByTestId('login-password').fill(password)
+    await page.getByTestId('login-email').fill(testUser.email)
+    await page.getByTestId('login-password').fill(testUser.password)
     await page.getByTestId('login-submit').click()
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
@@ -27,10 +26,7 @@ setup(
     await expect(page.getByTestId('message-header')).toContainText('aktiviert')
     await page.getByRole('button', { name: 'Löschen' }).click()
 
-    const subscriptionPom = new SubscriptionPOM(page)
-    await subscriptionPom.goto()
-
     // Store login state in auth file.
-    await page.context().storageState({ path: authFile })
+    await page.context().storageState({ path: testUser.authFile })
   },
 )
