@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { stripeClient } from '../utils/stripeClient'
 import supabaseAdmin from '../utils/supabaseAdmin'
+import { resolveJoin } from '../utils/resolveJoin'
 
 type UserData = {
   userId: string
@@ -10,7 +11,7 @@ type UserData = {
   clockId: string
 }
 
-const dataPath = path.resolve(path.dirname('.'), './tests/subscriptions/data')
+const dataPath = resolveJoin('../data')
 
 teardown('cleanup all trial users and customers', async () => {
   console.log('===================================================')

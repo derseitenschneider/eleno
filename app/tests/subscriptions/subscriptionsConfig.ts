@@ -4,7 +4,7 @@ import { subscriptionStates } from './subscriptionStates'
 export const subscriptionsConfig: Array<Project> = [
   {
     name: 'base-teardown',
-    testMatch: '**/tests/subscriptions/teardown.base.ts',
+    testMatch: '**/tests/subscriptions/teardown.subscriptions.ts',
   },
 ]
 
@@ -35,9 +35,9 @@ subscriptionStates.forEach((subscriptionState) => {
     testMatch: noTest
       ? ''
       : [
-        `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
-        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
-      ],
+          `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
+          `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
+        ],
     dependencies: noSetup ? undefined : [`setup-${state}`],
     use: {
       ...devices['Desktop Chrome'],

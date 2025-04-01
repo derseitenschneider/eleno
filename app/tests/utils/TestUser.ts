@@ -27,6 +27,7 @@ export type UserFlow =
   | 'yearly-expired-canceled'
   | 'yearly-expired-paid'
   | 'yearly-monthly'
+  | 'share-homework'
 
 type StripeFixture =
   | 'monthly-checkout'
@@ -88,7 +89,6 @@ export class TestUser {
    * The user created on init().
    */
   protected user: User | null = null
-
   /**
    * @protected
    *
@@ -103,12 +103,20 @@ export class TestUser {
    */
   protected stripeService: StripeService
 
+  /**
+   * @protected
+   *
+   * Id of the student created on init.
+   */
+  private studentId: string = ''
+
   public constructor(options: Options) {
     this.stripeService = new StripeService()
     this.userflow = options.userflow
 
-    this.dataPath = resolveJoin('../subscriptions/data')
+    this.dataPath = resolveJoin('../data')
     this.authFile = resolveJoin(`../../playwright/.auth/${this.userflow}.json`)
+    console.log(this.authFile)
 
     this.email = `pw-test-${this.userflow}-${Date.now()}@example.com`
     this.password = 'password123'
@@ -214,13 +222,18 @@ export class TestUser {
       throw new Error('No data present to populate students for.')
     }
     console.log('Creating a student for user ', this.user.id)
-    const { error } = await supabaseAdmin.from('students').insert({
-      user_id: this.user.id,
-      firstName: 'Test',
-      lastName: 'Student',
-      instrument: 'Gitarre',
-    })
+    const { data: student, error } = await supabaseAdmin
+      .from('students')
+      .insert({
+        user_id: this.user.id,
+        firstName: 'Test',
+        lastName: 'Student',
+        instrument: 'Gitarre',
+      })
+      .select('id')
+      .single()
 
+    this.studentId = student?.id
     if (error) {
       throw new Error(`Error inserting student: ${error.message}`)
     }
@@ -321,5 +334,30 @@ export class TestUser {
     minutes?: number
   }) {
     await this.stripeService.advanceClock(timeOptions)
+  }
+
+  public async createLesson() {
+    if (!this.user) {
+      throw new Error("Can't run method without user")
+    }
+    const { data: lesson, error } = await supabaseAdmin
+      .from('lessons')
+      .insert({
+        lessonContent: 'Test Lesson',
+        homework: 'Test Homework',
+        studentId: this.studentId,
+        user_id: this.user.id,
+        date: new Date(),
+      })
+      .select('*')
+      .single()
+
+    console.log(lesson)
+
+    if (error) {
+      throw new Error(`Error inserting student: ${error.message}`)
+    }
+
+    return lesson
   }
 }
