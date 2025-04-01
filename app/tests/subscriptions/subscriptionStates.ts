@@ -38,6 +38,15 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: false,
   // },
   //
+  {
+    state: 'monthly-monthly',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+    downloadInvoice: false,
+  },
+  //
   // {
   //   state: 'monthly-lifetime',
   //   access: true,
@@ -109,7 +118,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-
   // {
   //   state: 'yearly-monthly',
   //   access: true,
@@ -126,14 +134,14 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
-  {
-    state: 'yearly-lifetime',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: false,
-    manageSubscription: false,
-    downloadInvoice: true,
-  },
+  // {
+  //   state: 'yearly-lifetime',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: false,
+  //   manageSubscription: false,
+  //   downloadInvoice: true,
+  // },
   // {
   //   state: 'yearly-expired',
   //   access: true,
@@ -157,6 +165,15 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   lifetimeTeaser: true,
   //   manageSubscription: true,
   //   downloadInvoice: false,
+  // },
+  // {
+  //   state: 'yearly-canceled-expired',
+  //   access: false,
+  //   pricingTable: true,
+  //   lifetimeTeaser: false,
+  //   manageSubscription: false,
+  //   downloadInvoice: false,
+  //   forwardOneMonth: true,
   // },
   // {
   //   state: 'yearly-expired-paid',
