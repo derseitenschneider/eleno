@@ -23,6 +23,15 @@ export async function setupMonthlyActive() {
   return testUser
 }
 
+export async function setupMonthlyLifetime() {
+  const testUser = new TestUser({ userflow: 'monthly-lifetime' })
+  await testUser.init()
+  await testUser.runStripeFixture('monthly-checkout')
+  await testUser.runStripeFixture('lifetime')
+
+  return testUser
+}
+
 export async function setupMonthlyCanceled() {
   const testUser = new TestUser({ userflow: 'monthly-canceled' })
   await testUser.init()
@@ -126,6 +135,15 @@ export async function setupYearlyActive() {
   const testUser = new TestUser({ userflow: 'yearly-active' })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
+
+  return testUser
+}
+
+export async function setupYearlyLifetime() {
+  const testUser = new TestUser({ userflow: 'yearly-lifetime' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+  await testUser.runStripeFixture('lifetime')
 
   return testUser
 }
