@@ -110,12 +110,12 @@ export default function LessonNav() {
           : '',
       )}
     >
-      <div className='shadow-xl bg-background50/30 border border-background200/75 flex gap-2 p-2 backdrop-blur-sm rounded-full'>
+      <div className='flex gap-2 rounded-full border border-hairline bg-background50/30 p-2 shadow-sm backdrop-blur-sm'>
         <SearchStudentCombobox />
         <Button
           onMouseDown={handlerPreviousStudent}
           size='icon'
-          className='bg-background100 border border-background50 rounded-full hover:bg-background100 hover:translate-y-[-1px] shadow-md transition-transform '
+          className='rounded-full border border-hairline bg-background50 shadow-sm transition-transform  hover:bg-background200/40'
         >
           <ArrowLeft className='h-5 w-5 text-primary' />
         </Button>
@@ -123,7 +123,7 @@ export default function LessonNav() {
         <Button
           onMouseDown={handlerNextStudent}
           size='icon'
-          className='bg-background100 border border-background50 shadow-md rounded-full  hover:bg-background100 hover:translate-y-[-1px] transition-transform '
+          className='rounded-full border border-hairline bg-background50 shadow-sm transition-transform  hover:bg-background200/40 '
         >
           <ArrowRight className='h-5 w-5 text-primary' />
         </Button>

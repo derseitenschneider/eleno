@@ -63,13 +63,13 @@ export default function SearchStudentCombobox() {
           size='icon'
           role='combobox'
           aria-expanded={open}
-          className='bg-background100 border border-background50 mr-4 shadow-md rounded-full hover:bg-background100 hover:translate-y-[-2px] transition-transform '
+          className='mr-4 rounded-full border border-hairline bg-background50 shadow-sm transition-transform  hover:bg-background200/40'
         >
-          <Search className=' h-5 text-primary text-right' />
+          <Search className=' h-5 text-right text-primary' />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='p-0 mr-3 !bottom-[100%] !top-auto'
+        className='!bottom-[100%] !top-auto mr-3 p-0'
         side='top'
         align='start'
       >
@@ -97,7 +97,7 @@ export default function SearchStudentCombobox() {
                     <>
                       <span>{lessonHolder.holder.name} </span>
                       <Badge>
-                        <Users className='size-3 mr-1' />
+                        <Users className='mr-1 size-3' />
                         Gruppe
                       </Badge>
                     </>
