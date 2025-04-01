@@ -38,14 +38,14 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: false,
   // },
   //
-  {
-    state: 'monthly-monthly',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: true,
-    manageSubscription: true,
-    downloadInvoice: false,
-  },
+  // {
+  //   state: 'monthly-monthly',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  // },
   //
   // {
   //   state: 'monthly-lifetime',
@@ -134,6 +134,15 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   manageSubscription: true,
   //   downloadInvoice: false,
   // },
+  //
+  {
+    state: 'yearly-yearly',
+    access: true,
+    pricingTable: false,
+    lifetimeTeaser: true,
+    manageSubscription: true,
+    downloadInvoice: false,
+  },
   // {
   //   state: 'yearly-lifetime',
   //   access: true,

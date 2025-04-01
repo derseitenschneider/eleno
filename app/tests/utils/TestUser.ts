@@ -19,6 +19,7 @@ export type UserFlow =
   | 'trial-lifetime'
   | 'monthly-yearly'
   | 'yearly-active'
+  | 'yearly-yearly'
   | 'yearly-lifetime'
   | 'yearly-canceled'
   | 'yearly-canceled-expired'

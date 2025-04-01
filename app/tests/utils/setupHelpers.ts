@@ -147,6 +147,14 @@ export async function setupYearlyActive() {
   return testUser
 }
 
+export async function setupYearlyYearly() {
+  const testUser = new TestUser({ userflow: 'yearly-yearly' })
+  await testUser.init()
+  await testUser.runStripeFixture('yearly-checkout')
+
+  return testUser
+}
+
 export async function setupYearlyLifetime() {
   const testUser = new TestUser({ userflow: 'yearly-lifetime' })
   await testUser.init()
