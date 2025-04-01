@@ -10,13 +10,30 @@ use App\Services\StripeService;
 use Monolog\Logger;
 
 class SubscriptionController {
+	/**
+	 * Constructor
+	 *
+	 * The class constructor.
+	 *
+	 * @param StripeService $stripeService
+	 * @param Logger        $logger
+	 */
 	public function __construct(
 		private StripeService $stripeService,
 		private Logger $logger
 	) {
 	}
 
-	public function cancelAtPeriodEnd( Request $request, Response $response, $args ) {
+	/**
+	 * Cancel at period end
+	 *
+	 * Cancels a subscription at period end.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param mixed    $args
+	 */
+	public function cancelAtPeriodEnd( Request $request, Response $response, $args ): Response {
 		try {
 			$subscriptionId = $args['subscription_id'];
 			$body           = $request->getParsedBody();
@@ -37,7 +54,16 @@ class SubscriptionController {
 		}
 	}
 
-	public function handleReactivation( Request $request, Response $response, $args ) {
+	/**
+	 * Handle reactivation
+	 *
+	 * Handles the reactivation of a canceled stripe subscription
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param mixed    $args
+	 */
+	public function handleReactivation( Request $request, Response $response, $args ): Response {
 		try {
 			$subscriptionId = $args['subscription_id'];
 			$body           = $request->getParsedBody();

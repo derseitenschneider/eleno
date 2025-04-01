@@ -11,6 +11,16 @@ use App\Services\StripeService;
 use Monolog\Logger;
 
 class SessionController {
+
+	/**
+	 * Constructor
+	 *
+	 * The class constructor.
+	 *
+	 * @param StripeService $stripeService
+	 * @param Config        $config
+	 * @param Logger        $logger
+	 */
 	public function __construct(
 		private StripeService $stripeService,
 		private Config $config,
@@ -18,7 +28,15 @@ class SessionController {
 	) {
 	}
 
-	public function createSession( Request $request, Response $response ) {
+	/**
+	 * Create session
+	 *
+	 * Creates a stripe checkout session.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 */
+	public function createSession( Request $request, Response $response ): Response {
 		try {
 			$body             = $request->getParsedBody();
 			$priceId          = $body['price_id'];

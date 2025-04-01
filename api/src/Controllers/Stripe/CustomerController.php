@@ -9,13 +9,31 @@ use App\Services\StripeService;
 use Monolog\Logger;
 
 class CustomerController {
+
+	/**
+	 * Constructor
+	 *
+	 * The constructor of the class.
+	 *
+	 * @param StripeService $stripeService The stripe service class.
+	 * @param Logger        $logger The logger class.
+	 */
 	public function __construct(
 		private StripeService $stripeService,
 		private Logger $logger
 	) {
 	}
 
-	public function createPortal( Request $request, Response $response, $args ) {
+	/**
+	 * Create portal
+	 *
+	 * Creates a stripe customer porta.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param mixed    $args
+	 */
+	public function createPortal( Request $request, Response $response, $args ): Response {
 		try {
 			$customerId = $args['customer_id'];
 			$body       = $request->getParsedBody();
@@ -40,7 +58,15 @@ class CustomerController {
 		}
 	}
 
-	public function getInvoiceUrlUrl( Request $request, Response $response ) {
+	/**
+	 * Get invoice url
+	 *
+	 * Gets the invoice url from stripe.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 */
+	public function getInvoiceUrlUrl( Request $request, Response $response ): Response {
 		try {
 			$invoiceId  = $request->getParsedBody()['invoiceId'];
 			$invoiceUrl = $this->stripeService->getInvoiceUrl( $invoiceId );
@@ -57,7 +83,16 @@ class CustomerController {
 		}
 	}
 
-	public function deleteCustomer( Request $request, Response $response, $args ) {
+	/**
+	 * Delete customer
+	 *
+	 * Deletes a stripe customer.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param mixed    $args
+	 */
+	public function deleteCustomer( Request $request, Response $response, $args ): Response {
 		try {
 			$customerId = $args['customer_id'] ?? '';
 

@@ -5,19 +5,41 @@ namespace App\Controllers;
 use App\Config\Config;
 use App\Core\Http;
 use App\Services\Stripe\WebhookHandler;
+use InvalidArgumentException;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use RuntimeException;
 use Stripe\Webhook;
 
 class WebhookController {
+	/**
+	 * Constructor
+	 *
+	 * The class constructor.
+	 *
+	 * @param Config         $config
+	 * @param WebhookHandler $webhookHandler
+	 * @param Logger         $logger
+	 */
 	public function __construct(
-		private config $config,
+		private Config $config,
 		private WebhookHandler $webhookHandler,
 		private Logger $logger,
 	) {
 	}
 
+	/**
+	 * Handle Webhook
+	 *
+	 * Takes all incoming webhook requests, checks the stripe signature and
+	 * defers events to the webhookhandler.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @throws RuntimeException Exception, when parsing error.
+	 * @throws InvalidArgumentException Exception, when invalid signature.
+	 */
 	public function handleWebhook( Request $request, Response $response ) {
 		$webhookSecret = $this->config->stripeWebhookSignature;
 

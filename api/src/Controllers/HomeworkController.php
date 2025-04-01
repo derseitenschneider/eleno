@@ -3,18 +3,37 @@
 namespace App\Controllers;
 
 use App\Repositories\LessonRepository;
+use InvalidArgumentException;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use RuntimeException;
 
 class HomeworkController {
 
+	/**
+	 * Constructor
+	 *
+	 * The class constructor.
+	 *
+	 * @param LessonRepository $repository
+	 * @param Logger           $logger
+	 */
 	public function __construct(
 		private LessonRepository $repository,
 		private Logger $logger
 	) {
 	}
 
+	/**
+	 * Get homework
+	 *
+	 * Returns the homework view.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param array    $args
+	 */
 	public function getHomework(
 		Request $request,
 		Response $response,
@@ -71,7 +90,14 @@ class HomeworkController {
 		}
 	}
 
-	private function formatLesson( $lessonData ): array {
+	/**
+	 * Format lesson
+	 *
+	 * Formts homework data from lesson to be output in the homework view.
+	 *
+	 * @param array $lessonData
+	 */
+	private function formatLesson( array $lessonData ): array {
 		$type = $lessonData['studentId'] ? 's' : 'g';
 		return array(
 			'date'         => $this->formatDate( $lessonData['date'] ),
@@ -81,12 +107,27 @@ class HomeworkController {
 		);
 	}
 
-	private function formatDate( $date ): string {
+	/**
+	 * Format date
+	 *
+	 * Formats date to be displayed in the homework view.
+	 *
+	 * @param string $date
+	 */
+	private function formatDate( string $date ): string {
 		$dateObj = new \DateTime( $date );
 
 		return $dateObj->format( 'd.m.y' );
 	}
 
+	/**
+	 * Render error
+	 *
+	 * Renders the error view in case there is an error.
+	 *
+	 * @param Response $response
+	 * @return Response
+	 */
 	private function renderError( Response $response ): Response {
 		$response->getBody()->write( $this->renderView( 'error' ) );
 
@@ -96,6 +137,14 @@ class HomeworkController {
 		);
 	}
 
+	/**
+	 * Render view
+	 *
+	 * Renders the view html for the homework page.
+	 *
+	 * @param string $view
+	 * @param array  $data
+	 */
 	private function renderView( string $view, array $data = array() ): string {
 		extract( $data );
 		ob_start();

@@ -157,6 +157,10 @@
         <severity>0</severity>
     </rule>
 
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.MissingUnslash">
+        <severity>0</severity>
+    </rule>
+
     <arg name="tab-width" value="4"/>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
