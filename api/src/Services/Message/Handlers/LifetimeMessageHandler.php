@@ -8,9 +8,21 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
+use Stripe\Exception\ApiErrorException;
+use InvalidArgumentException;
 
 class LifetimeMessageHandler {
 
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param MessageTemplateService $templateService
+	 * @param MessageService         $messageService
+	 * @param StripeAPIService       $stripeApiService
+	 * @param Database               $db
+	 */
 	public function __construct(
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
@@ -19,14 +31,22 @@ class LifetimeMessageHandler {
 	) {
 	}
 
+	/**
+	 * Handle
+	 *
+	 * Handles getting the template, filling it and sending the message.
+	 *
+	 * @param StripeCheckoutCompletedDTO $checkoutDTO
+	 */
 	public function handle( StripeCheckoutCompletedDTO $checkoutDTO ) {
-		$invoiceUrl = $this->stripeApiService->getInvoiceUrl( $checkoutDTO->invoiceId );
-		$sql        =
-			'
-            SELECT first_name
-            FROM profiles
-            WHERE id = $1
-            ';
+		$invoiceId  = $checkoutDTO->invoiceId;
+		$invoiceUrl = $this->stripeApiService->getInvoiceUrl( $invoiceId );
+
+		$sql = <<<SQL
+		SELECT first_name
+		FROM profiles
+		WHERE id = $1
+		SQL;
 
 		$params    = [ $checkoutDTO->userId ];
 		$firstName = $this->db->query( $sql, $params );

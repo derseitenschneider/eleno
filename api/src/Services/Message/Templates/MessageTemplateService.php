@@ -4,16 +4,28 @@ namespace App\Services\Message\Templates;
 use App\Database\Database;
 
 class MessageTemplateService {
-	public function __construct(
-		private Database $db
-	) {}
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param Database $db
+	 */
+	public function __construct( private Database $db ) {}
 
+	/**
+	 * Get template
+	 *
+	 * Retrieves the template from the database.
+	 *
+	 * @param string $templateName
+	 */
 	public function getTemplate( string $templateName ): Template {
-		$sql = '
-            SELECT *
-            FROM message_templates
-            WHERE name = $1
-        ';
+		$sql = <<<SQL
+		SELECT *
+		FROM message_templates
+		WHERE name = $1
+		SQL;
 
 		$template = $this->db->query( $sql, [ $templateName ] );
 
@@ -24,6 +36,14 @@ class MessageTemplateService {
 		);
 	}
 
+	/**
+	 * Fill template
+	 *
+	 * Fills the template placeholders with given data.
+	 *
+	 * @param Template $template
+	 * @param array    $data
+	 */
 	public function fillTemplate( Template $template, array $data ): Template {
 		foreach ( $data as $key => $val ) {
 			$template->subject = str_replace( $key, $val, $template->subject );

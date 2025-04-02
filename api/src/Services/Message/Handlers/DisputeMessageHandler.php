@@ -8,15 +8,28 @@ use App\Services\Message\Strategies\MailMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
+use InvalidArgumentException;
 use Stripe\Dispute;
 
 class DisputeMessageHandler {
 
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param MessageService $messageService
+	 */
 	public function __construct(
 		private MessageService $messageService,
 	) {
 	}
 
+	/**
+	 * Sends dispute data to admin mail.
+	 *
+	 * @param Dispute $dispute
+	 */
 	public function handle( Dispute $dispute ) {
 		$recipient = 'brian.boy@gmx.ch';
 		$subject   = 'A new dispute is pending';

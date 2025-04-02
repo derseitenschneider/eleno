@@ -8,9 +8,19 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Message\Templates\MessageTemplateService;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\StripeAPIService;
+use InvalidArgumentException;
 
 class SubscriptionMessageHandler {
 
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param MessageTemplateService $templateService
+	 * @param MessageService         $messageService
+	 * @param Database               $db
+	 */
 	public function __construct(
 		private MessageTemplateService $templateService,
 		private MessageService $messageService,
@@ -18,13 +28,19 @@ class SubscriptionMessageHandler {
 	) {
 	}
 
+	/**
+	 * Handle
+	 *
+	 * Handles getting the template, filling it and sending the message.
+	 *
+	 * @param StripeCheckoutCompletedDTO $checkoutDTO
+	 */
 	public function handle( StripeCheckoutCompletedDTO $checkoutDTO ) {
-		$sql =
-			'
-            SELECT first_name
-            FROM profiles
-            WHERE id = $1
-            ';
+		$sql = <<<SQL
+		SELECT first_name
+		FROM profiles
+		WHERE id = $1
+		SQL;
 
 		$params = [ $checkoutDTO->userId ];
 		$result = $this->db->query( $sql, $params );
@@ -36,6 +52,10 @@ class SubscriptionMessageHandler {
 		$template = $this->templateService->getTemplate( 'first_time_subscription' );
 		$template = $this->templateService->fillTemplate( $template, $data );
 
-		$this->messageService->send( $checkoutDTO->userId, $template->subject, $template->body );
+		$userId  = $checkoutDTO->userId;
+		$subject = $template->subject;
+		$body    = $template->body;
+
+		$this->messageService->send( recipient:$userId, subject:$subject, body:$body );
 	}
 }
