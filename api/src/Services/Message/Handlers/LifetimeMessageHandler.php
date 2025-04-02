@@ -29,7 +29,7 @@ class LifetimeMessageHandler {
             ';
 
 		$params    = [ $checkoutDTO->userId ];
-		$firstName = $this->db->query( $sql, $params ) ?? '';
+		$firstName = $this->db->query( $sql, $params );
 
 		$data = array(
 			'{{planName}}'   => 'Lifetime',

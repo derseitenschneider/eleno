@@ -8,7 +8,8 @@ use Monolog\Logger;
 use PgSql\Connection;
 
 class Database {
-	/** @var Connection $conn The postgres connection*/
+
+	/** @var Connection $conn The postgres connection */
 	private $conn;
 
 	/**

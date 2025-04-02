@@ -27,7 +27,7 @@ class SubscriptionMessageHandler {
             ';
 
 		$params = [ $checkoutDTO->userId ];
-		$result = $this->db->query( $sql, $params ) ?? '';
+		$result = $this->db->query( $sql, $params );
 		$data   = [
 			'{{userName}}' => $result[0]['first_name'],
 			'{{year}}'     => date( 'Y' ),

@@ -2,19 +2,41 @@
 
 namespace App\Middleware;
 
+use InvalidArgumentException;
 use Monolog\Level;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface as Handler;
+use Psr\Log\InvalidArgumentException as LogInvalidArgumentException;
 
 class RequestLoggerMiddleware implements MiddlewareInterface {
+	/**
+	 * Construct
+	 *
+	 * The class constructor
+	 *
+	 * @param Logger $requestLogger
+	 */
 	public function __construct(
 		private Logger $requestLogger
 	) {}
 
-	public function process( Request $request, RequestHandlerInterface $handler ): Response {
+	/**
+	 * Process
+	 *
+	 * Logs the request informations.
+	 *
+	 * @param Request $request
+	 * @param Handler $handler
+	 *
+	 * @throws InvalidArgumentException Throws on invalid args.
+	 * @throws LogInvalidArgumentException Throws when invalid args for logger.
+	 */
+	public function process( Request $request, Handler $handler ): Response {
+
+		// Don't log preflights.
 		if ( $request->getMethod() === 'OPTIONS' ) {
 			return $handler->handle( $request );
 		}
@@ -29,7 +51,9 @@ class RequestLoggerMiddleware implements MiddlewareInterface {
 
 		foreach ( $headersToLog as $headerName ) {
 			if ( $request->hasHeader( $headerName ) ) {
-				$loggedHeaders[ $headerName ] = $request->getHeaderLine( $headerName );
+				$headerLine = $request->getHeaderLine( $headerName );
+
+				$loggedHeaders[ $headerName ] = $headerLine;
 			}
 		}
 
