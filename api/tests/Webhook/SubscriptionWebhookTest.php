@@ -51,7 +51,7 @@ it(
 
 afterEach(
 	function () {
-		deleteStripeCustomer( $this->stripeCustomer->id );
-		deleteTestUser( $this->user['id'] );
+		// deleteStripeCustomer( $this->stripeCustomer->id );
+		// deleteTestUser( $this->user['id'] );
 	}
 );

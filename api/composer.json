@@ -35,6 +35,7 @@
   "scripts": {
     "stan": "vendor/bin/phpstan analyse --memory-limit 512M",
     "stan:cache": "vendor/bin/phpstan clear-result-cache",
+    "phpcs": "vendor/bin/phpcs ./src",
     "test": "vendor/bin/pest",
     "test:watch": [
       "Composer\\Config::disableProcessTimeout",

@@ -63,6 +63,7 @@ class SubscriptionStates {
 			'SELECT * FROM stripe_subscriptions WHERE user_id = $1',
 			[ $userId ]
 		)[0];
+		var_dump( $userId );
 
 		// Compare each defined field
 		foreach ( $definition as $key => $expectedValue ) {

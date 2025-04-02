@@ -1,5 +1,5 @@
 # Deploys the api server from [dev] to staging.
-
+name: 📦 [STAGING] Deploy server on push dev
 on:
   workflow_dispatch:
   push:
@@ -26,6 +26,11 @@ jobs:
         run: |
           cd api
           composer install --optimize-autoloader
+
+      - name: Run PHP Code sniffer
+        run: |
+          cd api
+          composer phpcs
 
       - name: PHPStan Analysis
         run: |
