@@ -64,9 +64,6 @@ class SubscriptionAccessMiddleware implements MiddlewareInterface {
 	 *
 	 * @param string $message
 	 * @param int    $status
-	 *
-	 * @throws InvalidArgumentException Throws when json is invalid.
-	 * @throws RuntimeException Throws when args are invalid.
 	 */
 	private function createErrorResponse( string $message, int $status ): Response {
 		$response = $this->responseFactory->createResponse( $status );

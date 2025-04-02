@@ -7,6 +7,13 @@ use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 
 class LessonRepository {
 
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param Database $db
+	 */
 	public function __construct(
 		private Database $db,
 	) {
@@ -20,9 +27,8 @@ class LessonRepository {
 	 * from a group as 'related_name'.
 	 *
 	 * @param string $homeworkKey
-	 * @return array|false
 	 */
-	public function getLesson( string $homeworkKey ) {
+	public function getLesson( string $homeworkKey ): array|false {
 		$sql     = '
         SELECT 
             l.*, COALESCE(s."firstName", g.name) AS related_name 

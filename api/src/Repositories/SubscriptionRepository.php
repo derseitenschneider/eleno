@@ -2,13 +2,21 @@
 namespace App\Repositories;
 
 use App\Database\Database;
-use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
-use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
+use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO as CheckoutDTO;
+use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO as SubscriptionDTO;
 use Exception;
 
 class SubscriptionRepository {
+	/** @var string $table The database table name */
 	private $table = 'stripe_subscriptions';
 
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param Database $db
+	 */
 	public function __construct(
 		private Database $db,
 	) {
@@ -23,14 +31,13 @@ class SubscriptionRepository {
 	 * @param string|null $userId The database user_id.
 	 * @param string|null $customerId The stripe customer id.
 	 *
-	 * @return array|null The subscription object or null.
-	 * @throws Exception
+	 * @throws \Exception Throws when no userId or customerId is provided.
 	 */
 	public function getSubscription(
 		?string $userId = null,
 		?string $customerId = null
-	) {
-		if ( $userId === null && $customerId === null ) {
+	): array|null {
+		if ( null === $userId && null === $customerId ) {
 			throw new \Exception( 'Must provide userId or customerId' );
 		}
 
@@ -129,9 +136,9 @@ class SubscriptionRepository {
 	 *
 	 * Saves checkout session to the database.
 	 *
-	 * @param StripeCheckoutCompletedDTO $session
+	 * @param CheckoutDTO $session
 	 */
-	public function saveCheckoutSession( StripeCheckoutCompletedDTO $session ): bool {
+	public function saveCheckoutSession( CheckoutDTO $session ): bool {
 		$data = array(
 			'stripe_subscription_id' => $session->subscriptionId,
 			'stripe_invoice_id'      => $session->invoiceId,
@@ -157,10 +164,10 @@ class SubscriptionRepository {
 	 *
 	 * Saves subscription updates to the database.
 	 *
-	 * @param StripeSubscriptionUpdatedDTO $subscription
+	 * @param SubscriptionDTO $subscription
 	 * @return bool
 	 */
-	public function saveSubpscriptionUpdated( StripeSubscriptionUpdatedDTO $subscription ): bool {
+	public function saveSubpscriptionUpdated( SubscriptionDTO $subscription ): bool {
 		return $this->updateSubscription(
 			where:[ 'stripe_customer_id' => $subscription->stripe_customer_id ],
 			data: array(
