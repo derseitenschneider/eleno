@@ -34,7 +34,6 @@ setup(
     await testUser.advanceClock({ days: 366 })
     await page.reload()
     const newStartDate = await subscriptionPom.startDate.textContent()
-    console.log({ initialStartDate, newStartDate })
     expect(initialStartDate).not.toEqual(newStartDate)
 
     // Store login state in auth file.

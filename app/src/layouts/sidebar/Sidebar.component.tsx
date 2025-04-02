@@ -25,8 +25,10 @@ import useHasBanner from '@/hooks/useHasBanner'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import { useMessageNotification } from '@/hooks/useMessageNotification'
 import { useLoading } from '@/services/context/LoadingContext'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 function Sidebar() {
+  const isEnabled = useFeatureFlag('stripe-payment')
   const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
   const { user } = useUser()
@@ -156,22 +158,24 @@ function Sidebar() {
       </ul>
 
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
-        <SidebarElement
-          isActive={window.location.pathname.includes('inbox')}
-          onClick={() => setSidebarOpen(false)}
-          sidebarOpen={sidebarOpen}
-          notificationContent={unreadMessages?.length}
-          notificationColor='bg-primary'
-          to='/inbox'
-          name='Nachrichten'
-          icon={
-            <Inbox
-              strokeWidth={
-                window.location.pathname.includes('inbox') ? 1.55 : 1
-              }
-            />
-          }
-        />
+        {isEnabled && (
+          <SidebarElement
+            isActive={window.location.pathname.includes('inbox')}
+            onClick={() => setSidebarOpen(false)}
+            sidebarOpen={sidebarOpen}
+            notificationContent={unreadMessages?.length}
+            notificationColor='bg-primary'
+            to='/inbox'
+            name='Nachrichten'
+            icon={
+              <Inbox
+                strokeWidth={
+                  window.location.pathname.includes('inbox') ? 1.55 : 1
+                }
+              />
+            }
+          />
+        )}
         <SidebarElement
           testId='sidebar-nav-settings'
           isActive={window.location.pathname.includes('settings')}

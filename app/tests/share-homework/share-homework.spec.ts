@@ -5,7 +5,10 @@ setup(
   'create user, student and lesson, navigate to homework api and expect homework to be there.',
   async ({ page }) => {
     // Setup test user.
-    const testUser = new TestUser({ userflow: 'share-homework' })
+    const testUser = new TestUser({
+      userflow: 'share-homework',
+      project: 'share-homework',
+    })
     await testUser.init()
 
     // Create test lesson.

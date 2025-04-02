@@ -36,6 +36,7 @@ type StripeFixture =
   | 'upgrade-yearly'
 type Options = {
   userflow: UserFlow
+  project: 'subscriptions' | 'share-homework'
 }
 
 export class TestUser {
@@ -114,9 +115,8 @@ export class TestUser {
     this.stripeService = new StripeService()
     this.userflow = options.userflow
 
-    this.dataPath = resolveJoin('../data')
+    this.dataPath = resolveJoin(`../data/${options.project}`)
     this.authFile = resolveJoin(`../../playwright/.auth/${this.userflow}.json`)
-    console.log(this.authFile)
 
     this.email = `pw-test-${this.userflow}-${Date.now()}@example.com`
     this.password = 'password123'
@@ -351,8 +351,6 @@ export class TestUser {
       })
       .select('*')
       .single()
-
-    console.log(lesson)
 
     if (error) {
       throw new Error(`Error inserting student: ${error.message}`)

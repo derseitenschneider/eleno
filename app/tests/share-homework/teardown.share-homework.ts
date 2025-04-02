@@ -11,9 +11,9 @@ type UserData = {
   clockId: string
 }
 
-const dataPath = resolveJoin('../data')
+const dataPath = resolveJoin('../data/share-homework')
 
-teardown('cleanup all trial users and customers', async () => {
+teardown('cleanup for share-homework project.', async () => {
   console.log('===================================================')
   console.log('Start cleanup...')
   const files = fs
@@ -41,6 +41,6 @@ teardown('cleanup all trial users and customers', async () => {
       console.error(`Error cleaning up ${file}:`, error)
     }
   }
-  console.log('All cleanup tasks completed!')
+  console.log('All cleanup tasks for share-homework project completed!')
   console.log('===================================================')
 })

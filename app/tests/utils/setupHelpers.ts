@@ -1,14 +1,20 @@
 import { TestUser } from './TestUser'
 
 export async function setupTrialActive() {
-  const testUser = new TestUser({ userflow: 'trial-active' })
+  const testUser = new TestUser({
+    userflow: 'trial-active',
+    project: 'subscriptions',
+  })
   await testUser.init()
 
   return testUser
 }
 
 export async function setupTrialExpired() {
-  const testUser = new TestUser({ userflow: 'trial-expired' })
+  const testUser = new TestUser({
+    userflow: 'trial-expired',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.expireSubscription()
 
@@ -16,7 +22,10 @@ export async function setupTrialExpired() {
 }
 
 export async function setupMonthlyActive() {
-  const testUser = new TestUser({ userflow: 'monthly-active' })
+  const testUser = new TestUser({
+    userflow: 'monthly-active',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
 
@@ -24,7 +33,10 @@ export async function setupMonthlyActive() {
 }
 
 export async function setupMonthlyMonthly() {
-  const testUser = new TestUser({ userflow: 'monthly-monthly' })
+  const testUser = new TestUser({
+    userflow: 'monthly-monthly',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
 
@@ -32,7 +44,10 @@ export async function setupMonthlyMonthly() {
 }
 
 export async function setupMonthlyLifetime() {
-  const testUser = new TestUser({ userflow: 'monthly-lifetime' })
+  const testUser = new TestUser({
+    userflow: 'monthly-lifetime',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
   await testUser.runStripeFixture('lifetime')
@@ -41,7 +56,10 @@ export async function setupMonthlyLifetime() {
 }
 
 export async function setupMonthlyCanceled() {
-  const testUser = new TestUser({ userflow: 'monthly-canceled' })
+  const testUser = new TestUser({
+    userflow: 'monthly-canceled',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
   await testUser.cancelAtPeriodEnd()
@@ -50,7 +68,10 @@ export async function setupMonthlyCanceled() {
 }
 
 export async function setupMonthlyCanceledExpired() {
-  const testUser = new TestUser({ userflow: 'monthly-canceled-expired' })
+  const testUser = new TestUser({
+    userflow: 'monthly-canceled-expired',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
   await testUser.cancelAtPeriodEnd()
@@ -61,7 +82,10 @@ export async function setupMonthlyCanceledExpired() {
 }
 
 export async function setupMonthlyExpired() {
-  const testUser = new TestUser({ userflow: 'monthly-expired' })
+  const testUser = new TestUser({
+    userflow: 'monthly-expired',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
 
@@ -77,7 +101,10 @@ export async function setupMonthlyExpired() {
 }
 
 export async function setupMonthlyExpiredCanceled() {
-  const testUser = new TestUser({ userflow: 'monthly-expired-canceled' })
+  const testUser = new TestUser({
+    userflow: 'monthly-expired-canceled',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
 
@@ -92,7 +119,10 @@ export async function setupMonthlyExpiredCanceled() {
 }
 
 export async function setupMonthlyExpiredPaid() {
-  const testUser = new TestUser({ userflow: 'monthly-expired-paid' })
+  const testUser = new TestUser({
+    userflow: 'monthly-expired-paid',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
 
@@ -114,7 +144,10 @@ export async function setupMonthlyExpiredPaid() {
 }
 
 export async function setupTrialLifetime() {
-  const testUser = new TestUser({ userflow: 'trial-lifetime' })
+  const testUser = new TestUser({
+    userflow: 'trial-lifetime',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('lifetime')
 
@@ -122,7 +155,10 @@ export async function setupTrialLifetime() {
 }
 
 export async function setupMonthlyYearly() {
-  const testUser = new TestUser({ userflow: 'monthly-yearly' })
+  const testUser = new TestUser({
+    userflow: 'monthly-yearly',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('monthly-checkout')
   await testUser.upgradeToYearly()
@@ -131,7 +167,10 @@ export async function setupMonthlyYearly() {
 }
 
 export async function setupYearlyMonthly() {
-  const testUser = new TestUser({ userflow: 'yearly-monthly' })
+  const testUser = new TestUser({
+    userflow: 'yearly-monthly',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
   await testUser.downGradeToMonthly()
@@ -140,7 +179,10 @@ export async function setupYearlyMonthly() {
 }
 
 export async function setupYearlyActive() {
-  const testUser = new TestUser({ userflow: 'yearly-active' })
+  const testUser = new TestUser({
+    userflow: 'yearly-active',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
 
@@ -148,7 +190,10 @@ export async function setupYearlyActive() {
 }
 
 export async function setupYearlyYearly() {
-  const testUser = new TestUser({ userflow: 'yearly-yearly' })
+  const testUser = new TestUser({
+    userflow: 'yearly-yearly',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
 
@@ -156,7 +201,10 @@ export async function setupYearlyYearly() {
 }
 
 export async function setupYearlyLifetime() {
-  const testUser = new TestUser({ userflow: 'yearly-lifetime' })
+  const testUser = new TestUser({
+    userflow: 'yearly-lifetime',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
   await testUser.runStripeFixture('lifetime')
@@ -165,7 +213,10 @@ export async function setupYearlyLifetime() {
 }
 
 export async function setupYearlyCanceled() {
-  const testUser = new TestUser({ userflow: 'yearly-canceled' })
+  const testUser = new TestUser({
+    userflow: 'yearly-canceled',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
   await testUser.cancelAtPeriodEnd()
@@ -174,7 +225,10 @@ export async function setupYearlyCanceled() {
 }
 
 export async function setupYearlyCanceledExpired() {
-  const testUser = new TestUser({ userflow: 'yearly-canceled-expired' })
+  const testUser = new TestUser({
+    userflow: 'yearly-canceled-expired',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
   await testUser.cancelAtPeriodEnd()
@@ -185,7 +239,10 @@ export async function setupYearlyCanceledExpired() {
 }
 
 export async function setupYearlyExpired() {
-  const testUser = new TestUser({ userflow: 'yearly-expired' })
+  const testUser = new TestUser({
+    userflow: 'yearly-expired',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
 
@@ -201,7 +258,10 @@ export async function setupYearlyExpired() {
 }
 
 export async function setupYearlyExpiredCanceled() {
-  const testUser = new TestUser({ userflow: 'yearly-expired-canceled' })
+  const testUser = new TestUser({
+    userflow: 'yearly-expired-canceled',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
 
@@ -216,7 +276,10 @@ export async function setupYearlyExpiredCanceled() {
 }
 
 export async function setupYearlyExpiredPaid() {
-  const testUser = new TestUser({ userflow: 'yearly-expired-paid' })
+  const testUser = new TestUser({
+    userflow: 'yearly-expired-paid',
+    project: 'subscriptions',
+  })
   await testUser.init()
   await testUser.runStripeFixture('yearly-checkout')
 

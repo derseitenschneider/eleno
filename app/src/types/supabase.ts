@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      feature_flag_users: {
+        Row: {
+          flag_id: number | null
+          id: number
+          user_id: string | null
+        }
+        Insert: {
+          flag_id?: number | null
+          id?: number
+          user_id?: string | null
+        }
+        Update: {
+          flag_id?: number | null
+          id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flag_users_flag_id_fkey"
+            columns: ["flag_id"]
+            isOneToOne: false
+            referencedRelation: "feature_flags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean | null
+          flag_name: string
+          id: number
+        }
+        Insert: {
+          enabled?: boolean | null
+          flag_name: string
+          id?: number
+        }
+        Update: {
+          enabled?: boolean | null
+          flag_name?: string
+          id?: number
+        }
+        Relationships: []
+      }
       groups: {
         Row: {
           archive: boolean
@@ -311,7 +355,7 @@ export type Database = {
           stripe_invoice_id: string | null
           stripe_subscription_id: string | null
           subscription_status: Database["public"]["Enums"]["subscription_status"]
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -326,7 +370,7 @@ export type Database = {
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
           subscription_status?: Database["public"]["Enums"]["subscription_status"]
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
@@ -341,7 +385,7 @@ export type Database = {
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
           subscription_status?: Database["public"]["Enums"]["subscription_status"]
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
