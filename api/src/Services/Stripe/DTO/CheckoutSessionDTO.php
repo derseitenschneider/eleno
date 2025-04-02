@@ -5,6 +5,20 @@ namespace App\Services\Stripe\DTO;
 use Stripe\Checkout\Session;
 
 class CheckoutSessionDTO {
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param string $userId
+	 * @param string $stripeCustomerId
+	 * @param string $priceId
+	 * @param string $mode
+	 * @param string $locale
+	 * @param string $currency
+	 * @param string $cancelUrl
+	 * @param string $succesUrl
+	 */
 	public function __construct(
 		public readonly string $userId,
 		public readonly string $stripeCustomerId,
@@ -16,6 +30,21 @@ class CheckoutSessionDTO {
 		public readonly string $succesUrl,
 	) {}
 
+	/**
+	 * Create
+	 *
+	 * Create the dto.
+	 *
+	 * @param string $userId
+	 * @param string $stripeCustomerId
+	 * @param string $priceId
+	 * @param string $mode
+	 * @param string $locale
+	 * @param string $currency
+	 * @param string $cancelUrl
+	 * @param string $succesUrl
+	 * @return CheckoutSessionDTO
+	 */
 	public static function create(
 		string $userId,
 		string $stripeCustomerId,

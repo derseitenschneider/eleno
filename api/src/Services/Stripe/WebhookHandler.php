@@ -1,4 +1,13 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Webhookhhndler
+|--------------------------------------------------------------------------
+|
+| This file contains the Webhookhander that is responsible for dispatching
+| stripe webhook events based on their event type.
+|
+*/
 
 namespace App\Services\Stripe;
 
@@ -12,15 +21,31 @@ use App\Services\Message\Strategies\DatabaseMessageStrategy;
 use App\Services\Stripe\DTO\StripeCheckoutCompletedDTO;
 use App\Services\Stripe\DTO\StripeSubscriptionUpdatedDTO;
 use App\Services\StripeService;
+use Exception;
+use InvalidArgumentException;
 use Monolog\Logger;
 use Stripe\Charge;
 use Stripe\Event;
 use Stripe\Checkout\Session;
 use Stripe\Dispute;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Invoice;
 use Stripe\Subscription;
 
 class WebhookHandler {
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param SubscriptionRepository      $repository
+	 * @param StripeAPIService            $stripeAPI
+	 * @param SubscriptionMessageHandler  $subscriptionMessageHandler
+	 * @param LifetimeMessageHandler      $lifetimeMessageHandler
+	 * @param PaymentFailedMessageHandler $paymentFailedMessageHandler
+	 * @param DisputeMessageHandler       $disputeMessageHandler
+	 * @param Logger                      $logger
+	 */
 	public function __construct(
 		private SubscriptionRepository $repository,
 		private StripeAPIService $stripeAPI,
@@ -32,10 +57,13 @@ class WebhookHandler {
 	) {}
 
 	/**
+	 * Handle event
+	 *
+	 * Defers the webhook event based on the event type.
+	 *
 	 * @param Event $event
-	 * @return void
 	 */
-	public function handleEvent( Event $event ): void {
+	public function handleEvent( Event $event ) {
 		try {
 			$eventObject = $event->data->object; // @phpstan-ignore-line
 
@@ -67,10 +95,20 @@ class WebhookHandler {
 		}
 	}
 
+	/**
+	 *  Handle dispute
+	 *
+	 * @param Dispute $dispute
+	 */
 	private function handleDispute( Dispute $dispute ) {
 		$this->disputeMessageHandler->handle( $dispute );
 	}
 
+	/**
+	 * Handle pamynet succeeded
+	 *
+	 * @param Invoice $invoice
+	 */
 	private function handlePaymentSucceeded( Invoice $invoice ) {
 		$customerId = $invoice->customer;
 		$this->logger->info(
@@ -81,6 +119,11 @@ class WebhookHandler {
 		$this->repository->resetFailedPaymentAttempts( customer: $customerId );
 	}
 
+	/**
+	 *  Handle payment failed
+	 *
+	 * @param Invoice $invoice
+	 */
 	private function handlePaymentFailed( Invoice $invoice ) {
 		$stripeCustomer        = $invoice->customer;
 		$firstName             = explode( ' ', $invoice->customer_name )[0];
@@ -95,7 +138,6 @@ class WebhookHandler {
 			0 => 1,
 			1 => 2,
 			2 => 3,
-			// 3 => 3,
 		);
 
 		$level = $messageLevels[ $failedPaymentAttempts ] ?? null;
@@ -136,7 +178,13 @@ class WebhookHandler {
 		}
 	}
 
-	private function handleCheckoutCompleted( Session $session ): void {
+	/**
+	 * Handle checkout completed
+	 *
+	 * @param Session $session
+	 * @return void
+	 */
+	private function handleCheckoutCompleted( Session $session ) {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 		$customerId  = $checkoutDTO->customerId;
 
@@ -159,7 +207,12 @@ class WebhookHandler {
 		}
 	}
 
-	private function handleSubscriptionUpdated( Subscription $subscription ): void {
+	/**
+	 * Handle subscription updated
+	 *
+	 * @param Subscription $subscription
+	 */
+	private function handleSubscriptionUpdated( Subscription $subscription ) {
 		$subscriptionDTO = StripeSubscriptionUpdatedDTO::create( $subscription );
 
 		$this->logger->info(

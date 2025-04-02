@@ -9,6 +9,15 @@ use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StripeSecurityChecks {
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param SubscriptionRepository $repository
+	 * @param Config                 $config
+	 * @param Logger                 $logger
+	 */
 	public function __construct(
 		private SubscriptionRepository $repository,
 		private Config $config,
@@ -76,15 +85,15 @@ class StripeSecurityChecks {
 		$headers    = $request->getHeaders();
 		$authHeader = $headers['Authorization'][0] ?? '';
 
-		if ( ! $authHeader || ! preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches ) ) {
+		$bearerToken = preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches );
+		if ( ! $authHeader || ! $bearerToken ) {
 			return null;
 		}
 
 		try {
-			$decoded = JWT::decode(
-				$matches[1],
-				new Key( $this->config->supabaseJwtSecret, 'HS256' )
-			);
+			$key     = new Key( $this->config->supabaseJwtSecret, 'HS256' );
+			$decoded = JWT::decode( $matches[1], $key );
+
 			return $decoded->sub ?? null;
 		} catch ( \Exception $e ) {
 			$this->logger->error( 'JWT decoding error: ' . $e->getMessage() );

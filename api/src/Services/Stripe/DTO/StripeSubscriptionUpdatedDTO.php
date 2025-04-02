@@ -2,10 +2,22 @@
 
 namespace App\Services\Stripe\DTO;
 
+use Exception;
 use Stripe\Subscription;
 use Stripe\SubscriptionItem;
 
 class StripeSubscriptionUpdatedDTO {
+	/**
+	 * Construct
+	 *
+	 * The class constructor.
+	 *
+	 * @param string $period_start
+	 * @param string $period_end
+	 * @param string $stripe_customer_id
+	 * @param string $plan
+	 * @param string $subscription_status
+	 */
 	public function __construct(
 		public readonly string $period_start,
 		public readonly string $period_end,
@@ -15,6 +27,14 @@ class StripeSubscriptionUpdatedDTO {
 	) {
 	}
 
+	/**
+	 * Create
+	 *
+	 * Create the dto.
+	 *
+	 * @param Subscription $subscription
+	 * @return StripeSubscriptionUpdatedDTO
+	 */
 	public static function create( Subscription $subscription ): self {
 		logDebug( $subscription );
 		$status = $subscription->cancel_at_period_end ? 'canceled' : 'active';

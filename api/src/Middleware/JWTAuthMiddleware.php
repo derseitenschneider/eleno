@@ -40,10 +40,10 @@ class JWTAuthMiddleware implements MiddlewareInterface {
 	 */
 	public function process( Request $request, Handler $handler ): Response {
 		// Get token from header - case-insensitive check
-		$authHeader     = $this->getAuthorizationHeader( $request );
-		$hasBearerToken = preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches );
+		$authHeader  = $this->getAuthorizationHeader( $request );
+		$bearerToken = preg_match( '/^Bearer\s+(.*)$/', $authHeader, $matches );
 
-		if ( empty( $authHeader ) || ! $hasBearerToken ) {
+		if ( empty( $authHeader ) || ! $bearerToken ) {
 			return $this->createErrorResponse( 'No token provided', 401 );
 		}
 
