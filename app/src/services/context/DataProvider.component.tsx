@@ -7,6 +7,7 @@ import useTodosQuery from '../../components/features/todos/todosQuery'
 import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
+import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
 
 interface DataProviderProps {
   children: React.ReactNode
@@ -21,6 +22,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingTodos } = useTodosQuery()
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
   const { isLoading: isLoadingMessages } = useMessagesQuery()
+  const { isLoading: isLoadingFeatureFlags } = useFeatureFlagQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -30,6 +32,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingTodos ||
       isLoadingNotes ||
       isLoadingMessages ||
+      isLoadingFeatureFlags ||
       false
     setIsLoading(compoundIsLoading)
   }, [
@@ -40,6 +43,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingTodos,
     isLoadingNotes,
     isLoadingMessages,
+    isLoadingFeatureFlags,
   ])
 
   return (

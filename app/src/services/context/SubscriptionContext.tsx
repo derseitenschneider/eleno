@@ -12,6 +12,7 @@ import supabase from '../api/supabase'
 import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -20,7 +21,7 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   hasAccess: false,
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => {},
+  getSubscription: async () => { },
 })
 export type TSubscriptionPlan =
   | 'Monatlich'
@@ -32,6 +33,7 @@ export type TSubscriptionPlan =
 export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
+  const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
   const [subscription, setSubscription] = useState<Subscription>()
 
@@ -52,8 +54,9 @@ export function SubscriptionProvider({
   } else if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
 
   const hasAccess =
-    subscriptionState !== 'TRIAL_EXPIRED' &&
-    subscriptionState !== 'SUBSCRIPTION_CANCELED_EXPIRED'
+    !isPaymentFeatureEnabled ||
+    (subscriptionState !== 'TRIAL_EXPIRED' &&
+      subscriptionState !== 'SUBSCRIPTION_CANCELED_EXPIRED')
 
   const periodStartLocalized = useMemo(
     () =>

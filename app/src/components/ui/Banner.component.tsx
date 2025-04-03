@@ -1,10 +1,12 @@
 import { isDemoMode } from '@/config'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useIsOnline from '@/hooks/useIsOnline'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Link } from 'react-router-dom'
 
 function Banner() {
   const isOnline = useIsOnline()
+  const isPaymentFlagEnabled = useFeatureFlag('stripe-payment')
   const { subscriptionState, subscription } = useSubscription()
   const diffInTime =
     new Date(subscription?.period_end || '').getTime() - new Date().getTime()
@@ -30,6 +32,10 @@ function Banner() {
         Du bist momentan offline.
       </div>
     )
+
+  if (!isPaymentFlagEnabled) {
+    return null
+  }
 
   if (subscriptionState === 'TRIAL_ACTIVE')
     return (

@@ -10,6 +10,7 @@ import { useCreateNote } from './useCreateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { Blocker } from '../subscription/Blocker'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type CreateNoteProps = {
   onCloseModal?: () => void
@@ -18,6 +19,7 @@ type CreateNoteProps = {
 }
 
 function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
+  const { hasAccess } = useSubscription()
   const { user } = useUser()
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
@@ -85,7 +87,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-            disabled={isCreating}
+            disabled={isCreating || !hasAccess}
           >
             Abbrechen
           </Button>

@@ -28,7 +28,7 @@ import { useLoading } from '@/services/context/LoadingContext'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 function Sidebar() {
-  const isEnabled = useFeatureFlag('stripe-payment')
+  const isPaymentFlagEnabled = useFeatureFlag('stripe-payment')
   const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
   const { user } = useUser()
@@ -158,7 +158,7 @@ function Sidebar() {
       </ul>
 
       <ul className='mt-auto flex flex-col items-center justify-between border-t border-background200'>
-        {isEnabled && (
+        {isPaymentFlagEnabled && (
           <SidebarElement
             isActive={window.location.pathname.includes('inbox')}
             onClick={() => setSidebarOpen(false)}

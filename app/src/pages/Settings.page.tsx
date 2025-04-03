@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },
@@ -13,10 +14,19 @@ const navLinks = [
 ]
 
 function Settings() {
+  const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
+  let filteredNavlinks = navLinks
+
+  if (!isPaymentFeatureEnabled) {
+    filteredNavlinks = filteredNavlinks.filter(
+      (link) => link.path !== 'subscription',
+    )
+  }
+
   return (
     <div>
       <h1 className='heading-1'>Einstellungen</h1>
-      <Navbar navLinks={navLinks} />
+      <Navbar navLinks={filteredNavlinks} />
       <Outlet />
     </div>
   )

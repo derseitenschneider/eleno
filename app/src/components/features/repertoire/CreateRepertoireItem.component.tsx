@@ -8,6 +8,7 @@ import { useState } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import { Blocker } from '../subscription/Blocker'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 interface AddRepertoireItemProps {
   holderId: number
@@ -18,6 +19,7 @@ function CreateRepertoireItem({
   holderId,
   holderType,
 }: AddRepertoireItemProps) {
+  const { hasAccess } = useSubscription()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
   const isMobile = useIsMobileDevice()
 
@@ -58,11 +60,11 @@ function CreateRepertoireItem({
     })
   }
   return (
-    <div className='relative flex gap-2 items-end sm:items-center sm:mb-12 mb-8 mt-6'>
+    <div className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'>
       <Blocker variant='inline' />
-      <div className='bg-background100 grid sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 p-1 grid-cols-[auto_auto_1fr] rounded-md items-center sm:pr-1 border-hairline border gap-y-2 grow'>
-        <div className='relative sm:col-span-1 col-span-4 sm:w-auto sm:shrink grow'>
-          <span className='hidden sm:block absolute left-1 top-[-26px] text-foreground/80 text-sm'>
+      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-2 rounded-md border border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:pr-1'>
+        <div className='relative col-span-4 grow sm:col-span-1 sm:w-auto sm:shrink'>
+          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:block'>
             Song
           </span>
           {isMobile ? (
@@ -86,8 +88,8 @@ function CreateRepertoireItem({
         </div>
 
         <div>
-          <div className='flex mr-2 sm:mr-0 relative items-center'>
-            <span className='absolute hidden sm:inline left-1 top-[-26px] text-foreground/80 text-sm'>
+          <div className='relative mr-2 flex items-center sm:mr-0'>
+            <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
               Start
             </span>
             <DayPicker
@@ -104,8 +106,8 @@ function CreateRepertoireItem({
             )}
           </div>
         </div>
-        <div className='flex items-center relative'>
-          <span className='hidden sm:inline absolute left-1 top-[-26px] text-foreground/80 text-sm'>
+        <div className='relative flex items-center'>
+          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
             Ende
           </span>
           <DayPicker
@@ -125,7 +127,7 @@ function CreateRepertoireItem({
           className='ml-auto'
           onClick={handleSave}
           size='sm'
-          disabled={isCreating || !item.title}
+          disabled={isCreating || !item.title || !hasAccess}
         >
           Hinzufügen
         </Button>

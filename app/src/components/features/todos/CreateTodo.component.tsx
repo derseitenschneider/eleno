@@ -69,8 +69,8 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           onCloseModal && 'md:w-[90vw] lg:w-[800px]',
         )}
       >
-        <div className='sm:flex sm:border-none border p-1 sm:py-[2px] px-[3px] border-hairline rounded-md grow items-center'>
-          <div className='shrink grow mb-2 sm:mb-0'>
+        <div className='grow items-center rounded-md border border-hairline p-1 px-[3px] sm:flex sm:border-none sm:py-[2px]'>
+          <div className='mb-2 shrink grow sm:mb-0'>
             <Input
               data-testid='input-create-todo'
               id='create-todo'
@@ -93,13 +93,13 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               disabled={isCreating}
             />
           </div>
-          <div className='flex items-end sm:items-center justify-between'>
+          <div className='flex items-end justify-between sm:items-center'>
             <AddHolderCombobox
               disabled={isCreating}
               selectedHolderId={selectedHolderId}
               setSelectedHolderId={setSelectedHolderId}
             />
-            <div className='flex sm:mr-2 items-center'>
+            <div className='flex items-center sm:mr-2'>
               <DayPicker disabled={isCreating} date={due} setDate={setDue} />
               {due && (
                 <ButtonRemove
@@ -112,7 +112,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           </div>
         </div>
         <Button
-          disabled={isCreating || !text}
+          disabled={isCreating || !text || !hasAccess}
           type='submit'
           onClick={onSaveHandler}
           size='sm'
@@ -122,7 +122,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
         </Button>
         {isCreating && <MiniLoader />}
       </form>
-      <p className='text-sm text-warning pl-2 pt-1'>{error || ''}</p>
+      <p className='pl-2 pt-1 text-sm text-warning'>{error || ''}</p>
     </div>
   )
 }
