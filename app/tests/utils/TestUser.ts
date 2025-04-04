@@ -136,6 +136,7 @@ export class TestUser {
 
     await this.populateStudents()
     await this.createSubscriptionRow()
+    await this.createPaymentFeatureFlagRow()
 
     this.writeData()
 
@@ -189,6 +190,35 @@ export class TestUser {
     }
     console.log('Canceling subscription on period end...')
     await this.stripeService.cancelAtPeriodEnd(this.customer.id)
+  }
+
+  private async createPaymentFeatureFlagRow() {
+    if (!this.user) {
+      throw new Error('No user data to create feature_flag_users row')
+    }
+
+    const { data: featureFlag, error: fetchFlagError } = await supabaseAdmin
+      .from('feature_flags')
+      .select('*')
+      .eq('flag_name', 'stripe-payment')
+      .single()
+
+    if (fetchFlagError) {
+      throw new Error(`Error fetching feature flags: ${fetchFlagError.message}`)
+    }
+
+    const { error: insertFlagUserError } = await supabaseAdmin
+      .from('feature_flag_users')
+      .insert({
+        flag_id: featureFlag?.id,
+        user_id: this.user.id,
+      })
+
+    if (insertFlagUserError) {
+      throw new Error(
+        `Error inserting feature_flag_users row: ${insertFlagUserError.message}`,
+      )
+    }
   }
 
   private async createSubscriptionRow() {
