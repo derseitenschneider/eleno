@@ -270,7 +270,7 @@ const LinkButton = ({ title }: { title: string }) => {
               id="link-url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://beispiel.de"
+              placeholder="https://example.com"
               onKeyDown={handleKeyDown}
             />
           </div>
