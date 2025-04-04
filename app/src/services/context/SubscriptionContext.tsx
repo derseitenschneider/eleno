@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -13,6 +14,7 @@ import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
+import { useUser } from '@/services/context/UserContext'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -23,6 +25,7 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   periodEndLocalized: '',
   getSubscription: async () => { },
 })
+
 export type TSubscriptionPlan =
   | 'Monatlich'
   | 'Jährlich'
@@ -33,16 +36,19 @@ export type TSubscriptionPlan =
 export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
+  const { user: currentUser } = useUser()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
   const [subscription, setSubscription] = useState<Subscription>()
+  const [hasAccess, setHasAccess] = useState(true)
 
   const subscriptionState = useMemo(
     () => getSubscriptionState(subscription),
     [subscription],
   )
-  let plan: TSubscriptionPlan = '—'
 
+  // Determine plan
+  let plan: TSubscriptionPlan = '—'
   if (subscriptionState === 'LIFETIME') {
     plan = 'Lifetime'
   } else if (subscription?.subscription_status === 'trial') {
@@ -53,11 +59,19 @@ export function SubscriptionProvider({
     plan = 'Jährlich'
   } else if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
 
-  const hasAccess =
-    !isPaymentFeatureEnabled ||
-    (subscriptionState !== 'TRIAL_EXPIRED' &&
-      subscriptionState !== 'SUBSCRIPTION_CANCELED_EXPIRED')
-
+  // Update hasAccess whenever isPaymentFeatureEnabled or subscriptionState changes
+  useEffect(() => {
+    let access = true
+    if (isPaymentFeatureEnabled) {
+      if (
+        subscriptionState === 'TRIAL_EXPIRED' ||
+        subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED'
+      ) {
+        access = false
+      }
+    }
+    setHasAccess(access)
+  }, [isPaymentFeatureEnabled, subscriptionState])
   const periodStartLocalized = useMemo(
     () =>
       new Date(subscription?.period_start || '').toLocaleString(userLocale, {
@@ -87,6 +101,13 @@ export function SubscriptionProvider({
     }
   }, [])
 
+  // Load subscription when user is available
+  useEffect(() => {
+    if (currentUser?.id) {
+      getSubscription(currentUser.id)
+    }
+  }, [currentUser?.id, getSubscription])
+
   const handleRealtime = useCallback(
     (data: RealtimePostgresUpdatePayload<Subscription>) => {
       if (data.errors) {
@@ -97,18 +118,25 @@ export function SubscriptionProvider({
     [],
   )
 
-  supabase
-    .channel('stripe_subscriptions')
-    .on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'stripe_subscriptions',
-      },
-      handleRealtime,
-    )
-    .subscribe()
+  // Set up Supabase subscription
+  useEffect(() => {
+    const subscription = supabase
+      .channel('stripe_subscriptions')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'stripe_subscriptions',
+        },
+        handleRealtime,
+      )
+      .subscribe()
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [handleRealtime])
 
   const value = {
     subscription,

@@ -48,7 +48,6 @@ function DataProvider({ children }: DataProviderProps) {
 
   return (
     <>
-      <Banner />
       <div id='main'>{children}</div>
     </>
   )

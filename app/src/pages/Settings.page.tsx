@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
+import { useLoading } from '@/services/context/LoadingContext'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },
@@ -14,6 +15,7 @@ const navLinks = [
 ]
 
 function Settings() {
+  const { isLoading } = useLoading()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   let filteredNavlinks = navLinks
 
@@ -23,6 +25,7 @@ function Settings() {
     )
   }
 
+  if (isLoading) return <p>...loading</p>
   return (
     <div>
       <h1 className='heading-1'>Einstellungen</h1>

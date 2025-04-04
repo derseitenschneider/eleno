@@ -14,6 +14,7 @@ import { Info } from 'lucide-react'
 import useIsOnline from './hooks/useIsOnline'
 import { cn } from './lib/utils'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
+import Banner from './components/ui/Banner.component'
 
 export default function Application() {
   const isOnline = useIsOnline()
@@ -26,21 +27,22 @@ export default function Application() {
     >
       <UserLocaleProvider>
         <LoadingProvider>
-          <SubscriptionProvider>
-            <AuthProvider>
-              <DataProvider>
+          <AuthProvider>
+            <DataProvider>
+              <SubscriptionProvider>
                 <MainContext>
                   <DarkModeProvider>
-                    <div className='md:ml-[50px] mb-[58px] md:mb-0'>
+                    <Banner />
+                    <div className='mb-[58px] md:mb-0 md:ml-[50px]'>
                       <Outlet />
                     </div>
                     <Sidebar />
                     <NavbarMobile />
                   </DarkModeProvider>
                 </MainContext>
-              </DataProvider>
-            </AuthProvider>
-          </SubscriptionProvider>
+              </SubscriptionProvider>
+            </DataProvider>
+          </AuthProvider>
         </LoadingProvider>
       </UserLocaleProvider>
       <Sonner
