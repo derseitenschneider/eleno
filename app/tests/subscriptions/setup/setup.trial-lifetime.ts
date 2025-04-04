@@ -19,7 +19,7 @@ setup(
       console.warn('Toast message not found or no need to close it.')
     }
 
-    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.goto('/inbox')
     await page.getByRole('button', { name: 'Upgrade erfolgreich' }).click()
     await expect(page.getByTestId('message-header')).toContainText(/upgrade/i)
     await page.getByRole('button', { name: 'Löschen' }).click()

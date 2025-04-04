@@ -21,7 +21,7 @@ setup(
     await page.getByRole('button', { name: 'Close toast' }).click()
 
     // Clean up messages.
-    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.goto('/inbox')
 
     await page.getByRole('button', { name: 'Zugang ist aktiviert' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()

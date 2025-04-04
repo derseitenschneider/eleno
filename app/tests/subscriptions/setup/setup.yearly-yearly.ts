@@ -22,7 +22,7 @@ setup(
       console.warn('Toast message not found or no need to close it.')
     }
 
-    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.goto('/inbox')
     await page.getByRole('button', { name: 'Team ELENO' }).click()
     await expect(page.getByTestId('message-header')).toContainText('aktiviert')
     await page.getByRole('button', { name: 'Löschen' }).click()
@@ -33,6 +33,7 @@ setup(
     const initialStartDate = await subscriptionPom.startDate.textContent()
     await testUser.advanceClock({ days: 366 })
     await page.reload()
+    await subscriptionPom.startDate.waitFor()
     const newStartDate = await subscriptionPom.startDate.textContent()
     expect(initialStartDate).not.toEqual(newStartDate)
 

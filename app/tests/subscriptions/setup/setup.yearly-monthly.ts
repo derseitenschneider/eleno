@@ -21,7 +21,7 @@ setup(
       console.warn('Toast message not found or no need to close it.')
     }
 
-    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.goto('/inbox')
     await page.getByRole('button', { name: 'Team ELENO' }).click()
     await expect(page.getByTestId('message-header')).toContainText('aktiviert')
     await page.getByRole('button', { name: 'Löschen' }).click()

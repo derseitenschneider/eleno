@@ -21,7 +21,7 @@ setup(
       console.warn('Toast message not found or no need to close it.')
     }
 
-    await page.getByRole('link', { name: 'Nachrichten' }).click()
+    await page.goto('/inbox')
 
     // Check and delete monthly subscription message
     try {
