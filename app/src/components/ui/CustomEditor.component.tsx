@@ -9,6 +9,7 @@ import {
   Bold,
   Italic,
   Link,
+  Link2,
   List,
   ListOrdered,
   Redo,
@@ -17,10 +18,21 @@ import {
   Underline,
   Undo,
 } from 'lucide-react'
-import { type ClipboardEvent, type MouseEvent, useState } from 'react'
+import { type ClipboardEvent, useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { saniziteHtmlforEditor } from '@/utils/sanitizeHTML'
 
+// Import Shadcn UI components
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+// Regular buttons
 const BtnBold = createButton('Bold', <Bold />, 'bold')
 const BtnItalic = createButton('Italic', <Italic />, 'italic')
 const BtnUnderline = createButton('Underline', <Underline />, 'underline')
@@ -39,37 +51,6 @@ const BtnNumberedList = createButton(
   <ListOrdered />,
   'insertOrderedList',
 )
-const BtnLink = createButton('Link', <Link />, ({ $selection }) => {
-  if ($selection?.nodeName === 'A') {
-    document.execCommand('unlink')
-  } else {
-    const url = prompt('Link', '') || undefined
-    if (url) {
-      document.execCommand('createLink', false, url)
-
-      // Get the current selection
-      const selection = window.getSelection()
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-
-        // Find the newly created link
-        let linkElement: HTMLAnchorElement | null = null
-
-        if (range.startContainer.nodeType === Node.TEXT_NODE) {
-          linkElement = range.startContainer.parentElement?.closest('a') || null
-        } else if (range.startContainer.nodeType === Node.ELEMENT_NODE) {
-          linkElement = (range.startContainer as Element).closest('a')
-        }
-
-        if (linkElement) {
-          // Set the target attribute to _blank
-          linkElement.setAttribute('target', '_blank')
-        }
-      }
-    }
-  }
-})
-
 const BtnClearFormatting = createButton(
   'Clear Formatting',
   <RemoveFormatting />,
@@ -77,6 +58,252 @@ const BtnClearFormatting = createButton(
 )
 const BtnUndo = createButton('Undo', <Undo />, 'undo')
 const BtnRedo = createButton('Redo', <Redo />, 'redo')
+
+// Custom Link Button Component
+const LinkButton = ({ title }: { title: string }) => {
+  const [open, setOpen] = useState(false)
+  const [url, setUrl] = useState('')
+  const [linkText, setLinkText] = useState('')
+  const [selection, setSelection] = useState<Selection | null>(null)
+  const [range, setRange] = useState<Range | null>(null)
+  const [isLink, setIsLink] = useState(false)
+  const [currentLink, setCurrentLink] = useState<HTMLAnchorElement | null>(null)
+  const [hasSelection, setHasSelection] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  // Function to update placeholder visibility
+  const updatePlaceholderVisibility = () => {
+    if (!buttonRef.current) return;
+
+    // Find the closest editor to this button (parent traversal)
+    const toolbar = buttonRef.current.closest('.rsw-toolbar');
+    if (!toolbar) return;
+
+    const editorContainer = toolbar.closest('.rsw-editor');
+    if (!editorContainer) return;
+
+    const editorContent = editorContainer.querySelector('.rsw-ce')?.innerHTML || '';
+
+    if (editorContent && editorContent !== '<br>') {
+      // Editor has content, trigger change to update parent component
+      const event = new Event('input', { bubbles: true });
+      editorContainer.querySelector('.rsw-ce')?.dispatchEvent(event);
+    }
+  }
+
+  // Save selection when popover opens
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen) {
+      // Find the correct editor associated with this button
+      if (!buttonRef.current) return;
+
+      const toolbar = buttonRef.current.closest('.rsw-toolbar');
+      if (!toolbar) return;
+
+      const editorContainer = toolbar.closest('.rsw-editor');
+      if (!editorContainer) return;
+
+      const editorElement = editorContainer.querySelector('.rsw-ce') as HTMLElement;
+      if (editorElement) {
+        editorElement.focus();
+      }
+
+      // Now get the selection
+      const currentSelection = window.getSelection()
+      if (!currentSelection || currentSelection.rangeCount === 0) {
+        setOpen(false)
+        return
+      }
+
+      // Store the current selection
+      setSelection(currentSelection)
+
+      // Clone the range to preserve it
+      const currentRange = currentSelection.getRangeAt(0).cloneRange()
+      setRange(currentRange)
+
+      // Check if we're inside a link
+      let linkElement = null
+      if (currentRange.startContainer.nodeType === Node.TEXT_NODE) {
+        linkElement = currentRange.startContainer.parentElement?.closest('a')
+      } else if (currentRange.startContainer.nodeType === Node.ELEMENT_NODE) {
+        linkElement = (currentRange.startContainer as Element).closest('a')
+      }
+
+      // Check if there's actually text selected
+      const isTextSelected = !currentRange.collapsed
+
+      if (linkElement) {
+        // Editing an existing link
+        setIsLink(true)
+        setCurrentLink(linkElement as HTMLAnchorElement)
+        setUrl(linkElement.getAttribute('href') || '')
+        setLinkText(linkElement.textContent || '')
+      } else {
+        // Creating a new link
+        setIsLink(false)
+        setCurrentLink(null)
+        setUrl('')
+
+        // If text is selected, prefill the linkText field with the selected text
+        if (isTextSelected) {
+          setLinkText(currentRange.toString())
+        } else {
+          setLinkText('')
+        }
+      }
+    }
+    setOpen(newOpen)
+  }
+
+  // Focus input when popover opens
+  useEffect(() => {
+    if (open && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [open])
+
+  const applyLink = () => {
+    if (!selection || !range) return
+
+    // If URL is empty, don't proceed
+    if (!url.trim()) {
+      setOpen(false)
+      return
+    }
+
+    // Restore selection
+    selection.removeAllRanges()
+    selection.addRange(range)
+
+    if (isLink && currentLink) {
+      // Update existing link
+      currentLink.setAttribute('href', url)
+
+      // Update link text if provided
+      if (linkText.trim()) {
+        currentLink.textContent = linkText
+      }
+    } else {
+      // Create new link
+      const link = document.createElement('a')
+      link.href = url
+      link.target = '_blank'
+      link.rel = 'noopener noreferrer'
+
+      // Check if range is collapsed (no actual selection)
+      const isRangeCollapsed = range.collapsed
+
+      if (isRangeCollapsed) {
+        // No text selected, use linkText or URL
+        link.textContent = linkText.trim() || url
+        range.insertNode(link)
+      } else {
+        // Text is selected
+        if (linkText.trim()) {
+          // Use provided link text instead of selection
+          link.textContent = linkText
+          range.deleteContents()
+          range.insertNode(link)
+        } else {
+          // Use selected text
+          const selectedContent = range.extractContents()
+          link.appendChild(selectedContent)
+          range.insertNode(link)
+        }
+      }
+
+      // Select the new link
+      selection.removeAllRanges()
+      const newRange = document.createRange()
+      newRange.selectNodeContents(link)
+      selection.addRange(newRange)
+    }
+
+    // Close popover
+    setOpen(false)
+
+    // Check if we need to update placeholder visibility
+    setTimeout(updatePlaceholderVisibility, 0)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      applyLink()
+    }
+  }
+
+  const removeLink = () => {
+    if (!currentLink) return
+
+    const fragment = document.createDocumentFragment()
+    fragment.appendChild(document.createTextNode(currentLink.textContent || ''))
+    currentLink.parentNode?.replaceChild(fragment, currentLink)
+
+    setOpen(false)
+
+    // Check if the editor is now empty after removing the link
+    setTimeout(updatePlaceholderVisibility, 0)
+  }
+
+  return (
+    <Popover open={open} onOpenChange={handleOpenChange}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="rsw-btn"
+          title={title}
+          ref={buttonRef}
+        >
+          {/* <Link size={18} /> */}
+          <Link2 size={18} />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="link-url">URL</Label>
+            <Input
+              ref={inputRef}
+              id="link-url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://beispiel.de"
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="link-text">Linktext</Label>
+            <Input
+              id="link-text"
+              value={linkText}
+              onChange={(e) => setLinkText(e.target.value)}
+              placeholder="Anzuzeigender Text"
+              onKeyDown={handleKeyDown}
+            />
+            <p className="text-xs text-foreground/75">
+              Leer lassen, um die URL als Text zu verwenden.
+            </p>
+          </div>
+          <div className="flex justify-between">
+            {isLink && (
+              <Button variant="destructive" size="sm" onClick={removeLink}>
+                Link entfernen
+              </Button>
+            )}
+            <div className={cn("ml-auto", !isLink && "w-full")}>
+              <Button size="sm" className="w-full" onClick={applyLink}>
+                {isLink ? 'Aktualisieren' : 'Link einf√ºgen'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 type CustomEditorProps = {
   value: string
@@ -94,7 +321,6 @@ function CustomEditor({
   type = 'normal',
 }: CustomEditorProps) {
   const [showPlaceholder, setShowPlaceholder] = useState(!value)
-  const [selectedButtons, setSelectedButtons] = useState<Array<string>>([])
   const [isFocus, setIsFocus] = useState(false)
 
   const onChangeEditor = (e: ContentEditableEvent) => {
@@ -106,6 +332,17 @@ function CustomEditor({
       setShowPlaceholder(true)
     }
     onChange(inputText)
+  }
+
+  // Update placeholder visibility after link operations
+  const updatePlaceholderVisibility = () => {
+    const editorContent = document.querySelector('.rsw-ce')?.innerHTML || ''
+    if (showPlaceholder && editorContent && editorContent !== '<br>') {
+      setShowPlaceholder(false)
+    }
+    if (!showPlaceholder && (!editorContent || editorContent === '<br>')) {
+      setShowPlaceholder(true)
+    }
   }
 
   function handlePaste(e: ClipboardEvent) {
@@ -144,7 +381,7 @@ function CustomEditor({
               <BtnItalic title='Kursiv' tabIndex={-1} />
               <BtnUnderline title='Unterstrich' tabIndex={-1} />
               <BtnStrikeThrough title='Durchgestrichen' tabIndex={-1} />
-              <BtnLink title='Link' tabIndex={-1} />
+              <LinkButton title='Link' />
             </div>
           </Toolbar>
           <span data-type='mini' />
@@ -186,7 +423,7 @@ function CustomEditor({
             <BtnItalic title='Kursiv' tabIndex={-1} />
             <BtnUnderline title='Unterstrich' tabIndex={-1} />
             <BtnStrikeThrough title='Durchgestrichen' tabIndex={-1} />
-            <BtnLink title='Link' tabIndex={-1} />
+            <LinkButton title='Link' />
           </div>
           <div className='flex'>
             <BtnBulletList title='Liste' tabIndex={-1} />
@@ -194,7 +431,7 @@ function CustomEditor({
           </div>
           <div className='flex'>
             <BtnClearFormatting title='Formatierung entfernen' tabIndex={-1} />
-            <BtnUndo title='R√ºckg√§nging' tabIndex={-1} />
+            <BtnUndo title='Rückgänging' tabIndex={-1} />
             <BtnRedo title='Wiederherstellen' tabIndex={-1} />
           </div>
         </Toolbar>
