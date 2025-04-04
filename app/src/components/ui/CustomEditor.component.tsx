@@ -257,7 +257,6 @@ const LinkButton = ({ title }: { title: string }) => {
           title={title}
           ref={buttonRef}
         >
-          {/* <Link size={18} /> */}
           <Link2 size={18} />
         </button>
       </PopoverTrigger>

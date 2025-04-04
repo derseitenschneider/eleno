@@ -1,5 +1,5 @@
 # Deploys the api server from [dev] to staging.
-name: 📦 [STAGING] Deploy server on push dev
+name: 🔌 [STAGING] Deploy server on push dev
 on:
   workflow_dispatch:
   push:

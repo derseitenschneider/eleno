@@ -1,9 +1,11 @@
 import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
+import { appConfig } from '@/config'
 import { useUser } from '@/services/context/UserContext'
 
 const useFeatureFlag = (flagName: string): boolean => {
   const { user: currentUser } = useUser()
   const { data: flags, isLoading } = useFeatureFlagQuery()
+
   if (isLoading) {
     return false
   }
@@ -27,6 +29,9 @@ const useFeatureFlag = (flagName: string): boolean => {
     return true
   }
 
+  if (appConfig.isDemoMode) {
+    return false
+  }
   // If user is in flags list, return true.
   if (
     currentFlag?.feature_flag_users.find(
