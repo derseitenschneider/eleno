@@ -7,15 +7,14 @@ import {
   useState,
 } from 'react'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
-import { getSubscriptionApi } from '../api/user.api'
 import { useUserLocale } from './UserLocaleContext'
 import supabase from '../api/supabase'
 import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
 import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
-import { useUser } from '@/services/context/UserContext'
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import { QueryClient } from '@tanstack/react-query'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -24,7 +23,6 @@ export const SubscriptionContext = createContext<ContextTypeSubscription>({
   hasAccess: false,
   periodStartLocalized: '',
   periodEndLocalized: '',
-  getSubscription: async () => { },
 })
 
 export type TSubscriptionPlan =
@@ -37,6 +35,7 @@ export type TSubscriptionPlan =
 export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
+  const queryClient = new QueryClient()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
   const { data: subscription } = useSubscriptionQuery()
@@ -92,33 +91,17 @@ export function SubscriptionProvider({
     [subscription?.period_end, userLocale],
   )
 
-  // const getSubscription = useCallback(async (userId: string) => {
-  //   try {
-  //     const subscription = await getSubscriptionApi(userId)
-  //     setSubscription(subscription)
-  //   } catch (error) {
-  //     if (error instanceof Error) throw new Error(error.message)
-  //   }
-  // }, [])
-
-  // Load subscription when user is available
-  // useEffect(() => {
-  //   if (currentUser?.id) {
-  //     getSubscription(currentUser.id)
-  //   }
-  // }, [currentUser?.id, getSubscription])
-
   const handleRealtime = useCallback(
     (data: RealtimePostgresUpdatePayload<Subscription>) => {
       if (data.errors) {
         return fetchErrorToast()
       }
-      setSubscription(data.new)
+      queryClient.setQueryData(['subscription'], data.new)
     },
-    [],
+    [queryClient.setQueryData],
   )
 
-  // Set up Supabase subscription
+  // Set up Supabase realtime channel
   useEffect(() => {
     const subscription = supabase
       .channel('stripe_subscriptions')
@@ -141,7 +124,6 @@ export function SubscriptionProvider({
   const value = {
     subscription,
     hasAccess,
-    // getSubscription,
     periodStartLocalized,
     periodEndLocalized,
     subscriptionState,

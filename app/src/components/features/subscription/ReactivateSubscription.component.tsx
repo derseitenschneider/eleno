@@ -12,6 +12,7 @@ import { useUser } from '@/services/context/UserContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import useMessagesQuery from '../messages/messagesQueries'
+import useProfileQuery from '../user/profileQuery'
 
 interface ReactivateSubscriptionProps {
   onCloseModal?: () => void
@@ -19,12 +20,12 @@ interface ReactivateSubscriptionProps {
 
 function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
   const { subscription } = useSubscription()
   const { refetch: refetchMessages } = useMessagesQuery()
 
   async function handleReactivate() {
-    if (!user) return
+    if (!userProfile) return
     setStatus('LOADING')
     try {
       const {
@@ -37,8 +38,8 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
         {
           method: 'POST',
           body: JSON.stringify({
-            userId: user.id,
-            firstName: user.first_name,
+            userId: userProfile.id,
+            firstName: userProfile.first_name,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,7 +67,7 @@ function ReactivateSubscription({ onCloseModal }: ReactivateSubscriptionProps) {
         Wenn du dein Abo wiederherstellst, wird deine Laufzeit automatisch
         verlängert, sobald sie abläuft.
       </DialogDescription>
-      <div className='flex justify-end gap-4 mt-4'>
+      <div className='mt-4 flex justify-end gap-4'>
         <Button size='sm' variant='outline' onClick={onCloseModal}>
           Abbrechen
         </Button>

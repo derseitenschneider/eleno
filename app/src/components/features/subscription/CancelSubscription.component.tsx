@@ -12,6 +12,8 @@ import { useUser } from '@/services/context/UserContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import useMessagesQuery from '../messages/messagesQueries'
+import useSubscriptionQuery from './subscriptionQuery'
+import useProfileQuery from '../user/profileQuery'
 
 interface CancelSubscriptionProps {
   onCloseModal?: () => void
@@ -20,11 +22,13 @@ interface CancelSubscriptionProps {
 function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { refetch: refetchMessages } = useMessagesQuery()
-  const { user } = useUser()
-  const { subscription, getSubscription } = useSubscription()
+  const { data: userProfile } = useProfileQuery()
+  // const { subscription, getSubscription } = useSubscription()
+  const { data: subscription, refetch: refetchSubscription } =
+    useSubscriptionQuery()
 
   async function handleDelete() {
-    if (!user) return
+    if (!userProfile) return
     setStatus('LOADING')
     try {
       const {
@@ -37,8 +41,8 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
         {
           method: 'POST',
           body: JSON.stringify({
-            userId: user.id,
-            firstName: user.first_name,
+            userId: userProfile.id,
+            firstName: userProfile.first_name,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +53,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
       const data = await res.json()
       if (data.status !== 'success') throw new Error()
 
-      await getSubscription(user?.id)
+      await refetchSubscription()
       toast.info('Dein Abo wurde gekündigt.')
       setStatus('IDLE')
       refetchMessages()
@@ -69,7 +73,7 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
         Dein Abo ist nach der Kündigung noch bis zum Ende der Laufzeit aktiv. Du
         kannst alle erfassten Daten auch nach der Kündigung jederzeit einsehen.
       </DialogDescription>
-      <div className='flex justify-end gap-4 mt-4'>
+      <div className='mt-4 flex justify-end gap-4'>
         <Button size='sm' variant='outline' onClick={onCloseModal}>
           Abbrechen
         </Button>

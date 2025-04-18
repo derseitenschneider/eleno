@@ -1,4 +1,5 @@
 import type React from 'react'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 import type { Database } from './supabase'
 
 /*
@@ -135,12 +136,8 @@ export type PartialNote = Omit<Note, 'created_at'>
 
 // CONTEXT TYPES
 export type ContextTypeUser = {
-  user: Profile | undefined
-  setUser: React.Dispatch<React.SetStateAction<Profile | undefined>>
+  user: SupabaseUser | undefined
 
-  updateProfile: (data: UserMeta) => Promise<void>
-  updateEmail: (email: string) => Promise<void>
-  updatePassword: (password: string) => Promise<void>
   deleteAccount: () => Promise<void>
   logout: () => Promise<void>
   recoverPassword: (email: string) => Promise<void>
@@ -151,7 +148,6 @@ export type ContextTypeSubscription = {
   subscriptionState: TSubscriptionState
   subscription: Subscription | undefined
   hasAccess: boolean
-  getSubscription: (userId: string) => Promise<void>
   periodStartLocalized: string
   periodEndLocalized: string
 }

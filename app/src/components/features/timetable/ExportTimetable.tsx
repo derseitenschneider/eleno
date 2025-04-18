@@ -4,27 +4,27 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 
 import type { TimetableDay } from '../../../types/types'
 import TimetablePDF from '../pdf/TimetablePDF.component'
-import { useUser } from '../../../services/context/UserContext'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import sortTimeTableDays from '@/utils/sortTimetableDays'
 import { DialogDescription } from '@/components/ui/dialog'
+import useProfileQuery from '../user/profileQuery'
 
 interface ExportTimeTableProps {
   days: TimetableDay[]
 }
 
 function ExportTimetable({ days }: ExportTimeTableProps) {
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
   const [selectedDays, setSelectedDays] = useState<TimetableDay[]>([])
   const [title, setTitle] = useState('')
 
   const daysWithStudents = days.filter((day) => day.lessonHolders.length > 0)
   const selectedDaysSorted = sortTimeTableDays(selectedDays)
 
-  const userName = `${user?.first_name} ${user?.last_name}`
+  const userName = `${userProfile?.first_name} ${userProfile?.last_name}`
   const userNameDashes = userName.split(' ').join('-').toLowerCase()
 
   const handleSelect = (day: TimetableDay) => {
@@ -63,7 +63,7 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
           </Label>
         </li>
         {daysWithStudents.map((day) => (
-          <li key={day.day} className='flex items-center mb-1'>
+          <li key={day.day} className='mb-1 flex items-center'>
             <Checkbox
               name={day.day || 'Kein Tag angegeben'}
               id={day.day || 'Kein Tag angegeben'}
@@ -73,7 +73,7 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
             />
             <Label
               htmlFor={day.day || 'Kein Tag angegeben'}
-              className='text-sm ml-2'
+              className='ml-2 text-sm'
             >
               {day.day || 'Kein Tag angegeben'}
             </Label>

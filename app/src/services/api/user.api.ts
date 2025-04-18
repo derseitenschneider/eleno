@@ -46,11 +46,12 @@ export const recoverPasswordSupabase = async (email: string) => {
   if (error) throw new Error(error.message)
 }
 
-export const getProfilesSupabase = async (uid: string) => {
+export const getProfileApi = async (uid: string) => {
   const { data: profiles, error } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', uid)
+    .single()
   if (error) throw new Error(error.message)
   return profiles
 }

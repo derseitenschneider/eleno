@@ -102,7 +102,7 @@ ${user?.first_name} ${user?.last_name}\n\n
           text: bodyText,
           url,
         })
-      } catch (error) {}
+      } catch (error) { }
     } else {
       setIsModalOpen(true)
     }

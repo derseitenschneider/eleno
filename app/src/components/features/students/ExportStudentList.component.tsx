@@ -4,12 +4,12 @@ import { CSVLink } from 'react-csv'
 
 import type { Student } from '../../../types/types'
 
-import { useUser } from '../../../services/context/UserContext'
 import StudentListPDF from '../pdf/StudentlistPDF.component'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { DialogDescription } from '@/components/ui/dialog'
+import useProfileQuery from '../user/profileQuery'
 
 interface ExportStudentListProps {
   students: Student[]
@@ -17,9 +17,9 @@ interface ExportStudentListProps {
 
 function ExportStudentList({ students }: ExportStudentListProps) {
   const [title, setTitle] = useState('')
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
 
-  const userName = `${user?.first_name} ${user?.last_name}`
+  const userName = `${userProfile?.first_name} ${userProfile?.last_name}`
 
   const studentsCSV = students.map((student, index) => ({
     index: index + 1,
@@ -52,7 +52,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
           />
         </Label>
       </div>
-      <div className='flex gap-4 justify-end'>
+      <div className='flex justify-end gap-4'>
         <CSVLink
           data={studentsCSV}
           headers={[

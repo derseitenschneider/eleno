@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
-import { useUser } from '../../../services/context/UserContext'
 import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
 import { appConfig } from '@/config'
+import useProfileQuery from '../user/profileQuery'
 
 function HeaderDashboard() {
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
 
   return (
     <header
@@ -25,7 +25,7 @@ function HeaderDashboard() {
             </span>
           ) : (
             <span className=''>
-              Hi <b>{user?.first_name}</b>, willkommen bei Eleno!
+              Hi <b>{userProfile?.first_name}</b>, willkommen bei Eleno!
             </span>
           )}
         </div>

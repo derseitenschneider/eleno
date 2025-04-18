@@ -51,6 +51,7 @@ function Sidebar() {
   const toggleSidebar = useCallback(() => {
     setSidebarOpen(!sidebarOpen)
   }, [sidebarOpen])
+
   if (!user) return null
 
   return (

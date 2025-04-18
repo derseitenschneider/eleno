@@ -3,10 +3,7 @@ import { getMessagesApi } from '@/services/api/messages.api'
 import supabase from '@/services/api/supabase'
 import { useUser } from '@/services/context/UserContext'
 import type { Message } from '@/types/types'
-import type {
-  RealtimePostgresInsertPayload,
-  RealtimePostgresUpdatePayload,
-} from '@supabase/supabase-js'
+import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 

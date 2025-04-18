@@ -9,6 +9,7 @@ import { useLoading } from './LoadingContext'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import useProfileQuery from '@/components/features/user/profileQuery'
 
 interface DataProviderProps {
   children: React.ReactNode
@@ -25,6 +26,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingMessages } = useMessagesQuery()
   const { isLoading: isLoadingFeatureFlags } = useFeatureFlagQuery()
   const { isLoading: isLoadingSubscription } = useSubscriptionQuery()
+  const { isLoading: isLoadingProfile } = useProfileQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -36,6 +38,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingMessages ||
       isLoadingFeatureFlags ||
       isLoadingSubscription ||
+      isLoadingProfile ||
       false
     setIsLoading(compoundIsLoading)
   }, [
@@ -48,6 +51,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingMessages,
     isLoadingFeatureFlags,
     isLoadingSubscription,
+    isLoadingProfile,
   ])
 
   return (

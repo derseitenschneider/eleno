@@ -6,20 +6,20 @@ import { MdOutlineTextsms } from 'react-icons/md'
 import { SiThreema } from 'react-icons/si'
 
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import type { Lesson, Student } from '@/types/types'
+import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUser } from '../../../services/context/UserContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { appConfig } from '@/config'
 import { Blocker } from '../subscription/Blocker'
+import useProfileQuery from '../user/profileQuery'
 
 interface ShareHomeworkProps {
   lessonId: number
 }
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders } = useLessonHolders()
   const { holderId } = useParams()
@@ -75,9 +75,9 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
   let bodyText = ''
   if (currentHolder && currentHolder.type === 's') {
-    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.first_name} ${user?.last_name}`
+    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${userProfile?.first_name} ${userProfile?.last_name}`
   } else {
-    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${user?.first_name} ${user?.last_name}`
+    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${userProfile?.first_name} ${userProfile?.last_name}`
   }
 
   const copyToClipboard = async () => {
@@ -86,7 +86,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   }
   if (!currentHolder) return null
   return (
-    <div className='text-sm relative'>
+    <div className='relative text-sm'>
       <Blocker />
       {appConfig.isDemoMode ? (
         <p className='text-base'>
@@ -103,7 +103,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
             </b>{' '}
             auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
           </p>
-          <div className='flex items-center gap-2 mb-8'>
+          <div className='mb-8 flex items-center gap-2'>
             <a href={url} target='_blank' rel='noreferrer'>
               {url}
             </a>{' '}
