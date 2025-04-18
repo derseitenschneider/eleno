@@ -1,0 +1,40 @@
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import { updateUserMetaApi } from '@/services/api/user.api'
+import type { Profile } from '@/types/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+
+export function useUpdateProfileMeta() {
+  const queryClient = useQueryClient()
+  const { mutate: updateProfileMeta, isPending: isUpdating } = useMutation({
+    mutationFn: updateUserMetaApi,
+    onMutate: (newData) => {
+      const oldData = queryClient.getQueryData(['profile']) as Profile
+
+      queryClient.setQueryData(['profile'], (prev: Profile) => {
+        return {
+          ...prev,
+          first_name: newData.firstName,
+          last_name: newData.lastName,
+        }
+      })
+
+      return { oldData }
+    },
+
+    onSuccess: async () => {
+      toast.success('Profil angepasst.')
+      queryClient.invalidateQueries({
+        queryKey: ['profile'],
+      })
+    },
+
+    onError: (_, __, context) => {
+      fetchErrorToast()
+
+      queryClient.setQueryData(['notes'], context?.oldData)
+    },
+  })
+
+  return { updateProfileMeta, isUpdating }
+}

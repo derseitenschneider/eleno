@@ -1,24 +1,24 @@
 import { useState } from 'react'
-import { useUser } from '../../../../services/context/UserContext'
 import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
+import useProfileQuery from '../../user/profileQuery'
 
 interface EditProfileProps {
   onCloseModal?: () => void
 }
 
 function EditProfile({ onCloseModal }: EditProfileProps) {
-  const { user, updateProfile } = useUser()
+  const { data: userProfile } = useProfileQuery()
+  const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const [input, setInput] = useState({
-    firstName: user?.first_name || '',
-    lastName: user?.last_name || '',
+    firstName: userProfile?.first_name || '',
+    lastName: userProfile?.last_name || '',
   })
-  const [isPending, setIsPending] = useState(false)
 
   const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -29,23 +29,14 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
     })
   }
 
-  const handleSave = async () => {
-    setIsPending(true)
-    try {
-      await updateProfile(input)
-      onCloseModal?.()
-      toast.success('Profil angepasst')
-    } catch (error) {
-      fetchErrorToast()
-    } finally {
-      setIsPending(false)
-    }
+  function handleSave() {
+    updateProfileMeta(input, { onSuccess: () => onCloseModal?.() })
   }
 
   return (
     <div
       className={cn(
-        isPending && 'opacity-80 pointer-events-none',
+        isUpdating && 'opacity-80 pointer-events-none',
         'sm:min-w-[350px]',
       )}
     >
@@ -55,7 +46,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
             Vorname
           </Label>
           <Input
-            id='first_name'
+            id='firstName'
             type='text'
             name='firstName'
             className='firstName'
@@ -69,7 +60,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           </Label>
           <Input
             type='text'
-            id='last_name'
+            id='lastName'
             name='lastName'
             className='lastName'
             value={input.lastName}
@@ -77,9 +68,9 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex gap-4 justify-end'>
+      <div className='mt-8 flex justify-end gap-4'>
         <Button
-          disabled={isPending}
+          disabled={isUpdating}
           size='sm'
           variant='outline'
           onClick={onCloseModal}
@@ -87,10 +78,10 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button size='sm' disabled={isPending} onClick={handleSave}>
+          <Button size='sm' disabled={isUpdating} onClick={handleSave}>
             Speichern
           </Button>
-          {isPending && <MiniLoader />}
+          {isUpdating && <MiniLoader />}
         </div>
       </div>
     </div>

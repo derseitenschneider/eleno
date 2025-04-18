@@ -15,18 +15,18 @@ import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
 import { toast } from 'sonner'
+import { useUpdateEmail } from '../../user/useUpdateEmail'
 
 interface EditEmailProps {
   onCloseModal?: () => void
 }
 
 export default function EditEmail({ onCloseModal }: EditEmailProps) {
-  const { updateEmail } = useUser()
   const [input, setInput] = useState({ email1: '', email2: '' })
 
+  const { updateEmail, isUpdating } = useUpdateEmail()
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const [isPending, setIsPending] = useState(false)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
@@ -41,21 +41,9 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
     if (input.email1 !== input.email2) {
       return setError('Email-Adressen stimmen nicht überein')
     }
-    setIsPending(true)
-    try {
-      await updateEmail(input.email1)
-      if (isDemoMode) {
-        toast.success('E-Mail Adresse geändert.')
-        return onCloseModal?.()
-      }
-      setSuccess(true)
-      return null
-    } catch (err) {
-      fetchErrorToast()
-      return null
-    } finally {
-      setIsPending(false)
-    }
+    updateEmail(input.email1, {
+      onSuccess: () => setSuccess(true),
+    })
   }
 
   if (success)
@@ -70,7 +58,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
         <DialogDescription>
           Ein Bestätigungslink wurde an <strong>{input.email1}</strong>{' '}
           verschickt. Die Änderung tritt erst nach Bestätigung deiner neuen
-          Email-Adresse in Kraft.
+          E-Mail Adresse in Kraft.
         </DialogDescription>
       </div>
     )
@@ -78,7 +66,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
   return (
     <div
       className={cn(
-        isPending && 'opacity-80 pointer-events-none',
+        isUpdating && 'opacity-80 pointer-events-none',
         'sm:min-w-[350px]',
       )}
     >
@@ -110,23 +98,23 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
             onChange={handleInput}
             className={cn(error && 'border border-warning')}
           />
-          <span className='text-sm mt-1 text-warning'>{error}</span>
+          <span className='mt-1 text-sm text-warning'>{error}</span>
         </div>
       </div>
-      <div className='mt-8 flex gap-4 justify-end'>
+      <div className='mt-8 flex justify-end gap-4'>
         <Button
           size='sm'
-          disabled={isPending}
+          disabled={isUpdating}
           variant='outline'
           onClick={onCloseModal}
         >
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button disabled={isPending} size='sm' onClick={handleSave}>
+          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
             Speichern
           </Button>
-          {isPending && <MiniLoader />}
+          {isUpdating && <MiniLoader />}
         </div>
       </div>
     </div>

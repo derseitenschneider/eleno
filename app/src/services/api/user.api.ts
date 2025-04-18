@@ -69,7 +69,7 @@ export const updateUserSupabase = async (data: Profile) => {
   if (error) throw new Error(error.message)
 }
 
-export const updateEmailSupabase = async (email: string) => {
+export const updateEmailApi = async (email: string) => {
   const { error } = await supabase.auth.updateUser({ email })
   if (error) throw new Error(error.message)
 }

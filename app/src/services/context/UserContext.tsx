@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | undefined>()
   const [currentSession, setCurrentSession] = useState<Session | null>()
   const { subscription } = useSubscription()
-  const { isLoading } = useLoading()
+  const { isLoading, setIsLoading } = useLoading()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session.user)
       }
     })
-  }, [])
+  }, [setIsLoading])
 
   // const updateUserMeta = useCallback(async (data: UserMeta) => {
   //   if (isDemoMode) {

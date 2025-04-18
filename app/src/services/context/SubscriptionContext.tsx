@@ -1,3 +1,9 @@
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
+import { getSubscriptionState } from '@/utils/getSubscriptionState'
+import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
   useCallback,
@@ -7,14 +13,8 @@ import {
   useState,
 } from 'react'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
-import { useUserLocale } from './UserLocaleContext'
 import supabase from '../api/supabase'
-import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
-import { getSubscriptionState } from '@/utils/getSubscriptionState'
-import useFeatureFlag from '@/hooks/useFeatureFlag'
-import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
-import { QueryClient } from '@tanstack/react-query'
+import { useUserLocale } from './UserLocaleContext'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -35,7 +35,7 @@ export type TSubscriptionPlan =
 export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient()
+  const queryClient = useQueryClient()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
   const { data: subscription } = useSubscriptionQuery()
