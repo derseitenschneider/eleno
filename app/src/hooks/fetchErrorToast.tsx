@@ -7,7 +7,7 @@ const useFetchErrorToast = () => {
 
   return (
     error = 'Fehlermeldung',
-    message = "Es ist etwas schiefgelaufen. Bitte versuch's nochmal.",
+    message = "Etwas ist schiefgelaufen, versuch's nochmal.",
   ) => {
     if (isOnline) {
       return toast.error(message, {
@@ -15,7 +15,7 @@ const useFetchErrorToast = () => {
         classNames: {
           actionButton: 'underline !text-foreground !bg-background50',
         },
-        icon: <AlertCircle className='text-noteRed size-5' />,
+        icon: <AlertCircle className='size-5 text-noteRed' />,
         action: {
           label: 'Fehler melden',
           onClick: () => {
