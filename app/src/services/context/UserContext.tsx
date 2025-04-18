@@ -80,6 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       getUserProfiles('mock')
       return
     }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setCurrentSession(session)
       if (session) {
@@ -195,7 +196,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <UserContext.Provider value={value}>
       {currentSession && children}
       {!currentSession && !isLoading && (
-        <LoginPage className='min-h-screen grid grid-rows-[80px_1fr] bg-background100' />
+        <LoginPage className='grid min-h-screen grid-rows-[80px_1fr] bg-background100' />
       )}
     </UserContext.Provider>
   )

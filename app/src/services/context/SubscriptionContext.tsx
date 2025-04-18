@@ -15,6 +15,7 @@ import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { useUser } from '@/services/context/UserContext'
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -36,10 +37,9 @@ export type TSubscriptionPlan =
 export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
-  const { user: currentUser } = useUser()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
-  const [subscription, setSubscription] = useState<Subscription>()
+  const { data: subscription } = useSubscriptionQuery()
   const [hasAccess, setHasAccess] = useState(true)
 
   const subscriptionState = useMemo(
@@ -92,21 +92,21 @@ export function SubscriptionProvider({
     [subscription?.period_end, userLocale],
   )
 
-  const getSubscription = useCallback(async (userId: string) => {
-    try {
-      const subscription = await getSubscriptionApi(userId)
-      setSubscription(subscription)
-    } catch (error) {
-      if (error instanceof Error) throw new Error(error.message)
-    }
-  }, [])
+  // const getSubscription = useCallback(async (userId: string) => {
+  //   try {
+  //     const subscription = await getSubscriptionApi(userId)
+  //     setSubscription(subscription)
+  //   } catch (error) {
+  //     if (error instanceof Error) throw new Error(error.message)
+  //   }
+  // }, [])
 
   // Load subscription when user is available
-  useEffect(() => {
-    if (currentUser?.id) {
-      getSubscription(currentUser.id)
-    }
-  }, [currentUser?.id, getSubscription])
+  // useEffect(() => {
+  //   if (currentUser?.id) {
+  //     getSubscription(currentUser.id)
+  //   }
+  // }, [currentUser?.id, getSubscription])
 
   const handleRealtime = useCallback(
     (data: RealtimePostgresUpdatePayload<Subscription>) => {
@@ -141,7 +141,7 @@ export function SubscriptionProvider({
   const value = {
     subscription,
     hasAccess,
-    getSubscription,
+    // getSubscription,
     periodStartLocalized,
     periodEndLocalized,
     subscriptionState,

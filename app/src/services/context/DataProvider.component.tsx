@@ -8,6 +8,7 @@ import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
 
 interface DataProviderProps {
   children: React.ReactNode
@@ -23,6 +24,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
   const { isLoading: isLoadingMessages } = useMessagesQuery()
   const { isLoading: isLoadingFeatureFlags } = useFeatureFlagQuery()
+  const { isLoading: isLoadingSubscription } = useSubscriptionQuery()
 
   useEffect(() => {
     const compoundIsLoading =
@@ -33,6 +35,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingNotes ||
       isLoadingMessages ||
       isLoadingFeatureFlags ||
+      isLoadingSubscription ||
       false
     setIsLoading(compoundIsLoading)
   }, [
@@ -44,10 +47,12 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingNotes,
     isLoadingMessages,
     isLoadingFeatureFlags,
+    isLoadingSubscription,
   ])
 
   return (
     <>
+      <Banner />
       <div id='main'>{children}</div>
     </>
   )
