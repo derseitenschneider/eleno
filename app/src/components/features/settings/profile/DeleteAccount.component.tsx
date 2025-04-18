@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
+import { useQueryClient } from '@tanstack/react-query'
+import useSubscriptionQuery from '../../subscription/subscriptionQuery'
 
 interface DeleteAccountProps {
   onCloseModal?: () => void
@@ -15,6 +17,8 @@ interface DeleteAccountProps {
 
 function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   const showFetcherror = useFetchErrorToast()
+  const { data: subscription } = useSubscriptionQuery()
+  const queryClient = useQueryClient()
   const { user, deleteAccount } = useUser()
   const [input, setInput] = useState('')
   const [isPending, setIsPending] = useState(false)
@@ -29,10 +33,12 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   }
 
   const handleDelete = async () => {
+    if (!subscription) return
     setIsPending(true)
     try {
-      await deleteAccount()
+      await deleteAccount(subscription)
       navigate('/')
+      queryClient.clear()
     } catch (error) {
       showFetcherror()
     } finally {
@@ -63,7 +69,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex gap-4 justify-end'>
+      <div className='mt-8 flex justify-end gap-4'>
         <Button
           size='sm'
           variant='outline'

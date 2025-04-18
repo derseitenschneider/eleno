@@ -12,9 +12,12 @@ import EditEmail from './profile/UpdateEmail.component'
 import EditPassword from './profile/UpdatePassword.component'
 import EditProfile from './profile/UpdateProfile.component'
 import useProfileQuery from '../user/profileQuery'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 function Account() {
   const { data: userProfile } = useProfileQuery()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [modalOpen, setModalOpen] = useState<
     'EDIT_PROFILE' | 'EDIT_EMAIL' | 'EDIT_PASSWORD' | 'DELETE_ACCOUNT'
   >()
@@ -22,6 +25,14 @@ function Account() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  useEffect(() => {
+    if (searchParams.get('update-email') === 'success') {
+      toast.success('E-Mail Adresse geändert.')
+      searchParams.delete('update-email')
+      setSearchParams(searchParams)
+    }
+  }, [searchParams.get, setSearchParams, searchParams.delete, searchParams])
 
   function closeModal() {
     setModalOpen(undefined)

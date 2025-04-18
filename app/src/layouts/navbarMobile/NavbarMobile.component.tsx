@@ -6,7 +6,6 @@ import {
   GaugeCircle,
   GraduationCap,
   LogOut,
-  Settings,
   Settings2,
 } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
@@ -38,8 +37,8 @@ function NavbarMobile() {
   }
 
   return (
-    <nav className='bg-background50/65 backdrop-blur px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] md:hidden md:pointer-events-none block pointer-events-auto visible z-50 fixed h-[58px] bottom-0 left-0 right-0 max-w-screen'>
-      <ul className='flex justify-between items-center h-full w-full'>
+    <nav className='max-w-screen pointer-events-auto visible fixed bottom-0 left-0 right-0 z-50 block h-[58px] bg-background50/65 px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] backdrop-blur md:pointer-events-none md:hidden'>
+      <ul className='flex h-full w-full items-center justify-between'>
         <NavbarMobileItem
           isActive={window.location.pathname === '/'}
           to='/'

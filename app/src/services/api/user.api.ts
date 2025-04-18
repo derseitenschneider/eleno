@@ -70,7 +70,12 @@ export const updateUserSupabase = async (data: Profile) => {
 }
 
 export const updateEmailApi = async (email: string) => {
-  const { error } = await supabase.auth.updateUser({ email })
+  const { error } = await supabase.auth.updateUser(
+    { email },
+    {
+      emailRedirectTo: 'https://app.eleno.net/settings?update-email=success',
+    },
+  )
   if (error) throw new Error(error.message)
 }
 export const updatePasswordApi = async (password: string) => {

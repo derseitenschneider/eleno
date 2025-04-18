@@ -11,6 +11,7 @@ interface EditPasswordProps {
   onCloseModal?: () => void
 }
 
+// TODO: implement zod validation
 export default function EditPassword({ onCloseModal }: EditPasswordProps) {
   const { updatePassword, isUpdating } = useUpdatePassword()
   const [input, setInput] = useState({

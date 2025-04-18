@@ -9,11 +9,10 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { appConfig, isDemoMode } from '../../config'
 import LoginPage from '../../pages/LoginPage'
-import type { ContextTypeUser } from '../../types/types'
+import type { ContextTypeUser, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { deleteAccountSupabase, recoverPasswordSupabase } from '../api/user.api'
 import { useQueryClient } from '@tanstack/react-query'
-import { useSubscription } from './SubscriptionContext'
 import type { User } from '@supabase/supabase-js'
 import { useLoading } from './LoadingContext'
 
@@ -27,7 +26,6 @@ export const UserContext = createContext<ContextTypeUser>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | undefined>()
   const [currentSession, setCurrentSession] = useState<Session | null>()
-  const { subscription } = useSubscription()
   const { isLoading, setIsLoading } = useLoading()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -108,29 +106,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   //   }
   // }, [])
 
-  const deleteAccount = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${currentSession?.access_token}`,
-            'Content-Type': 'application/json',
+  const deleteAccount = useCallback(
+    async (subscription: Subscription) => {
+      try {
+        const res = await fetch(
+          `${appConfig.apiUrl}/stripe/customers/${subscription?.stripe_customer_id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${currentSession?.access_token}`,
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      )
+        )
 
-      const data = await res.json()
-      if (data.status !== 'success') {
-        throw new Error('Stripe deletion error')
+        const data = await res.json()
+        if (data.status !== 'success') {
+          throw new Error('Stripe deletion error')
+        }
+        await deleteAccountSupabase()
+        setCurrentSession(null)
+      } catch (error) {
+        if (error instanceof Error) throw new Error(error.message)
       }
-      await deleteAccountSupabase()
-      setCurrentSession(null)
-    } catch (error) {
-      if (error instanceof Error) throw new Error(error.message)
-    }
-  }, [currentSession, subscription])
+    },
+    [currentSession],
+  )
 
   const logout = useCallback(async () => {
     if (isDemoMode) {

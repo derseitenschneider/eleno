@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,6 +11,7 @@ interface EditProfileProps {
   onCloseModal?: () => void
 }
 
+// TODO: implement zod validation
 function EditProfile({ onCloseModal }: EditProfileProps) {
   const { data: userProfile } = useProfileQuery()
   const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()

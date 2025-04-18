@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { useUser } from '../../../../services/context/UserContext'
-import fetchErrorToast from '../../../../hooks/fetchErrorToast'
 import validateEmail from '../../../../utils/validateEmail'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -13,18 +11,16 @@ import {
 } from '@/components/ui/dialog'
 import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { isDemoMode } from '@/config'
-import { toast } from 'sonner'
 import { useUpdateEmail } from '../../user/useUpdateEmail'
 
 interface EditEmailProps {
   onCloseModal?: () => void
 }
 
+// TODO: implement zod validation
 export default function EditEmail({ onCloseModal }: EditEmailProps) {
-  const [input, setInput] = useState({ email1: '', email2: '' })
-
   const { updateEmail, isUpdating } = useUpdateEmail()
+  const [input, setInput] = useState({ email1: '', email2: '' })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 

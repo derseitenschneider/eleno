@@ -138,7 +138,7 @@ export type PartialNote = Omit<Note, 'created_at'>
 export type ContextTypeUser = {
   user: SupabaseUser | undefined
 
-  deleteAccount: () => Promise<void>
+  deleteAccount: (subscription: Subscription) => Promise<void>
   logout: () => Promise<void>
   recoverPassword: (email: string) => Promise<void>
 }
