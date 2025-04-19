@@ -1,5 +1,5 @@
 import { createElement, useState } from 'react'
-import type { Group, Lesson, LessonHolder, Student } from '../../../types/types'
+import type { Group, LessonHolder, Student } from '../../../types/types'
 
 import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
@@ -10,15 +10,14 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
-import mockLast3Lessons from '@/services/api/mock-db/mockLast3Lessons'
 import { isDemoMode } from '@/config'
 import { DialogDescription } from '@/components/ui/dialog'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 type ExportLessonsProps = {
   holderId: number
@@ -102,6 +101,7 @@ function ExportLessons({
   }
 
   async function handleDownloadCSV() {
+    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
@@ -144,6 +144,7 @@ function ExportLessons({
   }
 
   async function handleDownloadPDF() {
+    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
 
@@ -213,7 +214,7 @@ function ExportLessons({
       </DialogDescription>
       <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>
-        <div className='flex flex-col gap-2 items-start grow-0'>
+        <div className='flex grow-0 flex-col items-start gap-2'>
           <span>Von</span>
           <div className='flex items-center'>
             <DayPicker setDate={handleStartDate} date={startDate} />
@@ -225,7 +226,7 @@ function ExportLessons({
             )}
           </div>
         </div>
-        <div className='flex flex-col gap-2 items-start grow-0'>
+        <div className='flex grow-0 flex-col items-start gap-2'>
           <span>Bis</span>
           <div className='flex items-center'>
             <DayPicker setDate={handleEndDate} date={endDate} />
@@ -247,12 +248,12 @@ function ExportLessons({
           checked={selectAll}
         />
 
-        <Label htmlFor='select-all' className='text-sm ml-2'>
+        <Label htmlFor='select-all' className='ml-2 text-sm'>
           Alle Lektionen exportieren
         </Label>
       </div>
 
-      <div className='mt-5 mb-8'>
+      <div className='mb-8 mt-5'>
         <Label htmlFor='title' className='text-sm'>
           Titel (optional){' '}
         </Label>
@@ -270,7 +271,7 @@ function ExportLessons({
         />
       </div>
 
-      <div className='flex items-center gap-4 justify-end'>
+      <div className='flex items-center justify-end gap-4'>
         <Button
           onClick={handleDownloadCSV}
           size='sm'

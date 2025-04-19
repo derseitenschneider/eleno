@@ -1,10 +1,11 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { reactivateStudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useReactivateStudents() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const {
     mutateAsync: reactivateStudents,
     isPending: isReactivating,

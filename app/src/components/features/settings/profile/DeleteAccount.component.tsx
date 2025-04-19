@@ -16,7 +16,7 @@ interface DeleteAccountProps {
 }
 
 function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
-  const showFetcherror = useFetchErrorToast()
+  const fetchErrorToast = useFetchErrorToast()
   const { data: subscription } = useSubscriptionQuery()
   const queryClient = useQueryClient()
   const { user, deleteAccount } = useUser()
@@ -40,7 +40,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
       navigate('/')
       queryClient.clear()
     } catch (error) {
-      showFetcherror()
+      fetchErrorToast()
     } finally {
       setIsPending(false)
     }

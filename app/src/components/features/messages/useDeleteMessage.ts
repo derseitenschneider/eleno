@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 
 export function useDeleteMessage() {
   const queryClient = useQueryClient()
-  const errorToast = useFetchErrorToast()
+  const fetchErrorToast = useFetchErrorToast()
   const { mutate: deleteMessage, isPending: isDeleting } = useMutation({
     mutationFn: deleteMessageApi,
 
@@ -43,7 +43,7 @@ export function useDeleteMessage() {
     },
 
     onError: (_, __, context) => {
-      errorToast()
+      fetchErrorToast()
 
       queryClient.setQueryData(['messages'], context?.prevMessages)
     },

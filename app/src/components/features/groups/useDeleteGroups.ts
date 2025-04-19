@@ -1,10 +1,11 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { deleteGroupsApi } from '@/services/api/groups.api'
 import type { Group } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useDeleteGroups() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const {
     mutateAsync: deleteGroups,
     isPending: isDeleting,

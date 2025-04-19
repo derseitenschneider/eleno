@@ -1,4 +1,4 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { deactivateGroupApi } from '@/services/api/groups.api'
 import type { Group } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 
 export function useDeactivateGroups() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const {
     mutate: deactivateGroups,
     isPending: isDeactivating,

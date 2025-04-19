@@ -1,4 +1,4 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateRepertoireItemAPI } from '@/services/api/repertoire.api'
 import type { RepertoireItem } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 
 export function useUpdateRepertoireItem() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const { mutate: updateRepertoireItem, isPending: isUpdating } = useMutation({
     mutationFn: updateRepertoireItemAPI,
 

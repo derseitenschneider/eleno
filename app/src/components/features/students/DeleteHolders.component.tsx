@@ -3,7 +3,6 @@ import type { Group, Student } from '@/types/types'
 import { Button } from '@/components/ui/button'
 import { useDeleteStudents } from './useDeleteStudents'
 import { useDeleteGroups } from '../groups/useDeleteGroups'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { toast } from 'sonner'
 import {
   DialogDescription,
@@ -11,6 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 interface DeleteStudentsProps {
   onSuccess: () => void
@@ -19,6 +19,7 @@ interface DeleteStudentsProps {
 
 function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const allStudents = queryClient.getQueryData(['students']) as
     | Array<Student>
     | undefined
@@ -133,7 +134,7 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
           zugehörigen Daten löschen?
         </DialogDescription>
       )}
-      <div className='flex justify-end gap-4 mt-4'>
+      <div className='mt-4 flex justify-end gap-4'>
         <Button size='sm' variant='outline' onClick={onSuccess}>
           Abbrechen
         </Button>

@@ -1,10 +1,11 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateEmailApi } from '@/services/api/user.api'
 import type { Profile } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 export function useUpdateEmail() {
+  const fetchErrorToast = useFetchErrorToast()
   const queryClient = useQueryClient()
   const { mutate: updateEmail, isPending: isUpdating } = useMutation({
     mutationFn: updateEmailApi,

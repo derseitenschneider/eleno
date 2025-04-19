@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useReadMessage() {
   const queryClient = useQueryClient()
-  const errorToast = useFetchErrorToast()
+  const fetchErrorToast = useFetchErrorToast()
   const { mutate: readMessage, isPending: isReading } = useMutation({
     mutationFn: (message: Message) =>
       updateMessageApi({ ...message, status: 'read' }),
@@ -36,7 +36,7 @@ export function useReadMessage() {
     },
 
     onError: (_, __, context) => {
-      errorToast()
+      fetchErrorToast()
 
       queryClient.setQueryData(['messages'], context?.prevMessages)
     },

@@ -8,7 +8,6 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 import type { PDFProps } from './LessonsPDF'
 import { toast } from 'sonner'
@@ -19,6 +18,7 @@ import stripHtmlTags from '@/utils/stripHtmlTags'
 import { useUser } from '@/services/context/UserContext'
 import { isDemoMode } from '@/config'
 import { DialogDescription } from '@/components/ui/dialog'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -78,6 +78,7 @@ export default function BulkExportLessons({
   }
 
   async function handleDownloadCSV() {
+    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
@@ -151,6 +152,7 @@ export default function BulkExportLessons({
   }
 
   async function handleDownloadPDF() {
+    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
 
@@ -259,7 +261,7 @@ export default function BulkExportLessons({
       </DialogDescription>
       <h5 className='mt-5'>Zeitraum</h5>
       <div className='mb-4 grid grid-cols-[140px_140px]'>
-        <div className='flex flex-col gap-2 items-start grow-0'>
+        <div className='flex grow-0 flex-col items-start gap-2'>
           <span>Von</span>
           <div className='flex items-center'>
             <DayPicker setDate={handleStartDate} date={startDate} />
@@ -271,7 +273,7 @@ export default function BulkExportLessons({
             )}
           </div>
         </div>
-        <div className='flex flex-col gap-2 items-start grow-0'>
+        <div className='flex grow-0 flex-col items-start gap-2'>
           <span>Bis</span>
           <div className='flex items-center'>
             <DayPicker setDate={handleEndDate} date={endDate} />
@@ -285,7 +287,7 @@ export default function BulkExportLessons({
         </div>
       </div>
 
-      <div className='flex items-center mb-7'>
+      <div className='mb-7 flex items-center'>
         <Checkbox
           name='select-all'
           id='select-all'
@@ -293,12 +295,12 @@ export default function BulkExportLessons({
           checked={selectAll}
         />
 
-        <Label htmlFor='select-all' className='text-sm ml-2'>
+        <Label htmlFor='select-all' className='ml-2 text-sm'>
           Alle Lektionen exportieren
         </Label>
       </div>
 
-      <div className='flex items-center gap-5 justify-end'>
+      <div className='flex items-center justify-end gap-5'>
         <Button
           onClick={handleDownloadCSV}
           size='sm'

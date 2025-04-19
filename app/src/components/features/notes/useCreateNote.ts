@@ -1,11 +1,12 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
-import { createNoteAPI, updateNoteAPI } from '@/services/api/notes.api'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { createNoteAPI } from '@/services/api/notes.api'
 import type { Note } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 export function useCreateNote() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const { mutate: createNote, isPending: isCreating } = useMutation({
     mutationFn: createNoteAPI,
     onMutate: async (newNote) => {

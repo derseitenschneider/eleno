@@ -14,8 +14,8 @@ import { useState } from 'react'
 import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import { toast } from 'sonner'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -27,6 +27,7 @@ export function InactiveStudentsActionDropdown({
   setSelected,
 }: ActiveStudentsActionDropdownProps) {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const { reactivateStudents } = useReactivateStudents()
   const { reactivateGroups } = useReactivateGroups()
   const [openModal, setOpenModal] = useState<'DELETE' | null>(null)
@@ -66,7 +67,7 @@ export function InactiveStudentsActionDropdown({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size='sm' variant='outline' disabled={isDisabledAction}>
-            <span className='text-inherit mr-1'>Aktion</span>
+            <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>
         </DropdownMenuTrigger>

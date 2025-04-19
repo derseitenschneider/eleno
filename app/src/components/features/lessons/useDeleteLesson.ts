@@ -1,4 +1,4 @@
-import fetchErrorToast from '@/hooks/fetchErrorToast'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { deleteLessonAPI } from '@/services/api/lessons.api'
 import type { Lesson } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 
 export function useDeleteLesson() {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const { studentId } = useParams()
   const [searchParams] = useSearchParams()
   const year = searchParams.get('year')

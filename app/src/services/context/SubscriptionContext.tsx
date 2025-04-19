@@ -1,5 +1,4 @@
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
-import fetchErrorToast from '@/hooks/fetchErrorToast'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
@@ -15,6 +14,7 @@ import {
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { useUserLocale } from './UserLocaleContext'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
@@ -36,6 +36,7 @@ export function SubscriptionProvider({
   children,
 }: { children: React.ReactNode }) {
   const queryClient = useQueryClient()
+  const fetchErrorToast = useFetchErrorToast()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')
   const { userLocale } = useUserLocale()
   const { data: subscription } = useSubscriptionQuery()
@@ -98,7 +99,7 @@ export function SubscriptionProvider({
       }
       queryClient.setQueryData(['subscription'], data.new)
     },
-    [queryClient.setQueryData],
+    [queryClient.setQueryData, fetchErrorToast],
   )
 
   // Set up Supabase realtime channel
