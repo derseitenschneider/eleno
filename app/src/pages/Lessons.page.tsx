@@ -24,10 +24,10 @@ function Lesson() {
           hasBanner
             ? 'min-[1200px]:h-[calc(100vh-120px)]'
             : 'min-[1200px]:h-[calc(100vh-88px)]',
-          'md:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-hidden',
+          'md:grid lg:grid-cols-[2fr_minmax(0,380px)] h-full overflow-hidden',
         )}
       >
-        <main className='no-scrollbar md:h-full lg:overflow-auto'>
+        <main className='grid grid-rows-[auto_1fr]'>
           <CreateLesson />
           <PreviousLessons key={currentLessonHolder.holder.id} />
         </main>

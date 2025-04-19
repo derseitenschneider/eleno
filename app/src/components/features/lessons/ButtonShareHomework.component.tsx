@@ -17,6 +17,12 @@ import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { appConfig } from '@/config'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -102,7 +108,7 @@ ${user?.first_name} ${user?.last_name}\n\n
           text: bodyText,
           url,
         })
-      } catch (error) { }
+      } catch (error) {}
     } else {
       setIsModalOpen(true)
     }
@@ -110,15 +116,16 @@ ${user?.first_name} ${user?.last_name}\n\n
 
   return (
     <>
-      <Button
-        onClick={handleClick}
-        title='Hausaufgaben teilen'
-        size='sm'
-        variant='ghost'
-        className='p-0'
-      >
-        <MessageSquareShare className='size-4 text-primary' />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger onClick={handleClick} className='p-0'>
+            <MessageSquareShare className='size-4 text-primary' />
+          </TooltipTrigger>
+          <TooltipContent side='bottom'>
+            <p>Hausaufgaben teilen</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
         <DialogContent>
           <DialogHeader>

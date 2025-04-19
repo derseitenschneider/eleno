@@ -15,15 +15,7 @@ const LessonsWrapper = () => {
   return (
     <div className='pt-[80px] md:pt-[88px]'>
       <LessonHeader />
-      <ScrollArea
-        className={cn(
-          hasBanner
-            ? 'mt-[32px] md:h-[calc(100vh-120px)]'
-            : 'md:h-[calc(100vh-88px)]',
-        )}
-      >
-        <Outlet />
-      </ScrollArea>
+      <Outlet />
       <MusicTools />
       <LessonNav />
     </div>

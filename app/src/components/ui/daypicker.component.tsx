@@ -42,17 +42,17 @@ export function DayPicker({
             className,
           )}
         >
-          {!date && <CalendarIcon className='h-4 w-4 text-primary' />}
+          <CalendarIcon className='h-4 w-4 text-primary' />
           {date
             ? date.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-            })
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })
             : null}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto p-0 border-hairline'>
+      <PopoverContent className='w-auto border-hairline p-0'>
         <Calendar
           onDayClick={() => setIsCalendarOpen(false)}
           mode='single'

@@ -22,6 +22,9 @@ function CreateLesson() {
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
 
+  const isDisabledSave =
+    isCreating || !hasAccess || (!lessonContent && !homework)
+
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
@@ -158,8 +161,9 @@ function CreateLesson() {
   return (
     <div className='relative border-b border-hairline px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0'>
       <Blocker blockerId='createLesson' />
-      <div className='mb-2 flex items-baseline gap-4'>
-        <h5 className='m-0'>Aktuelle Lektion</h5>
+      <h5 className='m-0 mb-2'>Neue Lektion</h5>
+      <div className='mb-3 flex items-center gap-2'>
+        <p className='text-foreground/70'>Datum</p>
         <DayPicker
           setDate={handlerInputDate}
           date={date}
@@ -197,7 +201,7 @@ function CreateLesson() {
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
         <div className='ml-auto  mt-4 flex items-center gap-1 lg:mb-8'>
           <Button
-            disabled={isCreating || !hasAccess}
+            disabled={isDisabledSave}
             size='sm'
             onClick={handleSave}
             className='ml-auto block'
