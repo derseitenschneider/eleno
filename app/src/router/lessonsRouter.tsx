@@ -13,7 +13,7 @@ import useHasBanner from '@/hooks/useHasBanner'
 const LessonsWrapper = () => {
   const hasBanner = useHasBanner()
   return (
-    <div className='pt-[80px] md:pt-[88px]'>
+    <div className='grid max-h-screen grid-rows-[auto_1fr] overflow-hidden'>
       <LessonHeader />
       <Outlet />
       <MusicTools />

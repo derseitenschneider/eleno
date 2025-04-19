@@ -26,24 +26,24 @@ function PreviousLessons() {
       .map((lesson) => lesson.id) || []
 
   return (
-    <div className='relative h-full  px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
-      {previousLessonsIds.length > 0 ? (
-        <>
-          <h5 className='m-0 mb-2'>Vergangene Lektionen</h5>
-          <ScrollArea>
-            <div className='space-y-4'>
+    <div className='h-full'>
+      <div className='h-full px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
+        {previousLessonsIds.length > 0 ? (
+          <>
+            <h5 className='m-0 mb-2'>Vergangene Lektionen</h5>
+            <div className='h-full space-y-4 overflow-scroll'>
               {previousLessonsIds.map((lessonId) => (
                 <PreviousLessonItem key={lessonId} lessonId={lessonId} />
               ))}
             </div>
-          </ScrollArea>
-        </>
-      ) : (
-        <Empty
-          className='!bg-background100 !shadow-none'
-          emptyMessage='Keine Lektionen erfasst.'
-        />
-      )}
+          </>
+        ) : (
+          <Empty
+            className='!bg-background100 !shadow-none'
+            emptyMessage='Keine Lektionen erfasst.'
+          />
+        )}
+      </div>
     </div>
   )
 }

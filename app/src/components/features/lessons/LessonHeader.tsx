@@ -24,19 +24,19 @@ function LessonHeader() {
     <header
       className={cn(
         !hasBanner ? 'top-0' : 'top-[32px]',
-        'lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0 fixed left-0 md:left-[50px] border-b border-hairline',
+        'lg:pr-4 sm:h-[88px] sm:pl-6 sm:py-4 z-10 bg-background100 px-5 py-4 right-0 left-0 md:left-[50px] border-b border-hairline',
       )}
     >
       <div className='flex items-end justify-between'>
         <div className='w-full'>
-          <div className='flex sm:mb-1 items-center '>
+          <div className='flex items-center sm:mb-1 '>
             <NavLink
               to={`/lessons/${
                 type === 's' ? `s-${holder.id}` : `g-${holder.id}`
               }`}
               className='flex items-baseline hover:no-underline'
             >
-              <div className='mr-[4px] text-primary h-4 translate-y-[1px]'>
+              <div className='mr-[4px] h-4 translate-y-[1px] text-primary'>
                 {type === 's' && <User strokeWidth={2} />}{' '}
                 {type === 'g' && <Users strokeWidth={2} />}
               </div>
@@ -48,7 +48,7 @@ function LessonHeader() {
             </NavLink>
             <HolderDropdownLesson />
           </div>
-          <div className='text-sm flex items-center gap-1'>
+          <div className='flex items-center gap-1 text-sm'>
             {holder.dayOfLesson ||
             holder.startOfLesson ||
             holder.endOfLesson ? (
@@ -75,7 +75,7 @@ function LessonHeader() {
               <Popover>
                 <PopoverTrigger>
                   <Badge className='hidden sm:flex'>
-                    <Users className='size-3 mr-1' />
+                    <Users className='mr-1 size-3' />
                     Gruppe
                   </Badge>
                 </PopoverTrigger>
