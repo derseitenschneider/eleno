@@ -6,14 +6,16 @@ import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
 import { useCallback, useEffect, useState } from 'react'
-import getNewestLessonYear from '@/utils/getNewestLessonYear'
+import useCurrentHolder from './useCurrentHolder'
+import { buildAllLessonsQuery } from '@/utils/buildAllLessonsQuery'
 
 export default function LessonNav() {
+  const { currentLessonHolder } = useCurrentHolder()
   const [isScrolling, setIsScrolling] = useState(false)
   const {
-    currentLessonPointer: lessonPointer,
     setCurrentLessonPointer: setLessonPointer,
     activeSortedHolderTypeIds: lessonHolderTypeIds,
+    currentLessonPointer,
   } = useLessonHolders()
   const navigate = useNavigate()
   const { holderId } = useParams()
@@ -36,65 +38,102 @@ export default function LessonNav() {
   if (!latestLessons || !holderId) return null
 
   const handlerPreviousStudent = () => {
-    window.scrollTo(0, 0)
-    if (lessonPointer > 0) {
-      const newPointer = lessonPointer - 1
+    if (!currentLessonHolder) return
+    const currentPath = window.location.pathname
+
+    // We take the currentHolder from the url param and calculate the next
+    // lessonHolder from there instead of the also available lessonPointer.
+    //
+    // The lessonPointer can be out of sync because of the useEffect
+    // in the lessonHolderContexet that calculates the current student.
+    // This calculation might happen on browser tab refocus between students
+    // which makes the lessonPointer out of sync with the url.
+    const currentHolderTypeId = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
+    const currentHolderIndex = lessonHolderTypeIds.indexOf(currentHolderTypeId)
+
+    if (currentHolderIndex > 0) {
+      const newPointer = currentHolderIndex - 1
       const prevHolderId = lessonHolderTypeIds[newPointer]
       setLessonPointer((prev) => prev - 1)
       if (!prevHolderId) return
-      const newestYear =
-        getNewestLessonYear(latestLessons, prevHolderId) ||
-        new Date().getFullYear()
 
-      const url = window.location.pathname
-      const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(String(holderId), String(prevHolderId))
+      const query = buildAllLessonsQuery(
+        currentPath,
+        latestLessons,
+        prevHolderId,
+      )
 
-      navigate(newUrl + query)
+      const newUrl = currentPath.replace(String(holderId), String(prevHolderId))
+
+      return navigate(newUrl + query)
     }
 
-    if (lessonPointer === 0) {
+    if (currentHolderIndex === 0) {
       const newPointer = lessonHolderTypeIds.length - 1
       const lastHolderId = lessonHolderTypeIds[newPointer]
       setLessonPointer(newPointer)
 
       if (!lastHolderId) return
-      const newestYear =
-        getNewestLessonYear(latestLessons, lastHolderId) ||
-        new Date().getFullYear()
-      const url = window.location.pathname
-      const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(String(holderId), String(lastHolderId))
+      const query = buildAllLessonsQuery(
+        currentPath,
+        latestLessons,
+        lastHolderId,
+      )
+
+      const newUrl = currentPath.replace(String(holderId), String(lastHolderId))
+
       navigate(newUrl + query)
     }
   }
 
   const handlerNextStudent = () => {
     window.scrollTo(0, 0)
-    if (lessonPointer < lessonHolderTypeIds.length - 1) {
-      const newPointer = lessonPointer + 1
+    if (!currentLessonHolder) return
+    const currentPath = window.location.pathname
+
+    // We take the currentHolder from the url param and calculate the next
+    // lessonHolder from there instead of the also available lessonPointer.
+    //
+    // The lessonPointer can be out of sync because of the useEffect
+    // in the lessonHolderContexet that calculates the current student.
+    // This calculation might happen on browser tab refocus between students
+    // which makes the lessonPointer out of sync with the url.
+    const currentHolderTypeId = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
+    const currentHolderIndex = lessonHolderTypeIds.indexOf(currentHolderTypeId)
+
+    if (currentHolderIndex < lessonHolderTypeIds.length - 1) {
+      const newPointer = currentHolderIndex + 1
+
       const nextHolderId = lessonHolderTypeIds[newPointer]
-      setLessonPointer((prev) => prev + 1)
+      setLessonPointer(newPointer)
       if (!nextHolderId) return
-      const newestYear =
-        getNewestLessonYear(latestLessons, nextHolderId) ||
-        new Date().getFullYear()
-      const url = window.location.pathname
-      const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(String(holderId), String(nextHolderId))
+
+      const query = buildAllLessonsQuery(
+        currentPath,
+        latestLessons,
+        nextHolderId,
+      )
+
+      const newUrl = currentPath.replace(String(holderId), String(nextHolderId))
       navigate(newUrl + query)
     }
-    if (lessonPointer === lessonHolderTypeIds.length - 1) {
+
+    if (currentHolderIndex === lessonHolderTypeIds.length - 1) {
       const newPointer = 0
       const firstHolderId = lessonHolderTypeIds[newPointer]
       setLessonPointer(newPointer)
       if (!firstHolderId) return
-      const newestYear =
-        getNewestLessonYear(latestLessons, firstHolderId) ||
-        new Date().getFullYear()
-      const url = window.location.pathname
-      const query = url.includes('all') ? `?year=${newestYear}` : ''
-      const newUrl = url.replace(String(holderId), String(firstHolderId))
+
+      const query = buildAllLessonsQuery(
+        currentPath,
+        latestLessons,
+        firstHolderId,
+      )
+
+      const newUrl = currentPath.replace(
+        String(holderId),
+        String(firstHolderId),
+      )
       navigate(newUrl + query)
     }
   }
