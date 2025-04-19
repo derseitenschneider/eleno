@@ -72,36 +72,34 @@ export default function SidebarElement({
       >
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger className='w-full'>
-              <button
-                disabled={disabled}
-                data-testid={testId}
+            <TooltipTrigger
+              disabled={disabled}
+              data-testid={testId}
+              className={cn(
+                'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
+                'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:bg-primary/20',
+                'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent hover:after:bg-background50',
+                isActive
+                  ? 'text-primary after:hidden'
+                  : 'text-foreground before:hidden',
+              )}
+              type='button'
+              onClick={() => onClick?.()}
+            >
+              <div className='relative z-10 h-full w-full max-w-[22px] shrink-0 *:h-full *:w-full'>
+                {icon}
+              </div>
+              <span
                 className={cn(
-                  'align-center z-1 w-full relative flex items-center gap-4 p-1.5 text-foreground hover:no-underline ',
-                  'before:absolute before:left-0 before:top-0 before:z-[-1] before:size-full before:rounded-md before:bg-primary/20',
-                  'after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:w-full after:rounded-md after:bg-transparent hover:after:bg-background50',
-                  isActive
-                    ? 'text-primary after:hidden'
-                    : 'text-foreground before:hidden',
+                  'whitespace-nowrap text-sm leading-none',
+                  isActive && 'text-primary font-medium',
+                  sidebarOpen
+                    ? 'opacity-100 max-w-[200px] transition-all duration-200 delay-100'
+                    : 'max-w-0 pointer-events-none opacity-0 transition-none',
                 )}
-                type='button'
-                onClick={() => onClick?.()}
               >
-                <div className='relative z-10 h-full w-full max-w-[22px] shrink-0 *:h-full *:w-full'>
-                  {icon}
-                </div>
-                <span
-                  className={cn(
-                    'whitespace-nowrap text-sm leading-none',
-                    isActive && 'text-primary font-medium',
-                    sidebarOpen
-                      ? 'opacity-100 max-w-[200px] transition-all duration-200 delay-100'
-                      : 'max-w-0 pointer-events-none opacity-0 transition-none',
-                  )}
-                >
-                  {name}
-                </span>
-              </button>
+                {name}
+              </span>
             </TooltipTrigger>
             <TooltipContent side='right' hidden={sidebarOpen}>
               <p>{name}</p>

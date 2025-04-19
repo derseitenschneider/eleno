@@ -27,12 +27,12 @@ function Lesson() {
           'md:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-hidden',
         )}
       >
-        <main className='md:h-full lg:overflow-auto no-scrollbar'>
-          <PreviousLessons key={currentLessonHolder.holder.id} />
+        <main className='no-scrollbar md:h-full lg:overflow-auto'>
           <CreateLesson />
+          <PreviousLessons key={currentLessonHolder.holder.id} />
         </main>
 
-        <aside className='border-l h-full border-hairline'>
+        <aside className='h-full border-l border-hairline'>
           <NoteList />
         </aside>
       </div>

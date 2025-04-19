@@ -52,9 +52,9 @@ function PreviousLessons() {
     ?.date.getFullYear()
 
   return (
-    <div className='lg:pr-4 px-5 pt-6 pb-4 sm:pl-6 lg:py-4 border-b border-hairline sm:h-[350px] md:h-[300px] relative'>
+    <div className='relative px-5 pb-4 pt-6 sm:h-[350px] sm:pl-6 md:h-[300px] lg:py-4 lg:pr-4'>
       {previousLessonsIds.length > 0 ? (
-        <div className='flex h-fit items-baseline gap-x-3 gap-y-3 mb-5'>
+        <div className='mb-5 flex h-fit items-baseline gap-x-3 gap-y-3'>
           <>
             {previousLessonsIds.map((prev, index) => (
               <button
@@ -78,8 +78,8 @@ function PreviousLessons() {
               </button>
             ))}
             <NavLink
-              className='ml-auto px-3 py-2 rounded-sm hover:no-underline hover:bg-background200/50 sm:ml-3 text-sm 
-            bg-background50 text-foreground'
+              className='ml-auto rounded-sm bg-background50 px-3 py-2 text-sm text-foreground hover:bg-background200/50 
+            hover:no-underline sm:ml-3'
               to={`all?year=${newestLessonYear}`}
               end={true}
             >
@@ -101,7 +101,7 @@ function PreviousLessons() {
                 <ScrollBar orientation='vertical' />
                 <div
                   data-testid='lessons-prev-lesson'
-                  className='[&_ul]:list-disc [&_ul]:ml-[16px] [&_a:link]:underline text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'
+                  className='text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
                 >
                   {parse(
                     removeHTMLAttributes(currentLesson?.lessonContent || ''),
@@ -115,7 +115,7 @@ function PreviousLessons() {
                 <ScrollBar orientation='vertical' />
                 <div
                   data-testid='lessons-prev-homework'
-                  className='[&_ul]:list-disc [&_ul]:ml-[16px] text-sm [&_ol]:list-decimal [&_ol]:ml-[16px] text-foreground'
+                  className='text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
                 >
                   {parse(
                     removeHTMLAttributes(
@@ -128,7 +128,7 @@ function PreviousLessons() {
               </ScrollArea>
             </div>
           </div>
-          <div className='absolute items-center bottom-4 right-5 flex gap-6 md:gap-4'>
+          <div className='absolute bottom-4 right-5 flex items-center gap-6 md:gap-4'>
             <ButtonShareHomework lessonId={currentLesson?.id || 0} />
             <PreviousLessonDropDown
               lessonId={previousLessonsIds[tabIndex] || 0}
