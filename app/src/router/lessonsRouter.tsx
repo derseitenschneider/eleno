@@ -38,9 +38,7 @@ const lessonsRoutes: Array<RouteObject> = [
       {
         path: 'all',
         element: (
-          <div className='container-page'>
-            <AllLessons />
-          </div>
+          <AllLessons />
         ),
       },
       {

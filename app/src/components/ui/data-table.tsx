@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import Empty from './Empty.component'
+import { ScrollArea } from './scroll-area'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -41,7 +42,7 @@ export function DataTable<TData, TValue>({
     <Table
       className={cn(
         isFetching && 'opacity-50',
-        'pb-4 shadow w-full lg:min-w-[650px] border border-background200 overflow-hidden',
+        'pb-4 shadow w-full lg:min-w-[650px]',
         className,
       )}
     >
@@ -58,16 +59,16 @@ export function DataTable<TData, TValue>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
                 </TableHead>
               )
             })}
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody className='w-full mb-4'>
+      <TableBody className='mb-4 w-full overflow-scroll'>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <TableRow
@@ -97,7 +98,7 @@ export function DataTable<TData, TValue>({
           <TableRow>
             <TableCell
               colSpan={columns.length}
-              className='p-8 text-foreground/75 text-center'
+              className='p-8 text-center text-foreground/75'
             >
               <Empty emptyMessage={messageEmpty} />
             </TableCell>

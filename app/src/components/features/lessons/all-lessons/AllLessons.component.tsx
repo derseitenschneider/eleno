@@ -29,9 +29,5 @@ export default function AllLessons() {
   if (isErrorLessons || isErrorYears) return <ErrorPage />
 
   if (!lessons) return null
-  return (
-    <div>
-      <AllLessonsTable lessons={lessons} isFetching={isFetching} />
-    </div>
-  )
+  return <AllLessonsTable lessons={lessons} isFetching={isFetching} />
 }
