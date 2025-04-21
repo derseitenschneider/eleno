@@ -14,10 +14,10 @@ function Empty({ emptyMessage, children, className }: EmptyProps) {
         'max-h-full border border-hairline flex flex-col items-center py-12 rounded-md',
       )}
     >
-      <h3 className='text-center text-foreground/60'>{emptyMessage}</h3>
+      <h3 className='text-center text-lg text-foreground/50'>{emptyMessage}</h3>
       <div className='h-[120px] text-center'>
         <svg
-          className='w-full opacity-55 self-center object-contain object-center'
+          className='w-full self-center object-contain object-center opacity-55'
           xmlns='http://www.w3.org/2000/svg'
           xmlSpace='preserve'
           style={{

@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
-
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useLatestLessons } from './lessonsQueries'
 import Empty from '@/components/ui/Empty.component'
 import useCurrentHolder from './useCurrentHolder'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { PreviousLessonItem } from './PreviousLessonItem.component'
+import { NavLink } from 'react-router-dom'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
@@ -25,24 +23,43 @@ function PreviousLessons() {
       ?.slice(0, 3)
       .map((lesson) => lesson.id) || []
 
+  const newestLessonYear = lessons
+    ?.filter(
+      (lesson) => lesson?.[lessonField] === currentLessonHolder?.holder.id,
+    )
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+    .at(0)
+    ?.date.getFullYear()
+
   return (
-    <div className='h-full'>
-      <div className='h-full px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
-        {previousLessonsIds.length > 0 ? (
-          <>
-            <h5 className='m-0 mb-2'>Vergangene Lektionen</h5>
-            <div className='h-full space-y-4 overflow-scroll'>
-              {previousLessonsIds.map((lessonId) => (
-                <PreviousLessonItem key={lessonId} lessonId={lessonId} />
-              ))}
-            </div>
-          </>
-        ) : (
-          <Empty
-            className='!bg-background100 !shadow-none'
-            emptyMessage='Keine Lektionen erfasst.'
-          />
-        )}
+    <div className='h-full overflow-hidden'>
+      <div className='flex h-full flex-col px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
+        <>
+          <div className='mb-3 flex items-center justify-between'>
+            <h5>Vergangene Lektionen</h5>
+            {previousLessonsIds.length > 0 && (
+              <NavLink to={`all?year=${newestLessonYear}`} end={true}>
+                Alle anzeigen
+              </NavLink>
+            )}
+          </div>
+          <div className='overflow-hidden'>
+            {previousLessonsIds.length > 0 ? (
+              <ScrollArea className='h-full'>
+                <div className='space-y-4 pb-12'>
+                  {previousLessonsIds.map((lessonId) => (
+                    <PreviousLessonItem key={lessonId} lessonId={lessonId} />
+                  ))}
+                </div>
+              </ScrollArea>
+            ) : (
+              <Empty
+                className='!bg-background100 !shadow-none'
+                emptyMessage='Keine Lektionen erfasst.'
+              />
+            )}
+          </div>
+        </>
       </div>
     </div>
   )

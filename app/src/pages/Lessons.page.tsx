@@ -22,13 +22,14 @@ function Lesson() {
       <div
         className={cn(
           hasBanner
-            ? 'min-[1200px]:h-[calc(100vh-120px)]'
-            : 'min-[1200px]:h-[calc(100vh-88px)]',
+            ? 'min-[1100px]:h-[calc(100vh-120px)]'
+            : 'min-[1100px]:h-[calc(100vh-88px)]',
           'md:grid lg:grid-cols-[2fr_minmax(0,380px)] max-h-full',
         )}
       >
-        <main className='flex h-[calc(100vh-88px)] flex-col'>
+        <main className='flex h-full flex-col overflow-hidden'>
           <CreateLesson />
+
           <PreviousLessons />
         </main>
 
