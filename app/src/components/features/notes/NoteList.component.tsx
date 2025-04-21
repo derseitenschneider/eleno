@@ -58,9 +58,9 @@ function NoteList() {
   if (!currentLessonHolder?.holder) return null
 
   return (
-    <div className='border-t lg:border-none border-hairline min-h-[150px] py-6 px-5 sm:pl-6 lg:pr-4 lg:p-4 lg:h-[calc(100vh-88px)]'>
+    <div className='min-h-[150px] border-t border-hairline px-5 py-6 sm:pl-6 lg:h-[calc(100vh-88px)] lg:border-none lg:p-4 lg:pr-4'>
       <div className='mb-6'>
-        <div className='flex justify-between items-baseline'>
+        <div className='flex items-baseline justify-between'>
           <h4 className='mb-0'>Notizen</h4>
 
           <Button
@@ -68,7 +68,7 @@ function NoteList() {
             size='sm'
             title='Neue Notiz erstellen'
             onClick={() => setOpenModal('ADD')}
-            className='flex gap-1 items-center'
+            className='flex items-center gap-1'
           >
             <Plus className='h-4 w-4 text-primary' />
             <span className='text-xs uppercase text-foreground/75'>Neu</span>
@@ -83,7 +83,7 @@ function NoteList() {
                 <ul
                   data-isdraggingover={snapshot.isDraggingOver}
                   className={cn(
-                    'h-full overflow-auto min-h-8 pb-20 no-scrollbar',
+                    'lg:h-full pb-32 md:pb-20 lg:pb-32 overflow-auto min-h-8 no-scrollbar',
                     isUpdating && 'opacity-75',
                   )}
                   {...provided.droppableProps}

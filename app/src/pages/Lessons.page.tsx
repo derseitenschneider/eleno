@@ -1,6 +1,6 @@
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
@@ -12,28 +12,30 @@ function Lesson() {
   const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
   const { currentLessonHolder } = useCurrentHolder()
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    if (currentLessonHolder && scrollRef.current) {
+      scrollRef.current.scrollTop = 0
+    }
+  }, [currentLessonHolder])
+
   if (isLoading) return <p>...loading</p>
   if (currentLessonHolder)
     return (
       <div
+        ref={scrollRef}
         className={cn(
-          hasBanner
-            ? 'min-[1100px]:h-[calc(100vh-120px)]'
-            : 'min-[1100px]:h-[calc(100vh-88px)]',
-          'md:grid lg:grid-cols-[2fr_minmax(0,380px)] max-h-full',
+          'lg:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-scroll lg:overflow-hidden',
         )}
       >
-        <main className='flex h-full flex-col overflow-hidden'>
+        <main className='flex flex-col lg:h-full lg:overflow-hidden'>
           <CreateLesson />
 
           <PreviousLessons />
         </main>
 
-        <aside className='h-full border-l border-hairline'>
+        <aside className='border-l border-hairline lg:h-full'>
           <NoteList />
         </aside>
       </div>

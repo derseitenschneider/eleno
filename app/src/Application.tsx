@@ -33,7 +33,7 @@ export default function Application() {
                 <MainContext>
                   <DarkModeProvider>
                     <Banner />
-                    <div className='mb-[58px] md:mb-0 md:ml-[50px]'>
+                    <div className='md:ml-[50px]'>
                       <Outlet />
                     </div>
                     <Sidebar />
