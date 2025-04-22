@@ -40,11 +40,7 @@ const lessonsRoutes: Array<RouteObject> = [
       },
       {
         path: 'repertoire',
-        element: (
-          <div className='container-page'>
-            <Repertoire />
-          </div>
-        ),
+        element: <Repertoire />,
       },
     ],
   },

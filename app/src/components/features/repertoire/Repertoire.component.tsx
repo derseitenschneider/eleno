@@ -20,11 +20,13 @@ function Repertoire() {
   if (isPending) return <RepertoireSkeleton />
 
   return (
-    <RepertoireTable
-      repertoire={repertoire}
-      isFetching={isFetching}
-      isPending={isPending}
-    />
+    <div className='mb-20 flex h-[calc(100%-100px)] flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:h-[calc(100%-40px)] sm:py-4 sm:pl-6 sm:pr-4'>
+      <RepertoireTable
+        repertoire={repertoire}
+        isFetching={isFetching}
+        isPending={isPending}
+      />
+    </div>
   )
 }
 
