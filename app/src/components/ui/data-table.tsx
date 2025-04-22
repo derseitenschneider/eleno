@@ -39,72 +39,77 @@ export function DataTable<TData, TValue>({
     row.toggleSelected()
   }
   return (
-    <Table
-      className={cn(
-        isFetching && 'opacity-50',
-        'pb-4 shadow w-full lg:min-w-[650px]',
-        className,
-      )}
-    >
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <TableHead
-                  style={{ width: `${header.column.columnDef.size}%` }}
-                  key={header.id}
-                  className='[&>*]:text-foreground/75'
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-                </TableHead>
-              )
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody className='mb-4 w-full overflow-scroll'>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && 'selected'}
-              className={cn(
-                'odd:bg-background100',
-                isSelectable && 'cursor-pointer',
-              )}
-              onClick={() => toggleSelection(row)}
-            >
-              {row.getVisibleCells().map((cell) => {
-                if (cell.column.columnDef.meta?.colSpan?.(row) === 0)
-                  return null
+    <ScrollArea className='border border-hairline'>
+      <Table
+        className={cn(
+          isFetching && 'opacity-50',
+          'pb-4 shadow w-full lg:min-w-[650px]',
+          className,
+        )}
+      >
+        <TableHeader className='sticky top-0 z-10 bg-background50'>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
                 return (
-                  <TableCell
-                    key={cell.id}
-                    colSpan={cell.column.columnDef.meta?.colSpan?.(row) ?? 1}
+                  <TableHead
+                    style={{ width: `${header.column.columnDef.size}%` }}
+                    key={header.id}
+                    className='[&>*]:text-foreground/75'
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                  </TableHead>
                 )
               })}
             </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell
-              colSpan={columns.length}
-              className='p-8 text-center text-foreground/75'
-            >
-              <Empty emptyMessage={messageEmpty} />
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          ))}
+        </TableHeader>
+        <TableBody className='mb-4 w-full'>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+                className={cn(
+                  'odd:bg-background100',
+                  isSelectable && 'cursor-pointer',
+                )}
+                onClick={() => toggleSelection(row)}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  if (cell.column.columnDef.meta?.colSpan?.(row) === 0)
+                    return null
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      colSpan={cell.column.columnDef.meta?.colSpan?.(row) ?? 1}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  )
+                })}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className='p-8 text-center text-foreground/75'
+              >
+                <Empty emptyMessage={messageEmpty} />
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </ScrollArea>
   )
 }

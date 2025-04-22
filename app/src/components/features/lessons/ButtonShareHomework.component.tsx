@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +8,6 @@ import {
 import { MessageSquareShare } from 'lucide-react'
 import { useState } from 'react'
 import ShareHomework from './ShareHomework.component'
-import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
@@ -23,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import useProfileQuery from '../user/profileQuery'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -33,7 +32,7 @@ export default function ButtonShareHomework({
 }: ButtonShareHomeworkProps) {
   const isMobile = useIsMobileDevice()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { user } = useUser()
+  const { data: userProfile } = useProfileQuery()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders } = useLessonHolders()
   const { holderId } = useParams()
@@ -86,7 +85,7 @@ Hallo ${holderName}
 Hier ist der Link zu deinen Hausaufgaben vom ${lessonDate}.
 
 Liebe Grüsse
-${user?.first_name} ${user?.last_name}
+${userProfile?.first_name} ${userProfile?.last_name}
 `
   } else {
     bodyText = `Hallo ${holderName}
@@ -95,7 +94,7 @@ Hier ist der Link zu euren Hausaufgaben vom ${lessonDate}.
 
 
 Liebe Grüsse  
-${user?.first_name} ${user?.last_name}\n\n
+${userProfile?.first_name} ${userProfile?.last_name}\n\n
 `
   }
 
@@ -108,7 +107,7 @@ ${user?.first_name} ${user?.last_name}\n\n
           text: bodyText,
           url,
         })
-      } catch (error) {}
+      } catch (error) { }
     } else {
       setIsModalOpen(true)
     }

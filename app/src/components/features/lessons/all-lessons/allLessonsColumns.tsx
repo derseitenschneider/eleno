@@ -17,7 +17,13 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical, Pencil, Trash2, Upload } from 'lucide-react'
+import {
+  ArrowUpDown,
+  MessageSquareShare,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
 import { useState } from 'react'
 import EditLesson from '../UpdateLesson.component'
 import DeleteLesson from '../DeleteLesson.component'
@@ -59,7 +65,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     minSize: 0,
     cell: ({ row }) => {
       return (
-        <div className='[&_*]:!text-foreground has-list'>
+        <div className='has-list [&_*]:!text-foreground'>
           {parse(removeHTMLAttributes(row.getValue('lessonContent') || ''))}
         </div>
       )
@@ -109,9 +115,9 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
 
                 <DropdownMenuItem
                   onClick={() => setOpenModal('SHARE')}
-                  className='hidden md:flex items-center gap-2'
+                  className='hidden items-center gap-2 md:flex'
                 >
-                  <Upload className='h-4 w-4 text-primary' />
+                  <MessageSquareShare className='size-4 text-primary' />
                   <span>Hausaufgaben teilen</span>
                 </DropdownMenuItem>
 

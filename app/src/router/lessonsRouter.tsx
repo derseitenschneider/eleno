@@ -15,7 +15,6 @@ import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
 const LessonsWrapper = () => {
   const hasBanner = useHasBanner()
 
-
   return (
     <div className='grid max-h-screen grid-rows-[auto_1fr] overflow-hidden'>
       <LessonHeader />
@@ -37,9 +36,7 @@ const lessonsRoutes: Array<RouteObject> = [
       },
       {
         path: 'all',
-        element: (
-          <AllLessons />
-        ),
+        element: <AllLessons />,
       },
       {
         path: 'repertoire',

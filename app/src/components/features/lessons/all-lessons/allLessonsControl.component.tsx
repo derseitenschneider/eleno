@@ -61,17 +61,17 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='flex gap-4 justify-between mb-4 items-center sm:items-start'>
+    <div className='mb-4 flex items-center justify-between gap-4 sm:items-start'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
-          className='flex text-sm sm:text-base items-center gap-1'
+          className='flex items-center gap-1 text-sm sm:text-base'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
-          <span>Zur Lektion</span>
+          <span className='text-primary'>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='sm:flex items-center sm:gap-4'>
+      <div className='items-center sm:flex sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}
@@ -97,12 +97,12 @@ export default function AllLessonsControl({
           disabled={!hasLessonYears || isFetching}
           className='hidden sm:flex'
         >
-          <FileDown className='h-4 w-4 text-primary mr-2' />
+          <FileDown className='mr-2 h-4 w-4 text-primary' />
           Exportieren
         </Button>
 
         <SearchBar
-          className='sm:block hidden'
+          className='hidden sm:block'
           searchInput={globalFilter || ''}
           setSearchInput={(value) => setGlobalFilter(value)}
           disabled={!hasLessonYears || isFetching}

@@ -7,8 +7,6 @@ import {
 } from '@/components/ui/dialog'
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-import { useUser } from '@/services/context/UserContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import useMessagesQuery from '../messages/messagesQueries'
@@ -23,7 +21,6 @@ function CancelSubscription({ onCloseModal }: CancelSubscriptionProps) {
   const [status, setStatus] = useState<'IDLE' | 'LOADING' | 'ERROR'>('IDLE')
   const { refetch: refetchMessages } = useMessagesQuery()
   const { data: userProfile } = useProfileQuery()
-  // const { subscription, getSubscription } = useSubscription()
   const { data: subscription, refetch: refetchSubscription } =
     useSubscriptionQuery()
 

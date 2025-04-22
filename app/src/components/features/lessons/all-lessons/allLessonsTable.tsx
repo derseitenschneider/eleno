@@ -63,7 +63,7 @@ export default function AllLessonsTable({
   })
 
   return (
-    <div className='mb-14 flex h-full flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:py-4 sm:pl-6 sm:pr-4'>
+    <div className='mb-20 flex h-[calc(100%-40px)] flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:py-4 sm:pl-6 sm:pr-4'>
       <AllLessonsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -71,7 +71,7 @@ export default function AllLessonsTable({
         isFetching={isFetching}
       />
       <DataTable
-        className='h-full min-w-[600px] overflow-hidden [&_td:not(:has(button)):not(:has(input))]:px-6 [&_td:not(:has(button))]:align-top [&_td]:py-3 [&_th]:px-6'
+        className='h-full min-w-[600px] [&_td:not(:has(button)):not(:has(input))]:px-6 [&_td:not(:has(button))]:align-top [&_td]:py-3 [&_th]:px-6'
         table={table}
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'
