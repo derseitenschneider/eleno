@@ -77,6 +77,7 @@ export default function ActiveStudentsTable({
   if (isPending) return <p>...loading</p>
   if (isError) return <p>...ERROR</p>
 
+  //TODO: Make Table scrollable like allLessonsTable
   return (
     <div>
       <StudentsControl

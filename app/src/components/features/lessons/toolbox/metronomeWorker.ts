@@ -1,5 +1,3 @@
-// MetronomeScheduler.ts
-
 export type TimeSignature =
   | '1/4'
   | '2/4'
@@ -11,17 +9,17 @@ export type TimeSignature =
 
 class MetronomeScheduler {
   private audioContext: AudioContext
-  private nextNoteTime: number = 0.0
-  private scheduleAheadTime: number = 0.1
-  private currentBeat: number = 0
-  private tempo: number = 120.0
-  private lookahead: number = 25.0
+  private nextNoteTime = 0.0
+  private scheduleAheadTime = 0.1
+  private currentBeat = 0
+  private tempo = 120.0
+  private lookahead = 25.0
   private timerID: number | null = null
-  private isRunning: boolean = false
+  private isRunning = false
   private onBeat: ((beat: number) => void) | null = null
   private timeSignature: TimeSignature = '4/4'
-  private beatsPerBar: number = 4
-  private beatUnit: number = 4
+  private beatsPerBar: number | undefined = 4
+  private beatUnit: number | undefined = 4
 
   constructor() {
     this.audioContext = new (

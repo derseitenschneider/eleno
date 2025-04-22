@@ -53,7 +53,9 @@ const GenericTuner: React.FC = () => {
       audioContextRef.current = null
     }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop())
+      for (const track of streamRef.current.getTracks()) {
+        track.stop()
+      }
       streamRef.current = null
     }
   }, [])
@@ -142,7 +144,9 @@ const GenericTuner: React.FC = () => {
   const getVolume = (buffer: Float32Array): number => {
     let sum = 0
     for (let i = 0; i < buffer.length; i++) {
-      sum += buffer[i] * buffer[i]
+      if (buffer?.[i]) {
+        sum += (buffer?.[i] || 0) * (buffer?.[i] || 0)
+      }
     }
     return Math.sqrt(sum / buffer.length)
   }
@@ -159,8 +163,8 @@ const GenericTuner: React.FC = () => {
       let acf = 0
       let divisorM = 0
       for (let i = 0; i < cutoff; i++) {
-        acf += buffer[i] * buffer[i + tau]
-        divisorM += buffer[i] ** 2 + buffer[i + tau] ** 2
+        acf += (buffer?.[i] || 0) * (buffer?.[i + tau] || 0)
+        divisorM += (buffer[i] || 0) ** 2 + (buffer[i + tau] || 0) ** 2
       }
       nsdf[tau] = (2 * acf) / divisorM
     }
@@ -170,9 +174,9 @@ const GenericTuner: React.FC = () => {
     let pos = 0
     while (pos < cutoff - 1) {
       if (
-        nsdf[pos] > 0 &&
-        nsdf[pos] > nsdf[pos - 1] &&
-        nsdf[pos] >= nsdf[pos + 1]
+        (nsdf[pos] || 0) > 0 &&
+        (nsdf[pos] || 0) > (nsdf[pos - 1] || 0) &&
+        (nsdf[pos] || 0) >= (nsdf[pos + 1] || 0)
       ) {
         maxPositions.push(pos)
       }
@@ -220,7 +224,7 @@ const GenericTuner: React.FC = () => {
     const noteInt = Math.round(noteNum) + 69
     const octave = Math.floor(noteInt / 12) - 1
     const noteName = NOTE_NAMES[noteInt % 12]
-    return { note: noteName, octave }
+    return { note: noteName || '', octave }
   }
 
   const getClosestPerfectPitch = (frequency: number): number => {
@@ -238,32 +242,32 @@ const GenericTuner: React.FC = () => {
   }
 
   return (
-    <div className='p-4 bg-gray-100 rounded-lg max-w-sm mx-auto'>
+    <div className='mx-auto max-w-sm rounded-lg bg-gray-100 p-4'>
       {error ? (
         <p className='text-red-500'>{error}</p>
       ) : (
         <div className='text-center'>
           {currentNote && (
             <>
-              <p className='text-4xl font-bold mb-2'>{currentNote.note}</p>
-              <p className='text-xl mb-4'>{currentNote.octave}</p>
+              <p className='mb-2 text-4xl font-bold'>{currentNote.note}</p>
+              <p className='mb-4 text-xl'>{currentNote.octave}</p>
             </>
           )}
-          {!currentNote && <p className='text-4xl font-bold mb-4'>---</p>}
+          {!currentNote && <p className='mb-4 text-4xl font-bold'>---</p>}
           {/* <p className='text-sm mb-2'> */}
           {/*   {currentFreq ? `${currentFreq.toFixed(2)} Hz` : '---'} */}
           {/* </p> */}
-          <div className='relative w-full h-8 bg-gray-300 rounded-full mb-4 overflow-hidden'>
+          <div className='relative mb-4 h-8 w-full overflow-hidden rounded-full bg-gray-300'>
             <div
-              className={`absolute top-0 left-0 h-full transition-all duration-300 ease-in-out ${getDeviationColor(deviation)}`}
+              className={`${getDeviationColor(deviation)} absolute left-0 top-0 h-full transition-all duration-300 ease-in-out`}
               style={{
                 width: '100%',
                 // transform: `translateX(${Math.max(Math.min(deviation * 2, 100), -50)}%)`,
               }}
             />
-            <div className='absolute top-0 left-1/2 w-0.5 h-full bg-black transform -translate-x-1/2' />
+            <div className='absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 transform bg-black' />
             <div
-              className='z-40 absolute top-0 w-1 h-full bg-white transition-all duration-300 ease-in-out'
+              className='absolute top-0 z-40 h-full w-1 bg-white transition-all duration-300 ease-in-out'
               style={{
                 left: '50%',
                 transform: `translateX(${deviation * (134 * 4)}%)`,

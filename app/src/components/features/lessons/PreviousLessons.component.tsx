@@ -4,10 +4,18 @@ import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { PreviousLessonItem } from './PreviousLessonItem.component'
 import { NavLink } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 
 function PreviousLessons() {
   const { data: lessons } = useLatestLessons()
+  const scrollRef = useRef<HTMLDivElement>(null)
   const { currentLessonHolder } = useCurrentHolder()
+
+  useEffect(() => {
+    if (currentLessonHolder && scrollRef.current) {
+      scrollRef.current.scrollTop = 0
+    }
+  }, [currentLessonHolder])
 
   const lessonField =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -31,6 +39,7 @@ function PreviousLessons() {
     .at(0)
     ?.date.getFullYear()
 
+  //TODO: fix scroll up when navigating to next student.
   return (
     <div className='h-full overflow-hidden'>
       <div className='flex h-full flex-col px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
@@ -45,7 +54,7 @@ function PreviousLessons() {
           </div>
           <div className='overflow-hidden'>
             {previousLessonsIds.length > 0 ? (
-              <ScrollArea className='h-full'>
+              <ScrollArea ref={scrollRef} className='h-full'>
                 <div className='space-y-4 pb-12'>
                   {previousLessonsIds.map((lessonId) => (
                     <PreviousLessonItem key={lessonId} lessonId={lessonId} />

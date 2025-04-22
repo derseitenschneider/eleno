@@ -27,7 +27,7 @@ type NoteDropdownProps = {
 }
 
 export default function NoteDropdown({ noteId }: NoteDropdownProps) {
-  const { isActiveSubscription: subscriptionIsActive } = useSubscription()
+  const { hasAccess } = useSubscription()
   const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState<'EDIT' | 'DELETE' | undefined>()
   const notes = queryClient.getQueryData(['notes']) as Array<Note> | undefined
@@ -61,16 +61,15 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
             <span>Notiz bearbeiten</span>
           </DropdownMenuItem>
 
-          {subscriptionIsActive ||
-            (isDemoMode && (
-              <DropdownMenuItem
-                onClick={() => handleDuplication()}
-                className='flex items-center gap-2'
-              >
-                <Layers2 className='h-4 w-4 text-primary' />
-                <span>Notiz duplizieren</span>
-              </DropdownMenuItem>
-            ))}
+          {(hasAccess || isDemoMode) && (
+            <DropdownMenuItem
+              onClick={() => handleDuplication()}
+              className='flex items-center gap-2'
+            >
+              <Layers2 className='h-4 w-4 text-primary' />
+              <span>Notiz duplizieren</span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
