@@ -29,7 +29,12 @@ function Lesson() {
           'lg:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-scroll lg:overflow-hidden',
         )}
       >
-        <main className='flex flex-col lg:h-full lg:overflow-hidden'>
+        <main
+          className={cn(
+            hasBanner ? 'lg:h-[calc(100%-32px)]' : 'lg:h-full',
+            'flex flex-col lg:overflow-hidden',
+          )}
+        >
           <CreateLesson />
 
           <PreviousLessons />

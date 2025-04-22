@@ -14,7 +14,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
   return (
     <div className='rounded-sm border border-hairline p-3'>
       <div className='flex items-start justify-between'>
-        <p className='mb-1 text-sm'>
+        <p className='mb-1 text-xs'>
           {currentLesson.date.toLocaleDateString(userLocale, {
             day: '2-digit',
             month: '2-digit',
@@ -34,7 +34,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
             data-testid='lessons-prev-lesson'
             className='text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
-            {parse(removeHTMLAttributes(currentLesson.lessonContent || ''))}
+            {parse(removeHTMLAttributes(currentLesson.lessonContent || '—'))}
           </div>
         </div>
         <div>
@@ -43,7 +43,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
             data-testid='lessons-prev-homework'
             className='text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
-            {parse(removeHTMLAttributes(currentLesson.homework || ''))}
+            {parse(removeHTMLAttributes(currentLesson.homework || '—'))}
           </div>
         </div>
       </div>

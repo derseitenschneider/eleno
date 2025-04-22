@@ -14,6 +14,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Blocker } from '../subscription/Blocker'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 const MemoizedStudentFormRow = memo(StudentFormRow)
 
@@ -85,6 +86,7 @@ const defaultStudent: StudentSchema = {
 }
 
 export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
+  const { hasAccess } = useSubscription()
   const { createStudents, isCreating } = useCreateStudents()
   const methods = useForm<{ students: StudentSchema[] }>({
     resolver: zodResolver(studentsValidationSchema),
@@ -144,14 +146,14 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <Blocker />
       <div className={cn(grid, 'hidden lg:grid ')}>
         <span />
-        <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Instrument*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Tag</span>
-        <span className='text-sm pl-3 text-foreground/80'>Von</span>
-        <span className='text-sm pl-3 text-foreground/80'>Bis</span>
-        <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
-        <span className='text-sm pl-3 text-foreground/80'>Unterrichtsort</span>
+        <span className='pl-3 text-sm text-foreground/80'>Vorname*</span>
+        <span className='pl-3 text-sm text-foreground/80'>Nachname*</span>
+        <span className='pl-3 text-sm text-foreground/80'>Instrument*</span>
+        <span className='pl-3 text-sm text-foreground/80'>Tag</span>
+        <span className='pl-3 text-sm text-foreground/80'>Von</span>
+        <span className='pl-3 text-sm text-foreground/80'>Bis</span>
+        <span className='pl-3 text-sm text-foreground/80'>Dauer</span>
+        <span className='pl-3 text-sm text-foreground/80'>Unterrichtsort</span>
         <span />
       </div>
       <FormProvider {...methods}>
@@ -160,7 +162,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
               {memoizedStudentRows}
             </ScrollArea>
-            <div className='flex items-center justify-between mt-4'>
+            <div className='mt-4 flex items-center justify-between'>
               <div className='flex items-center'>
                 <Input
                   disabled={isCreating}
@@ -171,7 +173,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                 />
                 <Button
                   disabled={isCreating}
-                  className='p-0 ml-2'
+                  className='ml-2 p-0'
                   type='button'
                   variant='ghost'
                   size='sm'
@@ -192,7 +194,11 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   Abbrechen
                 </Button>
                 <div className='flex items-center gap-2'>
-                  <Button disabled={isCreating} size='sm' type='submit'>
+                  <Button
+                    disabled={isCreating || !hasAccess}
+                    size='sm'
+                    type='submit'
+                  >
                     Speichern
                   </Button>
                   {isCreating && <MiniLoader />}

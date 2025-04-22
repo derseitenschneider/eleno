@@ -27,6 +27,8 @@ import { toast } from 'sonner'
 import { Label } from '@/components/ui/label'
 import { useCallback } from 'react'
 import { DialogDescription } from '@/components/ui/dialog'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Blocker } from '../subscription/Blocker'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -87,6 +89,7 @@ const defaultGroup: GroupSchema = {
 }
 
 export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
+  const { hasAccess } = useSubscription()
   const { createGroup, isCreating } = useCreateGroup()
   const form = useForm<GroupSchema>({
     resolver: zodResolver(groupValidationSchema),
@@ -136,22 +139,23 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
         Erstelle eine neue Gruppe
       </DialogDescription>
       <div className={cn(grid, 'hidden lg:grid')}>
-        <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Tag</span>
-        <span className='text-sm pl-3 text-foreground/80'>Von</span>
-        <span className='text-sm pl-3 text-foreground/80'>Bis</span>
-        <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
-        <span className='text-sm pl-3 text-foreground/80'>Unterrichtsort</span>
+        <span className='pl-3 text-sm text-foreground/80'>Gruppenname*</span>
+        <span className='pl-3 text-sm text-foreground/80'>Tag</span>
+        <span className='pl-3 text-sm text-foreground/80'>Von</span>
+        <span className='pl-3 text-sm text-foreground/80'>Bis</span>
+        <span className='pl-3 text-sm text-foreground/80'>Dauer</span>
+        <span className='pl-3 text-sm text-foreground/80'>Unterrichtsort</span>
         <span />
       </div>
       <Form {...form}>
+        {!hasAccess && <Blocker />}
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className={cn(grid, 'max-h-[75vh] gap-4 lg:gap-1')}>
             <FormField
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Gruppenname*
                   </Label>
@@ -172,7 +176,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='dayOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Tag
                   </Label>
@@ -203,7 +207,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='startOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-3 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-3 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Von
                   </Label>
@@ -225,7 +229,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='endOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-3 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-3 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Bis
                   </Label>
@@ -247,7 +251,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='durationMinutes'
               render={({ field }) => (
-                <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Dauer
                   </Label>
@@ -280,7 +284,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='location'
               render={({ field }) => (
-                <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+                <FormItem className='col-span-12 space-y-0 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Unterrichtsort
                   </Label>
@@ -298,9 +302,9 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
 
           <div className='mt-8'>
             <div className='flex items-center gap-5'>
-              <p className='font-medium mb-2'>Schüler:innen</p>
+              <p className='mb-2 font-medium'>Schüler:innen</p>
             </div>
-            <div className='grid gap-3 grid-cols-5'>
+            <div className='grid grid-cols-5 gap-3'>
               {fields.map((field, index) => (
                 <div key={field.id} className='relative'>
                   <FormField
@@ -316,7 +320,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                         </FormControl>
                         {index !== 0 && (
                           <ButtonRemove
-                            className='absolute right-0 translate-x-[50%] top-[25%] translate-y-[-50%]'
+                            className='absolute right-0 top-[25%] translate-x-[50%] translate-y-[-50%]'
                             onRemove={() => remove(index)}
                             tabIndex={-1}
                           />
@@ -330,7 +334,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 onClick={() => append({ name: '' })}
                 type='button'
                 size='sm'
-                className='w-fit ml-3 self-center'
+                className='ml-3 w-fit self-center'
               >
                 <Plus className='mr-1 size-4' />
                 Mehr
@@ -338,7 +342,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
             </div>
           </div>
 
-          <div className='flex items-center justify-end mt-4'>
+          <div className='mt-4 flex items-center justify-end'>
             <div className='flex items-center gap-4'>
               <Button
                 disabled={isCreating}
@@ -350,7 +354,11 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 Abbrechen
               </Button>
               <div className='flex items-center gap-2'>
-                <Button disabled={isCreating} size='sm' type='submit'>
+                <Button
+                  disabled={isCreating || !hasAccess}
+                  size='sm'
+                  type='submit'
+                >
                   Speichern
                 </Button>
                 {isCreating && <MiniLoader />}

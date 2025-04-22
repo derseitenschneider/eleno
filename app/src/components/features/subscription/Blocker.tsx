@@ -34,7 +34,7 @@ export function Blocker({ variant = 'block', blockerId = '' }: BlockerProps) {
   return (
     <div
       data-testid={`access-blocker${blockerId && `-${blockerId}`}`}
-      className='absolute inset-[-12px] z-50 flex flex-col items-center justify-center rounded-md backdrop-blur-[2px]'
+      className='absolute inset-[-0px] z-50 flex flex-col items-center justify-center rounded-md backdrop-blur-[2px]'
     >
       <Card className='flex flex-col items-center justify-center p-5'>
         <p className='mb-6'>Nur im Abo verfügbar</p>

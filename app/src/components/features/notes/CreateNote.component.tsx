@@ -87,7 +87,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
             onClick={onCloseModal}
             size='sm'
             variant='outline'
-            disabled={isCreating || !hasAccess}
+            disabled={isCreating}
           >
             Abbrechen
           </Button>
@@ -96,7 +96,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
               type='button'
               onClick={handleSave}
               size='sm'
-              disabled={isCreating}
+              disabled={isCreating || !hasAccess}
             >
               Speichern
             </Button>
