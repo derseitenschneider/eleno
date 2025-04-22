@@ -13,7 +13,6 @@ import StudentFormRow from './StudentFormRow.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 const MemoizedStudentFormRow = memo(StudentFormRow)
@@ -142,8 +141,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   )
 
   return (
-    <div className='relative md:w-[90vw]'>
-      <Blocker />
+    <div className={cn(!hasAccess && 'h-[200px]', 'relative md:w-[90vw]')}>
       <div className={cn(grid, 'hidden lg:grid ')}>
         <span />
         <span className='pl-3 text-sm text-foreground/80'>Vorname*</span>

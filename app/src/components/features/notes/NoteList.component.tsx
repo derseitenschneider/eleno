@@ -18,6 +18,7 @@ import { DialogTitle } from '@radix-ui/react-dialog'
 import { useUpdateNote } from './useUpdateNote'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from '../lessons/useCurrentHolder'
+import { Blocker } from '../subscription/Blocker'
 
 function NoteList() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -111,6 +112,7 @@ function NoteList() {
           <DialogDescription className='hidden'>
             Neue Notiz erstellen
           </DialogDescription>
+          <Blocker blockerId='createNote' />
           <CreateNote
             holderType={currentLessonHolder.type}
             holderId={currentLessonHolder.holder.id}

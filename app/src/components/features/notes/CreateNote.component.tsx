@@ -9,7 +9,6 @@ import { useUser } from '@/services/context/UserContext'
 import { useCreateNote } from './useCreateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type CreateNoteProps = {
@@ -57,7 +56,6 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
 
   return (
     <div className='relative text-sm sm:w-[500px]'>
-      <Blocker blockerId='createNote' />
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'

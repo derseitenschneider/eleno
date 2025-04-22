@@ -60,7 +60,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
 
   return (
     <div className='relative'>
-      <Blocker />
+      <Blocker variant='inline' />
       <form
         onSubmit={onSaveHandler}
         className={cn(

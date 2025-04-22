@@ -148,7 +148,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
         <span />
       </div>
       <Form {...form}>
-        {!hasAccess && <Blocker />}
+        <Blocker />
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className={cn(grid, 'max-h-[75vh] gap-4 lg:gap-1')}>
             <FormField

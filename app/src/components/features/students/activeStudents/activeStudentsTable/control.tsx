@@ -16,6 +16,7 @@ import { ActiveStudentsActionDropdown } from './actionDropdown'
 import ExportStudentList from '../../ExportStudentList.component'
 import CreateStudents from '../../CreateStudents.component'
 import { useSearchParams } from 'react-router-dom'
+import { Blocker } from '@/components/features/subscription/Blocker'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -57,14 +58,14 @@ export default function StudentsControl({
   }
 
   return (
-    <div className='flex justify-between items-end gap-4 mb-4'>
-      <div className='mr-auto items-baseline hidden sm:flex gap-4'>
+    <div className='mb-4 flex items-end justify-between gap-4'>
+      <div className='mr-auto hidden items-baseline gap-4 sm:flex'>
         <ActiveStudentsActionDropdown
           setSelected={setSelected}
           selected={selected}
         />
         {hasActiveStudents && (
-          <p className='hidden lg:block text-sm'>
+          <p className='hidden text-sm lg:block'>
             Schüler:innen: <span>{activeStudents.length}</span>
           </p>
         )}
@@ -76,7 +77,7 @@ export default function StudentsControl({
         onClick={() => setModalOpen('EXPORT')}
         disabled={isDisabledControls}
       >
-        <FileDown className='h-4 w-4 text-primary mr-1' />
+        <FileDown className='mr-1 h-4 w-4 text-primary' />
         Exportieren
       </Button>
       <SearchBar
@@ -90,7 +91,7 @@ export default function StudentsControl({
         size='sm'
         onClick={() => setModalOpen('CREATE')}
       >
-        <Plus className='size-4 mr-1' />
+        <Plus className='mr-1 size-4' />
         <span className='text-white'>Neu</span>
       </Button>
 
@@ -111,6 +112,7 @@ export default function StudentsControl({
           <DialogDescription className='hidden'>
             Erfasse neue Schüler:innen
           </DialogDescription>
+          <Blocker />
           <CreateStudents onSuccess={closeModal} />
         </DialogContent>
       </Dialog>
