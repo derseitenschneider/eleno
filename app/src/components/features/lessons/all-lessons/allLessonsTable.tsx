@@ -63,7 +63,7 @@ export default function AllLessonsTable({
   })
 
   return (
-    <div className='mb-20 flex h-[calc(100%-40px)] flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:py-4 sm:pl-6 sm:pr-4'>
+    <div className='mb-20 flex h-[calc(100%-100px)] flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:h-[calc(100%-40px)] sm:py-4 sm:pl-6 sm:pr-4'>
       <AllLessonsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

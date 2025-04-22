@@ -35,7 +35,7 @@ function PreviousLessons() {
     <div className='h-full overflow-hidden'>
       <div className='flex h-full flex-col px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
         <>
-          <div className='mb-3 flex items-center justify-between'>
+          <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
             {previousLessonsIds.length > 0 && (
               <NavLink to={`all?year=${newestLessonYear}`} end={true}>
