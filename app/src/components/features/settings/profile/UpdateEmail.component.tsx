@@ -12,6 +12,7 @@ import {
 import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useUpdateEmail } from '../../user/useUpdateEmail'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 interface EditEmailProps {
   onCloseModal?: () => void
@@ -19,6 +20,7 @@ interface EditEmailProps {
 
 // TODO: implement zod validation
 export default function EditEmail({ onCloseModal }: EditEmailProps) {
+  const { hasAccess } = useSubscription()
   const { updateEmail, isUpdating } = useUpdateEmail()
   const [input, setInput] = useState({ email1: '', email2: '' })
   const [error, setError] = useState('')
@@ -107,7 +109,11 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
+          <Button
+            disabled={isUpdating || !hasAccess}
+            size='sm'
+            onClick={handleSave}
+          >
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}

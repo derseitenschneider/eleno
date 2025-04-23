@@ -15,7 +15,6 @@ export default function LessonNav() {
   const {
     setCurrentLessonPointer: setLessonPointer,
     activeSortedHolderTypeIds: lessonHolderTypeIds,
-    currentLessonPointer,
   } = useLessonHolders()
   const navigate = useNavigate()
   const { holderId } = useParams()
@@ -142,7 +141,7 @@ export default function LessonNav() {
   return (
     <div
       className={cn(
-        'fixed md:bottom-3 bottom-[76px]',
+        'z-[60] fixed md:bottom-3 bottom-[76px]',
         'ml-auto md:ml-0 right-4 transition-transform duration-500',
         isScrolling && window.innerWidth < 1000
           ? 'translate-x-[calc(100%-8px)]'

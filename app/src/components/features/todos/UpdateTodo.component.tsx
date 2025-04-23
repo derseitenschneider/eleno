@@ -11,6 +11,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type UpdateTodoProps = {
   id: number
@@ -18,6 +19,7 @@ type UpdateTodoProps = {
 }
 export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   const isMobile = useIsMobileDevice()
+  const { hasAccess } = useSubscription()
   const queryClient = useQueryClient()
   const { updateTodo, isUpdating } = useUpdateTodo()
   const todos = queryClient.getQueryData(['todos']) as
@@ -59,7 +61,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   }
 
   return (
-    <div className={cn('md:w-[90vw] lg:w-[800px]')}>
+    <div className={cn(!hasAccess && 'h-[150px]', 'md:w-[90vw] lg:w-[800px]')}>
       <Blocker />
       <form
         onSubmit={onSaveHandler}
@@ -68,11 +70,11 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
           'md:gap-1 w-full flex flex-col justify-end',
         )}
       >
-        <div className='sm:flex sm:border-none sm:items-center p-1 border border-hairline rounded-md grow'>
+        <div className='grow rounded-md border border-hairline p-1 sm:flex sm:items-center sm:border-none'>
           <div className='shrink grow'>
             <Input
               autoFocus={!isMobile}
-              className='border-none mb-2 sm:mb-0'
+              className='mb-2 border-none sm:mb-0'
               type='text'
               placeholder='Todo'
               name='text'
@@ -85,7 +87,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
               disabled={isUpdating}
             />
           </div>
-          <div className='flex items-end sm:items-center justify-between'>
+          <div className='flex items-end justify-between sm:items-center'>
             <AddHolderCombobox
               disabled={isUpdating}
               selectedHolderId={selectedHolderId}
@@ -105,7 +107,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
         </div>
         <div className='flex items-center gap-2'>
           <Button
-            disabled={isUpdating || !text}
+            disabled={isUpdating || !text || !hasAccess}
             type='submit'
             onClick={onSaveHandler}
             size='sm'

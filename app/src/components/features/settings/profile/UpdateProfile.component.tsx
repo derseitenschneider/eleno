@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
 import useProfileQuery from '../../user/profileQuery'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 interface EditProfileProps {
   onCloseModal?: () => void
@@ -13,6 +14,7 @@ interface EditProfileProps {
 
 // TODO: implement zod validation
 function EditProfile({ onCloseModal }: EditProfileProps) {
+  const { hasAccess } = useSubscription()
   const { data: userProfile } = useProfileQuery()
   const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const [input, setInput] = useState({
@@ -78,7 +80,11 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button size='sm' disabled={isUpdating} onClick={handleSave}>
+          <Button
+            size='sm'
+            disabled={isUpdating || !hasAccess}
+            onClick={handleSave}
+          >
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}

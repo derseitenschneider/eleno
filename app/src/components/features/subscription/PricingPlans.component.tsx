@@ -9,9 +9,9 @@ const PricingPlans = () => {
   if (hasAccess && subscriptionState !== 'TRIAL_ACTIVE') return null
 
   return (
-    <div data-testid='pricing-table' id='pricing'>
-      <h3 className='text-center mt-6 font-bold'>Jetzt upgraden!</h3>
-      <Tabs defaultValue='chf' className='w-full flex flex-col items-center'>
+    <div className='mb-12' data-testid='pricing-table' id='pricing'>
+      <h3 className='mt-6 text-center font-bold'>Jetzt upgraden!</h3>
+      <Tabs defaultValue='chf' className='flex w-full flex-col items-center'>
         <TabsList className='mb-12'>
           <TabsTrigger data-testid='currency-switcher-chf' value='chf'>
             CHF

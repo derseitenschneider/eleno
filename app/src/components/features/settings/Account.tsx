@@ -14,6 +14,7 @@ import EditProfile from './profile/UpdateProfile.component'
 import useProfileQuery from '../user/profileQuery'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import { Blocker } from '../subscription/Blocker'
 
 function Account() {
   const { data: userProfile } = useProfileQuery()
@@ -108,12 +109,14 @@ function Account() {
           <DialogDescription className='hidden'>
             Bearbeite dein Profil
           </DialogDescription>
+          <Blocker />
           <EditProfile onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={modalOpen === 'EDIT_EMAIL'} onOpenChange={closeModal}>
         <DialogContent>
+          <Blocker />
           <EditEmail onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>
@@ -126,6 +129,7 @@ function Account() {
           <DialogDescription className='hidden'>
             Ändere dein Passwort
           </DialogDescription>
+          <Blocker />
           <EditPassword onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>

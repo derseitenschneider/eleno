@@ -10,7 +10,7 @@ export default function PricingPlanCHF() {
   const currency = 'CHF'
 
   return (
-    <div className='flex flex-col sm:flex-row gap-4 max-w-5xl w-full'>
+    <div className='flex w-full max-w-5xl flex-col gap-x-4 gap-y-8 lg:flex-row'>
       {/* Monatlich */}
       <Card className='flex-1'>
         <CardHeader>
@@ -29,7 +29,7 @@ export default function PricingPlanCHF() {
           <ButtonCheckoutMonthly variant='outline' currency={currency}>
             Jetzt starten
           </ButtonCheckoutMonthly>
-          <ul className='space-y-4 mt-8'>
+          <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />
@@ -41,11 +41,11 @@ export default function PricingPlanCHF() {
       </Card>
 
       {/* Jährlich */}
-      <Card className='flex-1 border-primary translate-y-[-28px] shadow-lg relative'>
-        <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
+      <Card className='relative flex-1 border-primary shadow-lg lg:translate-y-[-28px]'>
+        <div className='absolute -top-4 left-1/2 -translate-x-1/2 transform'>
           <Badge
             variant='default'
-            className='bg-background50 hover:bg-background50 font-bold'
+            className='bg-background50 font-bold hover:bg-background50'
           >
             Empfohlen
           </Badge>
@@ -61,14 +61,14 @@ export default function PricingPlanCHF() {
               }).format(59)}
             </span>
             <span className='text-muted-foreground'>/Jahr</span>
-            <div className='text-sm text-green-600 mt-1'>15% sparen</div>
+            <div className='mt-1 text-sm text-green-600'>15% sparen</div>
           </div>
         </CardHeader>
         <CardContent>
           <ButtonCheckoutYearly variant='default' currency={currency}>
             Jetzt starten
           </ButtonCheckoutYearly>
-          <ul className='space-y-4 mt-8'>
+          <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />
@@ -98,7 +98,7 @@ export default function PricingPlanCHF() {
           <ButtonCheckoutLifetime variant='outline' currency={currency}>
             Jetzt starten
           </ButtonCheckoutLifetime>
-          <ul className='space-y-4 mt-8'>
+          <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
               <li key={feature} className='flex items-center gap-2'>
                 <Check className='h-5 w-5 text-green-500' />

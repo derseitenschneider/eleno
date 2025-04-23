@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({
     row.toggleSelected()
   }
   return (
-    <ScrollArea className='border border-hairline'>
+    <ScrollArea className='min-h-[130px] border border-hairline sm:min-h-[unset]'>
       <Table
         className={cn(
           isFetching && 'opacity-50',

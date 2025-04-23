@@ -6,6 +6,7 @@ import { PasswordInput } from '@/components/ui/password-input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
 import { useUpdatePassword } from '../../user/useUpdatePassword'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 interface EditPasswordProps {
   onCloseModal?: () => void
@@ -13,6 +14,7 @@ interface EditPasswordProps {
 
 // TODO: implement zod validation
 export default function EditPassword({ onCloseModal }: EditPasswordProps) {
+  const { hasAccess } = useSubscription()
   const { updatePassword, isUpdating } = useUpdatePassword()
   const [input, setInput] = useState({
     password1: '',
@@ -96,7 +98,11 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
           Abbrechen
         </Button>
         <div className='flex items-center gap-2'>
-          <Button size='sm' disabled={isUpdating} onClick={handleSave}>
+          <Button
+            size='sm'
+            disabled={isUpdating || !hasAccess}
+            onClick={handleSave}
+          >
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}

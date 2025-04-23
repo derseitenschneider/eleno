@@ -60,10 +60,12 @@ function Banner() {
     return (
       <div
         data-testid='banner-trial-expired'
-        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-red-50 p-1 text-center text-sm'
       >
         <p>
-          <span className='font-medium'>Dein Testabo ist abgelaufen!</span>{' '}
+          <span className='font-medium text-slate-700'>
+            Dein Testabo ist abgelaufen!
+          </span>{' '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen
           </Link>
@@ -74,9 +76,9 @@ function Banner() {
     return (
       <div
         data-testid='banner-payment-failed'
-        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-warning/5 p-1 text-center text-sm'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-red-50 p-1 text-center text-sm'
       >
-        <p>
+        <p className='text-slate-700'>
           <span className='font-medium'>Aktion erforderlich:</span>
           {'  '}Deine Zahlung ist fehlgeschlagen!{'  '}
           <Link to='/settings/subscription#pricing' className='underline'>
@@ -90,10 +92,12 @@ function Banner() {
     return (
       <div
         data-testid='banner-subscription-inactive'
-        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-primary/5 p-1 text-center text-sm'
+        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-red-50 p-1 text-center text-sm'
       >
         <p>
-          <span className='font-medium'>Dein Abo ist inaktiv</span>
+          <span className='font-medium text-slate-700'>
+            Dein Abo ist inaktiv
+          </span>
           {'  '}
           <Link to='/settings/subscription#pricing' className='underline'>
             Jetzt Abo abschliessen
