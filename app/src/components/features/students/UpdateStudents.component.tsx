@@ -15,6 +15,7 @@ import {
 import { useUpdateStudents } from './useUpdateStudents'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Blocker } from '../subscription/Blocker'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 const MemoizedStudentFormRow = React.memo(StudentFormRow)
 
@@ -27,6 +28,7 @@ export default function UpdateStudents({
   onSuccess,
   studentIds,
 }: UpdateStudentsProps) {
+  const { hasAccess } = useSubscription()
   const queryClient = useQueryClient()
   const { updateStudents, isUpdating } = useUpdateStudents()
 
@@ -112,19 +114,24 @@ export default function UpdateStudents({
   )
 
   return (
-    <div className='relative w-[90vw] lg:w-[85vw] lg:min-w-[950px]'>
+    <div
+      className={cn(
+        !hasAccess && 'h-[200px]',
+        'relative w-[90vw] lg:w-[85vw] lg:min-w-[950px]',
+      )}
+    >
       <Blocker />
-      <div className='flex flex-col overflow-hidden h-full'>
+      <div className='flex h-full flex-col overflow-hidden'>
         <div className={cn(grid, 'hidden lg:grid')}>
           <span />
-          <span className='text-sm pl-3 text-foreground/80'>Vorname*</span>
-          <span className='text-sm pl-3 text-foreground/80'>Nachname*</span>
-          <span className='text-sm pl-3 text-foreground/80'>Instrument*</span>
-          <span className='text-sm pl-3 text-foreground/80'>Tag</span>
-          <span className='text-sm pl-3 text-foreground/80'>Von</span>
-          <span className='text-sm pl-3 text-foreground/80'>Bis</span>
-          <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
-          <span className='text-sm pl-3 text-foreground/80'>
+          <span className='pl-3 text-sm text-foreground/80'>Vorname*</span>
+          <span className='pl-3 text-sm text-foreground/80'>Nachname*</span>
+          <span className='pl-3 text-sm text-foreground/80'>Instrument*</span>
+          <span className='pl-3 text-sm text-foreground/80'>Tag</span>
+          <span className='pl-3 text-sm text-foreground/80'>Von</span>
+          <span className='pl-3 text-sm text-foreground/80'>Bis</span>
+          <span className='pl-3 text-sm text-foreground/80'>Dauer</span>
+          <span className='pl-3 text-sm text-foreground/80'>
             Unterrichtsort
           </span>
         </div>
@@ -144,7 +151,7 @@ export default function UpdateStudents({
               </ScrollArea>
               <div className='flex items-end justify-between pb-1 pr-1'>
                 <span className='text-sm'>* Pflichtfelder</span>
-                <div className='flex items-center justify-end gap-4 mt-4'>
+                <div className='mt-4 flex items-center justify-end gap-4'>
                   <Button
                     size='sm'
                     variant='outline'

@@ -25,12 +25,12 @@ import {
   type GroupSchema,
 } from '../groups/CreateGroup.component'
 import useStudentsQuery from './studentsQueries'
-import { useCreateGroup } from '../groups/useCreateGroup'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useConvertStudentToGroup } from './useConvertStudentToGroup'
 import { toast } from 'sonner'
 import { useCallback } from 'react'
 import { DialogDescription } from '@radix-ui/react-dialog'
+import { Blocker } from '../subscription/Blocker'
 
 type ConvertStudentToGroupProps = {
   studentId: number
@@ -98,6 +98,7 @@ export default function ConvertStudentToGroup({
 
   return (
     <div className='w-[85vw]'>
+      <Blocker />
       <DialogHeader>
         <DialogTitle>
           {student?.firstName} {student?.lastName} in Gruppe umwandeln
@@ -111,12 +112,12 @@ export default function ConvertStudentToGroup({
         werden.
       </DialogDescription>
       <div className={cn(grid)}>
-        <span className='text-sm pl-3 text-foreground/80'>Gruppenname*</span>
-        <span className='text-sm pl-3 text-foreground/80'>Tag</span>
-        <span className='text-sm pl-3 text-foreground/80'>Von</span>
-        <span className='text-sm pl-3 text-foreground/80'>Bis</span>
-        <span className='text-sm pl-3 text-foreground/80'>Dauer</span>
-        <span className='text-sm pl-3 text-foreground/80'>Unterrichtsort</span>
+        <span className='pl-3 text-sm text-foreground/80'>Gruppenname*</span>
+        <span className='pl-3 text-sm text-foreground/80'>Tag</span>
+        <span className='pl-3 text-sm text-foreground/80'>Von</span>
+        <span className='pl-3 text-sm text-foreground/80'>Bis</span>
+        <span className='pl-3 text-sm text-foreground/80'>Dauer</span>
+        <span className='pl-3 text-sm text-foreground/80'>Unterrichtsort</span>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -254,9 +255,9 @@ export default function ConvertStudentToGroup({
 
           <div className='mt-8'>
             <div className='flex items-center gap-5'>
-              <p className='font-medium mb-2'>Schüler:innen</p>
+              <p className='mb-2 font-medium'>Schüler:innen</p>
             </div>
-            <div className='grid gap-3 grid-cols-5'>
+            <div className='grid grid-cols-5 gap-3'>
               {fields.map((field, index) => (
                 <div key={field.id} className='relative'>
                   <FormField
@@ -272,7 +273,7 @@ export default function ConvertStudentToGroup({
                         </FormControl>
                         {index !== 0 && (
                           <ButtonRemove
-                            className='absolute right-0 translate-x-[50%] top-[25%] translate-y-[-50%]'
+                            className='absolute right-0 top-[25%] translate-x-[50%] translate-y-[-50%]'
                             onRemove={() => remove(index)}
                             tabIndex={-1}
                           />
@@ -286,7 +287,7 @@ export default function ConvertStudentToGroup({
                 onClick={() => append({ name: '' })}
                 type='button'
                 size='sm'
-                className='w-fit ml-3 self-center'
+                className='ml-3 w-fit self-center'
               >
                 <Plus className='mr-1 size-4' />
                 Mehr
@@ -294,7 +295,7 @@ export default function ConvertStudentToGroup({
             </div>
           </div>
 
-          <div className='flex items-center justify-end mt-4'>
+          <div className='mt-4 flex items-center justify-end'>
             <div className='flex items-center gap-4'>
               <Button
                 disabled={isConverting}

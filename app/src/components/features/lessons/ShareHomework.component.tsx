@@ -5,13 +5,14 @@ import { IoLogoWhatsapp } from 'react-icons/io5'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { SiThreema } from 'react-icons/si'
 
+import { appConfig } from '@/config'
+import { cn } from '@/lib/utils'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { appConfig } from '@/config'
-import { Blocker } from '../subscription/Blocker'
 import useProfileQuery from '../user/profileQuery'
 
 interface ShareHomeworkProps {
@@ -20,6 +21,7 @@ interface ShareHomeworkProps {
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const { data: userProfile } = useProfileQuery()
+  const { hasAccess } = useSubscription()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders } = useLessonHolders()
   const { holderId } = useParams()
@@ -86,8 +88,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   }
   if (!currentHolder) return null
   return (
-    <div className='relative text-sm'>
-      <Blocker />
+    <div className={cn(!hasAccess && 'h-[200px]', 'relative text-sm')}>
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.

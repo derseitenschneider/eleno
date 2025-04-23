@@ -22,6 +22,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import useProfileQuery from '../user/profileQuery'
+import { Blocker } from '../subscription/Blocker'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -133,6 +134,7 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
           <DialogDescription className='hidden'>
             Teile die Hausaufgaben mit deinen Schüler:innen
           </DialogDescription>
+          <Blocker />
           <ShareHomework lessonId={lessonId} />
         </DialogContent>
       </Dialog>
