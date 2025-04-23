@@ -30,6 +30,7 @@ function ExportLessons({
   holderType,
   onSuccess,
 }: ExportLessonsProps) {
+  const fetchErrorToast = useFetchErrorToast()
   const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
 
@@ -46,13 +47,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-          type: 's',
-          holder: allStudents.find((student) => student.id === holderId),
-        } as LessonHolder)
+        type: 's',
+        holder: allStudents.find((student) => student.id === holderId),
+      } as LessonHolder)
       : ({
-          type: 'g',
-          holder: allGroups.find((group) => group.id === holderId),
-        } as LessonHolder)
+        type: 'g',
+        holder: allGroups.find((group) => group.id === holderId),
+      } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],
@@ -101,7 +102,6 @@ function ExportLessons({
   }
 
   async function handleDownloadCSV() {
-    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
@@ -144,7 +144,6 @@ function ExportLessons({
   }
 
   async function handleDownloadPDF() {
-    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
 

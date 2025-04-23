@@ -34,6 +34,7 @@ export default function BulkExportLessons({
   const { user } = useUser()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders: lessonHolders } = useLessonHolders()
+  const fetchErrorToast = useFetchErrorToast()
 
   const [startDate, setStartDate] = useState<Date>()
   const [endDate, setEndDate] = useState<Date>()
@@ -78,7 +79,6 @@ export default function BulkExportLessons({
   }
 
   async function handleDownloadCSV() {
-    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
       const { data } = await fetchAllLessonsCSV()
@@ -152,7 +152,6 @@ export default function BulkExportLessons({
   }
 
   async function handleDownloadPDF() {
-    const fetchErrorToast = useFetchErrorToast()
     try {
       setIsLoading(true)
 
