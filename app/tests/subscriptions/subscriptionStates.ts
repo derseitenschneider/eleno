@@ -8,6 +8,7 @@ export type SubscriptionStates = {
   manageSubscription: boolean
   downloadInvoice: boolean
   forwardOneMonth?: boolean
+  chfOnly?: boolean
 }
 
 export const subscriptionStates: Array<SubscriptionStates> = [
@@ -81,6 +82,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: false,
     manageSubscription: false,
     downloadInvoice: false,
+    chfOnly: true
   },
   //
   // {

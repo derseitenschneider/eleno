@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)
-  subscrptionPom.goto()
+  await subscrptionPom.goto()
   await subscrptionPom.currencySwitchCHF.click()
 })
 
-test('sends correct post data to the api.', async ({ page }) => {
+test('send the right post data to the server', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
   subscriptionPom.interceptAPIResponse()
@@ -16,7 +16,7 @@ test('sends correct post data to the api.', async ({ page }) => {
     request.url().includes('stripe/session/create'),
   )
 
-  await subscriptionPom.buttonCheckoutYearly.click()
+  await subscriptionPom.buttonCheckoutMonthly.click()
 
   const serverRequest = await serverRequestPromise
   const postData = JSON.parse(serverRequest.postData() || '')
@@ -28,7 +28,7 @@ test('sends correct post data to the api.', async ({ page }) => {
   expect(postData.stripe_customer_id).not.toBe('')
 })
 
-test('create a yearly checkout session', async ({ page }) => {
+test('create a monthly checkout session', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
   subscriptionPom.interceptStripeResponse()
@@ -39,7 +39,7 @@ test('create a yearly checkout session', async ({ page }) => {
   )
 
   // 3. Take actions that trigger the checkout flow
-  await subscriptionPom.buttonCheckoutYearly.click()
+  await subscriptionPom.buttonCheckoutMonthly.click()
 
   // 4. Wait for the Stripe request and get its URL
   const stripeRequest = await stripeRequestPromise

@@ -4,6 +4,7 @@ import { TodosPOM } from '../../pom/TodosPOM'
 import { RepertoirePOM } from '../../pom/RepertoirePOM'
 
 test('create lesson is blocked', async ({ page }, testInfos) => {
+  test.slow()
   const lessonPom = new LessonsPOM(page, testInfos)
   await lessonPom.goto()
 

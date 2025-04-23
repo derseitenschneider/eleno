@@ -16,6 +16,12 @@ setup(
     await page.getByTestId('login-submit').click()
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
+    // Await inactive banner
+    await expect(async () => {
+      await page.reload()
+      await expect(page.getByText('Dein Abo ist inaktiv')).toBeVisible()
+    }).toPass({ timeout: 30_000 })
+
     // Clean up notifications.
     const toasts = await page.getByRole('status').all()
     for (const toast of toasts) {
@@ -23,7 +29,6 @@ setup(
         const closeButton = toast.getByRole('button', {
           name: 'Close toast',
         })
-
         await closeButton.click()
       } catch (error) {
         console.warn(

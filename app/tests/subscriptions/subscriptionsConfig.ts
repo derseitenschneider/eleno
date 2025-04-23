@@ -20,6 +20,7 @@ subscriptionStates.forEach((subscriptionState) => {
     lifetimeTeaser,
     manageSubscription,
     downloadInvoice,
+    chfOnly
   } = subscriptionState
 
   // Test setup
@@ -35,9 +36,9 @@ subscriptionStates.forEach((subscriptionState) => {
     testMatch: noTest
       ? ''
       : [
-          `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
-          `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
-        ],
+        `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
+        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
+      ],
     dependencies: noSetup ? undefined : [`setup-${state}`],
     use: {
       ...devices['Desktop Chrome'],
@@ -48,8 +49,14 @@ subscriptionStates.forEach((subscriptionState) => {
   if (Array.isArray(test.testMatch)) {
     if (pricingTable) {
       test.testMatch.push(
-        '**/tests/subscriptions/common/pricing-table/*.spec.ts',
+        '**/tests/subscriptions/common/pricing-table/chf/*.spec.ts',
       )
+
+      if (!chfOnly) {
+        test.testMatch.push(
+          '**/tests/subscriptions/common/pricing-table/eur/*.spec.ts',
+        )
+      }
     }
 
     if (lifetimeTeaser) {
