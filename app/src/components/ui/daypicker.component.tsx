@@ -43,13 +43,15 @@ export function DayPicker({
           )}
         >
           <CalendarIcon className='h-4 w-4 text-primary' />
-          {date
-            ? date.toLocaleDateString(userLocale, {
+          {date ? (
+            <span>
+              {date.toLocaleDateString(userLocale, {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
-              })
-            : null}
+              })}
+            </span>
+          ) : null}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto border-hairline p-0'>

@@ -92,11 +92,7 @@ function CreateRepertoireItem({
             <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
               Start
             </span>
-            <DayPicker
-              className='block'
-              date={item.startDate}
-              setDate={handleChangeStart}
-            />
+            <DayPicker date={item.startDate} setDate={handleChangeStart} />
             {item.startDate && (
               <ButtonRemove
                 disabled={isCreating}
@@ -110,11 +106,7 @@ function CreateRepertoireItem({
           <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
             Ende
           </span>
-          <DayPicker
-            className='block'
-            date={item.endDate}
-            setDate={handleChangeEnd}
-          />
+          <DayPicker date={item.endDate} setDate={handleChangeEnd} />
           {item.endDate && (
             <ButtonRemove
               disabled={isCreating}
