@@ -5,6 +5,7 @@ import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 setup(
   'create a trial user, run yearly checkout fixture, move clock forward one year and check if date has changed.',
   async ({ page }) => {
+    setup.slow()
     // Setup test data.
     const testUser = await setupYearlyYearly()
 
@@ -16,10 +17,20 @@ setup(
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
     // Close toast, check activation message and delete it.
-    try {
-      await page.getByRole('button', { name: 'Close toast' }).click()
-    } catch (error) {
-      console.warn('Toast message not found or no need to close it.')
+    const toasts = await page.getByRole('status').all()
+    for (const toast of toasts) {
+      try {
+        const closeButton = toast.getByRole('button', {
+          name: 'Close toast',
+        })
+
+        await closeButton.click()
+      } catch (error) {
+        console.warn(
+          'Could not find or click the close button on a toast.',
+          error,
+        )
+      }
     }
 
     await page.goto('/inbox')

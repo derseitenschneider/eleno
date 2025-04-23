@@ -26,9 +26,9 @@ export default function MessageList({ messages }: MailListProps) {
     return date < oneWeekAgo
       ? format(date, 'PP', { locale: getLocale(userLocale) })
       : formatDistanceToNow(date, {
-          addSuffix: true,
-          locale: getLocale(userLocale),
-        })
+        addSuffix: true,
+        locale: getLocale(userLocale),
+      })
   }
 
   function handleClick(message: Message) {
@@ -43,6 +43,7 @@ export default function MessageList({ messages }: MailListProps) {
       <div className='flex flex-col gap-2 p-4 pt-0'>
         {messages.map((message) => (
           <button
+            data-testid='open-message'
             type='button'
             key={message.id}
             className={cn(

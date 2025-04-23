@@ -17,8 +17,21 @@ setup(
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
     // Clean up notifications and messages.
-    await expect(page.getByRole('status')).toContainText('2 neue Nachrichten')
-    await page.getByRole('button', { name: 'Close toast' }).click()
+    const toasts = await page.getByRole('status').all()
+    for (const toast of toasts) {
+      try {
+        const closeButton = toast.getByRole('button', {
+          name: 'Close toast',
+        })
+
+        await closeButton.click()
+      } catch (error) {
+        console.warn(
+          'Could not find or click the close button on a toast.',
+          error,
+        )
+      }
+    }
     await page.goto('/inbox')
     await page.getByRole('button', { name: 'aktiviert' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()

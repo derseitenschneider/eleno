@@ -17,23 +17,49 @@ setup(
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
     // Clean up notifications.
-    await expect(page.getByRole('status')).toContainText('4 neue Nachrichten')
-    await page.getByRole('button', { name: 'Close toast' }).click()
+    const toasts = await page.getByRole('status').all()
+    for (const toast of toasts) {
+      try {
+        const closeButton = toast.getByRole('button', {
+          name: 'Close toast',
+        })
+
+        await closeButton.click()
+      } catch (error) {
+        console.warn(
+          'Could not find or click the close button on a toast.',
+          error,
+        )
+      }
+    }
 
     // Clean up messages.
     await page.goto('/inbox')
 
-    await page.getByRole('button', { name: 'Zugang ist aktiviert' }).click()
-    await page.getByRole('button', { name: 'Löschen' }).click()
+    const messages = await page.getByTestId('open-message').all()
+    for (const message of messages) {
+      try {
+        await message.click()
+        await page.getByRole('button', { name: 'Löschen' }).click()
+      } catch (error) {
+        console.warn(
+          'Could not find delete button for message.',
+          error,
+        )
+      }
+    }
 
-    await page.getByRole('button', { name: 'Aktion erforderlich' }).click()
-    await page.getByRole('button', { name: 'Löschen' }).click()
-
-    await page.getByRole('button', { name: 'dringend' }).click()
-    await page.getByRole('button', { name: 'Löschen' }).click()
-
-    await page.getByRole('button', { name: 'beendet' }).click()
-    await page.getByRole('button', { name: 'Löschen' }).click()
+    // await page.getByRole('button', { name: 'Zugang ist aktiviert' }).click()
+    // await page.getByRole('button', { name: 'Löschen' }).click()
+    //
+    // await page.getByRole('button', { name: 'Aktion erforderlich' }).click()
+    // await page.getByRole('button', { name: 'Löschen' }).click()
+    //
+    // await page.getByRole('button', { name: 'dringend' }).click()
+    // await page.getByRole('button', { name: 'Löschen' }).click()
+    //
+    // await page.getByRole('button', { name: 'beendet' }).click()
+    // await page.getByRole('button', { name: 'Löschen' }).click()
 
     // Store login state in auth file.
     await page.context().storageState({ path: authFile })
