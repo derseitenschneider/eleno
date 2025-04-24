@@ -3,18 +3,13 @@ import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.com
 import Repertoire from '@/components/features/repertoire/Repertoire.component'
 import { Outlet, type RouteObject } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import LessonsPage from '@/pages/Lessons.page'
 import LessonNav from '@/components/features/lessons/LessonNav.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
-import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
-import { useEffect, useRef } from 'react'
-import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
 
 const LessonsWrapper = () => {
   return (
-    <div className='grid max-h-screen grid-rows-[auto_1fr] overflow-hidden'>
+    <div className='grid max-h-dvh grid-rows-[auto_1fr] overflow-hidden'>
       <LessonHeader />
       <Outlet />
       <MusicTools />

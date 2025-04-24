@@ -269,3 +269,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding-bottom: max(6px, env(safe-area-inset-bottom));
   padding-top: 6px;
 }
+
+.position-mobile-lesson-nav {
+  bottom: calc(env(safe-area-inset-bottom) + 64px);
+}

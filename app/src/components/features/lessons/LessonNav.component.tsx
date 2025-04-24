@@ -5,13 +5,11 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from './lessonsQueries'
-import { useCallback, useEffect, useState } from 'react'
 import useCurrentHolder from './useCurrentHolder'
 import { buildAllLessonsQuery } from '@/utils/buildAllLessonsQuery'
 
 export default function LessonNav() {
   const { currentLessonHolder } = useCurrentHolder()
-  const [isScrolling, setIsScrolling] = useState(false)
   const {
     setCurrentLessonPointer: setLessonPointer,
     activeSortedHolderTypeIds: lessonHolderTypeIds,
@@ -19,20 +17,6 @@ export default function LessonNav() {
   const navigate = useNavigate()
   const { holderId } = useParams()
   const { data: latestLessons } = useLatestLessons()
-
-  const handleScroll = useCallback(() => {
-    if (!isScrolling) {
-      setIsScrolling(true)
-      setTimeout(() => setIsScrolling(false), 450)
-    }
-  }, [isScrolling])
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [handleScroll])
 
   if (!latestLessons || !holderId) return null
 
@@ -141,11 +125,8 @@ export default function LessonNav() {
   return (
     <div
       className={cn(
-        'z-[60] fixed md:bottom-3 bottom-[76px]',
-        'ml-auto md:ml-0 right-4 transition-transform duration-500',
-        isScrolling && window.innerWidth < 1000
-          ? 'translate-x-[calc(100%-8px)]'
-          : '',
+        'z-[60] fixed md:bottom-3 position-mobile-lesson-nav',
+        'ml-auto md:ml-0 right-4',
       )}
     >
       <div className='flex gap-2 rounded-full border border-hairline bg-background50/30 p-2 shadow-sm backdrop-blur-sm'>

@@ -1,5 +1,6 @@
 import { test as setup, expect } from '@playwright/test'
 import { setupMonthlyExpiredCanceled } from '../../utils/setupHelpers'
+import { cleanupToasts } from '../../utils/cleanupToasts'
 
 setup(
   'create a montly subscription, attach failing payment, move clock two months.',
@@ -23,20 +24,7 @@ setup(
     }).toPass({ timeout: 30_000 })
 
     // Clean up notifications.
-    const toasts = await page.getByRole('status').all()
-    for (const toast of toasts) {
-      try {
-        const closeButton = toast.getByRole('button', {
-          name: 'Close toast',
-        })
-        await closeButton.click()
-      } catch (error) {
-        console.warn(
-          'Could not find or click the close button on a toast.',
-          error,
-        )
-      }
-    }
+    cleanupToasts(page)
 
     // Clean up messages.
     await page.goto('/inbox')

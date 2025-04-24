@@ -4,6 +4,7 @@ import {
   type Locator,
   type Page,
 } from '@playwright/test'
+import { cleanupToasts } from '../utils/cleanupToasts'
 
 export class RepertoirePOM {
   readonly page: Page
@@ -40,6 +41,8 @@ export class RepertoirePOM {
       body: await this.page.screenshot(),
       contentType: 'image/png',
     })
+
+    cleanupToasts(this.page)
 
     await this.page.getByRole('link', { name: 'Repertoire' }).click()
     await expect(this.inputCreateItem).toBeVisible()

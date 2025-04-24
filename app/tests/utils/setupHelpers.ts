@@ -95,7 +95,7 @@ export async function setupMonthlyExpired() {
   await testUser.addFailingPaymentMethod()
 
   // Move Stripe Clock forward
-  await testUser.advanceClock({ days: 31, hours: 2 })
+  await testUser.advanceClock({ days: 32, hours: 2 })
 
   return testUser
 }

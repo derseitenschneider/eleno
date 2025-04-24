@@ -83,7 +83,7 @@ function RepertoireTable({
   if (isPending) return <p>...loading</p>
 
   return (
-    <div className='mb-14 flex h-full flex-col'>
+    <div className='mb-20 flex h-full flex-col'>
       <div className='mb-2 flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
