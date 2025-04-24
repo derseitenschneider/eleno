@@ -32,6 +32,13 @@ setup(
     }
 
     await page.goto('/inbox')
+    await expect(async () => {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Team ELENO' })).toBeVisible()
+    }).toPass({
+      timeout: 60_000
+    })
+
     await page.getByRole('button', { name: 'Team ELENO' }).click()
     await expect(page.getByTestId('message-header')).toContainText('aktiviert')
     await page.getByRole('button', { name: 'Löschen' }).click()
