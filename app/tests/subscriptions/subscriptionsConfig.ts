@@ -20,7 +20,9 @@ subscriptionStates.forEach((subscriptionState) => {
     lifetimeTeaser,
     manageSubscription,
     downloadInvoice,
-    chfOnly
+    chfOnly,
+    cancelReactivate,
+    reactivateCancel
   } = subscriptionState
 
   // Test setup
@@ -74,6 +76,18 @@ subscriptionStates.forEach((subscriptionState) => {
     if (downloadInvoice) {
       test.testMatch.push(
         '**/tests/subscriptions/common/download-invoice.spec.ts',
+      )
+    }
+
+    if (cancelReactivate) {
+      test.testMatch.push(
+        '**/tests/subscriptions/common/cancel-reactivate.spec.ts',
+      )
+    }
+
+    if (reactivateCancel) {
+      test.testMatch.push(
+        '**/tests/subscriptions/common/reactivate-cancel.spec.ts',
       )
     }
   }

@@ -9,16 +9,16 @@ import PlanRow from './PlanRow.component'
 
 export function SubscriptionInfos() {
   return (
-    <div className='py-7 border-b border-hairline'>
-      <div className='sm:flex justify-between items-start'>
-        <div className='grid items-start grid-cols-[150px_1fr] gap-4 w-fit'>
+    <div className='border-b border-hairline py-7'>
+      <div className='flex flex-col items-start justify-between gap-y-8 sm:flex-row'>
+        <div className='grid w-fit grid-cols-[150px_1fr] items-start gap-4'>
           <StatusRow />
           <PlanRow />
           <PeriodRow />
         </div>
-        <div className='sm:flex flex-col self-end items-end gap-5'>
+        <div className='flex-col items-end gap-5 self-center sm:flex sm:self-end'>
           <PaymentFailedNotification />
-          <div className='flex flex-col sm:flex-row gap-4 '>
+          <div className='flex flex-col gap-4 sm:flex-row '>
             <ButtonManageSubscription />
             <ButtonCancelSubscription />
             <ButtonReactivateSubscription />

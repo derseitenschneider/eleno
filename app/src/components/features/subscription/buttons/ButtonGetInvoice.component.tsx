@@ -46,7 +46,7 @@ export default function ButtonGetInvoice() {
   }
   if (subscriptionState !== 'LIFETIME') return null
   return (
-    <div className='col-span-2'>
+    <div className=''>
       <Button
         data-testid='button-invoice-lifetime'
         size='sm'

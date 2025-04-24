@@ -1,5 +1,6 @@
 import { expect, test as setup } from '@playwright/test'
 import { setupYearlyExpiredCanceled } from '../../utils/setupHelpers'
+import { cleanupToasts } from '../../utils/cleanupToasts'
 
 setup(
   'create a yearly subscription, attach failing payment, move clock two months.',
@@ -16,22 +17,14 @@ setup(
     await page.getByTestId('login-submit').click()
     await expect(page.getByTestId('dashboard-heading')).toBeVisible()
 
-    // Clean up notifications.
-    const toasts = await page.getByRole('status').all()
-    for (const toast of toasts) {
-      try {
-        const closeButton = toast.getByRole('button', {
-          name: 'Close toast',
-        })
+    // Await inactive banner
+    await expect(async () => {
+      await page.reload()
+      await expect(page.getByText('Dein Abo ist inaktiv')).toBeVisible()
+    }).toPass({ timeout: 30_000 })
 
-        await closeButton.click()
-      } catch (error) {
-        console.warn(
-          'Could not find or click the close button on a toast.',
-          error,
-        )
-      }
-    }
+    // Clean up notifications.
+    cleanupToasts(page)
 
     // Clean up messages.
     await page.goto('/inbox')

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
+import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 
 test('can reactivate  and cancel subscription', async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)
@@ -19,8 +19,9 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
 
   // Close toast, check for reactivation Message and delete it.
   await page.getByRole('button', { name: 'Close toast' }).click()
+
   await page.getByRole('link', { name: 'Nachrichten' }).click()
-  await page.getByRole('button', { name: 'Team ELENO' }).click()
+  await page.getByRole('button', { name: 'Abo ist wieder aktiv' }).click()
   await expect(page.getByTestId('message-header')).toContainText('aktiv')
   await page.getByRole('button', { name: 'Löschen' }).click()
 
@@ -36,8 +37,9 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
 
   // Close toast, check cancellation message and delete it.
   await page.getByRole('button', { name: 'Close toast' }).click()
+
   await page.getByRole('link', { name: 'Nachrichten' }).click()
-  await page.getByRole('button', { name: 'Team ELENO' }).click()
+  await page.getByRole('button', { name: 'Abo gekündigt' }).click()
   await expect(page.getByTestId('message-header')).toContainText('gekündigt')
   await page.getByRole('button', { name: 'Löschen' }).click()
 })
