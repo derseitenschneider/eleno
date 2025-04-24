@@ -26,7 +26,9 @@ const TodosWrapper = () => {
   return (
     <ScrollArea
       className={cn(
-        hasBanner ? 'mt-[28px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
+        hasBanner
+          ? 'mt-[28px] md:h-[calc(100vh-28px)]'
+          : 'pb-20 sm:pb-[unset] md:h-screen',
       )}
     >
       <div className='container-page'>

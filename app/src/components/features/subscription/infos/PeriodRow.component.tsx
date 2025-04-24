@@ -16,11 +16,17 @@ export default function PeriodRow() {
         '—'
       ) : (
         <p className={cn(!hasAccess && 'text-warning')}>
-          <span data-testid='subscription-period-start'>
+          <span
+            className='text-[inherit]'
+            data-testid='subscription-period-start'
+          >
             {periodStartLocalized}
           </span>
           {' – '}
-          <span data-testid='subscription-period-end'>
+          <span
+            className='text-[inherit]'
+            data-testid='subscription-period-end'
+          >
             {periodEndLocalized}
           </span>
         </p>

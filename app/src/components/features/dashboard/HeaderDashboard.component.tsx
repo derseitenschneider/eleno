@@ -9,7 +9,7 @@ function HeaderDashboard() {
   return (
     <header
       className={cn(
-        'px-5 py-6 sm:py-6',
+        'px-5 py-4 sm:py-6',
         'md:p-6',
         'lg:p-4 lg:pl-6',
         'col-span-2 flex justify-between border-b border-hairline',

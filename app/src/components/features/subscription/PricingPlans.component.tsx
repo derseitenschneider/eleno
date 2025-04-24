@@ -12,7 +12,7 @@ const PricingPlans = () => {
     <div className='mb-12' data-testid='pricing-table' id='pricing'>
       <h3 className='mt-6 text-center font-bold'>Jetzt upgraden!</h3>
       <Tabs defaultValue='chf' className='flex w-full flex-col items-center'>
-        <TabsList className='mb-12'>
+        <TabsList className='mb-4 sm:mb-12'>
           <TabsTrigger data-testid='currency-switcher-chf' value='chf'>
             CHF
           </TabsTrigger>
