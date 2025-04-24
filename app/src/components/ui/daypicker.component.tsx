@@ -10,6 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 type DayPickerProps = {
   className?: string
@@ -25,6 +26,7 @@ export function DayPicker({
   disabled,
 }: DayPickerProps) {
   const { userLocale } = useUserLocale()
+  const isMobile = useIsMobileDevice()
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
@@ -42,7 +44,9 @@ export function DayPicker({
             className,
           )}
         >
-          <CalendarIcon className='h-4 w-4 text-primary' />
+          <CalendarIcon
+            className={cn(isMobile && date && 'hidden', 'h-4 w-4 text-primary')}
+          />
           {date ? (
             <span>
               {date.toLocaleDateString(userLocale, {
