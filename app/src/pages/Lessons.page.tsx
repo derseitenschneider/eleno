@@ -1,6 +1,5 @@
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
-import { useEffect, useRef } from 'react'
 import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
@@ -12,19 +11,13 @@ function Lesson() {
   const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
   const { currentLessonHolder } = useCurrentHolder()
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (currentLessonHolder && scrollRef.current) {
-      scrollRef.current.scrollTop = 0
-    }
-  }, [currentLessonHolder])
+  const currentHolderId = `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`
 
   if (isLoading) return <p>...loading</p>
   if (currentLessonHolder)
     return (
       <div
-        ref={scrollRef}
+        key={currentHolderId}
         className={cn(
           'lg:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-scroll lg:overflow-hidden',
         )}

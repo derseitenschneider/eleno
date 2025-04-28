@@ -35,8 +35,12 @@ setup(
     await page.goto('/inbox')
     await page.getByRole('button', { name: 'aktiviert' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
-    await page.getByRole('button', { name: 'Aktion erforderlich' }).click()
-    await page.getByRole('button', { name: 'Löschen' }).click()
+
+    expect(async () => {
+      await page.reload()
+      await page.getByRole('button', { name: 'Aktion erforderlich' }).click()
+      await page.getByRole('button', { name: 'Löschen' }).click()
+    }).toPass({ timeout: 30_000 })
 
     // Store login state in auth file.
     await page.context().storageState({ path: authFile })
