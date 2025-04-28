@@ -84,15 +84,13 @@ function RepertoireTable({
 
   return (
     <div className='mb-20 flex h-full flex-col'>
-      <div className='mb-2 flex items-center justify-between'>
-        <NavLink
-          to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
-          className='flex items-center gap-1 text-sm sm:text-base'
-        >
-          <ChevronLeft className='h-4 w-4 text-primary' />
-          <span className='text-primary'>Zur Lektion</span>
-        </NavLink>
-      </div>
+      <NavLink
+        to={`/lessons/${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
+        className='mb-2 flex items-center gap-1'
+      >
+        <ChevronLeft className='h-4 w-4 text-primary' />
+        <span className='text-primary'>Zur Lektion</span>
+      </NavLink>
       <h2>Repertoire</h2>
       <CreateRepertoireItem
         holderType={currentLessonHolder?.type || 's'}

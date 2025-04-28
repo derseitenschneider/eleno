@@ -65,7 +65,7 @@ export default function AllLessonsControl({
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
-          className='flex items-center gap-1 text-sm sm:text-base'
+          className='flex items-center gap-1'
         >
           <ChevronLeft className='h-4 w-4 text-primary' />
           <span className='text-primary'>Zur Lektion</span>
