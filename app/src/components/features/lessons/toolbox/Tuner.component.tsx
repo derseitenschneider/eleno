@@ -144,8 +144,9 @@ const GenericTuner: React.FC = () => {
   const getVolume = (buffer: Float32Array): number => {
     let sum = 0
     for (let i = 0; i < buffer.length; i++) {
-      if (buffer?.[i]) {
-        sum += (buffer?.[i] || 0) * (buffer?.[i] || 0)
+      const currentBuffer = buffer[i]
+      if (currentBuffer) {
+        sum += currentBuffer * currentBuffer
       }
     }
     return Math.sqrt(sum / buffer.length)
@@ -163,8 +164,12 @@ const GenericTuner: React.FC = () => {
       let acf = 0
       let divisorM = 0
       for (let i = 0; i < cutoff; i++) {
-        acf += (buffer?.[i] || 0) * (buffer?.[i + tau] || 0)
-        divisorM += (buffer[i] || 0) ** 2 + (buffer[i + tau] || 0) ** 2
+        const currentBuffer = buffer[i]
+        const currentBufferTau = buffer[i + tau]
+        if (currentBuffer && currentBufferTau) {
+          acf += currentBuffer * currentBufferTau
+          divisorM += currentBuffer ** 2 + currentBufferTau ** 2
+        }
       }
       nsdf[tau] = (2 * acf) / divisorM
     }
@@ -174,9 +179,9 @@ const GenericTuner: React.FC = () => {
     let pos = 0
     while (pos < cutoff - 1) {
       if (
-        (nsdf[pos] || 0) > 0 &&
-        (nsdf[pos] || 0) > (nsdf[pos - 1] || 0) &&
-        (nsdf[pos] || 0) >= (nsdf[pos + 1] || 0)
+        nsdf[pos] > 0 &&
+        nsdf[pos] > nsdf[pos - 1] &&
+        nsdf[pos] >= nsdf[pos + 1]
       ) {
         maxPositions.push(pos)
       }
@@ -224,7 +229,7 @@ const GenericTuner: React.FC = () => {
     const noteInt = Math.round(noteNum) + 69
     const octave = Math.floor(noteInt / 12) - 1
     const noteName = NOTE_NAMES[noteInt % 12]
-    return { note: noteName || '', octave }
+    return { note: noteName, octave }
   }
 
   const getClosestPerfectPitch = (frequency: number): number => {
