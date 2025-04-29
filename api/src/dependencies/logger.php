@@ -9,8 +9,9 @@ use Monolog\Logger;
 
 return function ( Container $container ) {
 	$logDirectory = __DIR__ . '/../logs';
+
 	if ( ! is_dir( $logDirectory ) ) {
-		throw new Error( 'Log directory not found: ' . $logDirectory );
+		mkdir( $logDirectory );
 	}
 
 	$output          = "[%datetime%] [%level_name%] %message% | %context% | %extra%\n";
