@@ -74,21 +74,22 @@ const LinkButton = ({ title }: { title: string }) => {
 
   // Function to update placeholder visibility
   const updatePlaceholderVisibility = () => {
-    if (!buttonRef.current) return;
+    if (!buttonRef.current) return
 
     // Find the closest editor to this button (parent traversal)
-    const toolbar = buttonRef.current.closest('.rsw-toolbar');
-    if (!toolbar) return;
+    const toolbar = buttonRef.current.closest('.rsw-toolbar')
+    if (!toolbar) return
 
-    const editorContainer = toolbar.closest('.rsw-editor');
-    if (!editorContainer) return;
+    const editorContainer = toolbar.closest('.rsw-editor')
+    if (!editorContainer) return
 
-    const editorContent = editorContainer.querySelector('.rsw-ce')?.innerHTML || '';
+    const editorContent =
+      editorContainer.querySelector('.rsw-ce')?.innerHTML || ''
 
     if (editorContent && editorContent !== '<br>') {
       // Editor has content, trigger change to update parent component
-      const event = new Event('input', { bubbles: true });
-      editorContainer.querySelector('.rsw-ce')?.dispatchEvent(event);
+      const event = new Event('input', { bubbles: true })
+      editorContainer.querySelector('.rsw-ce')?.dispatchEvent(event)
     }
   }
 
@@ -96,17 +97,19 @@ const LinkButton = ({ title }: { title: string }) => {
   const handleOpenChange = (newOpen: boolean) => {
     if (newOpen) {
       // Find the correct editor associated with this button
-      if (!buttonRef.current) return;
+      if (!buttonRef.current) return
 
-      const toolbar = buttonRef.current.closest('.rsw-toolbar');
-      if (!toolbar) return;
+      const toolbar = buttonRef.current.closest('.rsw-toolbar')
+      if (!toolbar) return
 
-      const editorContainer = toolbar.closest('.rsw-editor');
-      if (!editorContainer) return;
+      const editorContainer = toolbar.closest('.rsw-editor')
+      if (!editorContainer) return
 
-      const editorElement = editorContainer.querySelector('.rsw-ce') as HTMLElement;
+      const editorElement = editorContainer.querySelector(
+        '.rsw-ce',
+      ) as HTMLElement
       if (editorElement) {
-        editorElement.focus();
+        editorElement.focus()
       }
 
       // Now get the selection
@@ -251,49 +254,44 @@ const LinkButton = ({ title }: { title: string }) => {
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <button
-          type="button"
-          className="rsw-btn"
-          title={title}
-          ref={buttonRef}
-        >
+        <button type='button' className='rsw-btn' title={title} ref={buttonRef}>
           <Link2 size={18} />
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-72">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="link-url">URL</Label>
+      <PopoverContent className='w-72'>
+        <div className='space-y-4'>
+          <div className='space-y-2'>
+            <Label htmlFor='link-url'>URL</Label>
             <Input
               ref={inputRef}
-              id="link-url"
+              id='link-url'
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://example.com"
+              placeholder='https://example.com'
               onKeyDown={handleKeyDown}
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="link-text">Linktext</Label>
+          <div className='space-y-2'>
+            <Label htmlFor='link-text'>Linktext</Label>
             <Input
-              id="link-text"
+              id='link-text'
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
-              placeholder="Anzuzeigender Text"
+              placeholder='Anzuzeigender Text'
               onKeyDown={handleKeyDown}
             />
-            <p className="text-xs text-foreground/75">
+            <p className='text-xs text-foreground/75'>
               Leer lassen, um die URL als Text zu verwenden.
             </p>
           </div>
-          <div className="flex justify-between">
+          <div className='flex justify-between'>
             {isLink && (
-              <Button variant="destructive" size="sm" onClick={removeLink}>
+              <Button variant='destructive' size='sm' onClick={removeLink}>
                 Link entfernen
               </Button>
             )}
-            <div className={cn("ml-auto", !isLink && "w-full")}>
-              <Button size="sm" className="w-full" onClick={applyLink}>
+            <div className={cn('ml-auto', !isLink && 'w-full')}>
+              <Button size='sm' className='w-full' onClick={applyLink}>
                 {isLink ? 'Aktualisieren' : 'Link einfügen'}
               </Button>
             </div>
@@ -334,15 +332,15 @@ function CustomEditor({
   }
 
   // Update placeholder visibility after link operations
-  const updatePlaceholderVisibility = () => {
-    const editorContent = document.querySelector('.rsw-ce')?.innerHTML || ''
-    if (showPlaceholder && editorContent && editorContent !== '<br>') {
-      setShowPlaceholder(false)
-    }
-    if (!showPlaceholder && (!editorContent || editorContent === '<br>')) {
-      setShowPlaceholder(true)
-    }
-  }
+  // const updatePlaceholderVisibility = () => {
+  //   const editorContent = document.querySelector('.rsw-ce')?.innerHTML || ''
+  //   if (showPlaceholder && editorContent && editorContent !== '<br>') {
+  //     setShowPlaceholder(false)
+  //   }
+  //   if (!showPlaceholder && (!editorContent || editorContent === '<br>')) {
+  //     setShowPlaceholder(true)
+  //   }
+  // }
 
   function handlePaste(e: ClipboardEvent) {
     e.preventDefault()
@@ -380,7 +378,6 @@ function CustomEditor({
               <BtnItalic title='Kursiv' tabIndex={-1} />
               <BtnUnderline title='Unterstrich' tabIndex={-1} />
               <BtnStrikeThrough title='Durchgestrichen' tabIndex={-1} />
-              <LinkButton title='Link' />
             </div>
           </Toolbar>
           <span data-type='mini' />
