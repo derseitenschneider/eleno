@@ -65,11 +65,11 @@ export default function OnboardingWizzard() {
   return (
     <div className='mx-auto'>
       <StepperProgress steps={steps} currentStep={currentStep} />
-      <div className='p-6 w-[550px] rounded-lg border border-hairline bg-card text-card-foreground shadow-sm'>
+      <div className='w-[550px] rounded-lg border border-hairline bg-card p-6 text-card-foreground shadow-sm'>
         {steps[currentStep]?.component}
       </div>
 
-      <div className='flex items-center justify-between mt-8'>
+      <div className='mt-8 flex items-center justify-between'>
         {currentStep === 0 ? (
           <Button
             onClick={() => navigate('/')}
@@ -81,7 +81,7 @@ export default function OnboardingWizzard() {
           </Button>
         ) : (
           <Button
-            className='flex gap-1 items-center justify-between'
+            className='flex items-center justify-between gap-1'
             variant='outline'
             type='button'
             size='sm'
@@ -95,7 +95,7 @@ export default function OnboardingWizzard() {
           <Button
             type='button'
             size='sm'
-            className='flex gap-1 items-center justify-between'
+            className='flex items-center justify-between gap-1'
             onClick={goToNext}
           >
             Weiter

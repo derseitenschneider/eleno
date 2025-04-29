@@ -2,7 +2,7 @@ import OnboardingWizzard from '@/components/features/onboarding/OnboardingWizzar
 
 export default function OnboardingPage() {
   return (
-    <div className='bg-background100 fixed size-full ml-[-50px] z-50 grid items-center'>
+    <div className='fixed z-[100] ml-[-50px] grid size-full items-center bg-background100'>
       <OnboardingWizzard />
     </div>
   )
