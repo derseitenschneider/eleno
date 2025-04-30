@@ -181,6 +181,9 @@
         <severity>0</severity>
     </rule>
 
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_mkdir">
+        <severity>0</severity>
+    </rule>
     <arg name="tab-width" value="4"/>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
