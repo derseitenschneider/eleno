@@ -161,9 +161,9 @@ function CreateLesson() {
   return (
     <div className='relative border-b border-hairline px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0'>
       <Blocker blockerId='createLesson' />
-      <h5 className='m-0 mb-2'>Neue Lektion</h5>
+      <h5 className=' m-0 mb-2'>Neue Lektion</h5>
       <div className='mb-3 flex items-center gap-2'>
-        <p className='text-foreground/70'>Datum</p>
+        <p className=''>Datum</p>
         <DayPicker
           setDate={handlerInputDate}
           date={date}
@@ -177,7 +177,7 @@ function CreateLesson() {
         )}
       >
         <div>
-          <p className='text-foreground/70'>Lektion</p>
+          <p>Lektion</p>
           <CustomEditor
             key={`lessonContent-${currentLessonHolder.holder.id}`}
             disabled={isCreating}
@@ -187,7 +187,7 @@ function CreateLesson() {
           />
         </div>
         <div>
-          <p className='capitalize text-foreground/70'>Hausaufgaben</p>
+          <p>Hausaufgaben</p>
           <CustomEditor
             key={`homework-${currentLessonHolder.holder.id}`}
             disabled={isCreating}

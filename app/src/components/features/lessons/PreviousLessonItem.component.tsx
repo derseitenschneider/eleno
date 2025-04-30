@@ -29,7 +29,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
       </div>
       <div className={cn('grid md:grid-cols-2 gap-6')}>
         <div>
-          <p className='text-foreground/80'>Lektion</p>
+          <p>Lektion</p>
           <div
             data-testid='lessons-prev-lesson'
             className='text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
@@ -38,7 +38,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
           </div>
         </div>
         <div>
-          <p className='text-foreground/80'>Hausaufgaben</p>
+          <p>Hausaufgaben</p>
           <div
             data-testid='lessons-prev-homework'
             className='text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
