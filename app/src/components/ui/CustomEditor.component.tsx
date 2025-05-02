@@ -85,6 +85,7 @@ function CustomEditor({
     document.execCommand('insertHTML', false, cleanedText)
   }
 
+  // TODO: Make toolbar appear only on focus without loosing link popover functionality.
   if (type === 'mini')
     return (
       <EditorProvider>
