@@ -21,6 +21,7 @@ function CreateRepertoireItem({
 }: AddRepertoireItemProps) {
   const { hasAccess } = useSubscription()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
+  const [hideToolbar, setHideToolbar] = useState(false)
   const isMobile = useIsMobileDevice()
 
   const fieldType = holderType === 's' ? 'studentId' : 'groupId'
@@ -52,6 +53,7 @@ function CreateRepertoireItem({
 
   function resetFields() {
     setItem(defaultItem)
+    setHideToolbar(true)
   }
 
   function handleSave() {
