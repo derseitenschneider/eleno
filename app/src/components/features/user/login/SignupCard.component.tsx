@@ -230,7 +230,7 @@ export default function SignupCard() {
                     </FormControl>
                     <div className='space-y-1 leading-none'>
                       <FormLabel className='text-sm font-normal text-zinc-700'>
-                        Ich bin mit den{' '}
+                        Ich habe die{' '}
                         <a
                           href='https://eleno.net/impressum-datenschutz'
                           target='_blank'
@@ -238,7 +238,7 @@ export default function SignupCard() {
                         >
                           Datenschutzbestimmungen
                         </a>{' '}
-                        und der{' '}
+                        und die{' '}
                         <a
                           href='https://eleno.net/terms-conditions'
                           target='_blank'
@@ -246,7 +246,9 @@ export default function SignupCard() {
                         >
                           Allgemeinen Geschäftsbedingungen
                         </a>{' '}
-                        einverstanden.
+                        von Eleno gelesen und stimme diesen zu. Ich verstehe,
+                        dass ich essenzielle Mitteilungen zu meinem Konto und
+                        dem Dienst per E-Mail erhalten werde.
                       </FormLabel>
                     </div>
                   </FormItem>
