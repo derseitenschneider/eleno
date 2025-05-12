@@ -62,7 +62,7 @@ function Account() {
 
       <div className='border-b border-background200 py-7'>
         <h3>Logindaten</h3>
-        <div className='mb-6 grid grid-cols-[150px_1fr] gap-y-4 text-base'>
+        <div className='mb-6 grid-cols-[150px_1fr] gap-y-4 text-base sm:grid'>
           <p className='text-foreground/80'>E-Mail Adresse</p>
           <p>{userProfile.email}</p>
         </div>

@@ -17,18 +17,21 @@ export default function LifetimeTeaser() {
   return (
     <div
       data-testid='lifetime-teaser'
-      className='py-7 flex flex-row justify-between gap-4'
+      className='flex flex-col justify-between gap-8 py-7 lg:flex-row lg:gap-4'
     >
       <div>
         <h2 className='text-primary'>Upgrade auf Lifetime</h2>
-        <p className='w-[50ch]'>
+        <p className='sm:w-[50ch]'>
           Spare langfristig mit unserem Lifetime-Abo. Statt
           monatlicher/jährlicher Zahlungen erhältst du mit einer einmaligen
           Investition unbegrenzten Zugriff auf alle aktuellen und zukünftigen
           Premium-Features.
         </p>
       </div>
-      <Tabs defaultValue='chf' className='flex flex-col items-center'>
+      <Tabs
+        defaultValue='chf'
+        className='mx-auto flex w-fit flex-col items-center lg:mx-0 lg:items-center'
+      >
         <TabsList className=''>
           <TabsTrigger data-testid='currency-switcher-chf' value='chf'>
             CHF
