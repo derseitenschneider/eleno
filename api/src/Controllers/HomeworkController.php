@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Repositories\EntityRepository;
 use App\Repositories\LessonRepository;
 use InvalidArgumentException;
 use Monolog\Logger;
@@ -16,11 +17,13 @@ class HomeworkController {
 	 *
 	 * The class constructor.
 	 *
-	 * @param LessonRepository $repository
+	 * @param LessonRepository $lessonRepository
+	 * @param EntityRepository $entityRepository
 	 * @param Logger           $logger
 	 */
 	public function __construct(
-		private LessonRepository $repository,
+		private LessonRepository $lessonRepository,
+		private EntityRepository $entityRepository,
 		private Logger $logger
 	) {
 	}
@@ -43,7 +46,7 @@ class HomeworkController {
 		$homeworkKey = $args['homework_key'];
 
 		try {
-			$lesson = $this->repository->getLesson( $homeworkKey );
+			$lesson = $this->lessonRepository->getLesson( $homeworkKey );
 			if ( ! $lesson || ! isset( $lesson[0] ) ) {
 				$this->logger->warning(
 					'Lesson not found',
@@ -63,9 +66,18 @@ class HomeworkController {
 				return $this->renderError( $response );
 			}
 
+			$entity = $entity_id === $lessonData['studentId']
+				? $this->entityRepository->getStudent( $entity_id )
+				: $this->entityRepository->getGroup( $entity_id );
+
+			if ( ! $entity[0]['homework_sharing_authorized'] ) {
+				$response->getBody()->write( $this->renderView( 'homework-unauthorized' ) );
+				return $response->withHeader( 'Content-Type', 'text/html' )->withStatus( 403 );
+			}
+
 			if ( $this->isExpired( $lessonData['expiration_base'] ) ) {
 				$response->getBody()->write( $this->renderView( 'homework-expired' ) );
-				return $response->withHeader( 'Content-Type', 'text/html' );
+				return $response->withHeader( 'Content-Type', 'text/html' )->withStatus( 410 );
 			}
 
 			$formattedLesson = $this->formatLesson( $lessonData );

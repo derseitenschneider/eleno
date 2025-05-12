@@ -14,7 +14,8 @@ import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import useProfileQuery from '../user/profileQuery'
-import { HomeworkExpired } from './HomeworkExpired.component'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -106,6 +107,13 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
             </b>{' '}
             auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
           </p>
+          <form action="">
+            <Input type="checkbox" id='authorization' className='mr-2' />
+
+            <Label htmlFor="authorization">
+              Ich bestätige, dass diese:r Schüler:in entweder volljährig ist ODER dass ich die ausdrückliche Einwilligung der Erziehungsberechtigten habe, um Hausaufgaben über einen Weblink zu teilen.
+            </Label>
+          </form>
           <div className='mb-8 flex items-center gap-2'>
             <a href={url} target='_blank' rel='noreferrer'>
               {url}

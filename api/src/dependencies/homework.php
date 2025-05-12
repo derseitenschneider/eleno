@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\HomeworkController;
+use App\Repositories\EntityRepository;
 use App\Repositories\LessonRepository;
 use DI\Container;
 
@@ -8,10 +9,11 @@ return function ( Container $container ) {
 	$container->set(
 		HomeworkController::class,
 		function ( $container ) {
-			$repository = $container->get( LessonRepository::class );
-			$logger     = $container->get( 'appLogger' );
+			$lessonRepository = $container->get( LessonRepository::class );
+			$entityRepository = $container->get( EntityRepository::class );
+			$logger           = $container->get( 'appLogger' );
 
-			return new HomeworkController( $repository, $logger );
+			return new HomeworkController( $lessonRepository, $entityRepository, $logger );
 		}
 	);
 };
