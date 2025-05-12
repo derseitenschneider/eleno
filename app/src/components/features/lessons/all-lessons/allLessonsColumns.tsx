@@ -29,6 +29,7 @@ import EditLesson from '../UpdateLesson.component'
 import DeleteLesson from '../DeleteLesson.component'
 import ShareHomework from '../ShareHomework.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { HomeworkExpired } from '../HomeworkExpired.component'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {
@@ -93,6 +94,11 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
       function closeModal() {
         setOpenModal(undefined)
       }
+      const expirationBase = new Date(row.original.expiration_base || '')
+      const twoWeeksAgo = new Date()
+      twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14) // Subtract 14 days
+      const isExpired = expirationBase < twoWeeksAgo
+
       return (
         <>
           <div className='text-right'>
@@ -157,7 +163,11 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
               <DialogDescription className='hidden'>
                 Teile die Hausaufgaben
               </DialogDescription>
-              <ShareHomework lessonId={row.original.id} />
+              {isExpired ? (
+                <HomeworkExpired currentLesson={row.original} />
+              ) : (
+                <ShareHomework lessonId={row.original.id} />
+              )}
             </DialogContent>
           </Dialog>
 

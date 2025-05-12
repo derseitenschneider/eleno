@@ -192,11 +192,11 @@ export const updateLessonAPI = async (
   return { ...data, date: new Date(data.date || '') } as Lesson
 }
 
-export const reactivateHomeworkLink = async (lessonId: number) => {
+export const reactivateHomeworkLinkApi = async (lesson: Lesson) => {
   const { error } = await supabase
     .from('lessons')
-    .update({ created_at: new Date().toISOString() })
-    .eq('id', lessonId)
+    .update({ expiration_base: new Date().toISOString() })
+    .eq('id', lesson.id)
 
   if (error) throw new Error(error.message)
 }

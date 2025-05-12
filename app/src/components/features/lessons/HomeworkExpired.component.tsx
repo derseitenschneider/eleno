@@ -1,6 +1,15 @@
 import { Button } from '@/components/ui/button'
+import { useReactivateHomeworkLink } from './useReactivateHomeworkLink'
+import type { Lesson } from '@/types/types'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
-export function HomeworkExpired() {
+export function HomeworkExpired({ currentLesson }: { currentLesson: Lesson }) {
+  const { reactivateHomeworkLink, isReactivating } = useReactivateHomeworkLink()
+
+  function handleReactivate() {
+    reactivateHomeworkLink(currentLesson)
+  }
+
   return (
     <div>
       <p className='mb-4'>
@@ -12,14 +21,14 @@ export function HomeworkExpired() {
       </p>
       <div className='ml-auto  flex items-center gap-1'>
         <Button
-          // disabled={isDisabledSave}
+          disabled={isReactivating}
           size='sm'
-          // onClick={handleSave}
+          onClick={handleReactivate}
           className='ml-auto block'
         >
           Link reaktivieren
         </Button>
-        {/* {isCreating && <MiniLoader />} */}
+        {isReactivating && <MiniLoader />}
       </div>
     </div>
   )

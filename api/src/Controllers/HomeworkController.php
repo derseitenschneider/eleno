@@ -63,7 +63,7 @@ class HomeworkController {
 				return $this->renderError( $response );
 			}
 
-			if ( $this->isExpired( $lessonData['created_at'] ) ) {
+			if ( $this->isExpired( $lessonData['expiration_base'] ) ) {
 				$response->getBody()->write( $this->renderView( 'homework-expired' ) );
 				return $response->withHeader( 'Content-Type', 'text/html' );
 			}
@@ -162,11 +162,11 @@ class HomeworkController {
 	 *
 	 * Checks if the homework was created more than two weeks ago.
 	 *
-	 * @param string $createdAt
+	 * @param string $expirationBase
 	 * @return bool
 	 */
-	private function isExpired( string $createdAt ) {
-		$createdDate = new \DateTime( $createdAt );
+	private function isExpired( string $expirationBase ) {
+		$createdDate = new \DateTime( $expirationBase );
 		$twoWeeksAgo = new \DateTime( '-2 weeks' );
 
 		return $createdDate < $twoWeeksAgo;

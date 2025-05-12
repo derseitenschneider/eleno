@@ -78,11 +78,11 @@ export default function ButtonShareHomework({
     year: '2-digit',
   })
 
-  const createdDate = new Date(currentLesson?.created_at || '')
+  const expirationBase = new Date(currentLesson?.expiration_base || '')
   const twoWeeksAgo = new Date()
   twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14) // Subtract 14 days
 
-  const isExpired = createdDate < twoWeeksAgo
+  const isExpired = expirationBase < twoWeeksAgo
 
   let bodyText = ''
   const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
@@ -145,7 +145,7 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
           </DialogDescription>
           <Blocker />
           {isExpired ? (
-            <HomeworkExpired />
+            <HomeworkExpired currentLesson={currentLesson} />
           ) : (
             <ShareHomework lessonId={lessonId} />
           )}
