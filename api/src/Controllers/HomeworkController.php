@@ -63,6 +63,11 @@ class HomeworkController {
 				return $this->renderError( $response );
 			}
 
+			if ( $this->isExpired( $lessonData['created_at'] ) ) {
+				$response->getBody()->write( $this->renderView( 'homework-expired' ) );
+				return $response->withHeader( 'Content-Type', 'text/html' );
+			}
+
 			$formattedLesson = $this->formatLesson( $lessonData );
 
 			$response->getBody()->write(
@@ -93,7 +98,7 @@ class HomeworkController {
 	/**
 	 * Format lesson
 	 *
-	 * Formts homework data from lesson to be output in the homework view.
+	 * Formats homework data from lesson to be output in the homework view.
 	 *
 	 * @param array $lessonData
 	 */
@@ -150,5 +155,20 @@ class HomeworkController {
 		ob_start();
 		include __DIR__ . "/../Views/{$view}.php";
 		return ob_get_clean();
+	}
+
+	/**
+	 * Is Expired
+	 *
+	 * Checks if the homework was created more than two weeks ago.
+	 *
+	 * @param string $createdAt
+	 * @return bool
+	 */
+	private function isExpired( string $createdAt ) {
+		$createdDate = new \DateTime( $createdAt );
+		$twoWeeksAgo = new \DateTime( '-2 weeks' );
+
+		return $createdDate < $twoWeeksAgo;
 	}
 }

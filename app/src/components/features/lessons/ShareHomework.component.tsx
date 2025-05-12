@@ -14,6 +14,7 @@ import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import useProfileQuery from '../user/profileQuery'
+import { HomeworkExpired } from './HomeworkExpired.component'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -72,7 +73,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     month: '2-digit',
     year: '2-digit',
   })
-  const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
+  const url = `${appConfig.apiUrl}/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
 
   const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
   let bodyText = ''
@@ -86,6 +87,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     await navigator.clipboard.writeText(url)
     setIsCopied(true)
   }
+
   if (!currentHolder) return null
   return (
     <div className={cn(!hasAccess && 'h-[200px]', 'relative text-sm')}>

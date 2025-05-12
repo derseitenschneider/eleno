@@ -192,6 +192,15 @@ export const updateLessonAPI = async (
   return { ...data, date: new Date(data.date || '') } as Lesson
 }
 
+export const reactivateHomeworkLink = async (lessonId: number) => {
+  const { error } = await supabase
+    .from('lessons')
+    .update({ created_at: new Date().toISOString() })
+    .eq('id', lessonId)
+
+  if (error) throw new Error(error.message)
+}
+
 export const fetchLatestLessons = async (userId: string) => {
   if (isDemo) return mockLast3Lessons
   const { data: lessons, error } = await supabase

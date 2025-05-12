@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/tooltip'
 import useProfileQuery from '../user/profileQuery'
 import { Blocker } from '../subscription/Blocker'
+import { HomeworkExpired } from './HomeworkExpired.component'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -77,6 +78,12 @@ export default function ButtonShareHomework({
     year: '2-digit',
   })
 
+  const createdDate = new Date(currentLesson?.created_at || '')
+  const twoWeeksAgo = new Date()
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14) // Subtract 14 days
+
+  const isExpired = createdDate < twoWeeksAgo
+
   let bodyText = ''
   const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
   if (currentHolder && currentHolder.type === 's') {
@@ -108,7 +115,7 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
           text: bodyText,
           url,
         })
-      } catch (error) { }
+      } catch (error) {}
     } else {
       setIsModalOpen(true)
     }
@@ -129,13 +136,19 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
       <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Hausaufgaben teilen</DialogTitle>
+            <DialogTitle>
+              {isExpired ? 'Dieser Link ist abgelaufen' : 'Hausaufgaben teilen'}
+            </DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
             Teile die Hausaufgaben mit deinen Schüler:innen
           </DialogDescription>
           <Blocker />
-          <ShareHomework lessonId={lessonId} />
+          {isExpired ? (
+            <HomeworkExpired />
+          ) : (
+            <ShareHomework lessonId={lessonId} />
+          )}
         </DialogContent>
       </Dialog>
     </>
