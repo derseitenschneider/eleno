@@ -39,7 +39,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
 
   {
@@ -49,7 +49,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
 
   {
@@ -68,7 +68,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    reactivateCancel: true
+    reactivateCancel: true,
   },
 
   {
@@ -87,7 +87,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: false,
     manageSubscription: false,
     downloadInvoice: false,
-    chfOnly: true
+    chfOnly: true,
   },
 
   {
@@ -107,7 +107,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
 
   {
@@ -133,7 +133,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
   {
     state: 'yearly-active',
@@ -142,7 +142,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
 
   {
@@ -152,7 +152,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
   {
     state: 'yearly-lifetime',
@@ -185,7 +185,7 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    reactivateCancel: true
+    reactivateCancel: true,
   },
   {
     state: 'yearly-canceled-expired',
@@ -203,6 +203,6 @@ export const subscriptionStates: Array<SubscriptionStates> = [
     lifetimeTeaser: true,
     manageSubscription: true,
     downloadInvoice: false,
-    cancelReactivate: true
+    cancelReactivate: true,
   },
 ]

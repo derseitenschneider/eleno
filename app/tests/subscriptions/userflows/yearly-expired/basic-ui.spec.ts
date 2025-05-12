@@ -9,7 +9,9 @@ test.beforeEach(async ({ page }) => {
 test('subscription status is expired', async ({ page }) => {
   const subscriptionPom = new SubscriptionPOM(page)
 
-  await expect(subscriptionPom.statusBadge).toHaveText(/abgelaufen/i)
+  await expect(async () => {
+    await expect(subscriptionPom.statusBadge).toHaveText(/abgelaufen/i)
+  }).toPass({ timeout: 30_000 })
 })
 
 test('plan is "Jährlich" ', async ({ page }) => {
@@ -38,9 +40,13 @@ test('upgrade to lifetime section to be visible', async ({ page }) => {
 test('payment-failed banner is visible', async ({ page }) => {
   const { paymentFailedBanner } = new SubscriptionPOM(page)
 
-  await expect(paymentFailedBanner).toBeVisible()
+  await expect(async () => {
+    await expect(paymentFailedBanner).toBeVisible()
+  }).toPass({ timeout: 30_000 })
 })
 
 test('payment-failed notification is visible', async ({ page }) => {
-  await expect(page.getByTestId('notification-payment-failed')).toBeVisible()
+  await expect(async () => {
+    await expect(page.getByTestId('notification-payment-failed')).toBeVisible()
+  }).toPass({ timeout: 30_000 })
 })

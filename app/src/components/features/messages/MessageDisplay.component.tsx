@@ -99,12 +99,12 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
             )}
           </div>
           <Separator />
-          <ScrollArea type='hover' className='h-full bg-background50/30'>
+          <ScrollArea type='hover' className='h-full'>
             <div className='[*&]:break-word mx-auto h-full max-w-[60ch] p-4'>
               <div
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}
-                className='flex flex-col space-y-4 p-5'
+                className='flex flex-col p-5 [&_div]:mt-6 [&_h4]:pt-6 [&_p]:pt-4'
               >
                 {parse(message.body || '')}
               </div>
