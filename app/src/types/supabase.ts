@@ -60,6 +60,7 @@ export type Database = {
           dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes: number | null
           endOfLesson: string | null
+          homework_sharing_authorized: boolean
           id: number
           location: string | null
           name: string
@@ -73,6 +74,7 @@ export type Database = {
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
+          homework_sharing_authorized?: boolean
           id?: number
           location?: string | null
           name: string
@@ -86,6 +88,7 @@ export type Database = {
           dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
+          homework_sharing_authorized?: boolean
           id?: number
           location?: string | null
           name?: string
@@ -403,6 +406,7 @@ export type Database = {
           durationMinutes: number | null
           endOfLesson: string | null
           firstName: string
+          homework_sharing_authorized: boolean
           id: number
           instrument: string
           lastName: string
@@ -417,6 +421,7 @@ export type Database = {
           durationMinutes?: number | null
           endOfLesson?: string | null
           firstName: string
+          homework_sharing_authorized?: boolean
           id?: number
           instrument: string
           lastName: string
@@ -431,6 +436,7 @@ export type Database = {
           durationMinutes?: number | null
           endOfLesson?: string | null
           firstName?: string
+          homework_sharing_authorized?: boolean
           id?: number
           instrument?: string
           lastName?: string
@@ -494,6 +500,7 @@ export type Database = {
         Row: {
           created_at: string | null
           date: string | null
+          expiration_base: string | null
           groupId: number | null
           homework: string | null
           homeworkKey: string | null

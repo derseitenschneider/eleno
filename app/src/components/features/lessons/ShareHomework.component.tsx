@@ -14,8 +14,16 @@ import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import useProfileQuery from '../user/profileQuery'
-import { Input } from '@/components/ui/input'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Info } from 'lucide-react'
+import { useAuthorizeStudentHomeworkLink } from '../students/useAuthorizeHomeworkLink'
+import { CheckedState } from '@radix-ui/react-checkbox'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -23,7 +31,7 @@ interface ShareHomeworkProps {
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const { data: userProfile } = useProfileQuery()
-  const { hasAccess } = useSubscription()
+  const { authorizeStudent, isAuthorizing } = useAuthorizeStudentHomeworkLink()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders } = useLessonHolders()
   const { holderId } = useParams()
@@ -69,6 +77,8 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
       ? currentHolder?.holder.firstName
       : currentHolder?.holder.name
 
+  const sharingAuthorized = currentHolder?.holder.homework_sharing_authorized
+
   const lessonDate = currentLesson?.date.toLocaleDateString(userLocale, {
     day: '2-digit',
     month: '2-digit',
@@ -89,16 +99,22 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     setIsCopied(true)
   }
 
+  function handleShareAuthorization(checked: CheckedState) {
+    if (currentHolder?.type === 's') {
+      authorizeStudent([{ ...currentHolder.holder, homework_sharing_authorized: Boolean(checked) }])
+    }
+  }
+
   if (!currentHolder) return null
   return (
-    <div className={cn(!hasAccess && 'h-[200px]', 'relative text-sm')}>
+    <div className={cn('w-[600px] relative text-sm')}>
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.
         </p>
       ) : (
         <>
-          <p className='mb-6'>
+          <p className='mb-3'>
             Mit diesem Link kann{' '}
             <b>
               {currentHolder.type === 's'
@@ -107,72 +123,82 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
             </b>{' '}
             auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
           </p>
-          <form action="">
-            <Input type="checkbox" id='authorization' className='mr-2' />
-
-            <Label htmlFor="authorization">
-              Ich bestätige, dass diese:r Schüler:in entweder volljährig ist ODER dass ich die ausdrückliche Einwilligung der Erziehungsberechtigten habe, um Hausaufgaben über einen Weblink zu teilen.
+          <Collapsible>
+            <Label htmlFor='authorization' className='flex items-center gap-2'>
+              <Checkbox checked={sharingAuthorized} onCheckedChange={handleShareAuthorization} />
+              Einwilligung zum Teilen bestätigt
+              <CollapsibleTrigger>
+                <Info className='text-primary' size={18} />
+              </CollapsibleTrigger>
             </Label>
-          </form>
-          <div className='mb-8 flex items-center gap-2'>
-            <a href={url} target='_blank' rel='noreferrer'>
-              {url}
-            </a>{' '}
-            <button
-              type='button'
-              title='Link kopieren'
-              onClick={copyToClipboard}
-            >
-              {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
-            </button>
-          </div>
+            <CollapsibleContent> <p className='mt-3 rounded-md bg-primary/15 p-2 text-sm/6'>
+              Mit dem Setzen dieser Checkbox bestätigst du, dass: <br /> a) diese:r Schüler:in  volljährig ist, ODER <br /> b) du die ausdrückliche Einwilligung der Erziehungsberechtigten hast, Hausaufgaben über einen Weblink zu teilen. <br /><br />Diese Einstellung ist erforderlich, um die Hausaufgaben-Links zu aktivieren und dient dem Schutz minderjähriger Schüler:innen gemäss <a href="https://eleno.net/terms-conditions/#sharing-homework" target='_blank' rel='noreferrer' className="">Allgemeinen Geschäftsbedingungen</a>.
+            </p>
+            </CollapsibleContent>
+          </Collapsible>
+          {sharingAuthorized &&
+            <>
+              <div className='my-8 flex items-center gap-2'>
+                <a href={url} target='_blank' rel='noreferrer'>
+                  {url}
+                </a>{' '}
+                <button
+                  type='button'
+                  title='Link kopieren'
+                  onClick={copyToClipboard}
+                >
+                  {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
+                </button>
+              </div>
 
-          <div className='flex justify-between'>
-            <p>Link direkt verschicken:</p>
-            <div className='flex items-center gap-4'>
-              <a
-                href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
-                title='Link per Telegram verschicken'
-                target='_blank'
-                className='text-[#2aabee]'
-                rel='noreferrer'
-              >
-                <FaTelegramPlane className='h-5 w-5' />
-              </a>
-              <a
-                href={`https://threema.id/compose?text=${bodyText}`}
-                title='Link per Threema verschicken'
-                target='_blank'
-                className='text-foreground'
-                rel='noreferrer'
-              >
-                <SiThreema className='h-5 w-5' />
-              </a>
-              <a
-                href={`https://wa.me/?text=${bodyText}`}
-                title='Link per Whatsapp verschicken'
-                target='_blank'
-                rel='noreferrer'
-                className='text-[#25d366]'
-              >
-                <IoLogoWhatsapp className='h-5 w-5' />
-              </a>{' '}
-              <a
-                href={`sms://?&body=${bodyText}`}
-                title='Link per SMS verschicken'
-                className='text-foreground'
-              >
-                <MdOutlineTextsms className='h-5 w-5' />
-              </a>
-              <a
-                href={`mailto:?subject=${subjectText}&body=${bodyText}`}
-                title='Link per E-Mail verschicken'
-                className='text-foreground'
-              >
-                <HiOutlineMail className='h-5 w-5' />
-              </a>
-            </div>
-          </div>
+              <div className='flex justify-between'>
+                <p>Link direkt verschicken:</p>{' '}
+                <div className='flex items-center gap-4'>
+                  <a
+                    href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
+                    title='Link per Telegram verschicken'
+                    target='_blank'
+                    className='text-[#2aabee]'
+                    rel='noreferrer'
+                  >
+                    <FaTelegramPlane className='h-5 w-5' />
+                  </a>
+                  <a
+                    href={`https://threema.id/compose?text=${bodyText}`}
+                    title='Link per Threema verschicken'
+                    target='_blank'
+                    className='text-foreground'
+                    rel='noreferrer'
+                  >
+                    <SiThreema className='h-5 w-5' />
+                  </a>
+                  <a
+                    href={`https://wa.me/?text=${bodyText}`}
+                    title='Link per Whatsapp verschicken'
+                    target='_blank'
+                    rel='noreferrer'
+                    className='text-[#25d366]'
+                  >
+                    <IoLogoWhatsapp className='h-5 w-5' />
+                  </a>{' '}
+                  <a
+                    href={`sms://?&body=${bodyText}`}
+                    title='Link per SMS verschicken'
+                    className='text-foreground'
+                  >
+                    <MdOutlineTextsms className='h-5 w-5' />
+                  </a>
+                  <a
+                    href={`mailto:?subject=${subjectText}&body=${bodyText}`}
+                    title='Link per E-Mail verschicken'
+                    className='text-foreground'
+                  >
+                    <HiOutlineMail className='h-5 w-5' />
+                  </a>
+                </div>
+              </div>
+            </>
+          }
         </>
       )}
     </div>
