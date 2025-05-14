@@ -22,10 +22,10 @@ import {
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Info, XIcon } from 'lucide-react'
-import { useAuthorizeStudentHomeworkLink } from '../students/useAuthorizeStudentsHomeworkLink'
-import { CheckedState } from '@radix-ui/react-checkbox'
+import type { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/components/ui/button'
 import { useAuthorizeGroupHomeworkLink } from '../students/useAuthorizeGroupsHomeworkLink'
+import { useAuthorizeStudentHomeworkLink } from '../students/useAuthorizeStudentsHomeworkLink'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -33,7 +33,8 @@ interface ShareHomeworkProps {
 
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const { data: userProfile } = useProfileQuery()
-  const { authorizeStudent, isAuthorizingStudents } = useAuthorizeStudentHomeworkLink()
+  const { authorizeStudent, isAuthorizingStudents } =
+    useAuthorizeStudentHomeworkLink()
   const { authorizeGroup, isAuthorizingGroup } = useAuthorizeGroupHomeworkLink()
   const { userLocale } = useUserLocale()
   const { activeSortedHolders } = useLessonHolders()
@@ -107,10 +108,18 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
     if (!currentHolder) return
 
     if (currentHolder?.type === 's') {
-      authorizeStudent([{ ...currentHolder.holder, homework_sharing_authorized: Boolean(checked) }])
+      authorizeStudent([
+        {
+          ...currentHolder.holder,
+          homework_sharing_authorized: Boolean(checked),
+        },
+      ])
     }
     if (currentHolder.type === 'g') {
-      authorizeGroup({ ...currentHolder.holder, homework_sharing_authorized: Boolean(checked) })
+      authorizeGroup({
+        ...currentHolder.holder,
+        homework_sharing_authorized: Boolean(checked),
+      })
     }
   }
 
@@ -124,31 +133,68 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
       ) : (
         <>
           <Collapsible open={isOpenCollapsible}>
-            <Label htmlFor='authorization' className='flex cursor-pointer items-center gap-1'>
-              <Checkbox id='authorization' checked={sharingAuthorized} onCheckedChange={handleShareAuthorization} />
+            <Label
+              htmlFor='authorization'
+              className='flex cursor-pointer items-center gap-1'
+            >
+              <Checkbox
+                id='authorization'
+                checked={sharingAuthorized}
+                onCheckedChange={handleShareAuthorization}
+              />
               Einwilligung zum Teilen bestätigt
-              <CollapsibleTrigger onClick={() => setIsOpenCollapsible(prev => !prev)}>
+              <CollapsibleTrigger
+                onClick={() => setIsOpenCollapsible((prev) => !prev)}
+              >
                 <Info className='mb-[2px] text-primary' size={17} />
               </CollapsibleTrigger>
             </Label>
             <CollapsibleContent>
               <div className='mt-3 rounded-md bg-primary/15 px-4 py-5'>
-                <Button className='absolute right-2 top-11 h-4' size='sm' onClick={() => setIsOpenCollapsible(false)} variant='ghost'>
+                <Button
+                  className='absolute right-2 top-11 h-4'
+                  size='sm'
+                  onClick={() => setIsOpenCollapsible(false)}
+                  variant='ghost'
+                >
                   <XIcon />
                 </Button>
                 <p className='text-sm/6'>
-                  Mit dem Setzen dieser Checkbox bestätigst du, dass:</p>
+                  Mit dem Setzen dieser Checkbox bestätigst du, dass:
+                </p>
                 <ul className='list-inside list-disc py-3 leading-5'>
                   <li> diese Schüler:innen volljährig sind, ODER </li>
-                  <li> du die ausdrückliche Einwilligung der Erziehungsberechtigten hast, Hausaufgaben über einen Weblink zu teilen. </li>
+                  <li>
+                    {' '}
+                    du die ausdrückliche Einwilligung der Erziehungsberechtigten
+                    hast, Hausaufgaben über einen Weblink zu teilen.{' '}
+                  </li>
                 </ul>
-                <p> Diese Einstellung ist erforderlich, um die Hausaufgaben-Links zu aktivieren und dient dem Schutz minderjähriger Schüler:innen gemäss <a href="https://eleno.net/terms-conditions/#sharing-homework" target='_blank' rel='noreferrer' className="">Allgemeiner Geschäftsbedingungen</a>.
+                <p>
+                  {' '}
+                  Diese Einstellung ist erforderlich, um die Hausaufgaben-Links
+                  zu aktivieren und dient dem Schutz minderjähriger
+                  Schüler:innen gemäss{' '}
+                  <a
+                    href='https://eleno.net/terms-conditions/#sharing-homework'
+                    target='_blank'
+                    rel='noreferrer'
+                    className=''
+                  >
+                    Allgemeiner Geschäftsbedingungen
+                  </a>
+                  .
                 </p>
               </div>
             </CollapsibleContent>
           </Collapsible>
-          {sharingAuthorized &&
-            <div className={cn(isAuthorizingStudents || isAuthorizingGroup && 'opacity-50 pointer-events-none')}>
+          {sharingAuthorized && (
+            <div
+              className={cn(
+                isAuthorizingStudents ||
+                  (isAuthorizingGroup && 'opacity-50 pointer-events-none'),
+              )}
+            >
               <p className='mt-4'>
                 Mit diesem Link kann{' '}
                 <b>
@@ -167,7 +213,11 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                   title='Link kopieren'
                   onClick={copyToClipboard}
                 >
-                  {isCopied ? <HiCheck color='green' /> : <HiOutlineClipboard />}
+                  {isCopied ? (
+                    <HiCheck color='green' />
+                  ) : (
+                    <HiOutlineClipboard />
+                  )}
                 </button>
               </div>
 
@@ -218,11 +268,10 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 </div>
               </div>
             </div>
-          }
+          )}
         </>
-      )
-      }
-    </div >
+      )}
+    </div>
   )
 }
 
