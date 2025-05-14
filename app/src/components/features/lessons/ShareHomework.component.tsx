@@ -31,6 +31,7 @@ interface ShareHomeworkProps {
   lessonId: number
 }
 
+// TODO: Cleanup component, make custom hook for business logic etc.
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const { data: userProfile } = useProfileQuery()
   const { authorizeStudent, isAuthorizingStudents } =

@@ -1,5 +1,5 @@
 import { Mail } from 'lucide-react'
-import WrapperCard from './WrapperCard.component'
+import WrapperCard from '../login/WrapperCard.component'
 
 type SignupSuccessProps = {
   email?: string
