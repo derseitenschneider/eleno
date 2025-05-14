@@ -71,6 +71,7 @@ export function useReactivateHomeworkLink() {
 
       onSuccess: () => {
         toast.success('Link reaktiviert.')
+
         queryClient.invalidateQueries({
           queryKey: ['latest-3-lessons'],
         })

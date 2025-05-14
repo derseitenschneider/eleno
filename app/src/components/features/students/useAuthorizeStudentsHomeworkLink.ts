@@ -8,7 +8,7 @@ export function useAuthorizeStudentHomeworkLink() {
   const fetchErrorToast = useFetchErrorToast()
   const {
     mutate: authorizeStudent,
-    isPending: isAuthorizing,
+    isPending: isAuthorizingStudents,
     isSuccess,
   } = useMutation({
     mutationFn: updateStudentsApi,
@@ -45,5 +45,5 @@ export function useAuthorizeStudentHomeworkLink() {
       queryClient.setQueryData(['students'], context?.previousStudents)
     },
   })
-  return { authorizeStudent, isAuthorizing, isSuccess }
+  return { authorizeStudent, isAuthorizingStudents, isSuccess }
 }

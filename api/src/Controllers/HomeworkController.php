@@ -12,6 +12,12 @@ use RuntimeException;
 
 class HomeworkController {
 
+	/** @var string $entityId The id of either the student or the group */
+	private $entityId;
+
+	/** @var string $homeworkkey The unique homework key */
+	private $homeworkKey;
+
 	/**
 	 * Constructor
 	 *
@@ -42,39 +48,38 @@ class HomeworkController {
 		Response $response,
 		array $args
 	): Response {
-		$entity_id   = $args['entity_id'];
-		$homeworkKey = $args['homework_key'];
+		$this->entityId    = $args['entity_id'];
+		$this->homeworkKey = $args['homework_key'];
 
 		try {
-			$lesson = $this->lessonRepository->getLesson( $homeworkKey );
+			$lesson = $this->lessonRepository->getLesson( $this->homeworkKey );
 			if ( ! $lesson || ! isset( $lesson[0] ) ) {
 				$this->logger->warning(
 					'Lesson not found',
-					[ 'homework_key' => $homeworkKey ]
+					[ 'homework_key' => $this->homeworkKey ]
 				);
 				return $this->renderError( $response );
 			}
 			$lessonData = $lesson[0];
 
-			if ( $entity_id !== $lessonData['studentId']
-				&& $entity_id !== $lessonData['groupId']
+			// Check if studentId or groupId do not match with entityId
+			if ( $this->entityId !== $lessonData['studentId']
+				&& $this->entityId !== $lessonData['groupId']
 			) {
 				$this->logger->warning(
 					'Unauthorized access attempt',
-					[ 'homework_key' => $homeworkKey ]
+					[ 'homework_key' => $this->homeworkKey ]
 				);
 				return $this->renderError( $response );
 			}
 
-			$entity = $entity_id === $lessonData['studentId']
-				? $this->entityRepository->getStudent( $entity_id )
-				: $this->entityRepository->getGroup( $entity_id );
-
-			if ( ! $entity[0]['homework_sharing_authorized'] ) {
+			// Check permission
+			if ( ! $this->hasPermission( $lessonData ) ) {
 				$response->getBody()->write( $this->renderView( 'homework-unauthorized' ) );
 				return $response->withHeader( 'Content-Type', 'text/html' )->withStatus( 403 );
 			}
 
+			// Check expiration
 			if ( $this->isExpired( $lessonData['expiration_base'] ) ) {
 				$response->getBody()->write( $this->renderView( 'homework-expired' ) );
 				return $response->withHeader( 'Content-Type', 'text/html' )->withStatus( 410 );
@@ -89,18 +94,19 @@ class HomeworkController {
 			$this->logger->info(
 				'Rendered homework template',
 				[
-					'entity_id'    => $entity_id,
-					'homework_key' => $homeworkKey,
+					'entity_id'    => $this->entityId,
+					'homework_key' => $this->homeworkKey,
 				]
 			);
 
 			return $response->withHeader( 'Content-Type', 'text/html' );
+
 		} catch ( \Exception $e ) {
 			$this->logger->error(
 				'Error rendering homework',
 				[
-					'entity_id'    => $entity_id,
-					'homework_key' => $homeworkKey,
+					'entity_id'    => $this->entityId,
+					'homework_key' => $this->homeworkKey,
 				]
 			);
 			return $this->renderError( $response );
@@ -182,5 +188,23 @@ class HomeworkController {
 		$twoWeeksAgo = new \DateTime( '-2 weeks' );
 
 		return $createdDate < $twoWeeksAgo;
+	}
+
+	/**
+	 * Has permission
+	 *
+	 * Checks if the student has permission to view the homework based on the
+	 * users confirmation that the student is either 18 years old or the user
+	 * has permission from the student's parents to share the homework via a link.
+	 *
+	 * @param mixed $lessonData
+	 * @return bool
+	 */
+	private function hasPermission( mixed $lessonData ) {
+		$entity = $this->entityId === $lessonData['studentId']
+				? $this->entityRepository->getStudent( $this->entityId )
+				: $this->entityRepository->getGroup( $this->entityId );
+
+		return $entity[0]['homework_sharing_authorized'];
 	}
 }

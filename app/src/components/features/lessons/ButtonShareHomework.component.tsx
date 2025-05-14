@@ -108,17 +108,7 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
 
   async function handleClick() {
     if (!currentHolder) return
-    if (navigator.share && isMobile && !appConfig.isDemoMode) {
-      try {
-        await navigator.share({
-          title: `Hausaufgaben ${currentHolder.type === 's' ? currentHolder.holder.instrument : currentHolder.holder.name} `,
-          text: bodyText,
-          url,
-        })
-      } catch (error) {}
-    } else {
-      setIsModalOpen(true)
-    }
+    setIsModalOpen(true)
   }
 
   return (
