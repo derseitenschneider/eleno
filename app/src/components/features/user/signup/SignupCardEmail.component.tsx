@@ -20,6 +20,7 @@ import { signUpSupabase } from '@/services/api/user.api'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
+import supabase from '@/services/api/supabase'
 
 const emailSchema = z.object({
   email: z
@@ -52,8 +53,16 @@ export default function SignupCardEmail({
     mode: 'onSubmit',
     shouldFocusError: true,
   })
-
-  const onSubmit = async (data: TInput) => {}
+  async function signupWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    })
+    if (error) {
+      return console.log(error)
+    }
+    console.log(data)
+  }
+  const onSubmit = async (data: TInput) => { }
   return (
     <WrapperCard
       complementary={
@@ -121,6 +130,7 @@ export default function SignupCardEmail({
           )}
         </form>
       </Form>
+      <Button onClick={signupWithGoogle}>Google</Button>
     </WrapperCard>
   )
 }
