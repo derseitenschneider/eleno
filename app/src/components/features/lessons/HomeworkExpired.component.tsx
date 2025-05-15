@@ -16,7 +16,7 @@ export function HomeworkExpired({ currentLesson }: { currentLesson: Lesson }) {
         Aus Datenschutzgründen sind die Links zum Teilen der Hausaufgaben nur
         zwei Wochen nach Erfassen der Lektion gültig.
       </p>
-      <div className='ml-auto  flex items-baseline gap-1'>
+      <div className='flex flex-col items-baseline gap-1 sm:flex-row'>
         <p className='mb-4 font-medium'>
           Du kannst den Link für zwei weitere Wochen reaktivieren:
         </p>
