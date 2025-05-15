@@ -8,7 +8,6 @@ import { SiThreema } from 'react-icons/si'
 import { appConfig } from '@/config'
 import { cn } from '@/lib/utils'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -125,7 +124,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
 
   if (!currentHolder) return null
   return (
-    <div className={cn('w-[600px] relative text-sm')}>
+    <div className='relative text-sm sm:w-[600px]'>
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.
@@ -150,7 +149,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
               </CollapsibleTrigger>
             </Label>
             <CollapsibleContent>
-              <div className='mt-3 rounded-md bg-primary/15 px-4 py-5'>
+              <div className='mt-3 rounded-md bg-primary/15 px-4 pb-6 pt-8 sm:py-5'>
                 <Button
                   className='absolute right-2 top-11 h-4'
                   size='sm'
@@ -204,11 +203,12 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 </b>{' '}
                 auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
               </p>
-              <div className='mb-6 mt-2 flex items-center gap-2'>
+              <div className='mb-6 mt-2'>
                 <a href={url} target='_blank' rel='noreferrer'>
                   {url}
                 </a>{' '}
                 <button
+                  className='ml-2'
                   type='button'
                   title='Link kopieren'
                   onClick={copyToClipboard}
