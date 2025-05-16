@@ -18,6 +18,9 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
+import supabase from '@/services/api/supabase'
+import { Separator } from '@/components/ui/separator'
+import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
 
 const loginSchema = z.object({
   email: z
@@ -58,6 +61,15 @@ export default function LoginCard() {
       form.setError('root', {
         message: 'E-Mail Adresse und/oder Passwort ungültig.',
       })
+    }
+  }
+
+  async function loginWithGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    })
+    if (error) {
+      return console.log(error)
     }
   }
 
@@ -155,6 +167,12 @@ export default function LoginCard() {
             )}
           </form>
         </Form>
+        <div className='flex items-center gap-2'>
+          <Separator className='shrink' />
+          <span className='text-sm'>ODER</span>
+          <Separator className='shrink' />
+        </div>
+        <ButtonGoogle />
       </WrapperCard>
     </>
   )

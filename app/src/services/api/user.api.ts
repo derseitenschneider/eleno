@@ -1,3 +1,4 @@
+import { appConfig } from '@/config'
 import type { Profile, UserMeta } from '../../types/types'
 import supabase from './supabase'
 
@@ -12,7 +13,7 @@ export const signUpSupabase = async (inputData: {
     email,
     password,
     options: {
-      emailRedirectTo: 'https://app.eleno.net/first-steps',
+      emailRedirectTo: `${appConfig.appUrl}/first-steps`,
       data: {
         firstName,
         lastName,
@@ -73,7 +74,7 @@ export const updateEmailApi = async (email: string) => {
   const { error } = await supabase.auth.updateUser(
     { email },
     {
-      emailRedirectTo: 'https://app.eleno.net/settings?update-email=success',
+      emailRedirectTo: `${appConfig.appUrl}/settings?upadte-email=success`,
     },
   )
   if (error) throw new Error(error.message)
@@ -88,13 +89,9 @@ export const deleteAccountSupabase = async () => {
     const { error: deleteError } = await supabase.rpc('delete_user')
     if (deleteError) throw deleteError
 
-    console.log('User account deleted successfully')
-
     try {
       await supabase.auth.signOut()
-    } catch (error) {
-      console.log('Expected sign-out error after account deletion:', error)
-    }
+    } catch (error) { }
   } catch (error) {
     console.error('Error during account deletion:', error)
   }
