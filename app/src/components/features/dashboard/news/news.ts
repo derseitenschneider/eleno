@@ -2,6 +2,11 @@ import type { News } from '../../../../types/types'
 
 const news: News[] = [
   {
+    date: '2025-05-19',
+    title: '☂️ Neue Datenschutzfunktionen beim Teilen von Hausaufgaben ',
+    text: '<p>Ab sofort schützen wir eure Daten noch besser: Geteilte Links laufen nach 2 Wochen automatisch ab, und Hausaufgaben können gezielt pro Schüler:in freigegeben werden. So behaltet ihr volle Kontrolle über eure geteilten Inhalte und müsst euch keine Sorgen um dauerhaft zugängliche Materialien machen. </p><p><a href="https://eleno.net/neue-datenschutzfunktionen-beim-teilen-von-hausaufgaben/" target="_blank">Alle Details findet ihr in unserem aktuellen Blogpost!</a></p>',
+  },
+  {
     date: '2024-09-21',
     title: '🎵 Neu: Gruppenunterricht und Toolbox',
     text: '<p>Unser neuestes Update bringt aufregende Neuerungen: Gruppenunterricht für mehr Flexibilität, eine praktische Toolbox mit Metronom und Stimmgerät, sowie ein frisches, übersichtlicheres Design. Jetzt könnt ihr ganze Gruppen verwalten, Lektionen und Hausaufgaben zuweisen, und alle wichtigen Tools direkt in Eleno nutzen.</p><p><a href="https://eleno.net/update-gruppen-toolbox-redesign/" target="_blank">Entdeckt alle Details im aktuellen Blogpost!</a></p>',
