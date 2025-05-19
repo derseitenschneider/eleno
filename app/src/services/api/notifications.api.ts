@@ -1,6 +1,8 @@
+import { Notification } from '@/types/types'
 import supabase from './supabase'
 
 export const getNotificationsApi = async () => {
+  console.log('fetch notifications')
   const { data: notifications, error } = await supabase
     .from('notifications')
     .select('*')
@@ -14,16 +16,17 @@ export const getNotificationsApi = async () => {
 }
 
 export const getNotificationViewsApi = async (
-  notificationId: number,
   userId: string,
+  notifications: Notification[],
 ) => {
   const { data: views, error } = await supabase
     .from('notification_views')
-    .select('*')
-    .eq('notification_id', notificationId)
+    .select('notification_id, action_taken')
     .eq('user_id', userId)
-    .limit(1)
-
+    .in(
+      'notification_id',
+      notifications.map((n) => n.id),
+    )
   if (error) throw new Error(error.message)
   return views
 }
