@@ -6,6 +6,33 @@ import { X } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Notification } from '@/types/types';
+
+type Option = {
+  label: string
+  value: string
+}
+type Question = {
+  id: string,
+  text: string,
+  type: 'radio' | 'checkbox'
+  options: Array<Option>
+  other_field: {
+    show_for: string
+    placeholder: string
+  }
+}
+
+type SurveyData = {
+  skipText: string
+  questions: Array<Question>
+  submitText: string
+}
+
+type ActionData = {
+  text: string
+}
+
 
 export function NotificationManager() {
   const [isVisible, setIsVisible] = useState(false)
@@ -30,12 +57,10 @@ export function NotificationManager() {
   if (!notification) return null
 
   if (notification.type === 'survey') {
-    const surveyData = notification.action_data;
+    const surveyData = notification.action_data as SurveyData
     return (
-      <div >
-        <Card className="border-[1px] shadow-lg" style={{
-          // backgroundColor: notification.style?.backgroundColor || 'white',
-          // borderColor: notification.style?.accentColor || '#3b82f6' 
+      <div className='fixed bottom-3 right-3 z-[10000]' >
+        <Card className="w-[150px] border-[1px] shadow-lg" style={{
         }}>
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between">
@@ -52,24 +77,27 @@ export function NotificationManager() {
             <CardDescription>{notification.content}</CardDescription>
           </CardHeader>
 
-          <CardContent>
-            {surveyData?.questions?.map((question) => (
+          <CardContent >
+            {surveyData.questions?.map((question) => (
               <div key={question.id} className="space-y-3">
                 <div className="text-sm font-medium">{question.text}</div>
 
                 {question.type === 'radio' && (
                   <RadioGroup
-                    value={response[question.id]}
-                    onValueChange={(value) => handleResponseChange(question.id, value)}
+                    // value={response[question.id]}
+                    // onValueChange={(value) => handleResponseChange(question.id, value)}
                     className="space-y-2"
                   >
                     {question.options.map((option) => (
                       <div key={option.value} className="flex items-center space-x-2">
                         <RadioGroupItem
+                          className='text-sm'
                           value={option.value}
                           id={`${question.id}-${option.value}`}
                         />
-                        <Label htmlFor={`${question.id}-${option.value}`}>{option.label}</Label>
+                        <Label
+                          className='text-sm'
+                          htmlFor={`${question.id}-${option.value}`}>{option.label}</Label>
                       </div>
                     ))}
                   </RadioGroup>
@@ -101,7 +129,7 @@ export function NotificationManager() {
                   <input
                     type="text"
                     placeholder={question.other_field.placeholder}
-                    value={response[`${question.id}_other`] || ''}
+                    // value={response[`${question.id}_other`] || ''}
                     // onChange={(e) => handleOtherInputChange(question.id, e.target.value)}
                     className="mt-2 w-full rounded-md border p-2 text-sm"
                   />
@@ -113,16 +141,14 @@ export function NotificationManager() {
           <CardFooter className="flex justify-between pt-2">
             <Button
               variant="outline"
+              size='sm'
             // onClick={handleDismiss}
             >
-              {surveyData.skipText || '†berspringen'}
+              {surveyData.skipText || 'Ã¼berspringen'}
             </Button>
             <Button
-              // onClick={handleSubmit}
-              style={{
-                backgroundColor: notification.style?.accentColor || '#3b82f6',
-                color: 'white'
-              }}
+              size='sm'
+            // onClick={handleSubmit}
             >
               {surveyData.submitText || 'Absenden'}
             </Button>
@@ -132,6 +158,7 @@ export function NotificationManager() {
     );
   } else if (notification.type === 'update' || notification.type === 'news') {
     // Handle general notifications (update/news)
+    const actionData = notification.action_data as ActionData
     return (
       <div >
         <Card className="border-[1px] shadow-lg" style={{
@@ -168,18 +195,14 @@ export function NotificationManager() {
               //   color: 'white'
               // }}
               >
-                {notification.action_data.text || 'Mehr erfahren'}
+                {actionData.text || 'Mehr erfahren'}
               </Button>
             )}
             {notification.action_type === 'dismiss_only' && (
               <Button
-                // onClick={handleDismiss}
-                style={{
-                  backgroundColor: notification.style?.accentColor || '#3b82f6',
-                  color: 'white'
-                }}
+              // onClick={handleDismiss}
               >
-                {notification.action_data?.text || 'OK'}
+                {actionData.text || 'OK'}
               </Button>
             )}
           </CardFooter>
