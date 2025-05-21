@@ -257,11 +257,113 @@ export type Database = {
           },
         ]
       }
+      notification_views: {
+        Row: {
+          action_taken: Database["public"]["Enums"]["notification_action_taken"]
+          created_at: string
+          id: number
+          notification_id: number
+          response_data: Json | null
+          user_id: string
+          viewed_at: string | null
+        }
+        Insert: {
+          action_taken: Database["public"]["Enums"]["notification_action_taken"]
+          created_at?: string
+          id?: number
+          notification_id: number
+          response_data?: Json | null
+          user_id: string
+          viewed_at?: string | null
+        }
+        Update: {
+          action_taken?: Database["public"]["Enums"]["notification_action_taken"]
+          created_at?: string
+          id?: number
+          notification_id?: number
+          response_data?: Json | null
+          user_id?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_views_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          action_data: Json | null
+          action_type:
+            | Database["public"]["Enums"]["notification_action_type"]
+            | null
+          active: boolean
+          content: string | null
+          created_at: string
+          display_frequency:
+            | Database["public"]["Enums"]["notification_display_frequency"]
+            | null
+          display_position:
+            | Database["public"]["Enums"]["notification_display_position"]
+            | null
+          expires_at: string | null
+          id: number
+          style: Json | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+        }
+        Insert: {
+          action_data?: Json | null
+          action_type?:
+            | Database["public"]["Enums"]["notification_action_type"]
+            | null
+          active?: boolean
+          content?: string | null
+          created_at?: string
+          display_frequency?:
+            | Database["public"]["Enums"]["notification_display_frequency"]
+            | null
+          display_position?:
+            | Database["public"]["Enums"]["notification_display_position"]
+            | null
+          expires_at?: string | null
+          id?: number
+          style?: Json | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+        }
+        Update: {
+          action_data?: Json | null
+          action_type?:
+            | Database["public"]["Enums"]["notification_action_type"]
+            | null
+          active?: boolean
+          content?: string | null
+          created_at?: string
+          display_frequency?:
+            | Database["public"]["Enums"]["notification_display_frequency"]
+            | null
+          display_position?:
+            | Database["public"]["Enums"]["notification_display_position"]
+            | null
+          expires_at?: string | null
+          id?: number
+          style?: Json | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           email: string | null
           first_name: string | null
           id: string
+          last_lesson_creation: string | null
           last_name: string | null
           login_count: number | null
         }
@@ -269,6 +371,7 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id: string
+          last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
         }
@@ -276,6 +379,7 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id?: string
+          last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
         }
@@ -624,6 +728,11 @@ export type Database = {
       background_colors: "blue" | "red" | "green" | "yellow"
       currencies: "CHF" | "EUR"
       message_status: "sent" | "read" | "trash"
+      notification_action_taken: "dismissed" | "completed" | "clicked"
+      notification_action_type: "survey" | "link" | "dismiss_only" | "custom"
+      notification_display_frequency: "once" | "daily" | "always"
+      notification_display_position: "bottom" | "corner" | "center" | "top"
+      notification_type: "survey" | "update" | "news" | "alert"
       recurring_intervals: "day" | "week" | "month" | "year"
       subscription_plan: "month" | "year" | "lifetime"
       subscription_status: "active" | "canceled" | "trial" | "expired"
@@ -753,6 +862,11 @@ export const Constants = {
       background_colors: ["blue", "red", "green", "yellow"],
       currencies: ["CHF", "EUR"],
       message_status: ["sent", "read", "trash"],
+      notification_action_taken: ["dismissed", "completed", "clicked"],
+      notification_action_type: ["survey", "link", "dismiss_only", "custom"],
+      notification_display_frequency: ["once", "daily", "always"],
+      notification_display_position: ["bottom", "corner", "center", "top"],
+      notification_type: ["survey", "update", "news", "alert"],
       recurring_intervals: ["day", "week", "month", "year"],
       subscription_plan: ["month", "year", "lifetime"],
       subscription_status: ["active", "canceled", "trial", "expired"],

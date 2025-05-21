@@ -138,7 +138,7 @@ export const createLessonAPI = async (lesson: LessonPartial) => {
   const { date } = lesson
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
-  const { data: newLesson, error } = await supabase
+  const { data: newLesson, error: errorLesson } = await supabase
     .from('lessons')
     .insert([
       {
@@ -149,7 +149,14 @@ export const createLessonAPI = async (lesson: LessonPartial) => {
     .select()
     .single()
 
-  if (error) throw new Error(error.message)
+  if (newLesson) {
+    await supabase
+      .from('profiles')
+      .update({ last_lesson_creation: new Date().toUTCString() })
+      .eq('id', newLesson?.user_id)
+  }
+
+  if (errorLesson) throw new Error(errorLesson.message)
   if (newLesson) return { ...newLesson, date: new Date(newLesson.date || '') }
 }
 
