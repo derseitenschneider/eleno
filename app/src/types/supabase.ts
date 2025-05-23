@@ -263,7 +263,7 @@ export type Database = {
           created_at: string
           id: number
           notification_id: number
-          response_data: Json | null
+          results: Json | null
           user_id: string
           viewed_at: string | null
         }
@@ -272,7 +272,7 @@ export type Database = {
           created_at?: string
           id?: number
           notification_id: number
-          response_data?: Json | null
+          results?: Json | null
           user_id: string
           viewed_at?: string | null
         }
@@ -281,7 +281,7 @@ export type Database = {
           created_at?: string
           id?: number
           notification_id?: number
-          response_data?: Json | null
+          results?: Json | null
           user_id?: string
           viewed_at?: string | null
         }
@@ -297,63 +297,36 @@ export type Database = {
       }
       notifications: {
         Row: {
-          action_data: Json | null
-          action_type:
-            | Database["public"]["Enums"]["notification_action_type"]
-            | null
           active: boolean
-          content: string | null
           created_at: string
           display_frequency:
             | Database["public"]["Enums"]["notification_display_frequency"]
             | null
-          display_position:
-            | Database["public"]["Enums"]["notification_display_position"]
-            | null
           expires_at: string | null
           id: number
-          style: Json | null
-          title: string
+          identifier: string
           type: Database["public"]["Enums"]["notification_type"]
         }
         Insert: {
-          action_data?: Json | null
-          action_type?:
-            | Database["public"]["Enums"]["notification_action_type"]
-            | null
           active?: boolean
-          content?: string | null
           created_at?: string
           display_frequency?:
             | Database["public"]["Enums"]["notification_display_frequency"]
             | null
-          display_position?:
-            | Database["public"]["Enums"]["notification_display_position"]
-            | null
           expires_at?: string | null
           id?: number
-          style?: Json | null
-          title: string
+          identifier: string
           type: Database["public"]["Enums"]["notification_type"]
         }
         Update: {
-          action_data?: Json | null
-          action_type?:
-            | Database["public"]["Enums"]["notification_action_type"]
-            | null
           active?: boolean
-          content?: string | null
           created_at?: string
           display_frequency?:
             | Database["public"]["Enums"]["notification_display_frequency"]
             | null
-          display_position?:
-            | Database["public"]["Enums"]["notification_display_position"]
-            | null
           expires_at?: string | null
           id?: number
-          style?: Json | null
-          title?: string
+          identifier?: string
           type?: Database["public"]["Enums"]["notification_type"]
         }
         Relationships: []
@@ -667,39 +640,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      profile_login_stats: {
-        Row: {
-          avg_weekly_login_count: number | null
-          current_date: string | null
-          effective_start_date: string | null
-          first_name: string | null
-          last_name: string | null
-          login_count: number | null
-          user_created_at: string | null
-          weeks_count: number | null
-        }
-        Insert: {
-          avg_weekly_login_count?: never
-          current_date?: never
-          effective_start_date?: never
-          first_name?: string | null
-          last_name?: string | null
-          login_count?: number | null
-          user_created_at?: never
-          weeks_count?: never
-        }
-        Update: {
-          avg_weekly_login_count?: never
-          current_date?: never
-          effective_start_date?: never
-          first_name?: string | null
-          last_name?: string | null
-          login_count?: number | null
-          user_created_at?: never
-          weeks_count?: never
-        }
-        Relationships: []
       }
     }
     Functions: {
