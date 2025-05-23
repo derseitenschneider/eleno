@@ -363,6 +363,7 @@ export type Database = {
           email: string | null
           first_name: string | null
           id: string
+          last_lesson_creation: string | null
           last_name: string | null
           login_count: number | null
         }
@@ -370,6 +371,7 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id: string
+          last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
         }
@@ -377,6 +379,7 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id?: string
+          last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
         }
