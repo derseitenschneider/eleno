@@ -51,7 +51,7 @@ export type CreateNotificationViewPayload = {
   notification_id: number // or bigint
   user_id: string
   action_taken: 'dismissed' | 'completed' | 'clicked' // from your enum
-  results?: Record<string, string | string[]> | null
+  results: Record<string, string | string[]> | null
 }
 
 /**

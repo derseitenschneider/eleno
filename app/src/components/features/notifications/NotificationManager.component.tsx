@@ -28,11 +28,12 @@ import type { Notification as DbNotification } from '@/types/types'
 import { cn } from '@/lib/utils'
 import useProfileQuery from '../user/profileQuery'
 import { useLoading } from '@/services/context/LoadingContext'
+import { toast } from 'sonner'
 
 type SurveyResponses = {
-  [questionId: string]: string | string[] | undefined
-  [otherFieldId: string]: string | undefined
+  [key: string]: string | string[] | undefined | null;
 }
+
 const INITIAL_DISPLAY_DELAY_MS = 2000
 
 export function NotificationManager() {
@@ -101,31 +102,65 @@ export function NotificationManager() {
   }
 
   const handleDismiss = () => {
-    if (!currentDbNotification || !user?.id) return
+    if (!currentDbNotification || !user?.id) return;
+
+    let finalResultsPayload: Record<string, string | string[]> | null = null;
+    if (currentDbNotification.type === 'survey') {
+      const filteredResponses: Record<string, string | string[]> = {};
+      for (const key in surveyResponses) {
+        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
+          const value = surveyResponses[key];
+          // Filter out both null and undefined values
+          if (value !== null && value !== undefined) {
+            // TypeScript knows 'value' is now 'string | string[]'
+            filteredResponses[key] = value;
+          }
+        }
+      }
+      finalResultsPayload = Object.keys(filteredResponses).length > 0 ? filteredResponses : null;
+    }
+
     recordNotificationView(
       {
         notification_id: currentDbNotification.id,
         user_id: user.id,
         action_taken: 'dismissed',
-        results:
-          currentDbNotification.type === 'survey' ? surveyResponses : null,
+        results: finalResultsPayload, // Now passing the filtered, correctly typed object
       },
       { onSuccess: () => setIsVisibleInternal(false) },
-    )
-  }
+    );
+  };
 
   const handleSubmit = () => {
-    if (!currentDbNotification || !user?.id || !currentNotificationContent)
-      return
-    let action: 'completed' | 'clicked' | 'dismissed' = 'completed'
+    if (!currentDbNotification || !user?.id || !currentNotificationContent) return;
+
+    let action: 'completed' | 'clicked' | 'dismissed' = 'completed';
     if (
       currentDbNotification.type === 'update' ||
       currentDbNotification.type === 'news' ||
       currentDbNotification.type === 'alert'
     ) {
-      const content = currentNotificationContent as InfoNotificationContent
-      if (content.actionLink) action = 'clicked'
-      else action = 'dismissed'
+      const content = currentNotificationContent as InfoNotificationContent;
+      // In your original code, this was: if (content.actionLink) action = 'clicked'; else action = 'dismissed';
+      // It should likely be 'completed' if there's no actionLink, meaning they acknowledged it.
+      // 'dismissed' should be reserved for the 'X' button or explicit "Skip" actions.
+      action = content.actionLink ? 'clicked' : 'completed';
+    }
+
+    let finalResultsPayload: Record<string, string | string[]> | null = null;
+    if (currentDbNotification.type === 'survey') {
+      const filteredResponses: Record<string, string | string[]> = {};
+      for (const key in surveyResponses) {
+        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
+          const value = surveyResponses[key];
+          // Filter out both null and undefined values
+          if (value !== null && value !== undefined) {
+            // TypeScript knows 'value' is now 'string | string[]'
+            filteredResponses[key] = value;
+          }
+        }
+      }
+      finalResultsPayload = Object.keys(filteredResponses).length > 0 ? filteredResponses : null;
     }
 
     recordNotificationView(
@@ -133,29 +168,31 @@ export function NotificationManager() {
         notification_id: currentDbNotification.id,
         user_id: user.id,
         action_taken: action,
-        results:
-          currentDbNotification.type === 'survey' ? surveyResponses : null,
+        results: finalResultsPayload, // Now passing the filtered, correctly typed object
       },
       {
         onSuccess: () => {
-          setIsVisibleInternal(false)
+          if (action === 'completed' && currentDbNotification.type === 'survey') { // Only toast for survey completion
+            toast('Herzlichen Dank für dein Feedback!');
+          }
+          setIsVisibleInternal(false);
           if (
             action === 'clicked' &&
+            'actionLink' in currentNotificationContent && // Ensure currentNotificationContent is InfoNotificationContent
             (currentNotificationContent as InfoNotificationContent).actionLink
           ) {
             const link = (currentNotificationContent as InfoNotificationContent)
-              .actionLink
+              .actionLink;
             if (link?.startsWith('/')) {
-              window.location.pathname = link
-            } else {
-              window.open(link, '_blank')
+              window.location.pathname = link;
+            } else if (link) { // Added check to ensure link is not undefined/empty
+              window.open(link, '_blank');
             }
           }
         },
       },
-    )
-  }
-
+    );
+  };
   const shouldRenderNotification =
     !isLoadingNotification &&
     isVisibleInternal &&
@@ -167,7 +204,7 @@ export function NotificationManager() {
   }
   const { type: notificationType } = currentDbNotification
 
-  const notificationPositionClass = 'fixed inset-2 sm:bottom-3 sm:right-3'
+  const notificationPositionClass = 'fixed bottom-4 left-2 right-2  sm:left-[auto] sm:bottom-3 sm:right-3'
 
   const renderCard = (
     title: string,
@@ -180,12 +217,12 @@ export function NotificationManager() {
       className={cn(
         notificationPositionClass,
         !canShowAfterDelay
-          ? 'opacity-0 pointer-events-none'
-          : 'pointer-events-auto opacity-1',
-        'tansition-opacity duration-500 z-[10000]',
+          ? 'opacity-0 translate-y-3 pointer-events-none'
+          : 'pointer-events-auto translate-y-0 opacity-1',
+        'tansition-all duration-500 z-[10000]',
       )}
     >
-      <Card className='w-full bg-white text-base shadow-lg sm:max-w-[500px]'>
+      <Card className='flex w-full flex-col justify-center bg-background100 text-base shadow-lg sm:max-w-[500px]'>
         <CardHeader className='pb-3 pt-4'>
           <div className='flex items-start justify-between'>
             <CardTitle className='text-lg font-medium'>{title}</CardTitle>
@@ -200,9 +237,9 @@ export function NotificationManager() {
           </div>
           {description && (
             <CardDescription className='text-base'>
-              {personalGreeting && <p className='pb-2'>
+              {personalGreeting && <span className='block pb-2'>
                 Hallo {userProfile?.first_name}
-              </p>}
+              </span>}
               {description}
             </CardDescription>
           )}
@@ -250,7 +287,7 @@ export function NotificationManager() {
                     />
                     <Label
                       htmlFor={`${question.id}-${option.value}`}
-                      className='text-base font-normal'
+                      className='cursor-pointer text-base font-normal'
                     >
                       {option.label}
                     </Label>
@@ -281,7 +318,7 @@ export function NotificationManager() {
                     />
                     <Label
                       htmlFor={`${question.id}-${option.value}`}
-                      className='font-normal'
+                      className='cursor-pointer font-normal'
                     >
                       {option.label}
                     </Label>
@@ -305,7 +342,7 @@ export function NotificationManager() {
                   onChange={(e) =>
                     handleOtherInputChange(question.id, 'other', e.target.value)
                   }
-                  className='mt-1.5 w-full p-2'
+                  className='!m-1 !mt-2 w-full p-2 focus-visible:ring-offset-1'
                   rows={2}
                 />
               )}
@@ -322,7 +359,7 @@ export function NotificationManager() {
         >
           {surveyData.skipText || 'Skip'}
         </Button>
-        <Button size='sm' onClick={handleSubmit} disabled={isSubmittingView}>
+        <Button size='sm' onClick={handleSubmit} disabled={isSubmittingView || Object.keys(surveyResponses).length < surveyData.questions.length}>
           {isSubmittingView
             ? 'Wird gesendet...'
             : surveyData.submitText || 'Submit'}
@@ -343,7 +380,7 @@ export function NotificationManager() {
       infoData.personalGreeting,
       null,
       <>
-        <div className='flex-grow'></div>
+        <div className='flex-grow' />
         {infoData.actionText && infoData.actionLink ? (
           <Button size='sm' onClick={handleSubmit} disabled={isSubmittingView}>
             {isSubmittingView && currentDbNotification.type !== 'alert'
