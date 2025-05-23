@@ -1,69 +1,76 @@
-
 export type NotificationOption = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}
 
 export type NotificationQuestion = {
-  id: string; // Unique ID for this question within this survey
-  text: string;
-  type: 'radio' | 'checkbox';
-  options: Array<NotificationOption>;
-  other_field?: { // Optional "other" field
-    show_for_value: string; // Which option value enables this text input
-    placeholder: string;
-  };
-};
+  id: string // Unique ID for this question within this survey
+  text: string
+  type: 'radio' | 'checkbox'
+  options: Array<NotificationOption>
+  other_field?: {
+    // Optional "other" field
+    show_for_value: string // Which option value enables this text input
+    placeholder: string
+  }
+}
 
 export type SurveyNotificationContent = {
-  title: string;
-  description?: string;
-  questions: Array<NotificationQuestion>;
-  submitText: string;
-  skipText: string;
-};
+  title: string
+  description?: string
+  personalGreeting: boolean
+  questions: Array<NotificationQuestion>
+  submitText: string
+  skipText: string
+}
 
 export type InfoNotificationContent = {
-  title: string;
-  description: string;
-  actionText?: string;
-  actionLink?: string;
-  dismissText?: string;
-};
+  title: string
+  description: string
+  personalGreeting: boolean
+  actionText?: string
+  actionLink?: string
+  dismissText?: string
+}
 
 export type NotificationContentConfig = {
-  [identifier: string]: {
-    type: 'survey';
-    content: SurveyNotificationContent;
-  } | {
-    type: 'update' | 'news' | 'alert';
-    content: InfoNotificationContent;
-  };
-};
+  [identifier: string]:
+  | {
+    type: 'survey'
+    content: SurveyNotificationContent
+  }
+  | {
+    type: 'update' | 'news' | 'alert'
+    content: InfoNotificationContent
+  }
+}
 
 export const notificationsContent: NotificationContentConfig = {
-
   next_feature_poll_de_2025: {
     type: 'survey',
     content: {
-      title: "Wir brauchen deine Hilfe",
-      description: "Es gibt viel zu tun und wir haben unsere Ärmel bereits wieder hochgekrempelt! Jetzt möchten wir aber auch dich ins Boot holen und mitbestimmen lassen:",
+      title: 'Deine Meinung zählt: Was kommt als Nächstes?',
+      personalGreeting: true,
+      description:
+        'Wir wollen Eleno für dich stetig verbessern! Du weisst am besten, was dir im Unterrichtsalltag hilft.',
+
       questions: [
         {
           id: 'next_feature_selection',
-          text: 'Welche Funktion sollen wir als nächstes in Eleno einbauen?',
+          text: 'Bestimme mit: Welche Funktion sollen wir als Nächstes entwickeln?',
           type: 'radio',
           options: [
             {
-              label: 'Automatische Stundenplanberechnung nach Verfügbarkeit',
+              label: 'Automatische Studenplanberechnung',
               value: 'auto_schedule_availability',
             },
             {
-              label: 'Interaktives Whiteboard, damit du Inhalte gleich visuell darstellen kannst',
+              label:
+                'Interaktives Whiteboard',
               value: 'interactive_whiteboard',
             },
             {
-              label: 'Tools zur einfachen Unterrichtsvorbereitung',
+              label: 'Tools zur Unterrichtsvorbereitung',
               value: 'lesson_prep_tools',
             },
             {
@@ -71,18 +78,18 @@ export const notificationsContent: NotificationContentConfig = {
               value: 'privacy_ai_support',
             },
             {
-              label: 'Eigene Idee...',
+              label: 'Eigene Idee - wir sind gespannt!',
               value: 'other_custom_idea',
             },
           ],
           other_field: {
             show_for_value: 'other_custom_idea',
-            placeholder: 'Deine Funktionsidee hier...',
+            placeholder: 'Beschreibe deine Idee...',
           },
         },
       ],
-      submitText: "Feedback absenden",
-      skipText: "Überspringen",
+      submitText: 'Feedback absenden',
+      skipText: 'Überspringen',
     },
   },
-};
+}
