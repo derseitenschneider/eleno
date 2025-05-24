@@ -31,7 +31,7 @@ import { useLoading } from '@/services/context/LoadingContext'
 import { toast } from 'sonner'
 
 type SurveyResponses = {
-  [key: string]: string | string[] | undefined | null;
+  [key: string]: string | string[] | undefined | null
 }
 
 const INITIAL_DISPLAY_DELAY_MS = 2000
@@ -102,22 +102,23 @@ export function NotificationManager() {
   }
 
   const handleDismiss = () => {
-    if (!currentDbNotification || !user?.id) return;
+    if (!currentDbNotification || !user?.id) return
 
-    let finalResultsPayload: Record<string, string | string[]> | null = null;
+    let finalResultsPayload: Record<string, string | string[]> | null = null
     if (currentDbNotification.type === 'survey') {
-      const filteredResponses: Record<string, string | string[]> = {};
+      const filteredResponses: Record<string, string | string[]> = {}
       for (const key in surveyResponses) {
         if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
-          const value = surveyResponses[key];
+          const value = surveyResponses[key]
           // Filter out both null and undefined values
           if (value !== null && value !== undefined) {
             // TypeScript knows 'value' is now 'string | string[]'
-            filteredResponses[key] = value;
+            filteredResponses[key] = value
           }
         }
       }
-      finalResultsPayload = Object.keys(filteredResponses).length > 0 ? filteredResponses : null;
+      finalResultsPayload =
+        Object.keys(filteredResponses).length > 0 ? filteredResponses : null
     }
 
     recordNotificationView(
@@ -128,39 +129,41 @@ export function NotificationManager() {
         results: finalResultsPayload, // Now passing the filtered, correctly typed object
       },
       { onSuccess: () => setIsVisibleInternal(false) },
-    );
-  };
+    )
+  }
 
   const handleSubmit = () => {
-    if (!currentDbNotification || !user?.id || !currentNotificationContent) return;
+    if (!currentDbNotification || !user?.id || !currentNotificationContent)
+      return
 
-    let action: 'completed' | 'clicked' | 'dismissed' = 'completed';
+    let action: 'completed' | 'clicked' | 'dismissed' = 'completed'
     if (
       currentDbNotification.type === 'update' ||
       currentDbNotification.type === 'news' ||
       currentDbNotification.type === 'alert'
     ) {
-      const content = currentNotificationContent as InfoNotificationContent;
+      const content = currentNotificationContent as InfoNotificationContent
       // In your original code, this was: if (content.actionLink) action = 'clicked'; else action = 'dismissed';
       // It should likely be 'completed' if there's no actionLink, meaning they acknowledged it.
       // 'dismissed' should be reserved for the 'X' button or explicit "Skip" actions.
-      action = content.actionLink ? 'clicked' : 'completed';
+      action = content.actionLink ? 'clicked' : 'completed'
     }
 
-    let finalResultsPayload: Record<string, string | string[]> | null = null;
+    let finalResultsPayload: Record<string, string | string[]> | null = null
     if (currentDbNotification.type === 'survey') {
-      const filteredResponses: Record<string, string | string[]> = {};
+      const filteredResponses: Record<string, string | string[]> = {}
       for (const key in surveyResponses) {
         if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
-          const value = surveyResponses[key];
+          const value = surveyResponses[key]
           // Filter out both null and undefined values
           if (value !== null && value !== undefined) {
             // TypeScript knows 'value' is now 'string | string[]'
-            filteredResponses[key] = value;
+            filteredResponses[key] = value
           }
         }
       }
-      finalResultsPayload = Object.keys(filteredResponses).length > 0 ? filteredResponses : null;
+      finalResultsPayload =
+        Object.keys(filteredResponses).length > 0 ? filteredResponses : null
     }
 
     recordNotificationView(
@@ -172,27 +175,32 @@ export function NotificationManager() {
       },
       {
         onSuccess: () => {
-          if (action === 'completed' && currentDbNotification.type === 'survey') { // Only toast for survey completion
-            toast('Herzlichen Dank für dein Feedback!');
+          if (
+            action === 'completed' &&
+            currentDbNotification.type === 'survey'
+          ) {
+            // Only toast for survey completion
+            toast('Herzlichen Dank für dein Feedback!')
           }
-          setIsVisibleInternal(false);
+          setIsVisibleInternal(false)
           if (
             action === 'clicked' &&
             'actionLink' in currentNotificationContent && // Ensure currentNotificationContent is InfoNotificationContent
             (currentNotificationContent as InfoNotificationContent).actionLink
           ) {
             const link = (currentNotificationContent as InfoNotificationContent)
-              .actionLink;
+              .actionLink
             if (link?.startsWith('/')) {
-              window.location.pathname = link;
-            } else if (link) { // Added check to ensure link is not undefined/empty
-              window.open(link, '_blank');
+              window.location.pathname = link
+            } else if (link) {
+              // Added check to ensure link is not undefined/empty
+              window.open(link, '_blank')
             }
           }
         },
       },
-    );
-  };
+    )
+  }
   const shouldRenderNotification =
     !isLoadingNotification &&
     isVisibleInternal &&
@@ -204,7 +212,8 @@ export function NotificationManager() {
   }
   const { type: notificationType } = currentDbNotification
 
-  const notificationPositionClass = 'fixed bottom-4 left-2 right-2  sm:left-[auto] sm:bottom-3 sm:right-3'
+  const notificationPositionClass =
+    'fixed left-2 right-2 position-notification-mobile sm:left-[auto] sm:right-3'
 
   const renderCard = (
     title: string,
@@ -222,7 +231,7 @@ export function NotificationManager() {
         'tansition-all duration-500 z-[10000]',
       )}
     >
-      <Card className='flex w-full flex-col justify-center bg-background100 text-base shadow-lg sm:max-w-[500px]'>
+      <Card className='flex w-full flex-col justify-center bg-backgroundPlain text-base shadow-lg sm:max-w-[500px]'>
         <CardHeader className='pb-3 pt-4'>
           <div className='flex items-start justify-between'>
             <CardTitle className='text-lg font-medium'>{title}</CardTitle>
@@ -237,9 +246,11 @@ export function NotificationManager() {
           </div>
           {description && (
             <CardDescription className='text-base'>
-              {personalGreeting && <span className='block pb-2'>
-                Hallo {userProfile?.first_name}
-              </span>}
+              {personalGreeting && (
+                <span className='block pb-2'>
+                  Hallo {userProfile?.first_name}
+                </span>
+              )}
               {description}
             </CardDescription>
           )}
@@ -329,7 +340,7 @@ export function NotificationManager() {
             {question.other_field &&
               ((question.type === 'radio' &&
                 surveyResponses[question.id] ===
-                question.other_field.show_for_value) ||
+                  question.other_field.show_for_value) ||
                 (question.type === 'checkbox' &&
                   ((surveyResponses[question.id] as string[]) || []).includes(
                     question.other_field.show_for_value,
@@ -359,7 +370,14 @@ export function NotificationManager() {
         >
           {surveyData.skipText || 'Skip'}
         </Button>
-        <Button size='sm' onClick={handleSubmit} disabled={isSubmittingView || Object.keys(surveyResponses).length < surveyData.questions.length}>
+        <Button
+          size='sm'
+          onClick={handleSubmit}
+          disabled={
+            isSubmittingView ||
+            Object.keys(surveyResponses).length < surveyData.questions.length
+          }
+        >
           {isSubmittingView
             ? 'Wird gesendet...'
             : surveyData.submitText || 'Submit'}

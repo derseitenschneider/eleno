@@ -1,6 +1,7 @@
 import { isDemoMode } from '@/config'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useIsOnline from '@/hooks/useIsOnline'
+import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Link } from 'react-router-dom'
 
@@ -41,7 +42,10 @@ function Banner() {
     return (
       <div
         data-testid='banner-trial'
-        className='fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline bg-background100 p-1 text-center text-sm'
+        className={cn(
+          daysRemaining > 5 ? 'bg-background100' : 'bg-destructive/20',
+          'fixed top-0 z-40 flex w-full justify-center gap-2 border-b border-hairline  p-1 text-center text-sm',
+        )}
       >
         <p>
           Du bist aktuell im Testabo und kannst noch{' '}
