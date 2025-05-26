@@ -30,7 +30,7 @@ export function LessonMainLayoutToggle() {
           htmlFor='regular'
           className='cursor-pointer text-base font-normal'
         >
-          Standard (Neue Lektion / Vergangene Lektionen)
+          Neue Lektion oben (Standard)
         </Label>
       </div>
 
@@ -43,7 +43,7 @@ export function LessonMainLayoutToggle() {
           htmlFor='reverse'
           className='cursor-pointer text-base font-normal'
         >
-          Alternativ (Vergangene Lektionen / Neue Lektion)
+          Vergangene Lektionen oben
         </Label>
       </div>
     </RadioGroup>
