@@ -36,15 +36,15 @@ function Note({ note, index }: NoteProps) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div className='absolute top-3 right-3'>
+            <div className='absolute right-3 top-3'>
               <NoteDropdown noteId={id} />
             </div>
             {title && (
-              <h4 className='text-md pr-4 text-foreground max-w-[25ch] leading-1'>
+              <h4 className='text-md leading-1 max-w-[25ch] break-words pr-4 text-foreground'>
                 {title}
               </h4>
             )}
-            <div className='[&_*:not(a:link)]:!text-foreground [&_a:link]:underline [&_a:link]:text-primary text-foreground has-list text-sm'>
+            <div className='has-list break-words text-sm text-foreground [&_*:not(a:link)]:!text-foreground [&_a:link]:text-primary [&_a:link]:underline'>
               {parse(removeHTMLAttributes(text || ''))}
             </div>
           </li>
