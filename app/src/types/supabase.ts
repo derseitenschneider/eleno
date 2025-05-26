@@ -410,16 +410,19 @@ export type Database = {
         Row: {
           created_at: string | null
           id: number
+          lesson_main_layout: Database["public"]["Enums"]["lesson_main_layout"]
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: number
+          lesson_main_layout?: Database["public"]["Enums"]["lesson_main_layout"]
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: number
+          lesson_main_layout?: Database["public"]["Enums"]["lesson_main_layout"]
           user_id?: string | null
         }
         Relationships: []
@@ -667,6 +670,7 @@ export type Database = {
     Enums: {
       background_colors: "blue" | "red" | "green" | "yellow"
       currencies: "CHF" | "EUR"
+      lesson_main_layout: "regular" | "reverse"
       message_status: "sent" | "read" | "trash"
       notification_action_taken: "dismissed" | "completed" | "clicked"
       notification_action_type: "survey" | "link" | "dismiss_only" | "custom"
@@ -801,6 +805,7 @@ export const Constants = {
     Enums: {
       background_colors: ["blue", "red", "green", "yellow"],
       currencies: ["CHF", "EUR"],
+      lesson_main_layout: ["regular", "reverse"],
       message_status: ["sent", "read", "trash"],
       notification_action_taken: ["dismissed", "completed", "clicked"],
       notification_action_type: ["survey", "link", "dismiss_only", "custom"],
