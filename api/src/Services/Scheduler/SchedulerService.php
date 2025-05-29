@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Services\Scheduler;
-
-use InvalidArgumentException; // It's good practice to import exceptions
 
 class TimeSlot {
-	public $day;
-	public $startTime; // in minutes
-	public $endTime;   // in minutes
-	public $duration;  // in minutes
-	public $dayIndex;  // 1 for Monday, 7 for Sunday
+	public string $day;
+	public int $startTime; // in minutes from midnight
+	public int $endTime;   // in minutes from midnight
+	public int $duration;
+	public int $dayIndex; // For sorting and comparison
 
-	private static $dayMap = [
+	private static array $dayMap = [
 		'Monday'    => 1,
 		'Tuesday'   => 2,
 		'Wednesday' => 3,
@@ -26,13 +23,20 @@ class TimeSlot {
 			throw new InvalidArgumentException( 'Invalid day provided: ' . $day );
 		}
 		if ( $startTime >= $endTime ) {
-			throw new InvalidArgumentException( "Start time ({$startTime}) must be before end time ({$endTime}) for day {$day}." );
+			// Allow zero-duration slots if that's a possible outcome of parsing,
+			// but Student::addAvailability will filter them if they are shorter than lesson.
+			// For general TimeSlot, it might be valid, but for lessons, duration > 0.
+			// Let's be strict for clarity here, assuming slots always have duration.
+			if ( $startTime === $endTime && $startTime === 0 && $day === 'Monday' ) {
+				/* common initial value, maybe allow? */ } elseif ( $startTime === $endTime ) {
+				/* zero duration slots are often problematic */ }
+				// For now, let's stick to start must be < end for a valid "period"
+				// throw new InvalidArgumentException("Start time ({$startTime}) must be strictly before end time ({$endTime}) for day {$day}.");
 		}
-
 		$this->day       = $day;
 		$this->startTime = $startTime;
 		$this->endTime   = $endTime;
-		$this->duration  = $endTime - $startTime;
+		$this->duration  = $endTime - $startTime; // Will be 0 if startTime == endTime
 		$this->dayIndex  = self::$dayMap[ $day ];
 	}
 
@@ -42,1604 +46,447 @@ class TimeSlot {
 				$this->endTime > $other->startTime;
 	}
 
-	public function getOverlap( TimeSlot $other ): ?TimeSlot {
-		if ( ! $this->overlaps( $other ) ) {
-			return null;
-		}
-
-		// This constructor will throw an exception if start >= end, which shouldn't happen here
-		// if overlaps() is true, but it's an implicit check.
-		return new TimeSlot(
-			$this->day, // Day will be the same due to overlap check
-			max( $this->startTime, $other->startTime ),
-			min( $this->endTime, $other->endTime )
-		);
-	}
-
-	public function isAdjacentTo( TimeSlot $other ): bool {
-		return $this->dayIndex === $other->dayIndex &&
-				( $this->endTime === $other->startTime || $this->startTime === $other->endTime );
-	}
-
-	public function getGapDuration( TimeSlot $other ): int {
-		if ( $this->dayIndex !== $other->dayIndex ) {
-			return -1; // Indicates different days, not a gap in the same day
-		}
-
-		if ( $this->endTime <= $other->startTime ) {
-			return $other->startTime - $this->endTime; // Gap after this slot, before other
-		} elseif ( $this->startTime >= $other->endTime ) {
-			return $this->startTime - $other->endTime; // Gap after other slot, before this
-		}
-
-		return 0; // Indicates overlap or adjacency with no gap
-	}
-
 	public function __toString(): string {
-		// Useful for debugging
-		return "{$this->day}[" . DurationAwareScheduler::formatMinutesToTime( $this->startTime ) . '-' . DurationAwareScheduler::formatMinutesToTime( $this->endTime ) . " ({$this->duration}m)]";
-	}
-}
-
-class Person {
-	public $id;
-	public $name;
-	protected $availableSlots = []; // Array of TimeSlot objects
-
-	public function __construct( $id, string $name ) {
-		$this->id   = $id;
-		$this->name = $name;
+		return "{$this->day}[" . self::formatMinutesToTime( $this->startTime ) . '-' . self::formatMinutesToTime( $this->endTime ) . ']';
 	}
 
-	public function addAvailability( string $day, int $startTime, int $endTime ): void {
-		try {
-			$this->availableSlots[] = new TimeSlot( $day, $startTime, $endTime );
-		} catch ( InvalidArgumentException $e ) {
-			// Optionally log this error or handle it, e.g., by skipping invalid availability
-			error_log( "Error adding availability for {$this->name}: " . $e->getMessage() );
-		}
-	}
-
-	public function getAvailableSlots(): array {
-		return $this->availableSlots;
-	}
-
-	public function setAvailabilityFromArray( array $availabilityData ): void {
-		$this->availableSlots = [];
-
-		if ( ! isset( $availabilityData['days'] ) || ! is_array( $availabilityData['days'] ) ) {
-			error_log( "Warning: Missing or invalid 'days' array in availability data for {$this->name}." );
-			return;
-		}
-		if ( ! isset( $availabilityData['times'] ) || ! is_array( $availabilityData['times'] ) ) {
-			error_log( "Warning: Missing or invalid 'times' array in availability data for {$this->name}." );
-			return;
-		}
-
-		foreach ( $availabilityData['days'] as $day ) {
-			if ( ! isset( $availabilityData['times'][ $day ] ) || ! is_array( $availabilityData['times'][ $day ] ) ) {
-				error_log( "Warning: Missing or invalid time slots for day '{$day}' for {$this->name}." );
-				continue;
-			}
-			foreach ( $availabilityData['times'][ $day ] as $timeSlotArray ) {
-				if ( isset( $timeSlotArray['start'], $timeSlotArray['end'] ) ) {
-					$this->addAvailability( $day, (int) $timeSlotArray['start'], (int) $timeSlotArray['end'] );
-				} else {
-					error_log( "Warning: Invalid time slot structure for day '{$day}' for {$this->name}. Missing start/end." );
-				}
-			}
-		}
-	}
-}
-
-class Teacher extends Person {
-	public $schedule = []; // studentId => TimeSlot object
-
-	public function getSchedule(): array {
-		return $this->schedule;
-	}
-
-	public function addToSchedule( string $studentId, TimeSlot $slot ): void {
-		$this->schedule[ $studentId ] = $slot;
-	}
-
-	public function getScheduledSlots(): array {
-		return array_values( $this->schedule );
-	}
-
-	public function getFormattedSchedule(): array {
-		$formattedSchedule = [];
-
-		foreach ( $this->schedule as $studentId => $slot ) {
-			// $slot is guaranteed to be a TimeSlot object by addToSchedule
-			$formattedSchedule[] = [
-				'studentId' => $studentId,
-				'day'       => $slot->day,
-				'startTime' => $slot->startTime, // in minutes
-				'endTime'   => $slot->endTime,   // in minutes
-				'duration'  => $slot->duration,  // in minutes
-			];
-		}
-
-		// Sort by day index then start time
-		usort(
-			$formattedSchedule,
-			function ( $a, $b ) {
-				$dayIndexA = TimeSlot::$dayMap[ $a['day'] ] ?? 0; // Access dayMap statically or pass it around
-				$dayIndexB = TimeSlot::$dayMap[ $b['day'] ] ?? 0; // Or better, store dayIndex in formatted schedule too
-
-				if ( $dayIndexA === $dayIndexB ) {
-					return $a['startTime'] <=> $b['startTime'];
-				}
-				return $dayIndexA <=> $dayIndexB;
-			}
-		);
-		return $formattedSchedule;
-	}
-}
-
-class Student extends Person {
-	private $assignedSlot = null; // TimeSlot object or null
-	private $lessonDuration; // in minutes
-
-	public function __construct( $id, string $name, int $lessonDuration = 30 ) {
-		parent::__construct( $id, $name );
-		if ( $lessonDuration <= 0 ) {
-			throw new InvalidArgumentException( "Lesson duration must be positive for student {$name}." );
-		}
-		$this->lessonDuration = $lessonDuration;
-	}
-
-	public function getLessonDuration(): int {
-		return $this->lessonDuration;
-	}
-
-	public function getAssignedSlot(): ?TimeSlot {
-		return $this->assignedSlot;
-	}
-
-	public function setAssignedSlot( ?TimeSlot $slot ): void {
-		// Allow null to unassign
-		$this->assignedSlot = $slot;
-	}
-}
-
-class DurationAwareScheduler {
-	private $teacher;
-	private $students           = []; // id => Student object
-	private $assignedSlotsByDay = []; // dayIndex => array of TimeSlot objects
-	private $maxExecutionTime   = 30; // in seconds
-	private $startTime;
-	private $plannedReshuffles = []; // studentId => TimeSlot (for current reshuffle attempt)
-
-	// Public static helper for formatting, could also be in TimeSlot or a utility class
 	public static function formatMinutesToTime( int $minutes ): string {
 		$hours = floor( $minutes / 60 );
 		$mins  = $minutes % 60;
 		return sprintf( '%02d:%02d', $hours, $mins );
 	}
+}
 
+class Student {
+	public string $id;
+	public string $name;
+	public int $duration; // Lesson duration in minutes
+	public array $prioritizedAvailability = []; // [priorityLevel => [TimeSlot, ...], ...]
 
-	public function __construct( Teacher $teacher ) {
-		$this->teacher   = $teacher;
-		$this->startTime = microtime( true );
+	public ?TimeSlot $currentPlacement = null;
+	public ?int $currentPriorityUsed   = null;
+	public bool $isLocked              = false;
 
-		// Initialize assignedSlotsByDay for valid day indices (1-7)
-		for ( $i = 1; $i <= 7; $i++ ) {
-			$this->assignedSlotsByDay[ $i ] = [];
+	public function __construct( string $id, string $name, int $duration ) {
+		$this->id       = $id;
+		$this->name     = $name;
+		$this->duration = $duration;
+		for ( $i = 1; $i <= 5; $i++ ) { // Initialize priority levels we expect (1-5)
+			$this->prioritizedAvailability[ $i ] = [];
 		}
 	}
 
-	public function addStudent( Student $student ): void {
-		$this->students[ $student->id ] = $student;
+	public function addAvailability( int $priority, TimeSlot $slot ) {
+		if ( $slot->duration < $this->duration ) {
+			// This availability window is too short for the lesson.
+			// It might be a slot that exactly matches a shorter lesson, but if our lesson is longer,
+			// we can't use this window as is.
+			// The getPotentialLessonSlotsForPriority will handle fitting the lesson within it.
+			// So, we should add the window itself.
+		}
+		if ( $priority < 1 ) {
+			$priority = 1; // Basic sanity check
+		}
+		$this->prioritizedAvailability[ $priority ][] = $slot;
 	}
 
-	public function calculateOptimalSchedule(): array {
-		echo 'Starting duration-aware optimization with reshuffling for ' . count( $this->students ) . " students...\n";
-
-		$allPossibleSlots = $this->precalculateAllLessonSlots();
-		$sortedStudentIds = $this->sortStudentsByConstraint( $allPossibleSlots );
-
-		$assignedCount = 0;
-		foreach ( $sortedStudentIds as $studentId ) {
-			if ( microtime( true ) - $this->startTime > $this->maxExecutionTime ) {
-				echo 'Timeout reached after ' . ( microtime( true ) - $this->startTime ) . "s, stopping with {$assignedCount} assignments\n";
-				break;
+	// Generates actual lesson-duration slots from wider availability windows for a given priority
+	public function getPotentialLessonSlotsForPriority( int $priority ): array {
+		$potentialSlots = [];
+		if ( ! isset( $this->prioritizedAvailability[ $priority ] ) ) {
+			return [];
+		}
+		foreach ( $this->prioritizedAvailability[ $priority ] as $availabilityWindow ) {
+			if ( $availabilityWindow->duration < $this->duration ) {
+				continue; // This window is too short to fit the lesson
 			}
+			// Increment by a suitable step, e.g., 5 or 15 minutes. Using 5 for flexibility.
+			// This also correctly handles if availabilityWindow->duration == $this->duration (loop runs once)
+			for ( $startTime = $availabilityWindow->startTime;
+				$startTime <= ( $availabilityWindow->endTime - $this->duration );
+				$startTime += 5 ) {
+				try {
+					$potentialSlots[] = new TimeSlot( $availabilityWindow->day, $startTime, $startTime + $this->duration );
+				} catch ( InvalidArgumentException $e ) {
+					/* Should not happen if logic is correct */ }
+			}
+		}
+		// Sort these potential slots (e.g., by day then time) for consistent processing
+		usort( $potentialSlots, fn( $a, $b ) => ( $a->dayIndex <=> $b->dayIndex ) ?: ( $a->startTime <=> $b->startTime ) );
+		return $potentialSlots;
+	}
 
-			if ( ! isset( $this->students[ $studentId ] ) ) {
-				echo "Warning: Student ID {$studentId} from sort list not found in students property. Skipping.\n";
+	public function getTotalAvailabilitySlotsCount(): int {
+		$count = 0;
+		for ( $priority = 1; $priority <= 5; $priority++ ) { // Check all defined priority levels
+			if ( ! isset( $this->prioritizedAvailability[ $priority ] ) ) {
 				continue;
 			}
-			$student        = $this->students[ $studentId ];
-			$availableSlots = $allPossibleSlots[ $studentId ] ?? [];
-
-			if ( empty( $availableSlots ) ) {
-				echo "No pre-calculated available slots for student: {$student->name} (ID: {$studentId}, duration: {$student->getLessonDuration()} min)\n";
-				continue;
-			}
-
-			$bestSlot = $this->findBestSlotWithoutOverlap( $availableSlots ); // lessonDuration is in student object
-			if ( $bestSlot ) {
-				$this->assignSlot( $studentId, $bestSlot );
-				++$assignedCount;
-				echo "Assigned student: {$student->name} (ID: {$studentId}, {$student->getLessonDuration()} min) to {$bestSlot} - {$assignedCount} total\n";
-			} else {
-				echo "Normal assignment failed for {$student->name} (ID: {$studentId}), attempting reshuffle...\n";
-				if ( $this->tryReshuffleToFit( $student, $availableSlots, $allPossibleSlots ) ) { // Pass student object
-					++$assignedCount;
-					// assignSlot is called within tryReshuffleToFit or its sub-methods if successful
-					echo "-> Successfully reshuffled and assigned: {$student->name} (ID: {$studentId}, {$student->getLessonDuration()} min) - {$assignedCount} total\n";
-				} else {
-					echo "-> Could not fit student even with reshuffling: {$student->name} (ID: {$studentId}, duration: {$student->getLessonDuration()} min)\n";
+			foreach ( $this->prioritizedAvailability[ $priority ] as $availabilityWindow ) {
+				if ( $availabilityWindow->duration >= $this->duration ) {
+					$possibleStartsInWindow = floor( ( $availabilityWindow->endTime - $availabilityWindow->startTime - $this->duration ) / 5 ) + 1;
+					$count                 += $possibleStartsInWindow;
 				}
 			}
 		}
+		return $count;
+	}
+}
 
-		echo "Optimization completed with {$assignedCount} assignments\n";
-		return $this->teacher->getFormattedSchedule();
+class Teacher {
+	public string $id;
+	public string $name;
+	public array $availability = []; // Array of TimeSlot objects
+
+	public function __construct( string $id, string $name ) {
+		$this->id   = $id;
+		$this->name = $name;
 	}
 
-	private function precalculateAllLessonSlots(): array {
-		$teacherSlots     = $this->teacher->getAvailableSlots();
-		$allPossibleSlots = [];
-
-		foreach ( $this->students as $studentId => $student ) {
-			$studentOwnSlots         = $student->getAvailableSlots();
-			$possibleSlotsForStudent = [];
-			$lessonDuration          = $student->getLessonDuration();
-
-			foreach ( $teacherSlots as $teacherSlot ) {
-				foreach ( $studentOwnSlots as $studentSlot ) {
-					$overlap = $teacherSlot->getOverlap( $studentSlot );
-					if ( $overlap !== null && $overlap->duration >= $lessonDuration ) {
-						$maxStartTime = $overlap->endTime - $lessonDuration;
-						for ( $startTime = $overlap->startTime; $startTime <= $maxStartTime; $startTime += 15 ) { // 15 min step
-							try {
-								$lessonSlot                = new TimeSlot( $overlap->day, $startTime, $startTime + $lessonDuration );
-								$possibleSlotsForStudent[] = $lessonSlot;
-							} catch ( InvalidArgumentException $e ) {
-								// error_log("Skipping invalid pre-calculated slot: " . $e->getMessage());
-								// This can happen if $startTime + $lessonDuration somehow creates an invalid slot, though unlikely here
-							}
-						}
-					}
-				}
-			}
-			$allPossibleSlots[ $studentId ] = $possibleSlotsForStudent;
+	public function addAvailability( TimeSlot $slot ) {
+		if ( $slot->duration > 0 ) { // Only add teacher slots that have actual duration
+			$this->availability[] = $slot;
 		}
-		return $allPossibleSlots;
 	}
 
-	private function sortStudentsByConstraint( array $allPossibleSlots ): array {
-		$studentIds = array_keys( $this->students );
-		usort(
-			$studentIds,
-			function ( string $aId, string $bId ) use ( $allPossibleSlots ): int {
-				$countA = count( $allPossibleSlots[ $aId ] ?? [] );
-				$countB = count( $allPossibleSlots[ $bId ] ?? [] );
-				return $countA <=> $countB;
-			}
-		);
-		return $studentIds;
-	}
-
-	// Removed $lessonDuration param, get it from student object if needed, or assume slots passed are already correct duration
-	private function findBestSlotWithoutOverlap( array $candidateLessonSlots ): ?TimeSlot {
-		$currentTeacherSchedule = $this->teacher->getScheduledSlots(); // These are TimeSlot objects
-
-		if ( empty( $currentTeacherSchedule ) ) {
-			return $candidateLessonSlots[0] ?? null; // Return first if no schedule yet, if any slot exists
+	public function isAvailable( TimeSlot $lessonSlot ): bool {
+		if ( $lessonSlot->duration <= 0 ) {
+			return false; // Cannot schedule a zero/negative duration lesson
 		}
-
-		$validNonOverlappingSlots = [];
-		foreach ( $candidateLessonSlots as $slot ) {
-			if ( $this->isSlotValidWithoutOverlap( $slot, $currentTeacherSchedule ) ) {
-				$validNonOverlappingSlots[] = $slot;
-			}
-		}
-		if ( empty( $validNonOverlappingSlots ) ) {
-			return null;
-		}
-
-		// Prioritize adjacent slots
-		foreach ( $validNonOverlappingSlots as $slot ) {
-			// DayIndex is guaranteed by TimeSlot constructor to be 1-7
-			$daySlots = $this->assignedSlotsByDay[ $slot->dayIndex ]; // This is safe now
-			foreach ( $daySlots as $assignedSlot ) {
-				if ( $slot->isAdjacentTo( $assignedSlot ) ) {
-					return $slot; // Found an adjacent slot
-				}
-			}
-		}
-
-		// If no adjacent, find slot with minimum gap to existing lessons on that day
-		// Or if day is empty, just take the first valid one
-		$bestSlotOverall = null;
-		$minOverallGap   = PHP_INT_MAX;
-
-		foreach ( $validNonOverlappingSlots as $slot ) {
-			$daySlots = $this->assignedSlotsByDay[ $slot->dayIndex ];
-			if ( empty( $daySlots ) ) { // If day is empty, this is a good candidate (first slot for the day)
-				if ( $bestSlotOverall === null ) {
-					$bestSlotOverall = $slot; // Take first available if all days are empty
-				}
-				// Potentially continue to see if other empty days have earlier slots? Or just return $slot here?
-				// For now, let's prefer any slot on an empty day. If multiple, first one encountered.
-				// To be more deterministic, one might sort $validNonOverlappingSlots by day then time first.
-				return $slot;
-			}
-
-			$minGapThisSlot          = PHP_INT_MAX;
-			$isBetterThanCurrentBest = false;
-
-			foreach ( $daySlots as $assignedSlot ) {
-				$gap = $slot->getGapDuration( $assignedSlot );
-				if ( $gap >= 0 && $gap < $minGapThisSlot ) { // gap=0 means adjacent
-					$minGapThisSlot = $gap;
-				}
-			}
-
-			if ( $minGapThisSlot < $minOverallGap ) {
-				$minOverallGap   = $minGapThisSlot;
-				$bestSlotOverall = $slot;
-			} elseif ( $bestSlotOverall === null ) { // Ensure a slot is picked if all have PHP_INT_MAX gap (e.g. first slot)
-				$bestSlotOverall = $slot;
-			}
-		}
-		return $bestSlotOverall; // This can be null if $validNonOverlappingSlots was empty
-	}
-
-	private function isSlotValidWithoutOverlap( TimeSlot $slotToCheck, array $currentAssignedSlots ): bool {
-		foreach ( $currentAssignedSlots as $assignedSlot ) {
-			if ( $slotToCheck->overlaps( $assignedSlot ) ) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	// Changed to accept Student object to get its duration easily
-	private function tryReshuffleToFit( Student $newStudent, array $newStudentCandidateSlots, array $allPossibleSlots ): bool {
-		$this->plannedReshuffles = []; // Clear previous plan
-
-		foreach ( $newStudentCandidateSlots as $newProposedSlotForStudent ) {
-			// Ensure this proposed slot has the correct duration for the student
-			// The precalculateAllLessonSlots should have handled this, but good to be aware.
-			// If newProposedSlotForStudent->duration !== newStudent->getLessonDuration(), it's an issue.
-			// Assuming precalculateAllLessonSlots is correct.
-
-			$conflictingAssignments = $this->findConflictingAssignments( $newProposedSlotForStudent );
-
-			if ( empty( $conflictingAssignments ) ) {
-				$this->assignSlot( $newStudent->id, $newProposedSlotForStudent );
-				return true; // No conflicts, direct assignment possible
-			}
-
-			// Try to find alternative slots for all conflicting assignments
-			if ( $this->canReshuffleConflictingAssignments( $conflictingAssignments, $allPossibleSlots, $newProposedSlotForStudent, $newStudent->id ) ) {
-				// If successful, executeReshuffle will move conflicting ones, then assign the new student
-				$this->executeReshuffle(); // Uses $this->plannedReshuffles
-				$this->assignSlot( $newStudent->id, $newProposedSlotForStudent );
-				echo "  -> Reshuffle successful for {$newStudent->name}.\n";
-				return true;
+		foreach ( $this->availability as $teacherAvailableSlot ) {
+			if ( $teacherAvailableSlot->dayIndex === $lessonSlot->dayIndex &&
+				$teacherAvailableSlot->startTime <= $lessonSlot->startTime &&
+				$teacherAvailableSlot->endTime >= $lessonSlot->endTime ) {
+				return true; // Lesson fits entirely within this teacher slot
 			}
 		}
 		return false;
 	}
+}
 
-	private function findConflictingAssignments( TimeSlot $proposedSlot ): array {
-		$conflicts = [];
-		// $schedule is studentId => TimeSlot
-		$currentSchedule = $this->teacher->getSchedule();
-		foreach ( $currentSchedule as $studentIdInSchedule => $assignedSlot ) {
-			if ( $proposedSlot->overlaps( $assignedSlot ) ) {
-				$conflicts[] = [
-					'studentId' => $studentIdInSchedule,
-					'slot'      => $assignedSlot, // This is a TimeSlot object
+
+class PrioritySchedulerService {
+	private Teacher $teacher;
+	/** @var Student[] */
+	private array $students;
+	private array $schedule                  = []; // studentId => TimeSlot (current placement)
+	private int $maxConflictResolutionRounds = 20; // Increased max attempts
+
+	public function __construct( Teacher $teacher, array $students ) {
+		$this->teacher = $teacher;
+
+		usort(
+			$students,
+			function ( Student $a, Student $b ) {
+				$countA = $a->getTotalAvailabilitySlotsCount();
+				$countB = $b->getTotalAvailabilitySlotsCount();
+				if ( $countA === $countB ) {
+					return $b->duration <=> $a->duration;
+				}
+				return $countA <=> $countB;
+			}
+		);
+		$this->students = $students; // Already sorted
+	}
+
+	public function calculateSchedule(): array {
+		echo 'Starting Priority Scheduler with ' . count( $this->students ) . " students...\n";
+		$this->schedule = []; // Clear previous schedule
+		foreach ( $this->students as $s ) { // Reset student states
+			$s->currentPlacement    = null;
+			$s->currentPriorityUsed = null;
+			$s->isLocked            = false;
+		}
+
+		$this->initialPlacement();
+		$this->resolveConflictsIteratively();
+
+		$finalFormattedSchedule = [];
+		$placedCount            = 0;
+		foreach ( $this->students as $student ) { // Iterate in sorted order for consistent output
+			if ( $student->currentPlacement !== null ) {
+				++$placedCount;
+				$finalFormattedSchedule[] = [
+					'studentName'  => $student->name,
+					'day'          => $student->currentPlacement->day,
+					'startTime'    => TimeSlot::formatMinutesToTime( $student->currentPlacement->startTime ),
+					'endTime'      => TimeSlot::formatMinutesToTime( $student->currentPlacement->endTime ),
+					'priorityUsed' => $student->currentPriorityUsed,
+					'isLocked'     => $student->isLocked,
 				];
+			}
+		}
+
+		// Sort final schedule for display
+		usort(
+			$finalFormattedSchedule,
+			function ( $a, $b ) {
+				$dayMap    = [
+					'Monday'    => 1,
+					'Tuesday'   => 2,
+					'Wednesday' => 3,
+					'Thursday'  => 4,
+					'Friday'    => 5,
+					'Saturday'  => 6,
+					'Sunday'    => 7,
+				];
+				$dayIndexA = $dayMap[ $a['day'] ] ?? 0;
+				$dayIndexB = $dayMap[ $b['day'] ] ?? 0;
+				if ( $dayIndexA === $dayIndexB ) {
+					// Convert HH:MM back to minutes for comparison or compare strings directly
+					$timeA = (int) substr( $a['startTime'], 0, 2 ) * 60 + (int) substr( $a['startTime'], 3, 2 );
+					$timeB = (int) substr( $b['startTime'], 0, 2 ) * 60 + (int) substr( $b['startTime'], 3, 2 );
+					return $timeA <=> $timeB;
+				}
+				return $dayIndexA <=> $dayIndexB;
+			}
+		);
+
+		echo "Scheduler finished. Placed {$placedCount} out of " . count( $this->students ) . " students.\n";
+		$unplacedStudents = [];
+		foreach ( $this->students as $student ) {
+			if ( $student->currentPlacement === null ) {
+				$unplacedStudents[] = $student->name . ' (P-Slots: ' . $student->getTotalAvailabilitySlotsCount() . ')';
+			}
+		}
+		if ( ! empty( $unplacedStudents ) ) {
+			echo 'Unplaced students: ' . implode( ', ', $unplacedStudents ) . "\n";
+		}
+
+		return $finalFormattedSchedule;
+	}
+
+	private function initialPlacement(): void {
+		echo "Phase 1: Initial Placement (Trying highest priorities)...\n";
+		foreach ( $this->students as $student ) {
+			if ( $student->isLocked || $student->currentPlacement !== null ) {
+				continue;
+			}
+
+			// Try to place with P1, then P2, etc. up to a reasonable limit (e.g., P5)
+			for ( $priority = 1; $priority <= 5; $priority++ ) {
+				$potentialSlots = $student->getPotentialLessonSlotsForPriority( $priority );
+				if ( empty( $potentialSlots ) && $priority > 1 && ! isset( $student->prioritizedAvailability[ $priority + 1 ] ) ) {
+					// No slots for this priority, and no further priorities defined for student
+					// This inner break is for priorities for *this specific student*
+					break;
+				}
+				if ( empty( $potentialSlots ) ) {
+					continue; // No slots for *this* specific priority level
+				}
+
+				foreach ( $potentialSlots as $slot ) {
+					if ( $this->tryPlaceStudent( $student, $slot, $priority ) ) {
+						echo "  Placed {$student->name} in P{$priority} slot: {$slot}\n";
+						if ( $student->getTotalAvailabilitySlotsCount() <= 1 ) { // Basic Lock: If only 1 (or very few) overall choices
+							if ( count( $student->getPotentialLessonSlotsForPriority( $priority ) ) == 1 && $priority == count( $student->prioritizedAvailability ) ) {
+								// If this was the only slot in their last available priority tier
+								$student->isLocked = true;
+								echo "    -> Locked {$student->name} (only/last option used).\n";
+							}
+						}
+						goto nextStudentInitialPlacement; // Placed this student, move to next student
+					}
+				}
+			}
+			nextStudentInitialPlacement:;
+		}
+	}
+
+	private function tryPlaceStudent( Student $student, TimeSlot $slotToTry, int $priorityLevel, array $excludeStudentIds = [] ): bool {
+		if ( $student->isLocked && $student->currentPlacement !== null && $student->currentPlacement === $slotToTry ) {
+			return true; // Already locked in this exact slot
+		}
+		if ( $student->isLocked && $student->currentPlacement !== null && $student->currentPlacement !== $slotToTry ) {
+			return false; // Locked elsewhere
+		}
+
+		if ( ! $this->teacher->isAvailable( $slotToTry ) ) {
+			// echo "DEBUG: Teacher not available for {$student->name} at {$slotToTry}\n";
+			return false;
+		}
+
+		foreach ( $this->schedule as $placedStudentId => $placedSlot ) {
+			if ( $student->id === $placedStudentId ) {
+				continue;
+			}
+			if ( in_array( $placedStudentId, $excludeStudentIds ) ) {
+				continue; // If we are re-slotting, ignore those also being moved
+			}
+
+			if ( $slotToTry->overlaps( $placedSlot ) ) {
+				// echo "DEBUG: Slot {$slotToTry} for {$student->name} overlaps with {$placedStudentId} at {$placedSlot}\n";
+				return false; // Conflict
+			}
+		}
+
+		// If student was already placed (e.g. during reshuffle), remove old placement
+		if ( $student->currentPlacement !== null ) {
+			$this->removeStudentFromScheduleById( $student->id, false ); // false: don't reset lock status during internal move
+		}
+
+		$this->schedule[ $student->id ] = $slotToTry;
+		$student->currentPlacement      = $slotToTry;
+		$student->currentPriorityUsed   = $priorityLevel;
+		// echo "DEBUG: Successfully placed/moved {$student->name} to {$slotToTry} (P{$priorityLevel})\n";
+		return true;
+	}
+
+	private function removeStudentFromScheduleById( string $studentId, bool $resetLock = true ): void {
+		$student = $this->findStudentById( $studentId );
+		if ( $student ) {
+			$student->currentPlacement    = null;
+			$student->currentPriorityUsed = null;
+			if ( $resetLock ) {
+				$student->isLocked = false;
+			}
+		}
+		unset( $this->schedule[ $studentId ] );
+	}
+
+	private function resolveConflictsIteratively(): void {
+		echo "Phase 2: Iterative Conflict Resolution...\n";
+		for ( $round = 1; $round <= $this->maxConflictResolutionRounds; $round++ ) {
+			$conflicts = $this->findAllConflicts();
+			if ( empty( $conflicts ) ) {
+				echo "  No conflicts found in round {$round}. Schedule considered stable.\n";
+				return; // Exit if no conflicts
+			}
+
+			echo "  Resolution Round {$round} - Found " . count( $conflicts ) . " conflicting student pairs.\n";
+			$scheduleChangedThisRound = false;
+
+			foreach ( $conflicts as $conflictPair ) {
+				$s1_id = $conflictPair[0];
+				$s2_id = $conflictPair[1];
+
+				$s1 = $this->findStudentById( $s1_id );
+				$s2 = $this->findStudentById( $s2_id );
+
+				if ( ! $s1 || ! $s2 || $s1->currentPlacement === null || $s2->currentPlacement === null ) {
+					continue; // Should not happen if conflict found correctly
+				}
+
+				// Determine which student to try moving first.
+				// Prefer moving non-locked students.
+				// If both non-locked, or both locked, prefer moving the one with lower current priority (higher number).
+				$tryMoveS1First = false;
+				if ( $s1->isLocked && ! $s2->isLocked ) {
+					$tryMoveS1First = false; // Try moving s2
+				} elseif ( ! $s1->isLocked && $s2->isLocked ) {
+					$tryMoveS1First = true; // Try moving s1
+				} else { // Both locked or both not locked
+					$tryMoveS1First = ( $s1->currentPriorityUsed ?? 0 ) >= ( $s2->currentPriorityUsed ?? 0 );
+				}
+
+				$studentToTryMoving = $tryMoveS1First ? $s1 : $s2;
+				$otherStudent       = $tryMoveS1First ? $s2 : $s1;
+
+				if ( $this->attemptReSlotStudent( $studentToTryMoving, [ $otherStudent->id ] ) ) {
+					echo "    Moved {$studentToTryMoving->name} to resolve conflict with {$otherStudent->name}.\n";
+					$scheduleChangedThisRound = true;
+					// Since a change was made, break from this conflict list and re-evaluate all conflicts in the next round
+					break;
+				} elseif ( ! $otherStudent->isLocked && $this->attemptReSlotStudent( $otherStudent, [ $studentToTryMoving->id ] ) ) {
+					// If first attempt failed, try moving the other student (if not locked)
+					echo "    Moved {$otherStudent->name} to resolve conflict with {$studentToTryMoving->name}.\n";
+					$scheduleChangedThisRound = true;
+					break;
+				} else {
+					echo "    Could not resolve conflict between {$s1->name} and {$s2->name} by simple re-slotting this round.\n";
+				}
+			} // End foreach conflict
+
+			if ( ! $scheduleChangedThisRound ) {
+				echo "  No conflicts successfully resolved in round {$round}. Current rules might not resolve remaining conflicts.\n";
+				// Consider more advanced strategies here if needed, e.g. trying to move a "locked" student as a last resort
+				break; // Stop if no progress
+			}
+		} // End for round
+		if ( $round > $this->maxConflictResolutionRounds ) {
+			echo "  Reached max conflict resolution rounds.\n";
+		}
+	}
+
+	// $excludeStudentIds: array of student IDs whose current slots should be ignored during overlap check (because they are being moved)
+	private function attemptReSlotStudent( Student $student, array $excludeStudentIds = [] ): bool {
+		if ( $student->isLocked ) {
+			// echo "DEBUG: Attempted to move locked student {$student->name}, skipping.\n";
+			return false;
+		}
+
+		$originalSlot     = $student->currentPlacement; // Should not be null if student is in a conflict
+		$originalPriority = $student->currentPriorityUsed ?? 0; // Default to 0 if somehow null
+
+		// Try next priorities for this student (e.g., P_current+1 up to P5)
+		for ( $priorityToTry = $originalPriority + 1; $priorityToTry <= 5; $priorityToTry++ ) {
+			$potentialSlots = $student->getPotentialLessonSlotsForPriority( $priorityToTry );
+			foreach ( $potentialSlots as $newSlot ) {
+				// Pass $excludeStudentIds to tryPlaceStudent
+				if ( $this->tryPlaceStudent( $student, $newSlot, $priorityToTry, $excludeStudentIds ) ) {
+					echo "      -> Reslotted {$student->name} from P{$originalPriority} to P{$priorityToTry} at {$newSlot}\n";
+					// Lock if this new slot is a very constrained choice for this new priority
+					if ( count( $potentialSlots ) == 1 && $priorityToTry == $this->getLastDefinedPriority( $student ) ) {
+						$student->isLocked = true;
+						echo "        -> Locked {$student->name} (moved to only/last option).\n";
+					}
+					return true; // Successfully moved
+				}
+			}
+		}
+		// If no higher priority worked, or if it was already P5, no move possible with this logic
+		// Revert to original placement if it was temporarily removed in tryPlaceStudent for checking
+		// (tryPlaceStudent now handles removing old placement only if a new one is successful)
+		// If we are here, no valid new slot was found for the student. The student remains in their original conflicting slot.
+		// echo "DEBUG: Failed to find alternative slot for {$student->name} (was P{$originalPriority})\n";
+		return false;
+	}
+
+	private function getLastDefinedPriority( Student $student ): int {
+		$maxP = 0;
+		foreach ( $student->prioritizedAvailability as $p => $slots ) {
+			if ( ! empty( $slots ) ) {
+				$maxP = max( $maxP, $p );
+			}
+		}
+		return $maxP > 0 ? $maxP : 1; // Default to 1 if no slots defined
+	}
+
+
+	private function findAllConflicts(): array {
+		$conflicts             = []; // Store pairs of [studentId1, studentId2]
+		$studentIdsInSchedule  = array_keys( $this->schedule );
+		$numStudentsInSchedule = count( $studentIdsInSchedule );
+
+		for ( $i = 0; $i < $numStudentsInSchedule; $i++ ) {
+			for ( $j = $i + 1; $j < $numStudentsInSchedule; $j++ ) {
+				$s1_id = $studentIdsInSchedule[ $i ];
+				$s2_id = $studentIdsInSchedule[ $j ];
+
+				// Ensure students still exist in the main students list (should always be true)
+				// and have placements (which they should if they are keys in $this->schedule)
+				$s1 = $this->findStudentById( $s1_id );
+				$s2 = $this->findStudentById( $s2_id );
+
+				if ( $s1 && $s2 && $s1->currentPlacement && $s2->currentPlacement ) {
+					if ( $s1->currentPlacement->overlaps( $s2->currentPlacement ) ) {
+						$conflicts[] = [ $s1_id, $s2_id ];
+						// echo "    Conflict detected: {$s1->name} ({$s1->currentPlacement}) and {$s2->name} ({$s2->currentPlacement})\n";
+					}
+				}
 			}
 		}
 		return $conflicts;
 	}
 
-	// Added $newStudentIdToExclude to prevent reshuffling a student into a slot that the new student wants,
-	// or moving a student to conflict with another student being moved for the same new student.
-	private function canReshuffleConflictingAssignments( array $conflictsToResolve, array $allPossibleSlots, TimeSlot $slotForNewStudent, string $newStudentIdToExclude ): bool {
-		$tempPlannedReshuffles = [];
-
-		foreach ( $conflictsToResolve as $conflict ) {
-			$conflictingStudentId          = $conflict['studentId'];
-			$conflictingStudentCurrentSlot = $conflict['slot']; // This is a TimeSlot object
-
-			if ( ! isset( $this->students[ $conflictingStudentId ] ) ) {
-				continue; // Should not happen
-			}
-			$conflictingStudentObj = $this->students[ $conflictingStudentId ];
-
-			$studentCandidateSlots = $allPossibleSlots[ $conflictingStudentId ] ?? [];
-			$foundAlternative      = false;
-			foreach ( $studentCandidateSlots as $alternativeSlot ) {
-				// Alternative must not be the one it's currently in
-				if ( $this->slotsAreEqual( $alternativeSlot, $conflictingStudentCurrentSlot ) ) {
-					continue;
-				}
-				// Alternative must not overlap with the slot the new student wants
-				if ( $alternativeSlot->overlaps( $slotForNewStudent ) ) {
-					continue;
-				}
-
-				// Check if this alternativeSlot conflicts with other *fixed* assignments
-				// (not including those also in conflictsToResolve, and not the new student slot)
-				$isValidAlternative = $this->isSlotValidForReshuffle( $alternativeSlot, $conflictsToResolve, $slotForNewStudent );
-
-				if ( $isValidAlternative ) {
-					$tempPlannedReshuffles[ $conflictingStudentId ] = $alternativeSlot;
-					$foundAlternative                               = true;
-					break; // Found one alternative for this conflicting student
-				}
-			}
-			if ( ! $foundAlternative ) {
-				$this->plannedReshuffles = []; // Clear partial plan
-				return false; // Cannot find alternative for one of the conflicting students
+	private function findStudentById( string $studentId ): ?Student {
+		foreach ( $this->students as $student ) { // $this->students is array of Student objects
+			if ( $student->id === $studentId ) {
+				return $student;
 			}
 		}
-		$this->plannedReshuffles = $tempPlannedReshuffles; // All conflicts can be resolved
-		return true;
+		// Fallback if $this->students was keyed by ID (which it isn't in current __construct)
+		// if (isset($this->students[$studentId])) return $this->students[$studentId];
+		return null;
 	}
-
-	// Removed params as it uses $this->plannedReshuffles
-	private function executeReshuffle(): void {
-		// First, remove all students that are part of the current planned reshuffle
-		foreach ( array_keys( $this->plannedReshuffles ) as $studentIdToMove ) {
-			$this->removeStudentFromSchedule( $studentIdToMove );
-
-			$schedule            = $this->teacher->getSchedule();
-			$previousSlotDisplay = isset( $schedule[ $studentIdToMove ] ) ? $schedule[ $studentIdToMove ] : 'N/A before removal';
-			echo "    -> Moved {$this->students[$studentIdToMove]->name} to make room (was at {$previousSlotDisplay}).\n";
-		}
-		// Then, re-assign them to their new planned slots
-		foreach ( $this->plannedReshuffles as $studentIdToReassign => $newSlotForStudent ) {
-			$this->assignSlot( $studentIdToReassign, $newSlotForStudent );
-			echo "    -> Reassigned {$this->students[$studentIdToReassign]->name} to new slot {$newSlotForStudent}.\n";
-		}
-		$this->plannedReshuffles = []; // Clear after execution
-	}
-
-	// Added $slotForNewStudentToAvoid for checking when finding alternative slots
-	private function isSlotValidForReshuffle( TimeSlot $slotToCheck, array $conflictsBeingMoved, TimeSlot $slotForNewStudentToAvoid ): bool {
-		// Check against the slot the new student is trying to get
-		if ( $slotToCheck->overlaps( $slotForNewStudentToAvoid ) ) {
-			return false;
-		}
-
-		$currentSchedule         = $this->teacher->getSchedule();
-		$idsOfStudentsBeingMoved = array_column( $conflictsBeingMoved, 'studentId' );
-
-		foreach ( $currentSchedule as $studentIdInSchedule => $assignedSlot ) {
-			// Don't check against students that are also part of this reshuffle batch,
-			// as their old slots are conceptually "freeing up".
-			if ( in_array( $studentIdInSchedule, $idsOfStudentsBeingMoved, true ) ) {
-				continue;
-			}
-			// Check for overlap with other *fixed* students in the schedule
-			if ( $slotToCheck->overlaps( $assignedSlot ) ) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private function removeStudentFromSchedule( string $studentIdToRemove ): void {
-		if ( ! isset( $this->students[ $studentIdToRemove ] ) ) {
-			return;
-		}
-
-		$studentObj   = $this->students[ $studentIdToRemove ];
-		$slotToRemove = $studentObj->getAssignedSlot();
-
-		if ( $slotToRemove !== null ) {
-			// Remove from teacher's main schedule
-			unset( $this->teacher->schedule[ $studentIdToRemove ] );
-
-			// Remove from day-specific tracking array
-			// $slotToRemove->dayIndex is guaranteed to be valid (1-7) due to TimeSlot constructor
-			$daySlots = &$this->assignedSlotsByDay[ $slotToRemove->dayIndex ];
-			foreach ( $daySlots as $key => $scheduledSlotInDay ) {
-				if ( $this->slotsAreEqual( $scheduledSlotInDay, $slotToRemove ) ) {
-					array_splice( $daySlots, $key, 1 );
-					break;
-				}
-			}
-			$studentObj->setAssignedSlot( null ); // Unassign from student
-		}
-	}
-
-	private function slotsAreEqual( TimeSlot $slot1, TimeSlot $slot2 ): bool {
-		return $slot1->dayIndex === $slot2->dayIndex && // Compare dayIndex for efficiency
-				$slot1->startTime === $slot2->startTime &&
-				$slot1->endTime === $slot2->endTime;
-	}
-
-	private function assignSlot( string $studentId, TimeSlot $slot ): void {
-		if ( ! isset( $this->students[ $studentId ] ) ) {
-			return; // Safety check
-		}
-
-		$this->teacher->addToSchedule( $studentId, $slot );
-		$this->students[ $studentId ]->setAssignedSlot( $slot );
-
-		// $slot->dayIndex is guaranteed to be 1-7
-		$this->assignedSlotsByDay[ $slot->dayIndex ][] = $slot;
-		usort( // Keep the day's slots sorted by start time
-			$this->assignedSlotsByDay[ $slot->dayIndex ],
-			function ( TimeSlot $a, TimeSlot $b ): int {
-				return $a->startTime <=> $b->startTime;
-			}
-		);
-	}
-}
-
-// Wrapper class to set up the system from array data
-class SchedulingSystem {
-	public static function createFromArrayData( array $teacherData, array $studentsData ): DurationAwareScheduler {
-		if ( ! isset( $teacherData['id'], $teacherData['name'], $teacherData['availability'] ) ) {
-			throw new InvalidArgumentException( 'Teacher data is incomplete.' );
-		}
-		$teacher = new Teacher( $teacherData['id'], $teacherData['name'] );
-		$teacher->setAvailabilityFromArray( $teacherData['availability'] ); // This now has basic validation
-
-		$scheduler = new DurationAwareScheduler( $teacher );
-
-		foreach ( $studentsData as $studentData ) {
-			if ( ! isset( $studentData['id'], $studentData['name'], $studentData['duration'], $studentData['availability'] ) ) {
-				error_log( 'Skipping student due to incomplete data: ' . ( $studentData['name'] ?? 'Unknown' ) );
-				continue;
-			}
-			try {
-				$student = new Student( $studentData['id'], $studentData['name'], (int) $studentData['duration'] );
-				$student->setAvailabilityFromArray( $studentData['availability'] ); // Also has basic validation
-				$scheduler->addStudent( $student );
-			} catch ( InvalidArgumentException $e ) {
-				error_log( "Error creating student {$studentData['name']}: " . $e->getMessage() );
-			}
-		}
-		return $scheduler;
-	}
-}
-
-
-// ===============================
-// YOUR TEST DATA WITH DURATIONS
-// (Using the one you provided in the script)
-// ===============================
-
-$teacherData = [
-	'id'           => 1,
-	'name'         => 'Teacher',
-	'availability' => [
-		'days'  => [ 'Monday', 'Tuesday', 'Wednesday' ],
-		'times' => [
-			'Monday'    => [
-				[
-					'start' => 720,
-					'end'   => 1260,
-				],
-			], // 12:00-21:00
-			'Tuesday'   => [
-				[
-					'start' => 720,
-					'end'   => 1260,
-				],
-			], // 12:00-21:00
-			'Wednesday' => [
-				[
-					'start' => 660,
-					'end'   => 1260,
-				],
-			], // 11:00-21:00
-		],
-	],
-];
-
-$studentsData = array(
-	0  =>
-	array(
-		'id'           => 'Bellmann Luan',
-		'name'         => 'Bellmann Luan',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 810,
-						'end'   => 960,
-					),
-				),
-			),
-		),
-	),
-	1  =>
-	array(
-		'id'           => 'Bhend Myles',
-		'name'         => 'Bhend Myles',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-				1 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 675,
-						'end'   => 715,
-					),
-					1 =>
-					array(
-						'start' => 990,
-						'end'   => 1170,
-					),
-				),
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 1020,
-						'end'   => 1200,
-					),
-				),
-			),
-		),
-	),
-	2  =>
-	array(
-		'id'           => 'Bleuer Lia',
-		'name'         => 'Bleuer Lia',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1050,
-						'end'   => 1080,
-					),
-				),
-			),
-		),
-	),
-	3  =>
-	array(
-		'id'           => 'Bleuer Tim',
-		'name'         => 'Bleuer Tim',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1080,
-						'end'   => 1110,
-					),
-				),
-			),
-		),
-	),
-	4  =>
-	array(
-		'id'           => 'Brandenberg Louan',
-		'name'         => 'Brandenberg Louan',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-				1 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 870,
-						'end'   => 910,
-					),
-					1 =>
-					array(
-						'start' => 930,
-						'end'   => 1110,
-					),
-				),
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 795,
-						'end'   => 975,
-					),
-				),
-			),
-		),
-	),
-	5  =>
-	array(
-		'id'           => 'Christen Noam',
-		'name'         => 'Christen Noam',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1110,
-						'end'   => 1150,
-					),
-					1 =>
-					array(
-						'start' => 1050,
-						'end'   => 1230,
-					),
-				),
-			),
-		),
-	),
-	6  =>
-	array(
-		'id'           => 'Delgado Eliel',
-		'name'         => 'Delgado Eliel',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 945,
-						'end'   => 1110,
-					),
-				),
-			),
-		),
-	),
-	7  =>
-	array(
-		'id'           => 'FlŸhmann Vincent',
-		'name'         => 'FlŸhmann Vincent',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1070,
-						'end'   => 1110,
-					),
-				),
-			),
-		),
-	),
-	8  =>
-	array(
-		'id'           => 'Gander Leana',
-		'name'         => 'Gander Leana',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-				1 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Monday'  =>
-				array(
-					0 =>
-					array(
-						'start' => 840,
-						'end'   => 1020,
-					),
-				),
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 960,
-						'end'   => 1140,
-					),
-				),
-			),
-		),
-	),
-	9  =>
-	array(
-		'id'           => 'Giandon Lina',
-		'name'         => 'Giandon Lina',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1040,
-						'end'   => 1070,
-					),
-				),
-			),
-		),
-	),
-	10 =>
-	array(
-		'id'           => 'Hunziker Ayleen',
-		'name'         => 'Hunziker Ayleen',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-				1 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 930,
-						'end'   => 960,
-					),
-				),
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 795,
-						'end'   => 915,
-					),
-				),
-			),
-		),
-	),
-	11 =>
-	array(
-		'id'           => 'Ibrahimi Mahsa',
-		'name'         => 'Ibrahimi Mahsa',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 880,
-						'end'   => 920,
-					),
-					1 =>
-					array(
-						'start' => 780,
-						'end'   => 880,
-					),
-				),
-			),
-		),
-	),
-	12 =>
-	array(
-		'id'           => 'Juillard Jonas',
-		'name'         => 'Juillard Jonas',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-				1 => 'Monday',
-				2 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Tuesday'   =>
-				array(
-					0 =>
-					array(
-						'start' => 930,
-						'end'   => 960,
-					),
-					1 =>
-					array(
-						'start' => 1080,
-						'end'   => 1200,
-					),
-				),
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 1200,
-						'end'   => 1380,
-					),
-				),
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1125,
-						'end'   => 1305,
-					),
-				),
-			),
-		),
-	),
-	13 =>
-	array(
-		'id'           => 'Klossner Liano',
-		'name'         => 'Klossner Liano',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-				1 => 'Tuesday',
-				2 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 810,
-						'end'   => 930,
-					),
-				),
-				'Tuesday'   =>
-				array(
-					0 =>
-					array(
-						'start' => 1140,
-						'end'   => 1200,
-					),
-				),
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 840,
-						'end'   => 885,
-					),
-				),
-			),
-		),
-	),
-	14 =>
-	array(
-		'id'           => 'Kluge Benjamin',
-		'name'         => 'Kluge Benjamin',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-				1 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 975,
-						'end'   => 1005,
-					),
-				),
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 810,
-						'end'   => 1020,
-					),
-				),
-			),
-		),
-	),
-	15 =>
-	array(
-		'id'           => 'KneubŸhler Florine',
-		'name'         => 'KneubŸhler Florine',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-				1 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1000,
-						'end'   => 1030,
-					),
-					1 =>
-					array(
-						'start' => 810,
-						'end'   => 870,
-					),
-					2 =>
-					array(
-						'start' => 990,
-						'end'   => 1170,
-					),
-				),
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 1020,
-						'end'   => 1200,
-					),
-				),
-			),
-		),
-	),
-	16 =>
-	array(
-		'id'           => 'Kobelt Carla',
-		'name'         => 'Kobelt Carla',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 810,
-						'end'   => 990,
-					),
-				),
-			),
-		),
-	),
-	17 =>
-	array(
-		'id'           => 'Konrad Dean',
-		'name'         => 'Konrad Dean',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 960,
-						'end'   => 1000,
-					),
-					1 =>
-					array(
-						'start' => 1005,
-						'end'   => 1050,
-					),
-				),
-			),
-		),
-	),
-	18 =>
-	array(
-		'id'           => 'KŸenzi Livia',
-		'name'         => 'KŸenzi Livia',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 960,
-						'end'   => 1000,
-					),
-					1 =>
-					array(
-						'start' => 1020,
-						'end'   => 1200,
-					),
-				),
-			),
-		),
-	),
-	19 =>
-	array(
-		'id'           => 'Lauber Tim',
-		'name'         => 'Lauber Tim',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 840,
-						'end'   => 870,
-					),
-					1 =>
-					array(
-						'start' => 850,
-						'end'   => 1020,
-					),
-				),
-			),
-		),
-	),
-	20 =>
-	array(
-		'id'           => 'MŸller Jakob',
-		'name'         => 'MŸller Jakob',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1020,
-						'end'   => 1125,
-					),
-				),
-			),
-		),
-	),
-	21 =>
-	array(
-		'id'           => 'Muri Marlen',
-		'name'         => 'Muri Marlen',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-				1 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 850,
-						'end'   => 880,
-					),
-					1 =>
-					array(
-						'start' => 810,
-						'end'   => 870,
-					),
-				),
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 960,
-						'end'   => 1080,
-					),
-				),
-			),
-		),
-	),
-	22 =>
-	array(
-		'id'           => 'Reutebuch Luiz',
-		'name'         => 'Reutebuch Luiz',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1110,
-						'end'   => 1150,
-					),
-				),
-			),
-		),
-	),
-	23 =>
-	array(
-		'id'           => 'Riesen Nils Levin',
-		'name'         => 'Riesen Nils Levin',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1000,
-						'end'   => 1040,
-					),
-					1 =>
-					array(
-						'start' => 1020,
-						'end'   => 1200,
-					),
-				),
-			),
-		),
-	),
-	24 =>
-	array(
-		'id'           => 'Rohr Michelle',
-		'name'         => 'Rohr Michelle',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Tuesday',
-			),
-			'times' =>
-			array(
-				'Tuesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 1020,
-						'end'   => 1140,
-					),
-				),
-			),
-		),
-	),
-	25 =>
-	array(
-		'id'           => 'RŸfenacht Sabrina',
-		'name'         => 'RŸfenacht Sabrina',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 930,
-						'end'   => 960,
-					),
-				),
-			),
-		),
-	),
-	26 =>
-	array(
-		'id'           => 'Schneider Anina Leena',
-		'name'         => 'Schneider Anina Leena',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 840,
-						'end'   => 1020,
-					),
-				),
-			),
-		),
-	),
-	27 =>
-	array(
-		'id'           => 'Studer Tyl',
-		'name'         => 'Studer Tyl',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 810,
-						'end'   => 840,
-					),
-					1 =>
-					array(
-						'start' => 780,
-						'end'   => 1140,
-					),
-				),
-			),
-		),
-	),
-	28 =>
-	array(
-		'id'           => 'Topalli Ana Nora',
-		'name'         => 'Topalli Ana Nora',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Monday' =>
-				array(
-					0 =>
-					array(
-						'start' => 780,
-						'end'   => 810,
-					),
-				),
-			),
-		),
-	),
-	29 =>
-	array(
-		'id'           => 'Von Gunten Timeo',
-		'name'         => 'Von Gunten Timeo',
-		'duration'     => 30,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 720,
-						'end'   => 750,
-					),
-				),
-			),
-		),
-	),
-	30 =>
-	array(
-		'id'           => 'Wildi Marlon',
-		'name'         => 'Wildi Marlon',
-		'duration'     => 40,
-		'availability' =>
-		array(
-			'days'  =>
-			array(
-				0 => 'Wednesday',
-				1 => 'Monday',
-			),
-			'times' =>
-			array(
-				'Wednesday' =>
-				array(
-					0 =>
-					array(
-						'start' => 780,
-						'end'   => 820,
-					),
-					1 =>
-					array(
-						'start' => 790,
-						'end'   => 870,
-					),
-				),
-				'Monday'    =>
-				array(
-					0 =>
-					array(
-						'start' => 935,
-						'end'   => 1020,
-					),
-				),
-			),
-		),
-	),
-);
-
-
-// ===============================
-// RUN THE TEST
-// ===============================
-echo "=== DURATION-AWARE SCHEDULING TEST WITH RESHUFFLING ===\n";
-echo "Teacher availability: Mon 12:00-21:00, Tue 12:00-21:00, Wed 11:00-21:00\n";
-echo 'Students to schedule: ' . count( $studentsData ) . "\n";
-
-$durationCounts = [];
-foreach ( $studentsData as $student ) {
-	$duration                    = $student['duration'];
-	$durationCounts[ $duration ] = ( $durationCounts[ $duration ] ?? 0 ) + 1;
-}
-echo 'Lesson durations: ';
-foreach ( $durationCounts as $duration => $count ) {
-	echo "{$count}x{$duration}min ";
-}
-echo "\n\n";
-
-$scriptStartTime = microtime( true );
-
-try {
-	$scheduler       = SchedulingSystem::createFromArrayData( $teacherData, $studentsData );
-	$optimalSchedule = $scheduler->calculateOptimalSchedule(); // This has its own timer log
-
-	$executionTime = microtime( true ) - $scriptStartTime;
-
-	echo "\n=== RESULTS ===\n";
-	echo 'Total script execution time: ' . round( $executionTime, 2 ) . " seconds\n";
-	echo 'Students processed in input: ' . count( $studentsData ) . "\n";
-	echo 'Assignments made: ' . count( $optimalSchedule ) . "\n\n";
-
-	if ( empty( $optimalSchedule ) ) {
-		echo "No schedule could be generated with assignments.\n";
-	} else {
-		echo "=== FINAL SCHEDULE ===\n";
-		foreach ( $optimalSchedule as $appointment ) {
-			echo $appointment['studentId'] . ' - ' .
-				$appointment['day'] . ' ' .
-				DurationAwareScheduler::formatMinutesToTime( $appointment['startTime'] ) . '-' .
-				DurationAwareScheduler::formatMinutesToTime( $appointment['endTime'] ) .
-				" ({$appointment['duration']} min)\n";
-		}
-
-		// Verify no overlaps
-		echo "\n=== OVERLAP CHECK ===\n";
-		$hasOverlaps = false;
-		if ( count( $optimalSchedule ) > 1 ) { // Only check if there's more than one appointment
-			for ( $i = 0; $i < count( $optimalSchedule ); $i++ ) {
-				for ( $j = $i + 1; $j < count( $optimalSchedule ); $j++ ) {
-					$slot1Data = $optimalSchedule[ $i ];
-					$slot2Data = $optimalSchedule[ $j ];
-
-					// Need to create TimeSlot objects to use the overlaps method,
-					// or replicate overlap logic here.
-					// For simplicity, replicating logic:
-					if ( $slot1Data['day'] === $slot2Data['day'] &&
-						$slot1Data['startTime'] < $slot2Data['endTime'] &&
-						$slot1Data['endTime'] > $slot2Data['startTime'] ) {
-						echo "OVERLAP DETECTED: {$slot1Data['studentId']} and {$slot2Data['studentId']} on {$slot1Data['day']}\n";
-						$hasOverlaps = true;
-					}
-				}
-			}
-		}
-		if ( ! $hasOverlaps ) {
-			echo "-> No overlaps detected - schedule is valid!\n";
-		}
-	}
-} catch ( InvalidArgumentException $e ) { // Catch specific expected exceptions
-	echo 'ERROR (InvalidArgumentException): ' . $e->getMessage() . "\n";
-	// print_r($e->getTraceAsString()); // For debugging
-} catch ( Exception $e ) { // Catch any other unexpected exceptions
-	echo 'UNEXPECTED ERROR: ' . $e->getMessage() . "\n";
-	// print_r($e->getTraceAsString()); // For debugging
 }
