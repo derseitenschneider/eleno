@@ -60,7 +60,7 @@ export default function LifetimeTeaser() {
                 Jetzt upgraden
               </ButtonCheckoutLifetime>
               <p className='mt-2 text-xs'>
-                * Limitiertes Anbegot bis{' '}
+                * Limitiertes Angebot bis{' '}
                 <span className='font-bold'>12.06.2025</span>
               </p>
             </CardContent>
@@ -86,7 +86,7 @@ export default function LifetimeTeaser() {
                 Jetzt upgraden
               </ButtonCheckoutLifetime>
               <p className='mt-2 text-xs'>
-                * Limitiertes Anbegot bis{' '}
+                * Limitiertes Angebot bis{' '}
                 <span className='font-bold'>12.06.2025</span>
               </p>
             </CardContent>

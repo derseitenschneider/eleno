@@ -107,7 +107,7 @@ export default function PricingPlanEUR() {
             ))}
           </ul>
           <p className='mt-5 text-xs'>
-            * Limitiertes Anbegot bis{' '}
+            * Limitiertes Angebot bis{' '}
             <span className='font-bold'>12.06.2025</span>
           </p>
         </CardContent>
