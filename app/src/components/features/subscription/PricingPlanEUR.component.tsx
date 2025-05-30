@@ -91,7 +91,7 @@ export default function PricingPlanEUR() {
                 trailingZeroDisplay: 'stripIfInteger',
               }).format(199)}
             </span>
-            <span className='text-muted-foreground'>/einmalig</span>
+            <span className='text-muted-foreground'>/einmalig*</span>
           </div>
         </CardHeader>
         <CardContent>
@@ -106,6 +106,10 @@ export default function PricingPlanEUR() {
               </li>
             ))}
           </ul>
+          <p className='mt-5 text-xs'>
+            * Limitiertes Anbegot bis{' '}
+            <span className='font-bold'>12.06.2025</span>
+          </p>
         </CardContent>
       </Card>
     </div>

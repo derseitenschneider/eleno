@@ -52,13 +52,17 @@ export default function LifetimeTeaser() {
                     trailingZeroDisplay: 'stripIfInteger',
                   }).format(199)}
                 </span>
-                <span className='text-muted-foreground'>/einmalig</span>
+                <span className='text-muted-foreground'>/einmalig*</span>
               </div>
             </CardHeader>
             <CardContent>
               <ButtonCheckoutLifetime currency='CHF' variant='default'>
                 Jetzt upgraden
               </ButtonCheckoutLifetime>
+              <p className='mt-2 text-xs'>
+                * Limitiertes Anbegot bis{' '}
+                <span className='font-bold'>12.06.2025</span>
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -74,13 +78,17 @@ export default function LifetimeTeaser() {
                     trailingZeroDisplay: 'stripIfInteger',
                   }).format(199)}
                 </span>
-                <span className='text-muted-foreground'>/einmalig</span>
+                <span className='text-muted-foreground'>/einmalig*</span>
               </div>
             </CardHeader>
             <CardContent>
               <ButtonCheckoutLifetime currency='EUR' variant='default'>
                 Jetzt upgraden
               </ButtonCheckoutLifetime>
+              <p className='mt-2 text-xs'>
+                * Limitiertes Anbegot bis{' '}
+                <span className='font-bold'>12.06.2025</span>
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
