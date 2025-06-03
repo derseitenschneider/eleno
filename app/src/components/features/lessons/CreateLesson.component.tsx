@@ -11,8 +11,10 @@ import useCurrentHolder from './useCurrentHolder'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import useSettingsQuery from '../settings/settingsQuery'
 
 function CreateLesson() {
+  const { data: settings } = useSettingsQuery()
   const { hasAccess } = useSubscription()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
@@ -149,6 +151,7 @@ function CreateLesson() {
         lessonContent: removeHTMLAttributes(lessonContent),
         [typeField]: currentLessonHolder.holder.id,
         date,
+        expiration_base: new Date().toISOString(),
       },
       {
         onSuccess: resetFields,
@@ -156,10 +159,15 @@ function CreateLesson() {
     )
   }
 
-  if (!currentLessonHolder) return null
+  if (!currentLessonHolder || !settings) return null
 
   return (
-    <div className='relative border-b border-hairline px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0'>
+    <div
+      className={cn(
+        settings.lesson_main_layout === 'regular' && 'border-b',
+        'relative border-hairline px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0',
+      )}
+    >
       <Blocker blockerId='createLesson' />
       <h5 className=' m-0 mb-2'>Neue Lektion</h5>
       <div className='mb-3 flex items-center gap-2'>

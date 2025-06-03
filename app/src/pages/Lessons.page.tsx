@@ -6,14 +6,16 @@ import NoteList from '../components/features/notes/NoteList.component'
 import { useLoading } from '../services/context/LoadingContext'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
+import useSettingsQuery from '@/components/features/settings/settingsQuery'
 
 function Lesson() {
   const { isLoading } = useLoading()
+  const { data: settings } = useSettingsQuery()
   const hasBanner = useHasBanner()
   const { currentLessonHolder } = useCurrentHolder()
   const currentHolderId = `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`
 
-  if (isLoading) return <p>...loading</p>
+  if (isLoading || !settings) return <p>...loading</p>
   if (currentLessonHolder)
     return (
       <div
@@ -28,9 +30,17 @@ function Lesson() {
             'flex flex-col lg:overflow-hidden',
           )}
         >
-          <CreateLesson />
-
-          <PreviousLessons />
+          {settings.lesson_main_layout === 'regular' ? (
+            <>
+              <CreateLesson />
+              <PreviousLessons layout={settings.lesson_main_layout} />
+            </>
+          ) : (
+            <>
+              <PreviousLessons layout={settings.lesson_main_layout} />
+              <CreateLesson />
+            </>
+          )}
         </main>
 
         <aside className='border-l border-hairline lg:h-full'>

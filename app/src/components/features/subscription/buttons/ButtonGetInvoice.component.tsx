@@ -44,7 +44,8 @@ export default function ButtonGetInvoice() {
       setStatus('ERROR')
     }
   }
-  if (subscriptionState !== 'LIFETIME') return null
+  if (subscriptionState !== 'LIFETIME' || !subscription?.needs_stripe_customer)
+    return null
   return (
     <div className=''>
       <Button

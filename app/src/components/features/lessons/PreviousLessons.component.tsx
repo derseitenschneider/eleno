@@ -5,8 +5,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { PreviousLessonItem } from './PreviousLessonItem.component'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
-
-function PreviousLessons() {
+import { cn } from '@/lib/utils'
+type PreviousLessonsProps = {
+  layout: 'regular' | 'reverse'
+}
+function PreviousLessons({ layout }: PreviousLessonsProps) {
   const { data: lessons } = useLatestLessons()
   const scrollRef = useRef<HTMLDivElement>(null)
   const { currentLessonHolder } = useCurrentHolder()
@@ -41,8 +44,18 @@ function PreviousLessons() {
 
   //TODO: fix scroll up when navigating to next student.
   return (
-    <div className='h-full overflow-hidden'>
-      <div className='flex h-full flex-col px-5 pb-4 pt-6 sm:pl-6 lg:py-4 lg:pr-4'>
+    <div
+      className={cn(
+        layout === 'reverse' ? 'border-hairline border-b' : '',
+        'h-full overflow-hidden',
+      )}
+    >
+      <div
+        className={cn(
+          layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
+          'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+        )}
+      >
         <>
           <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
@@ -55,7 +68,12 @@ function PreviousLessons() {
           <div className='overflow-hidden'>
             {previousLessonsIds.length > 0 ? (
               <ScrollArea ref={scrollRef} className='h-full'>
-                <div className='space-y-4 pb-12'>
+                <div
+                  className={cn(
+                    layout === 'reverse' ? 'pb-6' : 'pb-12',
+                    'space-y-4',
+                  )}
+                >
                   {previousLessonsIds.map((lessonId) => (
                     <PreviousLessonItem key={lessonId} lessonId={lessonId} />
                   ))}

@@ -12,9 +12,12 @@ import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import { useUser } from '@/services/context/UserContext'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
+import { useLoading } from '@/services/context/LoadingContext'
 
 function NavbarMobile() {
   const { logout } = useUser()
+  const { isLoading } = useLoading()
   const { navigateToCurrentHolder } = useNavigateToHolder()
   const todos = useTodosQuery().data
 
@@ -37,7 +40,12 @@ function NavbarMobile() {
   }
 
   return (
-    <nav className='padding-mobile-nav max-w-screen pointer-events-auto visible fixed bottom-0 left-0 right-0 z-50 block bg-background50/65 px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] backdrop-blur md:pointer-events-none md:hidden'>
+    <nav
+      className={cn(
+        isLoading ? 'bg-background50' : 'bg-background50/65 backdrop-blur',
+        'padding-mobile-nav max-w-screen pointer-events-auto visible fixed bottom-0 left-0 right-0 z-50 block px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] md:pointer-events-none md:hidden',
+      )}
+    >
       <ul className='flex h-full w-full items-center justify-between'>
         <NavbarMobileItem
           isActive={window.location.pathname === '/'}

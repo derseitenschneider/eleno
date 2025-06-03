@@ -32,7 +32,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
           <p>Lektion</p>
           <div
             data-testid='lessons-prev-lesson'
-            className='text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
+            className='break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
             {parse(removeHTMLAttributes(currentLesson.lessonContent || '—'))}
           </div>
@@ -41,7 +41,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
           <p>Hausaufgaben</p>
           <div
             data-testid='lessons-prev-homework'
-            className='text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
+            className='break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
             {parse(removeHTMLAttributes(currentLesson.homework || '—'))}
           </div>

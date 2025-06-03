@@ -279,6 +279,24 @@ export type Subscription = DBTypes['stripe_subscriptions']
 */
 
 export type Message = DBTypes['messages']
+
+/*
+|--------------------------------------------------------------------------
+| Notification Types
+|--------------------------------------------------------------------------
+*/
+
+export type Notification = DBTypes['notifications']
+export type NotificationView = DBTypes['notification_views']
+
+/*
+|--------------------------------------------------------------------------
+| Settings Types
+|--------------------------------------------------------------------------
+*/
+
+export type Settings = DBTypes['settings']
+
 /*
 |--------------------------------------------------------------------------
 | Repertoire Types
@@ -317,9 +335,9 @@ export type PartialRepertoireItem = Omit<
   RepertoireItem,
   'id' | 'user_id' | 'created_at'
 >
-import type { ColumnMeta, Row, RowData } from '@tanstack/react-table'
-import { TSubscriptionState } from '@/utils/getSubscriptionState'
-import { TSubscriptionPlan } from '@/services/context/SubscriptionContext'
+import type { ColumnMeta, Row } from '@tanstack/react-table'
+import type { TSubscriptionState } from '@/utils/getSubscriptionState'
+import type { TSubscriptionPlan } from '@/services/context/SubscriptionContext'
 
 export type CustomColumnMeta<TData> = ColumnMeta<TData, unknown> & {
   colSpan?: (row: Row<TData>) => number

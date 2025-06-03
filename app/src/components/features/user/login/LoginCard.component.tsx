@@ -15,7 +15,7 @@ import { loginSupabase } from '@/services/api/user.api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 import supabase from '@/services/api/supabase'
@@ -33,7 +33,6 @@ const loginSchema = z.object({
 type TInput = z.infer<typeof loginSchema>
 
 export default function LoginCard() {
-  const navigate = useNavigate()
   const form = useForm<TInput>({
     defaultValues: {
       email: '',
@@ -55,7 +54,6 @@ export default function LoginCard() {
   const onSubmit = async (data: TInput) => {
     try {
       await loginSupabase(data.email, data.password)
-      navigate('/')
     } catch {
       form.setFocus('email')
       form.setError('root', {

@@ -26,6 +26,7 @@ export const theme = {
       border: 'hsl(var(--border))',
       input: 'hsl(var(--input))',
       ring: 'hsl(var(--ring))',
+      backgroundPlain: 'hsl(var(--background-plain))',
       background50: 'hsl(var(--background-50))',
       background100: 'hsl(var(--background-100))',
       background200: 'hsl(var(--background-200))',

@@ -7,7 +7,6 @@ import Account from '../components/features/settings/Account'
 import TodosCompleted from '../components/features/todos/TodosCompleted.component'
 import TodosOpen from '../components/features/todos/TodosOpen.component'
 
-import View from '../components/features/settings/View'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -20,6 +19,7 @@ import useHasBanner from '@/hooks/useHasBanner'
 import SubscriptionPage from '@/pages/Subscription.page'
 import OnboardingPage from '@/pages/Onboarding.page'
 import Inbox from '@/pages/Inbox.page'
+import View from '@/components/features/settings/View'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()

@@ -58,7 +58,7 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
     <>
       <div className='text-right'>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant='ghost' className='h-8 w-8 p-0'>
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />

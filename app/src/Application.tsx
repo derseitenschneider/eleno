@@ -15,6 +15,7 @@ import useIsOnline from './hooks/useIsOnline'
 import { cn } from './lib/utils'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
 import Banner from './components/ui/Banner.component'
+import { NotificationManager } from './components/features/notifications/NotificationManager.component'
 
 export default function Application() {
   const isOnline = useIsOnline()
@@ -38,6 +39,7 @@ export default function Application() {
                     </div>
                     <Sidebar />
                     <NavbarMobile />
+                    <NotificationManager />
                   </DarkModeProvider>
                 </MainContext>
               </SubscriptionProvider>
