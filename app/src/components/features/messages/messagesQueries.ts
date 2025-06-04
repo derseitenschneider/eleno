@@ -37,18 +37,19 @@ export default function useMessagesQuery() {
       )
     }
 
-    const channel = supabase
-      .channel('messages')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-        },
-        handleRealtime,
-      )
-      .subscribe()
+    const channel = supabase.channel('messages').on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+      },
+      handleRealtime,
+    )
+
+    if (channel.state !== 'joining') {
+      channel.subscribe()
+    }
 
     return () => {
       if (channel) {
