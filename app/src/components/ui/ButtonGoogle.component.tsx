@@ -5,12 +5,13 @@ import { Button } from './button'
 
 export function ButtonGoogle() {
   async function signupWithGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${appConfig.appUrl}/first-steps`,
       },
     })
+    console.log(data)
     if (error) {
       return console.log(error)
     }
