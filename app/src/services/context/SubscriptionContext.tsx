@@ -101,26 +101,27 @@ export function SubscriptionProvider({
     },
     [queryClient.setQueryData, fetchErrorToast],
   )
-
+  const channel = supabase.channel('schema-db-changes').on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'stripe_subscriptions',
+    },
+    handleRealtime,
+  )
+  // .subscribe()
   // Set up Supabase realtime channel
   useEffect(() => {
-    const subscription = supabase
-      .channel('stripe_subscriptions')
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'stripe_subscriptions',
-        },
-        handleRealtime,
-      )
-      .subscribe()
-
-    return () => {
-      subscription.unsubscribe()
+    if (channel.state === 'joined') {
+      return
     }
-  }, [handleRealtime])
+    // channel.subscribe()
+
+    // return () => {
+    //   subscription.unsubscribe()
+    // }
+  }, [channel.subscribe, channel.state])
 
   const value = {
     subscription,
