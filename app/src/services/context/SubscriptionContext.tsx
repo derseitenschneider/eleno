@@ -30,6 +30,7 @@ export type TSubscriptionPlan =
   | 'Jährlich'
   | 'Lifetime'
   | 'Testabo'
+  | 'Schullizenz'
   | '—'
 
 export function SubscriptionProvider({
@@ -51,6 +52,11 @@ export function SubscriptionProvider({
   let plan: TSubscriptionPlan = '—'
   if (subscriptionState === 'LIFETIME') {
     plan = 'Lifetime'
+  } else if (
+    subscriptionState === 'LICENSED_ACTIVE' ||
+    subscriptionState === 'LICENSED_EXPIRED'
+  ) {
+    plan = 'Schullizenz'
   } else if (subscription?.subscription_status === 'trial') {
     plan = 'Testabo'
   } else if (subscription?.plan === 'month') {
@@ -65,13 +71,15 @@ export function SubscriptionProvider({
     if (isPaymentFeatureEnabled) {
       if (
         subscriptionState === 'TRIAL_EXPIRED' ||
-        subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED'
+        subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ||
+        subscriptionState === 'LICENSED_EXPIRED'
       ) {
         access = false
       }
     }
     setHasAccess(access)
   }, [isPaymentFeatureEnabled, subscriptionState])
+
   const periodStartLocalized = useMemo(
     () =>
       new Date(subscription?.period_start || '').toLocaleString(userLocale, {

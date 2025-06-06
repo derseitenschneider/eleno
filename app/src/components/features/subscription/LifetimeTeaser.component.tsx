@@ -9,7 +9,8 @@ export default function LifetimeTeaser() {
   if (
     !hasAccess ||
     subscriptionState === 'TRIAL_ACTIVE' ||
-    subscriptionState === 'LIFETIME'
+    subscriptionState === 'LIFETIME' ||
+    subscriptionState === 'LICENSED'
   ) {
     return null
   }

@@ -8,6 +8,8 @@ export type TSubscriptionState =
   | 'SUBSCRIPTION_ACTIVE_CANCELED'
   | 'SUBSCRIPTION_CANCELED_EXPIRED'
   | 'LIFETIME'
+  | 'LICENSED_ACTIVE'
+  | 'LICENSED_EXPIRED'
   | ''
 
 export const getSubscriptionState = (
@@ -19,6 +21,12 @@ export const getSubscriptionState = (
 
   if (subscription.plan === 'lifetime') {
     return 'LIFETIME'
+  }
+  if (subscription.plan === 'licensed') {
+    if (subscription.subscription_status === 'active') {
+      return 'LICENSED_ACTIVE'
+    }
+    return 'LICENSED_EXPIRED'
   }
 
   const periodEnd = subscription.period_end
