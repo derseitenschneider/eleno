@@ -10,7 +10,7 @@ export default function PlanRow() {
         {subscriptionState === 'LIFETIME' && (
           <BadgeCheckIcon className='text-primary' size={20} />
         )}
-        {subscriptionState === 'LICENSED' && (
+        {subscriptionState === 'LICENSED_ACTIVE' && (
           <Building className='text-primary' size={20} />
         )}
         {plan}

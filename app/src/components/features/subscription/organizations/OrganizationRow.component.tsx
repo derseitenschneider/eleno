@@ -1,13 +1,13 @@
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Button } from '@/components/ui/button'
 import Skeleton from '@/components/ui/skeleton'
-import useOrganizationQuery from '../organizationQuery'
+import useOrganizationQuery from './organizationQuery'
 
 export function OrganizationRow() {
   const { subscriptionState } = useSubscription()
   const { data: organization } = useOrganizationQuery()
 
-  if (subscriptionState !== 'LICENSED') return null
+  if (subscriptionState !== 'LICENSED_ACTIVE') return null
 
   return (
     <>

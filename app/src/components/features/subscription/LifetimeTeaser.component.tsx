@@ -10,7 +10,7 @@ export default function LifetimeTeaser() {
     !hasAccess ||
     subscriptionState === 'TRIAL_ACTIVE' ||
     subscriptionState === 'LIFETIME' ||
-    subscriptionState === 'LICENSED'
+    subscriptionState === 'LICENSED_ACTIVE'
   ) {
     return null
   }

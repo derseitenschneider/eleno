@@ -52,10 +52,7 @@ export function SubscriptionProvider({
   let plan: TSubscriptionPlan = '—'
   if (subscriptionState === 'LIFETIME') {
     plan = 'Lifetime'
-  } else if (
-    subscriptionState === 'LICENSED_ACTIVE' ||
-    subscriptionState === 'LICENSED_EXPIRED'
-  ) {
+  } else if (subscriptionState === 'LICENSED_ACTIVE') {
     plan = 'Schullizenz'
   } else if (subscription?.subscription_status === 'trial') {
     plan = 'Testabo'
@@ -63,7 +60,11 @@ export function SubscriptionProvider({
     plan = 'Monatlich'
   } else if (subscription?.plan === 'year') {
     plan = 'Jährlich'
-  } else if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
+  } else if (
+    subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ||
+    subscriptionState === 'INACTIVE'
+  )
+    plan = '—'
 
   // Update hasAccess whenever isPaymentFeatureEnabled or subscriptionState changes
   useEffect(() => {
@@ -72,7 +73,7 @@ export function SubscriptionProvider({
       if (
         subscriptionState === 'TRIAL_EXPIRED' ||
         subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ||
-        subscriptionState === 'LICENSED_EXPIRED'
+        subscriptionState === 'INACTIVE'
       ) {
         access = false
       }

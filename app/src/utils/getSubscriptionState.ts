@@ -9,7 +9,7 @@ export type TSubscriptionState =
   | 'SUBSCRIPTION_CANCELED_EXPIRED'
   | 'LIFETIME'
   | 'LICENSED_ACTIVE'
-  | 'LICENSED_EXPIRED'
+  | 'INACTIVE'
   | ''
 
 export const getSubscriptionState = (
@@ -17,6 +17,9 @@ export const getSubscriptionState = (
 ): TSubscriptionState => {
   if (!subscription) {
     return '' // No subscription, return empty state
+  }
+  if (subscription.plan === null) {
+    return 'INACTIVE'
   }
 
   if (subscription.plan === 'lifetime') {
@@ -26,7 +29,6 @@ export const getSubscriptionState = (
     if (subscription.subscription_status === 'active') {
       return 'LICENSED_ACTIVE'
     }
-    return 'LICENSED_EXPIRED'
   }
 
   const periodEnd = subscription.period_end

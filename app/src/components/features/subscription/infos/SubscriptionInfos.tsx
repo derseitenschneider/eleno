@@ -6,7 +6,7 @@ import PaymentFailedNotification from '../PaymentFailedNotification.component'
 import StatusRow from './StatusRow.component'
 import PeriodRow from './PeriodRow.component'
 import PlanRow from './PlanRow.component'
-import { OrganizationRow } from './OrganizationRow.component'
+import { OrganizationRow } from '../organizations/OrganizationRow.component'
 
 export function SubscriptionInfos() {
   return (
