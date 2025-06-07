@@ -113,7 +113,9 @@ export function SubscriptionProvider({
 
   // Set up Supabase realtime channel
   useEffect(() => {
-    const subscription = supabase
+    if (!subscription) return
+    console.log('subscription channel started')
+    const subscriptionChannel = supabase
       .channel('stripe_subscriptions')
       .on(
         'postgres_changes',
@@ -124,12 +126,12 @@ export function SubscriptionProvider({
         },
         handleRealtime,
       )
-      .subscribe()
+      .subscribe((data) => console.log({ data }))
 
     return () => {
-      subscription.unsubscribe()
+      subscriptionChannel.unsubscribe()
     }
-  }, [handleRealtime])
+  }, [handleRealtime, subscription])
 
   const value = {
     subscription,
