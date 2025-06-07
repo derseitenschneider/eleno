@@ -1,7 +1,10 @@
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
-import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import type {
+  RealtimePostgresChangesPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
@@ -102,7 +105,7 @@ export function SubscriptionProvider({
   )
 
   const handleRealtime = useCallback(
-    (data: RealtimePostgresUpdatePayload<Subscription>) => {
+    (data: RealtimePostgresChangesPayload<Subscription>) => {
       if (data.errors) {
         return fetchErrorToast()
       }
@@ -113,25 +116,19 @@ export function SubscriptionProvider({
 
   // Set up Supabase realtime channel
   useEffect(() => {
-    if (!subscription) return
-    console.log('subscription channel started')
-    const subscriptionChannel = supabase
-      .channel('stripe_subscriptions')
+    const subscriptionsChannel = supabase
+      .channel('table-db-changes')
       .on(
         'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'stripe_subscriptions',
-        },
+        { schema: 'public', event: 'UPDATE', table: 'stripe_subscriptions' },
         handleRealtime,
       )
-      .subscribe((data) => console.log({ data }))
+    subscriptionsChannel.subscribe()
 
     return () => {
-      subscriptionChannel.unsubscribe()
+      subscriptionsChannel.unsubscribe()
     }
-  }, [handleRealtime, subscription])
+  }, [handleRealtime])
 
   const value = {
     subscription,

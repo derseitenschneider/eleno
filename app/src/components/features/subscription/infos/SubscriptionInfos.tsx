@@ -7,6 +7,8 @@ import StatusRow from './StatusRow.component'
 import PeriodRow from './PeriodRow.component'
 import PlanRow from './PlanRow.component'
 import { OrganizationRow } from '../organizations/OrganizationRow.component'
+import supabase from '@/services/api/supabase'
+import { useEffect } from 'react'
 
 export function SubscriptionInfos() {
   return (

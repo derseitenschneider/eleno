@@ -19,43 +19,44 @@ export default function useMessagesQuery() {
     enabled: Boolean(user),
   })
 
-  useEffect(() => {
-    if (!user) return
+  // useEffect(() => {
+  //   if (!user) return
+  //
+  //   function handleRealtime(data: RealtimePostgresInsertPayload<Message>) {
+  //     if (data.errors) {
+  //       return fetchErrorToast()
+  //     }
+  //     queryClient.setQueryData(
+  //       ['messages'],
+  //       (oldData: Array<Message> | undefined) => {
+  //         if (!oldData?.find((message) => message.id === data.new?.id)) {
+  //           return [data.new, ...(oldData || [])]
+  //         }
+  //         return oldData
+  //       },
+  //     )
+  //   }
+  //
+  //   const channel = supabase.channel('messages').on(
+  //     'postgres_changes',
+  //     {
+  //       event: 'INSERT',
+  //       schema: 'public',
+  //       table: 'messages',
+  //     },
+  //     handleRealtime,
+  //   )
+  //
+  //   if (channel.state !== 'joining') {
+  //     channel.subscribe()
+  //   }
+  //
+  //   return () => {
+  //     if (channel) {
+  //       supabase.removeChannel(channel)
+  //     }
+  //   }
+  // }, [user, queryClient, fetchErrorToast])
 
-    function handleRealtime(data: RealtimePostgresInsertPayload<Message>) {
-      if (data.errors) {
-        return fetchErrorToast()
-      }
-      queryClient.setQueryData(
-        ['messages'],
-        (oldData: Array<Message> | undefined) => {
-          if (!oldData?.find((message) => message.id === data.new?.id)) {
-            return [data.new, ...(oldData || [])]
-          }
-          return oldData
-        },
-      )
-    }
-
-    const channel = supabase.channel('messages').on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'messages',
-      },
-      handleRealtime,
-    )
-
-    if (channel.state !== 'joining') {
-      channel.subscribe()
-    }
-
-    return () => {
-      if (channel) {
-        supabase.removeChannel(channel)
-      }
-    }
-  }, [user, queryClient, fetchErrorToast])
   return result
 }
