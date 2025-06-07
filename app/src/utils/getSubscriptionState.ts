@@ -18,7 +18,10 @@ export const getSubscriptionState = (
   if (!subscription) {
     return '' // No subscription, return empty state
   }
-  if (subscription.plan === null) {
+  if (
+    subscription.plan === null &&
+    subscription.subscription_status !== 'trial'
+  ) {
     return 'INACTIVE'
   }
 
