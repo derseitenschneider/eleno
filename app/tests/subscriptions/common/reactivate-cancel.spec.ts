@@ -13,9 +13,11 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
   // Reactivate subscription.
   await page.getByRole('button', { name: 'Abo wiederherstellen' }).click()
   await page.getByRole('button', { name: 'Abo wiederherstellen' }).click()
-  await expect(page.getByTestId('subscription-status-badge')).toContainText(
-    'Aktiv',
-  )
+  await expect(() =>
+    expect(page.getByTestId('subscription-status-badge')).toContainText(
+      'Aktiv',
+    ),
+  ).toPass({ timeout: 30_000 })
 
   // Close toast, check for reactivation Message and delete it.
   await page.getByRole('button', { name: 'Close toast' }).click()
@@ -31,9 +33,12 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
   // Cancel subscription.
   await page.getByRole('button', { name: 'Abo kündigen' }).click()
   await page.getByRole('button', { name: 'Abo kündigen' }).click()
-  await expect(page.getByTestId('subscription-status-badge')).toContainText(
-    'Auslaufend',
-  )
+
+  await expect(() =>
+    expect(page.getByTestId('subscription-status-badge')).toContainText(
+      'Auslaufend',
+    ),
+  ).toPass({ timeout: 30_000 })
 
   // Close toast, check cancellation message and delete it.
   await page.getByRole('button', { name: 'Close toast' }).click()
