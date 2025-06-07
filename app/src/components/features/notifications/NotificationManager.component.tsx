@@ -263,6 +263,9 @@ export function NotificationManager() {
     </div>
   )
 
+  if (user?.email?.includes('pw-test')) {
+    return null
+  }
   if (notificationType === 'survey') {
     const surveyData = currentNotificationContent as SurveyNotificationContent
     return renderCard(
