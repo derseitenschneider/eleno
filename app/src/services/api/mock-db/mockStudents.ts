@@ -4,6 +4,7 @@ const user_id = 'mock-user-123456' // Single user ID for all students
 
 const mockStudents: Array<Student> = [
   {
+    homework_sharing_authorized: false,
     id: 1,
     created_at: new Date(
       new Date().getTime() - 100 * 24 * 60 * 60 * 1000,
@@ -20,6 +21,7 @@ const mockStudents: Array<Student> = [
     dayOfLesson: 'Montag',
   },
   {
+    homework_sharing_authorized: false,
     id: 2,
     created_at: new Date(
       new Date().getTime() - 95 * 24 * 60 * 60 * 1000,
@@ -36,6 +38,7 @@ const mockStudents: Array<Student> = [
     dayOfLesson: 'Montag',
   },
   {
+    homework_sharing_authorized: false,
     id: 3,
     created_at: new Date(
       new Date().getTime() - 90 * 24 * 60 * 60 * 1000,
@@ -53,6 +56,7 @@ const mockStudents: Array<Student> = [
   },
   {
     id: 4,
+    homework_sharing_authorized: false,
     created_at: new Date(
       new Date().getTime() - 85 * 24 * 60 * 60 * 1000,
     ).toISOString(),
@@ -73,6 +77,7 @@ const mockStudents: Array<Student> = [
       new Date().getTime() - 80 * 24 * 60 * 60 * 1000,
     ).toISOString(),
     firstName: 'Sophie',
+    homework_sharing_authorized: false,
     lastName: 'Klein',
     instrument: 'E-Gitarre',
     startOfLesson: '18:15',
@@ -93,6 +98,7 @@ const mockStudents: Array<Student> = [
     instrument: 'Gitarre',
     startOfLesson: '14:00',
     endOfLesson: '14:30',
+    homework_sharing_authorized: false,
     archive: false,
     location: 'Musikschule, Raum 103',
     user_id: user_id,
@@ -108,6 +114,7 @@ const mockStudents: Array<Student> = [
     lastName: 'Schulz',
     instrument: 'Ukulele',
     startOfLesson: '14:40',
+    homework_sharing_authorized: false,
     endOfLesson: '15:25',
     archive: false,
     location: 'Musikschule, Raum 103',
@@ -123,6 +130,7 @@ const mockStudents: Array<Student> = [
     firstName: 'Thomas',
     lastName: 'Wagner',
     instrument: 'E-Gitarre',
+    homework_sharing_authorized: false,
     startOfLesson: '10:00',
     endOfLesson: '10:40',
     archive: false,
@@ -133,6 +141,7 @@ const mockStudents: Array<Student> = [
   },
   {
     id: 9,
+    homework_sharing_authorized: false,
     created_at: new Date(
       new Date().getTime() - 200 * 24 * 60 * 60 * 1000,
     ).toISOString(),
@@ -153,6 +162,7 @@ const mockStudents: Array<Student> = [
       new Date().getTime() - 180 * 24 * 60 * 60 * 1000,
     ).toISOString(),
     firstName: 'Markus',
+    homework_sharing_authorized: false,
     lastName: 'Schneider',
     instrument: 'E-Gitarre',
     startOfLesson: null,

@@ -120,7 +120,13 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const onSubmit = useCallback(
     (data: { students: Array<StudentSchema> }) => {
-      createStudents(data.students, { onSuccess })
+      createStudents(
+        data.students.map((student) => ({
+          ...student,
+          homework_sharing_authorized: false,
+        })),
+        { onSuccess },
+      )
     },
     [createStudents, onSuccess],
   )

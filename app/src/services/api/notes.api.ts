@@ -11,7 +11,6 @@ export const fetchActiveNotesAPI = async (userId: string) => {
     .select('*')
     .eq('user_id', userId)
     .order('order')
-    .returns<Array<Note> | undefined>()
   if (error) throw new Error(error.message)
   return notes
 }

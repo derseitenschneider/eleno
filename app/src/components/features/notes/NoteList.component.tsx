@@ -27,7 +27,7 @@ function NoteList() {
 
   const { data } = useActiveNotesQuery()
 
-  const [notes, setNotes] = useState<Array<TNote>>()
+  const [notes, setNotes] = useState<Array<TNote> | undefined>()
   const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
   useEffect(() => {

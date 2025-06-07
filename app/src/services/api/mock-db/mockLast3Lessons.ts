@@ -26,6 +26,7 @@ function getLastLessonDate(dayOfWeek: Weekday) {
 const mockLast3Lessons: Array<Lesson> = [
   // Lisa Müller
   {
+    expiration_base: new Date().toISOString(),
     created_at: new Date().toISOString(),
     user_id,
     id: 1001,
@@ -50,6 +51,7 @@ const mockLast3Lessons: Array<Lesson> = [
   },
   {
     created_at: new Date().toISOString(),
+    expiration_base: new Date().toISOString(),
     user_id,
     id: 1002,
     studentId: 1,
@@ -73,6 +75,7 @@ const mockLast3Lessons: Array<Lesson> = [
     ),
   },
   {
+    expiration_base: new Date().toISOString(),
     created_at: new Date().toISOString(),
     user_id,
     id: 1003,
@@ -98,6 +101,7 @@ const mockLast3Lessons: Array<Lesson> = [
     ),
   }, // Max Schmidt (E-Gitarre)
   {
+    expiration_base: new Date().toISOString(),
     created_at: new Date().toISOString(),
     user_id,
     id: 2001,
@@ -122,6 +126,7 @@ const mockLast3Lessons: Array<Lesson> = [
   {
     created_at: new Date().toISOString(),
     user_id,
+    expiration_base: new Date().toISOString(),
     id: 2002,
     studentId: 2,
     homeworkKey: '',
@@ -135,6 +140,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 2003,
+    expiration_base: new Date().toISOString(),
     studentId: 2,
     homeworkKey: '',
     lessonContent: `
@@ -159,6 +165,7 @@ const mockLast3Lessons: Array<Lesson> = [
   // Emma Weber (Ukulele)
   {
     created_at: new Date().toISOString(),
+    expiration_base: new Date().toISOString(),
     user_id,
     id: 3001,
     studentId: 3,
@@ -183,6 +190,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 3002,
+    expiration_base: new Date().toISOString(),
     studentId: 3,
     homeworkKey: '',
     lessonContent: `
@@ -207,6 +215,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 3003,
+    expiration_base: new Date().toISOString(),
     studentId: 3,
     homeworkKey: '',
     lessonContent: 'Absenz (Familienurlaub)',
@@ -219,6 +228,7 @@ const mockLast3Lessons: Array<Lesson> = [
   // Felix Bauer (Gitarre)
   {
     created_at: new Date().toISOString(),
+    expiration_base: new Date().toISOString(),
     user_id,
     id: 4001,
     studentId: 4,
@@ -243,6 +253,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 4002,
+    expiration_base: new Date().toISOString(),
     studentId: 4,
     homeworkKey: '',
     lessonContent: `
@@ -267,6 +278,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 4003,
+    expiration_base: new Date().toISOString(),
     studentId: 4,
     homeworkKey: '',
     lessonContent: `
@@ -291,6 +303,7 @@ const mockLast3Lessons: Array<Lesson> = [
   // Sophie Klein (E-Gitarre)
   {
     created_at: new Date().toISOString(),
+    expiration_base: new Date().toISOString(),
     user_id,
     id: 5001,
     studentId: 5,
@@ -315,6 +328,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 5002,
+    expiration_base: new Date().toISOString(),
     studentId: 5,
     homeworkKey: '',
     lessonContent: 'Absenz (Schulveranstaltung)',
@@ -327,6 +341,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 5003,
+    expiration_base: new Date().toISOString(),
     studentId: 5,
     homeworkKey: '',
     lessonContent: `
@@ -350,6 +365,7 @@ const mockLast3Lessons: Array<Lesson> = [
   {
     created_at: new Date().toISOString(),
     user_id,
+    expiration_base: new Date().toISOString(),
     id: 6001,
     groupId: 1,
     homeworkKey: '',
@@ -374,6 +390,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 6002,
     groupId: 1,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Einführung "All Right Now":
@@ -398,6 +415,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 6003,
     groupId: 1,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Verfeinerung "Jumpin' Jack Flash":
@@ -422,6 +440,7 @@ const mockLast3Lessons: Array<Lesson> = [
   {
     created_at: new Date().toISOString(),
     user_id,
+    expiration_base: new Date().toISOString(),
     id: 7001,
     groupId: 2,
     homeworkKey: '',
@@ -446,6 +465,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 7002,
     groupId: 2,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: 'Absenz (Mehrere Mitglieder krank)',
     homework: '',
@@ -458,6 +478,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 7003,
     groupId: 2,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Einführung "Cavatina":
@@ -482,6 +503,7 @@ const mockLast3Lessons: Array<Lesson> = [
   {
     created_at: new Date().toISOString(),
     user_id,
+    expiration_base: new Date().toISOString(),
     id: 8001,
     groupId: 3,
     homeworkKey: '',
@@ -506,6 +528,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 8002,
     groupId: 3,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Verfeinerung "Back in Black":
@@ -530,6 +553,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 8003,
     groupId: 3,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Einführung "Black Betty":
@@ -554,6 +578,7 @@ const mockLast3Lessons: Array<Lesson> = [
   {
     created_at: new Date().toISOString(),
     user_id,
+    expiration_base: new Date().toISOString(),
     id: 9001,
     groupId: 4,
     homeworkKey: '',
@@ -578,6 +603,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 9002,
     groupId: 4,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Probe "Here Comes the Sun":
@@ -600,6 +626,7 @@ const mockLast3Lessons: Array<Lesson> = [
     user_id,
     id: 9003,
     groupId: 4,
+    expiration_base: new Date().toISOString(),
     homeworkKey: '',
     lessonContent: `
       Einführung "Sunny Afternoon":
@@ -623,6 +650,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 10001,
     studentId: 6,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Fortschritt mit Fingerstyle-Technik:
       <ul>
@@ -645,7 +673,8 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 10002,
     studentId: 6,
     homeworkKey: '',
-    lessonContent: `Absenz (Schulausflug)`,
+    expiration_base: new Date().toISOString(),
+    lessonContent: 'Absenz (Schulausflug)',
     homework: '',
     date: new Date(
       getLastLessonDate('Freitag').getTime() - 7 * 24 * 60 * 60 * 1000,
@@ -657,6 +686,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 10003,
     studentId: 6,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Einführung in Barre-Akkorde:
       <ul>
@@ -681,6 +711,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 11001,
+    expiration_base: new Date().toISOString(),
     studentId: 7,
     homeworkKey: '',
     lessonContent: `
@@ -705,6 +736,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 11002,
     studentId: 7,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Einführung einfacher Melodiespiel:
       <ul>
@@ -729,6 +761,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 11003,
     studentId: 7,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Verfeinerung "I'm Yours":
       <ul>
@@ -753,6 +786,7 @@ const mockLast3Lessons: Array<Lesson> = [
     created_at: new Date().toISOString(),
     user_id,
     id: 12001,
+    expiration_base: new Date().toISOString(),
     studentId: 8,
     homeworkKey: '',
     lessonContent: `
@@ -777,6 +811,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 12002,
     studentId: 8,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Arbeit an "Sweet Child O' Mine":
       <ul>
@@ -801,6 +836,7 @@ const mockLast3Lessons: Array<Lesson> = [
     id: 12003,
     studentId: 8,
     homeworkKey: '',
+    expiration_base: new Date().toISOString(),
     lessonContent: `
       Einführung Powerchords und Palm Muting:
       <ul>
