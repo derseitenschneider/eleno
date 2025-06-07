@@ -23,6 +23,7 @@ export function MessagesProvider({ children }: { children: React.ReactNode }) {
       queryClient.setQueryData(['messages'], (prev: Array<Message>) => {
         return [data.new, ...prev]
       })
+      queryClient.invalidateQueries({ queryKey: ['messages'] })
     }
 
     const channel = supabase
@@ -41,7 +42,12 @@ export function MessagesProvider({ children }: { children: React.ReactNode }) {
     return () => {
       channel.unsubscribe()
     }
-  }, [user, fetchErrorToast, queryClient.setQueryData])
+  }, [
+    user,
+    fetchErrorToast,
+    queryClient.setQueryData,
+    queryClient.invalidateQueries,
+  ])
 
   return (
     <MessagesContext.Provider value={null}>{children}</MessagesContext.Provider>
