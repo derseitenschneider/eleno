@@ -1,5 +1,6 @@
 import { LessonHolderProvider } from './LessonHolderContext'
 import { DraftsProvider } from './DraftsContext'
+import { MessagesProvider } from './MessagesContext'
 
 interface MainContextProps {
   children: React.ReactNode
@@ -7,9 +8,11 @@ interface MainContextProps {
 
 function MainContext({ children }: MainContextProps) {
   return (
-    <DraftsProvider>
-      <LessonHolderProvider>{children}</LessonHolderProvider>
-    </DraftsProvider>
+    <MessagesProvider>
+      <DraftsProvider>
+        <LessonHolderProvider>{children}</LessonHolderProvider>
+      </DraftsProvider>
+    </MessagesProvider>
   )
 }
 
