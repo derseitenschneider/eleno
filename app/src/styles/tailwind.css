@@ -271,7 +271,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   bottom: calc(env(safe-area-inset-bottom) + 64px);
 }
 
-@media (min-height: 800px) {
+@media (min-height: 800px) and (min-width: 1024px) {
   .special-min-height {
     height: 43vh !important;
   }
