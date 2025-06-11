@@ -9,7 +9,7 @@ import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
 
 const LessonsWrapper = () => {
   return (
-    <div className='grid max-h-dvh grid-rows-[auto_1fr] overflow-hidden'>
+    <div className='grid max-h-dvh grid-rows-[auto_1fr] overflow-hidden lg:max-h-[unset] lg:min-h-dvh'>
       <LessonHeader />
       <Outlet />
       <MusicTools />

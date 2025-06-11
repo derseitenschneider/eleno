@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { cleanupToasts } from '../../utils/cleanupToasts'
 
 test('can reactivate  and cancel subscription', async ({ page }) => {
   const subscrptionPom = new SubscriptionPOM(page)
   subscrptionPom.goto()
 
-  // Check if default is active subscription.
+  // Check if default is canceled subscription.
   await expect(page.getByTestId('subscription-status-badge')).toContainText(
     'Auslaufend',
   )
@@ -13,17 +14,20 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
   // Reactivate subscription.
   await page.getByRole('button', { name: 'Abo wiederherstellen' }).click()
   await page.getByRole('button', { name: 'Abo wiederherstellen' }).click()
-  await expect(() =>
-    expect(page.getByTestId('subscription-status-badge')).toContainText(
+
+  await expect(async () => {
+    await expect(page.getByTestId('subscription-status-badge')).toContainText(
       'Aktiv',
-    ),
-  ).toPass({ timeout: 30_000 })
+    )
+    await page.reload()
+  }).toPass({ timeout: 30_000 })
 
   // Close toast, check for reactivation Message and delete it.
-  await page.getByRole('button', { name: 'Close toast' }).click()
+  await cleanupToasts(page)
 
   await page.getByRole('link', { name: 'Nachrichten' }).click()
   await page.getByRole('button', { name: 'Abo ist wieder aktiv' }).click()
+
   await expect(page.getByTestId('message-header')).toContainText('aktiv')
   await page.getByRole('button', { name: 'Löschen' }).click()
 
@@ -34,14 +38,15 @@ test('can reactivate  and cancel subscription', async ({ page }) => {
   await page.getByRole('button', { name: 'Abo kündigen' }).click()
   await page.getByRole('button', { name: 'Abo kündigen' }).click()
 
-  await expect(() =>
-    expect(page.getByTestId('subscription-status-badge')).toContainText(
+  await expect(async () => {
+    await expect(page.getByTestId('subscription-status-badge')).toContainText(
       'Auslaufend',
-    ),
-  ).toPass({ timeout: 30_000 })
+    )
+    await page.reload()
+  }).toPass({ timeout: 30_000 })
 
   // Close toast, check cancellation message and delete it.
-  await page.getByRole('button', { name: 'Close toast' }).click()
+  await cleanupToasts(page)
 
   await page.getByRole('link', { name: 'Nachrichten' }).click()
   await page.getByRole('button', { name: 'Abo gekündigt' }).click()

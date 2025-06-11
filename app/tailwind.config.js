@@ -16,6 +16,7 @@ export const theme = {
     padding: '2rem',
     screens: {
       '2xl': '1400px',
+      short: '900px',
     },
   },
   extend: {

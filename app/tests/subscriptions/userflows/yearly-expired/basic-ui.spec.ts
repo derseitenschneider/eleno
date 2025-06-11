@@ -11,6 +11,7 @@ test('subscription status is expired', async ({ page }) => {
 
   await expect(async () => {
     await expect(subscriptionPom.statusBadge).toHaveText(/abgelaufen/i)
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })
 
@@ -42,11 +43,13 @@ test('payment-failed banner is visible', async ({ page }) => {
 
   await expect(async () => {
     await expect(paymentFailedBanner).toBeVisible()
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })
 
 test('payment-failed notification is visible', async ({ page }) => {
   await expect(async () => {
     await expect(page.getByTestId('notification-payment-failed')).toBeVisible()
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })

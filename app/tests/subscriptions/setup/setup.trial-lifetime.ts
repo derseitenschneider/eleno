@@ -30,7 +30,12 @@ setup(
     }
 
     await page.goto('/inbox')
-    await page.getByRole('button', { name: 'Upgrade erfolgreich' }).click()
+
+    await expect(async () => {
+      await page.getByRole('button', { name: 'Upgrade erfolgreich' }).click()
+      await page.reload()
+    }).toPass({ timeout: 30_000 })
+
     await expect(page.getByTestId('message-header')).toContainText(/upgrade/i)
     await page.getByRole('button', { name: 'Löschen' }).click()
 
