@@ -24,6 +24,15 @@ export default function StatusRow() {
     case 'SUBSCRIPTION_ACTIVE_EXPIRED':
       badgeLabel = 'Abgelaufen'
       badgeVariant = 'destructive'
+      break
+    case 'LICENSED_ACTIVE':
+      badgeLabel = 'Aktiv'
+      badgeVariant = 'default'
+      break
+    case 'INACTIVE':
+      badgeLabel = 'Inaktiv'
+      badgeVariant = 'inactive'
+      break
   }
   return (
     <>

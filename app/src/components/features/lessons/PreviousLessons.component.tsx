@@ -42,12 +42,11 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
     .at(0)
     ?.date.getFullYear()
 
-  //TODO: fix scroll up when navigating to next student.
   return (
     <div
       className={cn(
         layout === 'reverse' ? 'border-hairline border-b' : '',
-        'h-full overflow-hidden',
+        'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
       )}
     >
       <div

@@ -1,4 +1,3 @@
-import LifetimeTeaser from '@/components/features/subscription/LifetimeTeaser.component'
 import PricingPlans from '@/components/features/subscription/PricingPlans.component'
 import { SubscriptionInfos } from '@/components/features/subscription/infos/SubscriptionInfos'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
@@ -12,7 +11,7 @@ export default function SubscriptionPage() {
   return (
     <div className=''>
       <SubscriptionInfos />
-      <LifetimeTeaser />
+      {/* <LifetimeTeaser /> */}
       <PricingPlans />
     </div>
   )

@@ -1,8 +1,8 @@
 const commonFeatures = [
-  'Lektions- und Schülerverwaltung',
-  'Todos',
-  'Repertoirelisten',
-  'Notizen',
+  'Zentrale Lektions- & Schülerverwaltung',
+  'Einheitliche Aufgaben-& Todo-Listen',
+  'Strukturierte Repertoirelisten',
+  'Zentralisierte Notizen und Beobachtungen',
   'Unbegrenzte Anzahl Schüler:innen',
 ]
 

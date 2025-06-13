@@ -124,6 +124,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
     const newGroup = {
       ...group,
       students: group.students?.filter((student) => student.name) || null,
+      homework_sharing_authorized: false,
     }
     createGroup(newGroup, {
       onSuccess: () => {

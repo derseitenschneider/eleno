@@ -20,6 +20,7 @@ const mockGroups: Array<Group> = [
     location: 'Musikschule, Raum 101',
     durationMinutes: 60,
     archive: false,
+    homework_sharing_authorized: false,
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const mockGroups: Array<Group> = [
     dayOfLesson: 'Mittwoch',
     startOfLesson: '19:00',
     endOfLesson: '20:00',
+    homework_sharing_authorized: false,
     students: [
       { name: 'Felix Bauer' },
       { name: 'Sophie Klein' },
@@ -43,6 +45,7 @@ const mockGroups: Array<Group> = [
   },
   {
     id: 3,
+    homework_sharing_authorized: false,
     created_at: new Date(
       new Date().getTime() - 90 * 24 * 60 * 60 * 1000,
     ).toISOString(), // 90 days ago
@@ -68,6 +71,7 @@ const mockGroups: Array<Group> = [
       new Date().getTime() - 180 * 24 * 60 * 60 * 1000,
     ).toISOString(), // 180 days ago
     name: 'Band Sommercamp',
+    homework_sharing_authorized: false,
     dayOfLesson: null,
     startOfLesson: null,
     endOfLesson: null,

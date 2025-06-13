@@ -331,6 +331,54 @@ export type Database = {
         }
         Relationships: []
       }
+      organizations: {
+        Row: {
+          active: boolean
+          admin_contact_email: string | null
+          billing_cycle_start: string
+          billing_interval: Database["public"]["Enums"]["billing_interval"]
+          city: string | null
+          country: string | null
+          created_at: string | null
+          id: string
+          license_count: number
+          name: string
+          street: string | null
+          street_number: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          active?: boolean
+          admin_contact_email?: string | null
+          billing_cycle_start?: string
+          billing_interval?: Database["public"]["Enums"]["billing_interval"]
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          license_count?: number
+          name: string
+          street?: string | null
+          street_number?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          active?: boolean
+          admin_contact_email?: string | null
+          billing_cycle_start?: string
+          billing_interval?: Database["public"]["Enums"]["billing_interval"]
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          license_count?: number
+          name?: string
+          street?: string | null
+          street_number?: string | null
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           email: string | null
@@ -339,6 +387,10 @@ export type Database = {
           last_lesson_creation: string | null
           last_name: string | null
           login_count: number | null
+          organization_id: string | null
+          organization_role:
+            | Database["public"]["Enums"]["organization_role"]
+            | null
         }
         Insert: {
           email?: string | null
@@ -347,6 +399,10 @@ export type Database = {
           last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
+          organization_id?: string | null
+          organization_role?:
+            | Database["public"]["Enums"]["organization_role"]
+            | null
         }
         Update: {
           email?: string | null
@@ -355,8 +411,20 @@ export type Database = {
           last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
+          organization_id?: string | null
+          organization_role?:
+            | Database["public"]["Enums"]["organization_role"]
+            | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       repertoire: {
         Row: {
@@ -669,6 +737,7 @@ export type Database = {
     }
     Enums: {
       background_colors: "blue" | "red" | "green" | "yellow"
+      billing_interval: "month" | "year"
       currencies: "CHF" | "EUR"
       lesson_main_layout: "regular" | "reverse"
       message_status: "sent" | "read" | "trash"
@@ -677,9 +746,15 @@ export type Database = {
       notification_display_frequency: "once" | "daily" | "always"
       notification_display_position: "bottom" | "corner" | "center" | "top"
       notification_type: "survey" | "update" | "news" | "alert"
+      organization_role: "admin" | "member"
       recurring_intervals: "day" | "week" | "month" | "year"
-      subscription_plan: "month" | "year" | "lifetime"
-      subscription_status: "active" | "canceled" | "trial" | "expired"
+      subscription_plan: "month" | "year" | "lifetime" | "licensed"
+      subscription_status:
+        | "active"
+        | "canceled"
+        | "trial"
+        | "expired"
+        | "licensed"
       weekdays:
         | "Montag"
         | "Dienstag"
@@ -804,6 +879,7 @@ export const Constants = {
   public: {
     Enums: {
       background_colors: ["blue", "red", "green", "yellow"],
+      billing_interval: ["month", "year"],
       currencies: ["CHF", "EUR"],
       lesson_main_layout: ["regular", "reverse"],
       message_status: ["sent", "read", "trash"],
@@ -812,9 +888,16 @@ export const Constants = {
       notification_display_frequency: ["once", "daily", "always"],
       notification_display_position: ["bottom", "corner", "center", "top"],
       notification_type: ["survey", "update", "news", "alert"],
+      organization_role: ["admin", "member"],
       recurring_intervals: ["day", "week", "month", "year"],
-      subscription_plan: ["month", "year", "lifetime"],
-      subscription_status: ["active", "canceled", "trial", "expired"],
+      subscription_plan: ["month", "year", "lifetime", "licensed"],
+      subscription_status: [
+        "active",
+        "canceled",
+        "trial",
+        "expired",
+        "licensed",
+      ],
       weekdays: [
         "Montag",
         "Dienstag",

@@ -1,7 +1,10 @@
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
-import type { RealtimePostgresUpdatePayload } from '@supabase/supabase-js'
+import type {
+  RealtimePostgresChangesPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
@@ -30,6 +33,7 @@ export type TSubscriptionPlan =
   | 'Jährlich'
   | 'Lifetime'
   | 'Testabo'
+  | 'Schullizenz'
   | '—'
 
 export function SubscriptionProvider({
@@ -51,13 +55,19 @@ export function SubscriptionProvider({
   let plan: TSubscriptionPlan = '—'
   if (subscriptionState === 'LIFETIME') {
     plan = 'Lifetime'
+  } else if (subscriptionState === 'LICENSED_ACTIVE') {
+    plan = 'Schullizenz'
   } else if (subscription?.subscription_status === 'trial') {
     plan = 'Testabo'
   } else if (subscription?.plan === 'month') {
     plan = 'Monatlich'
   } else if (subscription?.plan === 'year') {
     plan = 'Jährlich'
-  } else if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED') plan = '—'
+  } else if (
+    subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ||
+    subscriptionState === 'INACTIVE'
+  )
+    plan = '—'
 
   // Update hasAccess whenever isPaymentFeatureEnabled or subscriptionState changes
   useEffect(() => {
@@ -65,13 +75,15 @@ export function SubscriptionProvider({
     if (isPaymentFeatureEnabled) {
       if (
         subscriptionState === 'TRIAL_EXPIRED' ||
-        subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED'
+        subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' ||
+        subscriptionState === 'INACTIVE'
       ) {
         access = false
       }
     }
     setHasAccess(access)
   }, [isPaymentFeatureEnabled, subscriptionState])
+
   const periodStartLocalized = useMemo(
     () =>
       new Date(subscription?.period_start || '').toLocaleString(userLocale, {
@@ -93,7 +105,7 @@ export function SubscriptionProvider({
   )
 
   const handleRealtime = useCallback(
-    (data: RealtimePostgresUpdatePayload<Subscription>) => {
+    (data: RealtimePostgresChangesPayload<Subscription>) => {
       if (data.errors) {
         return fetchErrorToast()
       }
@@ -104,21 +116,17 @@ export function SubscriptionProvider({
 
   // Set up Supabase realtime channel
   useEffect(() => {
-    const subscription = supabase
-      .channel('stripe_subscriptions')
+    const subscriptionsChannel = supabase
+      .channel('table-db-changes')
       .on(
         'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'stripe_subscriptions',
-        },
+        { schema: 'public', event: 'UPDATE', table: 'stripe_subscriptions' },
         handleRealtime,
       )
-      .subscribe()
+    subscriptionsChannel.subscribe()
 
     return () => {
-      subscription.unsubscribe()
+      subscriptionsChannel.unsubscribe()
     }
   }, [handleRealtime])
 
