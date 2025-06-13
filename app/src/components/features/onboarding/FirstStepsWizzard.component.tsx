@@ -16,7 +16,7 @@ import ImportantLinks from './steps/ImportantLinks.component'
 import Welcome from './steps/Welcome.component'
 import { useEffect } from 'react'
 
-export default function OnboardingWizzard() {
+export default function FirstStepsWizzard() {
   const [searchParams, setSearchParams] = useSearchParams()
   const isMobile = useIsMobileDevice()
   const navigate = useNavigate()

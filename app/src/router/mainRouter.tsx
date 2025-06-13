@@ -20,6 +20,7 @@ import SubscriptionPage from '@/pages/Subscription.page'
 import OnboardingPage from '@/pages/Onboarding.page'
 import Inbox from '@/pages/Inbox.page'
 import View from '@/components/features/settings/View'
+import FirstStepsWizzard from '@/components/features/onboarding/FirstStepsWizzard.component'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -97,8 +98,9 @@ const mainRouter = createBrowserRouter(
         ...lessonsRoutes,
         ...studentsRoutes,
         {
-          path: 'first-steps',
+          path: 'onboarding',
           element: <OnboardingPage />,
+          children: [{ path: 'first-steps', element: <FirstStepsWizzard /> }],
         },
         {
           path: 'todos',
