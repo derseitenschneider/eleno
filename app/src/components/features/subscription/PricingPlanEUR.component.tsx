@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
 import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 import { Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function PricingPlanEUR() {
   const currency = 'EUR'
@@ -31,8 +32,8 @@ export default function PricingPlanEUR() {
           </ButtonCheckoutMonthly>
           <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
-              <li key={feature} className='flex items-center gap-2'>
-                <Check className='h-5 w-5 text-green-500' />
+              <li key={feature} className='flex items-start gap-2'>
+                <Check className='mt-[2px] h-5 w-5 text-green-500' />
                 <span>{feature}</span>
               </li>
             ))}
@@ -70,8 +71,8 @@ export default function PricingPlanEUR() {
           </ButtonCheckoutYearly>
           <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
-              <li key={feature} className='flex items-center gap-2'>
-                <Check className='h-5 w-5 text-green-500' />
+              <li key={feature} className='flex items-start gap-2'>
+                <Check className='mt-[2px] h-5 w-5 text-green-500' />
                 <span>{feature}</span>
               </li>
             ))}
@@ -80,36 +81,71 @@ export default function PricingPlanEUR() {
       </Card>
 
       {/* Lebenslang */}
+      {/* <Card className='flex-1'> */}
+      {/*   <CardHeader> */}
+      {/*     <CardTitle>Lifetime</CardTitle> */}
+      {/*     <div className='mt-4'> */}
+      {/*       <span className='text-4xl font-bold'> */}
+      {/*         {new Intl.NumberFormat('de-CH', { */}
+      {/*           style: 'currency', */}
+      {/*           currency, */}
+      {/*           trailingZeroDisplay: 'stripIfInteger', */}
+      {/*         }).format(199)} */}
+      {/*       </span> */}
+      {/*       <span className='text-muted-foreground'>/einmalig*</span> */}
+      {/*     </div> */}
+      {/*   </CardHeader> */}
+      {/*   <CardContent> */}
+      {/*     <ButtonCheckoutLifetime variant='outline' currency={currency}> */}
+      {/*       Jetzt starten */}
+      {/*     </ButtonCheckoutLifetime> */}
+      {/*     <ul className='mt-8 space-y-4'> */}
+      {/*       {commonFeatures.map((feature) => ( */}
+      {/*         <li key={feature} className='flex items-center gap-2'> */}
+      {/*           <Check className='h-5 w-5 text-green-500' /> */}
+      {/*           <span>{feature}</span> */}
+      {/*         </li> */}
+      {/*       ))} */}
+      {/*     </ul> */}
+      {/*     <p className='mt-5 text-xs'> */}
+      {/*       * Limitiertes Angebot bis{' '} */}
+      {/*       <span className='font-bold'>12.06.2025</span> */}
+      {/*     </p> */}
+      {/*   </CardContent> */}
+      {/* </Card> */}
+
       <Card className='flex-1'>
         <CardHeader>
-          <CardTitle>Lifetime</CardTitle>
+          <CardTitle>Für Musikschulen</CardTitle>
           <div className='mt-4'>
-            <span className='text-4xl font-bold'>
-              {new Intl.NumberFormat('de-CH', {
-                style: 'currency',
-                currency,
-                trailingZeroDisplay: 'stripIfInteger',
-              }).format(199)}
-            </span>
-            <span className='text-muted-foreground'>/einmalig*</span>
+            <p>
+              Die Lösung für deine gesamte <b>Musikschule</b>. Ab 5 Lizenzen.
+            </p>
           </div>
         </CardHeader>
         <CardContent>
-          <ButtonCheckoutLifetime variant='outline' currency={currency}>
-            Jetzt starten
-          </ButtonCheckoutLifetime>
+          <Button
+            onClick={() => {
+              window.location.href =
+                'mailto:info@eleno.net?subject=Anfrage%20für%20Musikschul-Lizenzen'
+            }}
+            variant='outline'
+            className='w-full'
+          >
+            Angebot einholen
+          </Button>
           <ul className='mt-8 space-y-4'>
             {commonFeatures.map((feature) => (
-              <li key={feature} className='flex items-center gap-2'>
-                <Check className='h-5 w-5 text-green-500' />
+              <li key={feature} className='flex items-start gap-2'>
+                <Check className='mt-[2px] h-5 w-5 text-green-500' />
                 <span>{feature}</span>
               </li>
             ))}
+            <li className='flex items-center gap-2'>
+              <Check className='h-5 w-5 text-green-500' />
+              <span>Übertragbare Lizenzen</span>
+            </li>
           </ul>
-          <p className='mt-5 text-xs'>
-            * Limitiertes Angebot bis{' '}
-            <span className='font-bold'>12.06.2025</span>
-          </p>
         </CardContent>
       </Card>
     </div>
