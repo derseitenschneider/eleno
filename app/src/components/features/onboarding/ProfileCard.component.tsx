@@ -20,6 +20,10 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import Logo from '@/components/ui/Logo.component'
 import { useUser } from '@/services/context/UserContext'
 import { ArrowRightIcon } from 'lucide-react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import LogoText from '@/components/ui/LogoText.component'
+import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
+import { useNavigate } from 'react-router-dom'
 
 const profileSchema = z.object({
   firstName: z.string().min(1, { message: 'Vorname fehlt.' }),
@@ -30,6 +34,8 @@ type TInput = z.infer<typeof profileSchema>
 
 export default function ProfileCard() {
   const { user } = useUser()
+  const navigate = useNavigate()
+  const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const form = useForm<TInput>({
     defaultValues: {
       firstName: '',
@@ -49,6 +55,7 @@ export default function ProfileCard() {
   }, [form])
 
   const onSubmit = async (data: TInput) => {
+    updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
     // try {
     //   await loginSupabase(data.email, data.lastName)
     // } catch {
@@ -60,16 +67,23 @@ export default function ProfileCard() {
   }
   if (!user) return null
   return (
-    <div className='justify-self-center sm:w-[500px]'>
-      <Card className=''>
-        <CardHeader>
+    <div className='justify-self-center sm:w-[32rem]'>
+      <Card className='rounded-xl p-12'>
+        <CardHeader className='p-0 pb-6'>
           <Logo className='mb-4 w-16' />
-          <h3 className='text-2xl font-medium text-zinc-700'>
+          <h3 className='!mt-0 text-2xl font-medium text-zinc-700'>
             Erzähl uns mehr über dich
           </h3>
         </CardHeader>
-        <CardContent>
-          <p className='mb-2 text-lg text-zinc-700'>{user.email}</p>
+        <CardContent className='p-0'>
+          <div className='mb-4 flex items-center gap-2'>
+            <Avatar className='h-6 w-6'>
+              <AvatarFallback className='text-sm'>
+                {user.email?.at(0)?.toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <p className='text-base text-zinc-700'>{user.email}</p>
+          </div>
           <Form {...form}>
             <form
               className='flex flex-col space-y-5'
@@ -90,8 +104,8 @@ export default function ProfileCard() {
                           className={cn(
                             form.formState.errors.firstName
                               ? 'border-warning'
-                              : 'border-zinc-400',
-                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
+                              : 'border-zinc-400/50',
+                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700/70',
                           )}
                           placeholder='Vorname'
                           {...field}
@@ -117,8 +131,8 @@ export default function ProfileCard() {
                           className={cn(
                             form.formState.errors.lastName
                               ? 'border-warning'
-                              : 'border-zinc-400',
-                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
+                              : 'border-zinc-400/50',
+                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700/70',
                           )}
                           {...field}
                         />

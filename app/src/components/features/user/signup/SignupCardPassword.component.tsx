@@ -17,33 +17,30 @@ import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Separator } from '@/components/ui/separator'
 import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
+import { PasswordInput } from '@/components/ui/password-input'
 
-const emailSchema = z.object({
-  email: z
+const passwordSchema = z.object({
+  password: z
     .string()
-    .min(1, { message: 'E-Mail Adresse fehlt.' })
-    .email({ message: 'Ungültige E-Mail Adresse!' })
-    .refine((email) => !email.includes('@example'), {
-      message: 'Unerlaubte E-Mail Adresse.',
-    }),
+    .min(6, { message: 'Passwort muss mindestens 6 Zeichen lang sein.' }),
 })
 
-type TInput = z.infer<typeof emailSchema>
+type TInput = z.infer<typeof passwordSchema>
 
-export function SignupCardEmail() {
+export function SignupCardPassword() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const form = useForm<TInput>({
     defaultValues: {
-      email: '',
+      password: '',
     },
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(passwordSchema),
     mode: 'onSubmit',
     shouldFocusError: true,
   })
 
   const onSubmit = async (data: TInput) => {
-    searchParams.set('email', data.email)
+    searchParams.set('email', data.password)
     setSearchParams(searchParams)
   }
 
@@ -66,6 +63,10 @@ export function SignupCardEmail() {
       size='sm'
       header="Los geht's!"
     >
+      <div className='flex flex-col'>
+        <p className='text-sm font-medium'>E-Mail</p>
+        <p>{searchParams.get('email')}</p>
+      </div>
       <Form {...form}>
         <form
           className='flex flex-col space-y-5'
@@ -73,23 +74,23 @@ export function SignupCardEmail() {
         >
           <FormField
             control={form.control}
-            name='email'
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel className='font-medium text-zinc-700'>
-                  E-Mail
+                  Passwort
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type='email'
+                  <PasswordInput
+                    type='password'
                     disabled={form.formState.isSubmitting}
                     className={cn(
-                      form.formState.errors.email
+                      form.formState.errors.password
                         ? 'border-warning'
                         : 'border-zinc-400',
                       'bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary',
                     )}
-                    placeholder='maria@muster.com'
+                    placeholder='Erstelle ein Passwort'
                     {...field}
                   />
                 </FormControl>

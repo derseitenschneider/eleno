@@ -8,8 +8,8 @@ export function ButtonGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // redirectTo: `${appConfig.appUrl}/first-steps`,
-        redirectTo: 'https://app.eleno.net/first-steps',
+        redirectTo: `${appConfig.appUrl}/onboarding`,
+        // redirectTo: 'https://app.eleno.net/first-steps',
       },
     })
     if (error) {

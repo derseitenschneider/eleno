@@ -21,6 +21,7 @@ import OnboardingPage from '@/pages/Onboarding.page'
 import Inbox from '@/pages/Inbox.page'
 import View from '@/components/features/settings/View'
 import FirstStepsWizzard from '@/components/features/onboarding/FirstStepsWizzard.component'
+import ProfileCard from '@/components/features/onboarding/ProfileCard.component'
 
 const TodosWrapper = () => {
   const hasBanner = useHasBanner()
@@ -100,7 +101,14 @@ const mainRouter = createBrowserRouter(
         {
           path: 'onboarding',
           element: <OnboardingPage />,
-          children: [{ path: 'first-steps', element: <FirstStepsWizzard /> }],
+          children: [
+            {
+              index: true,
+              path: '',
+              element: <ProfileCard />,
+            },
+            { path: 'first-steps', element: <FirstStepsWizzard /> },
+          ],
         },
         {
           path: 'todos',

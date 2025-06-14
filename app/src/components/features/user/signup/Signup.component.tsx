@@ -2,7 +2,7 @@
 import { useSearchParams } from 'react-router-dom'
 
 import LoginHeader from '../login/LoginHeader.component'
-import SignupCardEmail from './SignupCardEmail.component'
+import { SignupEmail } from './SignupEmail.component'
 import { useState } from 'react'
 
 type SignupProps = {
@@ -20,7 +20,7 @@ function Signup({ className }: SignupProps) {
           setSearchParams({ page: 'login' })
         }}
       />
-      <SignupCardEmail />
+      <SignupEmail />
     </div>
   )
 }

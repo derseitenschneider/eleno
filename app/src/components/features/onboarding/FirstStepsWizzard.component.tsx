@@ -6,6 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   HeartHandshakeIcon,
+  RocketIcon,
   User2,
   Users2,
 } from 'lucide-react'
@@ -39,9 +40,9 @@ export default function FirstStepsWizzard() {
   const steps: Array<Step> = [
     {
       id: 0,
-      label: 'Willkommen',
+      label: "Los geht's!",
       component: <Welcome />,
-      icon: <HeartHandshakeIcon strokeWidth={1.5} />,
+      icon: <RocketIcon strokeWidth={1.5} />,
     },
     {
       id: 1,

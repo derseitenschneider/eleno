@@ -24,8 +24,8 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
         {students.length === 0 ? (
           <>
             <p>
-              Bevor du überhaupt mit dem Unterrichten anfangen kannst, solltest
-              du einen oder mehrere Schüler:innen erfassen.
+              Bevor du mit dem Unterrichten anfangen kannst, solltest du einen
+              oder mehrere Schüler:innen erfassen.
             </p>
 
             <Button
@@ -41,7 +41,8 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
           <div className='flex flex-col space-y-4'>
             <p>
               Wunderbar, du hast nun {students.length}{' '}
-              {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'} erfasst.
+              {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'}{' '}
+              erfolgreich erfasst.
             </p>
             <div className='flex items-center justify-between gap-2'>
               <Button

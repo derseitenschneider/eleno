@@ -82,7 +82,9 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
         <div className='flex items-center gap-2'>
           <Button
             size='sm'
-            disabled={isUpdating || !hasAccess}
+            disabled={
+              isUpdating || !hasAccess || !input.firstName || !input.lastName
+            }
             onClick={handleSave}
           >
             Speichern

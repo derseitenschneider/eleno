@@ -16,6 +16,7 @@ import { cn } from './lib/utils'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
 import Banner from './components/ui/Banner.component'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
+import { useEffect } from 'react'
 
 export default function Application() {
   const isOnline = useIsOnline()
