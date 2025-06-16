@@ -1,17 +1,20 @@
 import { useSearchParams } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { SignupCardEmail } from './SignupCardEmail.component'
 import { SignupCardPassword } from './SignupCardPassword.component'
+import SignupSuccess from './SignupSuccess.component'
 
 export function SignupEmail() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const email = searchParams.get('email')
+  const signupSuccess = searchParams.get('signup')
 
-  if (!searchParams.get('email')) {
+  if (!email) {
     return <SignupCardEmail />
   }
-  if (searchParams.get('email')) {
+  if (email && !signupSuccess) {
     return <SignupCardPassword />
+  }
+  if (email && signupSuccess) {
+    return <SignupSuccess />
   }
 }

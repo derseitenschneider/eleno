@@ -7,12 +7,13 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
 import useProfileQuery from '../../user/profileQuery'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { toast } from 'sonner'
 
 interface EditProfileProps {
   onCloseModal?: () => void
 }
 
-// TODO: implement zod validation
+// TODO: implement zod validation, both fields at least 3 chars
 function EditProfile({ onCloseModal }: EditProfileProps) {
   const { hasAccess } = useSubscription()
   const { data: userProfile } = useProfileQuery()
@@ -32,7 +33,12 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
   }
 
   function handleSave() {
-    updateProfileMeta(input, { onSuccess: () => onCloseModal?.() })
+    updateProfileMeta(input, {
+      onSuccess: () => {
+        toast.success('Profil angepasst.')
+        onCloseModal?.()
+      },
+    })
   }
 
   return (

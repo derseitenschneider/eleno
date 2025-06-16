@@ -2,7 +2,6 @@ import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateUserMetaApi } from '@/services/api/user.api'
 import type { Profile } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useUpdateProfileMeta() {
   const fetchErrorToast = useFetchErrorToast()
@@ -24,7 +23,6 @@ export function useUpdateProfileMeta() {
     },
 
     onSuccess: async () => {
-      toast.success('Profil angepasst.')
       queryClient.invalidateQueries({
         queryKey: ['profile'],
       })

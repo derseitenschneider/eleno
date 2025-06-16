@@ -82,6 +82,7 @@ export function SignupCardEmail() {
                 <FormControl>
                   <Input
                     type='email'
+                    autoFocus
                     disabled={form.formState.isSubmitting}
                     className={cn(
                       form.formState.errors.email

@@ -5,19 +5,13 @@ import supabase from './supabase'
 export const signUpSupabase = async (inputData: {
   email: string
   password: string
-  firstName: string
-  lastName: string
 }) => {
-  const { email, password, firstName, lastName } = inputData
+  const { email, password } = inputData
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${appConfig.appUrl}/first-steps`,
-      data: {
-        firstName,
-        lastName,
-      },
+      emailRedirectTo: `${appConfig.appUrl}/onboarding`,
     },
   })
   if (error) throw new Error(error.message)
@@ -91,7 +85,7 @@ export const deleteAccountSupabase = async () => {
 
     try {
       await supabase.auth.signOut()
-    } catch (error) { }
+    } catch (error) {}
   } catch (error) {
     console.error('Error during account deletion:', error)
   }

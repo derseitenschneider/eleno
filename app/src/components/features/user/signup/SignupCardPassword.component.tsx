@@ -11,13 +11,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Separator } from '@/components/ui/separator'
 import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
 import { PasswordInput } from '@/components/ui/password-input'
+import { signUpSupabase } from '@/services/api/user.api'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 const passwordSchema = z.object({
   password: z
@@ -29,6 +30,9 @@ type TInput = z.infer<typeof passwordSchema>
 
 export function SignupCardPassword() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const fetchErrorToast = useFetchErrorToast()
+
+  const email = searchParams.get('email') || ''
 
   const form = useForm<TInput>({
     defaultValues: {
@@ -40,8 +44,16 @@ export function SignupCardPassword() {
   })
 
   const onSubmit = async (data: TInput) => {
-    searchParams.set('email', data.password)
-    setSearchParams(searchParams)
+    try {
+      await signUpSupabase({
+        email,
+        password: data.password,
+      })
+      searchParams.set('signup', 'success')
+      setSearchParams(searchParams)
+    } catch {
+      fetchErrorToast()
+    }
   }
 
   return (
@@ -65,7 +77,7 @@ export function SignupCardPassword() {
     >
       <div className='flex flex-col'>
         <p className='text-sm font-medium'>E-Mail</p>
-        <p>{searchParams.get('email')}</p>
+        <p>{email}</p>
       </div>
       <Form {...form}>
         <form
@@ -83,6 +95,7 @@ export function SignupCardPassword() {
                 <FormControl>
                   <PasswordInput
                     type='password'
+                    autoFocus
                     disabled={form.formState.isSubmitting}
                     className={cn(
                       form.formState.errors.password
