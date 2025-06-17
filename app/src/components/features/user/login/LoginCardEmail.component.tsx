@@ -15,7 +15,7 @@ import { loginSupabase } from '@/services/api/user.api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 import supabase from '@/services/api/supabase'
@@ -27,16 +27,15 @@ const loginSchema = z.object({
     .string()
     .min(1, { message: 'E-Mail Adresse fehlt.' })
     .email({ message: 'Keine gültige E-Mail Adresse.' }),
-  password: z.string().min(1, { message: 'Passwort fehlt.' }),
 })
 
 type TInput = z.infer<typeof loginSchema>
 
-export default function LoginCard() {
+export default function LoginCardEmail() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const form = useForm<TInput>({
     defaultValues: {
       email: '',
-      password: '',
     },
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit',
@@ -52,23 +51,7 @@ export default function LoginCard() {
   }, [form])
 
   const onSubmit = async (data: TInput) => {
-    try {
-      await loginSupabase(data.email, data.password)
-    } catch {
-      form.setFocus('email')
-      form.setError('root', {
-        message: 'E-Mail Adresse und/oder Passwort ungültig.',
-      })
-    }
-  }
-
-  async function loginWithGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    })
-    if (error) {
-      return console.log(error)
-    }
+    searchParams.set('email', data.email)
   }
 
   return (
@@ -93,21 +76,25 @@ export default function LoginCard() {
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-zinc-700'>
-                    E-Mail Adresse
+                  <FormLabel className='font-semibold text-zinc-700'>
+                    E-Mail
                   </FormLabel>
                   <FormControl>
                     <Input
                       data-testid='login-email'
                       type='email'
+                      spellCheck={false}
+                      autoCapitalize='off'
+                      autoComplete='email'
+                      autoFocus
                       disabled={form.formState.isSubmitting}
                       className={cn(
                         form.formState.errors.email
                           ? 'border-warning'
                           : 'border-zinc-400',
-                        'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
+                        'bg-zinc-50 text-zinc-700 placeholder:text-zinc-400',
                       )}
-                      placeholder='E-Mail Adresse'
+                      placeholder='Deine E-Mail'
                       {...field}
                     />
                   </FormControl>
@@ -115,37 +102,6 @@ export default function LoginCard() {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-zinc-700'>Passwort</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      data-testid='login-password'
-                      disabled={form.formState.isSubmitting}
-                      placeholder='Passwort'
-                      className={cn(
-                        form.formState.errors.password
-                          ? 'border-warning'
-                          : 'border-zinc-400',
-                        'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700',
-                      )}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Link
-              to='/?page=reset'
-              className='translate-y-[-10px] text-center text-sm'
-            >
-              Passwort vergessen?
-            </Link>
             <div className='flex items-center gap-2'>
               <Button
                 data-testid='login-submit'
@@ -153,7 +109,7 @@ export default function LoginCard() {
                 className='w-full'
                 type='submit'
               >
-                Login
+                Weiter
               </Button>
 
               {form.formState.isSubmitting && <MiniLoader />}

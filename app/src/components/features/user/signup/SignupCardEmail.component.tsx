@@ -76,12 +76,15 @@ export function SignupCardEmail() {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='font-medium text-zinc-700'>
+                <FormLabel className='font-semibold text-zinc-700'>
                   E-Mail
                 </FormLabel>
                 <FormControl>
                   <Input
                     type='email'
+                    spellCheck={false}
+                    autoCapitalize='off'
+                    autoComplete='email'
                     autoFocus
                     disabled={form.formState.isSubmitting}
                     className={cn(
@@ -90,7 +93,7 @@ export function SignupCardEmail() {
                         : 'border-zinc-400',
                       'bg-zinc-50 text-zinc-700 ring-offset-zinc-50 placeholder:text-zinc-400 focus visible:ring-primary',
                     )}
-                    placeholder='maria@muster.com'
+                    placeholder='Deine E-Mail'
                     {...field}
                   />
                 </FormControl>

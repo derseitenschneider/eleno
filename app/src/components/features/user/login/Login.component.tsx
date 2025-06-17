@@ -1,21 +1,22 @@
-import { useSearchParams } from "react-router-dom"
-import LoginCard from "./LoginCard.component"
-import LoginHeader from "./LoginHeader.component"
+import { useSearchParams } from 'react-router-dom'
+import LoginCardEmail from './LoginCardEmail.component'
+import LoginHeader from './LoginHeader.component'
 
 type LoginHeaderProps = {
   className: string
 }
 export default function Login({ className }: LoginHeaderProps) {
-  const [_, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const email = searchParams.get('email')
 
   return (
     <div className={`${className}`}>
       <LoginHeader
         preText='Noch kein Benutzerkonto?'
         buttonText='Sign up'
-        onClick={() => setSearchParams({ page: "signup" })}
+        onClick={() => setSearchParams({ page: 'signup' })}
       />
-      <LoginCard />
+      {!email ? <LoginCardEmail /> : null}
     </div>
   )
 }

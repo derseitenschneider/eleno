@@ -96,6 +96,9 @@ export function SignupCardPassword() {
                   <PasswordInput
                     type='password'
                     autoFocus
+                    spellCheck={false}
+                    autoCapitalize='off'
+                    autoComplete='current-password'
                     disabled={form.formState.isSubmitting}
                     className={cn(
                       form.formState.errors.password

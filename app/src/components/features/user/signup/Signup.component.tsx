@@ -3,14 +3,13 @@ import { useSearchParams } from 'react-router-dom'
 
 import LoginHeader from '../login/LoginHeader.component'
 import { SignupEmail } from './SignupEmail.component'
-import { useState } from 'react'
 
 type SignupProps = {
   className: string
 }
 function Signup({ className }: SignupProps) {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [email, setEmail] = useState()
+  const [_, setSearchParams] = useSearchParams()
+
   return (
     <div className={className}>
       <LoginHeader
