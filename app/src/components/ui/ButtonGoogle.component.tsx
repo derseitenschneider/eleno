@@ -20,7 +20,7 @@ export function ButtonGoogle() {
   }
   return (
     <Button
-      className='flex gap-3 text-slate-700'
+      className='flex gap-3 border-zinc-300 text-zinc-700'
       variant='outline'
       onClick={signupWithGoogle}
     >

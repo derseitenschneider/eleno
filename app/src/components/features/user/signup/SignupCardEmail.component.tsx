@@ -50,17 +50,17 @@ export function SignupCardEmail() {
   return (
     <WrapperCard
       complementary={
-        <p className='w-[40ch] text-center text-sm text-zinc-700 '>
+        <p className='w-[40ch] text-center text-sm text-zinc-500 !decoration-zinc-300'>
           Durch die Erstellung eines Kontos stimmst du den{' '}
-          <Link target='_blank' to='https://eleno.net/terms-conditions'>
-            Nutzungsbedingungen
+          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/terms-conditions'>
+            Allgemeinen Geschäftsbedingungen
           </Link>{' '}
           und der{' '}
-          <Link target='_blank' to='https://eleno.net/impressum-datenschutz'>
+          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/impressum-datenschutz'>
             Datenschutzrichtlinien
           </Link>{' '}
           zu.
-        </p>
+        </ p>
       }
       className='sm:mt-[-80px]'
       size='sm'

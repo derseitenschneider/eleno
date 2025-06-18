@@ -19,6 +19,7 @@ import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
 import { PasswordInput } from '@/components/ui/password-input'
 import { signUpSupabase } from '@/services/api/user.api'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { ChevronLeftIcon } from 'lucide-react'
 
 const passwordSchema = z.object({
   password: z
@@ -59,17 +60,17 @@ export function SignupCardPassword() {
   return (
     <WrapperCard
       complementary={
-        <p className='w-[40ch] text-center text-sm text-zinc-700 '>
+        <p className='w-[40ch] text-center text-sm text-zinc-500 !decoration-zinc-300'>
           Durch die Erstellung eines Kontos stimmst du den{' '}
-          <Link target='_blank' to='https://eleno.net/terms-conditions'>
-            Nutzungsbedingungen
+          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/terms-conditions'>
+            Allgemeinen Geschäftsbedingungen
           </Link>{' '}
           und der{' '}
-          <Link target='_blank' to='https://eleno.net/impressum-datenschutz'>
+          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/impressum-datenschutz'>
             Datenschutzrichtlinien
           </Link>{' '}
           zu.
-        </p>
+        </ p>
       }
       className='sm:mt-[-80px]'
       size='sm'
@@ -136,6 +137,15 @@ export function SignupCardPassword() {
         <Separator className='shrink' />
       </div>
       <ButtonGoogle />
+      <div className='flex justify-center'>
+        <Link
+          className='flex items-center gap-1 text-sm font-normal text-zinc-500 !decoration-zinc-300'
+          to='/?page=signup'
+        >
+          <ChevronLeftIcon size='16' />
+          Zurück
+        </Link>
+      </div>
     </WrapperCard>
   )
 }

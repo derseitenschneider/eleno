@@ -24,10 +24,10 @@ export default function WrapperCard({
       )}
     >
       <Logo className='h-14 w-14' />
-      <h1 className='mb-2 text-center text-2xl tracking-tight  text-zinc-600'>
+      <h1 className='mb-2 text-center text-2xl !font-medium tracking-tight  text-zinc-600'>
         {header}
       </h1>
-      <Card className='bg-zinc-50 py-3 sm:w-[440px] sm:p-12'>
+      <Card className='rounded-2xl border-zinc-300 bg-zinc-50 py-3  shadow-none sm:w-[440px] sm:p-12'>
         <CardContent className='flex flex-col space-y-5 p-0'>
           {children}
         </CardContent>
