@@ -164,6 +164,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                     <Input
                       {...field}
                       placeholder='Gruppenname'
+                      autoComplete='off'
                       className={cn(
                         form.formState.errors.name && 'border-warning',
                       )}
@@ -189,7 +190,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                       <SelectTrigger className='h-[36px]'>
                         <SelectValue placeholder='Unterrichtstag' />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className='z-[130]'>
                         <SelectItem value='Montag'>Montag</SelectItem>
                         <SelectItem value='Dienstag'>Dienstag</SelectItem>
                         <SelectItem value='Mittwoch'>Mittwoch</SelectItem>

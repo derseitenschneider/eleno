@@ -136,7 +136,7 @@ export function SignupCardPassword() {
         <span className='text-sm'>ODER</span>
         <Separator className='shrink' />
       </div>
-      <ButtonGoogle />
+      <ButtonGoogle onboarding />
       <div className='flex justify-center'>
         <Link
           className='flex items-center gap-1 text-sm font-normal text-zinc-500 !decoration-zinc-300'

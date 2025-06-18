@@ -30,10 +30,7 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
       <div className='flex flex-col space-y-4'>
         {groups.length === 0 ? (
           <>
-            <p>
-              Falls du Gruppen, Ensembles, Bands etc. unterrichtest, kannst du
-              diese ebenfalls bereits erfassen.
-            </p>
+            <p>Unterrichtest du Ensembles, Bands oder andere Gruppen? Dann kannst du sie hier in Eleno eintragen. So behältst du nicht nur bei Einzel-, sondern auch bei Gruppenstunden immer den perfekten Überblick und sparst wertvolle Zeit bei der Organisation.</p>
 
             <Button
               type='button'
@@ -46,9 +43,9 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
-            <p>
-              Gratulation, nun hast du {groups.length}{' '}
+            <p>Super, du hast {groups.length}{' '}
               {groups.length === 1 ? 'Gruppe' : 'Gruppen'} erfasst:
+
             </p>
             <ul className=''>
               {groups.map((group) => (
@@ -58,7 +55,7 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
                 >
                   <span>- {group.holder.name}</span>
                   <Button
-                    className='flex gap-1 items-center text-primary w-fit'
+                    className='flex w-fit items-center gap-1 text-primary'
                     size='sm'
                     variant='ghost'
                     onClick={() => openUpdateModal(group.holder.id)}

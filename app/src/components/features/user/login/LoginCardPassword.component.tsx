@@ -7,11 +7,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
@@ -102,12 +100,12 @@ export default function LoginCardPassword() {
                 <FormItem>
                   <FormLabel className='flex items-center justify-between font-semibold text-zinc-700'>
                     Passwort
-                    <a
-                      href='/?page=reset'
+                    <Link
+                      to={`/?page=reset&email=${email}`}
                       className='font-normal text-zinc-500 !decoration-zinc-300'
                     >
                       Passwort vergessen?
-                    </a>
+                    </Link>
                   </FormLabel>
                   <FormControl
                     onChange={() => {

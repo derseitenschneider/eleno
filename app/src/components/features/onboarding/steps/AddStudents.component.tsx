@@ -23,10 +23,7 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
       <div className='flex flex-col space-y-4'>
         {students.length === 0 ? (
           <>
-            <p>
-              Bevor du mit dem Unterrichten anfangen kannst, solltest du einen
-              oder mehrere Schüler:innen erfassen.
-            </p>
+            <p>Damit dein Unterricht reibungslos startet und du alle Infos sofort parat hast, ist es Zeit, deine Schüler:innen in Eleno einzutragen. So ist alles perfekt vorbereitet für eure nächste gemeinsame Stunde!</p>
 
             <Button
               type='button'
@@ -39,10 +36,9 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
-            <p>
-              Wunderbar, du hast nun {students.length}{' '}
+            <p>Wunderbar, du hast nun {students.length} {' '}
               {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'}{' '}
-              erfolgreich erfasst.
+              erfolgreich erfasst! Dein Unterrichtsalltag wird so gleich viel übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno optimal für dich einzurichten.
             </p>
             <div className='flex items-center justify-between gap-2'>
               <Button

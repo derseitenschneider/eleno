@@ -60,14 +60,14 @@ const StudentFormRow = memo(function StudentFormRow({
           : 'mb-1',
       )}
     >
-      <span className='hidden lg:inline self-center text-sm text-foreground/75'>
+      <span className='hidden self-center text-sm text-foreground/75 lg:inline'>
         {index + 1}
       </span>
       <FormField
         control={control}
         name={`students.${index}.firstName`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Vorname*
             </Label>
@@ -76,6 +76,11 @@ const StudentFormRow = memo(function StudentFormRow({
                 id={field.name}
                 disabled={disabled}
                 placeholder='Vorname'
+                autoComplete='off'
+                autoCorrect='off'
+                type='text'
+                spellCheck={false}
+                autoCapitalize='off'
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&
@@ -90,7 +95,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.lastName`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Nachname*
             </Label>
@@ -112,7 +117,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.instrument`}
         render={({ field }) => (
-          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Instrument*
             </Label>
@@ -134,7 +139,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.dayOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Tag
             </Label>
@@ -147,7 +152,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 <SelectTrigger className='h-[36px]'>
                   <SelectValue placeholder='—' />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='z-[130]'>
                   <SelectItem value='Montag'>Montag</SelectItem>
                   <SelectItem value='Dienstag'>Dienstag</SelectItem>
                   <SelectItem value='Mittwoch'>Mittwoch</SelectItem>
@@ -166,7 +171,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.startOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-2 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Von
             </Label>
@@ -193,7 +198,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.endOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-2 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Bis
             </Label>
@@ -220,7 +225,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.durationMinutes`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-2 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Dauer
             </Label>
@@ -263,7 +268,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.location`}
         render={({ field }) => (
-          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Unterrichtsort
             </Label>

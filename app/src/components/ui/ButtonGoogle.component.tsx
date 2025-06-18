@@ -4,14 +4,14 @@ import supabase from '@/services/api/supabase'
 import { Button } from './button'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
-export function ButtonGoogle() {
+export function ButtonGoogle({ onboarding }: { onboarding?: boolean }) {
   const fetchErrorToast = useFetchErrorToast()
   async function signupWithGoogle() {
     try {
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${appConfig.appUrl}/onboarding`,
+          redirectTo: onboarding ? `${appConfig.appUrl}/onboarding` : '',
         },
       })
     } catch (e) {

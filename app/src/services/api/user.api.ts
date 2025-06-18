@@ -37,7 +37,9 @@ export const getSubscriptionApi = async (userId: string) => {
 }
 
 export const recoverPasswordSupabase = async (email: string) => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email)
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${appConfig.appUrl}`,
+  })
   if (error) throw new Error(error.message)
 }
 
