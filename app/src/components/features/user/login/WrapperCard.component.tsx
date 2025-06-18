@@ -20,14 +20,14 @@ export default function WrapperCard({
     <div
       className={cn(
         className,
-        'flex flex-col items-center justify-center gap-4 p-3',
+        'z-[1] flex flex-col items-center justify-center gap-4 p-3',
       )}
     >
       <Logo className='h-14 w-14' />
       <h1 className='mb-2 text-center text-2xl !font-medium tracking-tight  text-zinc-700'>
         {header}
       </h1>
-      <Card className='rounded-2xl border-zinc-300 bg-zinc-50 py-3  shadow-none sm:w-[440px] sm:p-12'>
+      <Card className='rounded-2xl border-zinc-300 bg-zinc-50 p-8 shadow-none lg:w-[440px] lg:p-12'>
         <CardContent className='flex flex-col space-y-5 p-0'>
           {children}
         </CardContent>

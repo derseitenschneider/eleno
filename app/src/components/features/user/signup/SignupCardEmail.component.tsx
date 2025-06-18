@@ -50,7 +50,7 @@ export function SignupCardEmail() {
   return (
     <WrapperCard
       complementary={
-        <p className='w-[40ch] text-center text-sm text-zinc-500 !decoration-zinc-300'>
+        <p className='text-center text-sm text-zinc-500 !decoration-zinc-300 sm:w-[40ch]'>
           Durch die Erstellung eines Kontos stimmst du den{' '}
           <Link
             className='text-zinc-500 !decoration-zinc-300'
@@ -72,7 +72,7 @@ export function SignupCardEmail() {
       }
       className='sm:mt-[-80px]'
       size='sm'
-      header='Eleno starten: Mehr Zeit für Musik.'
+      header='Eleno starten: Mehr Zeit für deine Musik'
     >
       <Form {...form}>
         <form
@@ -128,10 +128,10 @@ export function SignupCardEmail() {
       </Form>
       <div className='flex items-center gap-2'>
         <Separator className='shrink' />
-        <span className='text-sm'>ODER</span>
+        <span className='text-sm text-zinc-500'>ODER</span>
         <Separator className='shrink' />
       </div>
-      <ButtonGoogle onboarding />
+      <ButtonGoogle />
       <p className='!mt-8 text-center text-sm text-zinc-500 '>
         Bereits ein Benutzerkonto?{' '}
         <Link to='/?page=login'>Jetzt einloggen</Link>

@@ -60,25 +60,33 @@ export function SignupCardPassword() {
   return (
     <WrapperCard
       complementary={
-        <p className='w-[40ch] text-center text-sm text-zinc-500 !decoration-zinc-300'>
+        <p className='text-center text-sm text-zinc-500 !decoration-zinc-300 sm:w-[40ch]'>
           Durch die Erstellung eines Kontos stimmst du den{' '}
-          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/terms-conditions'>
+          <Link
+            className='text-zinc-500 !decoration-zinc-300'
+            target='_blank'
+            to='https://eleno.net/terms-conditions'
+          >
             Allgemeinen Geschäftsbedingungen
           </Link>{' '}
           und den{' '}
-          <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/impressum-datenschutz'>
+          <Link
+            className='text-zinc-500 !decoration-zinc-300'
+            target='_blank'
+            to='https://eleno.net/impressum-datenschutz'
+          >
             Datenschutzrichtlinien
           </Link>{' '}
           zu.
-        </ p>
+        </p>
       }
       className='sm:mt-[-80px]'
       size='sm'
       header='Eleno starten: Mehr Zeit für Musik.'
     >
       <div className='flex flex-col'>
-        <p className='text-sm font-medium'>E-Mail</p>
-        <p>{email}</p>
+        <p className='text-sm font-medium text-zinc-600'>E-Mail</p>
+        <p className='text-zinc-500'>{email}</p>
       </div>
       <Form {...form}>
         <form
@@ -133,10 +141,10 @@ export function SignupCardPassword() {
       </Form>
       <div className='flex items-center gap-2'>
         <Separator className='shrink' />
-        <span className='text-sm'>ODER</span>
+        <span className='text-sm text-zinc-500'>ODER</span>
         <Separator className='shrink' />
       </div>
-      <ButtonGoogle onboarding />
+      <ButtonGoogle />
       <div className='flex justify-center'>
         <Link
           className='flex items-center gap-1 text-sm font-normal text-zinc-500 !decoration-zinc-300'

@@ -49,16 +49,6 @@ export default function ProfileCard() {
     shouldFocusError: true,
   })
 
-  useEffect(() => {
-    if (profile?.first_name) {
-      navigate('/')
-    }
-  }, [profile?.first_name, navigate])
-
-  useEffect(() => {
-    form.setFocus('firstName')
-  }, [form])
-
   const onSubmit = async (data: TInput) => {
     updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
   }
@@ -66,10 +56,10 @@ export default function ProfileCard() {
   if (!user) return null
   return (
     <div className='justify-self-center sm:w-[32rem]'>
-      <Card className='rounded-xl p-12'>
+      <Card className='rounded-xl p-8 sm:p-12'>
         <CardHeader className='p-0 pb-6'>
           <Logo className='mb-4 w-16' />
-          <h3 className='!mt-0 text-2xl font-medium text-zinc-700'>
+          <h3 className='!mt-0 text-2xl font-medium'>
             Erzähl uns mehr über dich
           </h3>
         </CardHeader>
@@ -80,30 +70,30 @@ export default function ProfileCard() {
                 {user.email?.at(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <p className='text-base text-zinc-700'>{user.email}</p>
+            <p className='text-base text-foreground'>{user.email}</p>
           </div>
           <Form {...form}>
             <form
               className='flex flex-col space-y-5'
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div className='flex gap-2 '>
+              <div className='flex flex-col gap-2 sm:flex-row '>
                 <FormField
                   control={form.control}
                   name='firstName'
                   render={({ field }) => (
-                    <FormItem className='w-1/2'>
-                      <FormLabel className='font-medium text-zinc-700'>
+                    <FormItem className='sm:w-1/2'>
+                      <FormLabel className='font-medium'>
                         Vorname
                       </FormLabel>
                       <FormControl>
                         <Input
+                          autoFocus
                           disabled={form.formState.isSubmitting}
                           className={cn(
                             form.formState.errors.firstName
                               ? 'border-warning'
                               : 'border-zinc-400/50',
-                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700/70',
                           )}
                           placeholder='Vorname'
                           {...field}
@@ -118,8 +108,8 @@ export default function ProfileCard() {
                   control={form.control}
                   name='lastName'
                   render={({ field }) => (
-                    <FormItem className='w-1/2'>
-                      <FormLabel className='font-medium text-zinc-700'>
+                    <FormItem className='sm:w-1/2'>
+                      <FormLabel className='font-medium'>
                         Nachname
                       </FormLabel>
                       <FormControl>
@@ -130,7 +120,6 @@ export default function ProfileCard() {
                             form.formState.errors.lastName
                               ? 'border-warning'
                               : 'border-zinc-400/50',
-                            'bg-zinc-50 text-zinc-700 placeholder:text-zinc-700/70',
                           )}
                           {...field}
                         />

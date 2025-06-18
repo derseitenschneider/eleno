@@ -4,14 +4,14 @@ import supabase from '@/services/api/supabase'
 import { Button } from './button'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
-export function ButtonGoogle({ onboarding }: { onboarding?: boolean }) {
+export function ButtonGoogle() {
   const fetchErrorToast = useFetchErrorToast()
   async function signupWithGoogle() {
     try {
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: onboarding ? `${appConfig.appUrl}/onboarding` : '',
+          redirectTo: appConfig.appUrl,
         },
       })
     } catch (e) {
@@ -20,7 +20,7 @@ export function ButtonGoogle({ onboarding }: { onboarding?: boolean }) {
   }
   return (
     <Button
-      className='flex gap-3 border-zinc-300 text-zinc-700'
+      className='flex gap-3 border-zinc-300 bg-zinc-50 text-zinc-700 hover:bg-zinc-100'
       variant='outline'
       onClick={signupWithGoogle}
     >

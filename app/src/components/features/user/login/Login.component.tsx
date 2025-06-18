@@ -12,11 +12,6 @@ export default function Login({ className }: LoginHeaderProps) {
 
   return (
     <div className={`${className}`}>
-      {/* <LoginHeader */}
-      {/*   preText='Noch kein Benutzerkonto?' */}
-      {/*   buttonText='Sign up' */}
-      {/*   onClick={() => setSearchParams({ page: 'signup' })} */}
-      {/* /> */}
       {!email ? <LoginCardEmail /> : null}
       {email ? <LoginCardPassword /> : null}
     </div>
