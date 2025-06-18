@@ -28,6 +28,12 @@ function Account() {
   }, [])
 
   useEffect(() => {
+    if (searchParams.get('modal-open') === 'update-password') {
+      setModalOpen('EDIT_PASSWORD')
+    }
+  }, [searchParams.get])
+
+  useEffect(() => {
     if (searchParams.get('update-email') === 'success') {
       toast.success('E-Mail Adresse geändert.')
       searchParams.delete('update-email')
@@ -36,6 +42,10 @@ function Account() {
   }, [searchParams.get, setSearchParams, searchParams.delete, searchParams])
 
   function closeModal() {
+    if (searchParams.get('modal-open') === 'update-password') {
+      searchParams.delete('modal-open')
+      setSearchParams(searchParams)
+    }
     setModalOpen(undefined)
   }
 
