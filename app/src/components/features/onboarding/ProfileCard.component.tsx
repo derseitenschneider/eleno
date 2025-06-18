@@ -9,21 +9,19 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import WrapperCard from '../user/login/WrapperCard.component'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import Logo from '@/components/ui/Logo.component'
 import { useUser } from '@/services/context/UserContext'
 import { ArrowRightIcon } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import LogoText from '@/components/ui/LogoText.component'
 import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
 import { useNavigate } from 'react-router-dom'
+import useProfileQuery from '../user/profileQuery'
 
 const profileSchema = z.object({
   firstName: z.string().min(1, { message: 'Vorname fehlt.' }),
@@ -34,6 +32,7 @@ type TInput = z.infer<typeof profileSchema>
 
 export default function ProfileCard() {
   const { user } = useUser()
+  const { data: profile } = useProfileQuery()
   const navigate = useNavigate()
   const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const form = useForm<TInput>({
@@ -51,20 +50,19 @@ export default function ProfileCard() {
   })
 
   useEffect(() => {
+    if (profile?.first_name) {
+      navigate('/')
+    }
+  }, [profile?.first_name, navigate])
+
+  useEffect(() => {
     form.setFocus('firstName')
   }, [form])
 
   const onSubmit = async (data: TInput) => {
     updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
-    // try {
-    //   await loginSupabase(data.email, data.lastName)
-    // } catch {
-    //   form.setFocus('firstName')
-    //   form.setError('root', {
-    //     message: 'Angaben fehlen.',
-    //   })
-    // }
   }
+
   if (!user) return null
   return (
     <div className='justify-self-center sm:w-[32rem]'>
@@ -156,7 +154,7 @@ export default function ProfileCard() {
                   <ArrowRightIcon className='ml-2 w-5' />
                 </Button>
 
-                {form.formState.isSubmitting && <MiniLoader />}
+                {isUpdating && <MiniLoader />}
               </div>
               {form.formState.errors.root && (
                 <p className='text-center text-sm text-warning'>

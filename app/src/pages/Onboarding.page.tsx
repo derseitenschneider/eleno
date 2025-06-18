@@ -1,4 +1,3 @@
-import ProfileCard from '@/components/features/onboarding/ProfileCard.component'
 import LogoText from '@/components/ui/LogoText.component'
 import { Outlet } from 'react-router-dom'
 
