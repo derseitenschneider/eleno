@@ -55,7 +55,7 @@ export function SignupCardEmail() {
           <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/terms-conditions'>
             Allgemeinen Geschäftsbedingungen
           </Link>{' '}
-          und der{' '}
+          und den{' '}
           <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/impressum-datenschutz'>
             Datenschutzrichtlinien
           </Link>{' '}
@@ -64,7 +64,7 @@ export function SignupCardEmail() {
       }
       className='sm:mt-[-80px]'
       size='sm'
-      header="Los geht's!"
+      header='Eleno starten: Mehr Zeit für Musik.'
     >
       <Form {...form}>
         <form
@@ -124,6 +124,10 @@ export function SignupCardEmail() {
         <Separator className='shrink' />
       </div>
       <ButtonGoogle />
+      <p className='!mt-8 text-center text-sm text-zinc-500 '>
+        Bereits ein Benutzerkonto?{' '}
+        <Link to='/?page=login'>Jetzt einloggen</Link>
+      </p>
     </WrapperCard>
   )
 }

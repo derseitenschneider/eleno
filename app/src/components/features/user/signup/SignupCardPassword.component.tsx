@@ -65,7 +65,7 @@ export function SignupCardPassword() {
           <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/terms-conditions'>
             Allgemeinen Geschäftsbedingungen
           </Link>{' '}
-          und der{' '}
+          und den{' '}
           <Link className='text-zinc-500 !decoration-zinc-300' target='_blank' to='https://eleno.net/impressum-datenschutz'>
             Datenschutzrichtlinien
           </Link>{' '}
@@ -74,7 +74,7 @@ export function SignupCardPassword() {
       }
       className='sm:mt-[-80px]'
       size='sm'
-      header="Los geht's!"
+      header='Eleno starten: Mehr Zeit für Musik.'
     >
       <div className='flex flex-col'>
         <p className='text-sm font-medium'>E-Mail</p>

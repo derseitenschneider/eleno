@@ -73,7 +73,7 @@ export default function LoginCardEmail() {
           </p>
         }
         size='sm'
-        header='Willkommen zurück!'
+        header='Schön, dich wiederzusehen!'
       >
         <Form {...form}>
           <form

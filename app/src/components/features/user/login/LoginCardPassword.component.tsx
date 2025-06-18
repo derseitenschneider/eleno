@@ -84,7 +84,7 @@ export default function LoginCardPassword() {
           </p>
         }
         size='sm'
-        header='Willkommen zurück!'
+        header='Schön, dich wiederzusehen!'
       >
         <div className='flex flex-col'>
           <p className='text-sm font-medium'>E-Mail</p>
