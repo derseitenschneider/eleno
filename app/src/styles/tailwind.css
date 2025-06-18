@@ -141,6 +141,11 @@ a {
   @apply cursor-pointer text-primary hover:underline;
 }
 
+a:hover {
+  text-decoration-color: hsl(195, 42%, 70%);
+  text-underline-offset: 2px;
+}
+
 svg {
   @apply h-full w-auto
 }

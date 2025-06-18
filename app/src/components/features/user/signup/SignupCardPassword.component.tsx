@@ -94,7 +94,6 @@ export function SignupCardPassword() {
                 </FormLabel>
                 <FormControl>
                   <PasswordInput
-                    type='password'
                     autoFocus
                     spellCheck={false}
                     autoCapitalize='off'

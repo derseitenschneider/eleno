@@ -18,21 +18,23 @@ import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 import { Separator } from '@/components/ui/separator'
 import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
+import { PasswordInput } from '@/components/ui/password-input'
+import { ChevronLeftIcon } from 'lucide-react'
+import supabase from '@/services/api/supabase'
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'E-Mail Adresse fehlt.' })
-    .email({ message: 'Keine gültige E-Mail Adresse.' }),
+  password: z.string().min(1, { message: 'Passwort fehlt' }),
 })
 
 type TInput = z.infer<typeof loginSchema>
 
-export default function LoginCardEmail() {
-  const [searchParams, setSearchParams] = useSearchParams()
+export default function LoginCardPassword() {
+  const [searchParams] = useSearchParams()
+  const email = searchParams.get('email') || ''
+
   const form = useForm<TInput>({
     defaultValues: {
-      email: '',
+      password: '',
     },
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit',
@@ -44,8 +46,17 @@ export default function LoginCardEmail() {
   })
 
   const onSubmit = async (data: TInput) => {
-    searchParams.set('email', data.email)
-    setSearchParams(searchParams)
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password: data.password,
+    })
+    if (error) {
+      form.setError(
+        'root',
+        { message: 'E-Mail und/oder Passwort ungültig.' },
+        { shouldFocus: true },
+      )
+    }
   }
 
   return (
@@ -75,6 +86,10 @@ export default function LoginCardEmail() {
         size='sm'
         header='Willkommen zurück!'
       >
+        <div className='flex flex-col'>
+          <p className='text-sm font-medium'>E-Mail</p>
+          <p>{email}</p>
+        </div>
         <Form {...form}>
           <form
             className='flex flex-col space-y-4'
@@ -82,28 +97,37 @@ export default function LoginCardEmail() {
           >
             <FormField
               control={form.control}
-              name='email'
+              name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='font-semibold text-zinc-700'>
-                    E-Mail
+                  <FormLabel className='flex items-center justify-between font-semibold text-zinc-700'>
+                    Passwort
+                    <a
+                      href='/?page=reset'
+                      className='font-normal text-zinc-500 !decoration-zinc-300'
+                    >
+                      Passwort vergessen?
+                    </a>
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      data-testid='login-email'
-                      type='email'
+                  <FormControl
+                    onChange={() => {
+                      form.clearErrors()
+                    }}
+                  >
+                    <PasswordInput
+                      data-testid='login-password'
                       spellCheck={false}
                       autoCapitalize='off'
-                      autoComplete='email'
+                      autoComplete='current-password'
                       autoFocus
                       disabled={form.formState.isSubmitting}
                       className={cn(
-                        form.formState.errors.email
+                        form.formState.errors.password
                           ? 'border-warning'
                           : 'border-zinc-400',
                         'bg-zinc-50 text-zinc-700 placeholder:text-zinc-400',
                       )}
-                      placeholder='Deine E-Mail'
+                      placeholder='Dein Passwort'
                       {...field}
                     />
                   </FormControl>
@@ -118,7 +142,7 @@ export default function LoginCardEmail() {
                 className='w-full'
                 type='submit'
               >
-                Weiter
+                Login
               </Button>
 
               {form.formState.isSubmitting && <MiniLoader />}
@@ -136,10 +160,15 @@ export default function LoginCardEmail() {
           <Separator className='shrink' />
         </div>
         <ButtonGoogle />
-        <p className='!mt-8 text-center text-sm text-zinc-500 '>
-          Noch kein Benutzerkonto?{' '}
-          <Link to='/?page=signup'>Jetzt loslegen!</Link>
-        </p>
+        <div className='flex justify-center'>
+          <Link
+            className='flex items-center gap-1 text-sm font-normal text-zinc-500 !decoration-zinc-300'
+            to='/'
+          >
+            <ChevronLeftIcon size='16' />
+            Zurück
+          </Link>
+        </div>
       </WrapperCard>
     </>
   )

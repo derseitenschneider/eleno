@@ -2,18 +2,20 @@ import GoogleLogo from '@/components/ui/GoogleLogo.component'
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
 import { Button } from './button'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 export function ButtonGoogle() {
+  const fetchErrorToast = useFetchErrorToast()
   async function signupWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${appConfig.appUrl}/onboarding`,
-        // redirectTo: 'https://app.eleno.net/first-steps',
-      },
-    })
-    if (error) {
-      return console.log(error)
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${appConfig.appUrl}/onboarding`,
+        },
+      })
+    } catch (e) {
+      return fetchErrorToast()
     }
   }
   return (

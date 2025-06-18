@@ -12,13 +12,6 @@ function Signup({ className }: SignupProps) {
 
   return (
     <div className={className}>
-      <LoginHeader
-        preText='Bereits ein Benutzerkonto?'
-        buttonText='Login'
-        onClick={() => {
-          setSearchParams({ page: 'login' })
-        }}
-      />
       <SignupEmail />
     </div>
   )
