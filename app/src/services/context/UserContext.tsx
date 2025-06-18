@@ -18,9 +18,9 @@ import { useLoading } from './LoadingContext'
 
 export const UserContext = createContext<ContextTypeUser>({
   user: undefined,
-  deleteAccount: () => new Promise(() => {}),
-  logout: () => new Promise(() => {}),
-  recoverPassword: () => new Promise(() => {}),
+  deleteAccount: () => new Promise(() => { }),
+  logout: () => new Promise(() => { }),
+  recoverPassword: () => new Promise(() => { }),
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -161,7 +161,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <UserContext.Provider value={value}>
       {currentSession && children}
       {!currentSession && !isLoading && (
-        <LoginPage className='grid min-h-[100dvh] bg-primary/[3.4%]' />
+        <LoginPage className='grid min-h-[100dvh] bg-primary/[3%]' />
       )}
     </UserContext.Provider>
   )
