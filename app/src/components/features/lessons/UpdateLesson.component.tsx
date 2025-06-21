@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useUpdateLesson } from './useUpdateLesson'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { Blocker } from '../subscription/Blocker'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 type EditLessonProps = {
   lessonId: number
@@ -61,7 +62,12 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   function handleSave() {
     if (!lessonToUpdate) return
     updateLesson(
-      { ...lessonToUpdate, lessonContent, homework, date },
+      {
+        ...lessonToUpdate,
+        lessonContent: removeHTMLAttributes(lessonContent),
+        homework: removeHTMLAttributes(homework),
+        date,
+      },
       {
         onSuccess: () => onCloseModal?.(),
       },
@@ -71,12 +77,12 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   return (
     <div className='relative'>
       <Blocker />
-      <div className='flex items-center mb-3 gap-2'>
+      <div className='mb-3 flex items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />
       </div>
-      <div className='lg:flex items-center mb-6 gap-8'>
-        <div className='mb-6 lg:mb-0 md:w-[450px]'>
+      <div className='mb-6 items-center gap-8 lg:flex'>
+        <div className='mb-6 md:w-[450px] lg:mb-0'>
           <p className='text-foreground/70'>Lektion</p>
 
           <CustomEditor
@@ -96,7 +102,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
-      <div className='justify-end gap-4 flex items-center'>
+      <div className='flex items-center justify-end gap-4'>
         <Button
           disabled={isUpdating}
           size='sm'
