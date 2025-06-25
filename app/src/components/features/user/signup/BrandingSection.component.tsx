@@ -2,7 +2,7 @@ import { CheckIcon } from 'lucide-react'
 
 export function BrandingSection() {
   return (
-    <div className='flex flex-col items-center justify-center bg-zinc-50 p-8'>
+    <div className='hidden flex-col items-center justify-center bg-slate-100 p-8 sm:flex'>
       <div className='w-full max-w-[36rem] text-[17px] text-zinc-600'>
         <h1 className='!font-semibold tracking-tight text-zinc-600'>
           Dein Unterricht,{' '}
@@ -21,8 +21,8 @@ export function BrandingSection() {
               <CheckIcon strokeWidth={3} className='text-primary' />
             </div>
 
-            <p>
-              <span className='font-medium'>Zeit sparen:</span> Eleno hilft dir,
+            <p className='text-zinc-600'>
+              <span className='font-medium text-zinc-600'>Zeit sparen:</span> Eleno hilft dir,
               wertvolle Verwaltungszeit zu sparen.
             </p>
           </li>
@@ -32,8 +32,8 @@ export function BrandingSection() {
               <CheckIcon strokeWidth={3} className='text-primary' />
             </div>
 
-            <p>
-              <span className='font-medium'>Intuitive Dokumentation:</span>{' '}
+            <p className='text-zinc-600'>
+              <span className='font-medium text-zinc-600'>Intuitive Dokumentation:</span>{' '}
               Behalte mühelos den Überblick über jede Stunde und den Fortschritt
               deiner Schüler:innen.
             </p>
@@ -44,8 +44,8 @@ export function BrandingSection() {
               <CheckIcon strokeWidth={3} className='text-primary' />
             </div>
 
-            <p>
-              <span className='font-medium'>Stressfreie Organisation:</span>{' '}
+            <p className='text-zinc-600'>
+              <span className='font-medium text-zinc-600'>Stressfreie Organisation:</span>{' '}
               Perfekt organisierter Unterricht – ganz ohne Zettelchaos oder
               Excel-Listen.
             </p>
@@ -56,13 +56,13 @@ export function BrandingSection() {
               <CheckIcon strokeWidth={3} className='text-primary' />
             </div>
 
-            <p>
-              <span className='!font-medium'>Datenschutz inklusive:</span> Eleno
+            <p className='text-zinc-600'>
+              <span className='!font-medium text-zinc-600'>Datenschutz inklusive:</span> Eleno
               ist DSGVO-konform für sichere Schülerdaten.
             </p>
           </li>
         </ul>
-        <p className='font-medium'>
+        <p className='font-medium text-zinc-600'>
           Bereit für mehr Musik und weniger Papierkram?
         </p>
       </div>

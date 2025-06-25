@@ -89,8 +89,8 @@ export default function LoginCardPassword() {
         header='Schön, dich wiederzusehen!'
       >
         <div className='flex flex-col'>
-          <p className='text-sm font-medium'>E-Mail</p>
-          <p>{email}</p>
+          <p className='text-sm font-medium text-zinc-600'>E-Mail</p>
+          <p className='text-zinc-500'>{email}</p>
         </div>
         <Form {...form}>
           <form
@@ -158,7 +158,7 @@ export default function LoginCardPassword() {
         </Form>
         <div className='flex items-center gap-2'>
           <Separator className='shrink' />
-          <span className='text-sm'>ODER</span>
+          <span className='text-sm text-zinc-500'>ODER</span>
           <Separator className='shrink' />
         </div>
         <ButtonGoogle />

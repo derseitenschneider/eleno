@@ -23,8 +23,8 @@ export default function SignupSuccess() {
         </div>
       }
     >
-      <p className='font-medium'>{email}</p>
-      <p className=''>
+      <p className='font-medium text-zinc-600'>{email}</p>
+      <p className='text-zinc-600'>
         Öffne dein Postfach und klicke auf den Bestätigungslink um dein
         Benutzerkonto zu aktivieren.
       </p>

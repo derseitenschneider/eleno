@@ -99,11 +99,12 @@ export default function ResetCard() {
                       form.formState.errors.email
                         ? 'border-warning'
                         : 'border-zinc-400',
+                      'bg-zinc-50 text-zinc-700 placeholder:text-zinc-400',
                     )}
                   />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
+                <FormDescription className='text-zinc-500'>
                   Du erhältst einen Link zum zurücksetzten deines Passworts.
                 </FormDescription>
               </FormItem>

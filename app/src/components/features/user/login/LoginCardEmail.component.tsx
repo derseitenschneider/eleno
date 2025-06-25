@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
@@ -132,7 +131,7 @@ export default function LoginCardEmail() {
         </Form>
         <div className='flex items-center gap-2'>
           <Separator className='shrink' />
-          <span className='text-sm'>ODER</span>
+          <span className='text-sm text-zinc-500'>ODER</span>
           <Separator className='shrink' />
         </div>
         <ButtonGoogle />
