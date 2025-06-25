@@ -27,7 +27,7 @@ const loginSchema = z.object({
 type TInput = z.infer<typeof loginSchema>
 
 export default function LoginCardPassword() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const email = searchParams.get('email') || ''
 
   const form = useForm<TInput>({
@@ -54,6 +54,10 @@ export default function LoginCardPassword() {
         { message: 'E-Mail und/oder Passwort ungültig.' },
         { shouldFocus: true },
       )
+    } else {
+      searchParams.delete('email')
+      searchParams.delete('page')
+      setSearchParams(searchParams)
     }
   }
 
