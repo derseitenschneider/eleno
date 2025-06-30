@@ -1,0 +1,555 @@
+{
+  "teacher": {
+    "locations": ["Steffisburg", "Spiez"],
+    "mode": "tight",
+    "breakAfterMaxNumStudents": 5,
+    "minBreakLength": null,
+    "sameDayMultipleLocations": false,
+    "minGapBetweenLocationSwitchInMinutes": null,
+    "maxLocationSwitches": null,
+    "availabilities": [
+      {
+        "day": 1,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": [0],
+        "maxStudents": null
+      },
+      {
+        "day": 2,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": [1],
+        "maxStudents": null
+      },
+      {
+        "day": 3,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": [0],
+        "maxStudents": null
+      }
+    ]
+  },
+  "students": [
+    {
+      "id": "Luan Bellmann",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "16:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Myles Bhend",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "16:30",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Lia Bleuer",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Tim Bleuer",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Louan Brandenberg",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "15:30",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "13:15",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Noam Christen",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:30",
+          "end": "20:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Eliel Delgado",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "15:45",
+          "end": "18:30",
+          "locations": [1],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Leana Gander",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "14:00",
+          "end": "17:00",
+          "locations": [1],
+          "preferredLocation": 0,
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "16:00",
+          "end": "19:00",
+          "locations": [1],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Ayleen Hunziker",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "14:00",
+          "end": "17:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "16:00",
+          "end": "19:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Mahsa Ibrahimi",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "13:00",
+          "end": "14:40",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+
+    {
+      "id": "Liano Klossner",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "15:30",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "19:00",
+          "end": "20:00",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 3
+        },
+        {
+          "day": 3,
+          "start": "14:00",
+          "end": "14:45",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Jonas Juillard",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "20:00",
+          "end": "21:00",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "18:00",
+          "end": "20:00",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "18:45",
+          "end": "21:00",
+          "locations": [1, 0],
+          "preferredLocation": 1,
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Benjamin Kluge",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "13:00",
+          "end": "17:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Carla Kobelt",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "18:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Dean Konrad",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "16:45",
+          "end": "17:30",
+          "locations": [1],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Livia Küenzi",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Jakob Müller",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "18:45",
+          "locations": [1],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Luiz Reutebuch",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "12:15",
+          "end": "13:00",
+          "locations": [1],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Nils Riesen",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "20:00",
+          "locations": [1],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Michelle Rohr",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "19:00",
+          "locations": [1],
+          "preferredLocation": 1,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Sabrina Rüfenacht",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "19:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Anina Lean Schneider",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "14:00",
+          "end": "17:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Tyl Studer",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:00",
+          "end": "19:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Ana Nora Topalli",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:00",
+          "end": "13:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Timeo von Gunten",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "15:30",
+          "end": "16:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "12:00",
+          "end": "12:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Marlon Wildi",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "15:35",
+          "end": "17:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "13:10",
+          "end": "14:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Marlen Muri",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "16:00",
+          "end": "18:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "13:30",
+          "end": "14:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Tim Lauber",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "14:10",
+          "end": "17:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "13:40",
+          "end": "14:10",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Florine Kneubühler",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "13:30",
+          "end": "14:30",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "16:30",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 3
+        }
+      ]
+    }
+  ]
+}
