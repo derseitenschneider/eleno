@@ -1,0 +1,175 @@
+```json
+{
+  "schedule": {
+    "day_1": {
+      "location": "Steffisburg",
+      "lessons": [
+        {
+          "studentId": "Ana Nora Topalli",
+          "start": "13:00",
+          "end": "13:30"
+        },
+        {
+          "studentId": "Tyl Studer",
+          "start": "13:30",
+          "end": "14:00"
+        },
+        {
+          "studentId": "Sabrina Rüfenacht",
+          "start": "14:00",
+          "end": "14:30"
+        },
+        {
+          "studentId": "Ayleen Hunziker",
+          "start": "14:30",
+          "end": "15:00"
+        },
+        {
+          "studentId": "Tim Lauber",
+          "start": "15:00",
+          "end": "15:30"
+        },
+        {
+          "studentId": "Luan Bellmann",
+          "start": "15:30",
+          "end": "16:10"
+        },
+        {
+          "studentId": "Marlen Muri",
+          "start": "16:10",
+          "end": "16:40"
+        },        
+        {
+          "studentId": "Tim Bleuer",
+          "start": "17:00",
+          "end": "17:30"
+        },
+        {
+          "studentId": "Lia Bleuer",
+          "start": "17:30",
+          "end": "18:00"
+        },
+        {
+          "studentId": "Florine Kneubühler",
+          "start": "18:00",
+          "end": "18:30"
+        },
+        {
+          "studentId": "Myles Bhend",
+          "start": "18:30",
+          "end": "19:10"
+        },
+        {
+          "studentId": "Noam Christen",
+          "start": "19:10",
+          "end": "19:50"
+        },
+        {
+          "studentId": "Jonas Juillard",
+          "start": "20:00",
+          "end": "20:30"
+        }
+
+      ]
+    },
+    "day_2": {
+      "location": "Spiez",
+      "lessons": [
+        {
+          "studentId": "Luiz Reutebuch",
+          "start": "12:15",
+          "end": "12:55"
+        },
+        {
+          "studentId": "Eliel Delgado",
+          "start": "15:45",
+          "end": "16:15"
+        },
+        {
+          "studentId": "Leana Gander",
+          "start": "16:15",
+          "end": "16:45"
+        },
+        {
+          "studentId": "Dean Konrad",
+          "start": "16:45",
+          "end": "17:25"
+        },
+        {
+          "studentId": "Jakob Müller",
+          "start": "17:25",
+          "end": "17:55"
+        },
+        {
+          "studentId": "Michelle Rohr",
+          "start": "17:55",
+          "end": "18:25"
+        },
+        {
+          "studentId": "Jonas Juillard",
+          "start": "18:25",
+          "end": "18:55"
+        },
+        {
+          "studentId": "Nils Riesen",
+          "start": "18:55",
+          "end": "19:35"
+        }
+      ]
+    },
+    "day_3": {
+      "location": "Steffisburg",
+      "lessons": [
+        {
+          "studentId": "Timeo von Gunten",
+          "start": "12:00",
+          "end": "12:30"
+        },
+        {
+          "studentId": "Mahsa Ibrahimi",
+          "start": "13:00",
+          "end": "13:40"
+        },
+        {
+          "studentId": "Benjamin Kluge",
+          "start": "13:40",
+          "end": "14:10"
+        },
+        {
+          "studentId": "Marlen Muri",
+          "start": "14:10",
+          "end": "14:40"
+        },
+        {
+          "studentId": "Anina Lean Schneider",
+          "start": "14:40",
+          "end": "15:20"
+        },
+        {
+          "studentId": "Livia Küenzi",
+          "start": "17:00",
+          "end": "17:40"
+        },
+        {
+          "studentId": "Myles Bhend",
+          "start": "17:40",
+          "end": "18:20"
+        },
+        {
+            "studentId": "Florine Kneubühler",
+            "start": "18:20",
+            "end": "18:50"
+        },
+        {
+          "studentId": "Jonas Juillard",
+          "start": "18:50",
+          "end": "19:20"
+        }
+      ]
+    }
+  },
+  "status": "success",
+  "unscheduled_students": [],
+  "messages": []
+}
+```

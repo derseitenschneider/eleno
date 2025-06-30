@@ -45,8 +45,12 @@ class Config {
 	/** @var string $smtpPassword  */
 	public readonly string $smtpPassword;
 
+	/** @var string $geminiApiKey  */
+	public readonly string $geminiApiKey;
+
 	/** @var array $corsAllowedOrigins  */
 	public readonly array $corsAllowedOrigins;
+
 
 	/**
 	 * Constructor
@@ -68,6 +72,7 @@ class Config {
 			'SMTP_HOST',
 			'SMTP_USERNAME',
 			'SMTP_PASSWORD',
+			'GEMINI_API_KEY',
 		);
 
 		foreach ( $required as $var ) {
@@ -89,6 +94,7 @@ class Config {
 		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
 		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
 		$this->smtpHost               = $_ENV['SMTP_HOST'];
+		$this->geminiApiKey           = $_ENV['GEMINI_API_KEY'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )

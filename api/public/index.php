@@ -30,6 +30,8 @@ $container = new Container();
 ( require __DIR__ . '/../src/dependencies/middleware.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/repository.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/stripe.php' )( $container );
+( require __DIR__ . '/../src/dependencies/autoscheduler.php' )( $container );
+
 AppFactory::setContainer( $container );
 
 // Create App

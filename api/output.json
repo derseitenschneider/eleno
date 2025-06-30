@@ -1,0 +1,52 @@
+{
+  "schedule": {
+    "day_1": {
+      "location": "Steffisburg",
+      "lessons": [
+        { "studentId": "Ana Nora Topalli", "start": "13:00", "end": "13:30" },
+        { "studentId": "Tyl Studer", "start": "13:30", "end": "14:00" },
+        { "studentId": "Luan Bellmann", "start": "14:00", "end": "14:40" },
+        { "studentId": "Tim Lauber", "start": "14:40", "end": "15:10" },
+        { "studentId": "Ayleen Hunziker", "start": "15:10", "end": "15:40" },
+        { "studentId": "Louan Brandenberg", "start": "15:40", "end": "16:20" },
+        { "studentId": "Marlon Wildi", "start": "16:20", "end": "17:00" },
+        { "studentId": "Lia Bleuer", "start": "17:00", "end": "17:30" },
+        { "studentId": "Tim Bleuer", "start": "17:30", "end": "18:00" },
+        { "studentId": "Noam Christen", "start": "18:00", "end": "18:40" },
+        { "studentId": "Myles Bhend", "start": "18:40", "end": "19:20" },
+        { "studentId": "Florine Kneubühler", "start": "19:20", "end": "19:50" },
+        { "studentId": "Sabrina Rüfenacht", "start": "19:50", "end": "20:20" },
+        { "studentId": "Carla Kobelt", "start": "20:20", "end": "20:50" }
+      ]
+    },
+    "day_2": {
+      "location": "Spiez",
+      "lessons": [
+        { "studentId": "Luiz Reutebuch", "start": "12:15", "end": "12:55" },
+        { "studentId": "Eliel Delgado", "start": "15:45", "end": "16:15" },
+        { "studentId": "Dean Konrad", "start": "16:45", "end": "17:25" },
+        { "studentId": "Jakob Müller", "start": "17:25", "end": "17:55" },
+        { "studentId": "Michelle Rohr", "start": "17:55", "end": "18:25" },
+        { "studentId": "Nils Riesen", "start": "18:25", "end": "19:05" },
+        { "studentId": "Leana Gander", "start": "19:05", "end": "19:35" }
+      ]
+    },
+    "day_3": {
+      "location": "Steffisburg",
+      "lessons": [
+        { "studentId": "Timeo von Gunten", "start": "12:00", "end": "12:30" },
+        { "studentId": "Mahsa Ibrahimi", "start": "13:00", "end": "13:40" },
+        { "studentId": "Benjamin Kluge", "start": "13:40", "end": "14:10" },
+        {
+          "studentId": "Anina Lean Schneider",
+          "start": "14:10",
+          "end": "14:50"
+        },
+        { "studentId": "Livia Küenzi", "start": "17:00", "end": "17:40" }
+      ]
+    }
+  },
+  "status": "success",
+  "unscheduled_students": [],
+  "messages": []
+}
