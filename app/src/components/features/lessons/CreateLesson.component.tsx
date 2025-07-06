@@ -12,6 +12,7 @@ import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useSettingsQuery from '../settings/settingsQuery'
+import { useSearchParams } from 'react-router-dom'
 
 function CreateLesson() {
   const { data: settings } = useSettingsQuery()
@@ -23,6 +24,9 @@ function CreateLesson() {
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
+  const [searchParams] = useSearchParams()
+
+  const isPreparationMode = searchParams.get('mode') === 'preparation'
 
   const isDisabledSave =
     isCreating || !hasAccess || (!lessonContent && !homework)
@@ -169,6 +173,11 @@ function CreateLesson() {
       )}
     >
       <Blocker blockerId='createLesson' />
+      {isPreparationMode && (
+        <p className='top: 0 absolute'>
+          Vorbereitungsmodus: Du planst eine zukünftige lektion
+        </p>
+      )}
       <h5 className=' m-0 mb-2'>Neue Lektion</h5>
       <div className='mb-3 flex items-center gap-2'>
         <p className=''>Datum</p>
