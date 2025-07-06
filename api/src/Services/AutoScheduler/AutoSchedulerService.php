@@ -24,6 +24,7 @@ class AutoSchedulerService {
 	 */
 	public function __construct( Client $client ) {
 		$this->client = $client;
+		$testing      = 'asdöflsdöf';
 	}
 
 	/**
@@ -35,8 +36,8 @@ class AutoSchedulerService {
 		string $prompt = 'Hello Gemini! Please write a short, encouraging message for a music teacher using the Eleno app.'
 	): ?string {
 		try {
-			$preload = file_get_contents( __DIR__ . '/prompt-preload.txt' );
-			$data    = file_get_contents( __DIR__ . '/test-data.json' );
+			$preload = file_get_contents( __DIR__ . '/prompt-preload.md' );
+			$data    = file_get_contents( __DIR__ . '/test-data-2.json' );
 			$prompt  = $preload . "\n" . $data;
 
 			$response = $this->client->generativeModel( model: 'gemini-1.5-pro' )->generateContent( $prompt );

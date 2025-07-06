@@ -1,0 +1,568 @@
+{
+  "teacher": {
+    "locations": ["Steffisburg", "Spiez"],
+    "mode": "tight",
+    "breakAfterMaxNumStudents": null,
+    "minBreakLength": null,
+    "sameDayMultipleLocations": false,
+    "minGapBetweenLocationSwitchInMinutes": null,
+    "maxLocationSwitches": null,
+    "availabilities": [
+      {
+        "day": 1,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": ["Steffisburg"],
+        "maxStudents": null
+      },
+      {
+        "day": 2,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": ["Spiez"],
+        "maxStudents": null
+      },
+      {
+        "day": 3,
+        "start": "12:00",
+        "end": "21:00",
+        "locations": ["Steffisburg"],
+        "maxStudents": null
+      }
+    ]
+  },
+  "students": [
+    {
+      "id": "Laurin Aegerter",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "15:30",
+          "end": "17:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 3
+        },
+        {
+          "day": 2,
+          "start": "16:30",
+          "end": "17:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "18:30",
+          "end": "20:30",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Eirik Dörig",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "19:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 3
+        },
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "19:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "14:00",
+          "end": "19:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Liano Klossner",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "19:00",
+          "end": "20:00",
+          "locations": ["Spiez", "Steffisburg"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "13:00",
+          "end": "19:30",
+          "locations": ["Spiez", "Steffisburg"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Jakob Müller",
+      "durationMinutes": 35,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Luiz Reutebuch",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "19:50",
+          "end": "21:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Louan Brandenberg",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "18:30",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 2,
+          "start": "18:30",
+          "end": "21:00",
+          "locations": [0],
+          "preferredLocation": 0,
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "18:30",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Noam Christen",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:00",
+          "end": "19:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 2,
+          "start": "17:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "17:00",
+          "end": "19:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Benjamin Häusler",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "14:00",
+          "end": "14:40",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "14:15",
+          "end": "14:55",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "14:40",
+          "end": "15:20",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Ayleen Hunziker",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "17:30",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 2,
+          "start": "16:00",
+          "end": "16:30",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "18:30",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Nele Janke",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "19:00",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "19:00",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        },
+        {
+          "day": 3,
+          "start": "13:00",
+          "end": "16:45",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Florine Kneubühler",
+      "durationMinutes": 35,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "19:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "18:30",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Anina Schneider",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "19:00",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 3,
+          "start": "18:00",
+          "end": "20:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Livio Steck",
+      "durationMinutes": 55,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "15:15",
+          "end": "17:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+
+        {
+          "day": 3,
+          "start": "18:15",
+          "end": "19:05",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "16:15",
+          "end": "18:30",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Julian Wyder",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 3,
+          "start": "14:25",
+          "end": "15:15",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "18:00",
+          "end": "19:30",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "id": "Michelle Rohr",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 2,
+          "start": "16:30",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "id": "Lia Bleuer",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 2,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+
+        {
+          "day": 3,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Tim Bleuer",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 1
+        },
+        {
+          "day": 2,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 2
+        },
+
+        {
+          "day": 3,
+          "start": "18:00",
+          "end": "21:00",
+          "locations": ["Steffisburg"],
+          "preferredLocation": "Steffisburg",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Kaya Schmiedt",
+      "durationMinutes": 30,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "13:30",
+          "end": "19:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "16:30",
+          "end": "18:15",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "17:00",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Nils Riesen",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "18:30",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        },
+        {
+          "day": 2,
+          "start": "18:30",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        },
+        {
+          "day": 3,
+          "start": "18:30",
+          "end": "20:00",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "id": "Logan Engel",
+      "durationMinutes": 40,
+      "availabilities": [
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:25",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 3
+        },
+        {
+          "day": 1,
+          "start": "16:30",
+          "end": "17:10",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 4
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:25",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 2
+        },
+
+        {
+          "day": 2,
+          "start": "16:30",
+          "end": "17:10",
+          "locations": ["Spiez"],
+          "preferredLocation": "Spiez",
+          "priority": 1
+        }
+      ]
+    }
+  ]
+}
