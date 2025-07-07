@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useCreateLesson } from './useCreateLesson'
-import { useDrafts } from '@/services/context/DraftsContext'
 import useCurrentHolder from './useCurrentHolder'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
@@ -10,10 +9,13 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { Card } from '@/components/ui/card'
+import { usePreparedLessons } from './lessonsQueries'
+import { PreparedLessonItem } from './PreparedLessonItem.component'
+import { Card, CardContent } from '@/components/ui/card'
 
 export function CreatePreparationForm() {
   const [date, setDate] = useState<Date | undefined>()
+  const { data: preparedLessons } = usePreparedLessons()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
   const { hasAccess } = useSubscription()
@@ -23,6 +25,16 @@ export function CreatePreparationForm() {
   const [error, setError] = useState('')
   const isDisabledSave =
     isCreating || !hasAccess || (!lessonContent && !homework)
+
+  const currentHolderPreparedLessons = preparedLessons?.filter((lesson) => {
+    if (!currentLessonHolder) return false
+    if (currentLessonHolder.type === 's') {
+      return lesson.studentId === currentLessonHolder.holder.id
+    }
+    if (currentLessonHolder.type === 'g') {
+      return lesson.groupId === currentLessonHolder?.holder.id
+    }
+  })
 
   const handlerInputDate = (inputDate: Date | undefined) => {
     if (!inputDate) return
@@ -129,9 +141,15 @@ export function CreatePreparationForm() {
           </div>
         </div>
       </div>
-      <div>
+      <div className='h-full'>
         <p className='font-medium'>Vorbereitete Lektionen</p>
-        <Card></Card>
+        <Card className='h-full p-4'>
+          <CardContent className='h-full'>
+            {currentHolderPreparedLessons?.map((lesson) => (
+              <PreparedLessonItem key={lesson.id} currentLesson={lesson} />
+            ))}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

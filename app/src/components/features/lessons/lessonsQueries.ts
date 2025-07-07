@@ -4,6 +4,7 @@ import {
   fetchLessonYears,
   fetchAllLessonsApi,
   fetchAllLessonsCSVApi,
+  fetchPreparedLessons,
 } from '@/services/api/lessons.api'
 import { useUser } from '@/services/context/UserContext'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -24,6 +25,18 @@ export function useLatestLessons() {
   const result = useQuery({
     queryKey: ['latest-3-lessons'],
     queryFn: () => fetchLatestLessons(user?.id || ''),
+    staleTime: 1000 * 60 * 60 * 24,
+    enabled: Boolean(user),
+  })
+
+  return result
+}
+
+export function usePreparedLessons() {
+  const { user } = useUser()
+  const result = useQuery({
+    queryKey: ['prepared-lessons'],
+    queryFn: () => fetchPreparedLessons(user?.id || ''),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
   })

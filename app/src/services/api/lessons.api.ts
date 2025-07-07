@@ -10,6 +10,21 @@ import mockLast3Lessons from './mock-db/mockLast3Lessons'
 
 const isDemo = appConfig.isDemoMode
 
+export async function fetchPreparedLessons(userId: string) {
+  const { data, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('status', 'prepared')
+
+  if (error) throw new Error(error.message)
+  const lessons = data.map((lesson) => ({
+    ...lesson,
+    date: new Date(lesson.date || ''),
+  }))
+  return lessons as Array<LessonWithStudentId> | Array<LessonWithGroupId>
+}
+
 export const fetchLessonsByYearApi = async (
   holderId: number,
   lessonYear: number,
@@ -41,6 +56,7 @@ export const fetchLessonsByYearApi = async (
     .select('*')
     .eq(idField, holderId)
     .eq('user_id', userId)
+    .eq('status', 'documented')
     .gte('date', `${lessonYear}-01-01`)
     .lt('date', `${lessonYear + 1}-01-01`)
     .order('date', { ascending: false })
@@ -77,11 +93,12 @@ export const fetchAllLessonsApi = async ({
     .select('*')
     .in(idField, holderIds)
     .eq('user_id', userId)
+    .eq('status', 'documented')
 
   query = startDate
     ? query
-        .gte('date', uctStartDate.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -109,11 +126,12 @@ export const fetchAllLessonsCSVApi = async ({
     .from('lessons')
     .select('Datum:date, Lektionsinhalt:lessonContent, Hausaufgaben:homework')
     .in(idField, holderIds)
+    .eq('status', 'documented')
 
   query = startDate
     ? query
-        .gte('date', uctStartDate?.toISOString())
-        .lte('date', uctEndDate?.toISOString())
+      .gte('date', uctStartDate?.toISOString())
+      .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
@@ -214,6 +232,7 @@ export const fetchLatestLessons = async (userId: string) => {
     .from('last_3_lessons')
     .select()
     .eq('user_id', userId)
+    .eq('status', 'documented')
     .returns<Array<Lesson>>()
   if (error) throw new Error(error.message)
 
@@ -228,6 +247,7 @@ export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
   const { data: lessons, error } = await supabase
     .from('lessons')
     .select('*')
+    .eq('status', 'documented')
     .in('studentId', [...studentIds])
     .order('date', { ascending: false })
     .limit(3)

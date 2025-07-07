@@ -1,23 +1,19 @@
-import parse from 'html-react-parser'
-import { cn } from '@/lib/utils'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import ButtonShareHomework from './ButtonShareHomework.component'
-import PreviousLessonDropDown from './PreviousLessonDropDown.component'
-import { useLatestLessons } from './lessonsQueries'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { ButtonInsertPreparedLesson } from './ButtonInsertPreparedLesson.component'
+import parse from 'html-react-parser'
+import type { Lesson } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { cn } from '@/lib/utils'
 
-export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
-  const { data: lessons } = useLatestLessons()
+export function PreparedLessonItem({
+  currentLesson,
+}: { currentLesson: Lesson }) {
   const { userLocale } = useUserLocale()
-  const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
-  if (!currentLesson) return null
 
   return (
     <div className='rounded-sm border border-hairline p-3'>
       <div className='flex items-start justify-between'>
         <p className='mb-1 text-xs'>
-          {currentLesson.date.toLocaleDateString(userLocale, {
+          {currentLesson?.date?.toLocaleDateString(userLocale, {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -25,8 +21,8 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
         </p>
 
         <div className='flex items-center gap-6 md:gap-4'>
-          <ButtonShareHomework lessonId={lessonId} />
-          <PreviousLessonDropDown lessonId={lessonId} />
+          {/* <ButtonInsertPreparedLesson lessonId={lessonId} /> */}
+          {/* <PreviousLessonDropDown lessonId={lessonId} /> */}
         </div>
       </div>
       <div className={cn('md:grid-cols-2 grid gap-6')}>
