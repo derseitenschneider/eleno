@@ -6,11 +6,13 @@ import { PreviousLessonItem } from './PreviousLessonItem.component'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useIsPreparationMode } from '@/hooks/useIsPreparationMode'
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
 }
 function PreviousLessons({ layout }: PreviousLessonsProps) {
   const { data: lessons } = useLatestLessons()
+  const isPreparationMode = useIsPreparationMode()
   const scrollRef = useRef<HTMLDivElement>(null)
   const { currentLessonHolder } = useCurrentHolder()
 
@@ -28,6 +30,19 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
       ?.sort((a, b) => {
         return +b.date - +a.date
       })
+      ?.filter((lesson) => lesson.status === 'documented')
+      .filter(
+        (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
+      )
+      ?.slice(0, 3)
+      .map((lesson) => lesson.id) || []
+
+  const preparedLessonsIds =
+    lessons
+      ?.sort((a, b) => {
+        return +b.date - +a.date
+      })
+      ?.filter((lesson) => lesson.status === 'prepared')
       .filter(
         (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
       )
@@ -43,19 +58,52 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
     ?.date.getFullYear()
 
   return (
-    <div
-      className={cn(
-        layout === 'reverse' ? 'border-hairline border-b' : '',
-        'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
+    <div className={cn(isPreparationMode && 'grid grid-cols-2')}>
+      {isPreparationMode && (
+        <div
+          className={cn(
+            layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
+            'border-hairline border-r flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          )}
+        >
+          <div className='mb-3 flex items-baseline justify-between'>
+            <h5>Vorbereitete Lektionen</h5>
+          </div>
+          <div className='overflow-hidden'>
+            {preparedLessonsIds.length > 0 ? (
+              <ScrollArea ref={scrollRef} className='h-full'>
+                <div
+                  className={cn(
+                    layout === 'reverse' ? 'pb-6' : 'pb-12',
+                    'space-y-4',
+                  )}
+                >
+                  {preparedLessonsIds.map((lessonId) => (
+                    <PreviousLessonItem key={lessonId} lessonId={lessonId} />
+                  ))}
+                </div>
+              </ScrollArea>
+            ) : (
+              <Empty
+                className='!bg-background100 !shadow-none'
+                emptyMessage='Keine Lektionen vorbereitet.'
+              />
+            )}
+          </div>
+        </div>
       )}
-    >
       <div
         className={cn(
-          layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
-          'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          layout === 'reverse' ? 'border-hairline border-b' : '',
+          'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
         )}
       >
-        <>
+        <div
+          className={cn(
+            layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
+            'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          )}
+        >
           <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
             {previousLessonsIds.length > 0 && (
@@ -85,7 +133,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
               />
             )}
           </div>
-        </>
+        </div>
       </div>
     </div>
   )

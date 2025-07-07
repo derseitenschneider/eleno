@@ -1,4 +1,4 @@
-import { NavLink, useSearchParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
 import { User, Users } from 'lucide-react'
@@ -12,7 +12,6 @@ import {
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
 import { RepertoireNavButton } from '../repertoire/RepertoireNavButton.component'
-import { TogglePreparationMode } from './TogglePreparationMode.component'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -94,7 +93,6 @@ function LessonHeader() {
           </div>
         </div>
         <div className='flex gap-4'>
-          <TogglePreparationMode />
           <RepertoireNavButton />
         </div>
       </div>

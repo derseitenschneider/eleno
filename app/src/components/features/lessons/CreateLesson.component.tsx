@@ -13,9 +13,12 @@ import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useSettingsQuery from '../settings/settingsQuery'
 import { useSearchParams } from 'react-router-dom'
+import { TogglePreparationMode } from './TogglePreparationMode.component'
+import { useIsPreparationMode } from '@/hooks/useIsPreparationMode'
 
 function CreateLesson() {
   const { data: settings } = useSettingsQuery()
+  const isPreparationMode = useIsPreparationMode()
   const { hasAccess } = useSubscription()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
@@ -24,9 +27,6 @@ function CreateLesson() {
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
-  const [searchParams] = useSearchParams()
-
-  const isPreparationMode = searchParams.get('mode') === 'preparation'
 
   const isDisabledSave =
     isCreating || !hasAccess || (!lessonContent && !homework)
@@ -156,6 +156,7 @@ function CreateLesson() {
         [typeField]: currentLessonHolder.holder.id,
         date,
         expiration_base: new Date().toISOString(),
+        status: isPreparationMode ? 'prepared' : 'documented',
       },
       {
         onSuccess: resetFields,
@@ -173,17 +174,17 @@ function CreateLesson() {
       )}
     >
       <Blocker blockerId='createLesson' />
-      {isPreparationMode && (
-        <p className='top: 0 absolute'>
-          Vorbereitungsmodus: Du planst eine zukünftige lektion
-        </p>
-      )}
-      <h5 className=' m-0 mb-2'>Neue Lektion</h5>
+      <div className='flex items-start justify-between'>
+        <h5 className=' m-0 mb-2'>
+          {isPreparationMode ? 'Lektionsvorbereitung' : 'Neue Lektion'}
+        </h5>
+        <TogglePreparationMode />
+      </div>
       <div className='mb-3 flex items-center gap-2'>
-        <p className=''>Datum</p>
+        <p>Datum</p>
         <DayPicker
           setDate={handlerInputDate}
-          date={date}
+          date={isPreparationMode ? undefined : date}
           disabled={isCreating}
         />
       </div>
@@ -223,7 +224,7 @@ function CreateLesson() {
             onClick={handleSave}
             className='ml-auto block'
           >
-            Speichern
+            {isPreparationMode ? 'Vorbereitung speichern' : 'Speicher'}
           </Button>
           {isCreating && <MiniLoader />}
         </div>

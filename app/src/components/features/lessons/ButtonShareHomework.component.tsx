@@ -32,7 +32,6 @@ type ButtonShareHomeworkProps = {
 export default function ButtonShareHomework({
   lessonId,
 }: ButtonShareHomeworkProps) {
-  const isMobile = useIsMobileDevice()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { data: userProfile } = useProfileQuery()
   const { userLocale } = useUserLocale()

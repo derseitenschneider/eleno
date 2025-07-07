@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import * as SwitchPrimitives from '@radix-ui/react-switch'
 import { cn } from '@/lib/utils'
 import { BookTextIcon, CalendarClockIcon } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -31,53 +31,36 @@ export function TogglePreparationMode() {
     setSearchParams(searchParams)
   }
   return (
-    <Button
-      className={cn(
-        'font-normal py-2 z-2 px-3 rounded-sm text-sm text-foreground relative flex items-center gap-1',
-        'hover:no-underline',
-        isPreparationMode
-          ? 'bg-primary/10 hover:bg-primary/10'
-          : 'bg-background50 hover:bg-background200/50',
-      )}
-      onClick={switchEntryMode}
-    >
-      {isPreparationMode ? (
-        <>
-          <BookTextIcon
-            strokeWidth={isPreparationMode ? 1.5 : 1}
-            className={cn(
-              'size-5',
-              isPreparationMode ? 'text-primary' : 'text-foreground',
-            )}
-          />
-          <span
-            className={cn(
-              'translate-y-[1px] text-sm ',
-              isPreparationMode ? 'text-primary' : 'text-foreground',
-            )}
-          >
-            Unterricht dokumentieren
-          </span>
-        </>
-      ) : (
-        <>
-          <CalendarClockIcon
-            strokeWidth={isPreparationMode ? 1.5 : 1}
-            className={cn(
-              'size-5',
-              isPreparationMode ? 'text-primary' : 'text-foreground',
-            )}
-          />
-          <span
-            className={cn(
-              'translate-y-[1px] text-sm ',
-              isPreparationMode ? 'text-primary' : 'text-foreground',
-            )}
-          >
-            Lektion vorbereiten
-          </span>
-        </>
-      )}
-    </Button>
+    <div className='flex flex-col items-end gap-1'>
+      <span className='text-sm'>Lektionsvorbereitung:</span>
+      {/* <span className={cn(!isPreparationMode && 'text-primary', 'text-sm')}> */}
+      {/*   Unterrichten */}
+      {/* </span> */}
+      <SwitchPrimitives.Root
+        className={cn(
+          'peer inline-flex h-[25px] w-[42px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background200 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-background50 data-[state=unchecked]:bg-background200',
+        )}
+        onCheckedChange={switchEntryMode}
+        checked={isPreparationMode}
+      >
+        <SwitchPrimitives.Thumb
+          className={cn(
+            isPreparationMode
+              ? 'bg-primary text-white'
+              : 'bg-background50 text-foreground',
+            'p-[3px] pointer-events-none flex items-center justify-center  h-5 w-5 rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0',
+          )}
+        >
+          {isPreparationMode ? (
+            <CalendarClockIcon strokeWidth={1.5} />
+          ) : (
+            <BookTextIcon strokeWidth={1.5} />
+          )}
+        </SwitchPrimitives.Thumb>
+      </SwitchPrimitives.Root>
+      {/* <span className={cn(isPreparationMode && 'text-primary', 'text-sm')}> */}
+      {/*   Vorbereiten */}
+      {/* </span> */}
+    </div>
   )
 }
