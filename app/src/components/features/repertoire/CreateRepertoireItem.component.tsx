@@ -4,27 +4,27 @@ import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { useCreateRepertoireItem } from './useCreateRepertoireItem'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import useCurrentHolder from '../lessons/useCurrentHolder'
 
 interface AddRepertoireItemProps {
   holderId: number
   holderType: 's' | 'g'
 }
 
-function CreateRepertoireItem({
-  holderId,
-  holderType,
-}: AddRepertoireItemProps) {
+function CreateRepertoireItem() {
   const { hasAccess } = useSubscription()
+  const { currentLessonHolder } = useCurrentHolder()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
   const [hideToolbar, setHideToolbar] = useState(false)
   const isMobile = useIsMobileDevice()
 
-  const fieldType = holderType === 's' ? 'studentId' : 'groupId'
+  const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
+  const holderId = currentLessonHolder?.holder.id || 0
 
   const defaultItem: PartialRepertoireItem = {
     [fieldType]: holderId,
@@ -62,7 +62,10 @@ function CreateRepertoireItem({
     })
   }
   return (
-    <div className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'>
+    <div
+      key={`${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
+      className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'
+    >
       <Blocker variant='inline' />
       <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-2 rounded-md border border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:pr-1'>
         <div className='relative col-span-4 grow sm:col-span-1 sm:w-auto sm:shrink'>
