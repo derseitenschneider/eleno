@@ -14,6 +14,7 @@ import { usePrepLessons } from '@/services/context/LessonPrepContext'
 import { useUpdateLesson } from './useUpdateLesson'
 import { toast } from 'sonner'
 import { usePreparedLessonsQuery } from './lessonsQueries'
+import { ButtonPreparedLessonAvailable } from './preparation/ButtonPreparedLessonAvailable.component'
 
 export function CreateLessonForm() {
   const [date, setDate] = useState<Date>(new Date())
@@ -39,14 +40,13 @@ export function CreateLessonForm() {
       (draft) => draft[typeField] === currentLessonHolder?.holder.id,
     )
     if (currentDraft) {
-      console.log(currentDraft)
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
       setDate(currentDraft.date || new Date())
       if (currentDraft.status === 'prepared') {
         setSelectedForUsing(
           preparedLessons?.find((lesson) => lesson.id === currentDraft.id) ||
-            null,
+          null,
         )
       }
     } else {
@@ -211,6 +211,10 @@ export function CreateLessonForm() {
       <div className='mb-3 flex items-center gap-2'>
         <p>Datum</p>
         <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
+
+        <div>
+          <ButtonPreparedLessonAvailable date={date} />
+        </div>
       </div>
       <div
         className={cn(

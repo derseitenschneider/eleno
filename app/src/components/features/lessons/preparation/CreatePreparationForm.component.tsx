@@ -15,6 +15,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { usePrepLessons } from '@/services/context/LessonPrepContext'
 import { useUpdateLesson } from '../useUpdateLesson'
 import { toast } from 'sonner'
+import Empty from '@/components/ui/Empty.component'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 export type CreatePreparationFormProps = {
   onClose?: () => void
@@ -47,6 +49,9 @@ export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
     if (currentLessonHolder.type === 'g') {
       return lesson.groupId === currentLessonHolder?.holder.id
     }
+  }).sort((a, b) => {
+    if (a.date > b.date) return 1
+    return -1
   })
 
   const handlerInputDate = (inputDate: Date | undefined) => {
@@ -155,7 +160,7 @@ export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
               placeholder='Lektion...'
             />
           </div>
-          <div>
+          <div className='mt-4'>
             <p>Hausaufgaben</p>
             <CustomEditor
               key={`homework-prep-${currentLessonHolder.holder.id}`}
@@ -181,20 +186,32 @@ export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
           </div>
         </div>
       </div>
-      <div className='h-full'>
-        <p className='font-medium'>Vorbereitete Lektionen</p>
-        <Card className='h-full p-4'>
-          <CardContent className='h-full'>
-            {currentPrepLessons?.map((lesson) => (
-              <PreparedLessonItem
-                onClose={onClose}
-                key={lesson.id}
-                currentLesson={lesson}
-              />
-            ))}
-          </CardContent>
-        </Card>
+
+      {/* --- START: MODIFIED SECTION --- */}
+      <div className='flex h-full flex-col gap-4'>
+        <p className='font-medium'>Geplante Lektionen</p>
+        {currentPrepLessons && currentPrepLessons.length > 0 ? (
+          <Card className='h-[578px] overflow-hidden'>
+            <CardContent className='h-full overflow-hidden p-4'>
+              <ScrollArea className='h-full'>
+                <ScrollBar orientation='vertical' />
+                <div className='flex flex-col gap-4'>
+                  {currentPrepLessons?.map((lesson) => (
+                    <PreparedLessonItem
+                      onClose={onClose}
+                      key={lesson.id}
+                      currentLesson={lesson}
+                    />
+                  ))}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        ) : (
+          <Empty emptyMessage='Keine geplanten Lektionen vorhanden.' />
+        )}
       </div>
+      {/* --- END: MODIFIED SECTION --- */}
     </div>
   )
 }

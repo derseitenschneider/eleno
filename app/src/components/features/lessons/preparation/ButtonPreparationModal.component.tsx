@@ -38,12 +38,12 @@ export function ButtonPreparationModal() {
         className='gap-2 font-normal'
       >
         <CalendarClockIcon className='size-4 text-primary' />
-        Lektion vorbereiten
+        Lektion planen
       </Button>
       <Dialog open={modalOpen === 'PREPARE'} onOpenChange={closeModal}>
-        <DialogContent>
+        <DialogContent className='max-h-[80vh]'>
           <DialogHeader>
-            <DialogTitle>Lektion Vorbereiten für {holderName}</DialogTitle>
+            <DialogTitle>Lektionen für {holderName} planen</DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
             Bereite eine Lektion vor

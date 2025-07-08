@@ -16,6 +16,7 @@ export async function fetchPreparedLessons(userId: string) {
     .select('*')
     .eq('user_id', userId)
     .eq('status', 'prepared')
+    .order('date')
 
   if (error) throw new Error(error.message)
   const lessons = data.map((lesson) => ({
@@ -97,8 +98,8 @@ export const fetchAllLessonsApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   query = query.order('date', { ascending: false })
@@ -130,8 +131,8 @@ export const fetchAllLessonsCSVApi = async ({
 
   query = startDate
     ? query
-      .gte('date', uctStartDate?.toISOString())
-      .lte('date', uctEndDate?.toISOString())
+        .gte('date', uctStartDate?.toISOString())
+        .lte('date', uctEndDate?.toISOString())
     : query
 
   const { data: lessonsCSV, error } = await query
