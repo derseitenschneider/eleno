@@ -1,7 +1,7 @@
 import parse from 'html-react-parser'
 import { cn } from '@/lib/utils'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import ButtonShareHomework from './ButtonShareHomework.component'
+import ButtonShareHomework from './homework/ButtonShareHomework.component'
 import PreviousLessonDropDown from './PreviousLessonDropDown.component'
 import { useLatestLessons } from './lessonsQueries'
 import { useUserLocale } from '@/services/context/UserLocaleContext'

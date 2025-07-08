@@ -10,6 +10,7 @@ import { useUpdateLesson } from './useUpdateLesson'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { Blocker } from '../subscription/Blocker'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { toast } from 'sonner'
 
 type EditLessonProps = {
   lessonId: number
@@ -69,7 +70,10 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
         date,
       },
       {
-        onSuccess: () => onCloseModal?.(),
+        onSuccess: () => {
+          toast.success('Änderungen gespeichert.')
+          onCloseModal?.()
+        },
       },
     )
   }

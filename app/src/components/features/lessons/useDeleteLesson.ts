@@ -25,8 +25,13 @@ export function useDeleteLesson() {
           year: Number(year),
         },
       ]) as Array<Lesson>
+
       const previousLatestLessons = queryClient.getQueryData([
         'latest-3-lessons',
+      ]) as Array<Lesson>
+
+      const previousPreparedLessons = queryClient.getQueryData([
+        'prepared-lessons',
       ]) as Array<Lesson>
 
       queryClient.setQueryData(
@@ -42,6 +47,10 @@ export function useDeleteLesson() {
       )
 
       queryClient.setQueryData(['latest-3-lessons'], (prev: Array<Lesson>) =>
+        prev?.filter((lesson) => lesson.id !== lessonId),
+      )
+
+      queryClient.setQueryData(['prepared-lessons'], (prev: Array<Lesson>) =>
         prev?.filter((lesson) => lesson.id !== lessonId),
       )
 

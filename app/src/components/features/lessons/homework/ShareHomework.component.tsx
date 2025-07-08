@@ -12,7 +12,7 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
-import useProfileQuery from '../user/profileQuery'
+import useProfileQuery from '../../user/profileQuery'
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,8 +23,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Info, XIcon } from 'lucide-react'
 import type { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/components/ui/button'
-import { useAuthorizeGroupHomeworkLink } from '../students/useAuthorizeGroupsHomeworkLink'
-import { useAuthorizeStudentHomeworkLink } from '../students/useAuthorizeStudentsHomeworkLink'
+import { useAuthorizeGroupHomeworkLink } from '../../students/useAuthorizeGroupsHomeworkLink'
+import { useAuthorizeStudentHomeworkLink } from '../../students/useAuthorizeStudentsHomeworkLink'
 
 interface ShareHomeworkProps {
   lessonId: number

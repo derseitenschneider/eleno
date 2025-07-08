@@ -10,21 +10,77 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
+import { usePrepLessons } from '@/services/context/LessonPrepContext'
+import { useUpdateLesson } from './useUpdateLesson'
+import { toast } from 'sonner'
+import { usePreparedLessonsQuery } from './lessonsQueries'
 
 export function CreateLessonForm() {
   const [date, setDate] = useState<Date>(new Date())
+  const { selectedForUsing, setSelectedForUsing } = usePrepLessons()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
+  const { updateLesson, isUpdating } = useUpdateLesson()
   const { hasAccess } = useSubscription()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
+  const { data: preparedLessons } = usePreparedLessonsQuery()
   const isDisabledSave =
-    isCreating || !hasAccess || (!lessonContent && !homework)
+    isCreating || isUpdating || !hasAccess || (!lessonContent && !homework)
 
-  const handlerInputDate = (inputDate: Date | undefined) => {
+  const typeField: 'studentId' | 'groupId' =
+    currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
+
+  useEffect(() => {
+    const currentDraft = drafts.find(
+      (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+    )
+    if (currentDraft) {
+      console.log(currentDraft)
+      setLessonContent(currentDraft.lessonContent || '')
+      setHomework(currentDraft.homework || '')
+      setDate(currentDraft.date || new Date())
+      if (currentDraft.status === 'prepared') {
+        setSelectedForUsing(
+          preparedLessons?.find((lesson) => lesson.id === currentDraft.id) ||
+            null,
+        )
+      }
+    } else {
+      setLessonContent('')
+      setHomework('')
+      setDate(new Date())
+    }
+  }, [
+    drafts,
+    typeField,
+    currentLessonHolder?.holder.id,
+    setSelectedForUsing,
+    preparedLessons,
+  ])
+
+  useEffect(() => {
+    const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
+    if (input && window.innerWidth > 1366) {
+      input.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    // if (selectedForUsing) {
+    //   handleLessonContent(selectedForUsing.lessonContent || '')
+    //   handleHomework(selectedForUsing.homework || '')
+    //   handleDate(selectedForUsing.date)
+    // }
+    if (selectedForUsing) {
+      setDrafts((prev) => [...prev, selectedForUsing])
+    }
+  }, [selectedForUsing, setDrafts])
+
+  function handleDate(inputDate: Date | undefined) {
     if (!inputDate) return
     setDate(inputDate)
     setDrafts((prev) => {
@@ -45,32 +101,6 @@ export function CreateLessonForm() {
       ]
     })
   }
-
-  const typeField: 'studentId' | 'groupId' =
-    currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
-
-  useEffect(() => {
-    const currentDraft = drafts.find(
-      (draft) => draft[typeField] === currentLessonHolder?.holder.id,
-    )
-    if (currentDraft) {
-      setLessonContent(currentDraft.lessonContent || '')
-      setHomework(currentDraft.homework || '')
-      setDate(currentDraft.date || new Date())
-    } else {
-      setLessonContent('')
-      setHomework('')
-      setDate(new Date())
-    }
-  }, [drafts, typeField, currentLessonHolder?.holder.id])
-
-  useEffect(() => {
-    const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
-    if (input && window.innerWidth > 1366) {
-      input.focus()
-    }
-  }, [])
-
   function handleLessonContent(content: string) {
     setError('')
     setLessonContent(content)
@@ -142,6 +172,24 @@ export function CreateLessonForm() {
       )
     }
     if (!currentLessonHolder?.holder.id) return
+    if (selectedForUsing) {
+      return updateLesson(
+        {
+          ...selectedForUsing,
+          homework,
+          lessonContent,
+          date,
+          status: 'documented',
+        },
+        {
+          onSuccess: () => {
+            toast.success('Lektion gespeichert.')
+            resetFields()
+            setSelectedForUsing(null)
+          },
+        },
+      )
+    }
     createLesson(
       {
         homework: removeHTMLAttributes(homework),
@@ -162,11 +210,7 @@ export function CreateLessonForm() {
     <>
       <div className='mb-3 flex items-center gap-2'>
         <p>Datum</p>
-        <DayPicker
-          setDate={handlerInputDate}
-          date={date}
-          disabled={isCreating}
-        />
+        <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
       </div>
       <div
         className={cn(
@@ -206,7 +250,7 @@ export function CreateLessonForm() {
           >
             Speicher
           </Button>
-          {isCreating && <MiniLoader />}
+          {(isCreating || isUpdating) && <MiniLoader />}
         </div>
       </div>
     </>

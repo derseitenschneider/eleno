@@ -9,10 +9,12 @@ import {
 import { CalendarClockIcon } from 'lucide-react'
 import { useState } from 'react'
 import { CreatePreparationForm } from './CreatePreparationForm.component'
-import useCurrentHolder from './useCurrentHolder'
+import useCurrentHolder from '../useCurrentHolder'
+import { usePrepLessons } from '@/services/context/LessonPrepContext'
 
 export function ButtonPreparationModal() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState<'PREPARE' | null>(null)
+  const { setSelectedForUpdating } = usePrepLessons()
   const { currentLessonHolder } = useCurrentHolder()
   let holderName = ''
 
@@ -22,10 +24,15 @@ export function ButtonPreparationModal() {
     holderName = currentLessonHolder.holder.name
   }
 
+  function closeModal() {
+    setModalOpen(null)
+    setSelectedForUpdating(null)
+  }
+
   return (
     <>
       <Button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setModalOpen('PREPARE')}
         variant='ghost'
         size='sm'
         className='gap-2 font-normal'
@@ -33,7 +40,7 @@ export function ButtonPreparationModal() {
         <CalendarClockIcon className='size-4 text-primary' />
         Lektion vorbereiten
       </Button>
-      <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
+      <Dialog open={modalOpen === 'PREPARE'} onOpenChange={closeModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lektion Vorbereiten für {holderName}</DialogTitle>
@@ -42,7 +49,7 @@ export function ButtonPreparationModal() {
             Bereite eine Lektion vor
           </DialogDescription>
           <div className='w-[80vw]'>
-            <CreatePreparationForm />
+            <CreatePreparationForm onClose={closeModal} />
           </div>
         </DialogContent>
       </Dialog>

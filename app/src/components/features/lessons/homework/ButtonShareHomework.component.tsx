@@ -21,8 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import useProfileQuery from '../user/profileQuery'
-import { Blocker } from '../subscription/Blocker'
+import useProfileQuery from '../../user/profileQuery'
+import { Blocker } from '../../subscription/Blocker'
 import { HomeworkExpired } from './HomeworkExpired.component'
 
 type ButtonShareHomeworkProps = {

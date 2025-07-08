@@ -1,32 +1,45 @@
 import { useEffect, useState } from 'react'
-import { useCreateLesson } from './useCreateLesson'
-import useCurrentHolder from './useCurrentHolder'
+import { useCreateLesson } from '../useCreateLesson'
+import useCurrentHolder from '../useCurrentHolder'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import useSettingsQuery from '../settings/settingsQuery'
+import useSettingsQuery from '../../settings/settingsQuery'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { usePreparedLessons } from './lessonsQueries'
+import { usePreparedLessonsQuery } from '../lessonsQueries'
 import { PreparedLessonItem } from './PreparedLessonItem.component'
 import { Card, CardContent } from '@/components/ui/card'
+import { usePrepLessons } from '@/services/context/LessonPrepContext'
+import { useUpdateLesson } from '../useUpdateLesson'
+import { toast } from 'sonner'
 
-export function CreatePreparationForm() {
+export type CreatePreparationFormProps = {
+  onClose?: () => void
+}
+
+export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
+  const { selectedForUpdating, setSelectedForUpdating } = usePrepLessons()
   const [date, setDate] = useState<Date | undefined>()
-  const { data: preparedLessons } = usePreparedLessons()
+  const { data: preparedLessons } = usePreparedLessonsQuery()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
+  const { updateLesson, isUpdating } = useUpdateLesson()
   const { hasAccess } = useSubscription()
   const { currentLessonHolder } = useCurrentHolder()
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
   const isDisabledSave =
-    isCreating || !hasAccess || (!lessonContent && !homework)
+    isCreating ||
+    isUpdating ||
+    !hasAccess ||
+    !date ||
+    (!lessonContent && !homework)
 
-  const currentHolderPreparedLessons = preparedLessons?.filter((lesson) => {
+  const currentPrepLessons = preparedLessons?.filter((lesson) => {
     if (!currentLessonHolder) return false
     if (currentLessonHolder.type === 's') {
       return lesson.studentId === currentLessonHolder.holder.id
@@ -51,6 +64,14 @@ export function CreatePreparationForm() {
     }
   }, [])
 
+  useEffect(() => {
+    if (selectedForUpdating) {
+      setDate(selectedForUpdating.date)
+      setLessonContent(selectedForUpdating.lessonContent || '')
+      setHomework(selectedForUpdating.homework || '')
+    }
+  }, [selectedForUpdating])
+
   function handleLessonContent(content: string) {
     setError('')
     setLessonContent(content)
@@ -65,6 +86,7 @@ export function CreatePreparationForm() {
     window.scrollTo(0, 0)
     setHomework('')
     setLessonContent('')
+    setDate(undefined)
   }
 
   function handleSave() {
@@ -77,6 +99,24 @@ export function CreatePreparationForm() {
       return setError('Datum fehlt.')
     }
     if (!currentLessonHolder?.holder.id) return
+
+    if (selectedForUpdating) {
+      return updateLesson(
+        {
+          ...selectedForUpdating,
+          homework: removeHTMLAttributes(homework),
+          lessonContent: removeHTMLAttributes(lessonContent),
+          date,
+        },
+        {
+          onSuccess: () => {
+            toast.success('Änderungen gespeichert.')
+            resetFields()
+            setSelectedForUpdating(null)
+          },
+        },
+      )
+    }
     createLesson(
       {
         homework: removeHTMLAttributes(homework),
@@ -135,9 +175,9 @@ export function CreatePreparationForm() {
               onClick={handleSave}
               className='ml-auto block'
             >
-              Speicher
+              Speichern
             </Button>
-            {isCreating && <MiniLoader />}
+            {isCreating || (isUpdating && <MiniLoader />)}
           </div>
         </div>
       </div>
@@ -145,8 +185,12 @@ export function CreatePreparationForm() {
         <p className='font-medium'>Vorbereitete Lektionen</p>
         <Card className='h-full p-4'>
           <CardContent className='h-full'>
-            {currentHolderPreparedLessons?.map((lesson) => (
-              <PreparedLessonItem key={lesson.id} currentLesson={lesson} />
+            {currentPrepLessons?.map((lesson) => (
+              <PreparedLessonItem
+                onClose={onClose}
+                key={lesson.id}
+                currentLesson={lesson}
+              />
             ))}
           </CardContent>
         </Card>

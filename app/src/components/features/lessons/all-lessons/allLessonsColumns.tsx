@@ -27,9 +27,9 @@ import {
 import { useState } from 'react'
 import EditLesson from '../UpdateLesson.component'
 import DeleteLesson from '../DeleteLesson.component'
-import ShareHomework from '../ShareHomework.component'
+import ShareHomework from '../homework/ShareHomework.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { HomeworkExpired } from '../HomeworkExpired.component'
+import { HomeworkExpired } from '../homework/HomeworkExpired.component'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {

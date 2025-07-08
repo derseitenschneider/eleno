@@ -32,7 +32,7 @@ export function useLatestLessons() {
   return result
 }
 
-export function usePreparedLessons() {
+export function usePreparedLessonsQuery() {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ['prepared-lessons'],
