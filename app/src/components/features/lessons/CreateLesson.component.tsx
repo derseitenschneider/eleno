@@ -1,15 +1,15 @@
 import { cn } from '@/lib/utils'
 import { Blocker } from '../subscription/Blocker'
 import useSettingsQuery from '../settings/settingsQuery'
-import { ButtonPreparationModal } from './preparation/ButtonPreparationModal.component'
+import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 import { CreateLessonForm } from './CreateLessonForm.component'
-import { LessonPrepProvider } from '@/services/context/LessonPrepContext'
+import { LessonPlanningProvider } from '@/services/context/LessonPlanningContext'
 
 function CreateLesson() {
   const { data: settings } = useSettingsQuery()
 
   return (
-    <LessonPrepProvider>
+    <LessonPlanningProvider>
       <div
         className={cn(
           settings?.lesson_main_layout === 'regular' && 'border-b',
@@ -19,11 +19,11 @@ function CreateLesson() {
         <Blocker blockerId='createLesson' />
         <div className='flex items-start justify-between'>
           <h5 className=' m-0 mb-2'>Neue Lektion</h5>
-          <ButtonPreparationModal />
+          <ButtonPlanningModal />
         </div>
         <CreateLessonForm />
       </div>
-    </LessonPrepProvider>
+    </LessonPlanningProvider>
   )
 }
 

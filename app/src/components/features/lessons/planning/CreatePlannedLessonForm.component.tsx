@@ -9,23 +9,25 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { usePreparedLessonsQuery } from '../lessonsQueries'
-import { PreparedLessonItem } from './PreparedLessonItem.component'
+import { usePlannedLessonsQuery } from '../lessonsQueries'
+import { PreparedLessonItem } from './PlannedLessonItem.component'
 import { Card, CardContent } from '@/components/ui/card'
-import { usePrepLessons } from '@/services/context/LessonPrepContext'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import { useUpdateLesson } from '../useUpdateLesson'
 import { toast } from 'sonner'
 import Empty from '@/components/ui/Empty.component'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
-export type CreatePreparationFormProps = {
+export type CreatePlannedLessonFormProps = {
   onClose?: () => void
 }
 
-export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
-  const { selectedForUpdating, setSelectedForUpdating } = usePrepLessons()
+export function CreatePlannedLessonForm({
+  onClose,
+}: CreatePlannedLessonFormProps) {
+  const { selectedForUpdating, setSelectedForUpdating } = usePlanLessons()
   const [date, setDate] = useState<Date | undefined>()
-  const { data: preparedLessons } = usePreparedLessonsQuery()
+  const { data: plannedLessons } = usePlannedLessonsQuery()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
   const { updateLesson, isUpdating } = useUpdateLesson()
@@ -41,18 +43,20 @@ export function CreatePreparationForm({ onClose }: CreatePreparationFormProps) {
     !date ||
     (!lessonContent && !homework)
 
-  const currentPrepLessons = preparedLessons?.filter((lesson) => {
-    if (!currentLessonHolder) return false
-    if (currentLessonHolder.type === 's') {
-      return lesson.studentId === currentLessonHolder.holder.id
-    }
-    if (currentLessonHolder.type === 'g') {
-      return lesson.groupId === currentLessonHolder?.holder.id
-    }
-  }).sort((a, b) => {
-    if (a.date > b.date) return 1
-    return -1
-  })
+  const currentPrepLessons = plannedLessons
+    ?.filter((lesson) => {
+      if (!currentLessonHolder) return false
+      if (currentLessonHolder.type === 's') {
+        return lesson.studentId === currentLessonHolder.holder.id
+      }
+      if (currentLessonHolder.type === 'g') {
+        return lesson.groupId === currentLessonHolder?.holder.id
+      }
+    })
+    .sort((a, b) => {
+      if (a.date > b.date) return 1
+      return -1
+    })
 
   const handlerInputDate = (inputDate: Date | undefined) => {
     if (!inputDate) return

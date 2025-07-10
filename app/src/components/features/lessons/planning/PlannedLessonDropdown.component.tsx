@@ -20,22 +20,23 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useState } from 'react'
-import { usePreparedLessonsQuery } from '../lessonsQueries'
-import { usePrepLessons } from '@/services/context/LessonPrepContext'
+import { usePlannedLessonsQuery } from '../lessonsQueries'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import DeleteLesson from '../DeleteLesson.component'
+import { useDrafts } from '@/services/context/DraftsContext'
 
 type PreviousLessonDropDownProps = {
   lessonId: number
-  onClose?: () => void
+  insertLesson: () => void
 }
 type ModalOpen = 'DELETE' | undefined
 
 export default function PrepareLessonDropDown({
   lessonId,
-  onClose,
+  insertLesson,
 }: PreviousLessonDropDownProps) {
-  const { data: preparedLessons } = usePreparedLessonsQuery()
-  const { setSelectedForUsing, setSelectedForUpdating } = usePrepLessons()
+  const { data: preparedLessons } = usePlannedLessonsQuery()
+  const { setSelectedForUpdating } = usePlanLessons()
   const [modalOpen, setModalOpen] = useState<ModalOpen>()
 
   function closeModal() {
@@ -55,12 +56,7 @@ export default function PrepareLessonDropDown({
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent className='z-[200] mr-3 md:mr-0'>
-          <DropdownMenuItem
-            onSelect={() => {
-              setSelectedForUsing(currentLesson)
-              onClose?.()
-            }}
-          >
+          <DropdownMenuItem onSelect={insertLesson}>
             <BetweenHorizonalStart className='mr-2 h-4 w-4 text-primary' />
             <span>Einfügen</span>
           </DropdownMenuItem>

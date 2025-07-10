@@ -10,15 +10,14 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { usePrepLessons } from '@/services/context/LessonPrepContext'
 import { useUpdateLesson } from './useUpdateLesson'
 import { toast } from 'sonner'
-import { usePreparedLessonsQuery } from './lessonsQueries'
-import { ButtonPreparedLessonAvailable } from './preparation/ButtonPreparedLessonAvailable.component'
+import { usePlannedLessonsQuery } from './lessonsQueries'
+import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
+import type { Lesson } from '@/types/types'
 
 export function CreateLessonForm() {
   const [date, setDate] = useState<Date>(new Date())
-  const { selectedForUsing, setSelectedForUsing } = usePrepLessons()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
   const { updateLesson, isUpdating } = useUpdateLesson()
@@ -28,7 +27,7 @@ export function CreateLessonForm() {
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
-  const { data: preparedLessons } = usePreparedLessonsQuery()
+  const { data: preparedLessons } = usePlannedLessonsQuery()
   const isDisabledSave =
     isCreating || isUpdating || !hasAccess || (!lessonContent && !homework)
 
@@ -43,12 +42,6 @@ export function CreateLessonForm() {
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
       setDate(currentDraft.date || new Date())
-      if (currentDraft.status === 'prepared') {
-        setSelectedForUsing(
-          preparedLessons?.find((lesson) => lesson.id === currentDraft.id) ||
-          null,
-        )
-      }
     } else {
       setLessonContent('')
       setHomework('')
@@ -58,8 +51,6 @@ export function CreateLessonForm() {
     drafts,
     typeField,
     currentLessonHolder?.holder.id,
-    setSelectedForUsing,
-    preparedLessons,
   ])
 
   useEffect(() => {
@@ -69,16 +60,6 @@ export function CreateLessonForm() {
     }
   }, [])
 
-  useEffect(() => {
-    // if (selectedForUsing) {
-    //   handleLessonContent(selectedForUsing.lessonContent || '')
-    //   handleHomework(selectedForUsing.homework || '')
-    //   handleDate(selectedForUsing.date)
-    // }
-    if (selectedForUsing) {
-      setDrafts((prev) => [...prev, selectedForUsing])
-    }
-  }, [selectedForUsing, setDrafts])
 
   function handleDate(inputDate: Date | undefined) {
     if (!inputDate) return
@@ -172,24 +153,28 @@ export function CreateLessonForm() {
       )
     }
     if (!currentLessonHolder?.holder.id) return
-    if (selectedForUsing) {
+    const fieldType = currentLessonHolder.type === 's' ? 'studentId' : 'groupId'
+    const currentDraft = drafts.find(draft => draft[fieldType])
+    if (currentDraft && currentDraft.status === 'prepared') {
+      const updatedPlannedLesson = currentDraft as Lesson
       return updateLesson(
         {
-          ...selectedForUsing,
-          homework,
-          lessonContent,
+          ...updatedPlannedLesson,
+          homework: removeHTMLAttributes(homework),
+          lessonContent: removeHTMLAttributes(lessonContent),
           date,
           status: 'documented',
+          expiration_base: new Date().toISOString(),
         },
         {
           onSuccess: () => {
             toast.success('Lektion gespeichert.')
             resetFields()
-            setSelectedForUsing(null)
           },
         },
       )
     }
+
     createLesson(
       {
         homework: removeHTMLAttributes(homework),
@@ -213,7 +198,7 @@ export function CreateLessonForm() {
         <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
 
         <div>
-          <ButtonPreparedLessonAvailable date={date} />
+          <ButtonPlannedLessonAvailable date={date} />
         </div>
       </div>
       <div

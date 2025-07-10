@@ -10,7 +10,7 @@ import mockLast3Lessons from './mock-db/mockLast3Lessons'
 
 const isDemo = appConfig.isDemoMode
 
-export async function fetchPreparedLessons(userId: string) {
+export async function fetchPlannedLessons(userId: string) {
   const { data, error } = await supabase
     .from('lessons')
     .select('*')

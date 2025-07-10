@@ -4,7 +4,7 @@ import {
   fetchLessonYears,
   fetchAllLessonsApi,
   fetchAllLessonsCSVApi,
-  fetchPreparedLessons,
+  fetchPlannedLessons,
 } from '@/services/api/lessons.api'
 import { useUser } from '@/services/context/UserContext'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -32,11 +32,11 @@ export function useLatestLessons() {
   return result
 }
 
-export function usePreparedLessonsQuery() {
+export function usePlannedLessonsQuery() {
   const { user } = useUser()
   const result = useQuery({
     queryKey: ['prepared-lessons'],
-    queryFn: () => fetchPreparedLessons(user?.id || ''),
+    queryFn: () => fetchPlannedLessons(user?.id || ''),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: Boolean(user),
   })

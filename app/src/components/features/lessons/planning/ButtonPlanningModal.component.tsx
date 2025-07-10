@@ -8,13 +8,13 @@ import {
 } from '@/components/ui/dialog'
 import { CalendarClockIcon } from 'lucide-react'
 import { useState } from 'react'
-import { CreatePreparationForm } from './CreatePreparationForm.component'
+import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
 import useCurrentHolder from '../useCurrentHolder'
-import { usePrepLessons } from '@/services/context/LessonPrepContext'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 
-export function ButtonPreparationModal() {
-  const [modalOpen, setModalOpen] = useState<'PREPARE' | null>(null)
-  const { setSelectedForUpdating } = usePrepLessons()
+export function ButtonPlanningModal() {
+  const [modalOpen, setModalOpen] = useState<'PLAN' | null>(null)
+  const { setSelectedForUpdating } = usePlanLessons()
   const { currentLessonHolder } = useCurrentHolder()
   let holderName = ''
 
@@ -32,15 +32,15 @@ export function ButtonPreparationModal() {
   return (
     <>
       <Button
-        onClick={() => setModalOpen('PREPARE')}
+        onClick={() => setModalOpen('PLAN')}
         variant='ghost'
         size='sm'
         className='gap-2 font-normal'
       >
         <CalendarClockIcon className='size-4 text-primary' />
-        Lektion planen
+        Lektionsplanung
       </Button>
-      <Dialog open={modalOpen === 'PREPARE'} onOpenChange={closeModal}>
+      <Dialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
         <DialogContent className='max-h-[80vh]'>
           <DialogHeader>
             <DialogTitle>Lektionen für {holderName} planen</DialogTitle>
@@ -49,7 +49,7 @@ export function ButtonPreparationModal() {
             Bereite eine Lektion vor
           </DialogDescription>
           <div className='w-[80vw]'>
-            <CreatePreparationForm onClose={closeModal} />
+            <CreatePlannedLessonForm onClose={closeModal} />
           </div>
         </DialogContent>
       </Dialog>
