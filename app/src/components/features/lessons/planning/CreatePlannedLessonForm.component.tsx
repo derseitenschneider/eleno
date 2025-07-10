@@ -99,6 +99,8 @@ export function CreatePlannedLessonForm({
   }
 
   function handleSave() {
+    if (!currentLessonHolder?.holder.id) return
+
     if (!lessonContent && !homework) {
       return setError(
         'Die Lektion benötigt mindestens Inhalt oder Hausaufgaben.',
@@ -107,7 +109,16 @@ export function CreatePlannedLessonForm({
     if (!date) {
       return setError('Datum fehlt.')
     }
-    if (!currentLessonHolder?.holder.id) return
+
+    if (
+      plannedLessons?.find(
+        (lesson) => lesson.date.toDateString() === date.toDateString(),
+      )
+    ) {
+      return setError(
+        'Für dieses Datum existiert bereits eine geplante Lektion',
+      )
+    }
 
     if (selectedForUpdating) {
       return updateLesson(
@@ -177,7 +188,7 @@ export function CreatePlannedLessonForm({
         </div>
         <div className='flex justify-between gap-1'>
           {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-          <div className='ml-auto  mt-4 flex items-center gap-1 lg:mb-8'>
+          <div className='ml-auto  mt-4 flex items-center gap-1'>
             <Button
               disabled={isDisabledSave}
               size='sm'
@@ -191,7 +202,6 @@ export function CreatePlannedLessonForm({
         </div>
       </div>
 
-      {/* --- START: MODIFIED SECTION --- */}
       <div className='flex h-full flex-col gap-4'>
         <p className='font-medium'>Geplante Lektionen</p>
         {currentPrepLessons && currentPrepLessons.length > 0 ? (
@@ -215,7 +225,6 @@ export function CreatePlannedLessonForm({
           <Empty emptyMessage='Keine geplanten Lektionen vorhanden.' />
         )}
       </div>
-      {/* --- END: MODIFIED SECTION --- */}
     </div>
   )
 }

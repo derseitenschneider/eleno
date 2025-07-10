@@ -41,7 +41,7 @@ export function ButtonPlanningModal() {
         Lektionsplanung
       </Button>
       <Dialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
-        <DialogContent className='max-h-[80vh]'>
+        <DialogContent className=''>
           <DialogHeader>
             <DialogTitle>Lektionen für {holderName} planen</DialogTitle>
           </DialogHeader>

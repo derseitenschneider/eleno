@@ -12,7 +12,6 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { useUpdateLesson } from './useUpdateLesson'
 import { toast } from 'sonner'
-import { usePlannedLessonsQuery } from './lessonsQueries'
 import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
 import type { Lesson } from '@/types/types'
 
@@ -27,7 +26,6 @@ export function CreateLessonForm() {
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
   const [error, setError] = useState('')
-  const { data: preparedLessons } = usePlannedLessonsQuery()
   const isDisabledSave =
     isCreating || isUpdating || !hasAccess || (!lessonContent && !homework)
 

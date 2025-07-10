@@ -25,7 +25,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingStudents } = useStudentsQuery()
   const { isLoading: isLoadingGroups } = useGroupsQuery()
   const { isLoading: isLoadingLatestLessons } = useLatestLessons()
-  const { isLoading: isLoadingPreparedLessons } = usePlannedLessonsQuery()
+  const { isLoading: isLoadingPlannedLessons } = usePlannedLessonsQuery()
   const { isLoading: isLoadingTodos } = useTodosQuery()
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
   const { isLoading: isLoadingMessages } = useMessagesQuery()
@@ -39,7 +39,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingStudents ||
       isLoadingGroups ||
       isLoadingLatestLessons ||
-      isLoadingPreparedLessons ||
+      isLoadingPlannedLessons ||
       isLoadingTodos ||
       isLoadingNotes ||
       isLoadingMessages ||
@@ -54,7 +54,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingStudents,
     isLoadingGroups,
     isLoadingLatestLessons,
-    isLoadingPreparedLessons,
+    isLoadingPlannedLessons,
     isLoadingTodos,
     isLoadingNotes,
     isLoadingMessages,
