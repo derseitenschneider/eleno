@@ -47,7 +47,7 @@ export function PreparedLessonItem({
   return (
     <div
       className={cn(
-        isUpdating ? 'border-primary' : 'border-hairline',
+        isUpdating ? 'border-primary shadow-sm' : 'border-hairline',
         'rounded-sm border  p-3',
       )}
     >
