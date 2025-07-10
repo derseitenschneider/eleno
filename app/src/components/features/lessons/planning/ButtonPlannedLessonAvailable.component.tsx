@@ -1,9 +1,3 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { InfoIcon } from 'lucide-react'
 import useCurrentHolder from '../useCurrentHolder'
 import { usePlannedLessonsQuery } from '../lessonsQueries'
@@ -58,7 +52,7 @@ export function ButtonPlannedLessonAvailable({
 
   return (
     <Button
-      className='flex items-center gap-1 font-normal text-primary'
+      className='flex items-center gap-1 px-0 font-normal text-primary md:px-3'
       variant='ghost'
       size='sm'
       onClick={insertLesson}

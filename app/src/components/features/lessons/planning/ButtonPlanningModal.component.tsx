@@ -41,14 +41,14 @@ export function ButtonPlanningModal() {
         Lektionsplanung
       </Button>
       <Dialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
-        <DialogContent className=''>
+        <DialogContent className='!overflow-scroll md:max-h-[80vh] lg:overflow-hidden'>
           <DialogHeader>
             <DialogTitle>Lektionen für {holderName} planen</DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
             Bereite eine Lektion vor
           </DialogDescription>
-          <div className='w-[80vw]'>
+          <div className='md:w-[80vw]'>
             <CreatePlannedLessonForm onClose={closeModal} />
           </div>
         </DialogContent>

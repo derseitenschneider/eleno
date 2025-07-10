@@ -132,7 +132,7 @@ export function CreatePlannedLessonForm({
       return updateLesson(
         {
           ...selectedForUpdating,
-          homework: removeHTMLAttributes(homework),
+          homework: removeHTMLAttributes(homework || ''),
           lessonContent: removeHTMLAttributes(lessonContent),
           date,
         },
@@ -147,7 +147,7 @@ export function CreatePlannedLessonForm({
     }
     createLesson(
       {
-        homework: removeHTMLAttributes(homework),
+        homework: removeHTMLAttributes(homework || ''),
         lessonContent: removeHTMLAttributes(lessonContent),
         [typeField]: currentLessonHolder.holder.id,
         date,
@@ -162,8 +162,8 @@ export function CreatePlannedLessonForm({
 
   if (!currentLessonHolder || !settings) return null
   return (
-    <div className='grid grid-cols-2 gap-4'>
-      <div>
+    <div className='gap-4 lg:grid lg:grid-cols-2'>
+      <div className='mb-5'>
         <div className='mb-3 flex  items-center gap-2'>
           <p>Datum</p>
           <DayPicker
@@ -188,7 +188,7 @@ export function CreatePlannedLessonForm({
             <CustomEditor
               key={`homework-prep-${currentLessonHolder.holder.id}`}
               disabled={isCreating}
-              value={homework}
+              value={homework || ''}
               onChange={handleHomework}
               placeholder='Hausaufgaben...'
             />
@@ -210,12 +210,12 @@ export function CreatePlannedLessonForm({
         </div>
       </div>
 
-      <div className='flex h-full flex-col gap-4'>
+      <div className='h-full flex-col gap-4 lg:flex'>
         <p className='font-medium'>Geplante Lektionen</p>
         {currentHolderPlannedLessons &&
           currentHolderPlannedLessons.length > 0 ? (
-          <Card className='h-[578px] overflow-hidden'>
-            <CardContent className='h-full overflow-hidden p-4'>
+          <Card className='lg:h-[578px] lg:overflow-hidden'>
+            <CardContent className='h-full p-4 lg:overflow-hidden'>
               <ScrollArea className='h-full'>
                 <ScrollBar orientation='vertical' />
                 <div className='flex flex-col gap-4'>

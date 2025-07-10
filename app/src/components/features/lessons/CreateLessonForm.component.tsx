@@ -186,9 +186,11 @@ export function CreateLessonForm() {
   if (!currentLessonHolder || !settings) return null
   return (
     <>
-      <div className='mb-3 flex items-center gap-2'>
-        <p>Datum</p>
-        <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
+      <div className='mb-3 items-center md:flex md:gap-2'>
+        <div className='flex items-center gap-2'>
+          <p>Datum</p>
+          <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
+        </div>
 
         <div>
           <ButtonPlannedLessonAvailable date={date} />
