@@ -26,15 +26,20 @@ export function CreatePlannedLessonForm({
   onClose,
 }: CreatePlannedLessonFormProps) {
   const { selectedForUpdating, setSelectedForUpdating } = usePlanLessons()
-  const [date, setDate] = useState<Date | undefined>()
   const { data: plannedLessons } = usePlannedLessonsQuery()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
   const { updateLesson, isUpdating } = useUpdateLesson()
   const { hasAccess } = useSubscription()
   const { currentLessonHolder } = useCurrentHolder()
-  const [lessonContent, setLessonContent] = useState('')
-  const [homework, setHomework] = useState('')
+
+  const [date, setDate] = useState<Date | undefined>(
+    selectedForUpdating?.date || undefined,
+  )
+  const [lessonContent, setLessonContent] = useState(
+    selectedForUpdating?.lessonContent || '',
+  )
+  const [homework, setHomework] = useState(selectedForUpdating?.homework)
   const [error, setError] = useState('')
   const isDisabledSave =
     isCreating ||
@@ -43,7 +48,7 @@ export function CreatePlannedLessonForm({
     !date ||
     (!lessonContent && !homework)
 
-  const currentPrepLessons = plannedLessons
+  const currentHolderPlannedLessons = plannedLessons
     ?.filter((lesson) => {
       if (!currentLessonHolder) return false
       if (currentLessonHolder.type === 's') {
@@ -66,6 +71,7 @@ export function CreatePlannedLessonForm({
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
+  // Focus input element on page load when not mobile.
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
     if (input && window.innerWidth > 1366) {
@@ -96,6 +102,7 @@ export function CreatePlannedLessonForm({
     setHomework('')
     setLessonContent('')
     setDate(undefined)
+    setError('')
   }
 
   function handleSave() {
@@ -111,12 +118,13 @@ export function CreatePlannedLessonForm({
     }
 
     if (
-      plannedLessons?.find(
+      currentHolderPlannedLessons?.find(
         (lesson) => lesson.date.toDateString() === date.toDateString(),
-      )
+      ) &&
+      !selectedForUpdating
     ) {
       return setError(
-        'Für dieses Datum existiert bereits eine geplante Lektion',
+        'Für dieses Datum existiert bereits eine geplante Lektion.',
       )
     }
 
@@ -204,13 +212,14 @@ export function CreatePlannedLessonForm({
 
       <div className='flex h-full flex-col gap-4'>
         <p className='font-medium'>Geplante Lektionen</p>
-        {currentPrepLessons && currentPrepLessons.length > 0 ? (
+        {currentHolderPlannedLessons &&
+          currentHolderPlannedLessons.length > 0 ? (
           <Card className='h-[578px] overflow-hidden'>
             <CardContent className='h-full overflow-hidden p-4'>
               <ScrollArea className='h-full'>
                 <ScrollBar orientation='vertical' />
                 <div className='flex flex-col gap-4'>
-                  {currentPrepLessons?.map((lesson) => (
+                  {currentHolderPlannedLessons?.map((lesson) => (
                     <PreparedLessonItem
                       onClose={onClose}
                       key={lesson.id}

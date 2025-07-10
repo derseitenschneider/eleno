@@ -40,8 +40,16 @@ export function ButtonPlannedLessonAvailable({
 
   function insertLesson() {
     if (currentDatePlannedLessons) {
-      setDrafts((prev) => [...prev, currentDatePlannedLessons])
-      toast('Geplante Lektion eingefügt.')
+      if (!currentLessonHolder) return
+      const fieldType =
+        currentLessonHolder.type === 's' ? 'studentId' : 'groupId'
+      setDrafts((prev) => {
+        const filteredDrafts = prev.filter(
+          (draft) => draft[fieldType] !== currentLessonHolder.holder.id,
+        )
+        return [...filteredDrafts, currentDatePlannedLessons]
+      })
+      toast.success('Geplante Lektion eingefügt.')
     }
   }
 

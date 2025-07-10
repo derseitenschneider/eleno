@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/tooltip'
 import { useDrafts } from '@/services/context/DraftsContext'
 import { toast } from 'sonner'
+import useCurrentHolder from '../useCurrentHolder'
 
 export type PreparedLessonItemProps = {
   currentLesson: Lesson
@@ -25,13 +26,21 @@ export function PreparedLessonItem({
   onClose,
 }: PreparedLessonItemProps) {
   const { userLocale } = useUserLocale()
+  const { currentLessonHolder } = useCurrentHolder()
   const { setDrafts } = useDrafts()
   const { selectedForUpdating } = usePlanLessons()
   const isUpdating = selectedForUpdating?.id === currentLesson.id
 
   function insertLesson() {
-    setDrafts((prev) => [...prev, currentLesson])
-    toast('Geplante Lektion eingefügt.')
+    if (!currentLessonHolder) return
+    const fieldType = currentLessonHolder.type === 's' ? 'studentId' : 'groupId'
+    setDrafts((prev) => {
+      const filteredDrafts = prev.filter(
+        (draft) => draft[fieldType] !== currentLessonHolder.holder.id,
+      )
+      return [...filteredDrafts, currentLesson]
+    })
+    toast.success('Geplante Lektion eingefügt.')
     onClose?.()
   }
 

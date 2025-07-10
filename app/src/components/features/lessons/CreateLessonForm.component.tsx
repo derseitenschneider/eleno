@@ -45,11 +45,7 @@ export function CreateLessonForm() {
       setHomework('')
       setDate(new Date())
     }
-  }, [
-    drafts,
-    typeField,
-    currentLessonHolder?.holder.id,
-  ])
+  }, [drafts, typeField, currentLessonHolder?.holder.id])
 
   useEffect(() => {
     const input = [...document.querySelectorAll('.rsw-ce')].at(0) as HTMLElement
@@ -57,7 +53,6 @@ export function CreateLessonForm() {
       input.focus()
     }
   }, [])
-
 
   function handleDate(inputDate: Date | undefined) {
     if (!inputDate) return
@@ -152,7 +147,7 @@ export function CreateLessonForm() {
     }
     if (!currentLessonHolder?.holder.id) return
     const fieldType = currentLessonHolder.type === 's' ? 'studentId' : 'groupId'
-    const currentDraft = drafts.find(draft => draft[fieldType])
+    const currentDraft = drafts.find((draft) => draft[fieldType])
     if (currentDraft && currentDraft.status === 'prepared') {
       const updatedPlannedLesson = currentDraft as Lesson
       return updateLesson(
