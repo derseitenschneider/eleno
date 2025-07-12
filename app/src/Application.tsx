@@ -16,9 +16,10 @@ import { cn } from './lib/utils'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
 import Banner from './components/ui/Banner.component'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
-import { useEffect } from 'react'
+import { useOAuthTracker } from './hooks/useOAuthTracker'
 
 export default function Application() {
+  useOAuthTracker()
   const isOnline = useIsOnline()
   return (
     <div
