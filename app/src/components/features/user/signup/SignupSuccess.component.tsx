@@ -8,12 +8,21 @@ export default function SignupSuccess() {
   const email = searchParams.get('email')
 
   useEffect(() => {
+    if (!email) {
+      return
+    }
+    const eventKey = `signup_event_fired_${email}`
+    if (localStorage.getItem(eventKey)) {
+      return
+    }
     if (window.dataLayer) {
       window.dataLayer.push({
         event: 'signup_success',
+        email: email,
       })
+      localStorage.setItem(eventKey, 'true')
     }
-  }, [])
+  }, [email])
 
   return (
     <WrapperCard
