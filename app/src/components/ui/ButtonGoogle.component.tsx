@@ -8,6 +8,7 @@ export function ButtonGoogle() {
   const fetchErrorToast = useFetchErrorToast()
   async function signupWithGoogle() {
     try {
+      sessionStorage.setItem('oauth_flow_in_progress', 'true')
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -15,6 +16,7 @@ export function ButtonGoogle() {
         },
       })
     } catch (e) {
+      sessionStorage.removeItem('oauth_flow_in_progress')
       return fetchErrorToast()
     }
   }
