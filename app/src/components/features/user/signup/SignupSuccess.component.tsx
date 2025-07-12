@@ -1,10 +1,19 @@
 import { ChevronLeftIcon } from 'lucide-react'
 import WrapperCard from '../login/WrapperCard.component'
 import { Link, useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export default function SignupSuccess() {
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email')
+
+  useEffect(() => {
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'signup_success',
+      })
+    }
+  }, [])
 
   return (
     <WrapperCard
