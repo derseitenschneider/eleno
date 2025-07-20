@@ -32,7 +32,7 @@ class FluentCRMService {
 					'Content-Type' => 'application/json',
 					'Accept'       => 'application/json',
 				],
-				'timeout'  => 5, // 5-second timeout
+				'timeout'  => 5,
 			]
 		);
 	}
@@ -45,34 +45,43 @@ class FluentCRMService {
 	 */
 	public function getContactByEmail( string $email ): ?array {
 		try {
+			// CORRECTED: Use the 'subscribers/0' path and 'get_by_email' query parameter.
 			$response = $this->client->get(
-				'api/contacts',
+				'subscribers/0',
 				[
-					'query' => [ 'email' => $email ],
+					'query' => [ 'get_by_email' => $email ],
 				]
 			);
 
 			$body = json_decode( $response->getBody()->getContents(), true );
 
-			// The API returns a 'data' array. If it's empty, the contact doesn't exist.
-			return empty( $body['data'] ) ? null : $body['data'][0];
+			// CORRECTED: The API returns the object under the 'subscriber' key.
+			return $body['subscriber'] ?? null;
 
 		} catch ( GuzzleException $e ) {
-			$this->logger->error( 'FluentCRM API Error - getContactByEmail: ' . $e->getMessage() );
-			return null; // Treat errors as "not found" to be safe
+			// If the contact is not found, FluentCRM returns a 404, which Guzzle treats as an exception.
+			// We can log this but still return null as intended.
+			$this->logger->info(
+				'Contact not found via email, or API error.',
+				[
+					'email' => $email,
+					'error' => $e->getMessage(),
+				]
+			);
+			return null;
 		}
 	}
 
 	/**
-	 * Create a new contact and add them to a list.
+	 * Create a new contact.
 	 *
-	 * @param string $email
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param int[]  $listIds Array of list IDs to add the contact to.
-	 * @return array|null The created contact data or null on failure.
+	 * @param string      $email
+	 * @param string|null $firstName
+	 * @param string|null $lastName
+	 * @param int[]       $listIds
+	 * @return array|null
 	 */
-	public function createContact( string $email, string $firstName, string $lastName, array $listIds = [] ): ?array {
+	public function createContact( string $email, ?string $firstName, ?string $lastName, array $listIds = [] ): ?array {
 		$payload = [
 			'email'      => $email,
 			'first_name' => $firstName,
@@ -85,19 +94,44 @@ class FluentCRMService {
 		}
 
 		try {
-			$response = $this->client->post(
-				'api/contacts',
-				[
-					'json' => $payload,
-				]
-			);
-
-			$body = json_decode( $response->getBody()->getContents(), true );
-			return $body['contact'] ?? null;
+			$response = $this->client->post( 'subscribers', [ 'json' => $payload ] );
+			$body     = json_decode( $response->getBody()->getContents(), true );
+			return $body['subscriber'] ?? null;
 
 		} catch ( GuzzleException $e ) {
 			$this->logger->error( 'FluentCRM API Error - createContact: ' . $e->getMessage(), [ 'payload' => $payload ] );
 			return null;
+		}
+	}
+
+	/**
+	 * Update an existing contact using their ID.
+	 *
+	 * @param int   $contactId The FluentCRM ID of the contact.
+	 * @param array $data      The data to update.
+	 * @return bool True on success, false on failure.
+	 */
+	public function updateContactById( int $contactId, array $data ): bool {
+		try {
+			// Build the URL with the contact ID: e.g., "subscribers/123"
+			$url = 'subscribers/' . $contactId;
+
+			$response = $this->client->put(
+				$url,
+				[
+					'json' => $data,
+				]
+			);
+
+			// Check for a success status code (200-299) instead of the response body.
+			return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
+
+		} catch ( GuzzleException $e ) {
+			$this->logger->error(
+				'FluentCRM API Error - updateContactById: ' . $e->getMessage(),
+				[ 'payload' => $data ]
+			);
+			return false;
 		}
 	}
 }

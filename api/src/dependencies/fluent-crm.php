@@ -2,8 +2,6 @@
 
 use App\Config\Config;
 use App\Controllers\FluentCRMController;
-use App\Repositories\EntityRepository;
-use App\Repositories\LessonRepository;
 use App\Services\FluentCRMService;
 use DI\Container;
 

@@ -20,82 +20,98 @@ class FluentCRMController {
 	public function __construct(
 		private Config $config,
 		private Logger $logger,
-		private FluentCRMService $fluentCRMService // Inject the service
+		private FluentCRMService $fluentCRMService
 	) {
 	}
 
 	/**
-	 * Create contact if it does not exist.
-	 *
-	 * Checks if a contact exists by email. If not, creates it and adds
-	 * it to the 'new-users' list.
+	 * Step 1: Handle a new user signup.
+	 * Checks if contact exists. If so, updates their lists. If not, creates them.
 	 *
 	 * @param Request  $request
 	 * @param Response $response
 	 * @return Response
-	 *
-	 * @throws \Exception Throws when something goes wrong with the fluent crm integration.
 	 */
-	public function createContact(
-		Request $request,
-		Response $response,
-	): Response {
-		$body = $request->getParsedBody();
+	public function handleNewUserSignup( Request $request, Response $response ): Response {
+		$body  = $request->getParsedBody();
+		$email = $body['email'] ?? null;
 
-		// Basic validation
-		if ( empty( $body['email'] ) || empty( $body['firstName'] ) || empty( $body['lastName'] ) ) {
+		if ( empty( $email ) ) {
+			return $response->withStatus( 400, 'Email is required.' );
+		}
+
+		$listIdForNewUsers = 13;
+		$existingContact   = $this->fluentCRMService->getContactByEmail( $email );
+
+		if ( $existingContact ) {
+			$currentListIds = [];
+			if ( ! empty( $existingContact['lists'] ) ) {
+				$currentListIds = array_map(
+					function ( $contactList ) {
+						return $contactList['id'];
+					},
+					$existingContact['lists']
+				);
+			}
+
+			$updateData = [
+				'attach_lists' => [ $listIdForNewUsers ],
+				'detach_lists' => $currentListIds,
+			];
+
+			$this->fluentCRMService->updateContactById( $existingContact['id'], $updateData );
+
+			$response->getBody()->write(
+				json_encode(
+					[ 'message' => 'Existing contact has been moved to the new user list.' ]
+				)
+			);
+
+			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 200 );
+		} else {
+			$this->fluentCRMService->createContact( $email, null, null, [ $listIdForNewUsers ] );
+			$response->getBody()->write( json_encode( [ 'message' => 'New contact created.' ] ) );
+			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 201 );
+		}
+	}
+
+	/**
+	 * Step 2: Update contact with details after onboarding.
+	 *
+	 * @param Request  $request
+	 * @param Response $response
+	 * @return Response
+	 */
+	public function updateContactDetails( Request $request, Response $response ): Response {
+		$body  = $request->getParsedBody();
+		$email = $body['email'] ?? null;
+
+		if ( empty( $email ) || empty( $body['firstName'] ) || empty( $body['lastName'] ) ) {
 			return $response->withStatus( 400, 'Missing required fields: email, firstName, lastName' );
 		}
 
-		$email     = filter_var( $body['email'], FILTER_SANITIZE_EMAIL );
-		$firstName = htmlspecialchars( $body['firstName'] );
-		$lastName  = htmlspecialchars( $body['lastName'] );
+		// Step 1: Get the contact to find their ID
+		$contact = $this->fluentCRMService->getContactByEmail( $email );
 
-		try {
-			// 1. Check if contact already exists
-			$existingContact = $this->fluentCRMService->getContactByEmail( $email );
-
-			if ( $existingContact ) {
-				$this->logger->info( 'Contact already exists in FluentCRM.', [ 'email' => $email ] );
-				$response->getBody()->write( json_encode( [ 'message' => 'Contact already exists.' ] ) );
-				return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 200 );
-			}
-
-			$newListId = 14;
-
-			// 2. If not, create the new contact
-			$newContact = $this->fluentCRMService->createContact( $email, $firstName, $lastName, [ $newListId ] );
-
-			if ( ! $newContact ) {
-				throw new \Exception( 'Failed to create contact in FluentCRM.' );
-			}
-
-			$this->logger->info(
-				'New contact created in FluentCRM',
-				[
-					'email'      => $email,
-					'contact_id' => $newContact['id'],
-				]
-			);
-			$response->getBody()->write(
-				json_encode(
-					[
-						'message' => 'Contact created successfully.',
-						'contact' => $newContact,
-					]
-				)
-			);
-			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 201 );
-
-		} catch ( \Exception $e ) {
-			$this->logger->error(
-				'Error in createContact flow for FluentCRM',
-				[
-					'error' => $e->getMessage(),
-					'email' => $email,
-				]
-			);
-			return $response->withStatus( 500, 'An internal error occurred.' );
+		if ( ! $contact ) {
+			return $response->withStatus( 404, 'Contact not found.' );
 		}
+
+		$updateData = [
+			'first_name'   => htmlspecialchars( $body['firstName'] ),
+			'last_name'    => htmlspecialchars( $body['lastName'] ),
+			'attach_lists' => [ 14 ],
+			'detach_lists' => [ 13 ],
+		];
+
+		// Step 2: Update the contact using their ID
+		$updatedContact = $this->fluentCRMService->updateContactById( $contact['id'], $updateData );
+
+		if ( ! $updatedContact ) {
+			return $response->withStatus( 500, 'Failed to update contact.' );
+		}
+
+		$response->getBody()->write( json_encode( [ 'message' => 'Contact updated successfully.' ] ) );
+		return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 200 );
 	}
 }
