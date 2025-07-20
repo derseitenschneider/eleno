@@ -24,6 +24,7 @@ $container = new Container();
 ( require __DIR__ . '/../src/dependencies/controller.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/database.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/homework.php' )( $container );
+( require __DIR__ . '/../src/dependencies/fluent-crm.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/logger.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/mailer.php' )( $container );
 ( require __DIR__ . '/../src/dependencies/message.php' )( $container );
@@ -45,8 +46,6 @@ $app->addBodyParsingMiddleware();
 // Add error middleware
 $app->addErrorMiddleware( true, true, true );
 
-// // Add CORS middleware
-// $app->add( $container->get( CorsMiddleware::class ) );
 
 // Handle preflight
 $app->options(
@@ -62,6 +61,7 @@ $app->add( $container->get( CorsMiddleware::class ) );
 // Add routes
 ( require __DIR__ . '/../src/routes/homework.php' )( $app );
 ( require __DIR__ . '/../src/routes/stripe.php' )( $app );
+( require __DIR__ . '/../src/routes/fluent-crm.php' )( $app );
 ( require __DIR__ . '/../src/routes/webhooks.php' )( $app );
 ( require __DIR__ . '/../src/routes/catch-all.php' )( $app );
 

@@ -45,6 +45,15 @@ class Config {
 	/** @var string $smtpPassword  */
 	public readonly string $smtpPassword;
 
+	/** @var string $fluentCRMApiUrl  */
+	public readonly string $fluentCRMApiUrl;
+
+	/** @var string $fluentCRMUser  */
+	public readonly string $fluentCRMUser;
+
+	/** @var string $fluentCRMPassword  */
+	public readonly string $fluentCRMPassword;
+
 	/** @var array $corsAllowedOrigins  */
 	public readonly array $corsAllowedOrigins;
 
@@ -68,6 +77,9 @@ class Config {
 			'SMTP_HOST',
 			'SMTP_USERNAME',
 			'SMTP_PASSWORD',
+			'FLUENTCRM_API_URL',
+			'FLUENTCRM_USERNAME',
+			'FLUENTCRM_PASSWORD',
 		);
 
 		foreach ( $required as $var ) {
@@ -89,6 +101,9 @@ class Config {
 		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
 		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
 		$this->smtpHost               = $_ENV['SMTP_HOST'];
+		$this->fluentCRMApiUrl        = $_ENV['FLUENTCRM_API_URL'];
+		$this->fluentCRMUser          = $_ENV['FLUENTCRM_USERNAME'];
+		$this->fluentCRMPassword      = $_ENV['FLUENTCRM_PASSWORD'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
