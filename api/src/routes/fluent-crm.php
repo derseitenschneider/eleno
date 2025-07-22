@@ -16,7 +16,7 @@ return function ( App $app ) {
 			$group->delete(
 				'/contact',
 				[ FluentCRMController::class, 'deleteContact' ]
-			);
+			)->add( JWTAuthMiddleware::class );
 		}
 	);
 };
