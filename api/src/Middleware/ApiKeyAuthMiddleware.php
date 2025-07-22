@@ -27,7 +27,7 @@ class ApiKeyAuthMiddleware implements MiddlewareInterface {
 
 	/**
 	 * This is the primary method executed by the middleware.
-	 * It intercepts the incoming request to perform authentication before it reaches the route handler.
+	 * It intercepts  incoming request to perform authentication before it reaches the route handler.
 	 *
 	 * @param Request        $request
 	 * @param RequestHandler $handler
