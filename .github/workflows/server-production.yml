@@ -49,7 +49,7 @@ jobs:
 
           echo "FLUENTCRM_API_URL=${{ secrets.FLUENTCRM_API_URL }}" >> .env
           echo "FLUENTCRM_USERNAME=${{ secrets.FLUENTCRM_USERNAME }}" >> .env
-          echo "FLUENTCRM_PASSWORD=${{ secrets.FLUENTCRM_PASSWORD }}" >> .env
+          echo "FLUENTCRM_PASSWORD=\"${{ secrets.FLUENTCRM_PASSWORD }}\"" >> .env
           echo "FLUENTCRM_INTERNAL_API_KEY=${{ secrets.FLUENTCRM_INTERNAL_API_KEY }}" >> .env
 
       - name: Deploy to FTP
