@@ -10,12 +10,12 @@ return function ( App $app ) {
 		function ( RouteCollectorProxy $group ) {
 			$group->post(
 				'/contact',
-				[ FluentCRMController::class, 'handleNewUserSignup' ]
+				[ FluentCRMController::class, 'createOrUpdateContact' ]
 			);
 
-			$group->put(
+			$group->delete(
 				'/contact',
-				[ FluentCRMController::class, 'updateContactDetails' ]
+				[ FluentCRMController::class, 'deleteContact' ]
 			);
 		}
 	);

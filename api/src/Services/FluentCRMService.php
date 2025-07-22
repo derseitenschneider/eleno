@@ -9,6 +9,7 @@ use Monolog\Logger;
 
 class FluentCRMService {
 
+	/** @var Client $client The fluentcrm client */
 	private Client $client;
 
 	/**
@@ -37,6 +38,50 @@ class FluentCRMService {
 		);
 	}
 
+
+	/**
+	 * Create or update a contact in fluent crm.
+	 *
+	 * @param array $data  An associative array of contact data (e.g., first_name, lists, tags).
+	 * @return array|null The created contact data or null on failure.
+	 */
+	public function createOrUpdateContact( array $data = [] ): ?array {
+
+		try {
+			$response = $this->client->post( 'subscribers', [ 'json' => $data ] );
+			$body     = json_decode( $response->getBody()->getContents(), true );
+			return $body['subscriber'] ?? null;
+		} catch ( GuzzleException $e ) {
+			$this->logger->error(
+				'FluentCRM API Error - createContact: ' . $e->getMessage(),
+				[ 'payload' => $data ]
+			);
+			return null;
+		}
+	}
+
+	/**
+	 * Delete contact from fluent crm database.
+	 *
+	 * @param string $email  The email of the contact to delete.
+	 * @return array|null The created contact data or null on failure.
+	 */
+	public function deleteContact( string $email ): ?array {
+
+		try {
+			$contact   = $this->getContactByEmail( $email );
+			$contactId = $contact['id'];
+			$response  = $this->client->delete( "subscribers/{$contactId}" );
+			$body      = json_decode( $response->getBody()->getContents(), true );
+			return $body['subscriber'] ?? null;
+		} catch ( GuzzleException $e ) {
+			$this->logger->error(
+				'FluentCRM API Error - deleteContact: ' . $e->getMessage(),
+				[ 'fluent_crm_id' => $contactId ]
+			);
+			return null;
+		}
+	}
 	/**
 	 * Get a contact by email
 	 *
@@ -69,69 +114,6 @@ class FluentCRMService {
 				]
 			);
 			return null;
-		}
-	}
-
-	/**
-	 * Create a new contact.
-	 *
-	 * @param string      $email
-	 * @param string|null $firstName
-	 * @param string|null $lastName
-	 * @param int[]       $listIds
-	 * @return array|null
-	 */
-	public function createContact( string $email, ?string $firstName, ?string $lastName, array $listIds = [] ): ?array {
-		$payload = [
-			'email'      => $email,
-			'first_name' => $firstName,
-			'last_name'  => $lastName,
-			'status'     => 'subscribed',
-		];
-
-		if ( ! empty( $listIds ) ) {
-			$payload['lists'] = $listIds;
-		}
-
-		try {
-			$response = $this->client->post( 'subscribers', [ 'json' => $payload ] );
-			$body     = json_decode( $response->getBody()->getContents(), true );
-			return $body['subscriber'] ?? null;
-
-		} catch ( GuzzleException $e ) {
-			$this->logger->error( 'FluentCRM API Error - createContact: ' . $e->getMessage(), [ 'payload' => $payload ] );
-			return null;
-		}
-	}
-
-	/**
-	 * Update an existing contact using their ID.
-	 *
-	 * @param int   $contactId The FluentCRM ID of the contact.
-	 * @param array $data      The data to update.
-	 * @return bool True on success, false on failure.
-	 */
-	public function updateContactById( int $contactId, array $data ): bool {
-		try {
-			// Build the URL with the contact ID: e.g., "subscribers/123"
-			$url = 'subscribers/' . $contactId;
-
-			$response = $this->client->put(
-				$url,
-				[
-					'json' => $data,
-				]
-			);
-
-			// Check for a success status code (200-299) instead of the response body.
-			return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
-
-		} catch ( GuzzleException $e ) {
-			$this->logger->error(
-				'FluentCRM API Error - updateContactById: ' . $e->getMessage(),
-				[ 'payload' => $data ]
-			);
-			return false;
 		}
 	}
 }
