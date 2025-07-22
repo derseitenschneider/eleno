@@ -29,10 +29,10 @@ class ApiKeyAuthMiddleware implements MiddlewareInterface {
 	 * This is the primary method executed by the middleware.
 	 * It intercepts the incoming request to perform authentication before it reaches the route handler.
 	 *
-	 * @param Request        $request The PSR-7 request object, representing the incoming HTTP request.
-	 * @param RequestHandler $handler The next middleware or the final route handler in the chain.
+	 * @param Request        $request
+	 * @param RequestHandler $handler
 	 *
-	 * @return Response The PSR-7 response object.
+	 * @return Response
 	 */
 	public function process( Request $request, RequestHandler $handler ): Response {
 		$expectedApiKey = $this->config->fluentCMRInternalApiKey;

@@ -24,7 +24,7 @@ function getFormattedDates(daysInFuture: number) {
  */
 export async function syncContactToFluentCrm(userId: string, email: string) {
   // Get API details from environment variables for security and flexibility
-  const apiUrl = `${Deno.env.get("FLUENT_CRM_API_URL")}/contact`;
+  const apiUrl = `${Deno.env.get("FLUENT_CRM_API_URL")}contact`;
   const apiKey = Deno.env.get("FLUENT_CRM_API_KEY"); // Good practice to use an auth key
 
   if (!apiUrl) {
