@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
 import { useNavigate } from 'react-router-dom'
 import useProfileQuery from '../user/profileQuery'
+import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 
 const profileSchema = z.object({
   firstName: z.string().min(1, { message: 'Vorname fehlt.' }),
@@ -50,6 +51,16 @@ export default function ProfileCard() {
   })
 
   const onSubmit = async (data: TInput) => {
+    if (!user?.email) return
+    await updateFluentCRMContact({
+      __force_update: 'yes',
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: user.email,
+      detach_lists: [13],
+      lists: [14],
+      status: 'subscribed',
+    })
     updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
   }
 
@@ -83,9 +94,7 @@ export default function ProfileCard() {
                   name='firstName'
                   render={({ field }) => (
                     <FormItem className='sm:w-1/2'>
-                      <FormLabel className='font-medium'>
-                        Vorname
-                      </FormLabel>
+                      <FormLabel className='font-medium'>Vorname</FormLabel>
                       <FormControl>
                         <Input
                           autoFocus
@@ -109,9 +118,7 @@ export default function ProfileCard() {
                   name='lastName'
                   render={({ field }) => (
                     <FormItem className='sm:w-1/2'>
-                      <FormLabel className='font-medium'>
-                        Nachname
-                      </FormLabel>
+                      <FormLabel className='font-medium'>Nachname</FormLabel>
                       <FormControl>
                         <Input
                           disabled={form.formState.isSubmitting}
