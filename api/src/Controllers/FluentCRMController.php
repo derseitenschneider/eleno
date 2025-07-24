@@ -36,14 +36,14 @@ class FluentCRMController {
 	 * @param Response $response
 	 */
 	public function createOrUpdateContact( Request $request, Response $response ): Response {
-		$params = $request->getParsedBody();
-		$email  = $params['email'] ?? null;
+		$data  = $request->getParsedBody();
+		$email = $data['email'] ?? null;
 
 		if ( empty( $email ) ) {
 			return $response->withStatus( 400, 'Email is required.' );
 		}
 
-			$this->fluentCRMService->createOrUpdateContact( $params );
+			$this->fluentCRMService->createOrUpdateContact( $data );
 			$response->getBody()->write( json_encode( [ 'message' => 'New contact created.' ] ) );
 			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 201 );
 	}
@@ -57,8 +57,8 @@ class FluentCRMController {
 	 * @param Response $response
 	 */
 	public function deleteContact( Request $request, Response $response ): Response {
-		$params = $request->getParsedBody();
-		$email  = $params['email'] ?? null;
+		$data  = $request->getParsedBody();
+		$email = $data['email'] ?? null;
 
 		if ( empty( $email ) ) {
 			return $response->withStatus( 400, 'Email is required.' );

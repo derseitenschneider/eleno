@@ -47,3 +47,33 @@ export async function updateFluentCRMContact(data: FluentCRMData) {
     console.error('An unexpected error occurred during Fluent CRM sync:', error)
   }
 }
+
+export async function deleteFluentCRMContact(email: string) {
+  const apiUrl = 'https://api.eleno.net/fluent-crm/contact'
+  try {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    const token = session?.access_token
+    const response = await fetch(apiUrl, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    })
+    if (!response.ok) {
+      // Log error details from the API response if not successful
+      const errorBody = await response.text()
+      console.error(
+        `Failed to sync contact to Fluent CRM. Status: ${response.status}`,
+        errorBody,
+      )
+    }
+  } catch (error) {
+    // Catch any network or other unexpected errors
+    console.error('An unexpected error occurred during Fluent CRM sync:', error)
+  }
+}

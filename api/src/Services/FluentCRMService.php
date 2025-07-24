@@ -50,6 +50,11 @@ class FluentCRMService {
 		try {
 			$response = $this->client->post( 'subscribers', [ 'json' => $data ] );
 			$body     = json_decode( $response->getBody()->getContents(), true );
+
+			$this->logger->info(
+				'FluentCRM contact created or updated:',
+				[ 'response' => $body ]
+			);
 			return $body['subscriber'] ?? null;
 		} catch ( GuzzleException $e ) {
 			$this->logger->error(

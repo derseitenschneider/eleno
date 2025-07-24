@@ -12,6 +12,7 @@
 namespace App\Services\Stripe;
 
 use App\Repositories\SubscriptionRepository;
+use App\Services\FluentCRMService;
 use App\Services\Message\Handlers\DisputeMessageHandler;
 use App\Services\Message\Handlers\SubscriptionMessageHandler;
 use App\Services\Message\Handlers\LifetimeMessageHandler;
@@ -40,6 +41,7 @@ class WebhookHandler {
 	 *
 	 * @param SubscriptionRepository      $repository
 	 * @param StripeAPIService            $stripeAPI
+	 * @param FluentCRMService            $fluentCRMService
 	 * @param SubscriptionMessageHandler  $subscriptionMessageHandler
 	 * @param LifetimeMessageHandler      $lifetimeMessageHandler
 	 * @param PaymentFailedMessageHandler $paymentFailedMessageHandler
@@ -49,6 +51,7 @@ class WebhookHandler {
 	public function __construct(
 		private SubscriptionRepository $repository,
 		private StripeAPIService $stripeAPI,
+		private FluentCRMService $fluentCRMService,
 		private SubscriptionMessageHandler $subscriptionMessageHandler,
 		private LifetimeMessageHandler $lifetimeMessageHandler,
 		private PaymentFailedMessageHandler $paymentFailedMessageHandler,
@@ -188,8 +191,24 @@ class WebhookHandler {
 		$checkoutDTO = StripeCheckoutCompletedDTO::create( $session );
 		$customerId  = $checkoutDTO->customerId;
 
+		// Write new subscription to supabase.
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 
+		// Update FluentCRM contact
+		$payload        = array(
+			'__force_update' => 'yes',
+			'email'          => $checkoutDTO->customerEmail,
+			'detach_lists'   => array( 14 ), // Detach from 'new-users'.
+			'lists'          => array( 4 ), // Add to 'active-customers'.
+			'status'         => 'subscribed',
+		);
+		$fluentResponse = $this->fluentCRMService->createOrUpdateContact( $payload );
+		$this->logger->info(
+			'Fluent Database updated',
+			[ 'data' => $fluentResponse ]
+		);
+
+		// Delete all previous subscriptions if lifetime.
 		if ( $checkoutDTO->isLifetime ) {
 			$this->logger->info(
 				'Lifetime purchase completed',

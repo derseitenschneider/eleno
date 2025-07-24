@@ -2,6 +2,7 @@
 
 use App\Config\Config;
 use App\Repositories\SubscriptionRepository;
+use App\Services\FluentCRMService;
 use App\Services\Message\Handlers\CancellationMessageHandler;
 use App\Services\Message\Handlers\DisputeMessageHandler;
 use DI\Container;
@@ -41,6 +42,7 @@ return function ( Container $container ) {
 		function ( $container ) {
 			$subscriptionRepository = $container->get( SubscriptionRepository::class );
 			$stripeAPIService       = $container->get( StripeAPIService::class );
+			$fluentCRMService       = $container->get( FluentCRMService::class );
 			$firstSubHandler        = $container->get( SubscriptionMessageHandler::class );
 			$lifetimeUpgradeHandler = $container->get( LifetimeMessageHandler::class );
 			$paymentFailedHandler   = $container->get( PaymentFailedMessageHandler::class );
@@ -50,6 +52,7 @@ return function ( Container $container ) {
 			return new WebhookHandler(
 				$subscriptionRepository,
 				$stripeAPIService,
+				$fluentCRMService,
 				$firstSubHandler,
 				$lifetimeUpgradeHandler,
 				$paymentFailedHandler,
