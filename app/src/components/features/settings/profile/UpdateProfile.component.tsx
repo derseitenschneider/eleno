@@ -8,6 +8,7 @@ import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
 import useProfileQuery from '../../user/profileQuery'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { toast } from 'sonner'
+import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 
 interface EditProfileProps {
   onCloseModal?: () => void
@@ -32,13 +33,26 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
     })
   }
 
-  function handleSave() {
-    updateProfileMeta(input, {
-      onSuccess: () => {
-        toast.success('Profil angepasst.')
-        onCloseModal?.()
-      },
-    })
+  async function handleSave() {
+    if (!userProfile?.email) return
+    try {
+      updateProfileMeta(input, {
+        onSuccess: () => {
+          toast.success('Profil angepasst.')
+          onCloseModal?.()
+        },
+      })
+
+      await updateFluentCRMContact({
+        __force_update: 'yes',
+        first_name: input.firstName,
+        last_name: input.lastName,
+        email: userProfile.email,
+        status: 'subscribed',
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (

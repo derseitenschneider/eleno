@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -21,7 +20,6 @@ import { ArrowRightIcon } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
 import { useNavigate } from 'react-router-dom'
-import useProfileQuery from '../user/profileQuery'
 import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 
 const profileSchema = z.object({
@@ -33,7 +31,6 @@ type TInput = z.infer<typeof profileSchema>
 
 export default function ProfileCard() {
   const { user } = useUser()
-  const { data: profile } = useProfileQuery()
   const navigate = useNavigate()
   const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const form = useForm<TInput>({
@@ -52,16 +49,20 @@ export default function ProfileCard() {
 
   const onSubmit = async (data: TInput) => {
     if (!user?.email) return
-    await updateFluentCRMContact({
-      __force_update: 'yes',
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: user.email,
-      detach_lists: [13],
-      lists: [14],
-      status: 'subscribed',
-    })
-    updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
+    try {
+      updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
+      await updateFluentCRMContact({
+        __force_update: 'yes',
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: user.email,
+        detach_lists: [13],
+        lists: [14],
+        status: 'subscribed',
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   if (!user) return null
