@@ -54,6 +54,9 @@ class Config {
 	/** @var string $fluentCRMPassword  */
 	public readonly string $fluentCRMPassword;
 
+	/** @var string $fluentCMRInternalApiKey  */
+	public readonly string $fluentCMRInternalApiKey;
+
 	/** @var array $corsAllowedOrigins  */
 	public readonly array $corsAllowedOrigins;
 
@@ -80,6 +83,7 @@ class Config {
 			'FLUENTCRM_API_URL',
 			'FLUENTCRM_USERNAME',
 			'FLUENTCRM_PASSWORD',
+			'FLUENTCRM_INTERNAL_API_KEY',
 		);
 
 		foreach ( $required as $var ) {
@@ -88,22 +92,27 @@ class Config {
 			}
 		}
 
-		$this->appBaseUrl             = $_ENV['APP_BASE_URL'];
-		$this->supabaseUrl            = $_ENV['SUPABASE_URL'];
-		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
+		$this->appBaseUrl        = $_ENV['APP_BASE_URL'];
+		$this->supabaseUrl       = $_ENV['SUPABASE_URL'];
+		$this->supabaseJwtSecret = $_ENV['SUPABASE_JWT_SECRET'];
+
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
 		$this->stripeWebhookSignature = $_ENV['STRIPE_SIGNATURE'];
-		$this->supabaseHost           = $_ENV['SUPABASE_HOST'];
-		$this->supabasePort           = $_ENV['SUPABASE_PORT'];
-		$this->subapaseDbName         = $_ENV['SUPABASE_DBNAME'];
-		$this->supabaseUser           = $_ENV['SUPABASE_USER'];
-		$this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
-		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
-		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
-		$this->smtpHost               = $_ENV['SMTP_HOST'];
-		$this->fluentCRMApiUrl        = $_ENV['FLUENTCRM_API_URL'];
-		$this->fluentCRMUser          = $_ENV['FLUENTCRM_USERNAME'];
-		$this->fluentCRMPassword      = $_ENV['FLUENTCRM_PASSWORD'];
+
+		$this->supabaseHost     = $_ENV['SUPABASE_HOST'];
+		$this->supabasePort     = $_ENV['SUPABASE_PORT'];
+		$this->subapaseDbName   = $_ENV['SUPABASE_DBNAME'];
+		$this->supabaseUser     = $_ENV['SUPABASE_USER'];
+		$this->supabasePassword = $_ENV['SUPABASE_PASSWORD'];
+
+		$this->smtpPassword = $_ENV['SMTP_PASSWORD'];
+		$this->smtpUsername = $_ENV['SMTP_USERNAME'];
+		$this->smtpHost     = $_ENV['SMTP_HOST'];
+
+		$this->fluentCRMApiUrl         = $_ENV['FLUENTCRM_API_URL'];
+		$this->fluentCRMUser           = $_ENV['FLUENTCRM_USERNAME'];
+		$this->fluentCRMPassword       = $_ENV['FLUENTCRM_PASSWORD'];
+		$this->fluentCMRInternalApiKey = $_ENV['FLUENTCRM_INTERNAL_API_KEY'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )
