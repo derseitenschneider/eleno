@@ -195,13 +195,14 @@ class WebhookHandler {
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 
 		// Update FluentCRM contact
-		$payload        = array(
+		$payload = array(
 			'__force_update' => 'yes',
 			'email'          => $checkoutDTO->customerEmail,
 			'detach_lists'   => array( 14 ), // Detach from 'new-users'.
 			'lists'          => array( 4 ), // Add to 'active-customers'.
 			'status'         => 'subscribed',
 		);
+
 		$fluentResponse = $this->fluentCRMService->createOrUpdateContact( $payload );
 		$this->logger->info(
 			'Fluent Database updated',
