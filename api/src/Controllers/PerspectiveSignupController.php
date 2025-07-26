@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Config\Config;
 use App\Core\Http;
+use App\Repositories\UserRepository;
+use App\Services\FluentCRMService;
 use InvalidArgumentException;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -16,12 +18,16 @@ class PerspectiveSignupController {
 	 *
 	 * The class constructor.
 	 *
-	 * @param Config $config
-	 * @param Logger $logger
+	 * @param Config           $config
+	 * @param Logger           $logger
+	 * @param UserRepository   $userRepository
+	 * @param FluentCRMService $fluentCRMService
 	 */
 	public function __construct(
 		private Config $config,
 		private Logger $logger,
+		private UserRepository $userRepository,
+		private FluentCRMService $fluentCRMService,
 	) {
 	}
 
@@ -38,16 +44,39 @@ class PerspectiveSignupController {
 	 */
 	public function handleWebhook( Request $request, Response $response ) {
 		$webhookToken = $this->config->perspectiveWebhookToken;
-
-		$payload = @file_get_contents( 'php://input' );
-		$token   = $_GET['token'] ?? '';
+		$token        = $request->getQueryParams()['token'] ?? '';
 
 		if ( $token !== $webhookToken ) {
 			return $response->withStatus( 401, 'Access denied: invalid token' );
 		}
 
-		return $response
-			->withHeader( 'Content-Type', 'application/json' )
-			->withStatus( 201 );
+		$payload = json_decode( $request->getBody()->getContents(), true );
+
+		if ( ! isset( $payload['email'] ) || ! isset( $payload['fullname'] ) ) {
+			return $response->withStatus(
+				400,
+				'Bad request: missing email or fullname.'
+			);
+		}
+
+		try {
+			$newUser = $this->userRepository->createUserWithInvite(
+				$payload['email'],
+				$payload['fullname']
+			);
+
+			$response->getBody()->write( json_encode( $newUser ) );
+
+			return $response
+				->withHeader( 'Content-Type', 'application/json' )
+				->withStatus( 201 );
+
+		} catch ( \Exception $e ) {
+			$this->logger->error( $e->getMessage() );
+			return $response->withStatus(
+				409,
+				'Error creating user: ' . $e->getMessage()
+			);
+		}
 	}
 }

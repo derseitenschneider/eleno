@@ -35,6 +35,7 @@ jobs:
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
           echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
           echo "SUPABASE_SERVICEROLE_KEY=${{ secrets.SUPABASE_SERVICEROLE_KEY }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
 
           echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
           echo "SUPABASE_PORT=${{ secrets.SUPABASE_PORT }}" >> .env

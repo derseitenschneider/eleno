@@ -6,6 +6,8 @@ use App\Controllers\Stripe\CustomerController;
 use App\Controllers\Stripe\SessionController;
 use App\Controllers\Stripe\SubscriptionController;
 use App\Controllers\WebhookController;
+use App\Repositories\UserRepository;
+use App\Services\FluentCRMService;
 use App\Services\Stripe\WebhookHandler;
 use App\Services\StripeService;
 use DI\Container;
@@ -26,10 +28,17 @@ return function ( Container $container ) {
 	$container->set(
 		PerspectiveSignupController::class,
 		function ( $container ) {
-			$config = $container->get( Config::class );
-			$logger = $container->get( 'appLogger' );
+			$config           = $container->get( Config::class );
+			$logger           = $container->get( 'appLogger' );
+			$userRepository   = $container->get( UserRepository::class );
+			$fluentCRMService = $container->get( FluentCRMService::class );
 
-			return new PerspectiveSignupController( $config, $logger );
+			return new PerspectiveSignupController(
+				$config,
+				$logger,
+				$userRepository,
+				$fluentCRMService
+			);
 		}
 	);
 

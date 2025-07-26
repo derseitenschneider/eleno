@@ -10,8 +10,6 @@ class UserRepository {
 	/**
 	 * Constructor
 	 *
-	 * The class constructor.
-	 *
 	 * @param Config $config
 	 * @param Logger $logger
 	 */
@@ -22,47 +20,46 @@ class UserRepository {
 	}
 
 	/**
-	 * Create a new user from the Perspective webhook.
-	 * This relies on Supabase triggers to create the associated profile.
+	 * Create a new user and send an invite link.
 	 *
 	 * @param string $email The user's email.
 	 * @param string $fullName The user's full name.
 	 * @return array The newly created user data.
 	 * @throws Exception If user creation fails.
 	 */
-	public function createUserFromFunnel( string $email, string $fullName ): array {
-		$authAdminUrl   = "{$this->config->supabaseUrl}/auth/v1/admin/users";
+	public function createUserWithInvite( string $email, string $fullName ): array {
+		$inviteUrl      = "{$this->config->supabaseUrl}/auth/v1/invite";
 		$serviceRoleKey = $this->config->supabaseServiceRoleKey;
 
 		$nameParts = explode( ' ', $fullName, 2 );
 		$firstName = $nameParts[0];
 		$lastName  = $nameParts[1] ?? '';
 
+		// Invite data includes the user_metadata for the profile trigger
 		$postData = json_encode(
-			array(
-				'email'         => $email,
-				'email_confirm' => true,
-				'user_metadata' => array(
+			[
+				'email' => $email,
+				'data'  => [
 					'from_funnel' => true,
 					'full_name'   => $fullName,
-					'first_name'  => $firstName,
-					'last_name'   => $lastName,
-				),
-			)
+					'firstName'   => $firstName,
+					'lastName'    => $lastName,
+				],
+			]
 		);
 
-		$ch = curl_init( $authAdminUrl );
+		$ch = curl_init( $inviteUrl );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $ch, CURLOPT_POST, true );
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $postData );
 		curl_setopt(
 			$ch,
 			CURLOPT_HTTPHEADER,
-			array(
+			[
 				'Content-Type: application/json',
-				"apikey: {$serviceRoleKey}",
+				"apikey: {$serviceRoleKey}", // Invite is an admin action
 				"Authorization: Bearer {$serviceRoleKey}",
-			)
+			]
 		);
 
 		$response = curl_exec( $ch );
@@ -70,9 +67,9 @@ class UserRepository {
 		curl_close( $ch );
 
 		if ( $httpcode >= 400 ) {
-			$this->logger->error( 'Supabase Auth user creation failed.', array( 'response' => $response ) );
+			$this->logger->error( 'Supabase user invite failed.', [ 'response' => $response ] );
 			$errorDetails = json_decode( $response, true );
-			$errorMessage = $errorDetails['msg'] ?? 'Failed to create authentication user.';
+			$errorMessage = $errorDetails['msg'] ?? 'Failed to invite user.';
 			throw new Exception( $errorMessage );
 		}
 

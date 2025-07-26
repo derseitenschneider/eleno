@@ -16,6 +16,9 @@ class Config {
 	/** @var string $supabaseServiceRoleKey  */
 	public readonly string $supabaseServiceRoleKey;
 
+	/** @var string $supabaseAnonKey  */
+	public readonly string $supabaseAnonKey;
+
 	/** @var string $supabaseHost  */
 	public readonly string $supabaseHost;
 
@@ -76,6 +79,7 @@ class Config {
 			'APP_BASE_URL',
 			'SUPABASE_URL',
 			'SUPABASE_JWT_SECRET',
+			'SUPABASE_ANON_KEY',
 			'SUPABASE_SERVICEROLE_KEY',
 			'SUPABASE_HOST',
 			'SUPABASE_PORT',
@@ -105,6 +109,7 @@ class Config {
 		$this->supabaseUrl            = $_ENV['SUPABASE_URL'];
 		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
 		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICEROLE_KEY'];
+		$this->supabaseAnonKey        = $_ENV['SUPABASE_ANON_KEY'];
 
 		// Stripe
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
