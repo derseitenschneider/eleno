@@ -52,7 +52,10 @@ class PerspectiveSignupController {
 
 		$payload = json_decode( $request->getBody()->getContents(), true );
 
-		if ( ! isset( $payload['email'] ) || ! isset( $payload['fullname'] ) ) {
+		$email    = $payload['values']['email'] ?? null;
+		$fullName = $payload['values']['name'] ?? null;
+
+		if ( ! $email || ! $fullName ) {
 			return $response->withStatus(
 				400,
 				'Bad request: missing email or fullname.'
@@ -60,10 +63,8 @@ class PerspectiveSignupController {
 		}
 
 		try {
-			$newUser = $this->userRepository->createUserWithInvite(
-				$payload['email'],
-				$payload['fullname']
-			);
+			$newUser = $this->userRepository
+				->createUserWithInvite( $email, $fullName );
 
 			$response->getBody()->write( json_encode( $newUser ) );
 
