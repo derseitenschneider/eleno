@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Config\Config;
 use App\Services\FluentCRMService;
-use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -15,13 +13,9 @@ class FluentCRMController {
 	 *
 	 * The class constructor.
 	 *
-	 * @param Config           $config
-	 * @param Logger           $logger
 	 * @param FluentCRMService $fluentCRMService
 	 */
 	public function __construct(
-		private Config $config,
-		private Logger $logger,
 		private FluentCRMService $fluentCRMService
 	) {
 	}

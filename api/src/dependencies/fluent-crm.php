@@ -19,11 +19,9 @@ return function ( Container $container ) {
 	$container->set(
 		FluentCRMController::class,
 		function ( $container ) {
-			$config        = $container->get( Config::class );
-			$logger        = $container->get( 'appLogger' );
 			$fluentService = $container->get( FluentCRMService::class );
 
-			return new FluentCRMController( $config, $logger, $fluentService );
+			return new FluentCRMController( $fluentService );
 		}
 	);
 };
