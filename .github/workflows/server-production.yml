@@ -34,6 +34,8 @@ jobs:
 
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
           echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
+          echo "SUPABASE_SERVICEROLE_KEY=${{ secrets.SUPABASE_SERVICEROLE_KEY }}" >> .env
+
           echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
           echo "SUPABASE_PORT=${{ secrets.SUPABASE_PORT }}" >> .env
           echo "SUPABASE_DBNAME=${{ secrets.SUPABASE_DBNAME }}" >> .env
@@ -51,6 +53,8 @@ jobs:
           echo "FLUENTCRM_USERNAME=${{ secrets.FLUENTCRM_USERNAME }}" >> .env
           echo "FLUENTCRM_PASSWORD=\"${{ secrets.FLUENTCRM_PASSWORD }}\"" >> .env
           echo "FLUENTCRM_INTERNAL_API_KEY=${{ secrets.FLUENTCRM_INTERNAL_API_KEY }}" >> .env
+
+          echo "PERSPECTIVE_WEBHOOK_TOKEN=${{ secrets.PERSPECTIVE_WEBHOOK_TOKEN }}" >> .env
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4

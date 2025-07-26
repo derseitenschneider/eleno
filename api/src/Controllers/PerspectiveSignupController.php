@@ -40,14 +40,14 @@ class PerspectiveSignupController {
 		$webhookToken = $this->config->perspectiveWebhookToken;
 
 		$payload = @file_get_contents( 'php://input' );
-		$token   = $_GET['token'];
+		$token   = $_GET['token'] ?? '';
 
 		if ( $token !== $webhookToken ) {
-			return Http::errorResponse(
-				$response,
-				'Access denied: invalid token',
-				401
-			);
+			return $response->withStatus( 401, 'Access denied: invalid token' );
 		}
+
+		return $response
+			->withHeader( 'Content-Type', 'application/json' )
+			->withStatus( 201 );
 	}
 }

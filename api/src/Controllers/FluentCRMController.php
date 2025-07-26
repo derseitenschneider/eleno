@@ -43,9 +43,14 @@ class FluentCRMController {
 			return $response->withStatus( 400, 'Email is required.' );
 		}
 
-			$this->fluentCRMService->createOrUpdateContact( $data );
-			$response->getBody()->write( json_encode( [ 'message' => 'New contact created.' ] ) );
-			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 201 );
+		$this->fluentCRMService->createOrUpdateContact( $data );
+		$response->getBody()->write(
+			json_encode( [ 'message' => 'New contact created.' ] )
+		);
+
+		return $response
+			->withHeader( 'Content-Type', 'application/json' )
+			->withStatus( 201 );
 	}
 
 	/**
@@ -65,7 +70,12 @@ class FluentCRMController {
 		}
 
 			$this->fluentCRMService->deleteContact( $email );
-			$response->getBody()->write( json_encode( [ 'message' => 'Contact deleted successfully' ] ) );
-			return $response->withHeader( 'Content-Type', 'application/json' )->withStatus( 204 );
+		$response->getBody()->write(
+			json_encode( [ 'message' => 'Contact deleted successfully' ] )
+		);
+
+		return $response
+			->withHeader( 'Content-Type', 'application/json' )
+			->withStatus( 204 );
 	}
 }
