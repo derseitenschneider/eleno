@@ -66,7 +66,7 @@ export default function PasswordCard() {
         status: 'subscribed',
       })
 
-      navigate('first-steps')
+      navigate('/onboarding/first-steps')
     } catch (e) {
       console.error(e)
     } finally {
