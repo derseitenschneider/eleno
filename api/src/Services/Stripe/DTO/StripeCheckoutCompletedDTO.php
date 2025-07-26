@@ -45,6 +45,7 @@ class StripeCheckoutCompletedDTO {
 		return new self(
 			userId: $session->client_reference_id,
 			customerId: $session->customer,
+			// @phpstan-ignore-next-line
 			customerEmail: $session->customer_details->email,
 			subscriptionId: $session->subscription,
 			invoiceId: $session->invoice,

@@ -28,16 +28,14 @@ return function ( Container $container ) {
 	$container->set(
 		PerspectiveSignupController::class,
 		function ( $container ) {
-			$config           = $container->get( Config::class );
-			$logger           = $container->get( 'appLogger' );
-			$userRepository   = $container->get( UserRepository::class );
-			$fluentCRMService = $container->get( FluentCRMService::class );
+			$config         = $container->get( Config::class );
+			$logger         = $container->get( 'appLogger' );
+			$userRepository = $container->get( UserRepository::class );
 
 			return new PerspectiveSignupController(
 				$config,
 				$logger,
 				$userRepository,
-				$fluentCRMService
 			);
 		}
 	);

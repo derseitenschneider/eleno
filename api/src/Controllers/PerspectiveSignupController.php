@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Config\Config;
 use App\Core\Http;
 use App\Repositories\UserRepository;
-use App\Services\FluentCRMService;
 use InvalidArgumentException;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,16 +17,14 @@ class PerspectiveSignupController {
 	 *
 	 * The class constructor.
 	 *
-	 * @param Config           $config
-	 * @param Logger           $logger
-	 * @param UserRepository   $userRepository
-	 * @param FluentCRMService $fluentCRMService
+	 * @param Config         $config
+	 * @param Logger         $logger
+	 * @param UserRepository $userRepository
 	 */
 	public function __construct(
 		private Config $config,
 		private Logger $logger,
 		private UserRepository $userRepository,
-		private FluentCRMService $fluentCRMService,
 	) {
 	}
 

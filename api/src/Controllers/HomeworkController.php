@@ -231,10 +231,10 @@ class HomeworkController {
 				// $matches[3] contains the attributes string (e.g., " class=\"test\" id=\"my-id\"")
 				// $matches[4] contains the text content (if it's not a tag)
 
-				$fullTag     = $matches[1] ?? '';
-				$tagName     = $matches[2] ?? '';
-				$attributes  = $matches[3] ?? '';
-				$textContent = $matches[4] ?? '';
+				$fullTag     = $matches[1];
+				$tagName     = $matches[2];
+				$attributes  = $matches[3];
+				$textContent = $matches[4];
 
 				// If it's text content, return it as is
 				if ( ! empty( $textContent ) ) {
