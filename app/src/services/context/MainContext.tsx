@@ -4,6 +4,7 @@ import { MessagesProvider } from './MessagesContext'
 import useProfileQuery from '@/components/features/user/profileQuery'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from './UserContext'
 
 interface MainContextProps {
   children: React.ReactNode
@@ -11,14 +12,20 @@ interface MainContextProps {
 
 function MainContext({ children }: MainContextProps) {
   const { data } = useProfileQuery()
+  const { user } = useUser()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!data) return
+    if (!data || !user) return
     if (data.first_name === null) {
-      navigate('/onboarding')
+      // Users from email or oauth signup that have no profile data
+      // yet but a password.
+      navigate('/onboarding/profile')
+    } else if (user.user_metadata.from_funnel) {
+      // Users from funnel that have no password yet but profile data.
+      navigate('/onboarding/password')
     }
-  }, [data, data?.first_name, navigate])
+  }, [data, data?.first_name, navigate, user?.user_metadata.from_funnel, user])
 
   return (
     <MessagesProvider>

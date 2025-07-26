@@ -61,7 +61,6 @@ export default function ButtonCheckoutMonthly({
 
       setStatus('IDLE')
     } catch (e) {
-      console.error(e)
       setStatus('ERROR')
     }
   }

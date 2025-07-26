@@ -50,7 +50,9 @@ export default function ProfileCard() {
   const onSubmit = async (data: TInput) => {
     if (!user?.email) return
     try {
-      updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
+      updateProfileMeta(data, {
+        onSuccess: () => navigate('/onboarding/first-steps'),
+      })
       await updateFluentCRMContact({
         __force_update: 'yes',
         first_name: data.firstName,
