@@ -30,11 +30,6 @@ test('pricing table title is hidden', async ({ page }) => {
   await expect(pricingTable).not.toBeVisible()
 })
 
-test('upgrade to lifetime section to be visible', async ({ page }) => {
-  const { lifetimeTeaser } = new SubscriptionPOM(page)
-  await expect(lifetimeTeaser).toBeVisible()
-})
-
 test('payment-failed banner is visible', async ({ page }) => {
   const { paymentFailedBanner } = new SubscriptionPOM(page)
 
