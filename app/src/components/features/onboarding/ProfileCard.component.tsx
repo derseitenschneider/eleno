@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -21,7 +20,7 @@ import { ArrowRightIcon } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
 import { useNavigate } from 'react-router-dom'
-import useProfileQuery from '../user/profileQuery'
+import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 
 const profileSchema = z.object({
   firstName: z.string().min(1, { message: 'Vorname fehlt.' }),
@@ -32,7 +31,6 @@ type TInput = z.infer<typeof profileSchema>
 
 export default function ProfileCard() {
   const { user } = useUser()
-  const { data: profile } = useProfileQuery()
   const navigate = useNavigate()
   const { updateProfileMeta, isUpdating } = useUpdateProfileMeta()
   const form = useForm<TInput>({
@@ -50,7 +48,21 @@ export default function ProfileCard() {
   })
 
   const onSubmit = async (data: TInput) => {
-    updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
+    if (!user?.email) return
+    try {
+      updateProfileMeta(data, { onSuccess: () => navigate('first-steps') })
+      await updateFluentCRMContact({
+        __force_update: 'yes',
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: user.email,
+        detach_lists: [13],
+        lists: [14],
+        status: 'subscribed',
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   if (!user) return null
@@ -83,9 +95,7 @@ export default function ProfileCard() {
                   name='firstName'
                   render={({ field }) => (
                     <FormItem className='sm:w-1/2'>
-                      <FormLabel className='font-medium'>
-                        Vorname
-                      </FormLabel>
+                      <FormLabel className='font-medium'>Vorname</FormLabel>
                       <FormControl>
                         <Input
                           autoFocus
@@ -109,9 +119,7 @@ export default function ProfileCard() {
                   name='lastName'
                   render={({ field }) => (
                     <FormItem className='sm:w-1/2'>
-                      <FormLabel className='font-medium'>
-                        Nachname
-                      </FormLabel>
+                      <FormLabel className='font-medium'>Nachname</FormLabel>
                       <FormControl>
                         <Input
                           disabled={form.formState.isSubmitting}

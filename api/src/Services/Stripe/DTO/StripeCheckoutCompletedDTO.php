@@ -12,6 +12,7 @@ class StripeCheckoutCompletedDTO {
 	 *
 	 * @param string      $userId
 	 * @param string      $customerId
+	 * @param string      $customerEmail
 	 * @param null|string $subscriptionId
 	 * @param null|string $invoiceId
 	 * @param bool        $isLifetime
@@ -23,6 +24,7 @@ class StripeCheckoutCompletedDTO {
 	public function __construct(
 		public readonly string $userId,
 		public readonly string $customerId,
+		public readonly ?string $customerEmail,
 		public readonly ?string $subscriptionId,
 		public readonly ?string $invoiceId,
 		public readonly bool $isLifetime,
@@ -43,6 +45,7 @@ class StripeCheckoutCompletedDTO {
 		return new self(
 			userId: $session->client_reference_id,
 			customerId: $session->customer,
+			customerEmail: $session->customer_details->email,
 			subscriptionId: $session->subscription,
 			invoiceId: $session->invoice,
 			subscriptionStatus:  'active',

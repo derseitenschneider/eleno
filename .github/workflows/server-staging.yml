@@ -57,6 +57,10 @@ jobs:
           echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> .env
           echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
 
+          echo "FLUENTCRM_API_URL=${{ secrets.FLUENTCRM_API_URL }}" >> .env
+          echo "FLUENTCRM_USERNAME=${{ secrets.FLUENTCRM_USERNAME }}" >> .env
+          echo "FLUENTCRM_PASSWORD=\"${{ secrets.FLUENTCRM_PASSWORD }}\"" >> .env
+          echo "FLUENTCRM_INTERNAL_API_KEY=${{ secrets.FLUENTCRM_INTERNAL_API_KEY }}" >> .env
       # - name: Run Pest Tests
       #   run: |
       #     cd api

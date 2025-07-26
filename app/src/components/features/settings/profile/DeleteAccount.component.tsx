@@ -10,6 +10,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
 import { useQueryClient } from '@tanstack/react-query'
 import useSubscriptionQuery from '../../subscription/subscriptionQuery'
+import { deleteFluentCRMContact } from '@/services/api/fluent-crm.api'
 
 interface DeleteAccountProps {
   onCloseModal?: () => void
@@ -33,9 +34,10 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   }
 
   const handleDelete = async () => {
-    if (!subscription) return
+    if (!subscription || !user?.email) return
     setIsPending(true)
     try {
+      await deleteFluentCRMContact(user.email)
       await deleteAccount(subscription)
       navigate('/')
       queryClient.clear()

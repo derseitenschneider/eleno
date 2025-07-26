@@ -61,6 +61,7 @@ export default function ButtonCheckoutMonthly({
 
       setStatus('IDLE')
     } catch (e) {
+      console.error(e)
       setStatus('ERROR')
     }
   }
@@ -68,7 +69,7 @@ export default function ButtonCheckoutMonthly({
     <div>
       <Button
         data-testid='pricing-checkout-monthly'
-        className='w-full flex gap-2'
+        className='flex w-full gap-2'
         onClick={getCheckoutSessionLink}
         disabled={status === 'LOADING'}
         {...props}
