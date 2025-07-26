@@ -1,7 +1,12 @@
+import useProfileQuery from '../../user/profileQuery'
+
 export default function Welcome() {
+  const { data: profile } = useProfileQuery()
   return (
     <div className='text-base'>
-      <h1 className='mb-2'>Willkommen bei Eleno</h1>
+      <h2 className='mb-2'>
+        Hallo {profile?.first_name}, willkommen bei Eleno
+      </h2>
       <div className='flex flex-col space-y-4'>
         <p>
           Mit Eleno bringst du im Handumdrehen Struktur in deinen
