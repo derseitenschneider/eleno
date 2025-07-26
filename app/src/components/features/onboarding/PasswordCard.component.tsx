@@ -24,7 +24,9 @@ import supabase from '@/services/api/supabase'
 import { useState } from 'react'
 
 const passwordSchema = z.object({
-  password: z.string().min(1, { message: 'Passwort fehlt' }),
+  password: z
+    .string()
+    .min(6, { message: 'Passwort muss mindestens 6 Zeichen lang sein.' }),
 })
 
 type TInput = z.infer<typeof passwordSchema>
@@ -129,6 +131,11 @@ export default function PasswordCard() {
                   </FormItem>
                 )}
               />
+              {form.formState.errors.root && (
+                <p className='text-center text-sm text-warning'>
+                  {form.formState.errors.root.message}
+                </p>
+              )}
               <div className='flex items-center gap-2'>
                 <Button
                   disabled={
