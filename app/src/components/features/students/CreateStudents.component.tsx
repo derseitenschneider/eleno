@@ -165,12 +165,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <ScrollArea
               type='scroll'
-              className='flex max-h-[71vh] flex-col !overflow-hidden border border-hairline px-2 lg:border-none lg:p-0'
+              className='flex max-h-[75vh] flex-col !overflow-hidden rounded-lg border border-hairline md:px-2 lg:rounded-none lg:border-none lg:p-0'
             >
               {memoizedStudentRows}
             </ScrollArea>
             <div className='mt-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-              <div className='flex items-center'>
+              <div className='hidden items-center sm:flex'>
                 <Input
                   disabled={isCreating}
                   className='w-[7ch]'

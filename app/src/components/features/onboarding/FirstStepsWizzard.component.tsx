@@ -1,11 +1,9 @@
 import { Button } from '@/components/ui/button'
 import StepperProgress, { type Step } from '@/components/ui/stepper.component'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  HeartHandshakeIcon,
   RocketIcon,
   User2,
   Users2,
@@ -15,17 +13,11 @@ import AddGroup from './steps/AddGroup.component'
 import AddStudents from './steps/AddStudents.component'
 import ImportantLinks from './steps/ImportantLinks.component'
 import Welcome from './steps/Welcome.component'
-import { useEffect } from 'react'
 
 export default function FirstStepsWizzard() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const isMobile = useIsMobileDevice()
   const navigate = useNavigate()
   const currentStep = Number(searchParams.get('step')) || 0
-
-  // useEffect(() => {
-  //   if (isMobile) navigate('/')
-  // }, [isMobile, navigate])
 
   function goBack() {
     searchParams.set('step', String(currentStep - 1))
@@ -47,7 +39,7 @@ export default function FirstStepsWizzard() {
     {
       id: 1,
       label: 'Schüler:innen',
-      component: <AddStudents onSuccess={goToNext} />,
+      component: <AddStudents />,
       icon: <User2 strokeWidth={1.5} />,
     },
     {

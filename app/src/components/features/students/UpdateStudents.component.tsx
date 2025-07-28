@@ -138,7 +138,7 @@ export default function UpdateStudents({
         <FormProvider {...methods}>
           <Form {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
+              <ScrollArea className='flex max-h-[70vh] flex-col !overflow-hidden rounded-lg border border-hairline bg-background50 px-2 lg:rounded-none lg:border-none lg:bg-background100 lg:p-0'>
                 {fields.map((field, index, arr) => (
                   <MemoizedStudentFormRow
                     fields={arr.length}

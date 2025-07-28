@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import UpdateStudents from '../../students/UpdateStudents.component'
 
-export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
+export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
   const { activeSortedHolders } = useLessonHolders()
 
@@ -23,7 +23,12 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
       <div className='flex flex-col space-y-4'>
         {students.length === 0 ? (
           <>
-            <p>Damit dein Unterricht reibungslos startet und du alle Infos sofort parat hast, ist es Zeit, deine Schüler:innen in Eleno einzutragen. So ist alles perfekt vorbereitet für eure nächste gemeinsame Stunde!</p>
+            <p>
+              Damit dein Unterricht reibungslos startet und du alle Infos sofort
+              parat hast, ist es Zeit, deine Schüler:innen in Eleno einzutragen.
+              So ist alles perfekt vorbereitet für eure nächste gemeinsame
+              Stunde!
+            </p>
 
             <Button
               type='button'
@@ -36,11 +41,14 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
-            <p>Wunderbar, du hast nun {students.length} {' '}
+            <p>
+              Wunderbar, du hast nun {students.length}{' '}
               {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'}{' '}
-              erfolgreich erfasst! Dein Unterrichtsalltag wird so gleich viel übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno optimal für dich einzurichten.
+              erfolgreich erfasst! Dein Unterrichtsalltag wird so gleich viel
+              übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno
+              optimal für dich einzurichten.
             </p>
-            <div className='flex items-center justify-between gap-2'>
+            <div className='flex flex-wrap items-center justify-between gap-2'>
               <Button
                 variant='outline'
                 size='sm'
