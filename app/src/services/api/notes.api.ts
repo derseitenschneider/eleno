@@ -31,6 +31,7 @@ export const createNoteAPI = async (note: PartialNote) => {
     .insert([{ ...note }])
     .select()
 
+  console.error(error)
   if (error) throw new Error(error.message)
 
   return data

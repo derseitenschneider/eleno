@@ -37,7 +37,6 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
       text: removeHTMLAttributes(text),
       backgroundColor: color,
       user_id: user?.id,
-      id: new Date().valueOf(),
       order: 0,
     }
     createNote(newNote, {
