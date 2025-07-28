@@ -163,10 +163,13 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
+            <ScrollArea
+              type='scroll'
+              className='flex max-h-[71vh] flex-col !overflow-hidden border border-hairline px-2 lg:border-none lg:p-0'
+            >
               {memoizedStudentRows}
             </ScrollArea>
-            <div className='mt-4 flex items-center justify-between'>
+            <div className='mt-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
               <div className='flex items-center'>
                 <Input
                   disabled={isCreating}
@@ -177,7 +180,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                 />
                 <Button
                   disabled={isCreating}
-                  className='ml-2 p-0'
+                  className='ml-2 p-2'
                   type='button'
                   variant='ghost'
                   size='sm'

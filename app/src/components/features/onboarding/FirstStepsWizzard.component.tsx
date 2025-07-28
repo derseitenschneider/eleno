@@ -23,9 +23,9 @@ export default function FirstStepsWizzard() {
   const navigate = useNavigate()
   const currentStep = Number(searchParams.get('step')) || 0
 
-  useEffect(() => {
-    if (isMobile) navigate('/')
-  }, [isMobile, navigate])
+  // useEffect(() => {
+  //   if (isMobile) navigate('/')
+  // }, [isMobile, navigate])
 
   function goBack() {
     searchParams.set('step', String(currentStep - 1))
@@ -58,61 +58,63 @@ export default function FirstStepsWizzard() {
     },
     {
       id: 3,
-      label: "Los geht's!",
+      label: 'Fertig!',
       component: <ImportantLinks />,
       icon: <CheckIcon strokeWidth={1.5} />,
     },
   ]
   return (
-    <div className='mx-auto'>
+    <div className='mx-auto flex flex-col'>
       <StepperProgress steps={steps} currentStep={currentStep} />
-      <div className='w-[550px] rounded-lg border border-hairline bg-card p-6 text-card-foreground shadow-sm'>
-        {steps[currentStep]?.component}
-      </div>
+      <div className='flex flex-1 flex-col justify-center'>
+        <div className='rounded-lg border border-hairline bg-card p-6 text-card-foreground shadow-sm sm:w-[550px]'>
+          {steps[currentStep]?.component}
+        </div>
 
-      <div className='mt-8 flex items-center justify-between'>
-        {currentStep === 0 ? (
-          <Button
-            onClick={() => navigate('/')}
-            variant='outline'
-            type='button'
-            size='sm'
-          >
-            Überspringen
-          </Button>
-        ) : (
-          <Button
-            className='flex items-center justify-between gap-1'
-            variant='outline'
-            type='button'
-            size='sm'
-            onClick={goBack}
-          >
-            <ChevronLeftIcon className='size-4' />
-            Zurück
-          </Button>
-        )}
-        {currentStep < steps.length - 1 ? (
-          <Button
-            type='button'
-            size='sm'
-            className='flex items-center justify-between gap-1'
-            onClick={goToNext}
-          >
-            Weiter
-            <ChevronRightIcon className='size-4' />
-          </Button>
-        ) : (
-          <Button
-            type='button'
-            size='sm'
-            onClick={() => {
-              navigate('/')
-            }}
-          >
-            Abschliessen
-          </Button>
-        )}
+        <div className='mt-8 flex items-center justify-between'>
+          {currentStep === 0 ? (
+            <Button
+              onClick={() => navigate('/')}
+              variant='outline'
+              type='button'
+              size='sm'
+            >
+              Überspringen
+            </Button>
+          ) : (
+            <Button
+              className='flex items-center justify-between gap-1'
+              variant='outline'
+              type='button'
+              size='sm'
+              onClick={goBack}
+            >
+              <ChevronLeftIcon className='size-4' />
+              Zurück
+            </Button>
+          )}
+          {currentStep < steps.length - 1 ? (
+            <Button
+              type='button'
+              size='sm'
+              className='flex items-center justify-between gap-1'
+              onClick={goToNext}
+            >
+              Weiter
+              <ChevronRightIcon className='size-4' />
+            </Button>
+          ) : (
+            <Button
+              type='button'
+              size='sm'
+              onClick={() => {
+                navigate('/')
+              }}
+            >
+              Abschliessen
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
