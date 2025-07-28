@@ -1,6 +1,6 @@
 import Logo from './Logo.component'
 
-export default function LogoText({ className }: { className: string }) {
+export default function LogoText({ className }: { className?: string }) {
   return (
     <div className={className}>
       <a

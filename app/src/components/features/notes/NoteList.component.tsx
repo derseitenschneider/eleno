@@ -35,7 +35,7 @@ function NoteList() {
       (note) => note[fieldType] === currentLessonHolder?.holder.id,
     )
     if (!currentNotes) return
-    setNotes(currentNotes)
+    setNotes(currentNotes as TNote[])
   }, [data, fieldType, currentLessonHolder?.holder.id])
 
   async function handleOnDragend(result: DropResult) {
@@ -50,7 +50,10 @@ function NoteList() {
     if (!reorderedItem) return
     items.splice(destination, 0, reorderedItem)
 
-    const newNotes = items.map((item, index) => ({ ...item, order: index }))
+    const newNotes: Array<TNote> = items.map((item, index) => ({
+      ...item,
+      order: index,
+    }))
     setNotes(newNotes)
     updateNotes(newNotes)
   }

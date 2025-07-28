@@ -4,23 +4,17 @@ import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { useCreateRepertoireItem } from './useCreateRepertoireItem'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 
-interface AddRepertoireItemProps {
-  holderId: number
-  holderType: 's' | 'g'
-}
-
 function CreateRepertoireItem() {
   const { hasAccess } = useSubscription()
   const { currentLessonHolder } = useCurrentHolder()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
-  const [hideToolbar, setHideToolbar] = useState(false)
   const isMobile = useIsMobileDevice()
 
   const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -53,7 +47,6 @@ function CreateRepertoireItem() {
 
   function resetFields() {
     setItem(defaultItem)
-    setHideToolbar(true)
   }
 
   function handleSave() {

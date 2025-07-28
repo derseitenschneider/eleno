@@ -80,6 +80,7 @@ function RepertoireTable({
     },
   })
 
+  if (!currentLessonHolder) return
   if (isPending) return <p>...loading</p>
 
   return (
@@ -92,10 +93,7 @@ function RepertoireTable({
         <span className='text-primary'>Zur Lektion</span>
       </NavLink>
       <h2>Repertoire</h2>
-      <CreateRepertoireItem
-        holderType={currentLessonHolder?.type || 's'}
-        holderId={currentLessonHolder?.holder.id || 0}
-      />
+      <CreateRepertoireItem />
       {repertoire.length > 0 && (
         <RepertoireControl
           globalFilter={globalFilter}
