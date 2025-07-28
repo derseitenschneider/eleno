@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { Note } from '@/types/types'
+import type { Note, PartialNote } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
@@ -37,11 +37,16 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
 
   function handleDuplication() {
     if (!currentNote) return
-    duplicateNote({
-      ...currentNote,
-      id: new Date().getMilliseconds(),
+    const duplicatedNote: PartialNote = {
       title: `Kopie ${currentNote.title}`,
-    })
+      text: currentNote.text,
+      backgroundColor: currentNote.backgroundColor,
+      order: currentNote.order,
+      user_id: currentNote.user_id,
+      groupId: currentNote.groupId,
+      studentId: currentNote.studentId,
+    }
+    duplicateNote(duplicatedNote)
   }
   function closeModal() {
     setOpenModal(undefined)
