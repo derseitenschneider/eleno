@@ -1,5 +1,6 @@
 import { test as setup, expect } from '@playwright/test'
 import { setupYearlyActive } from '../../utils/setupHelpers'
+import { loginUser } from '../../utils/loginUser'
 
 setup(
   'create a trial user, run checkout fixture for yearly subscription and activate',
@@ -7,12 +8,7 @@ setup(
     // Setup test data.
     const testUser = await setupYearlyActive()
 
-    // Login
-    await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(testUser.email)
-    await page.getByTestId('login-password').fill(testUser.password)
-    await page.getByTestId('login-submit').click()
-    await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+    await loginUser(testUser.email, testUser.password, testUser.authFile, page)
 
     // Close toast, check activation message and delete it.
     const toasts = await page.getByRole('status').all()
@@ -35,8 +31,5 @@ setup(
     await page.getByRole('button', { name: 'Team ELENO' }).click()
     await expect(page.getByTestId('message-header')).toContainText('aktiviert')
     await page.getByRole('button', { name: 'Löschen' }).click()
-
-    // Store login state in auth file.
-    await page.context().storageState({ path: testUser.authFile })
   },
 )

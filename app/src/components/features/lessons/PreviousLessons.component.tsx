@@ -28,6 +28,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
       ?.sort((a, b) => {
         return +b.date - +a.date
       })
+      ?.filter((lesson) => lesson.status === 'documented')
       .filter(
         (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
       )
@@ -43,19 +44,19 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
     ?.date.getFullYear()
 
   return (
-    <div
-      className={cn(
-        layout === 'reverse' ? 'border-hairline border-b' : '',
-        'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
-      )}
-    >
+    <div>
       <div
         className={cn(
-          layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
-          'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          layout === 'reverse' ? 'border-hairline border-b' : '',
+          'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
         )}
       >
-        <>
+        <div
+          className={cn(
+            layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
+            'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          )}
+        >
           <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
             {previousLessonsIds.length > 0 && (
@@ -85,7 +86,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
               />
             )}
           </div>
-        </>
+        </div>
       </div>
     </div>
   )

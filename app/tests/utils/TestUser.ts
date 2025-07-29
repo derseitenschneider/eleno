@@ -259,6 +259,7 @@ export class TestUser {
         firstName: 'Test',
         lastName: 'Student',
         instrument: 'Gitarre',
+        homework_sharing_authorized: true,
       })
       .select('id')
       .single()

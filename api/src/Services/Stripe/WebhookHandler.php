@@ -194,20 +194,23 @@ class WebhookHandler {
 		// Write new subscription to supabase.
 		$this->repository->saveCheckoutSession( $checkoutDTO );
 
-		// Update FluentCRM contact
-		$payload = array(
-			'__force_update' => 'yes',
-			'email'          => $checkoutDTO->customerEmail,
-			'detach_lists'   => array( 14 ), // Detach from 'new-users'.
-			'lists'          => array( 4 ), // Add to 'active-customers'.
-			'status'         => 'subscribed',
-		);
+		if ( ! strpos( $checkoutDTO->customerEmail, 'test' ) ) {
+			// Update FluentCRM contact
+			$payload = array(
+				'__force_update' => 'yes',
+				'email'          => $checkoutDTO->customerEmail,
+				'detach_lists'   => array( 14 ), // Detach from 'new-users'.
+				'lists'          => array( 4 ), // Add to 'active-customers'.
+				'status'         => 'subscribed',
+			);
 
-		$fluentResponse = $this->fluentCRMService->createOrUpdateContact( $payload );
-		$this->logger->info(
-			'Fluent Database updated',
-			[ 'data' => $fluentResponse ]
-		);
+			$fluentResponse = $this->fluentCRMService->createOrUpdateContact( $payload );
+
+			$this->logger->info(
+				'Fluent Database updated',
+				[ 'data' => $fluentResponse ]
+			);
+		}
 
 		// Delete all previous subscriptions if lifetime.
 		if ( $checkoutDTO->isLifetime ) {

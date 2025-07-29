@@ -1,16 +1,18 @@
 import parse from 'html-react-parser'
 import { cn } from '@/lib/utils'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import ButtonShareHomework from './ButtonShareHomework.component'
+import ButtonShareHomework from './homework/ButtonShareHomework.component'
 import PreviousLessonDropDown from './PreviousLessonDropDown.component'
 import { useLatestLessons } from './lessonsQueries'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { ButtonInsertPreparedLesson } from './ButtonInsertPreparedLesson.component'
 
 export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
   const { data: lessons } = useLatestLessons()
   const { userLocale } = useUserLocale()
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
   if (!currentLesson) return null
+
   return (
     <div className='rounded-sm border border-hairline p-3'>
       <div className='flex items-start justify-between'>
@@ -27,7 +29,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
           <PreviousLessonDropDown lessonId={lessonId} />
         </div>
       </div>
-      <div className={cn('grid md:grid-cols-2 gap-6')}>
+      <div className={cn('md:grid-cols-2 grid gap-6')}>
         <div>
           <p>Lektion</p>
           <div

@@ -21,8 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import useProfileQuery from '../user/profileQuery'
-import { Blocker } from '../subscription/Blocker'
+import useProfileQuery from '../../user/profileQuery'
+import { Blocker } from '../../subscription/Blocker'
 import { HomeworkExpired } from './HomeworkExpired.component'
 
 type ButtonShareHomeworkProps = {
@@ -32,7 +32,6 @@ type ButtonShareHomeworkProps = {
 export default function ButtonShareHomework({
   lessonId,
 }: ButtonShareHomeworkProps) {
-  const isMobile = useIsMobileDevice()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { data: userProfile } = useProfileQuery()
   const { userLocale } = useUserLocale()

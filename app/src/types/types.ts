@@ -53,9 +53,11 @@ export type LessonPartial = Omit<
 >
 
 // Draft type derived from Lesson type.
-export type Draft = Partial<
-  Omit<Lesson, 'created_at' | 'homeworkKey' | 'id' | 'user_id'>
->
+// export type Draft = Partial<
+//   Omit<Lesson, 'created_at' | 'homeworkKey' | 'user_id'>
+// >
+
+export type Draft = Partial<Lesson>
 
 /*
 |--------------------------------------------------------------------------
@@ -182,6 +184,11 @@ export type ContextTypeStudents = {
 export type ContextTypeDrafts = {
   drafts: Draft[]
   setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>
+}
+
+export type ContextTypeLessonPlanning = {
+  selectedForUpdating: Lesson | null
+  setSelectedForUpdating: React.Dispatch<React.SetStateAction<Lesson | null>>
 }
 
 export type ContextTypeLoading = {

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { TableProperties, User, Users } from 'lucide-react'
+import { User, Users } from 'lucide-react'
 import useCurrentHolder from './useCurrentHolder'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import useHasBanner from '@/hooks/useHasBanner'
+import { RepertoireNavButton } from '../repertoire/RepertoireNavButton.component'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -18,7 +19,6 @@ function LessonHeader() {
 
   if (!currentLessonHolder) return null
   const { holder, type } = currentLessonHolder
-  const isRepertoirePage = window.location.pathname.includes('repertoire')
 
   return (
     <header
@@ -92,32 +92,9 @@ function LessonHeader() {
             )}
           </div>
         </div>
-        <NavLink
-          className={cn(
-            'py-2 z-2 px-3 rounded-sm text-sm text-foreground relative flex items-center gap-1',
-            'hover:no-underline',
-            isRepertoirePage
-              ? 'bg-primary/10'
-              : 'bg-background50 hover:bg-background200/50',
-          )}
-          to='repertoire'
-        >
-          <TableProperties
-            strokeWidth={isRepertoirePage ? 1.5 : 1}
-            className={cn(
-              'size-5',
-              isRepertoirePage ? 'text-primary' : 'text-foreground',
-            )}
-          />
-          <span
-            className={cn(
-              'translate-y-[1px] text-sm ',
-              isRepertoirePage ? 'text-primary' : 'text-foreground',
-            )}
-          >
-            Repertoire
-          </span>
-        </NavLink>
+        <div className='flex gap-4'>
+          <RepertoireNavButton />
+        </div>
       </div>
     </header>
   )

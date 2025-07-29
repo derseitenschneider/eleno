@@ -38,10 +38,10 @@ test('can cancel and reactivate subscription', async ({ page }) => {
   await page.getByRole('button', { name: 'Abo wiederherstellen' }).click()
 
   await expect(async () => {
+    await page.reload()
     await expect(page.getByTestId('subscription-status-badge')).toContainText(
       'Aktiv',
     )
-    await page.reload()
   }).toPass({ timeout: 30_000 })
 
   // Close toast, check for reactivation Message and delete it.

@@ -108,6 +108,7 @@ export type Database = {
           homeworkKey: string
           id: number
           lessonContent: string | null
+          status: Database["public"]["Enums"]["lesson_status"]
           studentId: number | null
           user_id: string
         }
@@ -120,6 +121,7 @@ export type Database = {
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
+          status?: Database["public"]["Enums"]["lesson_status"]
           studentId?: number | null
           user_id?: string
         }
@@ -132,6 +134,7 @@ export type Database = {
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
+          status?: Database["public"]["Enums"]["lesson_status"]
           studentId?: number | null
           user_id?: string
         }
@@ -714,6 +717,14 @@ export type Database = {
       }
     }
     Functions: {
+      add_user_to_organization: {
+        Args: {
+          user_id_to_add: string
+          org_id: string
+          user_role: Database["public"]["Enums"]["organization_role"]
+        }
+        Returns: string
+      }
       convert_student_to_group: {
         Args: { p_student_id: number; p_group_data: Json }
         Returns: Json
@@ -730,6 +741,10 @@ export type Database = {
         Args: { user_id: string }
         Returns: string
       }
+      remove_user_from_organization: {
+        Args: { user_id_to_remove: string }
+        Returns: undefined
+      }
       send_bulk_eleno_messages: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -740,6 +755,7 @@ export type Database = {
       billing_interval: "month" | "year"
       currencies: "CHF" | "EUR"
       lesson_main_layout: "regular" | "reverse"
+      lesson_status: "documented" | "prepared"
       message_status: "sent" | "read" | "trash"
       notification_action_taken: "dismissed" | "completed" | "clicked"
       notification_action_type: "survey" | "link" | "dismiss_only" | "custom"
@@ -882,6 +898,7 @@ export const Constants = {
       billing_interval: ["month", "year"],
       currencies: ["CHF", "EUR"],
       lesson_main_layout: ["regular", "reverse"],
+      lesson_status: ["documented", "prepared"],
       message_status: ["sent", "read", "trash"],
       notification_action_taken: ["dismissed", "completed", "clicked"],
       notification_action_type: ["survey", "link", "dismiss_only", "custom"],

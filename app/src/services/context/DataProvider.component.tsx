@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 import useGroupsQuery from '../../components/features/groups/groupsQuery'
-import { useLatestLessons } from '../../components/features/lessons/lessonsQueries'
+import {
+  useLatestLessons,
+  usePlannedLessonsQuery,
+} from '../../components/features/lessons/lessonsQueries'
 import { useActiveNotesQuery } from '../../components/features/notes/notesQueries'
 import useStudentsQuery from '../../components/features/students/studentsQueries'
 import useTodosQuery from '../../components/features/todos/todosQuery'
@@ -22,6 +25,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingStudents } = useStudentsQuery()
   const { isLoading: isLoadingGroups } = useGroupsQuery()
   const { isLoading: isLoadingLatestLessons } = useLatestLessons()
+  const { isLoading: isLoadingPlannedLessons } = usePlannedLessonsQuery()
   const { isLoading: isLoadingTodos } = useTodosQuery()
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
   const { isLoading: isLoadingMessages } = useMessagesQuery()
@@ -35,6 +39,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingStudents ||
       isLoadingGroups ||
       isLoadingLatestLessons ||
+      isLoadingPlannedLessons ||
       isLoadingTodos ||
       isLoadingNotes ||
       isLoadingMessages ||
@@ -49,6 +54,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingStudents,
     isLoadingGroups,
     isLoadingLatestLessons,
+    isLoadingPlannedLessons,
     isLoadingTodos,
     isLoadingNotes,
     isLoadingMessages,

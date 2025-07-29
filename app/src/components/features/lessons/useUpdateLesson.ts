@@ -55,11 +55,22 @@ export function useUpdateLesson() {
         },
       )
 
+      queryClient.setQueryData(
+        ['prepared-lessons'],
+        (prev: Array<Lesson> | undefined) => {
+          const newPreparedLessons = prev?.map((oldLesson) =>
+            oldLesson.id === updatedLesson.id ? updatedLesson : oldLesson,
+          )
+          return newPreparedLessons?.filter(
+            (lesson) => lesson.status === 'prepared',
+          )
+        },
+      )
+
       return { allLessons, latestLessons, holder }
     },
 
     onSuccess: () => {
-      toast.success('Änderungen gespeichert.')
       queryClient.invalidateQueries({
         queryKey: ['latest-3-lessons'],
       })

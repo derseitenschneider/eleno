@@ -17,7 +17,7 @@ import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
 import EditLesson from './UpdateLesson.component'
 import { useLatestLessons } from './lessonsQueries'
-import ShareHomework from './ShareHomework.component'
+import ShareHomework from './homework/ShareHomework.component'
 
 type PreviousLessonDropDownProps = {
   lessonId: number
@@ -46,19 +46,19 @@ export default function PreviousLessonDropDown({
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-3 md:mr-0'>
           <DropdownMenuItem onClick={() => setModalOpen('EDIT')}>
-            <Pencil className='h-4 w-4 text-primary mr-2' />
+            <Pencil className='mr-2 h-4 w-4 text-primary' />
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className='hidden md:flex'
             onClick={() => setModalOpen('SHARE')}
           >
-            <MessageSquareShare className='size-4 text-primary mr-2' />
+            <MessageSquareShare className='mr-2 size-4 text-primary' />
             <span>Hausaufgaben teilen</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setModalOpen('DELETE')}>
-            <Trash2 className='h-4 w-4 text-warning mr-2' />
+            <Trash2 className='mr-2 h-4 w-4 text-warning' />
             <span>Lektion löschen</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
