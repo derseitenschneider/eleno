@@ -13,10 +13,8 @@ import UpdateStudents from '../../students/UpdateStudents.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
@@ -46,7 +44,7 @@ export default function AddStudents() {
               type='button'
               size='sm'
               onClick={() => setModalOpen('CREATE')}
-              className='ml-auto'
+              className='ml-auto w-full'
             >
               Schüler:innen erfassen
             </Button>
@@ -64,12 +62,17 @@ export default function AddStudents() {
               <Button
                 variant='outline'
                 size='sm'
+                className='hidden w-full sm:flex sm:w-auto'
                 onClick={() => setModalOpen('EDIT')}
               >
                 Schüler:innen bearbeiten
               </Button>
-              <Button size='sm' onClick={() => setModalOpen('CREATE')}>
-                Weitere erfassen
+              <Button
+                className='w-full sm:w-auto'
+                size='sm'
+                onClick={() => setModalOpen('CREATE')}
+              >
+                Mehr erfassen
               </Button>
             </div>
           </div>
@@ -77,24 +80,22 @@ export default function AddStudents() {
       </div>
 
       {isMobile ? (
-        <>
-          <Drawer
-            open={modalOpen === 'CREATE'}
-            onOpenChange={() => setModalOpen(null)}
-          >
-            <DrawerContent>
-              <DrawerHeader className='text-left'>
-                <DrawerTitle>Schüler:in erfassen</DrawerTitle>
-                <DrawerDescription className='hidden'>
-                  Erfasse eine:n neue:n Schüler:in
-                </DrawerDescription>
-              </DrawerHeader>
-              <ScrollArea>
-                <CreateStudents onSuccess={() => setModalOpen(null)} />
-              </ScrollArea>
-            </DrawerContent>
-          </Drawer>
-        </>
+        <Drawer
+          open={modalOpen === 'CREATE'}
+          onOpenChange={() => setModalOpen(null)}
+        >
+          <DrawerContent>
+            <DrawerHeader className='text-left'>
+              <DrawerTitle>Schüler:in erfassen</DrawerTitle>
+              <DrawerDescription className='hidden'>
+                Erfasse eine:n neue:n Schüler:in
+              </DrawerDescription>
+            </DrawerHeader>
+            <ScrollArea>
+              <CreateStudents onSuccess={() => setModalOpen(null)} />
+            </ScrollArea>
+          </DrawerContent>
+        </Drawer>
       ) : (
         <>
           <Dialog

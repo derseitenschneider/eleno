@@ -56,10 +56,10 @@ export default function FirstStepsWizzard() {
     },
   ]
   return (
-    <div className='mx-auto flex flex-col'>
+    <div className='mx-auto flex w-full flex-col sm:items-center'>
       <StepperProgress steps={steps} currentStep={currentStep} />
       <div className='flex flex-1 flex-col justify-center'>
-        <div className='rounded-lg border border-hairline bg-card p-6 text-card-foreground shadow-sm sm:w-[550px]'>
+        <div className='w-full rounded-lg border border-hairline bg-card p-6 text-card-foreground shadow-sm sm:w-[550px]'>
           {steps[currentStep]?.component}
         </div>
 

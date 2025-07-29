@@ -59,7 +59,7 @@ const StepIcon = ({ icon, label, isCompleted, isActive }: StepIconProps) => {
     >
       <motion.div
         className={cn(
-          'size-8 rounded-full flex items-center justify-center',
+          'sm:size-8 size-12 rounded-full flex items-center justify-center',
           isCompleted ? 'bg-primary' : 'ring-1 ring-hairline',
           isActive && 'ring-1 ring-primary',
         )}
@@ -69,11 +69,11 @@ const StepIcon = ({ icon, label, isCompleted, isActive }: StepIconProps) => {
         }}
       >
         {isCompleted ? (
-          <div className='size-5 text-white'>{icon}</div>
+          <div className='size-7 text-white sm:size-5'>{icon}</div>
         ) : isActive ? (
-          <div className='size-5 text-primary'>{icon}</div>
+          <div className='size-7 text-primary sm:size-5'>{icon}</div>
         ) : (
-          <div className='size-5 text-foreground/50'>{icon}</div>
+          <div className='size-7 text-foreground/50 sm:size-5'>{icon}</div>
         )}
       </motion.div>
       <span

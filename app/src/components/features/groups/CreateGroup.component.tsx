@@ -29,6 +29,7 @@ import { useCallback } from 'react'
 import { DialogDescription } from '@/components/ui/dialog'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Blocker } from '../subscription/Blocker'
+import { Separator } from '@/components/ui/separator'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -135,10 +136,8 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
   }
 
   return (
-    <div className='w-[85vw]'>
-      <DialogDescription className='hidden'>
-        Erstelle eine neue Gruppe
-      </DialogDescription>
+    <div className=' p-4 pb-10 sm:w-[85vw] sm:p-0'>
+      {' '}
       <div className={cn(grid, 'hidden lg:grid')}>
         <span className='pl-3 text-sm text-foreground/80'>Gruppenname*</span>
         <span className='pl-3 text-sm text-foreground/80'>Tag</span>
@@ -156,7 +155,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-12 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Gruppenname*
                   </Label>
@@ -178,7 +177,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='dayOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-12 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Tag
                   </Label>
@@ -209,7 +208,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               control={form.control}
               name='startOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-3 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-3 space-y-0 sm:col-span-3 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Von
                   </Label>
@@ -227,11 +226,12 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 </FormItem>
               )}
             />
+            <div className='col-span-1 sm:hidden' />
             <FormField
               control={form.control}
               name='endOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-3 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-3 space-y-0 sm:col-span-3 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Bis
                   </Label>
@@ -249,11 +249,12 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                 </FormItem>
               )}
             />
+            <div className='col-span-1 sm:hidden' />
             <FormField
               control={form.control}
               name='durationMinutes'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-4 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Dauer
                   </Label>
@@ -308,7 +309,10 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
             </div>
             <div className='grid grid-cols-5 gap-3'>
               {fields.map((field, index) => (
-                <div key={field.id} className='relative'>
+                <div
+                  key={field.id}
+                  className='relative col-span-5 sm:col-span-1'
+                >
                   <FormField
                     control={form.control}
                     name={`students.${index}.name`}
@@ -334,19 +338,21 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               ))}
               <Button
                 onClick={() => append({ name: '' })}
-                type='button'
                 size='sm'
-                className='ml-3 w-fit self-center'
+                variant='outline'
+                className='col-span-5 self-center sm:w-fit'
               >
-                <Plus className='mr-1 size-4' />
+                <Plus className='size-4 sm:mr-1' />
                 Mehr
               </Button>
             </div>
           </div>
 
-          <div className='mt-4 flex items-center justify-end'>
-            <div className='flex items-center gap-4'>
+          <Separator className='my-6 sm:hidden' />
+          <div className='flex items-center justify-stretch sm:mt-4 sm:justify-end'>
+            <div className='flex w-full flex-col-reverse items-center gap-4 sm:w-auto sm:flex-row'>
               <Button
+                className='w-full sm:w-auto'
                 disabled={isCreating}
                 size='sm'
                 variant='outline'
@@ -355,8 +361,9 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               >
                 Abbrechen
               </Button>
-              <div className='flex items-center gap-2'>
+              <div className='flex w-full items-center gap-2 sm:w-auto'>
                 <Button
+                  className='w-full sm:w-auto'
                   disabled={isCreating || !hasAccess}
                   size='sm'
                   type='submit'

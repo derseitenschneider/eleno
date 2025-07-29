@@ -147,7 +147,12 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   )
 
   return (
-    <div className={cn(!hasAccess && 'h-[200px]', 'p-4 relative md:w-[90vw]')}>
+    <div
+      className={cn(
+        !hasAccess && 'h-[200px]',
+        'p-4 pb-10 sm:p-0 relative md:w-[90vw]',
+      )}
+    >
       <div className={cn(grid, 'hidden lg:grid ')}>
         <span />
         <span className='pl-3 text-sm text-foreground/80'>Vorname*</span>
