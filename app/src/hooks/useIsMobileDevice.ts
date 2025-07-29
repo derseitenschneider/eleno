@@ -7,7 +7,7 @@ const useIsMobileDevice = (): boolean => {
 
   useEffect(() => {
     const checkMobile = (): void => {
-      const mobile = window.innerWidth <= 768 || window.innerHeight <= 768
+      const mobile = window.innerWidth < 768 || window.innerHeight < 768
       setIsMobile(mobile)
     }
 

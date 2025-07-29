@@ -11,6 +11,7 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export function ButtonPlanningModal() {
   const [modalOpen, setModalOpen] = useState<'PLAN' | null>(null)
@@ -41,7 +42,7 @@ export function ButtonPlanningModal() {
         Lektionsplanung
       </Button>
       <DrawerOrDialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
-        <DrawerOrDialogContent className='sm:!overflow-scroll md:max-h-[80vh] lg:overflow-hidden'>
+        <DrawerOrDialogContent className='md:max-h-[80vh] lg:overflow-hidden'>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>
               Lektionen für {holderName} planen

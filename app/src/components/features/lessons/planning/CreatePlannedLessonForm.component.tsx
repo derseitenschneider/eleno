@@ -16,7 +16,7 @@ import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import { useUpdateLesson } from '../useUpdateLesson'
 import { toast } from 'sonner'
 import Empty from '@/components/ui/Empty.component'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export type CreatePlannedLessonFormProps = {
   onClose?: () => void
@@ -162,7 +162,7 @@ export function CreatePlannedLessonForm({
 
   if (!currentLessonHolder || !settings) return null
   return (
-    <div className='gap-4 lg:grid lg:grid-cols-2'>
+    <div className='h-full gap-4 overflow-auto lg:grid lg:grid-cols-2'>
       <div className='mb-5'>
         <div className='mb-3 flex  items-center gap-2'>
           <p>Datum</p>
@@ -214,10 +214,9 @@ export function CreatePlannedLessonForm({
         <p className='font-medium'>Geplante Lektionen</p>
         {currentHolderPlannedLessons &&
         currentHolderPlannedLessons.length > 0 ? (
-          <Card className='lg:h-[578px] lg:overflow-hidden'>
+          <Card className='max-h-full lg:h-[538px] lg:overflow-hidden'>
             <CardContent className='h-full p-4 lg:overflow-hidden'>
               <ScrollArea className='h-full'>
-                <ScrollBar orientation='vertical' />
                 <div className='flex flex-col gap-4'>
                   {currentHolderPlannedLessons?.map((lesson) => (
                     <PreparedLessonItem
