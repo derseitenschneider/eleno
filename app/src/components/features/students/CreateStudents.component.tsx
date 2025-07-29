@@ -147,7 +147,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
   )
 
   return (
-    <div className={cn(!hasAccess && 'h-[200px]', 'relative md:w-[90vw]')}>
+    <div className={cn(!hasAccess && 'h-[200px]', 'p-4 relative md:w-[90vw]')}>
       <div className={cn(grid, 'hidden lg:grid ')}>
         <span />
         <span className='pl-3 text-sm text-foreground/80'>Vorname*</span>
@@ -165,7 +165,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <ScrollArea
               type='scroll'
-              className='flex max-h-[75vh] flex-col !overflow-hidden rounded-lg border border-hairline md:px-2 lg:rounded-none lg:border-none lg:p-0'
+              className='flex flex-col !overflow-hidden rounded-lg md:border md:border-hairline md:px-2 lg:rounded-none lg:border-none lg:p-0'
             >
               {memoizedStudentRows}
             </ScrollArea>
@@ -190,8 +190,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   <span>Mehr</span>
                 </Button>
               </div>
-              <div className='flex items-center gap-4'>
+              <div className='flex flex-col-reverse items-center gap-2 sm:flex-row'>
                 <Button
+                  className='w-full'
                   disabled={isCreating}
                   size='sm'
                   variant='outline'
@@ -200,8 +201,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                 >
                   Abbrechen
                 </Button>
-                <div className='flex items-center gap-2'>
+                <div className='flex w-full items-center justify-stretch gap-2'>
                   <Button
+                    className='w-full'
                     disabled={isCreating || !hasAccess}
                     size='sm'
                     type='submit'
