@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
 import DataProvider from './services/context/DataProvider.component'
-import Sidebar from './layouts/sidebar/Sidebar.component'
 
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 import { DarkModeProvider } from './services/context/DarkModeContext'
@@ -17,10 +16,27 @@ import { SubscriptionProvider } from './services/context/SubscriptionContext'
 import Banner from './components/ui/Banner.component'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
 import { useOAuthTracker } from './hooks/useOAuthTracker'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from './components/ui/sidebar'
+import { AppHeader } from './layouts/AppHeader'
+import { AppSidebar } from './layouts/sidebar/AppSidebar.component'
 
 export default function Application() {
   useOAuthTracker()
   const isOnline = useIsOnline()
+
+  // return (
+  //   <SidebarProvider defaultOpen={false}>
+  //     <AppSidebar />
+  //     <main className='flex-1'>
+  //       <SidebarTrigger />
+  //       <div>app</div>
+  //     </main>
+  //   </SidebarProvider>
+  // )
   return (
     <div
       className={cn(
@@ -36,10 +52,14 @@ export default function Application() {
                 <MainContext>
                   <DarkModeProvider>
                     <Banner />
-                    <div className='md:ml-[50px]'>
-                      <Outlet />
-                    </div>
-                    <Sidebar />
+                    <SidebarProvider defaultOpen={false}>
+                      <AppSidebar />
+                      <main className='flex-1'>
+                        <AppHeader />
+                        <Outlet />
+                      </main>
+                      {/* <Sidebar /> */}
+                    </SidebarProvider>
                     <NavbarMobile />
                     <NotificationManager />
                   </DarkModeProvider>

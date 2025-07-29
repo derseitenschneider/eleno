@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavbarMobile from '@/layouts/navbarMobile/NavbarMobile.component'
-import Sidebar from '../layouts/sidebar/Sidebar.component'
+import Sidebar from '../layouts/sidebar/Sidebar2.component'
 
 export default function ErrorPage() {
   const [countdown, setCountdown] = useState(5)
@@ -25,9 +25,9 @@ export default function ErrorPage() {
     <>
       <Sidebar />
       <NavbarMobile />
-      <div className='mt-[20%] h-full w-full grid content-center text-center'>
-        <h1 className='font-bold mb-4'>Oops! Etwas ist schiefgelaufen</h1>
-        <p className='sm:text-lg mb-6'>
+      <div className='mt-[20%] grid h-full w-full content-center text-center'>
+        <h1 className='mb-4 font-bold'>Oops! Etwas ist schiefgelaufen</h1>
+        <p className='mb-6 sm:text-lg'>
           Keine Panik! Wir arbeiten daran. In {countdown} Sekunden geht's zurück
           zum Dashboard.
         </p>

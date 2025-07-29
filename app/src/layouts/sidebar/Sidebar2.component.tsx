@@ -27,7 +27,7 @@ import { useMessageNotification } from '@/hooks/useMessageNotification'
 import { useLoading } from '@/services/context/LoadingContext'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 
-function Sidebar() {
+function SidebarOld() {
   const isPaymentFlagEnabled = useFeatureFlag('stripe-payment')
   const { isLoading } = useLoading()
   const hasBanner = useHasBanner()
@@ -212,4 +212,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export default SidebarOld

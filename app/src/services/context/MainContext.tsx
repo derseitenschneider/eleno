@@ -5,6 +5,7 @@ import useProfileQuery from '@/components/features/user/profileQuery'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from './UserContext'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 interface MainContextProps {
   children: React.ReactNode
