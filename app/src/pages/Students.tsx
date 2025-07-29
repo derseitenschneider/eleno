@@ -18,9 +18,6 @@ export default function Students() {
     <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <ScrollBar orientation='vertical' />
       <div className='px-3 py-4 pb-4 sm:px-0 sm:py-4 sm:*:px-4 sm:*:pl-6 sm:*:pr-4'>
-        <header>
-          <h1 className='heading-1'>Schüler:innen & Gruppen</h1>
-        </header>
         <Navbar navLinks={navLinks} />
         <Outlet />
       </div>

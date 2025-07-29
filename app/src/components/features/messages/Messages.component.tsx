@@ -9,13 +9,9 @@ export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
 
   return (
-    <div className='h-full rounded-lg border border-hairline flex '>
+    <div className='flex h-full rounded-lg border border-hairline '>
       <TooltipProvider delayDuration={0}>
-        <div className='basis-[500px] flex-grow-0 flex flex-col flex-1'>
-          <div className='flex items-center px-4 h-14 shrink-0'>
-            <p className='text-xl font-bold'>Nachrichten</p>
-          </div>
-          <Separator />
+        <div className='flex flex-1 flex-grow-0 basis-[500px] flex-col'>
           <div className='mt-4 flex-grow overflow-y-auto'>
             {messages && messages.length !== 0 ? (
               <MessageList messages={messages} />
@@ -27,7 +23,7 @@ export default function Messages() {
           </div>
         </div>
         <Separator orientation='vertical' />
-        <div className='flex-grow h-full'>
+        <div className='h-full flex-grow'>
           {messages && messages.length !== 0 && (
             <MessageDisplay messages={messages} />
           )}

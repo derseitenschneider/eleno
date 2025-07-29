@@ -28,7 +28,6 @@ function Settings() {
   if (isLoading) return <p>...loading</p>
   return (
     <div className='pb-20 sm:pb-[unset]'>
-      <h1 className='heading-1'>Einstellungen</h1>
       <Navbar navLinks={filteredNavlinks} />
       <Outlet />
     </div>
