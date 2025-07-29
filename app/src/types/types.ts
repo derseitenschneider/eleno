@@ -106,7 +106,7 @@ export type LessonHolder =
 */
 
 export type Profile = DBTypes['profiles']
-export type UserMeta = { firstName: string; lastName: string }
+export type UserMeta = { firstName: string; lastName: string; picture?: string }
 export type User = {
   id: string
   email: string

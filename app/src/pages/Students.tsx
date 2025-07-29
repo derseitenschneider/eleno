@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
 
 const navLinks = [
   { path: '', label: 'Schüler:innen', key: 1, end: true },
@@ -13,17 +12,12 @@ const navLinks = [
 ]
 export default function Students() {
   const { isLoading } = useLoading()
-  const hasBanner = useHasBanner()
 
   if (isLoading) return <StudentsSkeleton />
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-32px)]' : 'md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <ScrollBar orientation='vertical' />
-      <div className='px-3 sm:px-0 py-4 sm:*:px-4 sm:*:pr-4 sm:*:pl-6 pb-4 sm:py-4'>
+      <div className='px-3 py-4 pb-4 sm:px-0 sm:py-4 sm:*:px-4 sm:*:pl-6 sm:*:pr-4'>
         <header>
           <h1 className='heading-1'>Schüler:innen & Gruppen</h1>
         </header>

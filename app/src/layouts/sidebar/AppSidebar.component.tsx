@@ -2,10 +2,12 @@ import {
   BookOpen,
   CalendarDays,
   CheckSquare2,
+  ChevronsUpDown,
   GaugeCircle,
   GraduationCap,
   Inbox,
   LogOut,
+  Settings,
   Settings2,
   Users,
 } from 'lucide-react'
@@ -15,11 +17,14 @@ import useTodosQuery from '@/components/features/todos/todosQuery'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import Logo from '@/components/ui/Logo.component' // Assuming this path is correct
 import useFeatureFlag from '@/hooks/useFeatureFlag'
@@ -29,23 +34,48 @@ import { useUser } from '@/services/context/UserContext'
 import { cn } from '@/lib/utils'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import { useMessageNotification } from '@/hooks/useMessageNotification'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { UserInfo } from '@/components/ui/UserInfo.component'
 
-// A small helper component for the notification badges
 const NavBadge = ({ count, color }: { count?: number; color?: string }) => {
+  const { open } = useSidebar()
   if (!count || count === 0) return null
+  if (open)
+    return (
+      <div
+        className={cn(
+          'right-3 top-0 translate-y-[50%] min-w-[20px]',
+          'absolute flex h-5 items-center justify-center rounded-full px-1.5 text-xs font-medium text-destructive-foreground',
+          color || 'bg-destructive',
+        )}
+      >
+        {count}
+      </div>
+    )
+
   return (
     <div
       className={cn(
-        'absolute right-3 top-1/2 -translate-y-1/2 flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-medium text-destructive-foreground',
+        'right-[8px] bottom-[12px] translate-y-[50%] size-[10px]',
+        'absolute rounded-full',
         color || 'bg-destructive',
       )}
-    >
-      {count}
-    </div>
+    />
   )
 }
 
 export function AppSidebar() {
+  const { state } = useSidebar()
+  const isMobile = useIsMobileDevice()
   const { user, logout } = useUser()
   const { isLoading } = useLoading()
   const { pathname } = useLocation()
@@ -74,12 +104,19 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible='icon' variant='sidebar' className='hidden md:flex'>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link to='/'>
+                <Logo />
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+
       <SidebarContent className='flex flex-col'>
-        <div className='mb-4 flex h-9 items-center justify-center p-2'>
-          <Link to='/'>
-            <Logo />
-          </Link>
-        </div>
         <SidebarGroup>
           <SidebarGroupContent>
             {/* Dashboard */}
@@ -87,8 +124,7 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={isHome}>
                   <Link to='/'>
-                    <GaugeCircle
-                      strokeWidth={isHome ? 1.75 : 1.25} />
+                    <GaugeCircle strokeWidth={isHome ? 1.75 : 1.25} />
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
@@ -121,9 +157,7 @@ export function AppSidebar() {
                   }
                 >
                   <Link to='/students'>
-                    <Users
-                      strokeWidth={isActive('/students') ? 1.75 : 1.25}
-                    />
+                    <Users strokeWidth={isActive('/students') ? 1.75 : 1.25} />
                     <span>Schüler:innen</span>
                   </Link>
                 </SidebarMenuButton>
@@ -142,8 +176,10 @@ export function AppSidebar() {
                     <CheckSquare2
                       strokeWidth={isActive('/todos') ? 1.75 : 1.25}
                     />
-                    <span>Todos</span>
-                    <NavBadge count={overdueTodosCount} />
+                    <span>
+                      Todos
+                      <NavBadge count={overdueTodosCount} />
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -164,79 +200,105 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        {/* Bottom Group */}
-        <div className='mt-auto'>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              {/* Nachrichten */}
-              {isPaymentFeatureEnabled && (
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActive('/inbox')}
-                      className='relative'
+      </SidebarContent>
+      {/* Bottom Group */}
+      <SidebarFooter>
+        {/* Nachrichten */}
+        {isPaymentFeatureEnabled && (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive('/inbox')}
+                className='relative'
+              >
+                <Link to='/inbox'>
+                  <Inbox strokeWidth={isActive('/inbox') ? 1.75 : 1.25} />
+                  <span>Nachrichten</span>
+                  <NavBadge count={unreadMessages?.length} color='bg-primary' />
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        )}
+        {/* Anleitung */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a
+                href='https://manual.eleno.net'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <BookOpen strokeWidth={1.25} />
+                <span>Anleitung</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        {/* Logout */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <SidebarMenuButton
+                asChild
+                size='lg'
+                className='text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent group'
+              >
+                <DropdownMenuTrigger>
+                  <UserInfo user={user} />
+                  <ChevronsUpDown className='ml-auto size-3' />
+                </DropdownMenuTrigger>
+              </SidebarMenuButton>
+              <DropdownMenuContent
+                className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
+                align='end'
+                side={
+                  isMobile
+                    ? 'bottom'
+                    : state === 'collapsed'
+                      ? 'left'
+                      : 'bottom'
+                }
+              >
+                <DropdownMenuLabel className='p-0 font-normal'>
+                  <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+                    <UserInfo user={user} showEmail={true} />
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      className='block w-full text-foreground !no-underline'
+                      to='/settings'
                     >
-                      <Link to='/inbox'>
-                        <Inbox
-                          strokeWidth={isActive('/inbox') ? 1.75 : 1.25}
-                        />
-                        <span>Nachrichten</span>
-                        <NavBadge
-                          count={unreadMessages?.length}
-                          color='bg-primary'
-                        />
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              )}
-              {/* Einstellungen */}
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive('/settings')}
-                    data-testId='sidebar-nav-settings'
-                  >
-                    <Link to='/settings'>
                       <Settings2
+                        className='mr-2 !size-5'
                         strokeWidth={isActive('/settings') ? 1.75 : 1.25}
                       />
-                      <span>Einstellungen</span>
+                      Einstellungen
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-              {/* Anleitung */}
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <a
-                      href='https://manual.eleno.net'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      <BookOpen strokeWidth={1.25} />
-                      <span>Anleitung</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-              {/* Logout */}
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton onClick={() => logout()}>
-                    <LogOut strokeWidth={1.25} />
-                    <span>Log out</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </div>
-      </SidebarContent>
-    </Sidebar >
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link
+                    className='block w-full'
+                  // method='post'
+                  // href={route('logout')}
+                  // as='button'
+                  // onClick={handleLogout}
+                  >
+                    <LogOut className='mr-2' />
+                    Log out
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
   )
 }
