@@ -339,6 +339,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
               <Button
                 onClick={() => append({ name: '' })}
                 size='sm'
+                type='button'
                 variant='outline'
                 className='col-span-5 self-center sm:w-fit'
               >
