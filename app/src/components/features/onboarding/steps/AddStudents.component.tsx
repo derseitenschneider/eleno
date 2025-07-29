@@ -19,6 +19,13 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
@@ -79,59 +86,73 @@ export default function AddStudents() {
         )}
       </div>
 
-      {isMobile ? (
-        <Drawer
-          open={modalOpen === 'CREATE'}
-          onOpenChange={() => setModalOpen(null)}
-        >
-          <DrawerContent>
-            <DrawerHeader className='text-left'>
-              <DrawerTitle>Schüler:in erfassen</DrawerTitle>
-              <DrawerDescription className='hidden'>
-                Erfasse eine:n neue:n Schüler:in
-              </DrawerDescription>
-            </DrawerHeader>
-            <ScrollArea>
-              <CreateStudents onSuccess={() => setModalOpen(null)} />
-            </ScrollArea>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <>
-          <Dialog
-            open={modalOpen === 'CREATE'}
-            onOpenChange={() => setModalOpen(null)}
-          >
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Schüler:innen erfassen</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className='hidden'>
-                Erfasse neue Schüler:innen
-              </DialogDescription>
-              <CreateStudents onSuccess={() => setModalOpen(null)} />
-            </DialogContent>
-          </Dialog>
-
-          <Dialog
-            open={modalOpen === 'EDIT'}
-            onOpenChange={() => setModalOpen(null)}
-          >
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className='hidden'>
-                Bearbeite bestehende Schüler:innen
-              </DialogDescription>
-              <UpdateStudents
-                studentIds={students.map((student) => student.holder.id)}
-                onSuccess={() => setModalOpen(null)}
-              />
-            </DialogContent>
-          </Dialog>
-        </>
-      )}
+      {/* {isMobile ? ( */}
+      {/*   <Drawer */}
+      {/*     open={modalOpen === 'CREATE'} */}
+      {/*     onOpenChange={() => setModalOpen(null)} */}
+      {/*   > */}
+      {/*     <DrawerContent> */}
+      {/*       <DrawerHeader className='text-left'> */}
+      {/*         <DrawerTitle>Schüler:in erfassen</DrawerTitle> */}
+      {/*         <DrawerDescription className='hidden'> */}
+      {/*           Erfasse eine:n neue:n Schüler:in */}
+      {/*         </DrawerDescription> */}
+      {/*       </DrawerHeader> */}
+      {/*       <ScrollArea> */}
+      {/*         <CreateStudents onSuccess={() => setModalOpen(null)} /> */}
+      {/*       </ScrollArea> */}
+      {/*     </DrawerContent> */}
+      {/*   </Drawer> */}
+      {/* ) : ( */}
+      {/*   <> */}
+      {/*     <Dialog */}
+      {/*       open={modalOpen === 'CREATE'} */}
+      {/*       onOpenChange={() => setModalOpen(null)} */}
+      {/*     > */}
+      {/*       <DialogContent> */}
+      {/*         <DialogHeader> */}
+      {/*           <DialogTitle>Schüler:innen erfassen</DialogTitle> */}
+      {/*         </DialogHeader> */}
+      {/*         <DialogDescription className='hidden'> */}
+      {/*           Erfasse neue Schüler:innen */}
+      {/*         </DialogDescription> */}
+      {/*         <CreateStudents onSuccess={() => setModalOpen(null)} /> */}
+      {/*       </DialogContent> */}
+      {/*     </Dialog> */}
+      {/**/}
+      <DrawerOrDialog
+        open={modalOpen === 'CREATE'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Schüler:in erfassen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
+            Erfasse neue Schüler:innen
+          </DrawerOrDialogDescription>
+          <CreateStudents onSuccess={() => setModalOpen(null)} />
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
+      <Dialog
+        open={modalOpen === 'EDIT'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Schüler:innen bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite bestehende Schüler:innen
+          </DialogDescription>
+          <UpdateStudents
+            studentIds={students.map((student) => student.holder.id)}
+            onSuccess={() => setModalOpen(null)}
+          />
+        </DialogContent>
+      </Dialog>
+      {/*   </> */}
+      {/* )} */}
     </>
   )
 }
