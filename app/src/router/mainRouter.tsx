@@ -25,15 +25,8 @@ import ProfileCard from '@/components/features/onboarding/ProfileCard.component'
 import PasswordCard from '@/components/features/onboarding/PasswordCard.component'
 
 const TodosWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner
-          ? 'mt-[49px] md:mt-[28px] md:h-[calc(100vh-28px)]'
-          : 'pb-20 sm:pb-[unset] md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)] ')}>
       <div className='container-page'>
         <Todos />
       </div>
@@ -42,13 +35,8 @@ const TodosWrapper = () => {
 }
 
 const TimetableWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <div className='py-4 pl-6 pr-4'>
         <Timetable />
       </div>
@@ -57,15 +45,8 @@ const TimetableWrapper = () => {
 }
 
 const SettingsWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner
-          ? 'mt-[49px] sm:mt-[32px] md:h-[calc(100vh-28px)]'
-          : 'md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <div className='container-page'>
         <Settings />
       </div>
@@ -73,14 +54,8 @@ const SettingsWrapper = () => {
   )
 }
 const InboxWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <div
-      className={cn(
-        'container-page h-full',
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
-      )}
-    >
+    <div className={cn('container-page h-full md:h-[calc(100vh-48px)]')}>
       <Inbox />
     </div>
   )

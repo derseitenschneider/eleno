@@ -19,10 +19,7 @@ function Dashboard() {
   return (
     <div
       className={cn(
-        !hasBanner
-          ? 'md:h-screen'
-          : 'mt-[49px] md:mt-[24px] md:h-[calc(100vh-32px)]',
-        'md:min-h-[700px] min-[900px]:grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto]',
+        'md:h-[calc(100vh-48px)] md:min-h-[700px] min-[900px]:grid grid-cols-[3fr_minmax(350px,_1fr)] grid-rows-[auto_auto_1fr_auto]',
       )}
     >
       <HeaderDashboard />

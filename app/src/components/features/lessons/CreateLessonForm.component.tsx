@@ -225,7 +225,7 @@ export function CreateLessonForm() {
       </div>
       <div className='flex justify-between gap-1'>
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-        <div className='ml-auto mt-4  flex w-full items-center gap-1 sm:w-auto lg:mb-8'>
+        <div className='ml-auto mt-4  flex w-full items-center gap-1 sm:w-auto lg:mb-4'>
           <Button
             disabled={isDisabledSave}
             size='sm'

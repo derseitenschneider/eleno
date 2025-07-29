@@ -52,7 +52,7 @@
     --background-100: 0 0% 98%;
     --background-200: 240 5% 90%;
 
-    --background-sidebar: 240 5% 96%;
+    --background-sidebar: 0 0% 98%;
 
     --clr-warning: 0 49.8% 51.6%;
     --foreground: 240 5% 26%;
@@ -66,8 +66,10 @@
     --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 195 42% 48%;
+    --sidebar-primary: 195 42% 48%;
     --primary-hover: 195 42% 43%;
     --primary-foreground: 30 100% 100%;
+    --sidebar-primary-foreground: 30 100% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;

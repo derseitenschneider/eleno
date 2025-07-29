@@ -85,9 +85,10 @@ export function AppSidebar() {
             {/* Dashboard */}
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild active={isHome}>
+                <SidebarMenuButton asChild isActive={isHome}>
                   <Link to='/'>
-                    <GaugeCircle strokeWidth={isHome ? 1.75 : 1.25} />
+                    <GaugeCircle
+                      strokeWidth={isHome ? 1.75 : 1.25} />
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
@@ -99,9 +100,9 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={navigateToCurrentHolder}
-                  disabled={isLoading}
-                  active={isActive('/lessons')}
-                  testId='lesson-nav-sidebar'
+                  disabled={isLoading || undefined}
+                  isActive={isActive('/lessons')}
+                  data-testId='lesson-nav-sidebar'
                 >
                   <GraduationCap
                     strokeWidth={isActive('/lessons') ? 1.75 : 1.25}
@@ -115,7 +116,7 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  active={
+                  isActive={
                     isActive('/students') && !pathname.includes('no-students')
                   }
                 >
@@ -134,7 +135,7 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  active={isActive('/todos')}
+                  isActive={isActive('/todos')}
                   className='relative'
                 >
                   <Link to='/todos'>
@@ -151,7 +152,7 @@ export function AppSidebar() {
             {/* Stundenplan */}
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild active={isActive('/timetable')}>
+                <SidebarMenuButton asChild isActive={isActive('/timetable')}>
                   <Link to='/timetable'>
                     <CalendarDays
                       strokeWidth={isActive('/timetable') ? 1.75 : 1.25}
@@ -174,7 +175,7 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
-                      active={isActive('/inbox')}
+                      isActive={isActive('/inbox')}
                       className='relative'
                     >
                       <Link to='/inbox'>
@@ -196,8 +197,8 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    active={isActive('/settings')}
-                    testId='sidebar-nav-settings'
+                    isActive={isActive('/settings')}
+                    data-testId='sidebar-nav-settings'
                   >
                     <Link to='/settings'>
                       <Settings2
@@ -236,6 +237,6 @@ export function AppSidebar() {
           </SidebarGroup>
         </div>
       </SidebarContent>
-    </Sidebar>
+    </Sidebar >
   )
 }
