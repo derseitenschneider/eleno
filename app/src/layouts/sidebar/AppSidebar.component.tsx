@@ -22,6 +22,7 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
@@ -48,18 +49,19 @@ import { UserInfo } from '@/components/ui/UserInfo.component'
 
 const NavBadge = ({ count, color }: { count?: number; color?: string }) => {
   const { open } = useSidebar()
+  const isMobile = useIsMobileDevice()
   if (!count || count === 0) return null
-  if (open)
+  if (open || isMobile)
     return (
-      <div
+      <SidebarMenuBadge
         className={cn(
-          'right-3 top-0 translate-y-[50%] min-w-[20px]',
-          'absolute flex h-5 items-center justify-center rounded-full px-1.5 text-xs font-medium text-destructive-foreground',
+          '!top-[50%] translate-y-[-50%]',
+          'rounded-full text-xs font-medium text-destructive-foreground',
           color || 'bg-destructive',
         )}
       >
         {count}
-      </div>
+      </SidebarMenuBadge>
     )
 
   return (
@@ -74,7 +76,7 @@ const NavBadge = ({ count, color }: { count?: number; color?: string }) => {
 }
 
 export function AppSidebar() {
-  const { state } = useSidebar()
+  const { state, setOpenMobile } = useSidebar()
   const isMobile = useIsMobileDevice()
   const { user, logout } = useUser()
   const { isLoading } = useLoading()
@@ -99,6 +101,11 @@ export function AppSidebar() {
     return null
   }
 
+  function closeWhenMobile() {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
   const isActive = (path: string) => pathname.includes(path)
   const isHome = pathname === '/'
 
@@ -107,7 +114,7 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton onClick={closeWhenMobile} asChild>
               <Link to='/'>
                 <Logo />
               </Link>
@@ -122,7 +129,11 @@ export function AppSidebar() {
             {/* Dashboard */}
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={isHome}>
+                <SidebarMenuButton
+                  onClick={closeWhenMobile}
+                  asChild
+                  isActive={isHome}
+                >
                   <Link to='/'>
                     <GaugeCircle strokeWidth={isHome ? 1.75 : 1.25} />
                     <span>Dashboard</span>
@@ -135,10 +146,13 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  onClick={navigateToCurrentHolder}
+                  onClick={() => {
+                    navigateToCurrentHolder()
+                    closeWhenMobile()
+                  }}
                   disabled={isLoading || undefined}
                   isActive={isActive('/lessons')}
-                  data-testId='lesson-nav-sidebar'
+                  data-testid='lesson-nav-sidebar'
                 >
                   <GraduationCap
                     strokeWidth={isActive('/lessons') ? 1.75 : 1.25}
@@ -151,6 +165,7 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  onClick={closeWhenMobile}
                   asChild
                   isActive={
                     isActive('/students') && !pathname.includes('no-students')
@@ -169,6 +184,7 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
+                  onClick={closeWhenMobile}
                   isActive={isActive('/todos')}
                   className='relative'
                 >
@@ -176,19 +192,21 @@ export function AppSidebar() {
                     <CheckSquare2
                       strokeWidth={isActive('/todos') ? 1.75 : 1.25}
                     />
-                    <span>
-                      Todos
-                      <NavBadge count={overdueTodosCount} />
-                    </span>
+                    <span>Todos</span>
                   </Link>
                 </SidebarMenuButton>
+                <NavBadge count={overdueTodosCount} />
               </SidebarMenuItem>
             </SidebarMenu>
 
             {/* Stundenplan */}
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={isActive('/timetable')}>
+                <SidebarMenuButton
+                  onClick={closeWhenMobile}
+                  asChild
+                  isActive={isActive('/timetable')}
+                >
                   <Link to='/timetable'>
                     <CalendarDays
                       strokeWidth={isActive('/timetable') ? 1.75 : 1.25}
@@ -208,6 +226,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
+                onClick={closeWhenMobile}
                 asChild
                 isActive={isActive('/inbox')}
                 className='relative'
@@ -251,7 +270,7 @@ export function AppSidebar() {
                 </DropdownMenuTrigger>
               </SidebarMenuButton>
               <DropdownMenuContent
-                className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
+                className='w-[var(--radix-popper-anchor-width)] min-w-56 rounded-lg'
                 align='end'
                 side={
                   isMobile
@@ -272,27 +291,17 @@ export function AppSidebar() {
                     <Link
                       className='block w-full text-foreground !no-underline'
                       to='/settings'
+                      onClick={closeWhenMobile}
                     >
-                      <Settings2
-                        className='mr-2 !size-5'
-                        strokeWidth={isActive('/settings') ? 1.75 : 1.25}
-                      />
+                      <Settings2 className='mr-2 !size-5' strokeWidth={1.25} />
                       Einstellungen
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link
-                    className='block w-full'
-                  // method='post'
-                  // href={route('logout')}
-                  // as='button'
-                  // onClick={handleLogout}
-                  >
-                    <LogOut className='mr-2' />
-                    Log out
-                  </Link>
+                <DropdownMenuItem onClick={logout} className='text-foreground'>
+                  <LogOut className='mr-2 !size-5' strokeWidth={1.25} />
+                  Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
