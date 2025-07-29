@@ -11,6 +11,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { Blocker } from '../subscription/Blocker'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { toast } from 'sonner'
+import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 
 type EditLessonProps = {
   lessonId: number
@@ -106,28 +107,12 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
-      <div className='flex flex-col-reverse items-center justify-end gap-4 sm:flex-row'>
-        <Button
-          disabled={isUpdating}
-          className='w-full sm:w-auto'
-          size='sm'
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex w-full items-center gap-2 sm:w-auto'>
-          <Button
-            disabled={isUpdating}
-            className='w-full'
-            size='sm'
-            onClick={handleSave}
-          >
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
-        </div>
-      </div>
+      <SaveAbortButtons
+        onSave={handleSave}
+        onAbort={onCloseModal}
+        isSaving={isUpdating}
+        isDisabled={isUpdating}
+      />
     </div>
   )
 }

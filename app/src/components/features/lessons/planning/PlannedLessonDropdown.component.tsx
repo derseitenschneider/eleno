@@ -1,11 +1,4 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -14,7 +7,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import {
   BetweenHorizonalStart,
-  MessageSquareShare,
   MoreVertical,
   Pencil,
   Trash2,
@@ -23,7 +15,12 @@ import { useState } from 'react'
 import { usePlannedLessonsQuery } from '../lessonsQueries'
 import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import DeleteLesson from '../DeleteLesson.component'
-import { useDrafts } from '@/services/context/DraftsContext'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 type PreviousLessonDropDownProps = {
   lessonId: number
@@ -75,14 +72,14 @@ export default function PrepareLessonDropDown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Lektion löschen</DialogTitle>
-          </DialogHeader>
+      <DrawerOrDialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Geplante Lektion löschen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
           <DeleteLesson onCloseModal={closeModal} lessonId={currentLesson.id} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </>
   )
 }

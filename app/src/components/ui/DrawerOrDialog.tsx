@@ -127,7 +127,13 @@ const DrawerOrDialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
   const Component = isMobile ? DrawerTitle : DialogTitle
-  return <Component ref={ref} className={className} {...props} />
+  return (
+    <Component
+      ref={ref}
+      className={cn('text-lg sm:text-xl', className)}
+      {...props}
+    />
+  )
 })
 DrawerOrDialogTitle.displayName = 'DrawerOrDialogTitle'
 
