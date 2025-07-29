@@ -111,7 +111,8 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
         onSave={handleSave}
         onAbort={onCloseModal}
         isSaving={isUpdating}
-        isDisabled={isUpdating}
+        isDisabledSaving={isUpdating}
+        isDisabledAborting={isUpdating}
       />
     </div>
   )

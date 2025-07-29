@@ -3,21 +3,23 @@ import MiniLoader from './MiniLoader.component'
 
 type SaveAbortButtonsProps = {
   isSaving: boolean
-  isDisabled: boolean
+  isDisabledSaving: boolean
+  isDisabledAborting: boolean
   onAbort?: () => void
   onSave: () => void
 }
 
 export function SaveAbortButtons({
   isSaving,
-  isDisabled = false,
+  isDisabledSaving,
+  isDisabledAborting,
   onAbort,
   onSave,
 }: SaveAbortButtonsProps) {
   return (
     <div className='flex flex-col-reverse items-center justify-end gap-4 sm:flex-row'>
       <Button
-        disabled={isDisabled}
+        disabled={isDisabledAborting}
         className='w-full sm:w-auto'
         size='sm'
         variant='outline'
@@ -27,7 +29,7 @@ export function SaveAbortButtons({
       </Button>
       <div className='flex w-full items-center gap-2 sm:w-auto'>
         <Button
-          disabled={isDisabled}
+          disabled={isDisabledSaving}
           className='w-full'
           size='sm'
           onClick={onSave}

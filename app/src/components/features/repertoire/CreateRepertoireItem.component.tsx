@@ -10,8 +10,13 @@ import CustomEditor from '@/components/ui/CustomEditor.component'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useCurrentHolder from '../lessons/useCurrentHolder'
+import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 
-function CreateRepertoireItem() {
+type CreateRepertoireProps = {
+  onCloseModal?: () => void
+}
+
+function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
   const { hasAccess } = useSubscription()
   const { currentLessonHolder } = useCurrentHolder()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
@@ -51,7 +56,10 @@ function CreateRepertoireItem() {
 
   function handleSave() {
     createRepertoireItem(item, {
-      onSuccess: () => resetFields(),
+      onSuccess: () => {
+        onCloseModal?.()
+        resetFields()
+      },
     })
   }
   return (
@@ -60,9 +68,9 @@ function CreateRepertoireItem() {
       className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'
     >
       <Blocker variant='inline' />
-      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-2 rounded-md border border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:pr-1'>
-        <div className='relative col-span-4 grow sm:col-span-1 sm:w-auto sm:shrink'>
-          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:block'>
+      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-10 rounded-md border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
+        <div className='relative col-span-5 grow sm:col-span-1 sm:w-auto sm:shrink'>
+          <span className='absolute left-1 top-[-26px] text-sm text-foreground/80'>
             Song
           </span>
           {isMobile ? (
@@ -70,7 +78,7 @@ function CreateRepertoireItem() {
               data-testid='input-create-repertoire'
               autoFocus={!isMobile}
               placeholder='Song...'
-              className='border-none'
+              className='sm:border-none'
               type='text'
               name='title'
               onChange={handleChangeTitle}
@@ -85,9 +93,9 @@ function CreateRepertoireItem() {
           )}
         </div>
 
-        <div>
+        <div className='col-span-5 sm:col-span-1'>
           <div className='relative mr-2 flex items-center sm:mr-0'>
-            <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
+            <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
               Start
             </span>
             <DayPicker date={item.startDate} setDate={handleChangeStart} />
@@ -100,8 +108,8 @@ function CreateRepertoireItem() {
             )}
           </div>
         </div>
-        <div className='relative flex items-center'>
-          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
+        <div className='relative col-span-5 flex items-center sm:col-span-1'>
+          <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80 '>
             Ende
           </span>
           <DayPicker date={item.endDate} setDate={handleChangeEnd} />
@@ -113,14 +121,23 @@ function CreateRepertoireItem() {
             />
           )}
         </div>
-        <Button
-          className='ml-auto'
-          onClick={handleSave}
-          size='sm'
-          disabled={isCreating || !item.title || !hasAccess}
-        >
-          Hinzufügen
-        </Button>
+        {/* <Button */}
+        {/*   className='col-span-5 ml-auto' */}
+        {/*   onClick={handleSave} */}
+        {/*   size='sm' */}
+        {/*   disabled={isCreating || !item.title || !hasAccess} */}
+        {/* > */}
+        {/*   Hinzufügen */}
+        {/* </Button> */}
+        <div className='col-span-5'>
+          <SaveAbortButtons
+            isDisabledSaving={isCreating || !item.title || !hasAccess}
+            isDisabledAborting={isCreating}
+            isSaving={isCreating}
+            onSave={handleSave}
+            onAbort={onCloseModal}
+          />
+        </div>
       </div>
     </div>
   )

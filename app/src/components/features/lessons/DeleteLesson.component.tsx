@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useDeleteLesson } from './useDeleteLesson'
 import { DialogDescription } from '@/components/ui/dialog'
 import { DeleteAbortButtons } from '@/components/ui/DeleteAbortButtonGroup'
