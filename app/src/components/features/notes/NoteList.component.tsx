@@ -8,17 +8,17 @@ import { useActiveNotesQuery } from './notesQueries'
 import type { Note as TNote } from '@/types/types'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-} from '@/components/ui/dialog'
-import { DialogTitle } from '@radix-ui/react-dialog'
 import { useUpdateNote } from './useUpdateNote'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 function NoteList() {
   const { currentLessonHolder } = useCurrentHolder()
@@ -104,25 +104,25 @@ function NoteList() {
         </DragDropContext>
       ) : null}
 
-      <Dialog
+      <DrawerOrDialog
         open={openModal === 'ADD'}
         onOpenChange={() => setOpenModal(undefined)}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Neue Notiz erstellen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Neue Notiz erstellen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Neue Notiz erstellen
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker blockerId='createNote' />
           <CreateNote
             holderType={currentLessonHolder.type}
             holderId={currentLessonHolder.holder.id}
             onCloseModal={() => setOpenModal(undefined)}
           />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </div>
   )
 }

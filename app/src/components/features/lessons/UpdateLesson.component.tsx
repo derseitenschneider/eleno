@@ -106,17 +106,23 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
-      <div className='flex items-center justify-end gap-4'>
+      <div className='flex flex-col-reverse items-center justify-end gap-4 sm:flex-row'>
         <Button
           disabled={isUpdating}
+          className='w-full sm:w-auto'
           size='sm'
           variant='outline'
           onClick={onCloseModal}
         >
           Abbrechen
         </Button>
-        <div className='flex items-center gap-2'>
-          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
+          <Button
+            disabled={isUpdating}
+            className='w-full'
+            size='sm'
+            onClick={handleSave}
+          >
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}

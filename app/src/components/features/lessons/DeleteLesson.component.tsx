@@ -21,7 +21,7 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
       <DialogDescription>
         Möchtest du diese Lektion wirklich löschen?
       </DialogDescription>
-      <div className='flex justify-end gap-4 mt-4'>
+      <div className='mt-4 flex flex-col-reverse justify-end gap-4 sm:flex-row'>
         <Button
           disabled={isDeleting}
           size='sm'
@@ -30,8 +30,9 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
         >
           Abbrechen
         </Button>
-        <div className='flex items-center gap-2'>
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
+            className='w-full'
             disabled={isDeleting}
             size='sm'
             variant='destructive'

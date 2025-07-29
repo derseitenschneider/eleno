@@ -88,7 +88,6 @@ const DrawerOrDialogContent = React.forwardRef<
   if (isMobile) {
     return (
       <DrawerContent ref={ref} className={cn('p-4 pb-8', className)} {...props}>
-        {/* For mobile, it's nice to have a scroll area for potentially long content */}
         <ScrollArea className=''>{children}</ScrollArea>
       </DrawerContent>
     )

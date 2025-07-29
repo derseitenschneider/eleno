@@ -1,10 +1,3 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { MessageSquareShare } from 'lucide-react'
 import { useState } from 'react'
 import ShareHomework from './ShareHomework.component'
@@ -13,8 +6,6 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import type { Lesson } from '@/types/types'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { appConfig } from '@/config'
 import {
   Tooltip,
   TooltipContent,
@@ -24,6 +15,13 @@ import {
 import useProfileQuery from '../../user/profileQuery'
 import { Blocker } from '../../subscription/Blocker'
 import { HomeworkExpired } from './HomeworkExpired.component'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -122,24 +120,27 @@ ${userProfile?.first_name} ${userProfile?.last_name}\n\n
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
+      <DrawerOrDialog
+        open={isModalOpen}
+        onOpenChange={() => setIsModalOpen(false)}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>
               {isExpired ? 'Dieser Link ist abgelaufen' : 'Hausaufgaben teilen'}
-            </DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+            </DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Teile die Hausaufgaben mit deinen Schüler:innen
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker />
           {isExpired ? (
             <HomeworkExpired currentLesson={currentLesson} />
           ) : (
             <ShareHomework lessonId={lessonId} />
           )}
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </>
   )
 }

@@ -196,12 +196,12 @@ export function CreatePlannedLessonForm({
         </div>
         <div className='flex justify-between gap-1'>
           {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-          <div className='ml-auto  mt-4 flex items-center gap-1'>
+          <div className='ml-auto  mt-4 flex w-full items-center gap-1'>
             <Button
               disabled={isDisabledSave}
               size='sm'
               onClick={handleSave}
-              className='ml-auto block'
+              className='ml-auto block w-full sm:w-auto'
             >
               Speichern
             </Button>
@@ -213,7 +213,7 @@ export function CreatePlannedLessonForm({
       <div className='h-full flex-col gap-4 lg:flex'>
         <p className='font-medium'>Geplante Lektionen</p>
         {currentHolderPlannedLessons &&
-          currentHolderPlannedLessons.length > 0 ? (
+        currentHolderPlannedLessons.length > 0 ? (
           <Card className='lg:h-[578px] lg:overflow-hidden'>
             <CardContent className='h-full p-4 lg:overflow-hidden'>
               <ScrollArea className='h-full'>

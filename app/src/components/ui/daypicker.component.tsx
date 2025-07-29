@@ -44,9 +44,7 @@ export function DayPicker({
             className,
           )}
         >
-          <CalendarIcon
-            className={cn(isMobile && date && 'hidden', 'h-4 w-4 text-primary')}
-          />
+          <CalendarIcon className={cn('h-4 w-4 text-primary')} />
           {date ? (
             <span>
               {date.toLocaleDateString(userLocale, {

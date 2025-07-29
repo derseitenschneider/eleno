@@ -54,7 +54,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   }
 
   return (
-    <div className='relative text-sm sm:w-[500px]'>
+    <div className='relative px-1 text-sm sm:w-[500px] sm:p-0'>
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'
@@ -76,11 +76,12 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           <span className='block pt-2 text-sm text-warning'>{error}</span>
         )}
       </div>
-      <div className='flex flex-wrap items-end justify-between gap-x-4 gap-y-5'>
+      <div className='flex flex-col flex-wrap justify-between gap-x-4 gap-y-5 sm:flex-row sm:items-end'>
         <NoteColor color={color} setColor={setColor} />
-        <div className='flex items-center gap-4'>
+        <div className='flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row sm:gap-4'>
           <Button
             type='button'
+            className='w-full'
             onClick={onCloseModal}
             size='sm'
             variant='outline'
@@ -88,8 +89,9 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2'>
             <Button
+              className='w-full'
               type='button'
               onClick={handleSave}
               size='sm'

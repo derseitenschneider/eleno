@@ -17,8 +17,8 @@ function CreateLesson() {
         )}
       >
         <Blocker blockerId='createLesson' />
-        <div className='flex items-start justify-between'>
-          <h5 className=' m-0 mb-2'>Neue Lektion</h5>
+        <div className='mb-4 flex items-center justify-between'>
+          <h5 className=' m-0'>Neue Lektion</h5>
           <ButtonPlanningModal />
         </div>
         <CreateLessonForm />

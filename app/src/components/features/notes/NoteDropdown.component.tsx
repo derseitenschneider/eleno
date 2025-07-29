@@ -21,6 +21,13 @@ import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
 import { isDemoMode } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 type NoteDropdownProps = {
   noteId: number
@@ -87,29 +94,29 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Notiz bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Notiz bearbeiten</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Bearbeite die Notiz.
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <UpdateNote noteId={noteId} onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Notiz löschen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Notiz löschen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Lösche die Notiz.
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <DeleteNote noteId={noteId} onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </>
   )
 }

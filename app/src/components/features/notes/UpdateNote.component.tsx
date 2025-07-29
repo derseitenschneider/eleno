@@ -44,7 +44,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   }
 
   return (
-    <div className='relative sm:min-w-[500px] text-sm'>
+    <div className='relative text-sm sm:min-w-[500px]'>
       <Blocker />
       <Label htmlFor='title'>Titel</Label>
       <Input
@@ -57,14 +57,15 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
         onChange={handleTitle}
       />
 
-      <div className='mt-5 mb-6'>
+      <div className='mb-6 mt-5'>
         <CustomEditor value={text || ''} onChange={handleText} />
       </div>
-      <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
+      <div className='flex flex-col flex-wrap justify-between gap-x-4 gap-y-5 sm:flex-row sm:items-end'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
-        <div className='flex  gap-4 items-center'>
+        <div className='flex  flex-col-reverse items-center gap-2 sm:flex-row sm:gap-4'>
           <Button
             type='button'
+            className='w-full'
             onClick={onCloseModal}
             size='sm'
             variant='outline'
@@ -72,9 +73,10 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2'>
             <Button
               type='button'
+              className='w-full'
               onClick={handleSave}
               size='sm'
               disabled={isUpdating}
