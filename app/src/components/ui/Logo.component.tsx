@@ -31,9 +31,6 @@ function Logo({ className }: LogoProps) {
           strokeLinecap='round'
         />
       </svg>
-      <span className='text-lg font-medium tracking-tight !text-primary'>
-        eleno
-      </span>
     </>
   )
 }

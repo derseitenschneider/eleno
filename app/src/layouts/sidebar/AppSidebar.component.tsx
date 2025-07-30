@@ -7,7 +7,6 @@ import {
   GraduationCap,
   Inbox,
   LogOut,
-  Settings,
   Settings2,
   Users,
 } from 'lucide-react'
@@ -27,7 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import Logo from '@/components/ui/Logo.component' // Assuming this path is correct
+import Logo from '@/components/ui/Logo.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { useLoading } from '@/services/context/LoadingContext'
@@ -46,6 +45,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { UserInfo } from '@/components/ui/UserInfo.component'
+import LogoText from '@/components/ui/LogoText.component'
 
 const NavBadge = ({ count, color }: { count?: number; color?: string }) => {
   const { open } = useSidebar()
@@ -116,7 +116,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton onClick={closeWhenMobile} asChild>
               <Link to='/'>
-                <Logo />
+                <LogoText />
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
