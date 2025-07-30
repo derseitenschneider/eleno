@@ -21,7 +21,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from './components/ui/sidebar'
-import { AppHeader } from './layouts/AppHeader'
+import { AppHeader } from './layouts/appHeader/AppHeader'
 import { AppSidebar } from './layouts/sidebar/AppSidebar.component'
 
 export default function Application() {
