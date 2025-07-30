@@ -4,7 +4,6 @@ import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -69,14 +68,14 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
         : null
 
       return (
-        <div className='flex gap-2 items-center'>
+        <div className='flex items-center gap-2'>
           <span>{parse(removeHTMLAttributes(row.getValue('title')))}</span>
           <Popover>
             <PopoverTrigger>
-              <InfoIcon className='sm:hidden h-3 w-3 text-primary' />
+              <InfoIcon className='h-3 w-3 text-primary sm:hidden' />
             </PopoverTrigger>
             <PopoverContent>
-              <p className='mb-2 text-md'>{row.getValue('title')}</p>
+              <p className='text-md mb-2'>{row.getValue('title')}</p>
               <p>
                 <span className='text-foreground/75'>Start: </span>
                 {startDate || '—'}
@@ -96,7 +95,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0 hidden sm:flex'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -134,7 +133,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0 hidden sm:flex'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >

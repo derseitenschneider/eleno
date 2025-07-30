@@ -58,7 +58,7 @@ export default function StudentsControl({
   }
 
   return (
-    <div className='mb-4 flex items-end justify-between gap-4'>
+    <div className='mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row'>
       <div className='mr-auto hidden items-baseline gap-4 sm:flex'>
         <ActiveStudentsActionDropdown
           setSelected={setSelected}
@@ -81,11 +81,13 @@ export default function StudentsControl({
         Exportieren
       </Button>
       <SearchBar
+        className='w-full'
         searchInput={globalFilter}
         setSearchInput={(input) => setGlobalFilter(input)}
         disabled={isDisabledControls}
       />
       <Button
+        className='w-full sm:w-auto'
         data-testid='active-students-control-create'
         disabled={isFetching}
         size='sm'

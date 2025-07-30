@@ -32,7 +32,7 @@ export function AppHeader() {
                 const isLast = index === breadcrumbs.length - 1
                 return (
                   <Fragment key={`${item.title}-${item.href}`}>
-                    <BreadcrumbItem className='text-lg sm:text-base'>
+                    <BreadcrumbItem className=' text-sm sm:text-base'>
                       {isLast ? (
                         <BreadcrumbPage className='font-medium sm:font-normal'>
                           {item.title}

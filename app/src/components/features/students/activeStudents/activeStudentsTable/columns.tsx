@@ -18,6 +18,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           }
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
           aria-label='Select all'
+          className='hidden sm:flex'
         />
       )
     },
@@ -30,6 +31,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label='Select row'
           onClick={(e) => e.stopPropagation()}
+          className='hidden sm:flex'
         />
       )
     },
@@ -73,13 +75,18 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0'
+          className='hidden p-0 sm:inline-flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Instrument
           <ArrowUpDown className='ml-1 size-3' />
         </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <span className='hidden sm:inline'>{row.getValue('instrument')}</span>
       )
     },
     size: 12,
@@ -91,7 +98,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -102,30 +109,42 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <span>{row.getValue('dayOfLesson') || '–'}</span>,
+    cell: ({ row }) => (
+      <span className='hidden sm:inline'>
+        {row.getValue('dayOfLesson') || '–'}
+      </span>
+    ),
   },
   {
     accessorKey: 'startOfLesson',
     header: () => {
-      return <span>Von</span>
+      return <span className='hidden sm:inline'>Von</span>
     },
     size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue('startOfLesson') as string
-      return <span className='text-right'>{time?.slice(0, 5) || '—'}</span>
+      return (
+        <span className='hidden text-right sm:inline'>
+          {time?.slice(0, 5) || '—'}
+        </span>
+      )
     },
   },
   {
     accessorKey: 'endOfLesson',
     header: () => {
-      return <span>Bis</span>
+      return <span className='hidden sm:inline'>Bis</span>
     },
     size: 8,
     minSize: 0,
     cell: ({ row }) => {
       const time = row.getValue('endOfLesson') as string
-      return <span className='text-right'>{time?.slice(0, 5) || '–'}</span>
+      return (
+        <span className='hidden text-right sm:inline'>
+          {time?.slice(0, 5) || '–'}
+        </span>
+      )
     },
   },
   {
@@ -134,7 +153,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
       return (
         <Button
           variant='ghost'
-          className='hidden lg:flex p-0'
+          className='hidden p-0 lg:flex'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Dauer
@@ -147,7 +166,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     cell: ({ row }) => {
       const duration = row.getValue('durationMinutes') as number
       return (
-        <span className='hidden lg:inline text-right'>
+        <span className='hidden text-right lg:inline'>
           {duration ? `${duration} Min.` : '–'}
         </span>
       )
@@ -158,7 +177,7 @@ export const studentsColumns: ColumnDef<Student>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -169,13 +188,17 @@ export const studentsColumns: ColumnDef<Student>[] = [
     },
     size: 12,
     minSize: 0,
-    cell: ({ row }) => <span>{row.getValue('location') || '–'}</span>,
+    cell: ({ row }) => (
+      <span className='hidden sm:inline'>
+        {row.getValue('location') || '–'}
+      </span>
+    ),
   },
   {
     id: 'actions',
     cell: ({ row }) => {
       return (
-        <div onKeyDown={(e) => e.stopPropagation()}>
+        <div className='hidden sm:block' onKeyDown={(e) => e.stopPropagation()}>
           <ActiveStudentRowDropdown studentId={row.original.id} />
         </div>
       )

@@ -1,12 +1,13 @@
-import Logo from '../../components/ui/Logo.component'
-
 import NavbarMobileItem from './NavbarMobileItem.component'
 import {
   CheckSquare2,
   GaugeCircle,
   GraduationCap,
   LogOut,
+  PlusCircleIcon,
+  PlusSquareIcon,
   Settings2,
+  Users,
 } from 'lucide-react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useTodosQuery from '@/components/features/todos/todosQuery'
@@ -67,6 +68,11 @@ function NavbarMobile() {
             />
           }
         />
+
+        <NavbarMobileItem
+          onClick={() => { }}
+          icon={<PlusSquareIcon strokeWidth={1} />}
+        />
         <NavbarMobileItem
           isButton
           onClick={navigateToCurrentHolder}
@@ -80,20 +86,15 @@ function NavbarMobile() {
           }
         />
         <NavbarMobileItem
-          isActive={window.location.pathname.includes('settings')}
-          to='/settings'
+          isActive={window.location.pathname.includes('students')}
+          to='/students'
           icon={
-            <Settings2
+            <Users
               strokeWidth={
                 window.location.pathname.includes('settings') ? 1.3 : 1
               }
             />
           }
-        />
-        <NavbarMobileItem
-          onClick={logout}
-          isButton
-          icon={<LogOut strokeWidth={1} />}
         />
       </ul>
     </nav>

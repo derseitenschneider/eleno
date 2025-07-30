@@ -26,7 +26,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import Logo from '@/components/ui/Logo.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import { useLoading } from '@/services/context/LoadingContext'
