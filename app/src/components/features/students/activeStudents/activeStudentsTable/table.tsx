@@ -1,6 +1,5 @@
 import { DataTable } from '@/components/ui/data-table'
 import type { Student } from '@/types/types'
-import { compareLastName } from '@/utils/sortLessonHolders'
 import {
   type RowSelectionState,
   type SortingState,
@@ -10,15 +9,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { studentsColumns } from './columns'
 import StudentsControl from './control'
 import useScrollTo from '@/hooks/useScrollTo'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
 import { useSearchParams } from 'react-router-dom'
-import { appConfig } from '@/config'
-import mockStudents from '@/services/api/mock-db/mockStudents'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { studentsColumnsMobile } from './columnsMobile'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -33,6 +32,7 @@ export default function ActiveStudentsTable({
   isPending,
   isFetching,
 }: TActiveStudentsTable) {
+  const isMobile = useIsMobileDevice()
   useScrollTo(0, 0)
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -59,7 +59,7 @@ export default function ActiveStudentsTable({
 
   const table = useReactTable({
     data: students,
-    columns: studentsColumns,
+    columns: isMobile ? studentsColumnsMobile : studentsColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
