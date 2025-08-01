@@ -5,7 +5,7 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import CreateStudents from './CreateStudents.component'
+import CreateTodo from './CreateTodo.component'
 
 export type CreateStudentDialogDrawerProps = {
   open: boolean
@@ -15,12 +15,12 @@ export type CreateStudentDialogDrawerProps = {
   description?: string
 }
 
-export function CreateStudentDialogDrawer({
+export function CreateTodoDialogDrawer({
   open,
   onOpenChange,
   onSuccess,
-  title = 'Schüler:in erfasse',
-  description = 'Erfasse neue Schüler:innen',
+  title = 'Todo erfassen',
+  description = 'Erfasse eine neue Todo',
 }: CreateStudentDialogDrawerProps) {
   return (
     <DrawerOrDialog nested={true} open={open} onOpenChange={onOpenChange}>
@@ -31,7 +31,7 @@ export function CreateStudentDialogDrawer({
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <CreateStudents onSuccess={() => onSuccess?.()} />
+        <CreateTodo onCloseModal={() => onSuccess?.()} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>
   )

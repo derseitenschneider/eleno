@@ -48,16 +48,23 @@ const useDrawerOrDialog = () => {
 interface DrawerOrDialogProps {
   children: React.ReactNode
   open?: boolean
+  nested?: boolean
   onOpenChange?: (open: boolean) => void
 }
 
-const DrawerOrDialog = ({ children, ...props }: DrawerOrDialogProps) => {
+const DrawerOrDialog = ({
+  children,
+  nested,
+  ...props
+}: DrawerOrDialogProps) => {
   const isMobile = useIsMobileDevice()
   const Component = isMobile ? Drawer : Dialog
 
   return (
     <DrawerOrDialogContext.Provider value={{ isMobile }}>
-      <Component {...props}>{children}</Component>
+      <Component nested={nested || false} {...props}>
+        {children}
+      </Component>
     </DrawerOrDialogContext.Provider>
   )
 }

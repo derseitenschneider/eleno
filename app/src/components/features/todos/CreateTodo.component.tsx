@@ -111,16 +111,19 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
             </div>
           </div>
         </div>
-        <Button
-          disabled={isCreating || !text || !hasAccess}
-          type='submit'
-          onClick={onSaveHandler}
-          size='sm'
-          className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
-        >
-          Speichern
-        </Button>
-        {isCreating && <MiniLoader />}
+
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isCreating || !text || !hasAccess}
+            type='submit'
+            onClick={onSaveHandler}
+            size='sm'
+            className={cn('sm:mt-0 sm:ml-0 sm:w-auto', ' w-full mt-6 ml-auto')}
+          >
+            Speichern
+          </Button>
+          {isCreating && <MiniLoader />}
+        </div>
       </form>
       <p className='pl-2 pt-1 text-sm text-warning'>{error || ''}</p>
     </div>

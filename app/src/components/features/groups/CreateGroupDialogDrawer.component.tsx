@@ -10,7 +10,7 @@ import CreateGroup from './CreateGroup.component'
 export type CreateStudentDialogDrawerProps = {
   open: boolean
   onOpenChange: () => void
-  onSuccess?: () => void
+  onSuccess: () => void
   title?: string
   description?: string
 }
@@ -31,7 +31,7 @@ export function CreateGroupDialogDrawer({
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <CreateGroup onSuccess={() => onSuccess?.()} />
+        <CreateGroup onSuccess={() => onSuccess()} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>
   )
