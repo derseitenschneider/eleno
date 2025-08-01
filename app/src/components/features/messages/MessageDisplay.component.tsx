@@ -1,6 +1,6 @@
 import parse from 'html-react-parser'
 import format from 'date-fns/format'
-import { Trash2 } from 'lucide-react'
+import { ArrowLeft, Trash2 } from 'lucide-react'
 import type { Message } from '@/types/types'
 import {
   Tooltip,
@@ -14,26 +14,21 @@ import getLocale from '@/utils/getLocale'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useDeleteMessage } from './useDeleteMessage'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface MailDisplayProps {
-  messages: Array<Message>
+  message: Message | null
+  onClose?: () => void
 }
 
-export default function MessageDisplay({ messages }: MailDisplayProps) {
+export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
   const { deleteMessage } = useDeleteMessage()
   const { userLocale } = useUserLocale()
-  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const message = messages.find(
-    (message) => message.id === searchParams.get('message') || '',
-  )
-
-  function handleDelete(message: Message | null) {
+  function handleDelete() {
     if (!message) return
-    searchParams.delete('message')
-    setSearchParams(searchParams)
+    onClose?.()
     deleteMessage(message.id)
   }
 
@@ -48,35 +43,75 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
       const href = target.getAttribute('href')
       if (!href) return
 
+      onClose?.()
+
       if (href.startsWith('/')) {
         navigate(href)
       } else {
-        window.open(href)
+        window.open(href, '_blank', 'noopener,noreferrer')
       }
     }
   }
 
   return (
     <div className='flex h-full flex-col'>
-      <div className='flex items-center p-2'>
-        <div className='flex items-center gap-2'>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant='ghost'
-                size='icon'
-                disabled={!message}
-                onClick={() => handleDelete(message || null)}
-              >
-                <Trash2 className='h-4 w-4 text-warning' />
-                <span className='sr-only'>L√∂schen</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side='bottom'>L√∂schen</TooltipContent>
-          </Tooltip>
-        </div>
-      </div>
-      <Separator />
+      {/* Mobile Header */}
+      {onClose && (
+        <>
+          <div className='flex items-center p-2'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant='ghost' size='icon' onClick={onClose}>
+                  <ArrowLeft className='size-5 sm:size-4' />
+                  <span className='sr-only'>Zur√ºck</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side='bottom'>Zur√ºck</TooltipContent>
+            </Tooltip>
+            <div className='ml-auto'>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='icon'
+                    disabled={!message}
+                    onClick={handleDelete}
+                  >
+                    <Trash2 className='h-4 w-4 text-warning' />
+                    <span className='sr-only'>Löschen</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side='bottom'>Löschen</TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+          <Separator />
+        </>
+      )}
+
+      {/* Desktop Header */}
+      {!onClose && message && (
+        <>
+          <div className='flex items-center p-2'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  disabled={!message}
+                  onClick={handleDelete}
+                >
+                  <Trash2 className='h-4 w-4 text-warning' />
+                  <span className='sr-only'>Löschen</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side='bottom'>Löschen</TooltipContent>
+            </Tooltip>
+          </div>
+          <Separator />
+        </>
+      )}
+
       {message ? (
         <>
           <div className='flex items-start p-4'>
@@ -104,13 +139,14 @@ export default function MessageDisplay({ messages }: MailDisplayProps) {
               <div
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}
+                role='button'
+                tabIndex={0}
                 className='flex flex-col p-5 [&_div]:mt-6 [&_h4]:pt-6 [&_p]:pt-4'
               >
                 {parse(message.body || '')}
               </div>
             </div>
           </ScrollArea>
-          <Separator className='mt-auto' />
         </>
       ) : (
         <div className='p-8 text-center text-muted-foreground'>
