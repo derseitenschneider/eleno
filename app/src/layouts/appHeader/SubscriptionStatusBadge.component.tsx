@@ -1,11 +1,13 @@
 import { Badge, type badgeVariants } from '@/components/ui/badge'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { useLoading } from '@/services/context/LoadingContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import type { VariantProps } from 'class-variance-authority'
 import { differenceInDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 
 export default function SubscriptionStatusBadge() {
+  const { isLoading } = useLoading()
   const navigate = useNavigate()
   const isMobile = useIsMobileDevice()
   const { subscription } = useSubscription()
@@ -61,6 +63,7 @@ export default function SubscriptionStatusBadge() {
     variant = 'destructive'
     text = isMobile ? 'Inaktiv' : 'Kein aktives Abo'
   }
+  if (isLoading) return null
 
   return (
     <Badge
