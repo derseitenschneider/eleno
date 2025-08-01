@@ -282,7 +282,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .margin-mobile-drawer {
-  margin-bottom: env(safe-area-inset-bottom);
+  /* margin-bottom: env(safe-area-inset-bottom); */
+}
+
+[data-vaul-drawer] {
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
 .position-notification-mobile {

@@ -91,11 +91,44 @@ const DrawerOrDialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogContent>
 >(({ className, children, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
+  const [mobileContentNode, setMobileContentNode] =
+    React.useState<HTMLDivElement | null>(null)
+
+  // 2. This useEffect now correctly depends on the node.
+  // It will run whenever the node becomes available (drawer opens) or null (drawer closes).
+  React.useEffect(() => {
+    // If the node isn't mounted, do nothing.
+    if (mobileContentNode === null) return
+
+    const handleFocus = (event: FocusEvent) => {
+      const target = event.target
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement
+      ) {
+        setTimeout(() => {
+          target.scrollIntoView({ block: 'center' })
+        }, 150)
+      }
+    }
+
+    mobileContentNode.addEventListener('focusin', handleFocus)
+
+    // The cleanup function will run when the node changes (e.g., becomes null on close).
+    return () => {
+      mobileContentNode.removeEventListener('focusin', handleFocus)
+    }
+  }, [mobileContentNode]) // The dependency array is key!
 
   if (isMobile) {
     return (
-      <DrawerContent ref={ref} className={cn('p-4 pb-8', className)} {...props}>
-        <ScrollArea className=''>{children}</ScrollArea>
+      <DrawerContent ref={ref} className={className} {...props}>
+        <div
+          ref={setMobileContentNode}
+          className='max-h-[85dvh] overflow-y-auto'
+        >
+          {children}
+        </div>
       </DrawerContent>
     )
   }

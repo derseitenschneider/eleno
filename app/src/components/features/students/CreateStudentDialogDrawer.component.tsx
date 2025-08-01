@@ -19,11 +19,11 @@ export function CreateStudentDialogDrawer({
   open,
   onOpenChange,
   onSuccess,
-  title = 'Schüler:in erfasse',
+  title = 'Schüler:in erfassen',
   description = 'Erfasse neue Schüler:innen',
 }: CreateStudentDialogDrawerProps) {
   return (
-    <DrawerOrDialog nested={true} open={open} onOpenChange={onOpenChange}>
+    <DrawerOrDialog open={open} onOpenChange={onOpenChange}>
       <DrawerOrDialogContent>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
