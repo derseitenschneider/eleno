@@ -1,12 +1,14 @@
 import type { MouseEvent } from 'react'
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import UpdateGroup from './UpdateGroup.component'
+import { X } from 'lucide-react'
 
 export type UpdateGroupDialogDrawerProps = {
   open: boolean
@@ -27,14 +29,21 @@ export function UpdateGroupDialogDrawer({
   groupId,
 }: UpdateGroupDialogDrawerProps) {
   return (
-    <DrawerOrDialog open={open} onOpenChange={onOpenChange}>
-      <DrawerOrDialogContent onClick={onDialogClick}>
+    <DrawerOrDialog direction='right' open={open} onOpenChange={onOpenChange}>
+      <DrawerOrDialogContent
+        className='!w-screen max-w-[unset]'
+        onClick={onDialogClick}
+      >
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
+        <DrawerOrDialogClose>
+          <X className='size-5' />
+          <span className='sr-only'>Close</span>
+        </DrawerOrDialogClose>
         <UpdateGroup groupId={groupId} onSuccess={onSuccess} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>

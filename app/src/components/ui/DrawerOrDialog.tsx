@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { Drawer as DrawerPrimitive } from 'vaul'
 import {
   Dialog,
   DialogContent,
@@ -47,6 +48,7 @@ const useDrawerOrDialog = () => {
 // This component determines the device type and wraps children with the correct provider.
 interface DrawerOrDialogProps {
   children: React.ReactNode
+  direction?: 'top' | 'bottom' | 'left' | 'right'
   open?: boolean
   nested?: boolean
   onOpenChange?: (open: boolean) => void
@@ -107,7 +109,7 @@ const DrawerOrDialogContent = React.forwardRef<
         target instanceof HTMLTextAreaElement
       ) {
         setTimeout(() => {
-          target.scrollIntoView({ block: 'center' })
+          target.scrollIntoView({ block: 'nearest' })
         }, 150)
       }
     }
@@ -125,7 +127,7 @@ const DrawerOrDialogContent = React.forwardRef<
       <DrawerContent ref={ref} className={className} {...props}>
         <div
           ref={setMobileContentNode}
-          className='max-h-[85dvh] overflow-y-auto'
+          className=' overflow-y-auto data-[vaul-drawer-direction=bottom]:max-h-[85dvh]'
         >
           {children}
         </div>
@@ -195,7 +197,13 @@ const DrawerOrDialogClose = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
   const Component = isMobile ? DrawerClose : DialogClose
-  return <Component ref={ref} className={className} {...props} />
+  return (
+    <Component
+      ref={ref}
+      className={cn('absolute top-4 right-4', className)}
+      {...props}
+    />
+  )
 })
 DrawerOrDialogClose.displayName = 'DrawerOrDialogClose'
 

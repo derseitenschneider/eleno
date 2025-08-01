@@ -281,9 +281,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
 
-.margin-mobile-drawer {
-  /* margin-bottom: env(safe-area-inset-bottom); */
-}
 
 [data-vaul-drawer] {
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
