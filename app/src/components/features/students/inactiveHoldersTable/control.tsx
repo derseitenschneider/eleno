@@ -32,15 +32,15 @@ export default function InactiveHoldersControl({
   const isDisabledControls = inactiveStudents?.length === 0 || isFetching
 
   return (
-    <div className='flex items-end gap-4 mb-4'>
-      <div className='mr-auto items-baseline flex gap-4'>
+    <div className='mb-4 flex items-end gap-4'>
+      <div className='hidden items-baseline gap-4 sm:mr-auto sm:flex'>
         <InactiveStudentsActionDropdown
           setSelected={setSelected}
           selected={selected}
         />
-        <div className='flex items-center gap-2'>
+        <div className='hidden items-center gap-2 sm:flex'>
           {inactiveStudents && inactiveStudents?.length > 0 && (
-            <p className='text-sm hidden lg:block'>
+            <p className='hidden text-sm lg:block'>
               Schüler:innen: <span>{inactiveStudents.length}</span>
             </p>
           )}
@@ -49,11 +49,9 @@ export default function InactiveHoldersControl({
             inactiveGroups &&
             inactiveGroups.length > 0 && <span>|</span>}
           {inactiveGroups && inactiveGroups?.length > 0 && (
-            <>
-              <p className='text-sm'>
-                Gruppen: <span>{inactiveGroups.length}</span>
-              </p>
-            </>
+            <p className='text-sm'>
+              Gruppen: <span>{inactiveGroups.length}</span>
+            </p>
           )}
         </div>
       </div>

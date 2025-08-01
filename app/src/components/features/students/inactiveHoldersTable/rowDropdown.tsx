@@ -21,6 +21,7 @@ import { useReactivateStudents } from '../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import type { LessonHolder } from '@/types/types'
 import { toast } from 'sonner'
+import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
 
 type StudentRowDropdownProps = {
   holder: LessonHolder
@@ -52,6 +53,7 @@ export default function InactiveStudentRowDropdown({
       toast.success('Gruppe wiederhergestellt.')
     }
   }
+
   return (
     <>
       <div className='text-right'>
@@ -115,14 +117,20 @@ export default function InactiveStudentRowDropdown({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DeleteHolders
-            onSuccess={closeModal}
-            holderIds={[`${holder.type}-${holder.holder.id}`]}
-          />
-        </DialogContent>
-      </Dialog>
+      <DeleteHoldersDialogDrawer
+        open={openModal === 'DELETE'}
+        onOpenChange={closeModal}
+        holderIds={[`${holder.type}-${holder.holder.id}`]}
+        onSuccess={closeModal}
+      />
+      {/* <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}> */}
+      {/*   <DialogContent> */}
+      {/*     <DeleteHolders */}
+      {/*       onSuccess={closeModal} */}
+      {/*       holderIds={[`${holder.type}-${holder.holder.id}`]} */}
+      {/*     /> */}
+      {/*   </DialogContent> */}
+      {/* </Dialog> */}
     </>
   )
 }

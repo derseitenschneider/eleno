@@ -93,47 +93,47 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
   }
   return (
     <div>
-      <DialogHeader>
-        <DialogTitle>{dialogTitle}</DialogTitle>
-      </DialogHeader>
-
-      {hasOnlyGroups && isSingularGroup && (
-        <DialogDescription>
-          Möchtest du{' '}
-          <span className='font-medium text-primary'>
-            {groupsToDelete[0]?.name}
-          </span>{' '}
-          und alle zugehörigen Daten löschen?
-        </DialogDescription>
-      )}
-      {hasOnlyGroups && !isSingularGroup && (
-        <DialogDescription>
-          Möchtest du die ausgewählten Gruppen und alle zugehörigen Daten
-          löschen?
-        </DialogDescription>
-      )}
-      {hasOnlyStudents && isSingularStudent && (
-        <DialogDescription>
-          Möchtest du{' '}
-          <span className='font-medium text-primary'>
-            {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName}
-          </span>{' '}
-          und alle zugehörigen Daten löschen?
-        </DialogDescription>
-      )}
-      {hasOnlyStudents && !isSingularStudent && (
-        <DialogDescription>
-          Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten
-          löschen?
-        </DialogDescription>
-      )}
-
-      {hasStudentsAndGroups && (
-        <DialogDescription>
-          Möchtest du die ausgewählten Schüler:innen und Gruppen und alle
-          zugehörigen Daten löschen?
-        </DialogDescription>
-      )}
+      {/* <DialogHeader> */}
+      {/*   <DialogTitle>{dialogTitle}</DialogTitle> */}
+      {/* </DialogHeader> */}
+      {/**/}
+      {/* {hasOnlyGroups && isSingularGroup && ( */}
+      {/*   <DialogDescription> */}
+      {/*     Möchtest du{' '} */}
+      {/*     <span className='font-medium text-primary'> */}
+      {/*       {groupsToDelete[0]?.name} */}
+      {/*     </span>{' '} */}
+      {/*     und alle zugehörigen Daten löschen? */}
+      {/*   </DialogDescription> */}
+      {/* )} */}
+      {/* {hasOnlyGroups && !isSingularGroup && ( */}
+      {/*   <DialogDescription> */}
+      {/*     Möchtest du die ausgewählten Gruppen und alle zugehörigen Daten */}
+      {/*     löschen? */}
+      {/*   </DialogDescription> */}
+      {/* )} */}
+      {/* {hasOnlyStudents && isSingularStudent && ( */}
+      {/*   <DialogDescription> */}
+      {/*     Möchtest du{' '} */}
+      {/*     <span className='font-medium text-primary'> */}
+      {/*       {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName} */}
+      {/*     </span>{' '} */}
+      {/*     und alle zugehörigen Daten löschen? */}
+      {/*   </DialogDescription> */}
+      {/* )} */}
+      {/* {hasOnlyStudents && !isSingularStudent && ( */}
+      {/*   <DialogDescription> */}
+      {/*     Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten */}
+      {/*     löschen? */}
+      {/*   </DialogDescription> */}
+      {/* )} */}
+      {/**/}
+      {/* {hasStudentsAndGroups && ( */}
+      {/*   <DialogDescription> */}
+      {/*     Möchtest du die ausgewählten Schüler:innen und Gruppen und alle */}
+      {/*     zugehörigen Daten löschen? */}
+      {/*   </DialogDescription> */}
+      {/* )} */}
       <div className='mt-4 flex justify-end gap-4'>
         <Button size='sm' variant='outline' onClick={onSuccess}>
           Abbrechen

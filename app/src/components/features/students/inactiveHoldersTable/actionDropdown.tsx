@@ -66,7 +66,12 @@ export function InactiveStudentsActionDropdown({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size='sm' variant='outline' disabled={isDisabledAction}>
+          <Button
+            className='hidden sm:flex'
+            size='sm'
+            variant='outline'
+            disabled={isDisabledAction}
+          >
             <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>

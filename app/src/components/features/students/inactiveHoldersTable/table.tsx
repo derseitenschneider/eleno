@@ -12,6 +12,8 @@ import {
 import { useState } from 'react'
 import { inactiveHoldersColumns } from './columns'
 import InactiveHoldersControl from './control'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { inactiveHoldersColumnsMobile } from './columnsMobile'
 type TInactiveHoldersTable = {
   inactiveHolders: Array<LessonHolder>
   isPending: boolean
@@ -28,6 +30,7 @@ export default function InactiveHoldersTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const isMobile = useIsMobileDevice()
 
   const fuzzyFilter: FilterFn<LessonHolder> = (row, _, searchValue) => {
     if (row.original.type === 's') {
@@ -60,7 +63,7 @@ export default function InactiveHoldersTable({
 
   const table = useReactTable({
     data: inactiveHolders,
-    columns: inactiveHoldersColumns,
+    columns: isMobile ? inactiveHoldersColumnsMobile : inactiveHoldersColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
