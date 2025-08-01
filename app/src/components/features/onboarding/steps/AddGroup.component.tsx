@@ -20,8 +20,9 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { CreateGroupDialogDrawer } from '../../groups/CreateGroupDialogDrawer.component'
 
-export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
+export default function AddGroup() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'UPDATE' | null>(null)
   const isMobile = useIsMobileDevice()
   const [selectedGroup, setSelectedGroup] = useState<number>()
@@ -91,59 +92,30 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
           </div>
         )}
       </div>
-      {isMobile ? (
-        <Drawer
-          open={modalOpen === 'CREATE'}
-          onOpenChange={() => setModalOpen(null)}
-        >
-          <DrawerContent>
-            <DrawerHeader className='text-left'>
-              <DrawerTitle>Gruppe erfassen</DrawerTitle>
-              <DrawerDescription className='hidden'>
-                Erfasse eine neue Gruppe
-              </DrawerDescription>
-            </DrawerHeader>
-            <ScrollArea>
-              <CreateGroup onSuccess={() => setModalOpen(null)} />
-            </ScrollArea>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <>
-          <Dialog
-            open={modalOpen === 'CREATE'}
-            onOpenChange={() => setModalOpen(null)}
-          >
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Gruppe erfassen</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className='hidden'>
-                Erfasse eine neue Gruppe
-              </DialogDescription>
-              <CreateGroup onSuccess={() => setModalOpen(null)} />
-            </DialogContent>
-          </Dialog>
 
-          <Dialog
-            open={modalOpen === 'UPDATE'}
-            onOpenChange={() => setModalOpen(null)}
-          >
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Gruppe bearbeiten</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className='hidden'>
-                Bearbeite eine Gruppe
-              </DialogDescription>
-              <UpdateGroup
-                groupId={selectedGroup || 0}
-                onSuccess={() => setModalOpen(null)}
-              />
-            </DialogContent>
-          </Dialog>
-        </>
-      )}
+      <CreateGroupDialogDrawer
+        open={modalOpen === 'CREATE'}
+        onOpenChange={() => setModalOpen(null)}
+        onSuccess={() => setModalOpen(null)}
+      />
+
+      <Dialog
+        open={modalOpen === 'UPDATE'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Gruppe bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
+            Bearbeite eine Gruppe
+          </DialogDescription>
+          <UpdateGroup
+            groupId={selectedGroup || 0}
+            onSuccess={() => setModalOpen(null)}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

@@ -15,6 +15,8 @@ import GroupsControl from './control'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { groupsColumnsMobile } from './columnsMobile'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -33,6 +35,7 @@ export default function GroupsTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const isMobile = useIsMobileDevice()
   const navigate = useNavigate()
 
   const fuzzyFilter: FilterFn<Group> = (row, _, searchValue) => {
@@ -43,7 +46,7 @@ export default function GroupsTable({
 
   const table = useReactTable({
     data: groups,
-    columns: groupsColumns,
+    columns: isMobile ? groupsColumnsMobile : groupsColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -79,7 +82,7 @@ export default function GroupsTable({
         />
       ) : (
         <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8'>
-          <div className='flex gap-2 items-center'>
+          <div className='flex items-center gap-2'>
             <Button
               className='mt-4'
               size='sm'
@@ -92,7 +95,7 @@ export default function GroupsTable({
               Neue Gruppe erstellen
             </Button>
             <Button
-              className='mt-4'
+              className='mt-4 hidden sm:block'
               size='sm'
               variant='outline'
               onClick={() => {

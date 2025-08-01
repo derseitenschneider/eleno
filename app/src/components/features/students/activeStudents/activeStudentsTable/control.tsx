@@ -107,18 +107,6 @@ export default function StudentsControl({
         </DialogContent>
       </Dialog>
 
-      {/* <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}> */}
-      {/*   <DialogContent> */}
-      {/*     <DialogHeader> */}
-      {/*       <DialogTitle>Schüler:innen erfassen</DialogTitle> */}
-      {/*     </DialogHeader> */}
-      {/*     <DialogDescription className='hidden'> */}
-      {/*       Erfasse neue Schüler:innen */}
-      {/*     </DialogDescription> */}
-      {/*     <Blocker /> */}
-      {/*     <CreateStudents onSuccess={closeModal} /> */}
-      {/*   </DialogContent> */}
-      {/* </Dialog> */}
       <CreateStudentDialogDrawer
         onOpenChange={closeModal}
         open={modalOpen === 'CREATE'}

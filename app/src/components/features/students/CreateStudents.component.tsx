@@ -191,7 +191,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   <span>Mehr</span>
                 </Button>
               </div>
-              <div className='flex flex-col-reverse items-center gap-2 sm:flex-row'>
+              <div className='flex flex-col-reverse items-center gap-4 sm:flex-row'>
                 <Button
                   className='w-full'
                   disabled={isCreating}

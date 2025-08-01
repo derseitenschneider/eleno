@@ -90,6 +90,7 @@ export default function AddStudents() {
           <CreateStudents onSuccess={() => setModalOpen(null)} />
         </DrawerOrDialogContent>
       </DrawerOrDialog>
+
       <Dialog
         open={modalOpen === 'EDIT'}
         onOpenChange={() => setModalOpen(null)}
@@ -107,8 +108,6 @@ export default function AddStudents() {
           />
         </DialogContent>
       </Dialog>
-      {/*   </> */}
-      {/* )} */}
     </>
   )
 }

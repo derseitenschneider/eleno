@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import type { Student } from '@/types/types'
+import type { Group, Student } from '@/types/types'
 
 import { Archive, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+// import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 import {
   Drawer,
   DrawerClose,
@@ -16,26 +16,25 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useDeactivateStudents } from '../../useDeactivateStudents'
+import { useDeactivateGroups } from '../useDeactivateGroups'
+import { UpdateGroupDialogDrawer } from '../UpdateGroupDialogDrawer.component'
 
-interface StudentMobileDrawerProps {
-  student: Student
+interface GroupMobileDrawerProps {
+  group: Group
 }
 
-export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
+export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState<'EDIT' | null>(null)
-  const { isDeactivating, deactivateStudents } = useDeactivateStudents()
+  const { isDeactivating, deactivateGroups } = useDeactivateGroups()
 
   return (
     <>
       <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
           <div className='flex w-full cursor-pointer items-center justify-between text-base'>
-            <span>
-              {student.firstName} {student.lastName}
-            </span>
-            <ChevronRight className='h-4 w-4 text-muted-foreground' />
+            <span>{group.name}</span>
+            <ChevronRight className='size-4' />
           </div>
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
@@ -44,41 +43,38 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
             <span className='sr-only'>Close</span>
           </DrawerClose>
           <DrawerHeader>
-            <DrawerTitle>
-              {student.firstName} {student.lastName}
-            </DrawerTitle>
+            <DrawerTitle>{group.name}</DrawerTitle>
           </DrawerHeader>
-          <DrawerDescription className='hidden'>
-            {student.firstName} {student.lastName}
-          </DrawerDescription>
+          <DrawerDescription className='hidden'>{group.name}</DrawerDescription>
           <Card>
             <CardContent>
               <div className='grid gap-4 py-6'>
                 <div className='flex flex-col'>
-                  <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
-                    Instrument
-                  </span>
-                  <span>{student.instrument}</span>
+                  <span className='w-1/3 text-sm font-semibold'>Tag</span>
+                  <span>{group.dayOfLesson}</span>
                 </div>
                 <div className='flex flex-col'>
-                  <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
-                    Tag
-                  </span>
-                  <span>{student.dayOfLesson}</span>
-                </div>
-                <div className='flex flex-col'>
-                  <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
-                    Zeit
-                  </span>
+                  <span className='w-1/3 text-sm font-semibold'>Zeit</span>
                   <span>
-                    {student.startOfLesson} - {student.endOfLesson}
+                    {group.startOfLesson} - {group.endOfLesson}
                   </span>
                 </div>
                 <div className='flex flex-col'>
-                  <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
-                    Ort
+                  <span className='w-1/3 text-sm font-semibold'>Ort</span>
+                  <span>{group.location}</span>
+                </div>
+
+                <div className='flex flex-col'>
+                  <span className='w-1/3 text-sm font-semibold'>
+                    Schüler:innen
                   </span>
-                  <span>{student.location}</span>
+                  {group.students.length > 0 && (
+                    <ul className='list-disc pl-4'>
+                      {group.students.map((student) => (
+                        <li key={student.name}>{student.name}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -100,7 +96,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
                 size='sm'
                 disabled={isDeactivating}
                 variant='outline'
-                onClick={() => deactivateStudents([student.id])}
+                onClick={() => deactivateGroups([group.id])}
               >
                 <Archive className='h-4 w-4' />
                 Archivieren
@@ -110,12 +106,19 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
           </div>
         </DrawerContent>
       </Drawer>
-      <UpdateStudentsDialogDrawer
+
+      <UpdateGroupDialogDrawer
         open={modalOpen === 'EDIT'}
         onOpenChange={() => setModalOpen(null)}
         onSuccess={() => setModalOpen(null)}
-        studentIds={[student.id]}
+        groupId={group.id}
       />
+      {/* <UpdateStudentsDialogDrawer */}
+      {/*   open={modalOpen === 'EDIT'} */}
+      {/*   onOpenChange={() => setModalOpen(null)} */}
+      {/*   onSuccess={() => setModalOpen(null)} */}
+      {/*   studentIds={[student.id]} */}
+      {/* /> */}
     </>
   )
 }
