@@ -171,10 +171,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
               {memoizedStudentRows}
             </ScrollArea>
             <div className='mt-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-              <div className='hidden items-center sm:flex'>
+              <div className='mb-1 hidden items-center pl-1 sm:flex'>
                 <Input
                   disabled={isCreating}
-                  className='w-[7ch]'
+                  className='!w-[7ch]'
                   type='number'
                   value={numAdd}
                   onChange={(e) => setNumAdd(e.target.valueAsNumber)}
