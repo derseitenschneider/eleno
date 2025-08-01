@@ -184,7 +184,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value || undefined}
+                      defaultValue={field.value || 'none'}
                     >
                       <SelectTrigger className='h-[36px]'>
                         <SelectValue placeholder='Unterrichtstag' />
@@ -214,6 +214,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                   </Label>
                   <FormControl>
                     <Input
+                      className='h-10 sm:h-9'
                       type='time'
                       {...field}
                       onBlur={() => {
@@ -237,6 +238,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                   </Label>
                   <FormControl>
                     <Input
+                      className='h-10 sm:h-9'
                       type='time'
                       {...field}
                       onBlur={() => {
