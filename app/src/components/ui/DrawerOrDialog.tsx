@@ -60,13 +60,16 @@ const DrawerOrDialog = ({
   ...props
 }: DrawerOrDialogProps) => {
   const isMobile = useIsMobileDevice()
-  const Component = isMobile ? Drawer : Dialog
 
   return (
     <DrawerOrDialogContext.Provider value={{ isMobile }}>
-      <Component nested={nested || false} {...props}>
-        {children}
-      </Component>
+      {isMobile ? (
+        <Drawer nested={nested} {...props}>
+          {children}
+        </Drawer>
+      ) : (
+        <Dialog {...props}>{children}</Dialog>
+      )}
     </DrawerOrDialogContext.Provider>
   )
 }
@@ -124,7 +127,12 @@ const DrawerOrDialogContent = React.forwardRef<
 
   if (isMobile) {
     return (
-      <DrawerContent ref={ref} className={className} {...props}>
+      <DrawerContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        ref={ref}
+        className={className}
+        {...props}
+      >
         <div
           ref={setMobileContentNode}
           className=' overflow-y-auto data-[vaul-drawer-direction=bottom]:max-h-[85dvh]'
