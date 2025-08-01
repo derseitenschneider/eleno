@@ -138,7 +138,7 @@ export default function UpdateStudents({
         <FormProvider {...methods}>
           <Form {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <ScrollArea className='flex max-h-[70vh] flex-col !overflow-hidden rounded-lg border border-hairline bg-background50 px-2 lg:rounded-none lg:border-none lg:bg-background100 lg:p-0'>
+              <ScrollArea className='flex flex-col !overflow-hidden rounded-lg sm:max-h-[70vh] md:border md:border-hairline md:px-2 lg:rounded-none lg:border-none lg:bg-background100 lg:p-0'>
                 {fields.map((field, index, arr) => (
                   <MemoizedStudentFormRow
                     fields={arr.length}
@@ -149,10 +149,11 @@ export default function UpdateStudents({
                   />
                 ))}
               </ScrollArea>
-              <div className='flex items-end justify-between pb-1 pr-1'>
+              <div className='flex flex-col justify-between pb-1 pr-1 sm:flex-row sm:items-end'>
                 <span className='text-sm'>* Pflichtfelder</span>
-                <div className='mt-4 flex items-center justify-end gap-4'>
+                <div className='mt-6 flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row'>
                   <Button
+                    className='w-full'
                     size='sm'
                     variant='outline'
                     type='button'
@@ -161,8 +162,13 @@ export default function UpdateStudents({
                   >
                     Abbrechen
                   </Button>
-                  <div className='flex items-center gap-2'>
-                    <Button size='sm' disabled={isUpdating} type='submit'>
+                  <div className='flex w-full items-center gap-2'>
+                    <Button
+                      className='w-full'
+                      size='sm'
+                      disabled={isUpdating}
+                      type='submit'
+                    >
                       Speichern
                     </Button>
                     {isUpdating && <MiniLoader />}

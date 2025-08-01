@@ -1,7 +1,7 @@
 import { Badge, type badgeVariants } from '@/components/ui/badge'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { type VariantProps } from 'class-variance-authority'
+import type { VariantProps } from 'class-variance-authority'
 import { differenceInDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,6 @@ export default function SubscriptionStatusBadge() {
   const handleClick = () => {
     navigate('/settings/subscription')
   }
-
 
   let variant: VariantProps<typeof badgeVariants>['variant'] = 'secondary'
   let text = ''
@@ -29,18 +28,18 @@ export default function SubscriptionStatusBadge() {
       variant = 'destructive'
       text = isMobile ? 'Zahlung offen' : 'Ihre Zahlung ist fehlgeschlagen'
     } else if (subscription_status === 'trial') {
-      const daysRemaining = differenceInDays(
-        new Date(period_end as string),
-        new Date(),
-      ) + 1
+      const daysRemaining =
+        differenceInDays(new Date(period_end as string), new Date()) + 1
       if (daysRemaining > 0) {
         variant = 'default'
         text = isMobile
-          ? `${daysRemaining} Tage`
+          ? `Noch ${daysRemaining} Tage`
           : `Testabo: Noch ${daysRemaining} Tage`
       } else {
         variant = 'destructive'
-        text = isMobile ? 'Probezeit abgelaufen' : 'Ihre Probezeit ist abgelaufen'
+        text = isMobile
+          ? 'Probezeit abgelaufen'
+          : 'Ihre Probezeit ist abgelaufen'
       }
     } else {
       switch (subscription_status) {
@@ -66,9 +65,9 @@ export default function SubscriptionStatusBadge() {
   return (
     <Badge
       variant={variant}
-      className="cursor-pointer"
+      className='cursor-pointer'
       onClick={handleClick}
-      data-testid="subscription-status-badge"
+      data-testid='subscription-status-badge'
     >
       {text}
     </Badge>

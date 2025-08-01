@@ -26,12 +26,12 @@ import {
 import { type MouseEvent, useState } from 'react'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
-import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
 import { useNavigate } from 'react-router-dom'
 import { appConfig } from '@/config'
+import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -154,17 +154,25 @@ export default function ActiveStudentRowDropdown({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent onClick={handleDialogClick}>
-          <DialogHeader>
-            <DialogTitle>Schüler:in bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Schüler:in bearbeiten
-          </DialogDescription>
-          <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
-        </DialogContent>
-      </Dialog>
+      {/* <DrawerOrDialog open={openModal === 'EDIT'} onOpenChange={closeModal}> */}
+      {/*   <DrawerOrDialogContent onClick={handleDialogClick}> */}
+      {/*     <DrawerOrDialogHeader> */}
+      {/*       <DrawerOrDialogTitle>Schüler:in bearbeiten</DrawerOrDialogTitle> */}
+      {/*     </DrawerOrDialogHeader> */}
+      {/*     <DrawerOrDialogDescription className='hidden'> */}
+      {/*       Schüler:in bearbeiten */}
+      {/*     </DrawerOrDialogDescription> */}
+      {/*     <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} /> */}
+      {/*   </DrawerOrDialogContent> */}
+      {/* </DrawerOrDialog> */}
+      <UpdateStudentsDialogDrawer
+        open={openModal === 'EDIT'}
+        onOpenChange={closeModal}
+        onDialogClick={handleDialogClick}
+        onSuccess={closeModal}
+        studentIds={[studentId]}
+      />
+
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
           <DialogHeader>

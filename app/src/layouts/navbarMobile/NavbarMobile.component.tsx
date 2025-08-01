@@ -5,6 +5,7 @@ import {
   GraduationCap,
   LogOut,
   PlusCircleIcon,
+  PlusIcon,
   PlusSquareIcon,
   Settings2,
   Users,
@@ -58,20 +59,26 @@ function NavbarMobile() {
             />
           }
         />
+
         <NavbarMobileItem
-          isActive={window.location.pathname.includes('todos')}
-          notificationContent={todosDue?.length}
-          to='/todos'
+          isActive={window.location.pathname.includes('students')}
+          to='/students'
           icon={
-            <CheckSquare2
-              strokeWidth={window.location.pathname.includes('todos') ? 1.3 : 1}
+            <Users
+              strokeWidth={
+                window.location.pathname.includes('settings') ? 1.3 : 1
+              }
             />
           }
         />
-
         <NavbarMobileItem
           onClick={() => { }}
-          icon={<PlusSquareIcon strokeWidth={1} />}
+          icon={
+            <PlusIcon
+              className='rounded-full bg-background200'
+              strokeWidth={1}
+            />
+          }
         />
         <NavbarMobileItem
           isButton
@@ -85,14 +92,14 @@ function NavbarMobile() {
             />
           }
         />
+
         <NavbarMobileItem
-          isActive={window.location.pathname.includes('students')}
-          to='/students'
+          isActive={window.location.pathname.includes('todos')}
+          notificationContent={todosDue?.length}
+          to='/todos'
           icon={
-            <Users
-              strokeWidth={
-                window.location.pathname.includes('settings') ? 1.3 : 1
-              }
+            <CheckSquare2
+              strokeWidth={window.location.pathname.includes('todos') ? 1.3 : 1}
             />
           }
         />

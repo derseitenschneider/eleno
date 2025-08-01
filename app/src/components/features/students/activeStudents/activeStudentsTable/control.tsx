@@ -17,6 +17,7 @@ import ExportStudentList from '../../ExportStudentList.component'
 import CreateStudents from '../../CreateStudents.component'
 import { useSearchParams } from 'react-router-dom'
 import { Blocker } from '@/components/features/subscription/Blocker'
+import { CreateStudentDialogDrawer } from '../../CreateStudentDialogDrawer.component'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -106,18 +107,23 @@ export default function StudentsControl({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Schüler:innen erfassen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Erfasse neue Schüler:innen
-          </DialogDescription>
-          <Blocker />
-          <CreateStudents onSuccess={closeModal} />
-        </DialogContent>
-      </Dialog>
+      {/* <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}> */}
+      {/*   <DialogContent> */}
+      {/*     <DialogHeader> */}
+      {/*       <DialogTitle>Schüler:innen erfassen</DialogTitle> */}
+      {/*     </DialogHeader> */}
+      {/*     <DialogDescription className='hidden'> */}
+      {/*       Erfasse neue Schüler:innen */}
+      {/*     </DialogDescription> */}
+      {/*     <Blocker /> */}
+      {/*     <CreateStudents onSuccess={closeModal} /> */}
+      {/*   </DialogContent> */}
+      {/* </Dialog> */}
+      <CreateStudentDialogDrawer
+        onOpenChange={closeModal}
+        open={modalOpen === 'CREATE'}
+        onSuccess={closeModal}
+      />
     </div>
   )
 }

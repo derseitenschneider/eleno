@@ -1,5 +1,6 @@
 import type { Student } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
+import { StudentMobileSheet } from './StudentMobileSheet.component'
 
 export const studentsColumnsMobile: ColumnDef<Student>[] = [
   {
@@ -7,9 +8,9 @@ export const studentsColumnsMobile: ColumnDef<Student>[] = [
     header: () => null,
     cell: ({ row }) => {
       return (
-        <span className='w-full text-base'>
-          {row.original.firstName} {row.original.lastName}
-        </span>
+        <div className='sm:hidden'>
+          <StudentMobileSheet student={row.original} />
+        </div>
       )
     },
   },
