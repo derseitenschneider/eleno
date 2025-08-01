@@ -1,6 +1,7 @@
 import { CreateStudentDialogDrawer } from '@/components/features/students/CreateStudentDialogDrawer.component'
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,

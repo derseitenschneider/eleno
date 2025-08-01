@@ -10,7 +10,6 @@ import {
 import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 type DayPickerProps = {
   className?: string
@@ -26,7 +25,6 @@ export function DayPicker({
   disabled,
 }: DayPickerProps) {
   const { userLocale } = useUserLocale()
-  const isMobile = useIsMobileDevice()
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 

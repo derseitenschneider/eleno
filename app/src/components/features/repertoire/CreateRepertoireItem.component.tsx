@@ -1,5 +1,4 @@
 import type { PartialRepertoireItem } from '../../../types/types'
-import { Button } from '@/components/ui/button'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
 import ButtonRemove from '@/components/ui/buttonRemove'
@@ -11,6 +10,8 @@ import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
+import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 
 type CreateRepertoireProps = {
   onCloseModal?: () => void
@@ -98,7 +99,11 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
             <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
               Start
             </span>
-            <DayPicker date={item.startDate} setDate={handleChangeStart} />
+            <DayPicker
+              className='w-full'
+              date={item.startDate}
+              setDate={handleChangeStart}
+            />
             {item.startDate && (
               <ButtonRemove
                 disabled={isCreating}
@@ -112,31 +117,29 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
           <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80 '>
             Ende
           </span>
-          <DayPicker date={item.endDate} setDate={handleChangeEnd} />
+          <DayPicker
+            className='w-full'
+            date={item.endDate}
+            setDate={handleChangeEnd}
+          />
           {item.endDate && (
             <ButtonRemove
               disabled={isCreating}
-              className='translate-x-[-8px]'
+              className='sm:translate-x-[-8px]'
               onRemove={() => handleChangeEnd(undefined)}
             />
           )}
         </div>
-        {/* <Button */}
-        {/*   className='col-span-5 ml-auto' */}
-        {/*   onClick={handleSave} */}
-        {/*   size='sm' */}
-        {/*   disabled={isCreating || !item.title || !hasAccess} */}
-        {/* > */}
-        {/*   Hinzufügen */}
-        {/* </Button> */}
-        <div className='col-span-5'>
-          <SaveAbortButtons
-            isDisabledSaving={isCreating || !item.title || !hasAccess}
-            isDisabledAborting={isCreating}
-            isSaving={isCreating}
-            onSave={handleSave}
-            onAbort={onCloseModal}
-          />
+        <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
+          <Button
+            className='w-full'
+            disabled={isCreating || !item.title || !hasAccess}
+            size='sm'
+            onClick={handleSave}
+          >
+            Speichern
+          </Button>
+          {isCreating && <MiniLoader />}
         </div>
       </div>
     </div>

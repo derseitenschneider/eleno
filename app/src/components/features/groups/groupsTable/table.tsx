@@ -65,7 +65,7 @@ export default function GroupsTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div>
+    <div className='pb-12 sm:pb-0'>
       <GroupsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

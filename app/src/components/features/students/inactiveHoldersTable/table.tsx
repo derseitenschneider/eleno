@@ -83,7 +83,7 @@ export default function InactiveHoldersTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div>
+    <div className='pb-12 sm:pb-0'>
       <InactiveHoldersControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

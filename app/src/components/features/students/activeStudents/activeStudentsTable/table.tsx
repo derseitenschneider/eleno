@@ -79,7 +79,7 @@ export default function ActiveStudentsTable({
 
   //TODO: Make Table scrollable like allLessonsTable
   return (
-    <div>
+    <div className='pb-12 sm:pb-0'>
       <StudentsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

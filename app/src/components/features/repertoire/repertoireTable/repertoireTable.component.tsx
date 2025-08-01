@@ -109,6 +109,7 @@ function RepertoireTable({
           <Button
             className='mb-4 flex items-center gap-1'
             onClick={() => setModalOpen('CREATE')}
+            size='sm'
           >
             <Plus className='h-4 w-4' />
             Song erfassen

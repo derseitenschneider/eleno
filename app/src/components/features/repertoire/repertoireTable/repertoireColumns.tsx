@@ -32,6 +32,12 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
@@ -54,17 +60,17 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
       const { userLocale } = useUserLocale()
       const startDate = row.getValue('startDate')
         ? new Date(row.getValue('startDate')).toLocaleString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
         : null
       const endDate = row.getValue('endDate')
         ? new Date(row.getValue('endDate')).toLocaleString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
         : null
 
       return (
@@ -206,18 +212,18 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             </DropdownMenu>
           </div>
 
-          <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Song bearbeiten</DialogTitle>
-              </DialogHeader>
+          <DrawerOrDialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+            <DrawerOrDialogContent>
+              <DrawerOrDialogHeader>
+                <DrawerOrDialogTitle>Song bearbeiten</DrawerOrDialogTitle>
+              </DrawerOrDialogHeader>
               <UpdateRepertoireItem
                 holder={holder}
                 itemId={row.original.id}
                 onCloseModal={closeModal}
               />
-            </DialogContent>
-          </Dialog>
+            </DrawerOrDialogContent>
+          </DrawerOrDialog>
 
           <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
             <DialogContent>

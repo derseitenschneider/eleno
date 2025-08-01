@@ -11,7 +11,6 @@ import useSettingsQuery from '@/components/features/settings/settingsQuery'
 function Lesson() {
   const { isLoading } = useLoading()
   const { data: settings } = useSettingsQuery()
-  const hasBanner = useHasBanner()
   const { currentLessonHolder } = useCurrentHolder()
   const currentHolderId = `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`
 
@@ -24,12 +23,7 @@ function Lesson() {
           'lg:grid lg:grid-cols-[2fr_minmax(0,380px)] overflow-scroll lg:overflow-hidden',
         )}
       >
-        <main
-          className={cn(
-            hasBanner ? 'lg:h-[calc(100%-32px)]' : 'lg:h-full',
-            'flex flex-col lg:overflow-hidden',
-          )}
-        >
+        <main className={cn('lg:h-full', 'flex flex-col lg:overflow-hidden')}>
           {settings.lesson_main_layout === 'regular' ? (
             <>
               <CreateLesson />
