@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils'
 import Empty from './Empty.component'
 import { ScrollArea } from './scroll-area'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -34,8 +35,9 @@ export function DataTable<TData, TValue>({
   className,
   isSelectable = true,
 }: DataTableProps<TData, TValue>) {
+  const isMobile = useIsMobileDevice()
   function toggleSelection(row: Row<TData>) {
-    if (!isSelectable) return
+    if (!isSelectable || isMobile) return
     row.toggleSelected()
   }
   return (
@@ -47,7 +49,7 @@ export function DataTable<TData, TValue>({
           className,
         )}
       >
-        <TableHeader className='sticky top-0 z-10 bg-background50 after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-hairline'>
+        <TableHeader className='sticky top-0 z-10 hidden bg-background50 after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-hairline sm:table-header-group'>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {

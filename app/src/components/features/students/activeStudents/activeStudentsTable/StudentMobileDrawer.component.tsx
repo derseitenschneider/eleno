@@ -8,37 +8,52 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { Archive, ChevronRight, PencilIcon } from 'lucide-react'
+import { Archive, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
-interface StudentMobileSheetProps {
+interface StudentMobileDrawerProps {
   student: Student
 }
 
-export function StudentMobileSheet({ student }: StudentMobileSheetProps) {
+export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState<'EDIT' | null>(null)
+  const { isDeactivating, deactivateStudents } = useDeactivateStudents()
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild onClick={() => setIsOpen(true)}>
+      <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
           <div className='flex w-full cursor-pointer items-center justify-between text-base'>
             <span>
               {student.firstName} {student.lastName}
             </span>
             <ChevronRight className='h-4 w-4 text-muted-foreground' />
           </div>
-        </SheetTrigger>
-        <SheetContent className='w-full'>
-          <SheetHeader>
-            <SheetTitle>
+        </DrawerTrigger>
+        <DrawerContent className='!w-screen p-4'>
+          <DrawerClose>
+            <X className='size-5' />
+            <span className='sr-only'>Close</span>
+          </DrawerClose>
+          <DrawerHeader>
+            <DrawerTitle>
               {student.firstName} {student.lastName}
-            </SheetTitle>
-          </SheetHeader>
+            </DrawerTitle>
+          </DrawerHeader>
           <Card>
             <CardContent>
               <div className='grid gap-4 py-6'>
@@ -82,13 +97,26 @@ export function StudentMobileSheet({ student }: StudentMobileSheetProps) {
               Bearbeiten
             </Button>
 
-            <Button variant='outline' className='flex gap-2' size='sm'>
-              <Archive className='h-4 w-4' />
-              Archivieren
-            </Button>
+            <div className='flex w-full items-center gap-2'>
+              <Button
+                className='flex w-full gap-2'
+                size='sm'
+                disabled={isDeactivating}
+                variant='outline'
+                onClick={() => deactivateStudents([student.id])}
+              >
+                <Archive className='h-4 w-4' />
+                Archivieren
+              </Button>
+              {isDeactivating && <MiniLoader />}
+            </div>
+            {/* <Button variant='outline' className='flex gap-2' size='sm'> */}
+            {/*   <Archive className='h-4 w-4' /> */}
+            {/*   Archivieren */}
+            {/* </Button> */}
           </div>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
       <UpdateStudentsDialogDrawer
         open={modalOpen === 'EDIT'}
         onOpenChange={() => setModalOpen(null)}

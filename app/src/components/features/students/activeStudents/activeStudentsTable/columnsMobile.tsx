@@ -1,6 +1,6 @@
 import type { Student } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { StudentMobileSheet } from './StudentMobileSheet.component'
+import { StudentMobileDrawer } from './StudentMobileDrawer.component'
 
 export const studentsColumnsMobile: ColumnDef<Student>[] = [
   {
@@ -9,7 +9,7 @@ export const studentsColumnsMobile: ColumnDef<Student>[] = [
     cell: ({ row }) => {
       return (
         <div className='sm:hidden'>
-          <StudentMobileSheet student={row.original} />
+          <StudentMobileDrawer student={row.original} />
         </div>
       )
     },
