@@ -40,7 +40,7 @@ export default function MessageList({ messages }: MailListProps) {
   }
   return (
     <ScrollArea className='h-full'>
-      <div className='flex flex-col gap-2 p-4 pt-0'>
+      <div className='flex flex-col gap-2 pt-0 lg:p-4'>
         {messages.map((message) => (
           <button
             data-testid='open-message'

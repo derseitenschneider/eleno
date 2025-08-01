@@ -6,7 +6,6 @@ import MessageDisplay from './MessageDisplay.component'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 import { useSearchParams } from 'react-router-dom'
-import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from '@/components/ui/drawer'
 
 export default function Messages() {
@@ -33,7 +32,7 @@ export default function Messages() {
 
   return (
     <TooltipProvider delayDuration={0}>
-      <div className='flex h-full rounded-lg border border-hairline '>
+      <div className='flex rounded-lg border-hairline sm:h-full lg:border '>
         <div
           className={cn(
             'flex flex-1 flex-col',
