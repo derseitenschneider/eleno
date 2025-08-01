@@ -196,9 +196,9 @@ const DrawerOrDialogClose = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogClose>
 >(({ className, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
-  const Component = isMobile ? DrawerClose : DialogClose
+  if (!isMobile) return null
   return (
-    <Component
+    <DrawerClose
       ref={ref}
       className={cn('absolute top-4 right-4', className)}
       {...props}
