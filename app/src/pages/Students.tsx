@@ -17,7 +17,7 @@ export default function Students() {
   return (
     <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <ScrollBar orientation='vertical' />
-      <div className='px-3 py-4 pb-4 sm:px-0 sm:py-4 sm:*:px-4 sm:*:pl-6 sm:*:pr-4'>
+      <div className='px-3 py-4 pb-16 sm:px-0 sm:py-4 sm:pb-4 sm:*:px-4 sm:*:pl-6 sm:*:pr-4'>
         <Navbar navLinks={navLinks} />
         <Outlet />
       </div>

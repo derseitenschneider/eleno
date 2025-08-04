@@ -11,10 +11,11 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 export function ButtonPlanningModal() {
   const [modalOpen, setModalOpen] = useState<'PLAN' | null>(null)
+  const isPlanningEnabled = useFeatureFlag('lesson-planning')
   const { setSelectedForUpdating } = usePlanLessons()
   const { currentLessonHolder } = useCurrentHolder()
   let holderName = ''
@@ -29,6 +30,8 @@ export function ButtonPlanningModal() {
     setModalOpen(null)
     setSelectedForUpdating(null)
   }
+
+  if (!isPlanningEnabled) return null
 
   return (
     <>

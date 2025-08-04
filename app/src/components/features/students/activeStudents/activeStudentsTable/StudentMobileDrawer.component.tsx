@@ -27,6 +27,15 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
   const [modalOpen, setModalOpen] = useState<'EDIT' | null>(null)
   const { isDeactivating, deactivateStudents } = useDeactivateStudents()
 
+  let timeString = ''
+  if (student.startOfLesson && student.endOfLesson) {
+    timeString = `${student.startOfLesson} – ${student.endOfLesson}`
+  } else if (student.startOfLesson) {
+    timeString = `${student.startOfLesson}`
+  } else {
+    timeString = '–'
+  }
+
   return (
     <>
       <Drawer modal={false} direction='right' open={isOpen} onOpenChange={setIsOpen}>
@@ -66,21 +75,21 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Tag
                   </span>
-                  <span>{student.dayOfLesson}</span>
+                  <span>{student.dayOfLesson || '–'}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Zeit
                   </span>
                   <span>
-                    {student.startOfLesson} - {student.endOfLesson}
+                    {timeString}
                   </span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Ort
                   </span>
-                  <span>{student.location}</span>
+                  <span>{student.location || '–'}</span>
                 </div>
               </div>
             </CardContent>

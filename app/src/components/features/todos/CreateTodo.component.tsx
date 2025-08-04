@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Separator } from '@/components/ui/separator'
 
 interface AddTodoProps {
   onCloseModal?: () => void
@@ -99,12 +100,12 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               selectedHolderId={selectedHolderId}
               setSelectedHolderId={setSelectedHolderId}
             />
-            <div className='flex items-center sm:mr-2'>
+            <div className='flex items-center gap-1 sm:mr-2 sm:gap-0'>
               <DayPicker disabled={isCreating} date={due} setDate={setDue} />
               {due && (
                 <ButtonRemove
                   disabled={isCreating}
-                  className='translate-x-[-8px]'
+                  className='sm:translate-x-[-8px]'
                   onRemove={() => setDue(undefined)}
                 />
               )}
@@ -112,17 +113,30 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           </div>
         </div>
 
-        <div className='flex items-center gap-2'>
+        <div className='mt-6 flex w-full flex-col items-center justify-end gap-3 sm:mt-0 sm:w-auto sm:flex-row'>
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
+            <Button
+              disabled={isCreating || !text || !hasAccess}
+              type='submit'
+              onClick={onSaveHandler}
+              size='sm'
+              className='w-full sm:ml-0 sm:w-auto'
+            >
+              Speichern
+            </Button>
+            {isCreating && <MiniLoader />}
+          </div>
+
           <Button
-            disabled={isCreating || !text || !hasAccess}
-            type='submit'
-            onClick={onSaveHandler}
+            type='button'
+            disabled={isCreating}
+            className='w-full sm:w-auto'
             size='sm'
-            className={cn('sm:mt-0 sm:ml-0 sm:w-auto', ' w-full mt-6 ml-auto')}
+            variant='outline'
+            onClick={() => onCloseModal?.()}
           >
-            Speichern
+            Abbrechen
           </Button>
-          {isCreating && <MiniLoader />}
         </div>
       </form>
       <p className='pl-2 pt-1 text-sm text-warning'>{error || ''}</p>

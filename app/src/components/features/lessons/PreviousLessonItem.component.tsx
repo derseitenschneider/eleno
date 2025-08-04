@@ -5,10 +5,11 @@ import ButtonShareHomework from './homework/ButtonShareHomework.component'
 import PreviousLessonDropDown from './PreviousLessonDropDown.component'
 import { useLatestLessons } from './lessonsQueries'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { ButtonInsertPreparedLesson } from './ButtonInsertPreparedLesson.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
   const { data: lessons } = useLatestLessons()
+  const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
   const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
   if (!currentLesson) return null
@@ -25,7 +26,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
         </p>
 
         <div className='flex items-center gap-6 md:gap-4'>
-          <ButtonShareHomework lessonId={lessonId} />
+          {!isMobile && <ButtonShareHomework lessonId={lessonId} />}
           <PreviousLessonDropDown lessonId={lessonId} />
         </div>
       </div>

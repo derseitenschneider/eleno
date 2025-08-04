@@ -5,7 +5,7 @@ import { StudentMobileDrawer } from './StudentMobileDrawer.component'
 export const studentsColumnsMobile: ColumnDef<Student>[] = [
   {
     accessorKey: 'fullName',
-    header: () => null,
+    header: () => <span>Schüler:in</span>,
     cell: ({ row }) => {
       return (
         <div className='sm:hidden'>

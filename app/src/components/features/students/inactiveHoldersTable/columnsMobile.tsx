@@ -1,12 +1,11 @@
-import type { LessonHolder, Student } from '@/types/types'
+import type { LessonHolder } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
 import { InactiveHolderMobileDrawer } from './InactiveHolderMobileDrawer.component'
-// import { StudentMobileDrawer } from './StudentMobileDrawer.component'
 
 export const inactiveHoldersColumnsMobile: ColumnDef<LessonHolder>[] = [
   {
     accessorKey: 'fullName',
-    header: () => null,
+    header: () => <span>Archiviert</span>,
     cell: ({ row }) => {
       return (
         <div className='sm:hidden'>

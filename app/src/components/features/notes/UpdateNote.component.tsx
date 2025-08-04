@@ -44,7 +44,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   }
 
   return (
-    <div className='relative text-sm sm:min-w-[500px]'>
+    <div className='relative px-1 text-sm sm:min-w-[500px]'>
       <Blocker />
       <Label htmlFor='title'>Titel</Label>
       <Input

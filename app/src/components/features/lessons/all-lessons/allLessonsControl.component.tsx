@@ -61,7 +61,7 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='mb-4 flex items-center justify-between gap-4 sm:items-start'>
+    <div className='mb-4 flex flex-col items-stretch justify-between gap-4 sm:flex-row'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
@@ -71,7 +71,7 @@ export default function AllLessonsControl({
           <span className='text-primary'>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='items-center sm:flex sm:gap-4'>
+      <div className='flex flex-row-reverse items-center justify-between sm:flex-row sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}

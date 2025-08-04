@@ -14,7 +14,7 @@ import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
+import { Separator } from '@/components/ui/separator'
 
 const MemoizedStudentFormRow = memo(StudentFormRow)
 
@@ -170,7 +170,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
             >
               {memoizedStudentRows}
             </ScrollArea>
-            <div className='mt-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
+            <div className='flex flex-col justify-between gap-3 sm:mt-4 sm:flex-row sm:items-center'>
               <div className='mb-1 hidden items-center pl-1 sm:flex'>
                 <Input
                   disabled={isCreating}
@@ -191,6 +191,7 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   <span>Mehr</span>
                 </Button>
               </div>
+              <Separator className='my-6 sm:hidden' />
               <div className='flex flex-col-reverse items-center gap-4 sm:flex-row'>
                 <Button
                   className='w-full'

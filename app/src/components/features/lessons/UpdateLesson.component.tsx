@@ -12,6 +12,7 @@ import { Blocker } from '../subscription/Blocker'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { toast } from 'sonner'
 import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
+import { Separator } from '@/components/ui/separator'
 
 type EditLessonProps = {
   lessonId: number
@@ -107,6 +108,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
+      <Separator className='my-6 sm:hidden' />
       <SaveAbortButtons
         onSave={handleSave}
         onAbort={onCloseModal}

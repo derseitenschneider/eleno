@@ -80,7 +80,6 @@ const StudentFormRow = memo(function StudentFormRow({
                 autoCorrect='off'
                 type='text'
                 spellCheck={false}
-                autoCapitalize='off'
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&

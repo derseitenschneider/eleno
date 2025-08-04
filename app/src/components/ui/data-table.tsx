@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
     row.toggleSelected()
   }
   return (
-    <ScrollArea className='border border-hairline sm:min-h-[unset]'>
+    <ScrollArea className='min-h-[100px] border border-hairline sm:min-h-[unset]'>
       <Table
         className={cn(
           isFetching && 'opacity-50',
@@ -49,7 +49,7 @@ export function DataTable<TData, TValue>({
           className,
         )}
       >
-        <TableHeader className='sticky top-0 z-10 hidden bg-background50 after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-hairline sm:table-header-group'>
+        <TableHeader className='sticky top-0 z-10 bg-background50 after:absolute after:bottom-0 after:h-[1px] after:w-full after:bg-hairline'>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -62,9 +62,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 )
               })}

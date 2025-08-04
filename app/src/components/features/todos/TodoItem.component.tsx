@@ -67,10 +67,10 @@ function TodoItem({ todo, type }: TodoItemProps) {
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
-      <div className='flex flex-wrap items-start justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
+      <div className='flex w-full flex-wrap items-start justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
-            'text-sm md:basis-auto break-word mr-auto',
+            'text-sm md:basis-auto w-full mr-auto',
             currentHolderName && todo.due && 'basis-full',
           )}
         >
@@ -83,7 +83,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
               className={cn(
                 'cursor-pointer w-fit',
                 currentHolder.holder.archive &&
-                'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                  'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
               )}
             >
               {currentHolderName}
@@ -99,10 +99,10 @@ function TodoItem({ todo, type }: TodoItemProps) {
         >
           {todo.due
             ? todo.due.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-            })
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+              })
             : null}
         </span>
       </div>

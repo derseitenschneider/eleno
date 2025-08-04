@@ -3,7 +3,7 @@ import Navbar from '../layouts/Navbar.component'
 
 function Todos() {
   return (
-    <div>
+    <div className='pb-24 sm:pb-0'>
       <Navbar
         navLinks={[
           { path: '', label: 'Offen', key: 0, end: true },
