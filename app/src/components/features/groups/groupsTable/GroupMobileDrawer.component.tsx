@@ -28,6 +28,14 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
   const [modalOpen, setModalOpen] = useState<'EDIT' | null>(null)
   const { isDeactivating, deactivateGroups } = useDeactivateGroups()
 
+  let timeString = ''
+  if (group.startOfLesson && group.endOfLesson) {
+    timeString = `${group.startOfLesson} – ${group.endOfLesson}`
+  } else if (group.startOfLesson) {
+    timeString = `${group.startOfLesson}`
+  } else {
+    timeString = '–'
+  }
   return (
     <>
       <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
@@ -51,29 +59,29 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               <div className='grid gap-4 py-6'>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold'>Tag</span>
-                  <span>{group.dayOfLesson}</span>
+                  <span>{group.dayOfLesson || '–'}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold'>Zeit</span>
-                  <span>
-                    {group.startOfLesson} - {group.endOfLesson}
-                  </span>
+                  <span>{timeString}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold'>Ort</span>
-                  <span>{group.location}</span>
+                  <span>{group.location || '–'}</span>
                 </div>
 
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold'>
                     Schüler:innen
                   </span>
-                  {group.students.length > 0 && (
+                  {group.students.length > 0 ? (
                     <ul className='list-disc pl-4'>
                       {group.students.map((student) => (
                         <li key={student.name}>{student.name}</li>
                       ))}
                     </ul>
+                  ) : (
+                    '–'
                   )}
                 </div>
               </div>
