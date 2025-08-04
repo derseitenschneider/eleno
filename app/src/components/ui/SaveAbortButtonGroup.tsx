@@ -1,5 +1,7 @@
+import { cn } from '@/lib/utils'
 import { Button } from './button'
 import MiniLoader from './MiniLoader.component'
+import { Separator } from './separator'
 
 type SaveAbortButtonsProps = {
   isSaving: boolean
@@ -7,6 +9,7 @@ type SaveAbortButtonsProps = {
   isDisabledAborting: boolean
   onAbort?: () => void
   onSave: () => void
+  className?: string
 }
 
 export function SaveAbortButtons({
@@ -15,9 +18,15 @@ export function SaveAbortButtons({
   isDisabledAborting,
   onAbort,
   onSave,
+  className,
 }: SaveAbortButtonsProps) {
   return (
-    <div className='flex flex-col-reverse items-center justify-end gap-4 sm:flex-row'>
+    <div
+      className={cn(
+        className,
+        'flex w-full flex-col-reverse items-center justify-end gap-3 sm:flex-row',
+      )}
+    >
       <Button
         disabled={isDisabledAborting}
         className='w-full sm:w-auto'

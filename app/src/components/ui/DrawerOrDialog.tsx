@@ -195,7 +195,7 @@ const DrawerOrDialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
   const Component = isMobile ? DrawerDescription : DialogDescription
-  return <Component ref={ref} className={className} {...props} />
+  return <Component ref={ref} className={cn('text-base', className)} {...props} />
 })
 DrawerOrDialogDescription.displayName = 'DrawerOrDialogDescription'
 

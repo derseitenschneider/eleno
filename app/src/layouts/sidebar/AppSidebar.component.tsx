@@ -172,7 +172,7 @@ export function AppSidebar() {
                 >
                   <Link to='/students'>
                     <Users strokeWidth={isActive('/students') ? 1.75 : 1.25} />
-                    <span>Schüler:innen und Gruppen</span>
+                    <span>Schüler:innen & Gruppen</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

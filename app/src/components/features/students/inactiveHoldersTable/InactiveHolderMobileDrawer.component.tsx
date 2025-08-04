@@ -54,7 +54,12 @@ export function InactiveHolderMobileDrawer({
 
   return (
     <>
-      <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer
+        modal={false}
+        direction='right'
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
         <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
           <div className='flex w-full cursor-pointer items-center justify-between text-base'>
             <span>{name}</span>

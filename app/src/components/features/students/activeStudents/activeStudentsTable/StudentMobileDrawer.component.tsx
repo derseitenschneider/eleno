@@ -29,7 +29,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
 
   return (
     <>
-      <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer modal={false} direction='right' open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
           <div className='flex w-full cursor-pointer items-center justify-between text-base'>
             <span>
@@ -39,9 +39,11 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
           </div>
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
-          <DrawerClose>
-            <X className='size-5' />
-            <span className='sr-only'>Close</span>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon' >
+              <X className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
           </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>
@@ -85,8 +87,10 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
           </Card>
           <Separator className='my-6' />
           <div className='flex flex-col gap-3'>
+
             <Button
               onClick={() => setModalOpen('EDIT')}
+
               className='flex gap-2'
               size='sm'
             >

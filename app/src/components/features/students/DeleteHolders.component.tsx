@@ -4,13 +4,9 @@ import { Button } from '@/components/ui/button'
 import { useDeleteStudents } from './useDeleteStudents'
 import { useDeleteGroups } from '../groups/useDeleteGroups'
 import { toast } from 'sonner'
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { DeleteAbortButtons } from '@/components/ui/DeleteAbortButtonGroup'
 
 interface DeleteStudentsProps {
   onSuccess: () => void
@@ -92,59 +88,13 @@ function DeleteHolders({ onSuccess, holderIds }: DeleteStudentsProps) {
     }
   }
   return (
-    <div>
-      {/* <DialogHeader> */}
-      {/*   <DialogTitle>{dialogTitle}</DialogTitle> */}
-      {/* </DialogHeader> */}
-      {/**/}
-      {/* {hasOnlyGroups && isSingularGroup && ( */}
-      {/*   <DialogDescription> */}
-      {/*     Möchtest du{' '} */}
-      {/*     <span className='font-medium text-primary'> */}
-      {/*       {groupsToDelete[0]?.name} */}
-      {/*     </span>{' '} */}
-      {/*     und alle zugehörigen Daten löschen? */}
-      {/*   </DialogDescription> */}
-      {/* )} */}
-      {/* {hasOnlyGroups && !isSingularGroup && ( */}
-      {/*   <DialogDescription> */}
-      {/*     Möchtest du die ausgewählten Gruppen und alle zugehörigen Daten */}
-      {/*     löschen? */}
-      {/*   </DialogDescription> */}
-      {/* )} */}
-      {/* {hasOnlyStudents && isSingularStudent && ( */}
-      {/*   <DialogDescription> */}
-      {/*     Möchtest du{' '} */}
-      {/*     <span className='font-medium text-primary'> */}
-      {/*       {studentsToDelete[0]?.firstName} {studentsToDelete[0]?.lastName} */}
-      {/*     </span>{' '} */}
-      {/*     und alle zugehörigen Daten löschen? */}
-      {/*   </DialogDescription> */}
-      {/* )} */}
-      {/* {hasOnlyStudents && !isSingularStudent && ( */}
-      {/*   <DialogDescription> */}
-      {/*     Möchtest du die ausgewählten Schüler:innen und alle zugehörigen Daten */}
-      {/*     löschen? */}
-      {/*   </DialogDescription> */}
-      {/* )} */}
-      {/**/}
-      {/* {hasStudentsAndGroups && ( */}
-      {/*   <DialogDescription> */}
-      {/*     Möchtest du die ausgewählten Schüler:innen und Gruppen und alle */}
-      {/*     zugehörigen Daten löschen? */}
-      {/*   </DialogDescription> */}
-      {/* )} */}
-      <div className='mt-4 flex justify-end gap-4'>
-        <Button size='sm' variant='outline' onClick={onSuccess}>
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
-          <Button size='sm' variant='destructive' onClick={handleDeleteHolders}>
-            Löschen
-          </Button>
-          {(isDeletingStudents || isDeletingGroups) && <MiniLoader />}
-        </div>
-      </div>
+    <div className='mt-6'>
+      <DeleteAbortButtons
+        onDelete={handleDeleteHolders}
+        isDeleting={isDeletingStudents || isDeletingGroups}
+        onAbort={onSuccess}
+        isDisabled={isDeletingStudents || isDeletingGroups}
+      />
     </div>
   )
 }

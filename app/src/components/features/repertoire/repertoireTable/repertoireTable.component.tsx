@@ -27,6 +27,13 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer'
 
 type RepertoireTableProps = {
   repertoire: Array<RepertoireItem>
@@ -137,24 +144,24 @@ function RepertoireTable({
           <Empty emptyMessage='Kein Repertoire erfasst.' />
         )}
       </div>
-      <DrawerOrDialog
+      <Drawer
         open={modalOpen === 'CREATE'}
         onOpenChange={() => setModalOpen(null)}
       >
-        <DrawerOrDialogContent>
-          <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Song erfassen</DrawerOrDialogTitle>
-          </DrawerOrDialogHeader>
-          <DrawerOrDialogDescription className='mb-10 text-base'>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Song erfassen</DrawerTitle>
+          </DrawerHeader>
+          <DrawerDescription className='mb-10 text-base'>
             Erfasse einen neuen Song für{' '}
             {currentLessonHolder.type === 's'
               ? currentLessonHolder.holder.firstName
               : currentLessonHolder.holder.name}
             .
-          </DrawerOrDialogDescription>
+          </DrawerDescription>
           <CreateRepertoireItem onCloseModal={() => setModalOpen(null)} />
-        </DrawerOrDialogContent>
-      </DrawerOrDialog>
+        </DrawerContent>
+      </Drawer>
     </>
   )
 }

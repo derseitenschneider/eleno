@@ -15,7 +15,7 @@ export function DeleteAbortButtons({
   onDelete,
 }: DeleteAbortButtonsProps) {
   return (
-    <div className='flex flex-col-reverse items-center justify-end gap-4 sm:flex-row'>
+    <div className='flex flex-col-reverse items-center justify-end gap-3 sm:flex-row'>
       <Button
         disabled={isDisabled}
         className='w-full sm:w-auto'

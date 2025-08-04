@@ -12,6 +12,7 @@ import useCurrentHolder from '../lessons/useCurrentHolder'
 import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
 
 type CreateRepertoireProps = {
   onCloseModal?: () => void
@@ -66,7 +67,7 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
   return (
     <div
       key={`${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
-      className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'
+      className='relative mb-8 mt-6 flex flex-col sm:mb-12 sm:flex-row sm:items-center  sm:gap-2'
     >
       <Blocker variant='inline' />
       <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-10 rounded-md border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
@@ -130,18 +131,32 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
             />
           )}
         </div>
-        <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
-          <Button
-            className='w-full'
-            disabled={isCreating || !item.title || !hasAccess}
-            size='sm'
-            onClick={handleSave}
-          >
-            Speichern
-          </Button>
-          {isCreating && <MiniLoader />}
-        </div>
+        {!isMobile && (
+          <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
+            <Button
+              className='w-full'
+              disabled={isCreating || !item.title || !hasAccess}
+              size='sm'
+              onClick={handleSave}
+            >
+              Speichern
+            </Button>
+            {isCreating && <MiniLoader />}
+          </div>
+        )}
       </div>
+      {isMobile && (
+        <div>
+          <Separator className='my-6' />
+          <SaveAbortButtons
+            onSave={handleSave}
+            isSaving={isCreating}
+            isDisabledSaving={isCreating || !item.title || !hasAccess}
+            isDisabledAborting={isCreating}
+            onAbort={() => onCloseModal?.()}
+          />
+        </div>
+      )}
     </div>
   )
 }
