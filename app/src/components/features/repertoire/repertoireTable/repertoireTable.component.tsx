@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 import RepertoireControl from './repertoireControl'
 import CreateRepertoireItem from '../CreateRepertoireItem.component'
-import { ChevronLeft, Plus, PlusIcon } from 'lucide-react'
+import { ChevronLeft, Plus } from 'lucide-react'
 import { DataTable } from '../../../ui/data-table'
 import { repertoireColumns } from './repertoireColumns'
 import {
@@ -21,19 +21,13 @@ import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Button } from '@/components/ui/button'
 import {
-  DrawerOrDialog,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
-import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import { repertoireColumnsMobile } from './repertoireColumnsMobile'
 
 type RepertoireTableProps = {
   repertoire: Array<RepertoireItem>
@@ -82,7 +76,7 @@ function RepertoireTable({
 
   const table = useReactTable({
     data: repertoire,
-    columns: repertoireColumns,
+    columns: isMobile ? repertoireColumnsMobile : repertoireColumns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     globalFilterFn: fuzzyFilter,

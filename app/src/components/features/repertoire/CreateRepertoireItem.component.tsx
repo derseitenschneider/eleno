@@ -70,29 +70,16 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
       className='relative mb-8 mt-6 flex flex-col sm:mb-12 sm:flex-row sm:items-center  sm:gap-2'
     >
       <Blocker variant='inline' />
-      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-10 rounded-md border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
+      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-16 rounded-md border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
         <div className='relative col-span-5 grow sm:col-span-1 sm:w-auto sm:shrink'>
           <span className='absolute left-1 top-[-26px] text-sm text-foreground/80'>
-            Song
+            Titel
           </span>
-          {isMobile ? (
-            <Input
-              data-testid='input-create-repertoire'
-              autoFocus={!isMobile}
-              placeholder='Song...'
-              className='sm:border-none'
-              type='text'
-              name='title'
-              onChange={handleChangeTitle}
-              value={item.title}
-            />
-          ) : (
-            <CustomEditor
-              type='mini'
-              value={item.title}
-              onChange={(e) => handleChangeHTMLTitle(e)}
-            />
-          )}
+          <CustomEditor
+            type='mini'
+            value={item.title}
+            onChange={(e) => handleChangeHTMLTitle(e)}
+          />
         </div>
 
         <div className='col-span-5 sm:col-span-1'>

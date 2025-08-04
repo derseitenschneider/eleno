@@ -6,7 +6,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
 import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
-import { DialogDescription } from '@/components/ui/dialog'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
@@ -57,56 +56,56 @@ function UpdateRepertoireItem({
   return (
     <div className='relative flex items-end gap-2 pb-10 sm:items-center md:min-w-[700px] lg:min-w-[800px]'>
       <Blocker variant='inline' />
-      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-10 rounded-md border-hairline p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
-        <div className='relative col-span-4 grow sm:col-span-1 sm:w-auto sm:shrink'>
-          <DialogDescription className='hidden'>
-            Bearbeite den Song
-          </DialogDescription>
-          {isMobile ? (
-            <Input
-              placeholder='Song...'
-              className='sm:border-none'
-              type='text'
-              name='title'
-              onChange={handleChangeTitle}
-              value={item.title}
-            />
-          ) : (
-            <CustomEditor
-              type='mini'
-              value={item.title}
-              onChange={(e) => setItem((prev) => ({ ...prev, title: e }))}
-            />
-          )}
+      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-16 rounded-md border-hairline p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
+        <div className='relative col-span-5 grow sm:col-span-1 sm:w-auto sm:shrink'>
+          <span className='absolute left-1 top-[-26px] text-sm text-foreground/80'>
+            Titel
+          </span>
+          <CustomEditor
+            type='mini'
+            value={item.title}
+            onChange={(e) => setItem((prev) => ({ ...prev, title: e }))}
+          />
+          {/* )} */}
         </div>
 
-        <div className='relative col-span-5 mr-2 flex items-center sm:col-span-1 sm:mr-0'>
-          <DayPicker
-            className='w-full'
-            date={item.startDate}
-            setDate={handleChangeStart}
-          />
-          {item.startDate && (
-            <ButtonRemove
-              disabled={isUpdating}
-              className='translate-x-[-8px]'
-              onRemove={() => handleChangeStart(undefined)}
+        <div className='col-span-5 mt-4 sm:col-span-1'>
+          <div className='relative flex items-center gap-1 sm:gap-0 '>
+            <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
+              Start
+            </span>
+            <DayPicker
+              className='w-full'
+              date={item.startDate}
+              setDate={handleChangeStart}
             />
-          )}
+            {item.startDate && (
+              <ButtonRemove
+                disabled={isUpdating}
+                className='sm:translate-x-[-8px]'
+                onRemove={() => handleChangeStart(undefined)}
+              />
+            )}
+          </div>
         </div>
-        <div className='relative col-span-5 flex items-center sm:col-span-1'>
-          <DayPicker
-            className='w-full'
-            date={item.endDate}
-            setDate={handleChangeEnd}
-          />
-          {item.endDate && (
-            <ButtonRemove
-              disabled={isUpdating}
-              className='translate-x-[-8px]'
-              onRemove={() => handleChangeEnd(undefined)}
+        <div className='col-span-5 sm:col-span-1'>
+          <div className='relative flex items-center gap-1 sm:gap-0 '>
+            <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
+              Start
+            </span>
+            <DayPicker
+              className='w-full'
+              date={item.endDate}
+              setDate={handleChangeEnd}
             />
-          )}
+            {item.endDate && (
+              <ButtonRemove
+                disabled={isUpdating}
+                className='translate-x-[-8px]'
+                onRemove={() => handleChangeEnd(undefined)}
+              />
+            )}
+          </div>
         </div>
         <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
           <Button
