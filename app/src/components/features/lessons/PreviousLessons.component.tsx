@@ -2,11 +2,11 @@ import { useLatestLessons } from './lessonsQueries'
 import Empty from '@/components/ui/Empty.component'
 import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { PreviousLessonItem } from './PreviousLessonItem.component'
+import { LessonItem } from './LessonItem.component'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { PreviousLessonItemMobile } from './PreviousLessonItemMobile.component'
+import { LessonItemMobile } from './PreviousLessonItemMobile.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
@@ -78,14 +78,9 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
                   {previousLessonsSortedFiltered.map((lesson) => {
                     if (isMobile)
                       return (
-                        <PreviousLessonItemMobile
-                          key={lesson.id}
-                          lesson={lesson}
-                        />
+                        <LessonItemMobile key={lesson.id} lesson={lesson} />
                       )
-                    return (
-                      <PreviousLessonItem key={lesson.id} lesson={lesson} />
-                    )
+                    return <LessonItem key={lesson.id} lesson={lesson} />
                   })}
                 </div>
               </ScrollArea>

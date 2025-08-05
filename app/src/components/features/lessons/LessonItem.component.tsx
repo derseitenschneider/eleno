@@ -8,18 +8,18 @@ import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { ChevronRightIcon } from 'lucide-react'
 import type { Lesson } from '@/types/types'
 
-export type PreviousLessonItemProps = {
+export type LessonItemProps = {
   lesson: Lesson
 }
 
-export function PreviousLessonItem({ lesson }: PreviousLessonItemProps) {
+export function LessonItem({ lesson }: LessonItemProps) {
   const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
 
   if (!lesson) return
 
   return (
-    <div className='rounded-sm border border-hairline p-3'>
+    <div className='rounded-sm border border-hairline bg-background100 p-3'>
       <div className='flex items-start justify-between'>
         <p className='mb-1 text-xs'>
           {lesson.date.toLocaleDateString(userLocale, {

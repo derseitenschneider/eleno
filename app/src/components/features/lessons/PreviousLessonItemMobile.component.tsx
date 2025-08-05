@@ -9,21 +9,18 @@ import {
 } from '@/components/ui/drawer'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
-import { PreviousLessonItem } from './PreviousLessonItem.component'
+import { LessonItem } from './LessonItem.component'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { ChevronLeft, MessageSquareShare, PencilIcon, X } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
+import { MessageSquareShare, PencilIcon, X } from 'lucide-react'
 import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
 
-type PreviousLessonItemMobileProps = {
+type LessonItemMobileProps = {
   lesson: Lesson
 }
 
-export function PreviousLessonItemMobile({
-  lesson,
-}: PreviousLessonItemMobileProps) {
+export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
   const { userLocale } = useUserLocale()
   const [open, setOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState<'EDIT' | 'SHARE_HOMEWORK' | null>(
@@ -36,7 +33,7 @@ export function PreviousLessonItemMobile({
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <div className='w-full'>
-            <PreviousLessonItem lesson={lesson} />
+            <LessonItem lesson={lesson} />
           </div>
         </DrawerTrigger>
         <DrawerContent>
