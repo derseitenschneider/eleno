@@ -19,9 +19,12 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { NoteMobile } from './NoteMobile.component'
 
 function NoteList() {
   const { currentLessonHolder } = useCurrentHolder()
+  const isMobile = useIsMobileDevice()
   const [openModal, setOpenModal] = useState<'ADD' | undefined>()
   const { updateNotes, isUpdating } = useUpdateNote()
 
@@ -93,9 +96,13 @@ function NoteList() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {sortedNotes.map((note, index) => (
-                    <Note note={note} index={index} key={note.id} />
-                  ))}
+                  {isMobile
+                    ? sortedNotes.map((note, index) => (
+                        <NoteMobile note={note} index={index} key={note.id} />
+                      ))
+                    : sortedNotes.map((note, index) => (
+                        <Note note={note} index={index} key={note.id} />
+                      ))}
                   {provided.placeholder}
                 </ul>
               )

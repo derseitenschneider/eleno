@@ -1,6 +1,6 @@
 import type { Lesson } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
-import { LessonItemMobile } from '../PreviousLessonItemMobile.component'
+import { LessonItemMobile } from '../LessonItemMobile.component'
 
 export const allLessonsColumnsMobile: ColumnDef<Lesson>[] = [
   {

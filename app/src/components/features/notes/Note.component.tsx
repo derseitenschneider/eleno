@@ -4,6 +4,8 @@ import { cn } from '@/lib/utils'
 import NoteDropdown from './NoteDropdown.component'
 import { Draggable } from '@hello-pangea/dnd'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { ChevronRight } from 'lucide-react'
 
 interface NoteProps {
   note: TNote
@@ -11,6 +13,7 @@ interface NoteProps {
 }
 
 function Note({ note, index }: NoteProps) {
+  const isMobile = useIsMobileDevice()
   const { id, title, text, backgroundColor } = note
   const borderVariants: Record<Exclude<NotesBackgrounds, null>, string> = {
     red: 'border-l-noteRed border-l-[5px]',
@@ -37,7 +40,11 @@ function Note({ note, index }: NoteProps) {
             {...provided.dragHandleProps}
           >
             <div className='absolute right-3 top-3'>
-              <NoteDropdown noteId={id} />
+              {isMobile ? (
+                <ChevronRight className='size-4 text-foreground/70' />
+              ) : (
+                <NoteDropdown noteId={id} />
+              )}
             </div>
             {title && (
               <h4 className='text-md leading-1 max-w-[25ch] break-words pr-4 text-foreground'>

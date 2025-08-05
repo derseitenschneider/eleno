@@ -6,7 +6,7 @@ import { LessonItem } from './LessonItem.component'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { LessonItemMobile } from './PreviousLessonItemMobile.component'
+import { LessonItemMobile } from './LessonItemMobile.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
