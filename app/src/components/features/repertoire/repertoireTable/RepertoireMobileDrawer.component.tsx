@@ -2,7 +2,14 @@ import { useState } from 'react'
 import parse from 'html-react-parser'
 import type { RepertoireItem, Student } from '@/types/types'
 
-import { Archive, ChevronRight, PencilIcon, Trash2, X } from 'lucide-react'
+import {
+  Archive,
+  ChevronLeft,
+  ChevronRight,
+  PencilIcon,
+  Trash2,
+  X,
+} from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -50,7 +57,7 @@ export function RepertoireMobileDrawer({
         <DrawerContent className='!w-screen p-4'>
           <DrawerClose asChild>
             <Button variant='ghost' size='icon'>
-              <X className='size-5' />
+              <ChevronLeft className='size-5' />
               <span className='sr-only'>Close</span>
             </Button>
           </DrawerClose>
@@ -122,6 +129,14 @@ export function RepertoireMobileDrawer({
                 Löschen
               </Button>
             </div>
+            <Button
+              className='mt-4'
+              size='sm'
+              onClick={() => setIsOpen(false)}
+              variant='outline'
+            >
+              Abbrechen
+            </Button>
           </div>
         </DrawerContent>
       </Drawer>

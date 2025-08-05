@@ -25,6 +25,7 @@ import type { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/components/ui/button'
 import { useAuthorizeGroupHomeworkLink } from '../../students/useAuthorizeGroupsHomeworkLink'
 import { useAuthorizeStudentHomeworkLink } from '../../students/useAuthorizeStudentsHomeworkLink'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -32,6 +33,7 @@ interface ShareHomeworkProps {
 
 // TODO: Cleanup component, make custom hook for business logic etc.
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
+  const isMobile = useIsMobileDevice()
   const { data: userProfile } = useProfileQuery()
   const { authorizeStudent, isAuthorizingStudents } =
     useAuthorizeStudentHomeworkLink()
@@ -125,7 +127,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
 
   if (!currentHolder) return null
   return (
-    <div className='relative text-sm sm:w-[600px]'>
+    <div className='relative sm:w-[600px] sm:text-sm'>
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.
@@ -135,7 +137,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
           <Collapsible open={isOpenCollapsible}>
             <Label
               htmlFor='authorization'
-              className='flex cursor-pointer items-center gap-1'
+              className='flex cursor-pointer items-center gap-1 text-base'
             >
               <Checkbox
                 id='authorization'
@@ -159,9 +161,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 >
                   <XIcon />
                 </Button>
-                <p className='text-sm/6'>
-                  Mit dem Setzen dieser Checkbox bestätigst du, dass:
-                </p>
+                <p>Mit dem Setzen dieser Checkbox bestätigst du, dass:</p>
                 <ul className='list-inside list-disc py-3 leading-5'>
                   <li> diese Schüler:innen volljährig sind, ODER </li>
                   <li>
@@ -204,22 +204,41 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 </b>{' '}
                 auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
               </p>
-              <div className='mb-6 mt-2'>
+              <div className='mb-6 mt-2 flex flex-col sm:flex-row'>
                 <a href={url} target='_blank' rel='noreferrer'>
                   {url}
                 </a>{' '}
-                <button
-                  className='ml-2'
-                  type='button'
-                  title='Link kopieren'
-                  onClick={copyToClipboard}
-                >
-                  {isCopied ? (
-                    <HiCheck color='green' />
-                  ) : (
-                    <HiOutlineClipboard />
-                  )}
-                </button>
+                {isMobile ? (
+                  <Button
+                    className='mt-4 flex items-center gap-1'
+                    variant='outline'
+                  >
+                    {isCopied ? (
+                      <>
+                        <HiCheck className='size-4' color='green' />
+                        Link kopiert
+                      </>
+                    ) : (
+                      <>
+                        <HiOutlineClipboard className='size-5' />
+                        Link kopieren
+                      </>
+                    )}
+                  </Button>
+                ) : (
+                  <button
+                    className='ml-2'
+                    type='button'
+                    title='Link kopieren'
+                    onClick={copyToClipboard}
+                  >
+                    {isCopied ? (
+                      <HiCheck color='green' />
+                    ) : (
+                      <HiOutlineClipboard />
+                    )}
+                  </button>
+                )}
               </div>
 
               <div className='flex justify-between'>

@@ -26,7 +26,7 @@ function DrawerClose({
 }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return (
     <DrawerPrimitive.Close
-      className='ring-offset-background absolute right-4 top-4 rounded-sm text-foreground opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary'
+      className='ring-offset-background rounded-sm text-foreground opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary'
       data-slot='drawer-close'
       {...props}
     />

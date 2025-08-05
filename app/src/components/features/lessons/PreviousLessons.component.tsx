@@ -6,11 +6,14 @@ import { PreviousLessonItem } from './PreviousLessonItem.component'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { PreviousLessonItemMobile } from './PreviousLessonItemMobile.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
 }
 function PreviousLessons({ layout }: PreviousLessonsProps) {
   const { data: lessons } = useLatestLessons()
+  const isMobile = useIsMobileDevice()
   const scrollRef = useRef<HTMLDivElement>(null)
   const { currentLessonHolder } = useCurrentHolder()
 
@@ -23,17 +26,13 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
   const lessonField =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
-  const previousLessonsIds =
-    lessons
-      ?.sort((a, b) => {
-        return +b.date - +a.date
-      })
-      ?.filter((lesson) => lesson.status === 'documented')
-      .filter(
-        (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
-      )
-      ?.slice(0, 3)
-      .map((lesson) => lesson.id) || []
+  const previousLessonsSortedFiltered = lessons
+    ?.sort((a, b) => {
+      return +b.date - +a.date
+    })
+    ?.filter((lesson) => lesson.status === 'documented')
+    .filter((lesson) => lesson[lessonField] === currentLessonHolder?.holder.id)
+    ?.slice(0, 3)
 
   const newestLessonYear = lessons
     ?.filter(
@@ -42,6 +41,8 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
     .sort((a, b) => b.date.valueOf() - a.date.valueOf())
     .at(0)
     ?.date.getFullYear()
+
+  if (!previousLessonsSortedFiltered) return null
 
   return (
     <div>
@@ -59,14 +60,14 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
         >
           <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
-            {previousLessonsIds.length > 0 && (
+            {previousLessonsSortedFiltered.length > 0 && (
               <NavLink to={`all?year=${newestLessonYear}`} end={true}>
                 Alle anzeigen
               </NavLink>
             )}
           </div>
           <div className='overflow-hidden'>
-            {previousLessonsIds.length > 0 ? (
+            {previousLessonsSortedFiltered.length > 0 ? (
               <ScrollArea ref={scrollRef} className='h-full'>
                 <div
                   className={cn(
@@ -74,9 +75,18 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
                     'space-y-4',
                   )}
                 >
-                  {previousLessonsIds.map((lessonId) => (
-                    <PreviousLessonItem key={lessonId} lessonId={lessonId} />
-                  ))}
+                  {previousLessonsSortedFiltered.map((lesson) => {
+                    if (isMobile)
+                      return (
+                        <PreviousLessonItemMobile
+                          key={lesson.id}
+                          lesson={lesson}
+                        />
+                      )
+                    return (
+                      <PreviousLessonItem key={lesson.id} lesson={lesson} />
+                    )
+                  })}
                 </div>
               </ScrollArea>
             ) : (

@@ -3,22 +3,26 @@ import { cn } from '@/lib/utils'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import ButtonShareHomework from './homework/ButtonShareHomework.component'
 import PreviousLessonDropDown from './PreviousLessonDropDown.component'
-import { useLatestLessons } from './lessonsQueries'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { ChevronRightIcon } from 'lucide-react'
+import type { Lesson } from '@/types/types'
 
-export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
-  const { data: lessons } = useLatestLessons()
+export type PreviousLessonItemProps = {
+  lesson: Lesson
+}
+
+export function PreviousLessonItem({ lesson }: PreviousLessonItemProps) {
   const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
-  const currentLesson = lessons?.find((lesson) => lesson.id === lessonId)
-  if (!currentLesson) return null
+
+  if (!lesson) return
 
   return (
     <div className='rounded-sm border border-hairline p-3'>
       <div className='flex items-start justify-between'>
         <p className='mb-1 text-xs'>
-          {currentLesson.date.toLocaleDateString(userLocale, {
+          {lesson.date.toLocaleDateString(userLocale, {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -26,8 +30,14 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
         </p>
 
         <div className='flex items-center gap-6 md:gap-4'>
-          {!isMobile && <ButtonShareHomework lessonId={lessonId} />}
-          <PreviousLessonDropDown lessonId={lessonId} />
+          {!isMobile ? (
+            <>
+              <ButtonShareHomework lessonId={lesson.id} />
+              <PreviousLessonDropDown lessonId={lesson.id} />
+            </>
+          ) : (
+            <ChevronRightIcon className='size-5' />
+          )}
         </div>
       </div>
       <div className={cn('md:grid-cols-2 grid gap-6')}>
@@ -37,7 +47,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
             data-testid='lessons-prev-lesson'
             className='break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
-            {parse(removeHTMLAttributes(currentLesson.lessonContent || '—'))}
+            {parse(removeHTMLAttributes(lesson.lessonContent || '—'))}
           </div>
         </div>
         <div>
@@ -46,7 +56,7 @@ export function PreviousLessonItem({ lessonId }: { lessonId: number }) {
             data-testid='lessons-prev-homework'
             className='break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
           >
-            {parse(removeHTMLAttributes(currentLesson.homework || '—'))}
+            {parse(removeHTMLAttributes(lesson.homework || '—'))}
           </div>
         </div>
       </div>

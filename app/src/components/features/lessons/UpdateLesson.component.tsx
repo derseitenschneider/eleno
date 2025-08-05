@@ -81,7 +81,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   }
 
   return (
-    <div className='relative'>
+    <div className='relative pb-4'>
       <Blocker />
       <div className='mb-3 flex items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
