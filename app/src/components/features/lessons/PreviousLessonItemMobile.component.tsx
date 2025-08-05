@@ -25,6 +25,7 @@ export function PreviousLessonItemMobile({
   lesson,
 }: PreviousLessonItemMobileProps) {
   const { userLocale } = useUserLocale()
+  const [open, setOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState<'EDIT' | 'SHARE_HOMEWORK' | null>(
     null,
   )
@@ -32,7 +33,7 @@ export function PreviousLessonItemMobile({
   if (!lesson) return
   return (
     <>
-      <Drawer>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <div className='w-full'>
             <PreviousLessonItem lesson={lesson} />
@@ -59,7 +60,10 @@ export function PreviousLessonItemMobile({
           </DrawerHeader>
           <div className='flex flex-col gap-3'>
             <Button
-              onClick={() => setModalOpen('EDIT')}
+              onClick={() => {
+                setModalOpen('EDIT')
+                setOpen(false)
+              }}
               className='flex items-center gap-1'
               size='sm'
             >
@@ -69,26 +73,22 @@ export function PreviousLessonItemMobile({
 
             <Button
               variant='outline'
-              onClick={() => setModalOpen('SHARE_HOMEWORK')}
+              onClick={() => {
+                setModalOpen('SHARE_HOMEWORK')
+                setOpen(false)
+              }}
               className='flex items-center gap-1'
               size='sm'
             >
               <MessageSquareShare className='size-4' />
               Hausaufgaben teilen
             </Button>
-            <Separator className='my-4' />
-            <DrawerClose asChild>
-              <Button className='text-primary' size='sm' variant='outline'>
-                Abbrechen
-              </Button>
-            </DrawerClose>
           </div>
         </DrawerContent>
       </Drawer>
 
       <Drawer
         direction='right'
-        nested
         open={modalOpen === 'EDIT'}
         onOpenChange={() => setModalOpen(null)}
       >
@@ -119,7 +119,6 @@ export function PreviousLessonItemMobile({
       </Drawer>
 
       <Drawer
-        nested
         open={modalOpen === 'SHARE_HOMEWORK'}
         onOpenChange={() => setModalOpen(null)}
       >

@@ -36,7 +36,7 @@ export function PreviousLessonItem({ lesson }: PreviousLessonItemProps) {
               <PreviousLessonDropDown lessonId={lesson.id} />
             </>
           ) : (
-            <ChevronRightIcon className='size-5' />
+            <ChevronRightIcon className='size-4 text-foreground/70' />
           )}
         </div>
       </div>
