@@ -89,6 +89,7 @@ export default function ActiveStudentsTable({
       />
       {students.length > 0 ? (
         <DataTable
+          className='[&_tr]:border-b sm:[&_tr]:border-none'
           table={table}
           columns={studentsColumns}
           messageEmpty='Keine Schüler:innen vorhanden'

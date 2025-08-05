@@ -96,6 +96,7 @@ export default function InactiveHoldersTable({
         columns={inactiveHoldersColumns}
         messageEmpty='Das Archiv ist leer.'
         isFetching={isFetching}
+        className='[&_tr]:border-b sm:[&_tr]:border-none'
       />
     </div>
   )

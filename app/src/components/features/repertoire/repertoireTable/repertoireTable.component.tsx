@@ -127,7 +127,7 @@ function RepertoireTable({
         )}
         {repertoire.length > 0 ? (
           <DataTable
-            className='min-w-0'
+            className='min-w-0 [&_tr]:border-b sm:[&_tr]:border-none'
             isSelectable={false}
             table={table}
             columns={repertoireColumns}

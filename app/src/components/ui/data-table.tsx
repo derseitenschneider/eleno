@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
                 className={cn(
-                  'sm:odd:bg-background100',
+                  'bg-background100 sm:even:bg-background50',
                   isSelectable && 'cursor-pointer',
                 )}
                 onClick={() => toggleSelection(row)}

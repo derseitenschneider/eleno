@@ -76,6 +76,7 @@ export default function GroupsTable({
       {groups.length > 0 ? (
         <DataTable
           table={table}
+          className='[&_tr]:border-b sm:[&_tr]:border-none'
           columns={groupsColumns}
           messageEmpty='Keine Gruppen vorhanden'
           isFetching={isFetching}
