@@ -9,14 +9,13 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { useState } from 'react'
 import { DataTable } from '@/components/ui/data-table'
-import { allLessonsColumns } from './allLessonsColumns'
-import AllLessonsControl from './allLessonsControl.component'
-import useHasBanner from '@/hooks/useHasBanner'
-import { cn } from '@/lib/utils'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { allLessonsColumnsMobile } from './AllLessonsColumnsMobile'
+import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { allLessonsColumns } from './allLessonsColumns'
+import { allLessonsColumnsMobile } from './allLessonsColumnsMobile'
+import AllLessonsControl from './allLessonsControl.component'
 
 type AllLessonsTableProps = {
   lessons: Array<Lesson>
@@ -30,7 +29,6 @@ export default function AllLessonsTable({
   const isMobile = useIsMobileDevice()
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
-  const hasBanner = useHasBanner()
   const { userLocale } = useUserLocale()
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
