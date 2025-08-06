@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { HiCheck, HiOutlineClipboard, HiOutlineMail } from 'react-icons/hi'
 import { IoLogoWhatsapp } from 'react-icons/io5'
@@ -7,12 +6,6 @@ import { SiThreema } from 'react-icons/si'
 
 import { appConfig } from '@/config'
 import { cn } from '@/lib/utils'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import type { Lesson } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
-import useProfileQuery from '../../user/profileQuery'
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,109 +14,31 @@ import {
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Info, XIcon } from 'lucide-react'
-import type { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/components/ui/button'
-import { useAuthorizeGroupHomeworkLink } from '../../students/useAuthorizeGroupsHomeworkLink'
-import { useAuthorizeStudentHomeworkLink } from '../../students/useAuthorizeStudentsHomeworkLink'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { useShareHomework } from '@/hooks/useShareHomework'
 
 interface ShareHomeworkProps {
   lessonId: number
 }
 
-// TODO: Cleanup component, make custom hook for business logic etc.
 function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const isMobile = useIsMobileDevice()
-  const { data: userProfile } = useProfileQuery()
-  const { authorizeStudent, isAuthorizingStudents } =
-    useAuthorizeStudentHomeworkLink()
-  const { authorizeGroup, isAuthorizingGroup } = useAuthorizeGroupHomeworkLink()
-  const { userLocale } = useUserLocale()
-  const { activeSortedHolders } = useLessonHolders()
-  const { holderId } = useParams()
-  const [searchParams] = useSearchParams()
-  const [isOpenCollapsible, setIsOpenCollapsible] = useState(false)
-
-  const [isCopied, setIsCopied] = useState(false)
-
-  useEffect(() => {
-    if (isCopied) {
-      setTimeout(() => {
-        setIsCopied(false)
-      }, 5000)
-    }
-  }, [isCopied])
-
-  const queryClient = useQueryClient()
-  const allLessons = queryClient.getQueryData([
-    'all-lessons',
-    { holder: holderId, year: Number(searchParams.get('year')) },
-  ]) as Array<Lesson> | undefined
-
-  const latestLessons = queryClient.getQueryData(['latest-3-lessons']) as
-    | Array<Lesson>
-    | undefined
-
-  const combinedLessons: Array<Lesson> = []
-  if (allLessons) combinedLessons.push(...allLessons)
-  if (latestLessons) combinedLessons.push(...latestLessons)
-
-  const currentLesson = combinedLessons?.find(
-    (lesson) => lesson.id === lessonId,
-  )
-  const currentHolder = activeSortedHolders?.find((holder) => {
-    const type = holderId?.split('-').at(0)
-    const id = holderId?.split('-').at(1)
-    return (
-      holder.type === type && holder.holder.id === Number.parseInt(id || '')
-    )
-  })
-
-  const holderName =
-    currentHolder?.type === 's'
-      ? currentHolder?.holder.firstName
-      : currentHolder?.holder.name
-
-  const sharingAuthorized = currentHolder?.holder.homework_sharing_authorized
-
-  const lessonDate = currentLesson?.date.toLocaleDateString(userLocale, {
-    day: '2-digit',
-    month: '2-digit',
-    year: '2-digit',
-  })
-  const url = `${appConfig.apiUrl}/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
-
-  const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
-  let bodyText = ''
-  if (currentHolder && currentHolder.type === 's') {
-    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${userProfile?.first_name} ${userProfile?.last_name}`
-  } else {
-    bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findet ihr eure Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${userProfile?.first_name} ${userProfile?.last_name}`
-  }
-
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(url)
-    setIsCopied(true)
-  }
-
-  function handleShareAuthorization(checked: CheckedState) {
-    if (!currentHolder) return
-
-    if (currentHolder?.type === 's') {
-      authorizeStudent([
-        {
-          ...currentHolder.holder,
-          homework_sharing_authorized: Boolean(checked),
-        },
-      ])
-    }
-    if (currentHolder.type === 'g') {
-      authorizeGroup({
-        ...currentHolder.holder,
-        homework_sharing_authorized: Boolean(checked),
-      })
-    }
-  }
+  const {
+    currentHolder,
+    isOpenCollapsible,
+    setIsOpenCollapsible,
+    sharingAuthorized,
+    isAuthorizingStudents,
+    isAuthorizingGroup,
+    handleShareAuthorization,
+    url,
+    isCopied,
+    lessonDate,
+    copyToClipboard,
+    bodyText,
+    subjectText,
+  } = useShareHomework(lessonId)
 
   if (!currentHolder) return null
   return (
@@ -205,13 +120,19 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
               </p>
               <div className='mb-6 mt-2 flex flex-col sm:flex-row'>
-                <a href={url} target='_blank' rel='noreferrer'>
+                <a
+                  href={url}
+                  className='break-words'
+                  target='_blank'
+                  rel='noreferrer'
+                >
                   {url}
                 </a>{' '}
                 {isMobile ? (
                   <Button
                     className='mt-4 flex items-center gap-1'
                     variant='outline'
+                    onClick={copyToClipboard}
                   >
                     {isCopied ? (
                       <>
@@ -241,50 +162,93 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 )}
               </div>
 
-              <div className='flex justify-between'>
+              <div className='flex flex-col sm:flex-row sm:justify-between'>
                 <p>Link direkt verschicken:</p>{' '}
-                <div className='flex items-center gap-4'>
-                  <a
-                    href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
-                    title='Link per Telegram verschicken'
-                    target='_blank'
-                    className='text-[#2aabee]'
-                    rel='noreferrer'
+                <div className='flex flex-col gap-4 sm:flex-row sm:items-center'>
+                  <Button
+                    asChild
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    className='flex items-center gap-2 text-[#2aabee]'
+                    size={isMobile ? 'sm' : 'icon'}
                   >
-                    <FaTelegramPlane className='h-5 w-5' />
-                  </a>
-                  <a
-                    href={`https://threema.id/compose?text=${bodyText}`}
-                    title='Link per Threema verschicken'
-                    target='_blank'
-                    className='text-foreground'
-                    rel='noreferrer'
+                    <a
+                      href={`https://t.me/share/url?url=${url}&text=${bodyText}`}
+                      title='Link per Telegram verschicken'
+                      target='_blank'
+                      className='!no-underline'
+                      rel='noreferrer'
+                    >
+                      <FaTelegramPlane className='h-5 w-5' />
+                      {isMobile && 'Telegram'}
+                    </a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    size={isMobile ? 'sm' : 'icon'}
+                    className='flex items-center gap-2 text-foreground'
                   >
-                    <SiThreema className='h-5 w-5' />
-                  </a>
-                  <a
-                    href={`https://wa.me/?text=${bodyText}`}
-                    title='Link per Whatsapp verschicken'
-                    target='_blank'
-                    rel='noreferrer'
-                    className='text-[#25d366]'
+                    <a
+                      href={`https://threema.id/compose?text=${bodyText}`}
+                      title='Link per Threema verschicken'
+                      target='_blank'
+                      className='!no-underline'
+                      rel='noreferrer'
+                    >
+                      <SiThreema className='h-5 w-5' />
+                      {isMobile && 'Threema'}
+                    </a>
+                  </Button>
+
+                  <Button
+                    asChild
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    size={isMobile ? 'sm' : 'icon'}
+                    className='flex items-center gap-2 text-[#25d366]'
                   >
-                    <IoLogoWhatsapp className='h-5 w-5' />
-                  </a>{' '}
-                  <a
-                    href={`sms://?&body=${bodyText}`}
-                    title='Link per SMS verschicken'
-                    className='text-foreground'
+                    <a
+                      href={`https://wa.me/?text=${bodyText}`}
+                      title='Link per Whatsapp verschicken'
+                      target='_blank'
+                      rel='noreferrer'
+                      className='!no-underline'
+                    >
+                      <IoLogoWhatsapp className='h-5 w-5' />
+                      {isMobile && 'WhatsApp'}
+                    </a>
+                  </Button>
+
+                  <Button
+                    asChild
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    size={isMobile ? 'sm' : 'icon'}
+                    className='flex items-center gap-2 text-foreground'
                   >
-                    <MdOutlineTextsms className='h-5 w-5' />
-                  </a>
-                  <a
-                    href={`mailto:?subject=${subjectText}&body=${bodyText}`}
-                    title='Link per E-Mail verschicken'
-                    className='text-foreground'
+                    <a
+                      href={`sms://?&body=${bodyText}`}
+                      title='Link per SMS verschicken'
+                      className='!no-underline'
+                    >
+                      <MdOutlineTextsms className='h-5 w-5' />
+                      {isMobile && 'SMS'}
+                    </a>
+                  </Button>
+
+                  <Button
+                    asChild
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    size={isMobile ? 'sm' : 'icon'}
+                    className='flex items-center gap-2 text-foreground'
                   >
-                    <HiOutlineMail className='h-5 w-5' />
-                  </a>
+                    <a
+                      href={`mailto:?subject=${subjectText}&body=${bodyText}`}
+                      title='Link per E-Mail verschicken'
+                      className='!no-underline'
+                    >
+                      <HiOutlineMail className='h-5 w-5' />
+                      {isMobile && 'E-Mail'}
+                    </a>
+                  </Button>
                 </div>
               </div>
             </div>
