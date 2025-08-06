@@ -17,6 +17,7 @@ import { Info, XIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useShareHomework } from '@/hooks/useShareHomework'
+import { Separator } from '@/components/ui/separator'
 
 interface ShareHomeworkProps {
   lessonId: number
@@ -26,8 +27,6 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   const isMobile = useIsMobileDevice()
   const {
     currentHolder,
-    isOpenCollapsible,
-    setIsOpenCollapsible,
     sharingAuthorized,
     isAuthorizingStudents,
     isAuthorizingGroup,
@@ -42,14 +41,14 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
 
   if (!currentHolder) return null
   return (
-    <div className='relative sm:w-[600px] sm:text-sm'>
+    <div className='relative sm:w-[600px]'>
       {appConfig.isDemoMode ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.
         </p>
       ) : (
         <>
-          <Collapsible open={isOpenCollapsible}>
+          <Collapsible>
             <Label
               htmlFor='authorization'
               className='flex cursor-pointer items-center gap-1 text-base'
@@ -60,33 +59,30 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 onCheckedChange={handleShareAuthorization}
               />
               Einwilligung zum Teilen bestätigt
-              <CollapsibleTrigger
-                onClick={() => setIsOpenCollapsible((prev) => !prev)}
-              >
+              <CollapsibleTrigger>
                 <Info className='mb-[2px] text-primary' size={17} />
               </CollapsibleTrigger>
             </Label>
             <CollapsibleContent>
               <div className='mt-3 rounded-md bg-primary/15 px-4 pb-6 pt-8 sm:py-5'>
-                <Button
-                  className='absolute right-2 top-11 h-6 sm:h-4'
-                  size='sm'
-                  onClick={() => setIsOpenCollapsible(false)}
-                  variant='ghost'
-                >
-                  <XIcon />
-                </Button>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    className='absolute right-2 top-11 h-4'
+                    size='icon'
+                    variant='ghost'
+                  >
+                    <XIcon />
+                  </Button>
+                </CollapsibleTrigger>
                 <p>Mit dem Setzen dieser Checkbox bestätigst du, dass:</p>
                 <ul className='list-inside list-disc py-3 leading-5'>
                   <li> diese Schüler:innen volljährig sind, ODER </li>
                   <li>
-                    {' '}
                     du die ausdrückliche Einwilligung der Erziehungsberechtigten
                     hast, Hausaufgaben über einen Weblink zu teilen.{' '}
                   </li>
                 </ul>
                 <p>
-                  {' '}
                   Diese Einstellung ist erforderlich, um die Hausaufgaben-Links
                   zu aktivieren und dient dem Schutz minderjähriger
                   Schüler:innen gemäss{' '}
@@ -119,7 +115,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                 </b>{' '}
                 auf die Hausaufgaben vom <b>{lessonDate}</b> zugreifen:
               </p>
-              <div className='mb-6 mt-2 flex flex-col sm:flex-row'>
+              <div className='mt-2 flex flex-col sm:mb-6 sm:flex-row'>
                 <a
                   href={url}
                   className='break-words'
@@ -154,17 +150,18 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                     onClick={copyToClipboard}
                   >
                     {isCopied ? (
-                      <HiCheck color='green' />
+                      <HiCheck className='size-4' color='green' />
                     ) : (
-                      <HiOutlineClipboard />
+                      <HiOutlineClipboard className='size-4' />
                     )}
                   </button>
                 )}
               </div>
 
-              <div className='flex flex-col sm:flex-row sm:justify-between'>
-                <p>Link direkt verschicken:</p>{' '}
-                <div className='flex flex-col gap-4 sm:flex-row sm:items-center'>
+              <Separator className='my-4 sm:hidden' />
+              <div className='flex flex-col gap-3  sm:flex-row sm:justify-between'>
+                <p>Link direkt verschicken:</p>
+                <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-2'>
                   <Button
                     asChild
                     variant={isMobile ? 'outline' : 'ghost'}

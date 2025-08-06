@@ -9,6 +9,7 @@ import type { CheckedState } from '@radix-ui/react-checkbox'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export function useShareHomework(lessonId: number) {
   const { data: userProfile } = useProfileQuery()
@@ -19,7 +20,6 @@ export function useShareHomework(lessonId: number) {
   const { activeSortedHolders } = useLessonHolders()
   const { holderId } = useParams()
   const [searchParams] = useSearchParams()
-  const [isOpenCollapsible, setIsOpenCollapsible] = useState(false)
 
   const [isCopied, setIsCopied] = useState(false)
 
@@ -81,6 +81,7 @@ export function useShareHomework(lessonId: number) {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(url)
     setIsCopied(true)
+    toast.success('Link kopiert')
   }
 
   function handleShareAuthorization(checked: CheckedState) {
@@ -103,8 +104,6 @@ export function useShareHomework(lessonId: number) {
   }
   return {
     currentHolder,
-    isOpenCollapsible,
-    setIsOpenCollapsible,
     sharingAuthorized,
     isAuthorizingStudents,
     isAuthorizingGroup,
