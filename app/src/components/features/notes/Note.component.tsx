@@ -10,9 +10,10 @@ import { ChevronRight } from 'lucide-react'
 interface NoteProps {
   note: TNote
   index: number
+  isDisplay?: boolean
 }
 
-function Note({ note, index }: NoteProps) {
+function Note({ note, index, isDisplay }: NoteProps) {
   const isMobile = useIsMobileDevice()
   const { id, title, text, backgroundColor } = note
   const borderVariants: Record<Exclude<NotesBackgrounds, null>, string> = {
@@ -23,7 +24,11 @@ function Note({ note, index }: NoteProps) {
   }
 
   return (
-    <Draggable key={id} draggableId={String(id)} index={index}>
+    <Draggable
+      key={`${note.id}-${note.title}`}
+      draggableId={String(id)}
+      index={index}
+    >
       {(provided, snapshot) => {
         return (
           <li
@@ -34,18 +39,21 @@ function Note({ note, index }: NoteProps) {
                 ? borderVariants[backgroundColor]
                 : 'border-hairline border-l',
               snapshot.isDragging && 'outline outline-ring',
+              isDisplay && 'list-none',
             )}
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div className='absolute right-3 top-3'>
-              {isMobile ? (
-                <ChevronRight className='size-4 text-foreground/70' />
-              ) : (
-                <NoteDropdown noteId={id} />
-              )}
-            </div>
+            {!isDisplay && (
+              <div className='absolute right-3 top-3'>
+                {isMobile ? (
+                  <ChevronRight className='size-4 text-foreground/70' />
+                ) : (
+                  <NoteDropdown noteId={id} />
+                )}
+              </div>
+            )}
             {title && (
               <h4 className='text-md leading-1 max-w-[25ch] break-words pr-4 text-foreground'>
                 {title}

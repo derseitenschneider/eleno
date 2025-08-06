@@ -21,6 +21,13 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import {
+  Dialog,
+  DialogHeader,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
 
 type NoteDropdownProps = {
   noteId: number
@@ -99,17 +106,17 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      <DrawerOrDialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
-        <DrawerOrDialogContent>
-          <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Notiz löschen</DrawerOrDialogTitle>
-          </DrawerOrDialogHeader>
-          <DrawerOrDialogDescription className='hidden'>
+      <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Notiz löschen</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
             Lösche die Notiz.
-          </DrawerOrDialogDescription>
+          </DialogDescription>
           <DeleteNote noteId={noteId} onCloseModal={closeModal} />
-        </DrawerOrDialogContent>
-      </DrawerOrDialog>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

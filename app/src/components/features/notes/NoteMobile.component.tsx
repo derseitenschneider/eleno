@@ -7,12 +7,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import type { Lesson, Note as TNote } from '@/types/types'
+import type { PartialNote, Note as TNote } from '@/types/types'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { MessageSquareShare, PencilIcon, X } from 'lucide-react'
+import { ChevronLeft, Layers2, PencilIcon, Trash2, X } from 'lucide-react'
 import Note from './Note.component'
+import { Separator } from '@/components/ui/separator'
+import UpdateNote from './UpdateNote.component'
+import { useDuplicateNote } from './useDuplicateNote'
+import DeleteNote from './DeleteNote.component'
 
 type NoteMobileProps = {
   note: TNote
@@ -20,36 +23,56 @@ type NoteMobileProps = {
 }
 
 export function NoteMobile({ note, index }: NoteMobileProps) {
-  const { userLocale } = useUserLocale()
   const [open, setOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState<
-    'EDIT' | 'DUPLICATE' | 'DELETE' | null
-  >(null)
+  const [modalOpen, setModalOpen] = useState<'EDIT' | 'DELETE' | null>(null)
+  const { duplicateNote, isDuplicating } = useDuplicateNote()
+
+  function handleDuplication() {
+    if (!note) return
+    const duplicatedNote: PartialNote = {
+      title: `Kopie ${note.title}`,
+      text: note.text,
+      backgroundColor: note.backgroundColor,
+      order: note.order,
+      user_id: note.user_id,
+      groupId: note.groupId,
+      studentId: note.studentId,
+    }
+    duplicateNote(duplicatedNote)
+    setOpen(false)
+  }
 
   if (!note) return
   return (
     <>
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer direction='right' open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <div className='w-full'>
             <Note note={note} index={index} />
           </div>
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className='!w-full'>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
-            <DrawerTitle>{note.title}</DrawerTitle>
+            <DrawerTitle className='hidden'>{note.title}</DrawerTitle>
             <DrawerDescription className='hidden'>
               {note.title}
             </DrawerDescription>
           </DrawerHeader>
+
+          <Note note={note} index={0} isDisplay={true} />
           <div className='flex flex-col gap-3'>
             <Button
+              disabled={isDuplicating}
               variant='outline'
               onClick={() => {
                 setModalOpen('EDIT')
-                setOpen(false)
               }}
-              className='flex items-center gap-1'
+              className='flex items-center gap-2'
               size='sm'
             >
               <PencilIcon className='size-4' />
@@ -58,15 +81,27 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
 
             <Button
               variant='outline'
-              onClick={() => {
-                setModalOpen('EDIT')
-                setOpen(false)
-              }}
-              className='flex items-center gap-1'
+              disabled={isDuplicating}
+              onClick={handleDuplication}
+              className='flex items-center gap-2'
               size='sm'
             >
-              <MessageSquareShare className='size-4' />
-              Hausaufgaben teilen
+              <Layers2 className='size-4' />
+              Notiz duplizieren
+            </Button>
+
+            <Separator className='my-1' />
+            <Button
+              variant='destructive'
+              disabled={isDuplicating}
+              onClick={() => {
+                setModalOpen('DELETE')
+              }}
+              className='flex items-center gap-2'
+              size='sm'
+            >
+              <Trash2 className='size-4' />
+              Notiz löschen
             </Button>
           </div>
         </DrawerContent>
@@ -91,23 +126,23 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
             </DrawerClose>
             <DrawerTitle>Lektion bearbeiten</DrawerTitle>
             <DrawerDescription className='hidden'>
-              Lektion bearbeiten
+              Notiz bearbeiten
             </DrawerDescription>
           </DrawerHeader>
           <div className='overflow-y-auto'>
-            {/* <EditLesson */}
-            {/*   onCloseModal={() => setModalOpen(null)} */}
-            {/*   lessonId={lesson.id} */}
-            {/* /> */}
+            <UpdateNote
+              noteId={note.id}
+              onCloseModal={() => setModalOpen(null)}
+            />
           </div>
         </DrawerContent>
       </Drawer>
 
       <Drawer
-        // open={modalOpen === 'SHARE_HOMEWORK'}
+        open={modalOpen === 'DELETE'}
         onOpenChange={() => setModalOpen(null)}
       >
-        <DrawerContent className='!w-screen'>
+        <DrawerContent>
           <DrawerHeader>
             <DrawerClose asChild>
               <Button
@@ -119,12 +154,13 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
                 <span className='sr-only'>Close</span>
               </Button>
             </DrawerClose>
-            <DrawerTitle>Hausaufgaben teilen</DrawerTitle>
+            <DrawerTitle>Notiz löschen</DrawerTitle>
             <DrawerDescription className='hidden'>
-              Hausaufgaben teilen
+              Notiz löschen
             </DrawerDescription>
           </DrawerHeader>
           <div className='overflow-y-auto'>
+            <DeleteNote noteId={note.id} />
             {/* <ShareHomework lessonId={lesson.id} /> */}
           </div>
         </DrawerContent>
