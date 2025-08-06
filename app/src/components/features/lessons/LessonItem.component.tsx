@@ -10,9 +10,10 @@ import type { Lesson } from '@/types/types'
 
 export type LessonItemProps = {
   lesson: Lesson
+  isDisplayOnly?: boolean
 }
 
-export function LessonItem({ lesson }: LessonItemProps) {
+export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
   const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
 
@@ -20,26 +21,28 @@ export function LessonItem({ lesson }: LessonItemProps) {
 
   return (
     <div className='rounded-sm border border-hairline bg-background100 p-3'>
-      <div className='flex items-start justify-between'>
-        <p className='mb-1 text-xs'>
-          {lesson.date.toLocaleDateString(userLocale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          })}
-        </p>
+      {!isDisplayOnly && (
+        <div className='flex items-start justify-between'>
+          <p className='mb-1 text-xs'>
+            {lesson.date.toLocaleDateString(userLocale, {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </p>
 
-        <div className='flex items-center gap-6 md:gap-4'>
-          {!isMobile ? (
-            <>
-              <ButtonShareHomework lessonId={lesson.id} />
-              <PreviousLessonDropDown lessonId={lesson.id} />
-            </>
-          ) : (
-            <ChevronRightIcon className='size-4 text-foreground/70' />
-          )}
+          <div className='flex items-center gap-6 md:gap-4'>
+            {!isMobile ? (
+              <>
+                <ButtonShareHomework lessonId={lesson.id} />
+                <PreviousLessonDropDown lessonId={lesson.id} />
+              </>
+            ) : (
+              <ChevronRightIcon className='size-4 text-foreground/70' />
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <div className={cn('md:grid-cols-2 grid gap-6')}>
         <div>
           <p>Lektion</p>

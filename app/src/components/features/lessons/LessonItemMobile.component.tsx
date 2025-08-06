@@ -12,7 +12,7 @@ import type { Lesson } from '@/types/types'
 import { LessonItem } from './LessonItem.component'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { MessageSquareShare, PencilIcon, X } from 'lucide-react'
+import { ChevronLeft, MessageSquareShare, PencilIcon, X } from 'lucide-react'
 import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
 
@@ -30,13 +30,18 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
   if (!lesson) return
   return (
     <>
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer direction='right' open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <div className='w-full'>
             <LessonItem lesson={lesson} />
           </div>
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className='!w-full'>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>
               Lektion vom{' '}
@@ -55,11 +60,12 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
               })}
             </DrawerDescription>
           </DrawerHeader>
-          <div className='flex flex-col gap-3'>
+          <LessonItem lesson={lesson} isDisplayOnly={true} />
+          <div className='mt-8 flex flex-col gap-3'>
             <Button
               onClick={() => {
                 setModalOpen('EDIT')
-                setOpen(false)
+                // setOpen(false)
               }}
               className='flex items-center gap-1'
               size='sm'
@@ -116,21 +122,22 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
       </Drawer>
 
       <Drawer
+        direction='right'
         open={modalOpen === 'SHARE_HOMEWORK'}
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerContent className='!w-screen'>
+          <DrawerClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4'
+              size='icon'
+            >
+              <X className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
-            <DrawerClose asChild>
-              <Button
-                variant='ghost'
-                className='absolute right-4 top-4'
-                size='icon'
-              >
-                <X className='size-5' />
-                <span className='sr-only'>Close</span>
-              </Button>
-            </DrawerClose>
             <DrawerTitle>Hausaufgaben teilen</DrawerTitle>
             <DrawerDescription className='hidden'>
               Hausaufgaben teilen

@@ -154,7 +154,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
             <CollapsibleContent>
               <div className='mt-3 rounded-md bg-primary/15 px-4 pb-6 pt-8 sm:py-5'>
                 <Button
-                  className='absolute right-2 top-11 h-4'
+                  className='absolute right-2 top-11 h-6 sm:h-4'
                   size='sm'
                   onClick={() => setIsOpenCollapsible(false)}
                   variant='ghost'
