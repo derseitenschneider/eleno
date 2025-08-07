@@ -3,6 +3,7 @@ import AddHolderCombobox from '../students/AddHolderCombobox.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { useUpdateTodo } from './useUpdateTodo'
 import { useQueryClient } from '@tanstack/react-query'
 import type { TTodoItem } from '@/types/types'
@@ -105,17 +106,31 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
             </div>
           </div>
         </div>
-        <div className='flex items-center gap-2'>
-          <Button
-            disabled={isUpdating || !text || !hasAccess}
-            type='submit'
-            onClick={onSaveHandler}
-            size='sm'
-            className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
-          >
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
+        <Separator className='my-4 sm:hidden' />
+        <div className='flex flex-col sm:flex-row items-center gap-2'>
+          <div className='flex items-center gap-2 w-full sm:w-auto'>
+            <Button
+              disabled={isUpdating || !text || !hasAccess}
+              type='submit'
+              onClick={onSaveHandler}
+              size='sm'
+              className={cn('sm:mt-0 sm:ml-auto', 'mt-2 w-full sm:w-auto')}
+            >
+              Speichern
+            </Button>
+            {isUpdating && <MiniLoader />}
+          </div>
+          {isMobile && (
+            <Button
+              type='button'
+              variant='outline'
+              size='sm'
+              onClick={onSuccess}
+              className='w-full'
+            >
+              Abbrechen
+            </Button>
+          )}
         </div>
       </form>
     </div>

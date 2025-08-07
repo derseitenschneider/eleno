@@ -198,7 +198,7 @@ export const LinkButton = (props?: ButtonProps) => {
   }
 
   return (
-    <Popover open={open} onOpenChange={handleOpenChange}>
+    <Popover modal={true} open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <button type='button' className='rsw-btn' {...props} ref={buttonRef}>
           <Link2 size={18} />

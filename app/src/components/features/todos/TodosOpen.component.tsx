@@ -6,7 +6,7 @@ import useTodosQuery from '@/components/features/todos/todosQuery'
 import TodoItem from './TodoItem.component'
 import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { TodoItemMobile } from './TodoItemMobile.component'
+import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 
 export default function TodosOpen() {
   const { data: todos, isPending } = useTodosQuery()
@@ -38,7 +38,7 @@ export default function TodosOpen() {
           <ul className='pt-4 sm:pt-0'>
             {isMobile
               ? sortedFilteredTodos.map((todo) => (
-                  <TodoItemMobile key={todo.id} todo={todo} type='open' />
+                  <TodoMobileDrawer key={todo.id} todo={todo} type='open' />
                 ))
               : sortedFilteredTodos.map((todo) => (
                   <TodoItem key={todo.id} todo={todo} type='open' />

@@ -3,12 +3,15 @@ import compareDateTodos from '../../../utils/sortTodos'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import TodoItem from './TodoItem.component'
 import Empty from '@/components/ui/Empty.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
 
 export default function TodosCompleted() {
   const { data: todos, isPending } = useTodosQuery()
+  const isMobile = useIsMobileDevice()
   const [openModal, setOpenModal] = useState<'DELETE_ALL'>()
 
   useEffect(() => {
@@ -46,9 +49,13 @@ export default function TodosCompleted() {
             </Button>
           </div>
           <ul className='mt-4'>
-            {sortedFilteredTodos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} type='completed' />
-            ))}
+            {isMobile
+              ? sortedFilteredTodos.map((todo) => (
+                  <TodoMobileDrawer key={todo.id} todo={todo} type='completed' />
+                ))
+              : sortedFilteredTodos.map((todo) => (
+                  <TodoItem key={todo.id} todo={todo} type='completed' />
+                ))}
           </ul>
           <Dialog open={openModal === 'DELETE_ALL'} onOpenChange={closeModal}>
             <DialogContent>
