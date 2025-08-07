@@ -6,16 +6,18 @@ import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
 import { useCompleteTodo } from './useCompleteTodo'
-import { Check } from 'lucide-react'
+import { Check, ChevronRight } from 'lucide-react'
 import CompletedTodoDropdown from './CompletedTodoDropdown.component'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
-interface TodoItemProps {
+export interface TodoItemProps {
   todo: TTodoItem
   type: 'open' | 'completed'
 }
 
 function TodoItem({ todo, type }: TodoItemProps) {
+  const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
   const { navigateToHolder } = useNavigateToHolder()
   const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
@@ -107,8 +109,14 @@ function TodoItem({ todo, type }: TodoItemProps) {
         </span>
       </div>
       <div className='flex justify-self-end'>
-        {type === 'open' && <OpenTodoDropdown id={todo.id} />}
-        {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}
+        {isMobile ? (
+          <ChevronRight className='size-5' />
+        ) : (
+          <>
+            {type === 'open' && <OpenTodoDropdown id={todo.id} />}
+            {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}
+          </>
+        )}
       </div>
     </li>
   )

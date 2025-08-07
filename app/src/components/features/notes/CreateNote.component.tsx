@@ -54,7 +54,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   }
 
   return (
-    <div className='relative px-1 text-sm sm:w-[500px] sm:p-0'>
+    <div className='relative px-1 text-sm sm:w-[500px]'>
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'
