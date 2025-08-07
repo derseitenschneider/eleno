@@ -204,7 +204,7 @@ export const LinkButton = (props?: ButtonProps) => {
           <Link2 size={18} />
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-72'>
+      <PopoverContent hasPortal={false} className='w-72'>
         <div className='space-y-4'>
           <div className='space-y-2'>
             <Label htmlFor='link-url'>URL</Label>
