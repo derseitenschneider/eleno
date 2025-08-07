@@ -182,7 +182,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
       return (
         <>
           <div className='text-right'>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='h-8 w-8 p-0'>
                   <span className='sr-only'>Menü öffnen</span>
@@ -212,11 +212,15 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             </DropdownMenu>
           </div>
 
-          <DrawerOrDialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-            <DrawerOrDialogContent>
-              <DrawerOrDialogHeader>
-                <DrawerOrDialogTitle>Song bearbeiten</DrawerOrDialogTitle>
-              </DrawerOrDialogHeader>
+          <Dialog
+            modal={false}
+            open={openModal === 'EDIT'}
+            onOpenChange={closeModal}
+          >
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Song bearbeiten</DialogTitle>
+              </DialogHeader>
               <div className='py-4'>
                 <UpdateRepertoireItem
                   holder={holder}
@@ -224,8 +228,8 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
                   onCloseModal={closeModal}
                 />
               </div>
-            </DrawerOrDialogContent>
-          </DrawerOrDialog>
+            </DialogContent>
+          </Dialog>
 
           <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
             <DialogContent>
