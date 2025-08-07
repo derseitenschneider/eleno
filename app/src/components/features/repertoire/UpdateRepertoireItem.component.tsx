@@ -23,7 +23,6 @@ function UpdateRepertoireItem({
   onCloseModal,
 }: UpdateRepertoireItemProps) {
   const queryClient = useQueryClient()
-  const isMobile = useIsMobileDevice()
 
   const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
   const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
@@ -33,11 +32,8 @@ function UpdateRepertoireItem({
   const itemToEdit = repertoire?.find((item) => item.id === itemId)
 
   if (!itemToEdit) return null
-  const [item, setItem] = useState<RepertoireItem>(itemToEdit)
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem((prev) => ({ ...prev, title: e.target.value }))
-  }
+  const [item, setItem] = useState<RepertoireItem>(itemToEdit)
 
   const handleChangeStart = (date: Date | undefined) => {
     setItem((prev) => ({ ...prev, startDate: date }))
@@ -66,10 +62,9 @@ function UpdateRepertoireItem({
             value={item.title}
             onChange={(e) => setItem((prev) => ({ ...prev, title: e }))}
           />
-          {/* )} */}
         </div>
 
-        <div className='col-span-5 mt-4 sm:col-span-1'>
+        <div className='col-span-5 sm:col-span-1'>
           <div className='relative flex items-center gap-1 sm:gap-0 '>
             <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
               Start
@@ -91,7 +86,7 @@ function UpdateRepertoireItem({
         <div className='col-span-5 sm:col-span-1'>
           <div className='relative flex items-center gap-1 sm:gap-0 '>
             <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
-              Start
+              Ende
             </span>
             <DayPicker
               className='w-full'

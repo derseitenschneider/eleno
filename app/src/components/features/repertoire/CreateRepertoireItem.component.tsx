@@ -36,10 +36,6 @@ function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
 
   const [item, setItem] = useState(defaultItem)
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem((prev) => ({ ...prev, title: e.target.value }))
-  }
-
   const handleChangeHTMLTitle = (e: string) => {
     setItem((prev) => ({ ...prev, title: e }))
   }

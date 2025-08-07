@@ -217,11 +217,13 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
               <DrawerOrDialogHeader>
                 <DrawerOrDialogTitle>Song bearbeiten</DrawerOrDialogTitle>
               </DrawerOrDialogHeader>
-              <UpdateRepertoireItem
-                holder={holder}
-                itemId={row.original.id}
-                onCloseModal={closeModal}
-              />
+              <div className='py-4'>
+                <UpdateRepertoireItem
+                  holder={holder}
+                  itemId={row.original.id}
+                  onCloseModal={closeModal}
+                />
+              </div>
             </DrawerOrDialogContent>
           </DrawerOrDialog>
 
@@ -231,8 +233,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
                 <DialogTitle>Song löschen</DialogTitle>
               </DialogHeader>
               <DeleteRepertoireItem
-                holder={holder}
-                itemId={row.original.id}
+                item={row.original}
                 onCloseModal={closeModal}
               />
             </DialogContent>

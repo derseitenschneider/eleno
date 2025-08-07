@@ -15,13 +15,6 @@ import { useDuplicateNote } from './useDuplicateNote'
 import { isDemoMode } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import {
-  DrawerOrDialog,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
-import {
   Dialog,
   DialogHeader,
   DialogContent,
@@ -60,7 +53,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
   }
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
           <MoreVertical className='h-4 w-4 text-primary' />
         </DropdownMenuTrigger>
@@ -94,17 +87,17 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <DrawerOrDialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DrawerOrDialogContent>
-          <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Notiz bearbeiten</DrawerOrDialogTitle>
-          </DrawerOrDialogHeader>
-          <DrawerOrDialogDescription className='hidden'>
+      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Notiz bearbeiten</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className='hidden'>
             Bearbeite die Notiz.
-          </DrawerOrDialogDescription>
+          </DialogDescription>
           <UpdateNote noteId={noteId} onCloseModal={closeModal} />
-        </DrawerOrDialogContent>
-      </DrawerOrDialog>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>

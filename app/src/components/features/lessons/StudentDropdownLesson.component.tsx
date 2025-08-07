@@ -34,8 +34,8 @@ export default function HolderDropdownLesson() {
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger className='hidden md:block text-primary h-4'>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger className='hidden h-4 text-primary md:block'>
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -46,7 +46,7 @@ export default function HolderDropdownLesson() {
               setOpenModal('EDIT')
             }}
           >
-            <Pencil className='text-primary h-4 w-4' />
+            <Pencil className='h-4 w-4 text-primary' />
             <span>Bearbeiten</span>
           </DropdownMenuItem>
 
@@ -57,7 +57,7 @@ export default function HolderDropdownLesson() {
               setOpenModal('TODO')
             }}
           >
-            <CheckSquare2 className='text-primary h-4 w-4' />
+            <CheckSquare2 className='h-4 w-4 text-primary' />
             <span>Todo erfassen</span>
           </DropdownMenuItem>
 
@@ -68,7 +68,7 @@ export default function HolderDropdownLesson() {
               setOpenModal('EXPORT')
             }}
           >
-            <FileDown className='text-primary h-4 w-4' />
+            <FileDown className='h-4 w-4 text-primary' />
             <span>Lektionsliste exportieren</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -10,12 +10,10 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
 import { RepertoireNavButton } from '../repertoire/RepertoireNavButton.component'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()
-  const hasBanner = useHasBanner()
 
   if (!currentLessonHolder) return null
   const { holder, type } = currentLessonHolder

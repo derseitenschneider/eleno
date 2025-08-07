@@ -98,10 +98,18 @@ function NoteList() {
                 >
                   {isMobile
                     ? sortedNotes.map((note, index) => (
-                        <NoteMobile note={note} index={index} key={note.id} />
+                        <NoteMobile
+                          note={note}
+                          index={index}
+                          key={`${note.id}-${note.title}`}
+                        />
                       ))
                     : sortedNotes.map((note, index) => (
-                        <Note note={note} index={index} key={note.id} />
+                        <Note
+                          note={note}
+                          index={index}
+                          key={`${note.id}-${note.title}`}
+                        />
                       ))}
                   {provided.placeholder}
                 </ul>
