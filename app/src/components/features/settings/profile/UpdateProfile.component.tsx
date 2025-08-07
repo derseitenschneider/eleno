@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
@@ -90,27 +91,32 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          disabled={isUpdating}
-          size='sm'
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col sm:flex-row justify-end gap-4 sm:mt-8'>
+        <div className='flex items-center gap-2 w-full sm:w-auto'>
           <Button
             size='sm'
             disabled={
               isUpdating || !hasAccess || !input.firstName || !input.lastName
             }
+            className='w-full sm:w-auto'
             onClick={handleSave}
           >
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}
         </div>
+        {onCloseModal && (
+          <Button
+            disabled={isUpdating}
+            size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
       </div>
     </div>
   )

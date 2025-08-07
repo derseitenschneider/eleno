@@ -5,6 +5,7 @@ import useFetchErrorToast from '../../../../hooks/fetchErrorToast'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { isDemoMode } from '@/config'
@@ -71,26 +72,31 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          size='sm'
-          variant='outline'
-          disabled={isPending}
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col sm:flex-row justify-end gap-4 sm:mt-8'>
+        <div className='flex items-center gap-2 w-full sm:w-auto'>
           <Button
             size='sm'
             variant='destructive'
             disabled={!isEmailCorrect || isPending}
+            className='w-full sm:w-auto'
             onClick={handleDelete}
           >
             Benutzerkonto löschen
           </Button>
           {isPending && <MiniLoader />}
         </div>
+        {onCloseModal && (
+          <Button
+            size='sm'
+            variant='outline'
+            disabled={isPending}
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
       </div>
     </div>
   )

@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 import { useEffect, useState } from 'react'
 import DeleteAccount from './profile/DeleteAccount.component'
 import EditEmail from './profile/UpdateEmail.component'
@@ -64,6 +64,8 @@ function Account() {
         <Button
           type='button'
           size='sm'
+          variant='outline'
+          className='w-full sm:w-auto'
           onClick={() => setModalOpen('EDIT_PROFILE')}
         >
           Bearbeiten
@@ -76,10 +78,12 @@ function Account() {
           <p className='text-foreground/80'>E-Mail Adresse</p>
           <p>{userProfile.email}</p>
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex flex-col sm:flex-row items-center gap-4'>
           <Button
             type='button'
             size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
             onClick={() => setModalOpen('EDIT_EMAIL')}
           >
             E-Mail ändern
@@ -87,6 +91,8 @@ function Account() {
           <Button
             type='button'
             size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
             onClick={() => setModalOpen('EDIT_PASSWORD')}
           >
             Passwort ändern
@@ -105,56 +111,57 @@ function Account() {
           type='button'
           size='sm'
           variant='destructive'
+          className='w-full sm:w-auto'
           onClick={() => setModalOpen('DELETE_ACCOUNT')}
         >
           Benutzerkonto löschen
         </Button>
       </div>
 
-      <Dialog open={modalOpen === 'EDIT_PROFILE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Profil bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={modalOpen === 'EDIT_PROFILE'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Profil bearbeiten</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Bearbeite dein Profil
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker />
           <EditProfile onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'EDIT_EMAIL'} onOpenChange={closeModal}>
-        <DialogContent>
+      <DrawerOrDialog open={modalOpen === 'EDIT_EMAIL'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
           <Blocker />
           <EditEmail onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'EDIT_PASSWORD'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Passwort ändern</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={modalOpen === 'EDIT_PASSWORD'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Passwort ändern</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Ändere dein Passwort
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker />
           <EditPassword onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'DELETE_ACCOUNT'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Benutzerkonto löschen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={modalOpen === 'DELETE_ACCOUNT'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Benutzerkonto löschen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Lösche deinen Benutzerkonto
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <DeleteAccount onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </div>
   )
 }
