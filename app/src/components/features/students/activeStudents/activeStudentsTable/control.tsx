@@ -8,15 +8,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
 import { ActiveStudentsActionDropdown } from './actionDropdown'
 import ExportStudentList from '../../ExportStudentList.component'
-import CreateStudents from '../../CreateStudents.component'
 import { useSearchParams } from 'react-router-dom'
-import { Blocker } from '@/components/features/subscription/Blocker'
 import { CreateStudentDialogDrawer } from '../../CreateStudentDialogDrawer.component'
 
 type StudentsControlProps = {

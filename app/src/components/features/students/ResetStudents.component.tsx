@@ -23,7 +23,7 @@ function ResetStudents({ onSuccess, selectedStudentIds }: ResetStudentsProps) {
   return (
     <div className={cn(!hasAccess && 'h-[150px]')}>
       <Blocker />
-      <p className='mb-6 text-sm'>
+      <p className='mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Schüler:innen zurücksetzen?

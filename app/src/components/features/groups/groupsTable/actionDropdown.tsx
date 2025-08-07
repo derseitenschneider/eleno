@@ -48,10 +48,10 @@ export function GroupsActionDropdown({
   if (!groups) return null
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button size='sm' variant='outline' disabled={isDisabledAction}>
-            <span className='text-inherit mr-1'>Aktion</span>
+            <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>
         </DropdownMenuTrigger>

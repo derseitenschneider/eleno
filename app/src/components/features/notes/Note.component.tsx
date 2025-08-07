@@ -34,7 +34,7 @@ function Note({ note, index, isDisplay }: NoteProps) {
           <li
             data-dragging={snapshot.isDragging}
             className={cn(
-              'relative mb-6 rounded-sm border-hairline shadow leading-8 px-5 py-6 sm:p-4 bg-background100 border-t border-r border-b',
+              'hover:cursor-grab relative mb-6 rounded-sm border-hairline shadow leading-8 px-5 py-6 sm:p-4 bg-background100 border-t border-r border-b',
               backgroundColor
                 ? borderVariants[backgroundColor]
                 : 'border-hairline border-l',

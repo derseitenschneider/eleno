@@ -102,7 +102,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
       return (
         <>
           <div className='text-right'>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='h-8 w-8 p-0'>
                   <span className='sr-only'>Menü öffnen</span>

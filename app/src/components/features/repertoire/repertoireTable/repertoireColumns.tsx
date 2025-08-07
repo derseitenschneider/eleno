@@ -213,7 +213,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
           </div>
 
           <Dialog
-            modal={false}
+            modal={true}
             open={openModal === 'EDIT'}
             onOpenChange={closeModal}
           >

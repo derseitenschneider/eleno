@@ -29,9 +29,14 @@ export function UpdateStudentsDialogDrawer({
   studentIds,
 }: UpdateStudentsDialogDrawerProps) {
   return (
-    <DrawerOrDialog nested direction='right' open={open} onOpenChange={onOpenChange}>
+    <DrawerOrDialog
+      nested
+      direction='right'
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <DrawerOrDialogContent
-        className='!w-screen max-w-[unset]'
+        className='!w-screen max-w-[unset] sm:!w-auto'
         onClick={onDialogClick}
       >
         <DrawerOrDialogHeader>

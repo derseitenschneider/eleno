@@ -29,7 +29,11 @@ export function DayPicker({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   return (
-    <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+    <Popover
+      modal={true}
+      open={isCalendarOpen}
+      onOpenChange={setIsCalendarOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           disabled={disabled}

@@ -26,7 +26,7 @@ export default function ResetGroups({
   return (
     <div className={cn(!hasAccess && 'h-[150px]')}>
       <Blocker />
-      <DialogDescription className='mb-6 text-sm'>
+      <DialogDescription className='mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Gruppen zurücksetzen?

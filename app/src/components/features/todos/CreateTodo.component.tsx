@@ -130,7 +130,7 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
           <Button
             type='button'
             disabled={isCreating}
-            className='w-full sm:w-auto'
+            className='w-full sm:hidden'
             size='sm'
             variant='outline'
             onClick={() => onCloseModal?.()}

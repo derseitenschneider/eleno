@@ -40,7 +40,7 @@ export default function PreviousLessonDropDown({
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger className='size-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>

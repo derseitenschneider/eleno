@@ -16,7 +16,6 @@ import {
 import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
 import ExportLessons from '../../lessons/ExportLessons.component'
-import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import type { LessonHolder } from '@/types/types'
@@ -57,9 +56,13 @@ export default function InactiveStudentRowDropdown({
   return (
     <>
       <div className='text-right'>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button
+              variant='ghost'
+              className='h-8 w-8 p-0'
+              onClick={(e) => e.stopPropagation()}
+            >
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
             </Button>

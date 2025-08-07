@@ -25,7 +25,7 @@ export default function CompletedTodoDropdown({
   }
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger className='h-4 w-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
@@ -35,7 +35,7 @@ export default function CompletedTodoDropdown({
               reactivateTodo(id)
             }}
           >
-            <Undo2 className='size-4 text-primary mr-2' />
+            <Undo2 className='mr-2 size-4 text-primary' />
             <span>Wiederherstellen</span>
           </DropdownMenuItem>
 
@@ -45,7 +45,7 @@ export default function CompletedTodoDropdown({
               setOpenModal('DELETE')
             }}
           >
-            <Trash2 className='size-4 text-warning mr-2' />
+            <Trash2 className='mr-2 size-4 text-warning' />
             <span>Löschen</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
