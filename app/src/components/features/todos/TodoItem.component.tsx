@@ -69,7 +69,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
         )}
         {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
-      <div className='flex w-full flex-wrap items-start justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
+      <div className='flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
             'text-sm md:basis-auto w-full mr-auto',

@@ -16,7 +16,7 @@ import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type UpdateTodoProps = {
   id: number
-  onSuccess: () => void
+  onSuccess?: () => void
 }
 export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   const isMobile = useIsMobileDevice()
@@ -57,7 +57,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
       newTodo.groupId = null
     }
     updateTodo(newTodo, {
-      onSuccess,
+      onSuccess: () => onSuccess?.(),
     })
   }
 
@@ -120,7 +120,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
             </Button>
             {isUpdating && <MiniLoader />}
           </div>
-          {isMobile && (
+          {isMobile && onSuccess && (
             <Button
               type='button'
               variant='outline'

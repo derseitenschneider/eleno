@@ -112,7 +112,7 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
               isOverdue && 'border-warning/20 bg-warning/5',
             )}
           >
-            <div className='flex'>
+            <div className='flex self-start'>
               {type === 'open' && (
                 <Checkbox
                   onClick={(e) => {
@@ -126,32 +126,37 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
                 <Check className='size-3 text-primary' />
               )}
             </div>
-            <div className='flex w-full flex-wrap items-start justify-between gap-x-2 gap-y-2'>
+            <div className='flex w-full flex-wrap items-start justify-between gap-x-2'>
               <span className='mr-auto w-full text-sm'>{todo.text}</span>
-              <div className='flex w-full items-center justify-between gap-2'>
-                {currentHolder && (
-                  <Badge
+              {(currentHolder || todo.due) && (
+                <div className='mt-2 flex w-full items-center justify-between gap-2 sm:mt-0'>
+                  {currentHolder && (
+                    <Badge
+                      className={cn(
+                        'w-fit text-xs',
+                        currentHolder.holder.archive &&
+                          'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                      )}
+                    >
+                      {currentHolderName}
+                    </Badge>
+                  )}
+                  <span
                     className={cn(
-                      'w-fit text-xs',
-                      currentHolder.holder.archive &&
-                        'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                      'text-sm ml-auto',
+                      isOverdue && 'text-warning',
                     )}
                   >
-                    {currentHolderName}
-                  </Badge>
-                )}
-                <span
-                  className={cn('text-sm ml-auto', isOverdue && 'text-warning')}
-                >
-                  {todo.due
-                    ? todo.due.toLocaleDateString(userLocale, {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: '2-digit',
-                      })
-                    : null}
-                </span>
-              </div>
+                    {todo.due
+                      ? todo.due.toLocaleDateString(userLocale, {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: '2-digit',
+                        })
+                      : null}
+                  </span>
+                </div>
+              )}
             </div>
             <div className='flex justify-self-end'>
               <ChevronRight className='size-5' />

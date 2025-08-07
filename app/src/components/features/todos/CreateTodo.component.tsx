@@ -112,8 +112,13 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
             </div>
           </div>
         </div>
-
-        <div className='mt-6 flex w-full flex-col items-center justify-end gap-3 sm:mt-0 sm:w-auto sm:flex-row'>
+        {onCloseModal && <Separator className='my-4 sm:hidden' />}
+        <div
+          className={cn(
+            !onCloseModal && 'mt-3',
+            'flex w-full flex-col items-center justify-end gap-3 sm:mt-0 sm:w-auto sm:flex-row',
+          )}
+        >
           <div className='flex w-full items-center gap-2 sm:w-auto'>
             <Button
               disabled={isCreating || !text || !hasAccess}
@@ -127,16 +132,18 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
             {isCreating && <MiniLoader />}
           </div>
 
-          <Button
-            type='button'
-            disabled={isCreating}
-            className='w-full sm:hidden'
-            size='sm'
-            variant='outline'
-            onClick={() => onCloseModal?.()}
-          >
-            Abbrechen
-          </Button>
+          {onCloseModal && (
+            <Button
+              type='button'
+              disabled={isCreating}
+              className='w-full sm:hidden'
+              size='sm'
+              variant='outline'
+              onClick={() => onCloseModal()}
+            >
+              Abbrechen
+            </Button>
+          )}
         </div>
       </form>
       <p className='pl-2 pt-1 text-sm text-warning'>{error || ''}</p>
