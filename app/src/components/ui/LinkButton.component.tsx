@@ -212,6 +212,7 @@ export const LinkButton = (props?: ButtonProps) => {
               ref={inputRef}
               id='link-url'
               value={url}
+              type='url'
               onChange={(e) => setUrl(e.target.value)}
               placeholder='https://example.com'
               onKeyDown={handleKeyDown}

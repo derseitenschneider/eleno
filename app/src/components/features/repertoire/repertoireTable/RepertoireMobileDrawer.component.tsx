@@ -1,15 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import parse from 'html-react-parser'
-import type { RepertoireItem, Student } from '@/types/types'
+import type { RepertoireItem } from '@/types/types'
 
-import {
-  Archive,
-  ChevronLeft,
-  ChevronRight,
-  PencilIcon,
-  Trash2,
-  X,
-} from 'lucide-react'
+import { ChevronLeft, ChevronRight, PencilIcon, Trash2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -37,8 +30,29 @@ export function RepertoireMobileDrawer({
   const [isOpen, setIsOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState<'EDIT' | 'DELETE' | null>(null)
   const { userLocale } = useUserLocale()
+  const titleRef = useRef<HTMLSpanElement>(null)
 
-  // const { isDeactivating, deactivateStudents } = useDeactivateStudents()
+  useEffect(() => {
+    const titleElement = titleRef.current
+    if (!titleElement) return
+
+    const handleLinkClick = (e: Event) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'A') {
+        e.stopPropagation()
+      }
+    }
+
+    titleElement.addEventListener('click', handleLinkClick, true)
+    
+    return () => {
+      titleElement.removeEventListener('click', handleLinkClick, true)
+    }
+  }, [repertoireItem.title])
+
+  const handleClick = () => {
+    setIsOpen(true)
+  }
 
   return (
     <>
@@ -48,11 +62,15 @@ export function RepertoireMobileDrawer({
         open={isOpen}
         onOpenChange={setIsOpen}
       >
-        <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
-          <div className='flex w-full cursor-pointer items-center justify-between text-base'>
-            <span>{parse(removeHTMLAttributes(repertoireItem.title))}</span>
+        <DrawerTrigger asChild>
+          <button
+            type='button'
+            className='flex w-full cursor-pointer items-center justify-between text-base'
+            onClick={handleClick}
+          >
+            <span ref={titleRef}>{parse(removeHTMLAttributes(repertoireItem.title))}</span>
             <ChevronRight className='h-4 w-4 text-muted-foreground' />
-          </div>
+          </button>
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
           <DrawerClose asChild>
