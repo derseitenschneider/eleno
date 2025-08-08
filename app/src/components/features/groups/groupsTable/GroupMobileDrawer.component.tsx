@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import type { Group, Student } from '@/types/types'
+import { format } from 'date-fns'
 
-import { Archive, ChevronRight, PencilIcon, X } from 'lucide-react'
+import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -30,9 +31,12 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
 
   let timeString = ''
   if (group.startOfLesson && group.endOfLesson) {
-    timeString = `${group.startOfLesson} – ${group.endOfLesson}`
+    const startTime = format(new Date(`1970-01-01T${group.startOfLesson}`), 'HH:mm')
+    const endTime = format(new Date(`1970-01-01T${group.endOfLesson}`), 'HH:mm')
+    timeString = `${startTime} – ${endTime}`
   } else if (group.startOfLesson) {
-    timeString = `${group.startOfLesson}`
+    const startTime = format(new Date(`1970-01-01T${group.startOfLesson}`), 'HH:mm')
+    timeString = startTime
   } else {
     timeString = '–'
   }
@@ -46,9 +50,11 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
           </div>
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
-          <DrawerClose>
-            <X className='size-5' />
-            <span className='sr-only'>Close</span>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
           </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>{group.name}</DrawerTitle>
@@ -87,11 +93,11 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-6' />
+          <Separator className='my-4' />
           <div className='flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
-              className='flex gap-2'
+              className='flex w-full gap-2'
               size='sm'
             >
               <PencilIcon className='size-4' />
@@ -111,6 +117,15 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               </Button>
               {isDeactivating && <MiniLoader />}
             </div>
+            
+            <Button
+              className='w-full'
+              size='sm'
+              variant='ghost'
+              onClick={() => setIsOpen(false)}
+            >
+              Abbrechen
+            </Button>
           </div>
         </DrawerContent>
       </Drawer>

@@ -28,20 +28,22 @@ function DeleteRepertoireItem({
       <Separator className='my-6 sm:hidden' />
       <div className='mt-4 flex flex-col justify-end gap-4 sm:flex-row'>
         <Button
-          variant='outline'
-          size='sm'
-          disabled={isDeleting}
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <Button
           disabled={isDeleting}
           size='sm'
           variant='destructive'
           onClick={handleDelete}
+          className='w-full sm:w-auto'
         >
           Löschen
+        </Button>
+        <Button
+          variant='outline'
+          size='sm'
+          disabled={isDeleting}
+          onClick={onCloseModal}
+          className='w-full sm:w-auto'
+        >
+          Abbrechen
         </Button>
         {isDeleting && <MiniLoader />}
       </div>

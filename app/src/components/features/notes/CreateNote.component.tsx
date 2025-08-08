@@ -5,6 +5,7 @@ import type { NotesBackgrounds, PartialNote } from '../../../types/types'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { useUser } from '@/services/context/UserContext'
 import { useCreateNote } from './useCreateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
@@ -76,6 +77,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           <span className='block pt-2 text-sm text-warning'>{error}</span>
         )}
       </div>
+      <Separator className="my-4" />
       <div className='flex flex-col flex-wrap justify-between gap-x-4 gap-y-5 sm:flex-row sm:items-end'>
         <NoteColor color={color} setColor={setColor} />
         <div className='flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row sm:gap-4'>

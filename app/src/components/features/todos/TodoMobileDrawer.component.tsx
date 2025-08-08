@@ -229,14 +229,14 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
             </CardContent>
           </Card>
 
-          <Separator className='my-6' />
+          <Separator className='my-4' />
 
           <div className='flex flex-col gap-3'>
             {type === 'open' && (
               <>
                 <Button
                   onClick={() => setModalOpen('EDIT')}
-                  className='flex gap-2'
+                  className='flex w-full gap-2'
                   size='sm'
                 >
                   <PencilIcon className='size-4' />
@@ -277,7 +277,7 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
 
                 <Button
                   onClick={() => setModalOpen('DELETE')}
-                  className='flex gap-2'
+                  className='flex w-full gap-2'
                   size='sm'
                   variant='destructive'
                 >

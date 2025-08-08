@@ -69,12 +69,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
           <div className='overflow-hidden'>
             {previousLessonsSortedFiltered.length > 0 ? (
               <ScrollArea ref={scrollRef} className='h-full'>
-                <div
-                  className={cn(
-                    layout === 'reverse' ? 'pb-6' : 'pb-12',
-                    'space-y-4',
-                  )}
-                >
+                <div className="pb-6 space-y-4">
                   {previousLessonsSortedFiltered.map((lesson) => {
                     if (isMobile)
                       return (

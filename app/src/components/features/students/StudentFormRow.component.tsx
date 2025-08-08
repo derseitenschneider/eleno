@@ -146,7 +146,7 @@ const StudentFormRow = memo(function StudentFormRow({
               <Select
                 disabled={disabled}
                 onValueChange={field.onChange}
-                defaultValue={field.value || 'none'}
+                value={field.value || ''}
               >
                 <SelectTrigger className='h-[36px]'>
                   <SelectValue placeholder='Unterrichtstag' />

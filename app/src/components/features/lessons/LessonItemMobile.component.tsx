@@ -12,9 +12,10 @@ import type { Lesson } from '@/types/types'
 import { LessonItem } from './LessonItem.component'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { ChevronLeft, MessageSquareShare, PencilIcon, X } from 'lucide-react'
+import { ChevronLeft, MessageSquareShare, PencilIcon, Trash2, X } from 'lucide-react'
 import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
+import DeleteLesson from './DeleteLesson.component'
 
 type LessonItemMobileProps = {
   lesson: Lesson
@@ -23,7 +24,7 @@ type LessonItemMobileProps = {
 export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
   const { userLocale } = useUserLocale()
   const [open, setOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState<'EDIT' | 'SHARE_HOMEWORK' | null>(
+  const [modalOpen, setModalOpen] = useState<'EDIT' | 'SHARE_HOMEWORK' | 'DELETE' | null>(
     null,
   )
 
@@ -67,7 +68,7 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
                 setModalOpen('EDIT')
                 // setOpen(false)
               }}
-              className='flex items-center gap-1'
+              className='flex w-full items-center gap-1'
               size='sm'
             >
               <PencilIcon className='size-4' />
@@ -80,11 +81,24 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
                 setModalOpen('SHARE_HOMEWORK')
                 setOpen(false)
               }}
-              className='flex items-center gap-1'
+              className='flex w-full items-center gap-1'
               size='sm'
             >
               <MessageSquareShare className='size-4' />
               Hausaufgaben teilen
+            </Button>
+
+            <Button
+              variant='destructive'
+              onClick={() => {
+                setModalOpen('DELETE')
+                setOpen(false)
+              }}
+              className='flex w-full items-center gap-1'
+              size='sm'
+            >
+              <Trash2 className='size-4' />
+              Lektion löschen
             </Button>
           </div>
         </DrawerContent>
@@ -145,6 +159,36 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
           </DrawerHeader>
           <div className='overflow-y-auto'>
             <ShareHomework lessonId={lesson.id} />
+          </div>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer
+        open={modalOpen === 'DELETE'}
+        onOpenChange={() => setModalOpen(null)}
+      >
+        <DrawerContent>
+          <DrawerClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4'
+              size='icon'
+            >
+              <X className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerClose>
+          <DrawerHeader>
+            <DrawerTitle>Lektion löschen</DrawerTitle>
+            <DrawerDescription className='hidden'>
+              Lektion löschen
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className='p-4'>
+            <DeleteLesson
+              onCloseModal={() => setModalOpen(null)}
+              lessonId={lesson.id}
+            />
           </div>
         </DrawerContent>
       </Drawer>

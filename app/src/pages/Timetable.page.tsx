@@ -108,7 +108,7 @@ export default function Timetable() {
   ]
 
   return (
-    <div>
+    <div className="mb-8">
       <div className='mb-4 hidden sm:block'>
         {days.some((day) => day.lessonHolders.length > 0) && (
           <Button

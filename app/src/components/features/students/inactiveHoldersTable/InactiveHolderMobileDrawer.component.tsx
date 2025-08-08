@@ -1,7 +1,7 @@
 import { type MouseEvent, useState } from 'react'
 import type { LessonHolder } from '@/types/types'
 
-import { ChevronRight, Trash2, Undo2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -67,9 +67,11 @@ export function InactiveHolderMobileDrawer({
           </div>
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
-          <DrawerClose>
-            <X className='size-5' />
-            <span className='sr-only'>Close</span>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
           </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>{name}</DrawerTitle>
@@ -109,11 +111,11 @@ export function InactiveHolderMobileDrawer({
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-6' />
+          <Separator className='my-4' />
           <div className='flex flex-col gap-3'>
             <Button
               onClick={reactivateHolders}
-              className='flex gap-2'
+              className='flex w-full gap-2'
               size='sm'
             >
               <Undo2 className='size-4' />
@@ -131,6 +133,15 @@ export function InactiveHolderMobileDrawer({
                 Löschen
               </Button>
             </div>
+            
+            <Button
+              className='w-full'
+              size='sm'
+              variant='ghost'
+              onClick={() => setIsOpen(false)}
+            >
+              Abbrechen
+            </Button>
           </div>
         </DrawerContent>
       </Drawer>

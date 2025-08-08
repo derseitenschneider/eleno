@@ -134,7 +134,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value || undefined}
+                      value={field.value || ''}
                     >
                       <SelectTrigger className='h-[36px]'>
                         <SelectValue placeholder='Unterrichtstag' />

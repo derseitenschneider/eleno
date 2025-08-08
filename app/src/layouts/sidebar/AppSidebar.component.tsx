@@ -152,6 +152,7 @@ export function AppSidebar() {
                   disabled={isLoading || undefined}
                   isActive={isActive('/lessons')}
                   data-testid='lesson-nav-sidebar'
+                  autoFocus={false}
                 >
                   <GraduationCap
                     strokeWidth={isActive('/lessons') ? 1.75 : 1.25}

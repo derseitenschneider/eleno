@@ -115,7 +115,7 @@ export function RepertoireMobileDrawer({
                     Ende
                   </span>
                   <span>
-                    {repertoireItem.startDate?.toLocaleDateString(userLocale, {
+                    {repertoireItem.endDate?.toLocaleDateString(userLocale, {
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric',
@@ -125,11 +125,11 @@ export function RepertoireMobileDrawer({
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-6' />
+          <Separator className='my-4' />
           <div className='flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
-              className='flex gap-2'
+              className='flex w-full gap-2'
               size='sm'
             >
               <PencilIcon className='size-4' />
@@ -148,7 +148,7 @@ export function RepertoireMobileDrawer({
               </Button>
             </div>
             <Button
-              className='mt-4'
+              className='mt-4 w-full'
               size='sm'
               onClick={() => setIsOpen(false)}
               variant='outline'
