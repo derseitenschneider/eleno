@@ -7,7 +7,7 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import CreateGroup from './CreateGroup.component'
-import { X } from 'lucide-react'
+import { ChevronLeft, X } from 'lucide-react'
 
 export type CreateStudentDialogDrawerProps = {
   open: boolean
@@ -26,17 +26,17 @@ export function CreateGroupDialogDrawer({
 }: CreateStudentDialogDrawerProps) {
   return (
     <DrawerOrDialog direction='right' open={open} onOpenChange={onOpenChange}>
-      <DrawerOrDialogContent className='!w-screen max-w-[unset]'>
+      <DrawerOrDialogContent className='!w-screen max-w-[unset] sm:!w-auto'>
+        <DrawerOrDialogClose>
+          <ChevronLeft className='size-5' />
+          <span className='sr-only'>Close</span>
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <DrawerOrDialogClose>
-          <X className='size-5' />
-          <span className='sr-only'>Close</span>
-        </DrawerOrDialogClose>
         <CreateGroup onSuccess={() => onSuccess()} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>

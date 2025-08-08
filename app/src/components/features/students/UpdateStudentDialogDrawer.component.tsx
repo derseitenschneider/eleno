@@ -8,7 +8,7 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import UpdateStudents from './UpdateStudents.component'
-import { X } from 'lucide-react'
+import { ChevronLeft, X } from 'lucide-react'
 
 export type UpdateStudentsDialogDrawerProps = {
   open: boolean
@@ -39,16 +39,16 @@ export function UpdateStudentsDialogDrawer({
         className='!w-screen max-w-[unset] sm:!w-auto'
         onClick={onDialogClick}
       >
+        <DrawerOrDialogClose>
+          <ChevronLeft className='size-5' />
+          <span className='sr-only'>Close</span>
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <DrawerOrDialogClose>
-          <X className='size-5' />
-          <span className='sr-only'>Close</span>
-        </DrawerOrDialogClose>
         <UpdateStudents studentIds={studentIds} onSuccess={onSuccess} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>

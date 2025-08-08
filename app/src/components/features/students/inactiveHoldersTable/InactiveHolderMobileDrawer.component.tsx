@@ -4,7 +4,6 @@ import type { LessonHolder } from '@/types/types'
 import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import {
   Drawer,
   DrawerClose,
@@ -81,12 +80,26 @@ export function InactiveHolderMobileDrawer({
             <CardContent>
               <div className='grid gap-4 py-6'>
                 {type === 's' && (
-                  <div className='flex flex-col'>
-                    <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
-                      Instrument
-                    </span>
-                    <span>{lessonHolder.instrument}</span>
-                  </div>
+                  <>
+                    <div className='flex flex-col'>
+                      <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
+                        Vorname
+                      </span>
+                      <span>{lessonHolder.firstName}</span>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
+                        Nachname
+                      </span>
+                      <span>{lessonHolder.lastName}</span>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
+                        Instrument
+                      </span>
+                      <span>{lessonHolder.instrument}</span>
+                    </div>
+                  </>
                 )}
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
@@ -111,8 +124,7 @@ export function InactiveHolderMobileDrawer({
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-4' />
-          <div className='flex flex-col gap-3'>
+          <div className='mt-6 flex flex-col gap-3'>
             <Button
               onClick={reactivateHolders}
               className='flex w-full gap-2'
@@ -133,15 +145,6 @@ export function InactiveHolderMobileDrawer({
                 Löschen
               </Button>
             </div>
-            
-            <Button
-              className='w-full'
-              size='sm'
-              variant='ghost'
-              onClick={() => setIsOpen(false)}
-            >
-              Abbrechen
-            </Button>
           </div>
         </DrawerContent>
       </Drawer>

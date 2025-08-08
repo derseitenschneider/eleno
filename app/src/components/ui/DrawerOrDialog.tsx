@@ -129,7 +129,7 @@ const DrawerOrDialogContent = React.forwardRef<
       <DrawerContent
         onPointerDownOutside={(e) => e.preventDefault()}
         ref={ref}
-        className={className}
+        className={cn(className)}
         {...props}
       >
         <div
@@ -206,13 +206,7 @@ const DrawerOrDialogClose = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { isMobile } = useDrawerOrDialog()
   if (!isMobile) return null
-  return (
-    <DrawerClose
-      ref={ref}
-      className={cn('absolute top-4 right-4', className)}
-      {...props}
-    />
-  )
+  return <DrawerClose ref={ref} className={cn(className)} {...props} />
 })
 DrawerOrDialogClose.displayName = 'DrawerOrDialogClose'
 

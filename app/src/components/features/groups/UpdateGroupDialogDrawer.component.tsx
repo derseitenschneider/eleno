@@ -8,7 +8,7 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import UpdateGroup from './UpdateGroup.component'
-import { X } from 'lucide-react'
+import { ChevronLeft, X } from 'lucide-react'
 
 export type UpdateGroupDialogDrawerProps = {
   open: boolean
@@ -34,16 +34,16 @@ export function UpdateGroupDialogDrawer({
         className='!w-screen max-w-[unset]'
         onClick={onDialogClick}
       >
+        <DrawerOrDialogClose>
+          <ChevronLeft className='size-5' />
+          <span className='sr-only'>Close</span>
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <DrawerOrDialogClose>
-          <X className='size-5' />
-          <span className='sr-only'>Close</span>
-        </DrawerOrDialogClose>
         <UpdateGroup groupId={groupId} onSuccess={onSuccess} />
       </DrawerOrDialogContent>
     </DrawerOrDialog>

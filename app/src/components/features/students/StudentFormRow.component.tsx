@@ -54,7 +54,7 @@ const StudentFormRow = memo(function StudentFormRow({
     <div
       className={cn(
         grid,
-        'lg:mt-1 gap-y-4 px-2 py-3 md:py-4 lg:p-0 lg:pr-1',
+        'lg:mt-1 gap-y-4 px-2 md:py-4 lg:p-0 lg:pr-1',
         fields > 1
           ? 'lg:border-none lg:shadow-none border bg-background100   border-hairline my-6 sm:my-6 shadow-sm rounded-lg'
           : 'mb-1',
@@ -176,7 +176,6 @@ const StudentFormRow = memo(function StudentFormRow({
             </Label>
             <FormControl>
               <Input
-
                 disabled={disabled}
                 type='time'
                 {...field}
@@ -215,7 +214,6 @@ const StudentFormRow = memo(function StudentFormRow({
                 }}
                 value={field.value || ''}
                 className={cn(
-
                   'h-10 sm:h-9',
                   formState.errors.students?.[index]?.endOfLesson &&
                   'border-warning',

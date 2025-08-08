@@ -1,5 +1,6 @@
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
@@ -9,6 +10,7 @@ import DeleteHolders from './DeleteHolders.component'
 import { useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import type { Group, Student } from '@/types/types'
+import { X } from 'lucide-react'
 
 export type DeleteHoldersDialogDrawerProps = {
   open: boolean
@@ -77,6 +79,9 @@ export function DeleteHoldersDialogDrawer({
   return (
     <DrawerOrDialog open={open} onOpenChange={onOpenChange}>
       <DrawerOrDialogContent>
+        <DrawerOrDialogClose className='absolute right-4 top-4 text-foreground/70'>
+          <X className='size-5' />
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{dialogTitle}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>

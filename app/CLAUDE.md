@@ -2,6 +2,23 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Agent OS Integration
+
+This project uses Agent OS for structured product development. Key documentation:
+
+- **Product Overview**: `.agent-os/product/mission.md` - Core product mission and features
+- **Roadmap**: `.agent-os/product/roadmap.md` - 6-phase development plan with current progress
+- **Tech Decisions**: `.agent-os/product/decisions.md` - Architectural and product decisions log
+- **Tech Stack**: `.agent-os/product/tech-stack.md` - Complete technical architecture
+- **Specifications**: `.agent-os/specs/` - Feature specifications and requirements
+
+When working on any code changes (features, bug fixes, improvements, refactoring), always reference the Agent OS documentation to understand:
+- Product context and user workflows
+- Established architectural patterns and constraints
+- Current development priorities and phase
+- Technical decisions and their rationale
+- How changes fit into the overall product vision
+
 ## Development Commands
 
 ### Build & Development

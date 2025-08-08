@@ -4,7 +4,6 @@ import type { Student } from '@/types/types'
 import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 import {
   Drawer,
@@ -38,7 +37,12 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
 
   return (
     <>
-      <Drawer modal={false} direction='right' open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer
+        modal={false}
+        direction='right'
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
         <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
           <div className='flex w-full cursor-pointer items-center justify-between text-base'>
             <span>
@@ -49,7 +53,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
         </DrawerTrigger>
         <DrawerContent className='!w-screen p-4'>
           <DrawerClose asChild>
-            <Button variant='ghost' size='icon' >
+            <Button variant='ghost' size='icon'>
               <ChevronLeft className='size-5' />
               <span className='sr-only'>Close</span>
             </Button>
@@ -93,9 +97,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Zeit
                   </span>
-                  <span>
-                    {timeString}
-                  </span>
+                  <span>{timeString}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
@@ -106,9 +108,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-4' />
-          <div className='flex flex-col gap-3'>
-
+          <div className='mt-6 flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
@@ -131,7 +131,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
               </Button>
               {isDeactivating && <MiniLoader />}
             </div>
-            
+
             <Button
               className='w-full'
               size='sm'

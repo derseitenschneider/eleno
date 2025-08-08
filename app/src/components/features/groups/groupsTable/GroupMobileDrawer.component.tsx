@@ -31,11 +31,17 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
 
   let timeString = ''
   if (group.startOfLesson && group.endOfLesson) {
-    const startTime = format(new Date(`1970-01-01T${group.startOfLesson}`), 'HH:mm')
+    const startTime = format(
+      new Date(`1970-01-01T${group.startOfLesson}`),
+      'HH:mm',
+    )
     const endTime = format(new Date(`1970-01-01T${group.endOfLesson}`), 'HH:mm')
     timeString = `${startTime} – ${endTime}`
   } else if (group.startOfLesson) {
-    const startTime = format(new Date(`1970-01-01T${group.startOfLesson}`), 'HH:mm')
+    const startTime = format(
+      new Date(`1970-01-01T${group.startOfLesson}`),
+      'HH:mm',
+    )
     timeString = startTime
   } else {
     timeString = '–'
@@ -93,8 +99,7 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-4' />
-          <div className='flex flex-col gap-3'>
+          <div className='mt-6 flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
@@ -117,15 +122,6 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               </Button>
               {isDeactivating && <MiniLoader />}
             </div>
-            
-            <Button
-              className='w-full'
-              size='sm'
-              variant='ghost'
-              onClick={() => setIsOpen(false)}
-            >
-              Abbrechen
-            </Button>
           </div>
         </DrawerContent>
       </Drawer>
@@ -136,12 +132,6 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
         onSuccess={() => setModalOpen(null)}
         groupId={group.id}
       />
-      {/* <UpdateStudentsDialogDrawer */}
-      {/*   open={modalOpen === 'EDIT'} */}
-      {/*   onOpenChange={() => setModalOpen(null)} */}
-      {/*   onSuccess={() => setModalOpen(null)} */}
-      {/*   studentIds={[student.id]} */}
-      {/* /> */}
     </>
   )
 }
