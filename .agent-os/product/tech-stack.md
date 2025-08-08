@@ -16,6 +16,49 @@
 - **Secondary API:** Custom PHP Backend
 - **Architecture:** Hybrid (Supabase + PHP API)
 
+### Database Schema & Tables
+
+**Core Tables:**
+- `students` (3,113 records): Student management with name, instrument, lesson scheduling, archive status, homework sharing authorization, and weekday enums
+- `lessons` (45,973 records): Lesson documentation with content, homework, date, status (documented/prepared), expiration tracking, and unique homework keys
+- `groups` (80 records): Band/group management with student arrays, scheduling, location, and homework sharing settings
+- `notes` (2,761 records): Color-coded notes system (blue/red/green/yellow) with drag-and-drop ordering and student/group association
+- `repertoire` (3,917 records): Musical piece tracking with start/end dates, student/group association, and progress monitoring
+- `todos` (2,844 records): Task management system with due dates, completion status, and student/group linkage
+
+**System Tables:**
+- `profiles` (276 records): User profile management with login tracking, last lesson creation timestamps, and organization membership
+- `settings` (276 records): User preferences including lesson layout configurations (regular/reverse)
+- `stripe_subscriptions` (276 records): Payment management with subscription status (active/canceled/trial/expired/licensed), billing periods, and plan types (month/year/lifetime/licensed)
+- `organizations` (1 record): Multi-tenancy support with licensing, billing intervals, and contact management
+- `messages` (293 records): In-app messaging system with recipient tracking and status management (sent/read/trash)
+- `message_templates` (7 records): Pre-defined message templates for efficient communication
+- `notifications` (1 record): System notifications with types (survey/update/news/alert), expiration, and display frequency
+- `notification_views` (81 records): User notification interaction tracking with action types (dismissed/completed/clicked)
+- `feature_flags` (2 records): Feature flag system for controlled rollouts
+- `feature_flag_users` (1 record): User-specific feature flag assignments
+
+**Database Extensions:**
+- `pgjwt`: JSON Web Token API for authentication
+- `pg_graphql`: GraphQL support for flexible queries
+- `uuid-ossp`: UUID generation for unique identifiers
+- `pg_net`: Async HTTP capabilities
+- `pg_stat_statements`: Query performance monitoring
+- `pgcrypto`: Cryptographic functions
+- `pgsodium`: Libsodium encryption functions
+- `pg_cron`: Job scheduling for automated tasks
+
+**Custom Data Types:**
+- `weekdays`: Enum for German days (Montag-Sonntag)
+- `lesson_status`: Enum for lesson states (documented/prepared)
+- `background_colors`: Note color coding (blue/red/green/yellow)
+- `subscription_plan`: Billing plan types (month/year/lifetime/licensed)
+- `subscription_status`: Account status tracking
+- `message_status`: Communication state management
+- `notification_type`: System notification categories
+- `organization_role`: User permission levels (admin/member)
+- `billing_interval`: Payment frequency (month/year)
+
 ## JavaScript
 
 - **Framework:** React 18 with TypeScript
@@ -87,6 +130,14 @@
 - **Primary:** Supabase Cloud PostgreSQL
 - **Backup Strategy:** Automated Supabase backups
 - **Environment:** Production/Staging instances
+
+### Edge Functions
+
+**Deployed Functions:**
+- `create-customer` (Active): Stripe customer creation webhook with automatic subscription setup, trial period management, and FluentCRM integration for new user onboarding
+  - **Features:** Stripe customer creation, subscription table population, 30-day trial setup, automated email marketing sync
+  - **External Integrations:** Stripe API, FluentCRM API
+  - **Environment Handling:** Test user detection and bypass logic
 
 ## Asset Hosting
 

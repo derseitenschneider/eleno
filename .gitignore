@@ -34,6 +34,7 @@ vendor
 config.env
 .prettierrc
 .eslintrc
+.mcp.json
 
 # build output
 dist/
@@ -61,3 +62,7 @@ pnpm-debug.log*
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Playwright auth state (contains login session data)
+playwright/auth-state.json
+auth-state.json
