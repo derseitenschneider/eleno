@@ -12,10 +12,17 @@ import type { Lesson } from '@/types/types'
 import { LessonItem } from './LessonItem.component'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { ChevronLeft, MessageSquareShare, PencilIcon, Trash2, X } from 'lucide-react'
+import {
+  ChevronLeft,
+  MessageSquareShare,
+  PencilIcon,
+  Trash2,
+  X,
+} from 'lucide-react'
 import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
 import DeleteLesson from './DeleteLesson.component'
+import { Separator } from '@/components/ui/separator'
 
 type LessonItemMobileProps = {
   lesson: Lesson
@@ -24,9 +31,9 @@ type LessonItemMobileProps = {
 export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
   const { userLocale } = useUserLocale()
   const [open, setOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState<'EDIT' | 'SHARE_HOMEWORK' | 'DELETE' | null>(
-    null,
-  )
+  const [modalOpen, setModalOpen] = useState<
+    'EDIT' | 'SHARE_HOMEWORK' | 'DELETE' | null
+  >(null)
 
   if (!lesson) return
   return (
@@ -88,6 +95,7 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
               Hausaufgaben teilen
             </Button>
 
+            <Separator className='my-3' />
             <Button
               variant='destructive'
               onClick={() => {
@@ -110,17 +118,13 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerContent className='!w-screen'>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
-            <DrawerClose asChild>
-              <Button
-                variant='ghost'
-                className='absolute right-4 top-4'
-                size='icon'
-              >
-                <X className='size-5' />
-                <span className='sr-only'>Close</span>
-              </Button>
-            </DrawerClose>
             <DrawerTitle>Lektion bearbeiten</DrawerTitle>
             <DrawerDescription className='hidden'>
               Lektion bearbeiten
@@ -142,12 +146,8 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
       >
         <DrawerContent className='!w-screen'>
           <DrawerClose asChild>
-            <Button
-              variant='ghost'
-              className='absolute right-4 top-4'
-              size='icon'
-            >
-              <X className='size-5' />
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
               <span className='sr-only'>Close</span>
             </Button>
           </DrawerClose>

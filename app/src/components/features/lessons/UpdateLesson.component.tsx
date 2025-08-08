@@ -108,7 +108,6 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
-      <Separator className='my-6 sm:hidden' />
       <SaveAbortButtons
         onSave={handleSave}
         onAbort={onCloseModal}
