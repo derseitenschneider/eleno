@@ -2,7 +2,7 @@ import { CheckIcon } from 'lucide-react'
 
 export function BrandingSection() {
   return (
-    <div className='hidden flex-col items-center justify-center bg-slate-100 p-8 sm:flex'>
+    <div className='hidden flex-col items-center justify-center bg-slate-100 p-8 lg:flex'>
       <div className='w-full max-w-[36rem] text-[17px] text-zinc-600'>
         <h1 className='!font-semibold tracking-tight text-zinc-600'>
           Dein Unterricht,{' '}
@@ -22,8 +22,8 @@ export function BrandingSection() {
             </div>
 
             <p className='text-zinc-600'>
-              <span className='font-medium text-zinc-600'>Zeit sparen:</span> Eleno hilft dir,
-              wertvolle Verwaltungszeit zu sparen.
+              <span className='font-medium text-zinc-600'>Zeit sparen:</span>{' '}
+              Eleno hilft dir, wertvolle Verwaltungszeit zu sparen.
             </p>
           </li>
 
@@ -33,7 +33,9 @@ export function BrandingSection() {
             </div>
 
             <p className='text-zinc-600'>
-              <span className='font-medium text-zinc-600'>Intuitive Dokumentation:</span>{' '}
+              <span className='font-medium text-zinc-600'>
+                Intuitive Dokumentation:
+              </span>{' '}
               Behalte mühelos den Überblick über jede Stunde und den Fortschritt
               deiner Schüler:innen.
             </p>
@@ -45,7 +47,9 @@ export function BrandingSection() {
             </div>
 
             <p className='text-zinc-600'>
-              <span className='font-medium text-zinc-600'>Stressfreie Organisation:</span>{' '}
+              <span className='font-medium text-zinc-600'>
+                Stressfreie Organisation:
+              </span>{' '}
               Perfekt organisierter Unterricht – ganz ohne Zettelchaos oder
               Excel-Listen.
             </p>
@@ -57,8 +61,10 @@ export function BrandingSection() {
             </div>
 
             <p className='text-zinc-600'>
-              <span className='!font-medium text-zinc-600'>Datenschutz inklusive:</span> Eleno
-              ist DSGVO-konform für sichere Schülerdaten.
+              <span className='!font-medium text-zinc-600'>
+                Datenschutz inklusive:
+              </span>{' '}
+              Eleno ist DSGVO-konform für sichere Schülerdaten.
             </p>
           </li>
         </ul>

@@ -7,7 +7,7 @@ type SignupProps = {
 }
 function Signup({ className }: SignupProps) {
   return (
-    <div className={cn(className, 'sm:grid sm:grid-cols-2')}>
+    <div className={cn(className, 'sm:grid lg:grid-cols-2')}>
       <SignupEmail />
       <BrandingSection />
     </div>

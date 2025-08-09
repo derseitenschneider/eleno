@@ -6,12 +6,6 @@ import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
 import {
   DrawerOrDialog,

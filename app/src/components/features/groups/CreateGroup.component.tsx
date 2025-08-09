@@ -135,7 +135,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
   }
 
   return (
-    <div className='p-4 pb-10 sm:w-[85vw] sm:p-0'>
+    <div className='p-4 pb-10 sm:w-[85vw] sm:p-1 sm:pr-2'>
       {' '}
       <div className={cn(grid, 'hidden lg:grid')}>
         <span className='pl-3 text-sm text-foreground/80'>Gruppenname*</span>
@@ -351,7 +351,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
           </div>
 
           <Separator className='my-6 sm:hidden' />
-          <div className='flex items-center justify-stretch sm:mt-4 sm:justify-end'>
+          <div className='flex items-center justify-stretch sm:justify-end'>
             <div className='flex w-full flex-col-reverse items-center gap-4 sm:w-auto sm:flex-row'>
               <Button
                 className='w-full sm:w-auto'

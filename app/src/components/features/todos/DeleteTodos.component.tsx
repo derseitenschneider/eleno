@@ -43,7 +43,9 @@ export default function DeleteTodos({
       <div>
         <Blocker />
         <DialogDescription>
-          Möchtest du alle erledigten Todos unwiederruflich löschen?
+          {todoIds.length === 1
+            ? 'Möchtest du die ausgewählte Todo unwiederruflich löschen?'
+            : 'Möchtest du alle erledigten Todos unwiederruflich löschen?'}
         </DialogDescription>
         <div className='mt-6 flex flex-col-reverse justify-end gap-3 sm:flex-row'>
           <Button

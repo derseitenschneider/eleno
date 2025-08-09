@@ -58,7 +58,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   }
 
   return (
-    <div className='sm:w-[350px]'>
+    <div className='p-1 sm:w-[350px]'>
       <div className='space-y-6'>
         <p>Bestätige die Löschung deines Accounts mit deiner E-Mail Adresse.</p>
         <div>
@@ -73,8 +73,8 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
         </div>
       </div>
       {onCloseModal && <Separator className='my-6 sm:hidden' />}
-      <div className='flex flex-col sm:flex-row justify-end gap-4 sm:mt-8'>
-        <div className='flex items-center gap-2 w-full sm:w-auto'>
+      <div className='flex flex-col justify-end gap-4 sm:mt-8 sm:flex-row'>
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             size='sm'
             variant='destructive'

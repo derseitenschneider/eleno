@@ -1,6 +1,6 @@
 import parse from 'html-react-parser'
 import format from 'date-fns/format'
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { ChevronLeft, Trash2 } from 'lucide-react'
 import type { Message } from '@/types/types'
 import {
   Tooltip,
@@ -34,8 +34,8 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
 
   function handleMessageClick(
     event:
-      | React.MouseEvent<HTMLDivElement>
-      | React.KeyboardEvent<HTMLDivElement>,
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLButtonElement>,
   ) {
     const target = event.target as HTMLElement
     if (target.tagName === 'A') {
@@ -62,11 +62,11 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant='ghost' size='icon' onClick={onClose}>
-                  <ArrowLeft className='size-5 sm:size-4' />
-                  <span className='sr-only'>ZurÃ¼ck</span>
+                  <ChevronLeft className='size-5 sm:size-4' />
+                  <span className='sr-only'>Zurück</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side='bottom'>ZurÃ¼ck</TooltipContent>
+              <TooltipContent side='bottom'>Zurück</TooltipContent>
             </Tooltip>
             <div className='ml-auto'>
               <Tooltip>
@@ -78,10 +78,10 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
                     onClick={handleDelete}
                   >
                     <Trash2 className='h-4 w-4 text-warning' />
-                    <span className='sr-only'>Lšschen</span>
+                    <span className='sr-only'>Löschen</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side='bottom'>Lšschen</TooltipContent>
+                <TooltipContent side='bottom'>Löschen</TooltipContent>
               </Tooltip>
             </div>
           </div>
@@ -102,10 +102,10 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
                   onClick={handleDelete}
                 >
                   <Trash2 className='h-4 w-4 text-warning' />
-                  <span className='sr-only'>Lšschen</span>
+                  <span className='sr-only'>Löschen</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side='bottom'>Lšschen</TooltipContent>
+              <TooltipContent side='bottom'>Löschen</TooltipContent>
             </Tooltip>
           </div>
           <Separator />
@@ -136,21 +136,21 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
           <Separator />
           <ScrollArea type='hover' className='h-full'>
             <div className='[*&]:break-word mx-auto h-full max-w-[60ch] p-4'>
-              <div
+              <button
                 onClick={handleMessageClick}
                 onKeyUp={handleMessageClick}
-                role='button'
+                type='button'
                 tabIndex={0}
                 className='flex flex-col p-5 [&_div]:mt-6 [&_h4]:pt-6 [&_p]:pt-4'
               >
                 {parse(message.body || '')}
-              </div>
+              </button>
             </div>
           </ScrollArea>
         </>
       ) : (
         <div className='p-8 text-center text-muted-foreground'>
-          Keine Nachricht ausgewÃ¤hlt
+          Keine Nachricht ausgewählt
         </div>
       )}
     </div>

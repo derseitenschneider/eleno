@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
@@ -15,6 +16,7 @@ import useProfileQuery from '../user/profileQuery'
 import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Blocker } from '../subscription/Blocker'
+import { X } from 'lucide-react'
 
 function Account() {
   const { data: userProfile } = useProfileQuery()
@@ -78,7 +80,7 @@ function Account() {
           <p className='text-foreground/80'>E-Mail Adresse</p>
           <p>{userProfile.email}</p>
         </div>
-        <div className='flex flex-col sm:flex-row items-center gap-4'>
+        <div className='flex flex-col items-center gap-4 sm:flex-row'>
           <Button
             type='button'
             size='sm'
@@ -118,8 +120,19 @@ function Account() {
         </Button>
       </div>
 
-      <DrawerOrDialog open={modalOpen === 'EDIT_PROFILE'} onOpenChange={closeModal}>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_PROFILE'}
+        onOpenChange={closeModal}
+      >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Profil bearbeiten</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>
@@ -131,15 +144,37 @@ function Account() {
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      <DrawerOrDialog open={modalOpen === 'EDIT_EMAIL'} onOpenChange={closeModal}>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_EMAIL'}
+        onOpenChange={closeModal}
+      >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <Blocker />
           <EditEmail onCloseModal={closeModal} />
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      <DrawerOrDialog open={modalOpen === 'EDIT_PASSWORD'} onOpenChange={closeModal}>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_PASSWORD'}
+        onOpenChange={closeModal}
+      >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Passwort ändern</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>
@@ -151,8 +186,19 @@ function Account() {
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      <DrawerOrDialog open={modalOpen === 'DELETE_ACCOUNT'} onOpenChange={closeModal}>
+      <DrawerOrDialog
+        open={modalOpen === 'DELETE_ACCOUNT'}
+        onOpenChange={closeModal}
+      >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Benutzerkonto löschen</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>

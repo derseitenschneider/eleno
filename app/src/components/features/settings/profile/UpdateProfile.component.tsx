@@ -60,7 +60,7 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
     <div
       className={cn(
         isUpdating && 'opacity-80 pointer-events-none',
-        'sm:min-w-[350px]',
+        'sm:min-w-[350px] p-1',
       )}
     >
       <div className='space-y-6'>
@@ -92,8 +92,19 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
         </div>
       </div>
       {onCloseModal && <Separator className='my-6 sm:hidden' />}
-      <div className='flex flex-col sm:flex-row justify-end gap-4 sm:mt-8'>
-        <div className='flex items-center gap-2 w-full sm:w-auto'>
+      <div className='flex flex-col-reverse justify-end gap-3 sm:mt-8 sm:flex-row'>
+        {onCloseModal && (
+          <Button
+            disabled={isUpdating}
+            size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             size='sm'
             disabled={
@@ -106,17 +117,6 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           </Button>
           {isUpdating && <MiniLoader />}
         </div>
-        {onCloseModal && (
-          <Button
-            disabled={isUpdating}
-            size='sm'
-            variant='outline'
-            className='w-full sm:w-auto'
-            onClick={onCloseModal}
-          >
-            Abbrechen
-          </Button>
-        )}
       </div>
     </div>
   )

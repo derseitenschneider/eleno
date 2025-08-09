@@ -6,12 +6,18 @@ import MessageDisplay from './MessageDisplay.component'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 import { useSearchParams } from 'react-router-dom'
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from '@/components/ui/drawer'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer'
 
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
   const [searchParams, setSearchParams] = useSearchParams()
-  const isDesktop = useMediaQuery('(min-width: 1024px)')
+  const isDesktop = useMediaQuery('(min-width: 1025px)')
 
   const selectedMessageId = searchParams.get('message')
   const selectedMessage =
@@ -36,7 +42,7 @@ export default function Messages() {
         <div
           className={cn(
             'flex flex-1 flex-col',
-            isDesktop ? 'lg:basis-[500px]' : 'basis-full',
+            isDesktop ? 'w-1/2 max-w-[500px]' : 'basis-full',
           )}
         >
           <div className='mt-4 flex-grow overflow-y-auto'>
@@ -57,15 +63,17 @@ export default function Messages() {
             </div>
           </>
         ) : (
-          <Drawer direction='right' open={!!selectedMessage} onOpenChange={() => handleClose()}>
+          <Drawer
+            direction='right'
+            open={!!selectedMessage}
+            onOpenChange={() => handleClose()}
+          >
             <DrawerContent
-              className='flex !w-screen flex-col p-0 sm:!w-2/3 sm:!max-w-[unset]'
+              className='flex !w-screen flex-col p-0 sm:!max-w-[unset] lg:!w-2/3'
               onClick={(e) => e.stopPropagation()}
             >
               <DrawerHeader className='hidden'>
-                <DrawerTitle>
-                  {selectedMessage?.subject}
-                </DrawerTitle>
+                <DrawerTitle>{selectedMessage?.subject}</DrawerTitle>
                 <DrawerDescription>
                   Neue Nachricht wom {selectedMessage?.created_at}
                 </DrawerDescription>
@@ -75,6 +83,6 @@ export default function Messages() {
           </Drawer>
         )}
       </div>
-    </TooltipProvider >
+    </TooltipProvider>
   )
 }

@@ -49,7 +49,9 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
     return (
       <div className='sm:w-[350px]'>
         <DrawerOrDialogHeader>
-          <DrawerOrDialogTitle>Bestätige deine E-Mail Adresse</DrawerOrDialogTitle>
+          <DrawerOrDialogTitle>
+            Bestätige deine E-Mail Adresse
+          </DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <div className='flex h-12 sm:h-16'>
           <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
@@ -75,7 +77,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
       <DrawerOrDialogDescription className='hidden'>
         Ändere deine E-Mail Adresse
       </DrawerOrDialogDescription>
-      <div className='space-y-6'>
+      <div className='space-y-6 p-1'>
         <div>
           <Label htmlFor='email'>Neue E-Mail Adresse</Label>
           <Input
@@ -101,18 +103,7 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
         </div>
       </div>
       {onCloseModal && <Separator className='my-6 sm:hidden' />}
-      <div className='flex flex-col sm:flex-row justify-end gap-4 sm:mt-8'>
-        <div className='flex items-center gap-2 w-full sm:w-auto'>
-          <Button
-            disabled={isUpdating || !hasAccess}
-            size='sm'
-            className='w-full sm:w-auto'
-            onClick={handleSave}
-          >
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
-        </div>
+      <div className='flex flex-col-reverse justify-end gap-3 sm:mt-8 sm:flex-row'>
         {onCloseModal && (
           <Button
             size='sm'
@@ -124,6 +115,17 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
             Abbrechen
           </Button>
         )}
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
+          <Button
+            disabled={isUpdating || !hasAccess}
+            size='sm'
+            className='w-full sm:w-auto'
+            onClick={handleSave}
+          >
+            Speichern
+          </Button>
+          {isUpdating && <MiniLoader />}
+        </div>
       </div>
     </div>
   )
