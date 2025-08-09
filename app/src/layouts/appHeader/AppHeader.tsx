@@ -21,11 +21,14 @@ export function AppHeader() {
   return (
     <header className='sticky top-0 z-[50] flex h-12 items-center justify-between border-b border-hairline bg-background100 px-4 sm:pl-6'>
       <SidebarTrigger
-        className={cn(isMobile ? 'size-5' : 'size-4', 'hover:bg-background50')}
+        className={cn(
+          isMobile ? 'size-5' : 'size-4',
+          'flex sm:hidden lg:flex hover:bg-background50',
+        )}
       />
 
       {breadcrumbs.length > 0 && (
-        <div className='absolute left-1/2 top-[calc(50%+1px)] -translate-x-1/2  -translate-y-1/2 sm:left-0 sm:translate-x-[46px]'>
+        <div className='absolute left-1/2 top-[calc(50%+1px)] -translate-x-1/2  -translate-y-1/2 sm:left-0 sm:translate-x-[23px] lg:translate-x-[46px]'>
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbs.map((item, index) => {

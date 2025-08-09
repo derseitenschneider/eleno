@@ -68,7 +68,7 @@ export default function SubscriptionStatusBadge() {
   return (
     <Badge
       variant={variant}
-      className='cursor-pointer'
+      className='ml-auto cursor-pointer'
       onClick={handleClick}
       data-testid='subscription-status-badge'
     >
