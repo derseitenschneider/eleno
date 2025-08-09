@@ -16,6 +16,7 @@ import { useUpdateStudents } from './useUpdateStudents'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Separator } from '@/components/ui/separator'
 
 const MemoizedStudentFormRow = React.memo(StudentFormRow)
 
@@ -151,7 +152,8 @@ export default function UpdateStudents({
               </ScrollArea>
               <div className='flex flex-col justify-between pb-1 pr-1 sm:flex-row sm:items-end'>
                 <span className='text-sm'>* Pflichtfelder</span>
-                <div className='mt-6 flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row'>
+                <Separator className='my-6 sm:hidden' />
+                <div className='flex w-full flex-col-reverse items-center gap-2 sm:mt-6 sm:w-auto sm:flex-row'>
                   <Button
                     className='w-full'
                     size='sm'

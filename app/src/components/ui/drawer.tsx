@@ -6,7 +6,13 @@ import { cn } from '@/lib/utils'
 function Drawer({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return <DrawerPrimitive.Root repositionInputs={false} data-slot='drawer' {...props} />
+  return (
+    <DrawerPrimitive.Root
+      repositionInputs={false}
+      data-slot='drawer'
+      {...props}
+    />
+  )
 }
 
 function DrawerTrigger({
@@ -55,6 +61,7 @@ const DrawerContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <DrawerPortal data-slot='drawer-portal'>
     <DrawerOverlay />
+
     <DrawerPrimitive.Content
       ref={ref}
       data-slot='drawer-content'
@@ -69,7 +76,7 @@ const DrawerContent = React.forwardRef<
       {...props}
     >
       <div className='mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block' />
-      {children}
+      <div className='h-full overflow-y-auto'>{children}</div>
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ))

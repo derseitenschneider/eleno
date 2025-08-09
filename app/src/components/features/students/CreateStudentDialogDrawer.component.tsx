@@ -7,7 +7,7 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import CreateStudents from './CreateStudents.component'
-import { ChevronLeft, X } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export type CreateStudentDialogDrawerProps = {
@@ -28,7 +28,7 @@ export function CreateStudentDialogDrawer({
   return (
     <DrawerOrDialog direction='right' open={open} onOpenChange={onOpenChange}>
       <DrawerOrDialogContent className='!w-screen max-w-[unset] sm:!w-auto'>
-        <DrawerOrDialogClose>
+        <DrawerOrDialogClose asChild>
           <Button variant='ghost' size='icon'>
             <ChevronLeft className='size-5' />
             <span className='sr-only'>Close</span>

@@ -1,4 +1,5 @@
 import { type MouseEvent, useState } from 'react'
+import { format } from 'date-fns'
 import type { LessonHolder } from '@/types/types'
 
 import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
@@ -15,8 +16,9 @@ import {
 } from '@/components/ui/drawer'
 import { toast } from 'sonner'
 import { useReactivateStudents } from '../useReactivateStudents'
-import { useReactivateGroups } from '../../groups/useReactivateGroups'
 import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
+import { Separator } from '@/components/ui/separator'
+import { useReactivateGroups } from '../../groups/useReactivateGroups'
 
 interface InactiveHolderMobileDrawerProps {
   holder: LessonHolder
@@ -49,6 +51,27 @@ export function InactiveHolderMobileDrawer({
       await reactivateGroups([lessonHolder.id])
       toast.success('Gruppe wiederhergestellt.')
     }
+  }
+
+  let timeString = ''
+  if (lessonHolder.startOfLesson && lessonHolder.endOfLesson) {
+    const startTime = format(
+      new Date(`1970-01-01T${lessonHolder.startOfLesson}`),
+      'HH:mm',
+    )
+    const endTime = format(
+      new Date(`1970-01-01T${lessonHolder.endOfLesson}`),
+      'HH:mm',
+    )
+    timeString = `${startTime} – ${endTime}`
+  } else if (lessonHolder.startOfLesson) {
+    const startTime = format(
+      new Date(`1970-01-01T${lessonHolder.startOfLesson}`),
+      'HH:mm',
+    )
+    timeString = startTime
+  } else {
+    timeString = '–'
   }
 
   return (
@@ -105,28 +128,28 @@ export function InactiveHolderMobileDrawer({
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Tag
                   </span>
-                  <span>{lessonHolder.dayOfLesson}</span>
+                  <span>{lessonHolder.dayOfLesson || '–'}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Zeit
                   </span>
-                  <span>
-                    {lessonHolder.startOfLesson} - {lessonHolder.endOfLesson}
-                  </span>
+                  <span>{timeString}</span>
                 </div>
                 <div className='flex flex-col'>
                   <span className='w-1/3 text-sm font-semibold text-muted-foreground'>
                     Ort
                   </span>
-                  <span>{lessonHolder.location}</span>
+                  <span>{lessonHolder.location || '–'}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <div className='mt-6 flex flex-col gap-3'>
+          <Separator className='my-6' />
+          <div className='flex flex-col gap-3'>
             <Button
               onClick={reactivateHolders}
+              variant='outline'
               className='flex w-full gap-2'
               size='sm'
             >

@@ -46,6 +46,7 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
   } else {
     timeString = '–'
   }
+
   return (
     <>
       <Drawer direction='right' open={isOpen} onOpenChange={setIsOpen}>
@@ -99,7 +100,8 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
               </div>
             </CardContent>
           </Card>
-          <div className='mt-6 flex flex-col gap-3'>
+          <Separator className='my-6' />
+          <div className='flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'

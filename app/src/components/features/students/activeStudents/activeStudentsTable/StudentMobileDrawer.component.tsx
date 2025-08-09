@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/drawer'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
+import { Separator } from '@/components/ui/separator'
 
 interface StudentMobileDrawerProps {
   student: Student
@@ -66,6 +67,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
           <DrawerDescription className='hidden'>
             {student.firstName} {student.lastName}
           </DrawerDescription>
+
           <Card>
             <CardContent>
               <div className='grid gap-4 py-6'>
@@ -108,7 +110,8 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
               </div>
             </CardContent>
           </Card>
-          <div className='mt-6 flex flex-col gap-3'>
+          <Separator className='my-6' />
+          <div className='flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
