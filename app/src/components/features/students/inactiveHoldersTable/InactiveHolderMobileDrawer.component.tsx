@@ -142,6 +142,23 @@ export function InactiveHolderMobileDrawer({
                   </span>
                   <span>{lessonHolder.location || '–'}</span>
                 </div>
+
+                {type === 'g' && (
+                  <div className='flex flex-col'>
+                    <span className='w-1/3 text-sm font-semibold'>
+                      Schüler:innen
+                    </span>
+                    {lessonHolder.students.length > 0 ? (
+                      <ul className='list-disc pl-4'>
+                        {lessonHolder.students.map((student) => (
+                          <li key={student.name}>{student.name}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      '–'
+                    )}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

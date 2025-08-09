@@ -79,7 +79,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
       </div>
       <div className='flex flex-col flex-wrap justify-between gap-x-4 sm:flex-row sm:items-end sm:gap-y-5'>
         <NoteColor color={color} setColor={setColor} />
-        <Separator className='my-4 sm:hidden' />
+        <Separator className='my-6 sm:hidden' />
         <div className='flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row sm:gap-4'>
           <Button
             type='button'

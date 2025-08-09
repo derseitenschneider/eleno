@@ -82,7 +82,7 @@ export function RepertoireMobileDrawer({
             </Button>
           </DrawerClose>
           <DrawerHeader>
-            <DrawerTitle hidden>
+            <DrawerTitle>
               {parse(removeHTMLAttributes(repertoireItem.title))}
             </DrawerTitle>
           </DrawerHeader>
@@ -140,15 +140,7 @@ export function RepertoireMobileDrawer({
             </Button>
 
             <Button
-              className='w-full'
-              size='sm'
-              onClick={() => setIsOpen(false)}
-              variant='outline'
-            >
-              Abbrechen
-            </Button>
-            <Button
-              className='mt-3 flex w-full gap-2'
+              className='flex w-full gap-2'
               size='sm'
               variant='destructive'
               onClick={() => setModalOpen('DELETE')}
