@@ -50,13 +50,10 @@ This ensures all Agent OS specifications remain current and accurate for future 
 
 ### Build & Development
 
-- `npm run dev:demo` - Start development server in demo mode
 - `npm run dev:staging` - Start development server in staging mode
 - `npm run dev:prod` - Start development server in production mode
 - `npm run build` - Production build
-- `npm run build:demo` - Build for demo environment
 - `npm run build:staging` - Build for staging environment
-- `npm run build:ci` - Build and start preview server for CI
 
 ### Code Quality & Testing
 
@@ -93,18 +90,30 @@ This ensures all Agent OS specifications remain current and accurate for future 
 ### Tech Stack
 
 - **Frontend**: React 18 with TypeScript, Vite build tool
-- **UI**: Radix UI components with Tailwind CSS, custom design system
+- **UI**: Radix UI, Tailwind CSS, and shadcn/ui components
 - **State Management**: TanStack Query (React Query) for server state, React Context for client state
 - **Routing**: React Router v6 with nested routing structure
-- **Database**: Supabase (PostgreSQL) with generated TypeScript types
+- **Backend**: Supabase (PostgreSQL, Auth, Storage) and a separate PHP backend for some services.
 - **Testing**: Vitest for unit tests, Playwright for E2E tests
 - **Payments**: Stripe integration with subscription management
-- **Mobile**: Capacitor for iOS app deployment
+
 
 ### Project Structure
 
 ```
-src/
+/Users/brianboy/Repositories/personal/eleno/
+├── api/         # PHP Backend for specific services
+├── app/         # Main React 18 frontend application
+│   ├── src/     # Core application source code (see details below)
+│   └── supabase/  # Supabase configuration and migrations
+├── .github/     # GitHub Actions workflows for CI/CD
+├── .agent-os/   # Agent OS specifications and documentation
+└── ...      # Other configuration and documentation files
+```
+
+The `app/src` directory contains the main application code:
+```
+app/src/
 ├── components/
 │   ├── features/          # Feature-specific components (students, lessons, etc.)
 │   └── ui/               # Reusable UI components (buttons, forms, etc.)
@@ -117,6 +126,27 @@ src/
 ├── layouts/              # Layout components (navbar, sidebar)
 ├── utils/                # Utility functions
 └── types/                # TypeScript type definitions
+```
+
+The `api/` directory contains the PHP backend:
+```
+api/
+├── public/      # Publicly accessible files, entry point is index.php
+├── src/         # Main PHP application source code
+│   ├── Config/
+│   ├── Controllers/
+│   ├── Core/
+│   ├── Database/
+│   ├── Middleware/
+│   ├── Repositories/
+│   ├── routes/
+│   └── Services/
+├── scripts/     # Command-line scripts
+└── tests/       # PHPUnit tests
+    ├── Feature/
+    ├── Helpers/
+    ├── Unit/
+    └── Webhook/
 ```
 
 ### Key Architecture Patterns
@@ -179,48 +209,10 @@ Uses Supabase with TypeScript types generated from the schema. Key tables includ
 
 ### Mobile Considerations
 
-- Uses Capacitor for iOS deployment
+
 - Responsive design with mobile-specific components
 - Touch-friendly interactions and mobile navigation patterns
 
-## Visual Testing with Claude Code
-
-### Authentication Setup
-
-For visual testing and screenshot comparisons, test credentials are stored as environment variables:
-
-- **Test Email**: Use `ELENO_TEST_EMAIL` environment variable (stored in `.env`)
-- **Test Password**: Use `ELENO_TEST_PASSWORD` environment variable (stored in `.env`)
-- **Test Account**: Dedicated account with sample data for testing purposes
-
-### Playwright Authentication
-
-To perform authenticated visual testing:
-
-1. **Login Flow**: Use the environment variables to log into the application
-2. **Auth State Storage**: Save authentication state to avoid repeated logins:
-   ```typescript
-   // Save auth state after first login
-   await context.storageState({ path: 'playwright/auth-state.json' });
-   
-   // Reuse auth state in subsequent tests
-   const context = await browser.newContext({ 
-     storageState: 'playwright/auth-state.json' 
-   });
-   ```
-
-### Visual Testing Commands
-
-- `npm run pw:visual` - Run visual regression tests (if configured)
-- Use Playwright's built-in screenshot capabilities for visual comparisons
-- Screenshots are stored in `playwright/test-results/` and compared against baselines
-
-### Best Practices
-
-- Use consistent viewport sizes for screenshots
-- Ensure stable test data in the test account
-- Handle dynamic content (timestamps, IDs) appropriately
-- Update visual baselines when UI changes are intentional
 
 
-- Everything frontend related is in /app, everything server related thats not related to supabase is in /api
+
