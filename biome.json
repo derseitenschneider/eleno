@@ -28,8 +28,7 @@
     "ignore": [
       "./app/coverage/*",
       "./app/src/scss/tailwind.css",
-      "./app/supabase/functions/*",
-      "./app/tests/*"
+      "./app/supabase/functions/*"
     ],
     "enabled": true,
     "rules": {
@@ -38,5 +37,17 @@
         "noConsoleLog": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["./app/tests/**/*", "**/*.test.tsx", "**/*.spec.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -205,7 +205,7 @@ export function CreatePlannedLessonForm({
             >
               Speichern
             </Button>
-            {isCreating || (isUpdating && <MiniLoader />)}
+            {(isCreating || isUpdating) && <MiniLoader />}
           </div>
         </div>
       </div>

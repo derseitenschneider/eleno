@@ -26,11 +26,10 @@
   },
   "include": [
     "src",
-    "tests/utils/TestUser.ts" // "src/**/*",
-    // "src/types/**/*",
-    // "scripts",
-    // "postcss.config.js",
-    // "tailwind.config.js"
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "tests/**/*",
+    "playwright/**/*"
   ],
   "exclude": ["node_modules", "dist", "build", "supabase"],
   "references": [{ "path": "./tsconfig.node.json" }]
