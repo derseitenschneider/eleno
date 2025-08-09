@@ -131,15 +131,6 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
               </Button>
               {isDeactivating && <MiniLoader />}
             </div>
-
-            <Button
-              className='w-full'
-              size='sm'
-              variant='ghost'
-              onClick={() => setIsOpen(false)}
-            >
-              Abbrechen
-            </Button>
           </div>
         </DrawerContent>
       </Drawer>
