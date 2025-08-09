@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 import RepertoireControl from './repertoireControl'
 import CreateRepertoireItem from '../CreateRepertoireItem.component'
-import { ChevronLeft, Plus } from 'lucide-react'
+import { ChevronLeft, Plus, X } from 'lucide-react'
 import { DataTable } from '../../../ui/data-table'
 import { repertoireColumns } from './repertoireColumns'
 import {
@@ -22,6 +22,7 @@ import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Button } from '@/components/ui/button'
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
@@ -143,6 +144,14 @@ function RepertoireTable({
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerContent>
+          <DrawerClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>Song erfassen</DrawerTitle>
           </DrawerHeader>

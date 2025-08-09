@@ -116,6 +116,7 @@ export function StudentMobileDrawer({ student }: StudentMobileDrawerProps) {
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
               size='sm'
+              variant='outline'
             >
               <PencilIcon className='size-4' />
               Bearbeiten

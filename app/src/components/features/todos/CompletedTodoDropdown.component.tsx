@@ -1,4 +1,9 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,6 +58,9 @@ export default function CompletedTodoDropdown({
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Todo löschen</DialogTitle>
+          </DialogHeader>
           <DeleteTodos todoIds={[id]} onCloseModal={closeModal} />
         </DialogContent>
       </Dialog>

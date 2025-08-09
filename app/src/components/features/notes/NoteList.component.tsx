@@ -7,13 +7,14 @@ import Note from './Note.component'
 import { useActiveNotesQuery } from './notesQueries'
 import type { Note as TNote } from '@/types/types'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 import { useUpdateNote } from './useUpdateNote'
 import { cn } from '@/lib/utils'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
@@ -124,6 +125,14 @@ function NoteList() {
         onOpenChange={() => setOpenModal(undefined)}
       >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Neue Notiz erstellen</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>

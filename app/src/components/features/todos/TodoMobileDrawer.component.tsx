@@ -229,7 +229,7 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
             </CardContent>
           </Card>
 
-          <Separator className='my-4' />
+          <Separator className='my-6' />
 
           <div className='flex flex-col gap-3'>
             {type === 'open' && (
@@ -238,6 +238,7 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
                   onClick={() => setModalOpen('EDIT')}
                   className='flex w-full gap-2'
                   size='sm'
+                  variant='outline'
                 >
                   <PencilIcon className='size-4' />
                   Bearbeiten
@@ -293,13 +294,14 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
       {/* Update Todo Modal */}
       <DrawerOrDialog
         nested={true}
-        // direction='right'
         open={modalOpen === 'EDIT'}
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerOrDialogContent className='!w-full'>
-          <DrawerOrDialogClose>
-            <X className='size-5' />
+          <DrawerOrDialogClose asChild className='absolute right-4 top-4'>
+            <Button className='text-foreground/70' variant='ghost' size='icon'>
+              <X className='size-5' />
+            </Button>
           </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Todo bearbeiten</DrawerOrDialogTitle>
@@ -318,6 +320,14 @@ export function TodoMobileDrawer({ todo, type }: TodoMobileDrawerProps) {
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Todo löschen</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>

@@ -7,12 +7,13 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
-import { CheckSquare2, User, Users } from 'lucide-react'
+import { CheckSquare2, User, Users, X } from 'lucide-react'
 import { useState } from 'react'
 import { ActionItem } from './ActionItem.component'
 import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
 import { Separator } from '@/components/ui/separator'
 import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
+import { Button } from '@/components/ui/button'
 
 export type ActionDrawerProps = {
   open: boolean
@@ -27,7 +28,15 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
   return (
     <>
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className=''>
+        <DrawerContent>
+          <DrawerClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>Erstellen</DrawerTitle>
           </DrawerHeader>

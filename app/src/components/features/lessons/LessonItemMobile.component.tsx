@@ -69,14 +69,15 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
             </DrawerDescription>
           </DrawerHeader>
           <LessonItem lesson={lesson} isDisplayOnly={true} />
-          <div className='mt-8 flex flex-col gap-3'>
+          <Separator className='my-6' />
+          <div className='flex flex-col gap-3'>
             <Button
               onClick={() => {
                 setModalOpen('EDIT')
-                // setOpen(false)
               }}
-              className='flex w-full items-center gap-1'
+              className='flex w-full items-center gap-2'
               size='sm'
+              variant='outline'
             >
               <PencilIcon className='size-4' />
               Bearbeiten
@@ -88,21 +89,19 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
                 setModalOpen('SHARE_HOMEWORK')
                 setOpen(false)
               }}
-              className='flex w-full items-center gap-1'
+              className='flex w-full items-center gap-2'
               size='sm'
             >
               <MessageSquareShare className='size-4' />
               Hausaufgaben teilen
             </Button>
 
-            <Separator className='my-3' />
             <Button
               variant='destructive'
               onClick={() => {
                 setModalOpen('DELETE')
-                setOpen(false)
               }}
-              className='flex w-full items-center gap-1'
+              className='mt-3 flex w-full items-center gap-2'
               size='sm'
             >
               <Trash2 className='size-4' />
@@ -184,12 +183,10 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
               Lektion löschen
             </DrawerDescription>
           </DrawerHeader>
-          <div className='p-4'>
-            <DeleteLesson
-              onCloseModal={() => setModalOpen(null)}
-              lessonId={lesson.id}
-            />
-          </div>
+          <DeleteLesson
+            onCloseModal={() => setModalOpen(null)}
+            lessonId={lesson.id}
+          />
         </DrawerContent>
       </Drawer>
     </>

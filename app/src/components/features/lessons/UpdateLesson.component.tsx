@@ -3,8 +3,6 @@ import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { Button } from '@/components/ui/button'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useQueryClient } from '@tanstack/react-query'
 import { useUpdateLesson } from './useUpdateLesson'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -108,6 +106,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
+      <Separator className='my-6 sm:hidden' />
       <SaveAbortButtons
         onSave={handleSave}
         onAbort={onCloseModal}

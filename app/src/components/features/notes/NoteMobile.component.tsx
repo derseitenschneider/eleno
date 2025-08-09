@@ -65,6 +65,7 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
           </DrawerHeader>
 
           <Note note={note} index={0} isDisplay={true} />
+          <Separator className='my-6' />
           <div className='flex flex-col gap-3'>
             <Button
               disabled={isDuplicating}
@@ -90,14 +91,13 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
               Notiz duplizieren
             </Button>
 
-            <Separator className='my-1' />
             <Button
               variant='destructive'
               disabled={isDuplicating}
               onClick={() => {
                 setModalOpen('DELETE')
               }}
-              className='flex items-center gap-2'
+              className='mt-3 flex items-center gap-2'
               size='sm'
             >
               <Trash2 className='size-4' />
@@ -113,18 +113,14 @@ export function NoteMobile({ note, index }: NoteMobileProps) {
         onOpenChange={() => setModalOpen(null)}
       >
         <DrawerContent className='!w-screen'>
+          <DrawerClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerClose>
           <DrawerHeader>
-            <DrawerClose asChild>
-              <Button
-                variant='ghost'
-                className='absolute right-4 top-4'
-                size='icon'
-              >
-                <X className='size-5' />
-                <span className='sr-only'>Close</span>
-              </Button>
-            </DrawerClose>
-            <DrawerTitle>Lektion bearbeiten</DrawerTitle>
+            <DrawerTitle>Notiz bearbeiten</DrawerTitle>
             <DrawerDescription className='hidden'>
               Notiz bearbeiten
             </DrawerDescription>

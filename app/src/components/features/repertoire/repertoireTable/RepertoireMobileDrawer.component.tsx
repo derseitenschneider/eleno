@@ -44,11 +44,11 @@ export function RepertoireMobileDrawer({
     }
 
     titleElement.addEventListener('click', handleLinkClick, true)
-    
+
     return () => {
       titleElement.removeEventListener('click', handleLinkClick, true)
     }
-  }, [repertoireItem.title])
+  }, [])
 
   const handleClick = () => {
     setIsOpen(true)
@@ -68,7 +68,9 @@ export function RepertoireMobileDrawer({
             className='flex w-full cursor-pointer items-center justify-between text-base'
             onClick={handleClick}
           >
-            <span ref={titleRef}>{parse(removeHTMLAttributes(repertoireItem.title))}</span>
+            <span ref={titleRef}>
+              {parse(removeHTMLAttributes(repertoireItem.title))}
+            </span>
             <ChevronRight className='h-4 w-4 text-muted-foreground' />
           </button>
         </DrawerTrigger>
@@ -125,35 +127,34 @@ export function RepertoireMobileDrawer({
               </div>
             </CardContent>
           </Card>
-          <Separator className='my-4' />
+          <Separator className='my-6' />
           <div className='flex flex-col gap-3'>
             <Button
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
               size='sm'
+              variant='outline'
             >
               <PencilIcon className='size-4' />
               Bearbeiten
             </Button>
 
-            <div className='flex w-full items-center gap-2'>
-              <Button
-                className='flex w-full gap-2'
-                size='sm'
-                variant='destructive'
-                onClick={() => setModalOpen('DELETE')}
-              >
-                <Trash2 className='size-4' />
-                Löschen
-              </Button>
-            </div>
             <Button
-              className='mt-4 w-full'
+              className='w-full'
               size='sm'
               onClick={() => setIsOpen(false)}
               variant='outline'
             >
               Abbrechen
+            </Button>
+            <Button
+              className='mt-3 flex w-full gap-2'
+              size='sm'
+              variant='destructive'
+              onClick={() => setModalOpen('DELETE')}
+            >
+              <Trash2 className='size-4' />
+              Löschen
             </Button>
           </div>
         </DrawerContent>

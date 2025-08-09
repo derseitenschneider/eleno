@@ -112,10 +112,10 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
             </div>
           </div>
         </div>
-        {onCloseModal && <Separator className='my-4 sm:hidden' />}
+        {/* {onCloseModal && <Separator className='my-4 sm:hidden' />} */}
         <div
           className={cn(
-            !onCloseModal && 'mt-3',
+            !onCloseModal ? 'mt-3' : 'mt-6',
             'flex w-full flex-col items-center justify-end gap-3 sm:mt-0 sm:w-auto sm:flex-row',
           )}
         >

@@ -40,21 +40,12 @@ export default function DeleteTodos({
   }
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Todo{todoIds.length > 1 && 's'} löschen</DialogTitle>
-      </DialogHeader>
       <div>
         <Blocker />
-        {todoIds.length === 1 ? (
-          <DialogDescription>
-            Möchtest du die Todo{' '}
-            <span className='font-bold text-primary hyphens-auto'>{text}</span>{' '}
-            unwiederruflich löschen?
-          </DialogDescription>
-        ) : (
-          <p>Möchtest du alle erledigten Todos unwiederruflich löschen?</p>
-        )}
-        <div className='flex justify-end gap-4 mt-4'>
+        <DialogDescription>
+          Möchtest du alle erledigten Todos unwiederruflich löschen?
+        </DialogDescription>
+        <div className='mt-6 flex flex-col-reverse justify-end gap-3 sm:flex-row'>
           <Button
             disabled={isDeleting}
             size='sm'
@@ -63,8 +54,9 @@ export default function DeleteTodos({
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
             <Button
+              className='w-full'
               disabled={isDeleting}
               size='sm'
               variant='destructive'

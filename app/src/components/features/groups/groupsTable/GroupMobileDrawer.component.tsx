@@ -103,6 +103,7 @@ export function GroupMobileDrawer({ group }: GroupMobileDrawerProps) {
           <Separator className='my-6' />
           <div className='flex flex-col gap-3'>
             <Button
+              variant='outline'
               onClick={() => setModalOpen('EDIT')}
               className='flex w-full gap-2'
               size='sm'

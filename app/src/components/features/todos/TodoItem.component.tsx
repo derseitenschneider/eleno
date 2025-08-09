@@ -61,12 +61,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
       )}
     >
       <div className='flex'>
-        {type === 'open' && (
-          <Checkbox
-            onClick={() => completeTodo(todo.id)}
-            className='rounded-[3px] sm:size-[12px]'
-          />
-        )}
+        {type === 'open' && <Checkbox onClick={() => completeTodo(todo.id)} />}
         {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
       <div className='flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>

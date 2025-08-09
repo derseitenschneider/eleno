@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { useUpdateNote } from './useUpdateNote'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Blocker } from '../subscription/Blocker'
+import { Separator } from '@/components/ui/separator'
 
 interface UpdateNoteProps {
   onCloseModal?: () => void
@@ -60,8 +61,9 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
       <div className='mb-6 mt-5'>
         <CustomEditor value={text || ''} onChange={handleText} />
       </div>
-      <div className='flex flex-col flex-wrap justify-between gap-x-4 gap-y-5 sm:flex-row sm:items-end'>
+      <div className='flex flex-col flex-wrap justify-between gap-x-4 sm:flex-row sm:items-end sm:gap-y-5'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
+        <Separator className='my-6 sm:hidden' />
         <div className='flex  flex-col-reverse items-center gap-2 sm:flex-row sm:gap-4'>
           <Button
             type='button'

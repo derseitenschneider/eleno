@@ -106,15 +106,15 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
             </div>
           </div>
         </div>
-        <Separator className='my-4 sm:hidden' />
-        <div className='flex flex-col sm:flex-row items-center gap-2'>
-          <div className='flex items-center gap-2 w-full sm:w-auto'>
+        <Separator className='my-6 sm:hidden' />
+        <div className='flex flex-col items-center gap-2 sm:flex-row'>
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
             <Button
               disabled={isUpdating || !text || !hasAccess}
               type='submit'
               onClick={onSaveHandler}
               size='sm'
-              className={cn('sm:mt-0 sm:ml-auto', 'mt-2 w-full sm:w-auto')}
+              className={cn('sm:mt-0 sm:ml-auto', 'w-full sm:w-auto')}
             >
               Speichern
             </Button>

@@ -35,9 +35,11 @@ import {
 import {
   DrawerOrDialog,
   DrawerOrDialogContent,
+  DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import { DialogDescription } from '@radix-ui/react-dialog'
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
@@ -236,6 +238,11 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
               <DialogHeader>
                 <DialogTitle>Song löschen</DialogTitle>
               </DialogHeader>
+              <DialogDescription>
+                Möchtest du den Song{' '}
+                <b>«{parse(removeHTMLAttributes(row.original.title))}»</b>{' '}
+                wirklich aus dem Repertoire entfernen?
+              </DialogDescription>
               <DeleteRepertoireItem
                 item={row.original}
                 onCloseModal={closeModal}

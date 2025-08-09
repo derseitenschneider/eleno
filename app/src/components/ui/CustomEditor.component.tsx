@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { saniziteHtmlforEditor } from '@/utils/sanitizeHTML'
 
 import { LinkButton } from './LinkButton.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 // Regular buttons
 const BtnBold = createButton('Bold', <Bold />, 'bold')
@@ -65,6 +66,7 @@ function CustomEditor({
   type = 'normal',
 }: CustomEditorProps) {
   const [showPlaceholder, setShowPlaceholder] = useState(!value)
+  const isMobile = useIsMobileDevice()
 
   const onChangeEditor = (e: ContentEditableEvent) => {
     const inputText = e.target.value
@@ -98,7 +100,7 @@ function CustomEditor({
           <Toolbar
             style={{
               position: 'absolute',
-              bottom: 'calc(-100% + 4px)',
+              bottom: isMobile ? 'calc(-100% + 9px)' : 'calc(-100% + 4px)',
             }}
             tabIndex={-1}
             aria-disabled={disabled}

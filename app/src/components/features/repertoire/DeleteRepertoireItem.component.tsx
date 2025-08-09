@@ -24,18 +24,8 @@ function DeleteRepertoireItem({
   if (!item) return null
 
   return (
-    <div className='max-w-[450px]'>
-      <Separator className='my-6 sm:hidden' />
-      <div className='mt-4 flex flex-col justify-end gap-4 sm:flex-row'>
-        <Button
-          disabled={isDeleting}
-          size='sm'
-          variant='destructive'
-          onClick={handleDelete}
-          className='w-full sm:w-auto'
-        >
-          Löschen
-        </Button>
+    <div>
+      <div className='mt-6 flex w-full flex-col-reverse justify-end gap-3  sm:mt-4 sm:flex-row'>
         <Button
           variant='outline'
           size='sm'
@@ -45,7 +35,18 @@ function DeleteRepertoireItem({
         >
           Abbrechen
         </Button>
-        {isDeleting && <MiniLoader />}
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isDeleting}
+            size='sm'
+            variant='destructive'
+            onClick={handleDelete}
+            className='w-full sm:w-auto'
+          >
+            Löschen
+          </Button>
+          {isDeleting && <MiniLoader />}
+        </div>
       </div>
       {isError && (
         <p className='mt-4 text-center text-sm text-warning'>

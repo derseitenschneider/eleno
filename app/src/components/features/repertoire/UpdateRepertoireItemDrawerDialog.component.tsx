@@ -7,7 +7,7 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { X } from 'lucide-react'
+import { ChevronLeft, X } from 'lucide-react'
 import UpdateRepertoireItem from './UpdateRepertoireItem.component'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 
@@ -24,7 +24,6 @@ export function UpdateRepertoireItemDrawerDialog({
   open,
   onOpenChange,
   onDialogClick,
-  onSuccess,
   title = 'Song bearbeiten',
   description = 'Bearbeite den Song',
   itemId,
@@ -50,16 +49,16 @@ export function UpdateRepertoireItemDrawerDialog({
         className='!w-screen max-w-[unset]'
         onClick={onDialogClick}
       >
+        <DrawerOrDialogClose>
+          <ChevronLeft className='size-5' />
+          <span className='sr-only'>Close</span>
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{title}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>
         <DrawerOrDialogDescription className='hidden'>
           {description}
         </DrawerOrDialogDescription>
-        <DrawerOrDialogClose>
-          <X className='size-5' />
-          <span className='sr-only'>Close</span>
-        </DrawerOrDialogClose>
         <UpdateRepertoireItem
           holder={holder}
           itemId={itemId}

@@ -2,15 +2,16 @@ import parse from 'html-react-parser'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { useQueryClient } from '@tanstack/react-query'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import type { Group, RepertoireItem, Student } from '@/types/types'
+import type { RepertoireItem } from '@/types/types'
 import DeleteRepertoireItem from './DeleteRepertoireItem.component'
+import { Button } from '@/components/ui/button'
+import { X } from 'lucide-react'
 
 export type DeleteRepertoireItemDrawerDialogProps = {
   open: boolean
@@ -28,6 +29,14 @@ export function DeleteRepertoireItemDrawerDialog({
   return (
     <DrawerOrDialog open={open} onOpenChange={onOpenChange}>
       <DrawerOrDialogContent>
+        <DrawerOrDialogClose asChild>
+          <Button
+            variant='ghost'
+            className='absolute right-4 top-4 text-foreground/70'
+          >
+            <X className='size-5' />
+          </Button>
+        </DrawerOrDialogClose>
         <DrawerOrDialogHeader>
           <DrawerOrDialogTitle>{dialogTitle}</DrawerOrDialogTitle>
         </DrawerOrDialogHeader>

@@ -6,8 +6,21 @@ import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import { X } from 'lucide-react'
 
 export default function TodosCompleted() {
   const { data: todos, isPending } = useTodosQuery()
@@ -39,8 +52,9 @@ export default function TodosCompleted() {
     <div>
       {completedTodos && completedTodos?.length > 0 ? (
         <>
-          <div className='flex justify-end'>
+          <div className='flex sm:justify-end'>
             <Button
+              className='w-full sm:w-auto'
               size='sm'
               variant='destructive'
               onClick={() => setOpenModal('DELETE_ALL')}
@@ -51,20 +65,38 @@ export default function TodosCompleted() {
           <ul className='mt-4'>
             {isMobile
               ? sortedFilteredTodos.map((todo) => (
-                  <TodoMobileDrawer key={todo.id} todo={todo} type='completed' />
+                  <TodoMobileDrawer
+                    key={todo.id}
+                    todo={todo}
+                    type='completed'
+                  />
                 ))
               : sortedFilteredTodos.map((todo) => (
                   <TodoItem key={todo.id} todo={todo} type='completed' />
                 ))}
           </ul>
-          <Dialog open={openModal === 'DELETE_ALL'} onOpenChange={closeModal}>
-            <DialogContent>
+          <DrawerOrDialog
+            open={openModal === 'DELETE_ALL'}
+            onOpenChange={closeModal}
+          >
+            <DrawerOrDialogContent>
+              <DrawerOrDialogClose asChild>
+                <Button
+                  variant='ghost'
+                  className='absolute right-4 top-4 text-foreground/70'
+                >
+                  <X className='size-5' />
+                </Button>
+              </DrawerOrDialogClose>
+              <DrawerOrDialogHeader>
+                <DrawerOrDialogTitle>Todos löschen</DrawerOrDialogTitle>
+              </DrawerOrDialogHeader>
               <DeleteTodos
                 todoIds={completedTodos.map((todo) => todo.id)}
                 onCloseModal={closeModal}
               />
-            </DialogContent>
-          </Dialog>
+            </DrawerOrDialogContent>
+          </DrawerOrDialog>
         </>
       ) : (
         <Empty

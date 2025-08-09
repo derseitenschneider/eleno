@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { Input } from '@/components/ui/input'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
@@ -10,6 +9,7 @@ import CustomEditor from '@/components/ui/CustomEditor.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
 
 interface UpdateRepertoireItemProps {
   itemId: number
@@ -23,6 +23,7 @@ function UpdateRepertoireItem({
   onCloseModal,
 }: UpdateRepertoireItemProps) {
   const queryClient = useQueryClient()
+  const isMobile = useIsMobileDevice()
 
   const { updateRepertoireItem, isUpdating } = useUpdateRepertoireItem()
   const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
@@ -96,13 +97,14 @@ function UpdateRepertoireItem({
             {item.endDate && (
               <ButtonRemove
                 disabled={isUpdating}
-                className='translate-x-[-8px]'
+                className='sm:translate-x-[-8px]'
                 onRemove={() => handleChangeEnd(undefined)}
               />
             )}
           </div>
         </div>
-        <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
+        <div className='relative col-span-5 mt-[-24px] flex w-full flex-col items-center gap-3 sm:col-span-1 sm:mt-0 sm:w-auto sm:flex-row'>
+          <Separator className='absolute top-[-20px] w-full sm:hidden' />
           <Button
             className='ml-auto w-full'
             onClick={handleSave}
@@ -112,6 +114,17 @@ function UpdateRepertoireItem({
             Speichern
           </Button>
           {isUpdating && <MiniLoader />}
+          {isMobile && onCloseModal && (
+            <Button
+              type='button'
+              variant='outline'
+              size='sm'
+              onClick={onCloseModal}
+              className='w-full'
+            >
+              Abbrechen
+            </Button>
+          )}
         </div>
       </div>
     </div>
