@@ -2,7 +2,6 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { Separator } from '@/components/ui/separator'
 import useMessagesQuery from './messagesQueries'
 import MessageList from './MessageList.component'
-import MessageDisplay from './MessageDisplay.component'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 import { useSearchParams } from 'react-router-dom'
@@ -13,6 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import { MessageView } from './MessageView.component'
 
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
@@ -59,7 +59,7 @@ export default function Messages() {
           <>
             <Separator className='hidden lg:block' orientation='vertical' />
             <div className='hidden h-full flex-grow lg:block'>
-              <MessageDisplay message={selectedMessage} />
+              <MessageView message={selectedMessage} />
             </div>
           </>
         ) : (
@@ -78,7 +78,7 @@ export default function Messages() {
                   Neue Nachricht wom {selectedMessage?.created_at}
                 </DrawerDescription>
               </DrawerHeader>
-              <MessageDisplay message={selectedMessage} onClose={handleClose} />
+              <MessageView message={selectedMessage} onClose={handleClose} />
             </DrawerContent>
           </Drawer>
         )}

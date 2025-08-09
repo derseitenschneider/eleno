@@ -26,7 +26,6 @@ export function AppHeader() {
           'flex sm:hidden lg:flex hover:bg-background50',
         )}
       />
-
       {breadcrumbs.length > 0 && (
         <div className='absolute left-1/2 top-[calc(50%+1px)] -translate-x-1/2  -translate-y-1/2 sm:left-0 sm:translate-x-[23px] lg:translate-x-[46px]'>
           <Breadcrumb>
@@ -54,7 +53,6 @@ export function AppHeader() {
           </Breadcrumb>
         </div>
       )}
-
       <SubscriptionStatusBadge />
     </header>
   )

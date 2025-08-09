@@ -16,12 +16,11 @@ import { useDeleteMessage } from './useDeleteMessage'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useNavigate } from 'react-router-dom'
 
-interface MailDisplayProps {
+interface MessageViewProps {
   message: Message | null
   onClose?: () => void
 }
-
-export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
+export function MessageView({ message, onClose }: MessageViewProps) {
   const { deleteMessage } = useDeleteMessage()
   const { userLocale } = useUserLocale()
   const navigate = useNavigate()
@@ -63,10 +62,10 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
               <TooltipTrigger asChild>
                 <Button variant='ghost' size='icon' onClick={onClose}>
                   <ChevronLeft className='size-5 sm:size-4' />
-                  <span className='sr-only'>Zurück</span>
+                  <span className='sr-only'>ZurÃ¼ck</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side='bottom'>Zurück</TooltipContent>
+              <TooltipContent side='bottom'>ZurÃ¼ck</TooltipContent>
             </Tooltip>
             <div className='ml-auto'>
               <Tooltip>
@@ -78,10 +77,10 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
                     onClick={handleDelete}
                   >
                     <Trash2 className='h-4 w-4 text-warning' />
-                    <span className='sr-only'>Löschen</span>
+                    <span className='sr-only'>LÃ¶schen</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side='bottom'>Löschen</TooltipContent>
+                <TooltipContent side='bottom'>LÃ¶schen</TooltipContent>
               </Tooltip>
             </div>
           </div>
@@ -102,10 +101,10 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
                   onClick={handleDelete}
                 >
                   <Trash2 className='h-4 w-4 text-warning' />
-                  <span className='sr-only'>Löschen</span>
+                  <span className='sr-only'>LÃ¶schen</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side='bottom'>Löschen</TooltipContent>
+              <TooltipContent side='bottom'>LÃ¶schen</TooltipContent>
             </Tooltip>
           </div>
           <Separator />
@@ -150,7 +149,7 @@ export default function MessageDisplay({ message, onClose }: MailDisplayProps) {
         </>
       ) : (
         <div className='p-8 text-center text-muted-foreground'>
-          Keine Nachricht ausgewählt
+          Keine Nachricht ausgewÃ¤hlt
         </div>
       )}
     </div>

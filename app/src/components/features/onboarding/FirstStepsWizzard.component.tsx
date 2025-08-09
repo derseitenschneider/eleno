@@ -45,7 +45,7 @@ export default function FirstStepsWizzard() {
     {
       id: 2,
       label: 'Gruppen',
-      component: <AddGroup onSuccess={goToNext} />,
+      component: <AddGroup />,
       icon: <Users2 strokeWidth={1.5} />,
     },
     {

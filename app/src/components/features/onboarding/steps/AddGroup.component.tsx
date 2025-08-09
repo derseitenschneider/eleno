@@ -6,25 +6,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import CreateGroup from '../../groups/CreateGroup.component'
 import { useState } from 'react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import UpdateGroup from '../../groups/UpdateGroup.component'
 import { PencilIcon } from 'lucide-react'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { CreateGroupDialogDrawer } from '../../groups/CreateGroupDialogDrawer.component'
 
 export default function AddGroup() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'UPDATE' | null>(null)
-  const isMobile = useIsMobileDevice()
   const [selectedGroup, setSelectedGroup] = useState<number>()
   const { activeSortedHolders } = useLessonHolders()
 

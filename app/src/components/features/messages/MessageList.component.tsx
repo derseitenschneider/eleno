@@ -26,9 +26,9 @@ export default function MessageList({ messages }: MailListProps) {
     return date < oneWeekAgo
       ? format(date, 'PP', { locale: getLocale(userLocale) })
       : formatDistanceToNow(date, {
-          addSuffix: true,
-          locale: getLocale(userLocale),
-        })
+        addSuffix: true,
+        locale: getLocale(userLocale),
+      })
   }
 
   function handleClick(message: Message) {

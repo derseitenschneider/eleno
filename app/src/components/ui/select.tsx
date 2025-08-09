@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
-
 // --- Modified Select Component ---
 const Select = ({
   children,
@@ -26,7 +25,8 @@ const Select = ({
             React.isValidElement(triggerChild) &&
             triggerChild.type === SelectValue
           ) {
-            placeholder = triggerChild.props.placeholder
+            const props = triggerChild.props as SelectPrimitive.SelectValueProps
+            placeholder = props.placeholder?.toString() || ''
           }
         })
       }
@@ -76,7 +76,7 @@ const Select = ({
     }
 
     return (
-      <div className="relative w-full">
+      <div className='relative w-full'>
         <select
           value={props.value}
           defaultValue={props.defaultValue}
@@ -88,13 +88,13 @@ const Select = ({
           )}
         >
           {placeholder && (
-            <option value="" disabled>
+            <option value='' disabled>
               {placeholder}
             </option>
           )}
           {getOptions(contentChildren)}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground opacity-50" />
+        <ChevronDown className='pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground opacity-50' />
       </div>
     )
   }
@@ -123,7 +123,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 text-foreground opacity-50" />
+      <ChevronDown className='h-4 w-4 text-foreground opacity-50' />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -141,7 +141,7 @@ const SelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUp className="h-4 w-4" />
+    <ChevronUp className='h-4 w-4' />
   </SelectPrimitive.ScrollUpButton>
 ))
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName
@@ -158,7 +158,7 @@ const SelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronDown className="h-4 w-4" />
+    <ChevronDown className='h-4 w-4' />
   </SelectPrimitive.ScrollDownButton>
 ))
 SelectScrollDownButton.displayName =
@@ -220,9 +220,9 @@ const SelectItem = React.forwardRef<
     )}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span className='absolute left-2 flex h-3.5 w-3.5 items-center justify-center'>
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Check className='h-4 w-4' />
       </SelectPrimitive.ItemIndicator>
     </span>
 
