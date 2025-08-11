@@ -1,5 +1,6 @@
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
@@ -17,6 +18,7 @@ import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useState } from 'react'
 import CreateStudents from '../../students/CreateStudents.component'
 import UpdateStudents from '../../students/UpdateStudents.component'
+import { ChevronLeft } from 'lucide-react'
 
 export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
@@ -79,8 +81,15 @@ export default function AddStudents() {
       <DrawerOrDialog
         open={modalOpen === 'CREATE'}
         onOpenChange={() => setModalOpen(null)}
+        direction='right'
       >
-        <DrawerOrDialogContent>
+        <DrawerOrDialogContent className='!w-screen sm:!w-auto'>
+          <DrawerOrDialogClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>Schüler:in hinzufügen</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>
