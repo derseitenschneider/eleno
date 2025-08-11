@@ -1,20 +1,20 @@
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import parse from 'html-react-parser'
-import type { Lesson } from '@/types/types'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { cn } from '@/lib/utils'
-import PrepareLessonDropDown from './PlannedLessonDropdown.component'
-import { usePlanLessons } from '@/services/context/LessonPlanningContext'
-import { BetweenHorizonalStart } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { useDrafts } from '@/services/context/DraftsContext'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import parse from 'html-react-parser'
+import { BetweenHorizonalStart } from 'lucide-react'
 import { toast } from 'sonner'
 import useCurrentHolder from '../useCurrentHolder'
+import PrepareLessonDropDown from './PlannedLessonDropdown.component'
 
 export type PreparedLessonItemProps = {
   currentLesson: Lesson

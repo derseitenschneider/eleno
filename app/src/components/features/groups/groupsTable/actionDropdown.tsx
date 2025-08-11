@@ -18,8 +18,8 @@ import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
 import BulkExportLessons from '../../lessons/BulkExportLessons.component'
-import { useDeactivateGroups } from '../useDeactivateGroups'
 import ResetGroups from '../ResetGroups.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState

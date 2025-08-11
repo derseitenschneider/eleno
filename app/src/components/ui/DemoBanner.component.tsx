@@ -1,6 +1,6 @@
 import { appConfig } from '@/config'
-import { Button } from './button'
 import { Link } from 'react-router-dom'
+import { Button } from './button'
 
 function DemoBanner() {
   if (!appConfig.isDemoMode) return null

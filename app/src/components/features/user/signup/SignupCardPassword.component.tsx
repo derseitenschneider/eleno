@@ -1,8 +1,6 @@
-import { Link, useSearchParams } from 'react-router-dom'
-import WrapperCard from '../login/WrapperCard.component'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -11,15 +9,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Separator } from '@/components/ui/separator'
-import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
 import { PasswordInput } from '@/components/ui/password-input'
-import { signUpSupabase } from '@/services/api/user.api'
+import { Separator } from '@/components/ui/separator'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { cn } from '@/lib/utils'
+import { signUpSupabase } from '@/services/api/user.api'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronLeftIcon } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { Link, useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
+import WrapperCard from '../login/WrapperCard.component'
 
 const passwordSchema = z.object({
   password: z

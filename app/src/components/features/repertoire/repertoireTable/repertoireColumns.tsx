@@ -1,6 +1,11 @@
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 import { Button } from '@/components/ui/button'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
@@ -14,9 +19,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { DialogDescription } from '@radix-ui/react-dialog'
 import type { ColumnDef } from '@tanstack/react-table'
+import parse from 'html-react-parser'
 import {
   ArrowUpDown,
   InfoIcon,
@@ -27,19 +40,6 @@ import {
 import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
 import UpdateRepertoireItem from '../UpdateRepertoireItem.component'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '@/components/ui/popover'
-import {
-  DrawerOrDialog,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
-import { DialogDescription } from '@radix-ui/react-dialog'
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {

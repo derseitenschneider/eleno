@@ -1,7 +1,7 @@
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import news from './news'
-import NewsItem from './NewsItem.component'
 import { cn } from '@/lib/utils'
+import NewsItem from './NewsItem.component'
+import news from './news'
 
 function News() {
   const sortedNews = news.sort(

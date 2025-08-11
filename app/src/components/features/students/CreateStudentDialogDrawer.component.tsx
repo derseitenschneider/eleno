@@ -6,9 +6,9 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import CreateStudents from './CreateStudents.component'
-import { ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ChevronLeft } from 'lucide-react'
+import CreateStudents from './CreateStudents.component'
 
 export type CreateStudentDialogDrawerProps = {
   open: boolean
@@ -22,8 +22,8 @@ export function CreateStudentDialogDrawer({
   open,
   onOpenChange,
   onSuccess,
-  title = 'Schüler:in erfassen',
-  description = 'Erfasse neue Schüler:innen',
+  title = 'Schüler:in hinzufügen',
+  description = 'Füge neue Schüler:innen hinzu',
 }: CreateStudentDialogDrawerProps) {
   return (
     <DrawerOrDialog direction='right' open={open} onOpenChange={onOpenChange}>

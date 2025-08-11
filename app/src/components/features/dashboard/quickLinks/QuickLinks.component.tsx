@@ -1,3 +1,5 @@
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
 import {
   BookMarked,
   BookOpen,
@@ -8,8 +10,6 @@ import {
   UserRoundPlus,
 } from 'lucide-react'
 import QuickLinkItem from './QuickLinkItem.component'
-import { cn } from '@/lib/utils'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
 function QuickLinks() {
   const { navigateToNearestHolder } = useNavigateToHolder()

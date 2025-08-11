@@ -4,9 +4,17 @@ import { NavLink } from 'react-router-dom'
 import Logo from '../../components/ui/Logo.component'
 import { useUser } from '../../services/context/UserContext'
 
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
+import useTodosQuery from '@/components/features/todos/todosQuery'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
+import useHasBanner from '@/hooks/useHasBanner'
+import { useMessageNotification } from '@/hooks/useMessageNotification'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import useOutsideClick from '@/hooks/useOutsideClick'
 import SidebarElement from '@/layouts/sidebar/SidebarElement.component'
 import SidebarToggle from '@/layouts/sidebar/SidebarToggle.component'
+import { cn } from '@/lib/utils'
+import { useLoading } from '@/services/context/LoadingContext'
 import {
   BookOpen,
   CalendarDays,
@@ -18,14 +26,6 @@ import {
   Settings2,
   Users,
 } from 'lucide-react'
-import useTodosQuery from '@/components/features/todos/todosQuery'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
-import useMessagesQuery from '@/components/features/messages/messagesQueries'
-import { useMessageNotification } from '@/hooks/useMessageNotification'
-import { useLoading } from '@/services/context/LoadingContext'
-import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 function SidebarOld() {
   const isPaymentFlagEnabled = useFeatureFlag('stripe-payment')

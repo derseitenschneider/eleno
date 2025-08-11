@@ -1,11 +1,11 @@
 import LessonHeader from '@/components/features/lessons/LessonHeader'
-import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.component'
-import Repertoire from '@/components/features/repertoire/Repertoire.component'
-import { Outlet, type RouteObject } from 'react-router-dom'
-import NoStudents from '@/components/features/lessons/NoStudents.component'
-import LessonsPage from '@/pages/Lessons.page'
 import LessonNav from '@/components/features/lessons/LessonNav.component'
+import NoStudents from '@/components/features/lessons/NoStudents.component'
+import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
+import Repertoire from '@/components/features/repertoire/Repertoire.component'
+import LessonsPage from '@/pages/Lessons.page'
+import { Outlet, type RouteObject } from 'react-router-dom'
 
 const LessonsWrapper = () => {
   return (

@@ -1,8 +1,8 @@
 import GoogleLogo from '@/components/ui/GoogleLogo.component'
 import { appConfig } from '@/config'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
 import { Button } from './button'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 export function ButtonGoogle() {
   const fetchErrorToast = useFetchErrorToast()

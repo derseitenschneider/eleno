@@ -1,13 +1,13 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to any ai agents when working with code in this repository.
 
 ## 🚨 MANDATORY DOCUMENTATION UPDATE PROTOCOL 🚨
 
 **BEFORE REPORTING COMPLETION OF ANY AGENT OS WORK**: You MUST update ALL relevant documentation files:
 
 1. **`.agent-os/specs/[spec-name]/progress.md`** - Mark tasks ✅ COMPLETED, update metrics
-2. **`.agent-os/specs/[spec-name]/implementation-plan.md`** - Update phase status, actual vs estimated time  
+2. **`.agent-os/specs/[spec-name]/implementation-plan.md`** - Update phase status, actual vs estimated time
 3. **`.agent-os/specs/[spec-name]/README.md`** - Update status, metrics table, next steps
 4. **`.agent-os/specs/[spec-name]/decisions.md`** - Document any new technical decisions made
 
@@ -40,7 +40,7 @@ When updating documentation (as required above), follow these standards:
 
 - **Status Indicators**: ✅ COMPLETED, 🟡 READY, ⏳ PENDING
 - **Time Tracking**: Include actual time spent vs. estimates
-- **Learning Documentation**: Document lessons learned and efficiency gains  
+- **Learning Documentation**: Document lessons learned and efficiency gains
 - **Metrics**: Update with real data (test counts, coverage, etc.)
 - **Readiness**: Maintain phase readiness assessments
 
@@ -63,10 +63,11 @@ This ensures all Agent OS specifications remain current and accurate for future 
 - `npm run test:cov` - Run tests with coverage
 
 **Testing Infrastructure Status: ✅ COMPLETE**
+
 - Full test infrastructure implemented in `src/test/`
 - MSW API mocking for Supabase endpoints
 - Data factories for all entities
-- Provider mocking for React contexts  
+- Provider mocking for React contexts
 - False positive testing validated
 - Ready for Phase 2 implementation
 
@@ -97,7 +98,6 @@ This ensures all Agent OS specifications remain current and accurate for future 
 - **Testing**: Vitest for unit tests, Playwright for E2E tests
 - **Payments**: Stripe integration with subscription management
 
-
 ### Project Structure
 
 ```
@@ -112,6 +112,7 @@ This ensures all Agent OS specifications remain current and accurate for future 
 ```
 
 The `app/src` directory contains the main application code:
+
 ```
 app/src/
 ├── components/
@@ -129,6 +130,7 @@ app/src/
 ```
 
 The `api/` directory contains the PHP backend:
+
 ```
 api/
 ├── public/      # Publicly accessible files, entry point is index.php
@@ -209,10 +211,5 @@ Uses Supabase with TypeScript types generated from the schema. Key tables includ
 
 ### Mobile Considerations
 
-
 - Responsive design with mobile-specific components
 - Touch-friendly interactions and mobile navigation patterns
-
-
-
-

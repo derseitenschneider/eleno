@@ -1,8 +1,7 @@
-import { memo, useCallback } from 'react'
-import { useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -12,9 +11,10 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { Trash2 } from 'lucide-react'
+import { memo, useCallback } from 'react'
+import { useFormContext } from 'react-hook-form'
 import type { UseFieldArrayRemove } from 'react-hook-form'
 import type { StudentSchema } from './CreateStudents.component'
-import { Label } from '@/components/ui/label'
 
 type StudentFormRowProps = {
   index: number
@@ -83,7 +83,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -105,7 +105,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.lastName &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -127,7 +127,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.instrument &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -187,7 +187,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 className={cn(
                   'h-10 sm:h-9',
                   formState.errors.students?.[index]?.startOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -216,7 +216,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 className={cn(
                   'h-10 sm:h-9',
                   formState.errors.students?.[index]?.endOfLesson &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>
@@ -251,7 +251,7 @@ const StudentFormRow = memo(function StudentFormRow({
                     field.value ? 'pr-10' : '',
                     'text-right ',
                     formState.errors.students?.[index]?.durationMinutes &&
-                    'border-warning',
+                      'border-warning',
                   )}
                 />
                 <span
@@ -283,7 +283,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 value={field.value || undefined}
                 className={cn(
                   formState.errors.students?.[index]?.location &&
-                  'border-warning',
+                    'border-warning',
                 )}
               />
             </FormControl>

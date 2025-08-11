@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 
 export default function NoStudents() {
@@ -21,7 +21,7 @@ export default function NoStudents() {
             variant='outline'
             onClick={() => navigate('/students?modal=add-students')}
           >
-            Schüler:innen erfassen
+            Schüler:innen hinzufügen
           </Button>
           <Button
             size='sm'
@@ -29,7 +29,7 @@ export default function NoStudents() {
             className='w-full sm:w-auto'
             onClick={() => navigate('/students/groups?modal=add-group')}
           >
-            Gruppe erstellen
+            Gruppe hinzufügen
           </Button>
         </div>
       </Empty>

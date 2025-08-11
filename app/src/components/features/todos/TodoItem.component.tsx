@@ -1,15 +1,15 @@
-import type { LessonHolder, TTodoItem } from '@/types/types'
 import { Badge } from '@/components/ui/badge'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
-import OpenTodoDropdown from './OpenTodoDropdown.component'
-import { useCompleteTodo } from './useCompleteTodo'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { LessonHolder, TTodoItem } from '@/types/types'
 import { Check, ChevronRight } from 'lucide-react'
 import CompletedTodoDropdown from './CompletedTodoDropdown.component'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import OpenTodoDropdown from './OpenTodoDropdown.component'
+import { useCompleteTodo } from './useCompleteTodo'
 
 export interface TodoItemProps {
   todo: TTodoItem

@@ -1,8 +1,8 @@
 import { isDemoMode } from '@/config'
-import useIsOnline from './useIsOnline'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useFeatureFlag from './useFeatureFlag'
 import useIsMobileDevice from './useIsMobileDevice'
+import useIsOnline from './useIsOnline'
 
 export default function useHasBanner() {
   const isOnline = useIsOnline()

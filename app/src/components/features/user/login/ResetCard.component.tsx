@@ -13,13 +13,13 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { recoverPasswordSupabase } from '@/services/api/user.api'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronLeftIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import ResetSuccess from './ResetSuccess.component'
 import WrapperCard from './WrapperCard.component'
-import { ChevronLeftIcon } from 'lucide-react'
 
 const resetSchema = z.object({
   email: z

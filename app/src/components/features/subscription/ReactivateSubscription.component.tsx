@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
   DialogHeader,
@@ -9,8 +9,8 @@ import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUser } from '@/services/context/UserContext'
-import { toast } from 'sonner'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import useMessagesQuery from '../messages/messagesQueries'
 import useProfileQuery from '../user/profileQuery'
 

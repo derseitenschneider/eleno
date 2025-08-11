@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 
 export async function cleanupToasts(page: Page) {
   const toasts = await page.getByRole('status').all()

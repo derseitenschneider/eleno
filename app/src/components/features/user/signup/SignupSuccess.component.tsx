@@ -1,7 +1,7 @@
 import { ChevronLeftIcon } from 'lucide-react'
-import WrapperCard from '../login/WrapperCard.component'
-import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import WrapperCard from '../login/WrapperCard.component'
 
 export default function SignupSuccess() {
   const [searchParams] = useSearchParams()

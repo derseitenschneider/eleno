@@ -1,6 +1,6 @@
-import { test as setup, expect } from '@playwright/test'
-import { setupMonthlyLifetime } from '../../utils/setupHelpers'
+import { expect, test as setup } from '@playwright/test'
 import { loginUser } from '../../utils/loginUser'
+import { setupMonthlyLifetime } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run monthly checkout fixture, run lifetime checkout and activate',

@@ -1,8 +1,8 @@
-import RepertoireTable from './repertoireTable/repertoireTable.component'
+import RepertoireSkeleton from '@/components/ui/skeletons/lessons/RepertoireSkeleton.component'
+import ErrorPage from '@/pages/Error'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { useRepertoireQuery } from './repertoireQueries'
-import ErrorPage from '@/pages/Error'
-import RepertoireSkeleton from '@/components/ui/skeletons/lessons/RepertoireSkeleton.component'
+import RepertoireTable from './repertoireTable/repertoireTable.component'
 
 function Repertoire() {
   const { currentLessonHolder } = useCurrentHolder()

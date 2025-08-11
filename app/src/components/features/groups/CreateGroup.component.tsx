@@ -1,5 +1,6 @@
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import {
   Form,
   FormControl,
@@ -8,13 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import type { GroupPartial } from '@/types/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useCreateGroup } from './useCreateGroup'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -22,13 +17,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import ButtonRemove from '@/components/ui/buttonRemove'
-import { toast } from 'sonner'
-import { Label } from '@/components/ui/label'
-import { useCallback } from 'react'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-import { Blocker } from '../subscription/Blocker'
 import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import type { GroupPartial } from '@/types/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
+import { useCallback } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Blocker } from '../subscription/Blocker'
+import { useCreateGroup } from './useCreateGroup'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -323,6 +323,7 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
                           <Input
                             {...field}
                             placeholder={`Schüler:in ${index + 1}`}
+                            autoCapitalize='words'
                           />
                         </FormControl>
                         {index !== 0 && (

@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerClose,
@@ -7,11 +8,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import { Separator } from '@/components/ui/separator'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
-import { LessonItem } from './LessonItem.component'
-import { Button } from '@/components/ui/button'
-import { useState } from 'react'
 import {
   ChevronLeft,
   MessageSquareShare,
@@ -19,10 +18,11 @@ import {
   Trash2,
   X,
 } from 'lucide-react'
+import { useState } from 'react'
+import DeleteLesson from './DeleteLesson.component'
+import { LessonItem } from './LessonItem.component'
 import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
-import DeleteLesson from './DeleteLesson.component'
-import { Separator } from '@/components/ui/separator'
 
 type LessonItemMobileProps = {
   lesson: Lesson

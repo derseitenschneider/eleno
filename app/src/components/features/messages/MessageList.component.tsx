@@ -1,13 +1,13 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-import { cn } from '@/lib/utils'
-import type { Message } from '@/types/types'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Message } from '@/types/types'
 import getLocale from '@/utils/getLocale'
 import format from 'date-fns/format'
-import { useReadMessage } from './useReadMessage'
 import { useSearchParams } from 'react-router-dom'
+import { useReadMessage } from './useReadMessage'
 
 interface MailListProps {
   messages: Message[]
@@ -26,9 +26,9 @@ export default function MessageList({ messages }: MailListProps) {
     return date < oneWeekAgo
       ? format(date, 'PP', { locale: getLocale(userLocale) })
       : formatDistanceToNow(date, {
-        addSuffix: true,
-        locale: getLocale(userLocale),
-      })
+          addSuffix: true,
+          locale: getLocale(userLocale),
+        })
   }
 
   function handleClick(message: Message) {

@@ -1,3 +1,4 @@
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import {
   BookMarkedIcon,
   CheckSquare2Icon,
@@ -6,7 +7,6 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
 
 export default function ImportantLinks() {
   const { nearestLessonHolder } = useLessonHolders()
@@ -17,9 +17,13 @@ export default function ImportantLinks() {
   return (
     <div>
       <h3>Viel Spass mit Eleno!</h3>
-      <p className='mb-2' >Super, du bist startklar! Jetzt kannst du dich voll auf deine Leidenschaft, die Musik, konzentrieren.</p>
-      <p className='mb-4' >
-        Hier sind noch ein paar hilfreiche Links, damit du Eleno optimal nutzen kannst:
+      <p className='mb-2'>
+        Super, du bist startklar! Jetzt kannst du dich voll auf deine
+        Leidenschaft, die Musik, konzentrieren.
+      </p>
+      <p className='mb-4'>
+        Hier sind noch ein paar hilfreiche Links, damit du Eleno optimal nutzen
+        kannst:
       </p>
       <ul className='flex flex-col space-y-2'>
         <li>

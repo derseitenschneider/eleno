@@ -13,6 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { appConfig } from '@/config'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import {
   Archive,
   CheckSquare2,
@@ -24,14 +26,12 @@ import {
   Users,
 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
-import { useDeactivateStudents } from '../../useDeactivateStudents'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
-import { useNavigate } from 'react-router-dom'
-import { appConfig } from '@/config'
 import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -169,7 +169,7 @@ export default function ActiveStudentRowDropdown({
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
           <DialogHeader>
-            <DialogTitle>Neue Todo erstellen</DialogTitle>
+            <DialogTitle>Neue Todo erfassen</DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
             Todo erstellen

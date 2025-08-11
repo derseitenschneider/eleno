@@ -1,7 +1,7 @@
-import { test as setup, expect } from '@playwright/test'
-import { setupMonthlyExpiredCanceled } from '../../utils/setupHelpers'
+import { expect, test as setup } from '@playwright/test'
 import { cleanupToasts } from '../../utils/cleanupToasts'
 import { loginUser } from '../../utils/loginUser'
+import { setupMonthlyExpiredCanceled } from '../../utils/setupHelpers'
 
 setup(
   'create a montly subscription, attach failing payment, move clock two months.',

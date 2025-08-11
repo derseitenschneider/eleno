@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react'
-import compareDateTodos from '../../../utils/sortTodos'
-import useTodosQuery from '@/components/features/todos/todosQuery'
-import TodoItem from './TodoItem.component'
-import Empty from '@/components/ui/Empty.component'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { TodoMobileDrawer } from './TodoMobileDrawer.component'
-import { Button } from '@/components/ui/button'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
+import useTodosQuery from '@/components/features/todos/todosQuery'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -14,7 +7,14 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import compareDateTodos from '../../../utils/sortTodos'
+import TodoItem from './TodoItem.component'
+import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 
 export default function TodosCompleted() {
   const { data: todos, isPending } = useTodosQuery()

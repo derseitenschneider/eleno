@@ -1,5 +1,5 @@
-import { Button } from './button'
 import MiniLoader from './MiniLoader.component'
+import { Button } from './button'
 
 type DeleteAbortButtonsProps = {
   isDeleting: boolean

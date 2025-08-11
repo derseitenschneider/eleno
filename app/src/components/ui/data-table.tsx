@@ -1,8 +1,8 @@
 import {
   type ColumnDef,
-  flexRender,
-  type Table as TTable,
   type Row,
+  type Table as TTable,
+  flexRender,
 } from '@tanstack/react-table'
 
 import {
@@ -13,10 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
 import Empty from './Empty.component'
 import { ScrollArea } from './scroll-area'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

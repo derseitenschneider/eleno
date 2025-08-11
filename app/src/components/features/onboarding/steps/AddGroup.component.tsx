@@ -6,11 +6,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useState } from 'react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import UpdateGroup from '../../groups/UpdateGroup.component'
 import { PencilIcon } from 'lucide-react'
+import { useState } from 'react'
 import { CreateGroupDialogDrawer } from '../../groups/CreateGroupDialogDrawer.component'
+import UpdateGroup from '../../groups/UpdateGroup.component'
 
 export default function AddGroup() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'UPDATE' | null>(null)
@@ -26,7 +26,7 @@ export default function AddGroup() {
 
   return (
     <>
-      <h2>Gruppen erfassen</h2>
+      <h2>Gruppen hinzufügen</h2>
       <div className='flex flex-col space-y-4'>
         {groups.length === 0 ? (
           <>
@@ -43,14 +43,14 @@ export default function AddGroup() {
               onClick={() => setModalOpen('CREATE')}
               className='ml-auto w-full sm:w-auto'
             >
-              Gruppe erfassen
+              Gruppe hinzufügen
             </Button>
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
             <p>
               Super, du hast {groups.length}{' '}
-              {groups.length === 1 ? 'Gruppe' : 'Gruppen'} erfasst:
+              {groups.length === 1 ? 'Gruppe' : 'Gruppen'} hinzugefügt:
             </p>
             <ul className=''>
               {groups.map((group) => (
@@ -76,7 +76,7 @@ export default function AddGroup() {
               size='sm'
               onClick={() => setModalOpen('CREATE')}
             >
-              Weitere erfassen
+              Weitere hinzufügen
             </Button>
           </div>
         )}

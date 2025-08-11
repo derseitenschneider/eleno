@@ -1,9 +1,9 @@
-import { InfoIcon } from 'lucide-react'
-import useCurrentHolder from '../useCurrentHolder'
-import { usePlannedLessonsQuery } from '../lessonsQueries'
-import { useDrafts } from '@/services/context/DraftsContext'
 import { Button } from '@/components/ui/button'
+import { useDrafts } from '@/services/context/DraftsContext'
+import { InfoIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import { usePlannedLessonsQuery } from '../lessonsQueries'
+import useCurrentHolder from '../useCurrentHolder'
 
 type ButtonPlannedLessonAvailableProps = {
   date: Date

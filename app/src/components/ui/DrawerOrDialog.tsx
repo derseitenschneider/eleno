@@ -1,13 +1,12 @@
-import * as React from 'react'
 import {
   Dialog,
+  type DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from '@/components/ui/dialog'
 import {
   Drawer,
@@ -19,9 +18,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import { cn } from '@/lib/utils'
-import { ScrollArea } from './scroll-area'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { cn } from '@/lib/utils'
+import * as React from 'react'
+import { ScrollArea } from './scroll-area'
 
 // 1. Create a Context
 // This context will provide the `isMobile` value to all child components.

@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import CustomEditor from '../../ui/CustomEditor.component'
-import type { Note, NotesBackgrounds } from '../../../types/types'
-import NoteColor from './NoteColor.component'
-import { useQueryClient } from '@tanstack/react-query'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useUpdateNote } from './useUpdateNote'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Blocker } from '../subscription/Blocker'
 import { Separator } from '@/components/ui/separator'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import type { Note, NotesBackgrounds } from '../../../types/types'
+import CustomEditor from '../../ui/CustomEditor.component'
+import { Blocker } from '../subscription/Blocker'
+import NoteColor from './NoteColor.component'
+import { useUpdateNote } from './useUpdateNote'
 
 interface UpdateNoteProps {
   onCloseModal?: () => void

@@ -1,10 +1,19 @@
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { isDemoMode } from '@/config'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import type { Note, PartialNote } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
@@ -12,15 +21,6 @@ import { useState } from 'react'
 import DeleteNote from './DeleteNote.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
-import { isDemoMode } from '@/config'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-import {
-  Dialog,
-  DialogHeader,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
 
 type NoteDropdownProps = {
   noteId: number

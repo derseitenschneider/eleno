@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import type { Group, Student } from '@/types/types'
 import { format } from 'date-fns'
+import { useState } from 'react'
 
-import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent } from '@/components/ui/card'
 // import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 import {
   Drawer,
@@ -16,9 +15,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useDeactivateGroups } from '../useDeactivateGroups'
+import { Separator } from '@/components/ui/separator'
+import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { UpdateGroupDialogDrawer } from '../UpdateGroupDialogDrawer.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
 
 interface GroupMobileDrawerProps {
   group: Group

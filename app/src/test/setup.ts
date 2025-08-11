@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
-import { expect, afterEach, beforeAll, afterAll, vi } from 'vitest'
-import { cleanup } from '@testing-library/react'
 import * as matchers from '@testing-library/jest-dom/matchers'
+import { cleanup } from '@testing-library/react'
+import { afterAll, afterEach, beforeAll, expect, vi } from 'vitest'
 import { server } from './msw'
 
 // Extend Vitest's expect with jest-dom matchers
@@ -18,7 +18,7 @@ afterAll(() => server.close())
 // Mock environment variables for tests
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,

@@ -1,3 +1,4 @@
+import path from 'node:path'
 /**
  * Create stripe subscription rows with rate limit handling
  *
@@ -7,7 +8,6 @@
  */
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
-import path from 'node:path'
 import Stripe from 'stripe'
 
 const dotenvPath = path.resolve(path.dirname('.'), '../.env.test')
@@ -59,13 +59,8 @@ async function createStripeCustomers() {
   )
 
   if (!usersWithoutEntry || usersWithoutEntry.length === 0) {
-    console.log('All users already have Stripe customer entries.')
     return
   }
-
-  console.log(
-    `Creating Stripe customers for ${usersWithoutEntry.length} users.`,
-  )
 
   // Process users in batches with delays
   for (let i = 0; i < usersWithoutEntry.length; i += batchSize) {
@@ -104,14 +99,11 @@ async function createStripeCustomers() {
               insertError,
             )
           } else {
-            console.log(
-              `Stripe customer created and subscription added for user ${user.id}`,
-            )
           }
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(
             `Error creating Stripe customer for user ${user.id}:`,
-            error.message,
+            error instanceof Error ? error.message : error,
           )
           // Consider implementing more sophisticated error handling here,
           // such as retrying failed requests with exponential backoff.
@@ -121,12 +113,7 @@ async function createStripeCustomers() {
 
     // Introduce a delay after each batch
     await delay(1000) // Adjust the delay time (in milliseconds) as needed
-    console.log(
-      `Batch ${i / batchSize + 1} processed. Waiting before next batch...`,
-    )
   }
-
-  console.log('Stripe customer creation and subscription process complete.')
 }
 
 createStripeCustomers()

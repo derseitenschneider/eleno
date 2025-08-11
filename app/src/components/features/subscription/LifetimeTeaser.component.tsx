@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
 
 export default function LifetimeTeaser() {
   const { subscriptionState, hasAccess } = useSubscription()

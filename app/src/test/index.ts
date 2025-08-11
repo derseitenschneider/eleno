@@ -5,4 +5,14 @@ export * from './factories'
 export * from './msw'
 
 // Re-export commonly used testing functions
-export { vi, expect, describe, it, test, beforeEach, beforeAll, afterEach, afterAll } from 'vitest'
+export {
+  vi,
+  expect,
+  describe,
+  it,
+  test,
+  beforeEach,
+  beforeAll,
+  afterEach,
+  afterAll,
+} from 'vitest'

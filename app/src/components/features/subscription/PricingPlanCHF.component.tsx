@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import commonFeatures from './commonFeatures'
-import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
 import { Badge } from '@/components/ui/badge'
-import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
-import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Check } from 'lucide-react'
+import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
+import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
+import commonFeatures from './commonFeatures'
 
 export default function PricingPlanCHF() {
   const currency = 'CHF'
@@ -116,13 +116,16 @@ export default function PricingPlanCHF() {
         <CardHeader>
           <CardTitle>Für Musikschulen</CardTitle>
           <div className='mt-4'>
-            <p>Die Lösung für deine gesamte <b>Musikschule</b>. Ab 5 Lizenzen.</p>
+            <p>
+              Die Lösung für deine gesamte <b>Musikschule</b>. Ab 5 Lizenzen.
+            </p>
           </div>
         </CardHeader>
         <CardContent>
           <Button
             onClick={() => {
-              window.location.href = 'mailto:info@eleno.net?subject=Anfrage%20für%20Musikschul-Lizenzen'
+              window.location.href =
+                'mailto:info@eleno.net?subject=Anfrage%20für%20Musikschul-Lizenzen'
             }}
             variant='outline'
             className='w-full'

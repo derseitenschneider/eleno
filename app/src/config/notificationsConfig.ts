@@ -35,14 +35,14 @@ export type InfoNotificationContent = {
 
 export type NotificationContentConfig = {
   [identifier: string]:
-  | {
-    type: 'survey'
-    content: SurveyNotificationContent
-  }
-  | {
-    type: 'update' | 'news' | 'alert'
-    content: InfoNotificationContent
-  }
+    | {
+        type: 'survey'
+        content: SurveyNotificationContent
+      }
+    | {
+        type: 'update' | 'news' | 'alert'
+        content: InfoNotificationContent
+      }
 }
 
 export const notificationsContent: NotificationContentConfig = {
@@ -65,8 +65,7 @@ export const notificationsContent: NotificationContentConfig = {
               value: 'auto_schedule_availability',
             },
             {
-              label:
-                'Interaktives Whiteboard',
+              label: 'Interaktives Whiteboard',
               value: 'interactive_whiteboard',
             },
             {

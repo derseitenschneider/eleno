@@ -23,12 +23,12 @@
   },
   "files": {
     "ignore": [
-      "./app/coverage/**",
-      "./app/playwright-report/**", 
-      "./app/test-results/**",
-      "./app/node_modules/**",
-      "./app/supabase/functions/**",
-      "./app/src/scss/tailwind.css"
+      "coverage",
+      "playwright-report",
+      "test-results",
+      "node_modules",
+      "supabase/functions",
+      "src/scss/tailwind.css"
     ]
   },
   "linter": {
@@ -42,7 +42,7 @@
   },
   "overrides": [
     {
-      "include": ["./app/tests/**/*", "**/*.test.tsx", "**/*.spec.ts"],
+      "include": ["tests/**/*", "src/test/**/*", "**/*.test.*", "**/*.spec.*"],
       "linter": {
         "rules": {
           "suspicious": {

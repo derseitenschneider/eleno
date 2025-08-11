@@ -1,22 +1,22 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { useState } from 'react'
-import CreateStudents from '../../students/CreateStudents.component'
-import { Button } from '@/components/ui/button'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import UpdateStudents from '../../students/UpdateStudents.component'
-import {
   DrawerOrDialog,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useState } from 'react'
+import CreateStudents from '../../students/CreateStudents.component'
+import UpdateStudents from '../../students/UpdateStudents.component'
 
 export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
@@ -26,7 +26,7 @@ export default function AddStudents() {
 
   return (
     <>
-      <h2>Schüler:innen erfassen</h2>
+      <h2>Schüler:innen hinzufügen</h2>
       <div className='flex flex-col space-y-4'>
         {students.length === 0 ? (
           <>
@@ -43,7 +43,7 @@ export default function AddStudents() {
               onClick={() => setModalOpen('CREATE')}
               className='ml-auto w-full'
             >
-              Schüler:innen erfassen
+              Schüler:innen hinzufügen
             </Button>
           </>
         ) : (
@@ -51,8 +51,8 @@ export default function AddStudents() {
             <p>
               Wunderbar, du hast nun {students.length}{' '}
               {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'}{' '}
-              erfolgreich erfasst! Dein Unterrichtsalltag wird so gleich viel
-              übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno
+              erfolgreich hinzugefügt! Dein Unterrichtsalltag wird so gleich
+              viel übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno
               optimal für dich einzurichten.
             </p>
             <div className='flex flex-wrap items-center justify-between gap-2'>
@@ -69,7 +69,7 @@ export default function AddStudents() {
                 size='sm'
                 onClick={() => setModalOpen('CREATE')}
               >
-                Mehr erfassen
+                Mehr hinzufügen
               </Button>
             </div>
           </div>
@@ -82,10 +82,10 @@ export default function AddStudents() {
       >
         <DrawerOrDialogContent>
           <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Schüler:in erfassen</DrawerOrDialogTitle>
+            <DrawerOrDialogTitle>Schüler:in hinzufügen</DrawerOrDialogTitle>
           </DrawerOrDialogHeader>
           <DrawerOrDialogDescription className='hidden'>
-            Erfasse neue Schüler:innen
+            Füge neue Schüler:innen hinzu
           </DrawerOrDialogDescription>
           <CreateStudents onSuccess={() => setModalOpen(null)} />
         </DrawerOrDialogContent>

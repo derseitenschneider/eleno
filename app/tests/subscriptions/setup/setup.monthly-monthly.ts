@@ -1,7 +1,7 @@
-import { test as setup, expect } from '@playwright/test'
-import { setupMonthlyMonthly } from '../../utils/setupHelpers'
+import { expect, test as setup } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
 import { loginUser } from '../../utils/loginUser'
+import { setupMonthlyMonthly } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run monthly checkout fixture, move clock forward one month and check if date has changed.',

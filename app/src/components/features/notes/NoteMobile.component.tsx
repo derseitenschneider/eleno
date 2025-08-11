@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerClose,
@@ -7,15 +8,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import type { PartialNote, Note as TNote } from '@/types/types'
-import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import { ChevronLeft, Layers2, PencilIcon, Trash2, X } from 'lucide-react'
-import Note from './Note.component'
 import { Separator } from '@/components/ui/separator'
+import type { PartialNote, Note as TNote } from '@/types/types'
+import { ChevronLeft, Layers2, PencilIcon, Trash2, X } from 'lucide-react'
+import { useState } from 'react'
+import DeleteNote from './DeleteNote.component'
+import Note from './Note.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
-import DeleteNote from './DeleteNote.component'
 
 type NoteMobileProps = {
   note: TNote

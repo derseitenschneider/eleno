@@ -1,11 +1,5 @@
-import type { 
-  Student, 
-  Group, 
-  Lesson, 
-  Note, 
-  TTodoItem 
-} from '@/types/types'
 import type { Database } from '@/types/supabase'
+import type { Group, Lesson, Note, Student, TTodoItem } from '@/types/types'
 
 // Database table types for easier access
 type DbStudent = Database['public']['Tables']['students']['Row']
@@ -16,13 +10,14 @@ type DbTodo = Database['public']['Tables']['todos']['Row']
 type DbSettings = Database['public']['Tables']['settings']['Row']
 
 // Student factory
-export function createMockStudent(overrides: Partial<DbStudent> = {}): DbStudent {
+export function createMockStudent(
+  overrides: Partial<DbStudent> = {},
+): DbStudent {
   return {
     id: 1,
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '+1234567890',
+    firstName: 'John',
+    lastName: 'Doe',
+    instrument: 'Piano',
     archive: false,
     dayOfLesson: 'Montag',
     startOfLesson: '14:00',
@@ -42,7 +37,7 @@ export function createMockGroup(overrides: Partial<DbGroup> = {}): DbGroup {
     id: 1,
     name: 'Beginner Piano',
     archive: false,
-    dayOfLesson: 'tuesday',
+    dayOfLesson: 'Dienstag',
     startOfLesson: '16:00',
     durationMinutes: 45,
     created_at: '2023-01-01T00:00:00Z',
@@ -54,7 +49,7 @@ export function createMockGroup(overrides: Partial<DbGroup> = {}): DbGroup {
       { name: 'Alice' },
       { name: 'Bob' },
       { name: 'Charlie' },
-      { name: 'Diana' }
+      { name: 'Diana' },
     ],
     ...overrides,
   }
@@ -95,10 +90,10 @@ export function createMockPlannedLesson(overrides: Partial<any> = {}): any {
 export function createMockNote(overrides: Partial<DbNote> = {}): DbNote {
   return {
     id: 1,
-    content: 'This is a test note content',
+    text: 'This is a test note content',
+    title: 'Test Note',
     backgroundColor: 'yellow',
-    active: true,
-    ordering: 1,
+    order: 1,
     created_at: '2023-01-01T00:00:00Z',
     user_id: 'test-user-id',
     studentId: 1,
@@ -111,22 +106,24 @@ export function createMockNote(overrides: Partial<DbNote> = {}): DbNote {
 export function createMockTodo(overrides: Partial<DbTodo> = {}): DbTodo {
   return {
     id: 1,
-    content: 'Prepare lesson materials',
+    text: 'Prepare lesson materials',
     completed: false,
     created_at: '2023-01-01T00:00:00Z',
     user_id: 'test-user-id',
     studentId: null,
     groupId: null,
-    due_date: null,
+    due: null,
     ...overrides,
   }
 }
 
 // Settings factory
-export function createMockSettings(overrides: Partial<DbSettings> = {}): DbSettings {
+export function createMockSettings(
+  overrides: Partial<DbSettings> = {},
+): DbSettings {
   return {
     id: 1,
-    lesson_main_layout: 'lesson_first',
+    lesson_main_layout: 'regular',
     created_at: '2023-01-01T00:00:00Z',
     user_id: 'test-user-id',
     ...overrides,
@@ -134,45 +131,49 @@ export function createMockSettings(overrides: Partial<DbSettings> = {}): DbSetti
 }
 
 // Collections for testing multiple items
-export function createMockStudents(count: number = 3): DbStudent[] {
-  return Array.from({ length: count }, (_, index) => 
+export function createMockStudents(count = 3): DbStudent[] {
+  return Array.from({ length: count }, (_, index) =>
     createMockStudent({
       id: index + 1,
-      first_name: `Student${index + 1}`,
-      last_name: 'Lastname',
-      email: `student${index + 1}@example.com`,
-    })
+      firstName: `Student${index + 1}`,
+      lastName: 'Lastname',
+    }),
   )
 }
 
-export function createMockGroups(count: number = 2): DbGroup[] {
-  return Array.from({ length: count }, (_, index) => 
+export function createMockGroups(count = 2): DbGroup[] {
+  return Array.from({ length: count }, (_, index) =>
     createMockGroup({
       id: index + 1,
       name: `Group ${index + 1}`,
-    })
+    }),
   )
 }
 
-export function createMockLessons(count: number = 5): any[] {
-  return Array.from({ length: count }, (_, index) => 
+export function createMockLessons(count = 5): any[] {
+  return Array.from({ length: count }, (_, index) =>
     createMockLesson({
       id: index + 1,
       date: new Date(`2023-12-${(index + 1).toString().padStart(2, '0')}`),
       studentId: (index % 3) + 1,
-    })
+    }),
   )
 }
 
-export function createMockNotes(count: number = 4): DbNote[] {
-  const colors: Array<Database['public']['Enums']['note_colors']> = ['yellow', 'red', 'blue', 'green']
-  return Array.from({ length: count }, (_, index) => 
+export function createMockNotes(count = 4): DbNote[] {
+  const colors: Array<Database['public']['Enums']['background_colors']> = [
+    'yellow',
+    'red',
+    'blue',
+    'green',
+  ]
+  return Array.from({ length: count }, (_, index) =>
     createMockNote({
       id: index + 1,
-      content: `Note ${index + 1} content`,
+      text: `Note ${index + 1} content`,
       backgroundColor: colors[index % colors.length],
-      ordering: index + 1,
-    })
+      order: index + 1,
+    }),
   )
 }
 
@@ -220,7 +221,11 @@ export function createMockApiResponse<T>(data: T, error: any = null) {
   }
 }
 
-export function createMockQueryResponse<T>(data: T, isLoading: boolean = false, error: any = null) {
+export function createMockQueryResponse<T>(
+  data: T,
+  isLoading = false,
+  error: any = null,
+) {
   return {
     data,
     error,

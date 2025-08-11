@@ -6,8 +6,8 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import CreateGroup from './CreateGroup.component'
 import { ChevronLeft, X } from 'lucide-react'
+import CreateGroup from './CreateGroup.component'
 
 export type CreateStudentDialogDrawerProps = {
   open: boolean
@@ -21,8 +21,8 @@ export function CreateGroupDialogDrawer({
   open,
   onOpenChange,
   onSuccess,
-  title = 'Gruppe erfassen',
-  description = 'Erfasse eine neue Gruppe',
+  title = 'Gruppe hinzufügen',
+  description = 'Füge eine neue Gruppe hinzu',
 }: CreateStudentDialogDrawerProps) {
   return (
     <DrawerOrDialog direction='right' open={open} onOpenChange={onOpenChange}>

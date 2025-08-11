@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button'
-import { useReactivateHomeworkLink } from '../useReactivateHomeworkLink'
-import type { Lesson } from '@/types/types'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import type { Lesson } from '@/types/types'
+import { useReactivateHomeworkLink } from '../useReactivateHomeworkLink'
 
 export function HomeworkExpired({ currentLesson }: { currentLesson: Lesson }) {
   const { reactivateHomeworkLink, isReactivating } = useReactivateHomeworkLink()

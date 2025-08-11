@@ -1,8 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
-import { User, Users } from 'lucide-react'
-import useCurrentHolder from './useCurrentHolder'
 import { Badge } from '@/components/ui/badge'
 import {
   Popover,
@@ -10,7 +8,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { User, Users } from 'lucide-react'
 import { RepertoireNavButton } from '../repertoire/RepertoireNavButton.component'
+import useCurrentHolder from './useCurrentHolder'
 
 function LessonHeader() {
   const { currentLessonHolder } = useCurrentHolder()

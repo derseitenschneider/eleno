@@ -1,3 +1,4 @@
+import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -27,7 +28,6 @@ import { useState } from 'react'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
-import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState

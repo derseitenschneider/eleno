@@ -1,9 +1,9 @@
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
+import { cn } from '@/lib/utils'
 import { useLoading } from '@/services/context/LoadingContext'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { cn } from '@/lib/utils'
 
 const navLinks = [
   { path: '', label: 'Schüler:innen', key: 1, end: true },

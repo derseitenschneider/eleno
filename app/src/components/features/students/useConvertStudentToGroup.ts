@@ -1,8 +1,8 @@
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { convertStudentToGroupApi } from '@/services/api/students.api'
 import type { Group, Student } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { GroupSchema } from '../groups/CreateGroup.component'
-import { convertStudentToGroupApi } from '@/services/api/students.api'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 export function useConvertStudentToGroup() {
   const queryClient = useQueryClient()

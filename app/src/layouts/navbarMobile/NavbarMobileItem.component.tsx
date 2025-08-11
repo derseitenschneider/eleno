@@ -23,7 +23,7 @@ export default function NavbarMobileItem({
         className={cn(
           'relative',
           isActive &&
-          'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-6.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
+            'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-6.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
         )}
       >
         <button
@@ -50,7 +50,7 @@ export default function NavbarMobileItem({
       className={cn(
         'relative',
         isActive &&
-        'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-6.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
+          'before:absolute before:w-[105%] before:h-[1.5px] before:bg-primary before:top-[-6.5px] before:z-10 before:left-[50%] before:translate-x-[-50%]',
       )}
     >
       <NavLink

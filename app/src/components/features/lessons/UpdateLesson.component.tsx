@@ -2,15 +2,15 @@ import { useState } from 'react'
 import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 
-import { DayPicker } from '@/components/ui/daypicker.component'
-import { useQueryClient } from '@tanstack/react-query'
-import { useUpdateLesson } from './useUpdateLesson'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { Blocker } from '../subscription/Blocker'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { toast } from 'sonner'
 import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
+import { DayPicker } from '@/components/ui/daypicker.component'
 import { Separator } from '@/components/ui/separator'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { Blocker } from '../subscription/Blocker'
+import { useUpdateLesson } from './useUpdateLesson'
 
 type EditLessonProps = {
   lessonId: number

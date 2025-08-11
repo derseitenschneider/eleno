@@ -1,13 +1,13 @@
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
+import useHasBanner from '@/hooks/useHasBanner'
 import useScrollTo from '@/hooks/useScrollTo'
+import { cn } from '@/lib/utils'
 import FooterDashboard from '../components/features/dashboard/FooterDashboard.component'
 import HeaderDashboard from '../components/features/dashboard/HeaderDashboard.component'
 import News from '../components/features/dashboard/news/News.component'
 import Overview from '../components/features/dashboard/overview/Overview.component'
 import QuickLinks from '../components/features/dashboard/quickLinks/QuickLinks.component'
 import { useLoading } from '../services/context/LoadingContext'
-import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
 
 function Dashboard() {
   const { isLoading } = useLoading()

@@ -1,10 +1,3 @@
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { Separator } from '@/components/ui/separator'
-import useMessagesQuery from './messagesQueries'
-import MessageList from './MessageList.component'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
-import { cn } from '@/lib/utils'
-import { useSearchParams } from 'react-router-dom'
 import {
   Drawer,
   DrawerContent,
@@ -12,7 +5,14 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import { Separator } from '@/components/ui/separator'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { cn } from '@/lib/utils'
+import { useSearchParams } from 'react-router-dom'
+import MessageList from './MessageList.component'
 import { MessageView } from './MessageView.component'
+import useMessagesQuery from './messagesQueries'
 
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()

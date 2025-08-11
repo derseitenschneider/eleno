@@ -1,3 +1,5 @@
+import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -8,15 +10,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
-import { Separator } from '@/components/ui/separator'
-import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
 
 const loginSchema = z.object({
   email: z

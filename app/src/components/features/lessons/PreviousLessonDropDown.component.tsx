@@ -1,4 +1,11 @@
 import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -9,15 +16,8 @@ import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
 import EditLesson from './UpdateLesson.component'
-import { useLatestLessons } from './lessonsQueries'
 import ShareHomework from './homework/ShareHomework.component'
-import {
-  DrawerOrDialog,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
+import { useLatestLessons } from './lessonsQueries'
 
 type PreviousLessonDropDownProps = {
   lessonId: number

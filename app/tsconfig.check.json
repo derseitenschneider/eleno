@@ -3,7 +3,21 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmit": true,
-    "types": []
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@supabase/gotrue-js": ["./src/types/supabase-gotrue-stub.ts"]
+    }
   },
-  "exclude": ["node_modules", "dist", "build", "**/*.spec.ts", "**/*.test.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "tests/**/*",
+    "playwright/**/*"
+  ]
 }

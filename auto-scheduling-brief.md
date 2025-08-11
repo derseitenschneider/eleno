@@ -35,9 +35,8 @@ To design and implement a robust and efficient auto-scheduling engine that can g
 - **Optimization:** The engine should be optimized to find the best possible schedule based on a set of criteria, such as:
   - Minimizing gaps between lessons for the teacher.
   - Maximizing the number of scheduled lessons.
-  - Prioritizing certain students or lessons.
 - **Conflict Resolution:** The system must intelligently handle scheduling conflicts. If a perfect schedule is not possible, it should provide alternative solutions or highlight the conflicts that need manual resolution.
-- **AI/Machine Learning (Optional but desired):** We are interested in exploring the use of AI or machine learning to improve schedule quality over time, by learning from past schedules and user feedback.
+- **AI/Machine Learning (Optional but desired):** We are interested in exploring the use of AI by leveraging any model via api with e meticulously crafted prompt and the availability data.
 
 ### 3.3. Outputs
 
@@ -57,7 +56,7 @@ While the core of your work will be on the scheduling algorithm, it's helpful to
 
 ## 5. Deliverables
 
-We expect you to research and propose three distinct strategies to tackle this auto-scheduling problem. You are encouraged to use any resources at your disposal, including websites, GitHub repositories, and technical or scientific papers.
+We expect you to research and propose up three distinct strategies to tackle this auto-scheduling problem. You are encouraged to use any resources at your disposal, including websites, GitHub repositories, and technical or scientific papers.
 
 Your proposal should detail the following three paths:
 

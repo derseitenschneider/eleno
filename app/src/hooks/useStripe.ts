@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { loadStripe, type Stripe } from '@stripe/stripe-js'
+import { type Stripe, loadStripe } from '@stripe/stripe-js'
+import { useEffect, useState } from 'react'
 
 export const useStripe = () => {
   const [stripe, setStripe] = useState<Stripe | null>(null)

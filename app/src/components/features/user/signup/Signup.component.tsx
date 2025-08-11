@@ -1,6 +1,6 @@
-import { SignupEmail } from './SignupEmail.component'
 import { cn } from '@/lib/utils'
 import { BrandingSection } from './BrandingSection.component'
+import { SignupEmail } from './SignupEmail.component'
 
 type SignupProps = {
   className: string

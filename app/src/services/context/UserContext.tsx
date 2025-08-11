@@ -1,4 +1,6 @@
 import type { Session } from '@supabase/gotrue-js/src/lib/types'
+import type { User } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
   useCallback,
@@ -12,8 +14,6 @@ import LoginPage from '../../pages/LoginPage'
 import type { ContextTypeUser, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { deleteAccountSupabase, recoverPasswordSupabase } from '../api/user.api'
-import { useQueryClient } from '@tanstack/react-query'
-import type { User } from '@supabase/supabase-js'
 import { useLoading } from './LoadingContext'
 
 export const UserContext = createContext<ContextTypeUser>({

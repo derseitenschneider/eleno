@@ -1,11 +1,11 @@
-import parse from 'html-react-parser'
-import type { NotesBackgrounds, Note as TNote } from '../../../types/types'
-import { cn } from '@/lib/utils'
-import NoteDropdown from './NoteDropdown.component'
-import { Draggable } from '@hello-pangea/dnd'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { cn } from '@/lib/utils'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { Draggable } from '@hello-pangea/dnd'
+import parse from 'html-react-parser'
 import { ChevronRight } from 'lucide-react'
+import type { NotesBackgrounds, Note as TNote } from '../../../types/types'
+import NoteDropdown from './NoteDropdown.component'
 
 interface NoteProps {
   note: TNote

@@ -1,12 +1,12 @@
-import ButtonManageSubscription from '../buttons/ButtonManageSubscription.component'
-import ButtonCancelSubscription from '../buttons/ButtonCancelSubscription.component'
-import ButtonReactivateSubscription from '../buttons/ButtonReactivateSubscription.component'
-import ButtonGetInvoice from '../buttons/ButtonGetInvoice.component'
 import PaymentFailedNotification from '../PaymentFailedNotification.component'
-import StatusRow from './StatusRow.component'
+import ButtonCancelSubscription from '../buttons/ButtonCancelSubscription.component'
+import ButtonGetInvoice from '../buttons/ButtonGetInvoice.component'
+import ButtonManageSubscription from '../buttons/ButtonManageSubscription.component'
+import ButtonReactivateSubscription from '../buttons/ButtonReactivateSubscription.component'
+import { OrganizationRow } from '../organizations/OrganizationRow.component'
 import PeriodRow from './PeriodRow.component'
 import PlanRow from './PlanRow.component'
-import { OrganizationRow } from '../organizations/OrganizationRow.component'
+import StatusRow from './StatusRow.component'
 
 export function SubscriptionInfos() {
   return (

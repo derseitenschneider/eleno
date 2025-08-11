@@ -1,22 +1,22 @@
+import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import type { Group } from '@/types/types'
 import {
+  type FilterFn,
   type RowSelectionState,
   type SortingState,
-  type FilterFn,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { groupsColumns } from './columns'
-import GroupsControl from './control'
-import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { groupsColumns } from './columns'
 import { groupsColumnsMobile } from './columnsMobile'
+import GroupsControl from './control'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -93,7 +93,7 @@ export default function GroupsTable({
                 setSearchParams(searchParams)
               }}
             >
-              Neue Gruppe erstellen
+              Neue Gruppe hinzufügen
             </Button>
             <Button
               className='mt-4 hidden sm:block'

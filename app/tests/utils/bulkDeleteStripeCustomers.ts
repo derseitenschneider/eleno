@@ -1,3 +1,4 @@
+import path from 'node:path'
 /**
  * Delete Stripe customers created on a specific date.
  *
@@ -5,7 +6,6 @@
  * and then deletes them. It includes rate limit handling to avoid API errors.
  */
 import dotenv from 'dotenv'
-import path from 'node:path'
 import Stripe from 'stripe'
 
 const dotenvPath = path.resolve(path.dirname('.'), '../.env.test')
@@ -28,10 +28,6 @@ async function deleteStripeCustomersByDate(
   const startDate = new Date(year, month - 1, day, 0, 0, 0).getTime() / 1000 // Month is 0-indexed
   const endDate = new Date(year, month - 1, day, 23, 59, 59).getTime() / 1000
 
-  console.log(
-    `Fetching Stripe customers created between ${new Date(startDate * 1000)} and ${new Date(endDate * 1000)}`,
-  )
-
   try {
     const customers = await stripeClient.customers.list({
       created: {
@@ -46,15 +42,8 @@ async function deleteStripeCustomersByDate(
     )
 
     if (customerIdsToDelete.length === 0) {
-      console.log(
-        `No Stripe customers found created on ${year}-${month}-${day}.`,
-      )
       return
     }
-
-    console.log(
-      `Found ${customerIdsToDelete.length} customers created on ${year}-${month}-${day}. Starting deletion process.`,
-    )
 
     const batchSize = 10 // Adjust as needed
     for (let i = 0; i < customerIdsToDelete.length; i += batchSize) {
@@ -64,11 +53,10 @@ async function deleteStripeCustomersByDate(
         batch.map(async (customerId) => {
           try {
             const deletedCustomer = await stripeClient.customers.del(customerId)
-            console.log(`Successfully deleted customer: ${deletedCustomer.id}`)
-          } catch (error: any) {
+          } catch (error: unknown) {
             console.error(
               `Error deleting customer ${customerId}:`,
-              error.message,
+              error instanceof Error ? error.message : error,
             )
             // Consider adding more sophisticated error handling
           }
@@ -76,12 +64,7 @@ async function deleteStripeCustomersByDate(
       )
 
       await delay(1000) // Adjust the delay as needed
-      console.log(
-        `Batch ${i / batchSize + 1} of deletions complete. Waiting...`,
-      )
     }
-
-    console.log('Stripe customer deletion process complete.')
 
     // Handle pagination if there are more than 'limit' customers
     if (customers.has_more) {
@@ -89,8 +72,11 @@ async function deleteStripeCustomersByDate(
         'There are more customers created on this date. Consider implementing pagination to delete all.',
       )
     }
-  } catch (error: any) {
-    console.error('Error listing Stripe customers:', error.message)
+  } catch (error: unknown) {
+    console.error(
+      'Error listing Stripe customers:',
+      error instanceof Error ? error.message : error,
+    )
   }
 }
 

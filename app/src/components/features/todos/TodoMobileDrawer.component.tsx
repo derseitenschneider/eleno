@@ -1,24 +1,16 @@
-import { useState } from 'react'
-import type { TTodoItem, LessonHolder } from '@/types/types'
-import { Badge } from '@/components/ui/badge'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { cn } from '@/lib/utils'
-import { Checkbox } from '@/components/ui/checkbox'
-import { useCompleteTodo } from './useCompleteTodo'
-import { useReactivateTodo } from './useReactivateTodo'
 import {
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  PencilIcon,
-  Trash2,
-  Undo2,
-  X,
-} from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Drawer,
   DrawerClose,
@@ -28,19 +20,27 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import UpdateTodo from './UpdateTodo.component'
-import DeleteTodos from './DeleteTodos.component'
-import {
-  DrawerOrDialog,
-  DrawerOrDialogClose,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
+import { cn } from '@/lib/utils'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { LessonHolder, TTodoItem } from '@/types/types'
 import { DialogClose } from '@radix-ui/react-dialog'
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  PencilIcon,
+  Trash2,
+  Undo2,
+  X,
+} from 'lucide-react'
+import { useState } from 'react'
+import DeleteTodos from './DeleteTodos.component'
+import UpdateTodo from './UpdateTodo.component'
+import { useCompleteTodo } from './useCompleteTodo'
+import { useReactivateTodo } from './useReactivateTodo'
 
 interface TodoMobileDrawerProps {
   todo: TTodoItem

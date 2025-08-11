@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import type { RepertoireItem } from '@/types/types'
 import { useDeleteRepertoireItem } from './useDeleteRepertoireItem'
-import { Separator } from '@/components/ui/separator'
 
 interface DeleteRepertoireItemProps {
   item: RepertoireItem

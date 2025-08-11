@@ -1,6 +1,6 @@
 import { test as setup } from '@playwright/test'
-import { setupYearlyExpired } from '../../utils/setupHelpers'
 import { loginUser } from '../../utils/loginUser'
+import { setupYearlyExpired } from '../../utils/setupHelpers'
 
 setup(
   'create a montly subscription, attach failing payment, move clock.',

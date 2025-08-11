@@ -12,7 +12,19 @@ import {
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import useTodosQuery from '@/components/features/todos/todosQuery'
+import LogoText from '@/components/ui/LogoText.component'
+import { UserInfo } from '@/components/ui/UserInfo.component'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -27,24 +39,12 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { useMessageNotification } from '@/hooks/useMessageNotification'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
 import { useLoading } from '@/services/context/LoadingContext'
 import { useUser } from '@/services/context/UserContext'
-import { cn } from '@/lib/utils'
-import useMessagesQuery from '@/components/features/messages/messagesQueries'
-import { useMessageNotification } from '@/hooks/useMessageNotification'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { UserInfo } from '@/components/ui/UserInfo.component'
-import LogoText from '@/components/ui/LogoText.component'
 
 const NavBadge = ({ count, color }: { count?: number; color?: string }) => {
   const { open } = useSidebar()

@@ -1,7 +1,7 @@
-import type { LessonHolder } from '../../../types/types'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Users } from 'lucide-react'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { ArrowRight, Users } from 'lucide-react'
+import type { LessonHolder } from '../../../types/types'
 
 type TimeTableRowProps = {
   lessonHolder: LessonHolder

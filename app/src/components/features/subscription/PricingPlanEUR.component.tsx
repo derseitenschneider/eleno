@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import commonFeatures from './commonFeatures'
-import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
 import { Badge } from '@/components/ui/badge'
-import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
-import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
-import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Check } from 'lucide-react'
+import ButtonCheckoutLifetime from './buttons/ButtonCheckoutLifetime.component'
+import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
+import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
+import commonFeatures from './commonFeatures'
 
 export default function PricingPlanEUR() {
   const currency = 'EUR'

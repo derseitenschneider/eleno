@@ -10,9 +10,7 @@ export function initializeServiceWorker() {
         updateSW(true)
       }
     },
-    onOfflineReady() {
-      console.log('App is ready for offline use.')
-    },
+    onOfflineReady() {},
   })
 
   // Periodically check for updates

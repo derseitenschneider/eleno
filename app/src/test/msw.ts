@@ -1,11 +1,11 @@
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import { 
-  createMockStudents, 
-  createMockGroups, 
-  createMockLessons, 
+import {
+  createMockGroups,
+  createMockLessons,
   createMockNotes,
-  createMockTodo
+  createMockStudents,
+  createMockTodo,
 } from './factories'
 
 // Mock data
@@ -22,9 +22,9 @@ export const handlers = [
   }),
 
   http.post('/rest/v1/students', async ({ request }) => {
-    const newStudent = await request.json()
-    const createdStudent = { 
-      id: Date.now(), 
+    const newStudent = (await request.json()) as any
+    const createdStudent = {
+      id: Date.now(),
       ...newStudent,
       created_at: new Date().toISOString(),
     }
@@ -32,7 +32,7 @@ export const handlers = [
   }),
 
   http.patch('/rest/v1/students', async ({ request }) => {
-    const updates = await request.json()
+    const updates = (await request.json()) as any
     const updatedStudent = { ...mockStudents[0], ...updates }
     return HttpResponse.json(updatedStudent)
   }),
@@ -47,19 +47,18 @@ export const handlers = [
   }),
 
   http.post('/rest/v1/groups', async ({ request }) => {
-    const newGroup = await request.json()
-    const createdGroup = { 
-      id: `group-${Date.now()}`, 
+    const newGroup = (await request.json()) as any
+    const createdGroup = {
+      id: Date.now(),
       ...newGroup,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
     }
     return HttpResponse.json(createdGroup, { status: 201 })
   }),
 
   http.patch('/rest/v1/groups', async ({ request }) => {
-    const updates = await request.json()
-    const updatedGroup = { ...mockGroups[0], ...updates, updated_at: new Date().toISOString() }
+    const updates = (await request.json()) as any
+    const updatedGroup = { ...mockGroups[0], ...updates }
     return HttpResponse.json(updatedGroup)
   }),
 
@@ -67,18 +66,22 @@ export const handlers = [
   http.get('/rest/v1/lessons', ({ request }) => {
     const url = new URL(request.url)
     const status = url.searchParams.get('status')
-    
+
     if (status === 'eq.prepared') {
-      return HttpResponse.json(mockLessons.filter(l => l.status === 'prepared'))
+      return HttpResponse.json(
+        mockLessons.filter((l) => l.status === 'prepared'),
+      )
     }
-    
-    return HttpResponse.json(mockLessons.filter(l => l.status === 'documented'))
+
+    return HttpResponse.json(
+      mockLessons.filter((l) => l.status === 'documented'),
+    )
   }),
 
   http.post('/rest/v1/lessons', async ({ request }) => {
-    const newLesson = await request.json()
-    const createdLesson = { 
-      id: Date.now(), 
+    const newLesson = (await request.json()) as any
+    const createdLesson = {
+      id: Date.now(),
       ...newLesson,
       created_at: new Date().toISOString(),
       expiration_base: '7d',
@@ -88,7 +91,7 @@ export const handlers = [
   }),
 
   http.patch('/rest/v1/lessons', async ({ request }) => {
-    const updates = await request.json()
+    const updates = (await request.json()) as any
     const updatedLesson = { ...mockLessons[0], ...updates }
     return HttpResponse.json(updatedLesson)
   }),
@@ -99,13 +102,13 @@ export const handlers = [
 
   // Notes endpoints
   http.get('/rest/v1/notes', () => {
-    return HttpResponse.json(mockNotes.filter(n => n.active))
+    return HttpResponse.json(mockNotes)
   }),
 
   http.post('/rest/v1/notes', async ({ request }) => {
-    const newNote = await request.json()
-    const createdNote = { 
-      id: Date.now(), 
+    const newNote = (await request.json()) as any
+    const createdNote = {
+      id: Date.now(),
       ...newNote,
       created_at: new Date().toISOString(),
     }
@@ -113,7 +116,7 @@ export const handlers = [
   }),
 
   http.patch('/rest/v1/notes', async ({ request }) => {
-    const updates = await request.json()
+    const updates = (await request.json()) as any
     const updatedNote = { ...mockNotes[0], ...updates }
     return HttpResponse.json(updatedNote)
   }),
@@ -122,15 +125,15 @@ export const handlers = [
   http.get('/rest/v1/todos', () => {
     const mockTodos = [
       createMockTodo(),
-      createMockTodo({ id: 2, content: 'Plan next concert', completed: true })
+      createMockTodo({ id: 2, text: 'Plan next concert', completed: true }),
     ]
     return HttpResponse.json(mockTodos)
   }),
 
   http.post('/rest/v1/todos', async ({ request }) => {
-    const newTodo = await request.json()
-    const createdTodo = { 
-      id: Date.now(), 
+    const newTodo = (await request.json()) as any
+    const createdTodo = {
+      id: Date.now(),
       ...newTodo,
       created_at: new Date().toISOString(),
     }
@@ -218,14 +221,14 @@ export function simulateNetworkError(endpoint: string) {
   server.use(
     http.get(endpoint, () => {
       return HttpResponse.error()
-    })
+    }),
   )
 }
 
-export function simulateServerError(endpoint: string, status: number = 500) {
+export function simulateServerError(endpoint: string, status = 500) {
   server.use(
     http.get(endpoint, () => {
       return new HttpResponse('Server Error', { status })
-    })
+    }),
   )
 }

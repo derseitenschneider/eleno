@@ -7,10 +7,7 @@ import { toast } from 'sonner'
 export function useCompleteTodo() {
   const queryClient = useQueryClient()
   const fetchErrorToast = useFetchErrorToast()
-  const {
-    mutateAsync: completeTodo,
-    isPending: isCompleting,
-  } = useMutation({
+  const { mutateAsync: completeTodo, isPending: isCompleting } = useMutation({
     mutationFn: completeTodoApi,
 
     onMutate: (id) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const useIsMobileDevice = (): boolean => {
   const [isMobile, setIsMobile] = useState<boolean>(

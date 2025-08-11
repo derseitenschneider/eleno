@@ -1,7 +1,7 @@
 import { isDemoMode } from '@/config'
-import supabase from './supabase'
 import type { Group, GroupPartial } from '@/types/types'
 import mockGroups from './mock-db/mockGroups'
+import supabase from './supabase'
 
 export const fetchGroupsApi = async (userId: string): Promise<Array<Group>> => {
   if (isDemoMode) return mockGroups

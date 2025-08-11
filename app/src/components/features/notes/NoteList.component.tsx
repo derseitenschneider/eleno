@@ -1,17 +1,9 @@
+import { DragDropContext, type DropResult, Droppable } from '@hello-pangea/dnd'
 import { useEffect, useState } from 'react'
-import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
 
 import CreateNote from './CreateNote.component'
 import Note from './Note.component'
 
-import { useActiveNotesQuery } from './notesQueries'
-import type { Note as TNote } from '@/types/types'
-import { Button } from '@/components/ui/button'
-import { Plus, X } from 'lucide-react'
-import { useUpdateNote } from './useUpdateNote'
-import { cn } from '@/lib/utils'
-import useCurrentHolder from '../lessons/useCurrentHolder'
-import { Blocker } from '../subscription/Blocker'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -20,8 +12,16 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { cn } from '@/lib/utils'
+import type { Note as TNote } from '@/types/types'
+import { Plus, X } from 'lucide-react'
+import useCurrentHolder from '../lessons/useCurrentHolder'
+import { Blocker } from '../subscription/Blocker'
 import { NoteMobile } from './NoteMobile.component'
+import { useActiveNotesQuery } from './notesQueries'
+import { useUpdateNote } from './useUpdateNote'
 
 function NoteList() {
   const { currentLessonHolder } = useCurrentHolder()

@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
-import { renderWithProviders } from '@/test/testUtils'
-import { LessonItem } from './LessonItem.component'
-import * as useUserLocaleModule from '@/services/context/UserLocaleContext'
 import * as useIsMobileDeviceModule from '@/hooks/useIsMobileDevice'
+import * as useUserLocaleModule from '@/services/context/UserLocaleContext'
 import { createMockLesson } from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
 import type { Lesson } from '@/types/types'
+import { screen } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { LessonItem } from './LessonItem.component'
 
 // Mock modules
 vi.mock('@/services/context/UserLocaleContext')
@@ -50,10 +50,14 @@ describe('LessonItem', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Setup default mocks
-    vi.mocked(useUserLocaleModule.useUserLocale).mockReturnValue(defaultMocks.useUserLocale)
-    vi.mocked(useIsMobileDeviceModule.default).mockReturnValue(defaultMocks.useIsMobileDevice)
+    vi.mocked(useUserLocaleModule.useUserLocale).mockReturnValue(
+      defaultMocks.useUserLocale,
+    )
+    vi.mocked(useIsMobileDeviceModule.default).mockReturnValue(
+      defaultMocks.useIsMobileDevice,
+    )
   })
 
   describe('Basic Rendering', () => {
@@ -62,8 +66,12 @@ describe('LessonItem', () => {
 
       expect(screen.getByText('Lektion')).toBeInTheDocument()
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
-      expect(screen.getByTestId('lessons-prev-lesson')).toHaveTextContent('Test lesson content')
-      expect(screen.getByTestId('lessons-prev-homework')).toHaveTextContent('Test homework content')
+      expect(screen.getByTestId('lessons-prev-lesson')).toHaveTextContent(
+        'Test lesson content',
+      )
+      expect(screen.getByTestId('lessons-prev-homework')).toHaveTextContent(
+        'Test homework content',
+      )
     })
 
     it('should display formatted date', () => {
@@ -127,7 +135,7 @@ describe('LessonItem', () => {
 
       // Date should not be visible
       expect(screen.queryByText('12/01/2023')).not.toBeInTheDocument()
-      
+
       // Action buttons should not be visible
       expect(screen.queryByTestId('share-homework-1')).not.toBeInTheDocument()
       expect(screen.queryByTestId('lesson-dropdown-1')).not.toBeInTheDocument()
@@ -138,7 +146,7 @@ describe('LessonItem', () => {
 
       // Date should be visible
       expect(screen.getByText('12/01/2023')).toBeInTheDocument()
-      
+
       // Action buttons should be visible
       expect(screen.getByTestId('share-homework-1')).toBeInTheDocument()
       expect(screen.getByTestId('lesson-dropdown-1')).toBeInTheDocument()
@@ -153,7 +161,9 @@ describe('LessonItem', () => {
 
       expect(screen.getByTestId('share-homework-1')).toBeInTheDocument()
       expect(screen.getByTestId('lesson-dropdown-1')).toBeInTheDocument()
-      expect(screen.queryByRole('img', { hidden: true })).not.toBeInTheDocument() // ChevronRightIcon
+      expect(
+        screen.queryByRole('img', { hidden: true }),
+      ).not.toBeInTheDocument() // ChevronRightIcon
     })
 
     it('should show chevron icon on mobile', () => {
@@ -164,9 +174,11 @@ describe('LessonItem', () => {
       // Action buttons should not be visible on mobile
       expect(screen.queryByTestId('share-homework-1')).not.toBeInTheDocument()
       expect(screen.queryByTestId('lesson-dropdown-1')).not.toBeInTheDocument()
-      
+
       // Should show chevron icon instead (lucide icons are SVGs)
-      expect(document.querySelector('.lucide-chevron-right')).toBeInTheDocument()
+      expect(
+        document.querySelector('.lucide-chevron-right'),
+      ).toBeInTheDocument()
     })
   })
 
@@ -180,7 +192,9 @@ describe('LessonItem', () => {
       renderWithProviders(<LessonItem lesson={lessonWithHtml} />)
 
       // Since we're mocking html-react-parser to return the string as-is
-      expect(screen.getByTestId('lessons-prev-lesson')).toHaveTextContent('<p>Lesson with <strong>bold</strong> text</p>')
+      expect(screen.getByTestId('lessons-prev-lesson')).toHaveTextContent(
+        '<p>Lesson with <strong>bold</strong> text</p>',
+      )
     })
 
     it('should render HTML content in homework', () => {
@@ -192,7 +206,9 @@ describe('LessonItem', () => {
       renderWithProviders(<LessonItem lesson={lessonWithHtml} />)
 
       // Since we're mocking html-react-parser to return the string as-is
-      expect(screen.getByTestId('lessons-prev-homework')).toHaveTextContent('<ul><li>Practice scales</li><li>Review theory</li></ul>')
+      expect(screen.getByTestId('lessons-prev-homework')).toHaveTextContent(
+        '<ul><li>Practice scales</li><li>Review theory</li></ul>',
+      )
     })
 
     it('should apply correct CSS classes for content styling', () => {
@@ -217,30 +233,42 @@ describe('LessonItem', () => {
 
   describe('Layout and Structure', () => {
     it('should have correct container structure', () => {
-      const { container } = renderWithProviders(<LessonItem lesson={mockLesson} />)
+      const { container } = renderWithProviders(
+        <LessonItem lesson={mockLesson} />,
+      )
 
       // Find the main container div
-      const mainContainer = container.querySelector('.rounded-sm.border.border-hairline.bg-background100.p-3')
+      const mainContainer = container.querySelector(
+        '.rounded-sm.border.border-hairline.bg-background100.p-3',
+      )
       expect(mainContainer).toBeInTheDocument()
     })
 
     it('should have responsive grid layout for content', () => {
-      const { container } = renderWithProviders(<LessonItem lesson={mockLesson} />)
+      const { container } = renderWithProviders(
+        <LessonItem lesson={mockLesson} />,
+      )
 
       // Find the grid container directly by its classes
-      const contentGrid = container.querySelector('.md\\:grid-cols-2.grid.gap-6')
+      const contentGrid = container.querySelector(
+        '.md\\:grid-cols-2.grid.gap-6',
+      )
       expect(contentGrid).toBeInTheDocument()
     })
   })
 
   describe('Edge Cases', () => {
     it('should return null for falsy lesson', () => {
-      const { container } = renderWithProviders(<LessonItem lesson={null as any} />)
+      const { container } = renderWithProviders(
+        <LessonItem lesson={null as any} />,
+      )
       expect(container.firstChild).toBeNull()
     })
 
     it('should handle undefined lesson', () => {
-      const { container } = renderWithProviders(<LessonItem lesson={undefined as any} />)
+      const { container } = renderWithProviders(
+        <LessonItem lesson={undefined as any} />,
+      )
       expect(container.firstChild).toBeNull()
     })
 

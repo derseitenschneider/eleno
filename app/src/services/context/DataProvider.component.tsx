@@ -1,3 +1,8 @@
+import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
+import useSettingsQuery from '@/components/features/settings/settingsQuery'
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import useProfileQuery from '@/components/features/user/profileQuery'
 import { useEffect } from 'react'
 import useGroupsQuery from '../../components/features/groups/groupsQuery'
 import {
@@ -9,11 +14,6 @@ import useStudentsQuery from '../../components/features/students/studentsQueries
 import useTodosQuery from '../../components/features/todos/todosQuery'
 import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
-import useMessagesQuery from '@/components/features/messages/messagesQueries'
-import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
-import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
-import useProfileQuery from '@/components/features/user/profileQuery'
-import useSettingsQuery from '@/components/features/settings/settingsQuery'
 
 interface DataProviderProps {
   children: React.ReactNode

@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
-import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
+import { Fragment } from 'react'
 
 export type Step = {
   id: number

@@ -1,5 +1,6 @@
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import {
   Form,
   FormControl,
@@ -8,10 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -19,19 +17,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import ButtonRemove from '@/components/ui/buttonRemove'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import type { Group } from '@/types/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
+import { useCallback } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { Blocker } from '../subscription/Blocker'
 import {
   type GroupSchema,
   groupValidationSchema,
 } from './CreateGroup.component'
-import { useQueryClient } from '@tanstack/react-query'
 import { useUpdateGroup } from './useUpdateGroup'
-import type { Group } from '@/types/types'
-import { Label } from '@/components/ui/label'
-import { useCallback } from 'react'
-import { Blocker } from '../subscription/Blocker'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-import { Separator } from '@/components/ui/separator'
 
 type UpdateGroupProps = {
   onSuccess?: () => void

@@ -1,12 +1,12 @@
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
+import useSettingsQuery from '@/components/features/settings/settingsQuery'
+import useHasBanner from '@/hooks/useHasBanner'
+import { cn } from '@/lib/utils'
 import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
 import { useLoading } from '../services/context/LoadingContext'
-import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
-import useSettingsQuery from '@/components/features/settings/settingsQuery'
 
 function Lesson() {
   const { isLoading } = useLoading()

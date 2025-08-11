@@ -1,7 +1,7 @@
 import { expect, test as setup } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
-import { setupMonthlyCanceledExpired } from '../../utils/setupHelpers'
 import { loginUser } from '../../utils/loginUser'
+import { setupMonthlyCanceledExpired } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run checkout fixture, cancel and then expire.',

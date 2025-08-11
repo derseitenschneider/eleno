@@ -31,6 +31,12 @@
     "tests/**/*",
     "playwright/**/*"
   ],
-  "exclude": ["node_modules", "dist", "build", "supabase"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "supabase",
+    "node_modules/@supabase/**/*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

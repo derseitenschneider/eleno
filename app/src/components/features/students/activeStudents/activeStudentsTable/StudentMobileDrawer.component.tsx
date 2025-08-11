@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import type { Student } from '@/types/types'
+import { useState } from 'react'
 
-import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
-import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Drawer,
   DrawerClose,
@@ -14,9 +13,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useDeactivateStudents } from '../../useDeactivateStudents'
 import { Separator } from '@/components/ui/separator'
+import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
+import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 interface StudentMobileDrawerProps {
   student: Student

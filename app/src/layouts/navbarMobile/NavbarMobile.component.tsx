@@ -1,4 +1,8 @@
-import NavbarMobileItem from './NavbarMobileItem.component'
+import useTodosQuery from '@/components/features/todos/todosQuery'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useLoading } from '@/services/context/LoadingContext'
 import {
   CheckSquare2,
   GaugeCircle,
@@ -6,13 +10,9 @@ import {
   PlusIcon,
   Users,
 } from 'lucide-react'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import useTodosQuery from '@/components/features/todos/todosQuery'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import { cn } from '@/lib/utils'
-import { useLoading } from '@/services/context/LoadingContext'
 import { useState } from 'react'
 import { ActionDrawer } from './ActionDrawer.component'
+import NavbarMobileItem from './NavbarMobileItem.component'
 
 function NavbarMobile() {
   const [modalOpen, setModalOpen] = useState<'ACTION' | null>(null)

@@ -1,6 +1,6 @@
+import { appConfig } from '@/config'
 import { cn } from '@/lib/utils'
 import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
-import { appConfig } from '@/config'
 import useProfileQuery from '../user/profileQuery'
 
 function HeaderDashboard() {

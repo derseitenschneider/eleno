@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
-import Navbar from '../layouts/Navbar.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { useLoading } from '@/services/context/LoadingContext'
+import { Outlet } from 'react-router-dom'
+import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },

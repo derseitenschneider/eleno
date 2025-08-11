@@ -1,9 +1,5 @@
-import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { RepertoireItem } from '@/types/types'
-import { FileDown } from 'lucide-react'
-import { useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,8 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import ExportRepertoire from '../ExportRepertoire.component'
+import type { RepertoireItem } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { FileDown } from 'lucide-react'
+import { useState } from 'react'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
+import ExportRepertoire from '../ExportRepertoire.component'
 
 type RepertoireControlProps = {
   globalFilter: string

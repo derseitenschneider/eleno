@@ -1,6 +1,6 @@
-import { test as setup, expect } from '@playwright/test'
-import dotenv from 'dotenv'
 import path from 'node:path'
+import { expect, test as setup } from '@playwright/test'
+import dotenv from 'dotenv'
 
 // const dotenvPath = path.resolve(path.dirname('..'), '.env')
 // dotenv.config({
@@ -12,7 +12,6 @@ const authFile = path.resolve(path.dirname('..'), 'playwright/.auth/user.json')
 setup('authenticate', async ({ page }) => {
   const testUserEmail = process.env.TESTUSER_EMAIL || ''
   const testUserPassword = process.env.TESTUSER_PASSWORD || ''
-  console.log({ testUserEmail, testUserPassword })
 
   await page.goto('/?page=login')
   await page.getByTestId('login-email').fill(testUserEmail)

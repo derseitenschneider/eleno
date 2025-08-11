@@ -1,15 +1,15 @@
+import CustomEditor from '@/components/ui/CustomEditor.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { DayPicker } from '@/components/ui/daypicker.component'
+import { Separator } from '@/components/ui/separator'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import type { RepertoireItem } from '../../../types/types'
-import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
-import CustomEditor from '@/components/ui/CustomEditor.component'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Separator } from '@/components/ui/separator'
+import { useUpdateRepertoireItem } from './useUpdateRepertoireItem'
 
 interface UpdateRepertoireItemProps {
   itemId: number

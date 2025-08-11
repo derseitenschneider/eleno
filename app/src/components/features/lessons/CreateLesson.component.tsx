@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils'
-import { Blocker } from '../subscription/Blocker'
-import useSettingsQuery from '../settings/settingsQuery'
-import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
-import { CreateLessonForm } from './CreateLessonForm.component'
 import { LessonPlanningProvider } from '@/services/context/LessonPlanningContext'
+import useSettingsQuery from '../settings/settingsQuery'
+import { Blocker } from '../subscription/Blocker'
+import { CreateLessonForm } from './CreateLessonForm.component'
+import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 
 function CreateLesson() {
   const { data: settings } = useSettingsQuery()

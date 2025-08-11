@@ -1,12 +1,12 @@
-import { cn } from '@/lib/utils'
-import SearchStudentCombobox from '../students/SearchStudentCombobox.component'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { buildAllLessonsQuery } from '@/utils/buildAllLessonsQuery'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
+import SearchStudentCombobox from '../students/SearchStudentCombobox.component'
 import { useLatestLessons } from './lessonsQueries'
 import useCurrentHolder from './useCurrentHolder'
-import { buildAllLessonsQuery } from '@/utils/buildAllLessonsQuery'
 
 export default function LessonNav() {
   const { currentLessonHolder } = useCurrentHolder()

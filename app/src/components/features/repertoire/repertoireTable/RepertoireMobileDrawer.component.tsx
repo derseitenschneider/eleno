@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
-import parse from 'html-react-parser'
 import type { RepertoireItem } from '@/types/types'
+import parse from 'html-react-parser'
+import { useEffect, useRef, useState } from 'react'
 
-import { ChevronLeft, ChevronRight, PencilIcon, Trash2 } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Drawer,
   DrawerClose,
@@ -15,10 +13,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import { Separator } from '@/components/ui/separator'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { UpdateRepertoireItemDrawerDialog } from '../UpdateRepertoireItemDrawerDialog.component'
-import { DeleteRepertoireItemDrawerDialog } from '../DeleteReperoireItemDeleteDrawerDialog.component'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { ChevronLeft, ChevronRight, PencilIcon, Trash2 } from 'lucide-react'
+import { DeleteRepertoireItemDrawerDialog } from '../DeleteReperoireItemDeleteDrawerDialog.component'
+import { UpdateRepertoireItemDrawerDialog } from '../UpdateRepertoireItemDrawerDialog.component'
 
 interface StudentMobileDrawerProps {
   repertoireItem: RepertoireItem

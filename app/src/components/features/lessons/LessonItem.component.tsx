@@ -1,12 +1,12 @@
-import parse from 'html-react-parser'
-import { cn } from '@/lib/utils'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import ButtonShareHomework from './homework/ButtonShareHomework.component'
-import PreviousLessonDropDown from './PreviousLessonDropDown.component'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { ChevronRightIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import parse from 'html-react-parser'
+import { ChevronRightIcon } from 'lucide-react'
+import PreviousLessonDropDown from './PreviousLessonDropDown.component'
+import ButtonShareHomework from './homework/ButtonShareHomework.component'
 
 export type LessonItemProps = {
   lesson: Lesson

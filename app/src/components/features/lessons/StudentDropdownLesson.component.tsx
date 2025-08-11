@@ -14,11 +14,11 @@ import {
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu'
 
-import useCurrentHolder from './useCurrentHolder'
-import UpdateStudents from '../students/UpdateStudents.component'
 import UpdateGroup from '../groups/UpdateGroup.component'
+import UpdateStudents from '../students/UpdateStudents.component'
 import CreateTodo from '../todos/CreateTodo.component'
 import ExportLessons from './ExportLessons.component'
+import useCurrentHolder from './useCurrentHolder'
 
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 

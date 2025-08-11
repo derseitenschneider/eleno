@@ -1,11 +1,11 @@
-import { LessonHolderProvider } from './LessonHolderContext'
-import { DraftsProvider } from './DraftsContext'
-import { MessagesProvider } from './MessagesContext'
 import useProfileQuery from '@/components/features/user/profileQuery'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { DraftsProvider } from './DraftsContext'
+import { LessonHolderProvider } from './LessonHolderContext'
+import { MessagesProvider } from './MessagesContext'
 import { useUser } from './UserContext'
-import { SidebarTrigger } from '@/components/ui/sidebar'
 
 interface MainContextProps {
   children: React.ReactNode

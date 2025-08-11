@@ -1,8 +1,8 @@
-import supabase from './supabase'
-import type { Student, StudentPartial } from '../../types/types'
-import { isDemoMode } from '../../config'
-import mockStudents from './mock-db/mockStudents'
 import type { GroupSchema } from '@/components/features/groups/CreateGroup.component'
+import { isDemoMode } from '../../config'
+import type { Student, StudentPartial } from '../../types/types'
+import mockStudents from './mock-db/mockStudents'
+import supabase from './supabase'
 
 export const fetchStudentsApi = async (userId: string) => {
   if (isDemoMode) return mockStudents

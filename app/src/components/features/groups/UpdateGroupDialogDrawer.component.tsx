@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -7,8 +6,9 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import UpdateGroup from './UpdateGroup.component'
 import { ChevronLeft, X } from 'lucide-react'
+import type { MouseEvent } from 'react'
+import UpdateGroup from './UpdateGroup.component'
 
 export type UpdateGroupDialogDrawerProps = {
   open: boolean

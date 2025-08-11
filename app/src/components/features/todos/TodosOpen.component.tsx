@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import CreateTodo from './CreateTodo.component'
-import TodoDescription from './TodoDescription.component'
-import compareDateTodos from '../../../utils/sortTodos'
 import useTodosQuery from '@/components/features/todos/todosQuery'
-import TodoItem from './TodoItem.component'
 import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { useEffect } from 'react'
+import compareDateTodos from '../../../utils/sortTodos'
+import CreateTodo from './CreateTodo.component'
+import TodoDescription from './TodoDescription.component'
+import TodoItem from './TodoItem.component'
 import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 
 export default function TodosOpen() {

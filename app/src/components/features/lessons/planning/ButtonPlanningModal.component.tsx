@@ -1,17 +1,18 @@
-import { Button } from '@/components/ui/button'
-import { CalendarClockIcon } from 'lucide-react'
-import { useState } from 'react'
-import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
-import useCurrentHolder from '../useCurrentHolder'
-import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import {
   DrawerOrDialog,
+  DrawerOrDialogClose,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
+import { CalendarClockIcon, X } from 'lucide-react'
+import { useState } from 'react'
+import useCurrentHolder from '../useCurrentHolder'
+import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
 
 export function ButtonPlanningModal() {
   const [modalOpen, setModalOpen] = useState<'PLAN' | null>(null)
@@ -46,6 +47,14 @@ export function ButtonPlanningModal() {
       </Button>
       <DrawerOrDialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
         <DrawerOrDialogContent className='md:max-h-[80vh] lg:overflow-hidden'>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>
               Lektionen für {holderName} planen

@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { PasswordInput } from '@/components/ui/password-input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { PasswordInput } from '@/components/ui/password-input'
+import { Separator } from '@/components/ui/separator'
 import { isDemoMode } from '@/config'
-import { useUpdatePassword } from '../../user/useUpdatePassword'
+import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useState } from 'react'
+import { useUpdatePassword } from '../../user/useUpdatePassword'
 
 interface EditPasswordProps {
   onCloseModal?: () => void

@@ -1,16 +1,16 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { renderWithProviders } from '@/test/testUtils'
-import { CreateLessonForm } from './CreateLessonForm.component'
-import * as useCurrentHolderModule from './useCurrentHolder'
 import * as useDraftsModule from '@/services/context/DraftsContext'
 import * as useSubscriptionModule from '@/services/context/SubscriptionContext'
-import * as useCreateLessonModule from './useCreateLesson'
-import * as useUpdateLessonModule from './useUpdateLesson'
-import * as settingsQueryModule from '../settings/settingsQuery'
-import { createMockStudent, createMockGroup } from '@/test/factories'
+import { createMockGroup, createMockStudent } from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
 import type { LessonHolder } from '@/types/types'
+import { screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import * as settingsQueryModule from '../settings/settingsQuery'
+import { CreateLessonForm } from './CreateLessonForm.component'
+import * as useCreateLessonModule from './useCreateLesson'
+import * as useCurrentHolderModule from './useCurrentHolder'
+import * as useUpdateLessonModule from './useUpdateLesson'
 
 // Mock modules
 vi.mock('./useCurrentHolder')
@@ -30,7 +30,9 @@ vi.mock('sonner', () => ({
 vi.mock('@/components/ui/CustomEditor.component', () => ({
   default: ({ value, onChange, placeholder, disabled }: any) => (
     <textarea
-      data-testid={placeholder?.includes('Lektion') ? 'lesson-content' : 'homework'}
+      data-testid={
+        placeholder?.includes('Lektion') ? 'lesson-content' : 'homework'
+      }
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
@@ -41,14 +43,17 @@ vi.mock('@/components/ui/CustomEditor.component', () => ({
 
 // Mock MiniLoader component
 vi.mock('@/components/ui/MiniLoader.component', () => ({
-  default: () => <div data-testid="mini-loader">Loading...</div>,
+  default: () => <div data-testid='mini-loader'>Loading...</div>,
 }))
 
 describe('CreateLessonForm', () => {
   const mockStudent = createMockStudent()
   const mockGroup = createMockGroup()
-  
-  const mockStudentHolder: LessonHolder = { type: 's', holder: mockStudent as any }
+
+  const mockStudentHolder: LessonHolder = {
+    type: 's',
+    holder: mockStudent as any,
+  }
   const mockGroupHolder: LessonHolder = { type: 'g', holder: mockGroup as any }
 
   const defaultMocks = {
@@ -61,9 +66,9 @@ describe('CreateLessonForm', () => {
     },
     useSubscription: {
       hasAccess: true,
-      plan: null,
+      plan: 'Monatlich' as const,
       subscriptionState: 'active' as any,
-      subscription: null,
+      subscription: undefined,
       periodStartLocalized: '',
       periodEndLocalized: '',
     },
@@ -87,14 +92,24 @@ describe('CreateLessonForm', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Setup default mocks
-    vi.mocked(useCurrentHolderModule.default).mockReturnValue(defaultMocks.useCurrentHolder)
+    vi.mocked(useCurrentHolderModule.default).mockReturnValue(
+      defaultMocks.useCurrentHolder,
+    )
     vi.mocked(useDraftsModule.useDrafts).mockReturnValue(defaultMocks.useDrafts)
-    vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue(defaultMocks.useSubscription)
-    vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue(defaultMocks.useCreateLesson)
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(defaultMocks.useUpdateLesson)
-    vi.mocked(settingsQueryModule.default).mockReturnValue(defaultMocks.useSettingsQuery)
+    vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue(
+      defaultMocks.useSubscription,
+    )
+    vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue(
+      defaultMocks.useCreateLesson,
+    )
+    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(
+      defaultMocks.useUpdateLesson,
+    )
+    vi.mocked(settingsQueryModule.default).mockReturnValue(
+      defaultMocks.useSettingsQuery,
+    )
   })
 
   describe('Rendering', () => {
@@ -106,7 +121,9 @@ describe('CreateLessonForm', () => {
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
       expect(screen.getByTestId('lesson-content')).toBeInTheDocument()
       expect(screen.getByTestId('homework')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Speichern' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Speichern' }),
+      ).toBeInTheDocument()
     })
 
     it('should not render when no current holder is available', () => {
@@ -119,7 +136,9 @@ describe('CreateLessonForm', () => {
     })
 
     it('should not render when settings are not available', () => {
-      vi.mocked(settingsQueryModule.default).mockReturnValue({ data: null } as any)
+      vi.mocked(settingsQueryModule.default).mockReturnValue({
+        data: null,
+      } as any)
 
       const { container } = renderWithProviders(<CreateLessonForm />)
       expect(container.firstChild).toBeNull()
@@ -164,12 +183,12 @@ describe('CreateLessonForm', () => {
     it('should update draft when typing in lesson content', async () => {
       const user = userEvent.setup()
       const mockSetDrafts = vi.fn()
-      
+
       vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
         drafts: [],
         setDrafts: mockSetDrafts,
       })
-      
+
       renderWithProviders(<CreateLessonForm />)
 
       const lessonInput = screen.getByTestId('lesson-content')
@@ -177,7 +196,7 @@ describe('CreateLessonForm', () => {
 
       // Verify content was typed
       expect(lessonInput).toHaveValue('Some lesson content')
-      
+
       // Verify draft was updated
       expect(mockSetDrafts).toHaveBeenCalled()
     })
@@ -199,7 +218,9 @@ describe('CreateLessonForm', () => {
 
       renderWithProviders(<CreateLessonForm />)
 
-      expect(screen.getByTestId('lesson-content')).toHaveValue('Draft lesson content')
+      expect(screen.getByTestId('lesson-content')).toHaveValue(
+        'Draft lesson content',
+      )
       expect(screen.getByTestId('homework')).toHaveValue('Draft homework')
     })
 
@@ -233,7 +254,9 @@ describe('CreateLessonForm', () => {
 
       renderWithProviders(<CreateLessonForm />)
 
-      expect(screen.getByTestId('lesson-content')).toHaveValue('Group lesson content')
+      expect(screen.getByTestId('lesson-content')).toHaveValue(
+        'Group lesson content',
+      )
       expect(screen.getByTestId('homework')).toHaveValue('Group homework')
     })
   })
@@ -266,9 +289,9 @@ describe('CreateLessonForm', () => {
     it('should disable save button when no access', () => {
       vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue({
         hasAccess: false,
-        plan: null,
+        plan: '—',
         subscriptionState: 'active' as any,
-        subscription: null,
+        subscription: undefined,
         periodStartLocalized: '',
         periodEndLocalized: '',
       })
@@ -337,7 +360,7 @@ describe('CreateLessonForm', () => {
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),
-        })
+        }),
       )
     })
 
@@ -366,7 +389,7 @@ describe('CreateLessonForm', () => {
           groupId: mockGroup.id,
           status: 'documented',
         }),
-        expect.any(Object)
+        expect.any(Object),
       )
     })
   })
@@ -407,7 +430,7 @@ describe('CreateLessonForm', () => {
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),
-        })
+        }),
       )
     })
   })

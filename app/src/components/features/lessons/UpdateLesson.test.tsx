@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { createMockLesson } from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
+import type { Lesson } from '@/types/types'
+import { QueryClient } from '@tanstack/react-query'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithProviders } from '@/test/testUtils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import UpdateLesson from './UpdateLesson.component'
 import * as useUpdateLessonModule from './useUpdateLesson'
-import { createMockLesson } from '@/test/factories'
-import { QueryClient } from '@tanstack/react-query'
-import type { Lesson } from '@/types/types'
 
 // Mock modules
 vi.mock('./useUpdateLesson')
@@ -21,7 +21,7 @@ vi.mock('sonner', () => ({
 vi.mock('@/components/ui/CustomEditor.component', () => ({
   default: ({ value, onChange, disabled }: any) => (
     <textarea
-      data-testid="custom-editor"
+      data-testid='custom-editor'
       value={value}
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
@@ -31,24 +31,30 @@ vi.mock('@/components/ui/CustomEditor.component', () => ({
 
 // Mock Blocker component
 vi.mock('../subscription/Blocker', () => ({
-  Blocker: () => <div data-testid="blocker">Subscription Blocker</div>,
+  Blocker: () => <div data-testid='blocker'>Subscription Blocker</div>,
 }))
 
 // Mock SaveAbortButtons component
 vi.mock('@/components/ui/SaveAbortButtonGroup', () => ({
-  SaveAbortButtons: ({ onSave, onAbort, isSaving, isDisabledSaving, isDisabledAborting }: any) => (
-    <div data-testid="save-abort-buttons">
-      <button 
-        onClick={onSave} 
+  SaveAbortButtons: ({
+    onSave,
+    onAbort,
+    isSaving,
+    isDisabledSaving,
+    isDisabledAborting,
+  }: any) => (
+    <div data-testid='save-abort-buttons'>
+      <button
+        onClick={onSave}
         disabled={isDisabledSaving}
-        data-testid="save-button"
+        data-testid='save-button'
       >
         {isSaving ? 'Saving...' : 'Save'}
       </button>
-      <button 
-        onClick={onAbort} 
+      <button
+        onClick={onAbort}
         disabled={isDisabledAborting}
-        data-testid="abort-button"
+        data-testid='abort-button'
       >
         Abort
       </button>
@@ -60,18 +66,18 @@ vi.mock('@/components/ui/SaveAbortButtonGroup', () => ({
 vi.mock('@/components/ui/daypicker.component', () => ({
   DayPicker: ({ date, setDate, disabled }: any) => {
     const formatDateForInput = (date: Date | null | undefined) => {
-      if (!date || isNaN(date.getTime())) return ''
+      if (!date || Number.isNaN(date.getTime())) return ''
       return date.toISOString().split('T')[0]
     }
 
     return (
       <input
-        type="date"
-        data-testid="date-picker"
+        type='date'
+        data-testid='date-picker'
         value={formatDateForInput(date)}
         onChange={(e) => {
           const newDate = new Date(e.target.value)
-          if (!isNaN(newDate.getTime())) {
+          if (!Number.isNaN(newDate.getTime())) {
             setDate(newDate)
           }
         }}
@@ -83,7 +89,9 @@ vi.mock('@/components/ui/daypicker.component', () => ({
 
 // Mock Separator component
 vi.mock('@/components/ui/separator', () => ({
-  Separator: ({ className }: any) => <hr data-testid="separator" className={className} />,
+  Separator: ({ className }: any) => (
+    <hr data-testid='separator' className={className} />
+  ),
 }))
 
 describe('UpdateLesson', () => {
@@ -106,7 +114,7 @@ describe('UpdateLesson', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Create a new QueryClient for each test
     queryClient = new QueryClient({
       defaultOptions: {
@@ -116,11 +124,16 @@ describe('UpdateLesson', () => {
     })
 
     // Set up lesson data in the query client
-    queryClient.setQueryData(['all-lessons', { holder: '', year: 0 }], [mockLesson])
+    queryClient.setQueryData(
+      ['all-lessons', { holder: '', year: 0 }],
+      [mockLesson],
+    )
     queryClient.setQueryData(['latest-3-lessons'], [mockLesson])
 
     // Setup default mocks
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(defaultMocks.useUpdateLesson)
+    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(
+      defaultMocks.useUpdateLesson,
+    )
   })
 
   describe('Component Rendering', () => {
@@ -177,7 +190,7 @@ describe('UpdateLesson', () => {
       renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
 
       const editors = screen.getAllByTestId('custom-editor')
-      const lessonEditor = editors[0]
+      const lessonEditor = editors[0]!
 
       await user.clear(lessonEditor)
       await user.type(lessonEditor, 'Updated lesson content')
@@ -190,7 +203,7 @@ describe('UpdateLesson', () => {
       renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
 
       const editors = screen.getAllByTestId('custom-editor')
-      const homeworkEditor = editors[1]
+      const homeworkEditor = editors[1]!
 
       await user.clear(homeworkEditor)
       await user.type(homeworkEditor, 'Updated homework content')
@@ -216,7 +229,7 @@ describe('UpdateLesson', () => {
     it('should call updateLesson with correct data on save', async () => {
       const user = userEvent.setup()
       const mockUpdateLesson = vi.fn()
-      
+
       vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
@@ -226,8 +239,8 @@ describe('UpdateLesson', () => {
 
       // Update the form fields
       const editors = screen.getAllByTestId('custom-editor')
-      const lessonEditor = editors[0]
-      const homeworkEditor = editors[1]
+      const lessonEditor = editors[0]!
+      const homeworkEditor = editors[1]!
 
       await user.clear(lessonEditor)
       await user.type(lessonEditor, 'New lesson content')
@@ -247,7 +260,7 @@ describe('UpdateLesson', () => {
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),
-        })
+        }),
       )
     })
 
@@ -258,15 +271,15 @@ describe('UpdateLesson', () => {
         // Simulate successful update
         options.onSuccess()
       })
-      
+
       vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
       })
 
       renderWithProviders(
-        <UpdateLesson lessonId={1} onCloseModal={mockOnCloseModal} />, 
-        { queryClient }
+        <UpdateLesson lessonId={1} onCloseModal={mockOnCloseModal} />,
+        { queryClient },
       )
 
       const saveButton = screen.getByTestId('save-button')
@@ -280,7 +293,7 @@ describe('UpdateLesson', () => {
     it('should not call updateLesson if lesson is not found', async () => {
       const user = userEvent.setup()
       const mockUpdateLesson = vi.fn()
-      
+
       vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
@@ -358,8 +371,8 @@ describe('UpdateLesson', () => {
       const mockOnCloseModal = vi.fn()
 
       renderWithProviders(
-        <UpdateLesson lessonId={1} onCloseModal={mockOnCloseModal} />, 
-        { queryClient }
+        <UpdateLesson lessonId={1} onCloseModal={mockOnCloseModal} />,
+        { queryClient },
       )
 
       const abortButton = screen.getByTestId('abort-button')
@@ -370,7 +383,7 @@ describe('UpdateLesson', () => {
 
     it('should work without onCloseModal prop', async () => {
       const user = userEvent.setup()
-      
+
       renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
 
       const abortButton = screen.getByTestId('abort-button')
@@ -389,7 +402,10 @@ describe('UpdateLesson', () => {
         homework: null,
       }
 
-      queryClient.setQueryData(['all-lessons', { holder: '', year: 0 }], [lessonWithNullContent])
+      queryClient.setQueryData(
+        ['all-lessons', { holder: '', year: 0 }],
+        [lessonWithNullContent],
+      )
 
       renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
 
@@ -399,25 +415,38 @@ describe('UpdateLesson', () => {
     })
 
     it('should combine lessons from both query sources', () => {
-      const allLessonsLesson = { ...mockLesson, id: 1, lessonContent: 'All lessons content' }
-      const latestLessonsLesson = { ...mockLesson, id: 2, lessonContent: 'Latest lessons content' }
+      const allLessonsLesson = {
+        ...mockLesson,
+        id: 1,
+        lessonContent: 'All lessons content',
+      }
+      const latestLessonsLesson = {
+        ...mockLesson,
+        id: 2,
+        lessonContent: 'Latest lessons content',
+      }
 
-      queryClient.setQueryData(['all-lessons', { holder: '', year: 0 }], [allLessonsLesson])
+      queryClient.setQueryData(
+        ['all-lessons', { holder: '', year: 0 }],
+        [allLessonsLesson],
+      )
       queryClient.setQueryData(['latest-3-lessons'], [latestLessonsLesson])
 
       // Test finding lesson from all lessons
       renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
-      expect(screen.getAllByTestId('custom-editor')[0]).toHaveValue('All lessons content')
+      expect(screen.getAllByTestId('custom-editor')[0]).toHaveValue(
+        'All lessons content',
+      )
     })
   })
 
   describe('URL Parameters', () => {
     it('should handle missing URL parameters', () => {
       // Test with initial entries that don't have holderId or year params
-      renderWithProviders(
-        <UpdateLesson lessonId={1} />, 
-        { queryClient, initialEntries: ['/lessons'] }
-      )
+      renderWithProviders(<UpdateLesson lessonId={1} />, {
+        queryClient,
+        initialEntries: ['/lessons'],
+      })
 
       // Should still render without crashing
       expect(screen.getByText('Lektion')).toBeInTheDocument()

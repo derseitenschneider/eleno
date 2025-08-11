@@ -68,9 +68,15 @@ export function useShareHomework(lessonId: number) {
     month: '2-digit',
     year: '2-digit',
   })
-  const url = `${appConfig.apiUrl}/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
+  const url = `${appConfig.apiUrl}/homework/${
+    currentLesson?.studentId || currentLesson?.groupId
+  }/${currentLesson?.homeworkKey}`
 
-  const subjectText = `Hausaufgaben ${currentHolder?.type === 's' ? currentHolder.holder.instrument : currentHolder?.holder.name} vom ${lessonDate}`
+  const subjectText = `Hausaufgaben ${
+    currentHolder?.type === 's'
+      ? currentHolder.holder.instrument
+      : currentHolder?.holder.name
+  } vom ${lessonDate}`
   let bodyText = ''
   if (currentHolder && currentHolder.type === 's') {
     bodyText = `Hallo ${holderName}%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom ${lessonDate}: %0D%0A %0D%0A${url} %0D%0A %0D%0ALiebe Grüsse  %0D%0A${userProfile?.first_name} ${userProfile?.last_name}`

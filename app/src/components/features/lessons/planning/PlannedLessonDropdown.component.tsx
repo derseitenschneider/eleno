@@ -1,10 +1,17 @@
 import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import {
   BetweenHorizonalStart,
   MoreVertical,
@@ -12,15 +19,8 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useState } from 'react'
-import { usePlannedLessonsQuery } from '../lessonsQueries'
-import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import DeleteLesson from '../DeleteLesson.component'
-import {
-  DrawerOrDialog,
-  DrawerOrDialogContent,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
+import { usePlannedLessonsQuery } from '../lessonsQueries'
 
 type PreviousLessonDropDownProps = {
   lessonId: number

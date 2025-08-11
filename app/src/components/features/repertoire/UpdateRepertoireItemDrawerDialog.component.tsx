@@ -1,4 +1,3 @@
-import type { MouseEvent } from 'react'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -8,8 +7,9 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import { ChevronLeft, X } from 'lucide-react'
-import UpdateRepertoireItem from './UpdateRepertoireItem.component'
+import type { MouseEvent } from 'react'
 import useCurrentHolder from '../lessons/useCurrentHolder'
+import UpdateRepertoireItem from './UpdateRepertoireItem.component'
 
 export type UpdateRepertoireItemDrawerDialogProps = {
   open: boolean

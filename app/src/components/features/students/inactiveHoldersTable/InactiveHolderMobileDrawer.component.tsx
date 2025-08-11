@@ -1,10 +1,9 @@
-import { type MouseEvent, useState } from 'react'
-import { format } from 'date-fns'
 import type { LessonHolder } from '@/types/types'
+import { format } from 'date-fns'
+import { type MouseEvent, useState } from 'react'
 
-import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Drawer,
   DrawerClose,
@@ -14,11 +13,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import { toast } from 'sonner'
-import { useReactivateStudents } from '../useReactivateStudents'
-import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
 import { Separator } from '@/components/ui/separator'
+import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
+import { toast } from 'sonner'
 import { useReactivateGroups } from '../../groups/useReactivateGroups'
+import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
+import { useReactivateStudents } from '../useReactivateStudents'
 
 interface InactiveHolderMobileDrawerProps {
   holder: LessonHolder

@@ -1,20 +1,3 @@
-import { MessageSquareShare } from 'lucide-react'
-import { useState } from 'react'
-import ShareHomework from './ShareHomework.component'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query'
-import type { Lesson } from '@/types/types'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import useProfileQuery from '../../user/profileQuery'
-import { Blocker } from '../../subscription/Blocker'
-import { HomeworkExpired } from './HomeworkExpired.component'
 import {
   DrawerOrDialog,
   DrawerOrDialogContent,
@@ -22,6 +5,23 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { MessageSquareShare } from 'lucide-react'
+import { useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { Blocker } from '../../subscription/Blocker'
+import useProfileQuery from '../../user/profileQuery'
+import { HomeworkExpired } from './HomeworkExpired.component'
+import ShareHomework from './ShareHomework.component'
 
 type ButtonShareHomeworkProps = {
   lessonId: number
@@ -82,7 +82,9 @@ export default function ButtonShareHomework({
   const isExpired = expirationBase < twoWeeksAgo
 
   let bodyText = ''
-  const url = `https://api.eleno.net/homework/${currentLesson?.studentId || currentLesson?.groupId}/${currentLesson?.homeworkKey}`
+  const url = `https://api.eleno.net/homework/${
+    currentLesson?.studentId || currentLesson?.groupId
+  }/${currentLesson?.homeworkKey}`
   if (currentHolder && currentHolder.type === 's') {
     bodyText = `
 Hallo ${holderName}

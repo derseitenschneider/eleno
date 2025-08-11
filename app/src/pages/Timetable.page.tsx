@@ -137,8 +137,8 @@ export default function Timetable() {
           className='mt-8'
         >
           <p className='mt-8 max-w-[60ch] text-center'>
-            Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag, Unterrichtsort)
-            deiner Schüler:innen, damit diese im Stundenplan erscheinen.
+            Füge Schüler:innen und/oder Gruppen hinzu, damit diese im
+            Stundenplan erscheinen.
           </p>
         </Empty>
       )}

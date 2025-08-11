@@ -1,7 +1,7 @@
-import { render, type RenderOptions } from '@testing-library/react'
-import { ReactElement, ReactNode } from 'react'
-import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { type RenderOptions, render } from '@testing-library/react'
+import type { ReactElement, ReactNode } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
 // Mock providers for testing
@@ -17,7 +17,9 @@ export function MockAuthProvider({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-export function MockSubscriptionProvider({ children }: { children: ReactNode }) {
+export function MockSubscriptionProvider({
+  children,
+}: { children: ReactNode }) {
   return <>{children}</>
 }
 
@@ -35,10 +37,10 @@ interface TestProviderProps {
   queryClient?: QueryClient
 }
 
-export function TestProviders({ 
-  children, 
+export function TestProviders({
+  children,
   initialEntries = ['/'],
-  queryClient
+  queryClient,
 }: TestProviderProps) {
   const defaultQueryClient = new QueryClient({
     defaultOptions: {
@@ -62,9 +64,7 @@ export function TestProviders({
             <MockAuthProvider>
               <MockSubscriptionProvider>
                 <MockMainContext>
-                  <MockDarkModeProvider>
-                    {children}
-                  </MockDarkModeProvider>
+                  <MockDarkModeProvider>{children}</MockDarkModeProvider>
                 </MockMainContext>
               </MockSubscriptionProvider>
             </MockAuthProvider>
@@ -83,14 +83,22 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
 
 export function renderWithProviders(
   ui: ReactElement,
-  options: CustomRenderOptions = {}
+  options: CustomRenderOptions = {},
 ) {
-  const { initialEntries, queryClient, wrapper: Wrapper, ...renderOptions } = options
+  const {
+    initialEntries,
+    queryClient,
+    wrapper: Wrapper,
+    ...renderOptions
+  } = options
 
   const AllTheProviders = ({ children }: { children: ReactNode }) => {
     if (Wrapper) {
       return (
-        <TestProviders initialEntries={initialEntries} queryClient={queryClient}>
+        <TestProviders
+          initialEntries={initialEntries}
+          queryClient={queryClient}
+        >
           <Wrapper>{children}</Wrapper>
         </TestProviders>
       )

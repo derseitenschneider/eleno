@@ -1,6 +1,6 @@
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Button } from '@/components/ui/button'
 import Skeleton from '@/components/ui/skeleton'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import useOrganizationQuery from './organizationQuery'
 
 export function OrganizationRow() {

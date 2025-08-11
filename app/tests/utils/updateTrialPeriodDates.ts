@@ -1,10 +1,10 @@
+import path from 'node:path'
 /**
  * Updates the period_start and period_end (dates only) for all trial
  * subscriptions in the stripe_subscriptions table.
  */
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
-import path from 'node:path'
 
 const dotenvPath = path.resolve(path.dirname('.'), '../.env.test')
 dotenv.config({
@@ -33,7 +33,6 @@ async function updateTrialPeriodDates() {
     }
 
     if (!trialSubscriptions || trialSubscriptions.length === 0) {
-      console.log('No subscriptions with status "trial" found.')
       return
     }
 
@@ -41,8 +40,6 @@ async function updateTrialPeriodDates() {
     const endDate = new Date('2025-05-12T00:00:00Z') // Use a Date object for calculation
     endDate.setDate(endDate.getDate() + 30)
     const newEndDate = endDate.toISOString().split('T')[0] // Extract only the date part
-
-    console.log(`Updating ${trialSubscriptions.length} trial subscriptions...`)
 
     for (const subscription of trialSubscriptions) {
       const { error: updateError } = await supabaseAdmin
@@ -59,13 +56,13 @@ async function updateTrialPeriodDates() {
           updateError,
         )
       } else {
-        console.log(`Updated subscription with ID ${subscription.id}`)
       }
     }
-
-    console.log('Trial subscription dates updated successfully.')
-  } catch (error: any) {
-    console.error('An unexpected error occurred:', error.message)
+  } catch (error: unknown) {
+    console.error(
+      'An unexpected error occurred:',
+      error instanceof Error ? error.message : error,
+    )
   }
 }
 

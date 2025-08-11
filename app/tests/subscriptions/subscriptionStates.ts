@@ -1,4 +1,4 @@
-import { type UserFlow } from '../utils/TestUser'
+import type { UserFlow } from '../utils/TestUser'
 
 export type SubscriptionStates = {
   state: UserFlow

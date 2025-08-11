@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test'
-import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
 import { shareHomeworkConfig } from './tests/share-homework/shareHomeworkConfig'
+import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,

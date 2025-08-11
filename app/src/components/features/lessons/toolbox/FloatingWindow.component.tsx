@@ -1,8 +1,8 @@
-import type React from 'react'
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
+import type React from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 interface FloatingWindowProps {
   isOpen: boolean
@@ -101,8 +101,9 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
   const floatingWindow = (
     <div
       ref={windowRef}
-      className={`fixed bg-background100 rounded-lg shadow-lg overflow-hidden border border-hairline transition-shadow ${isDragging ? 'shadow-xl' : ''
-        }`}
+      className={`fixed bg-background100 rounded-lg shadow-lg overflow-hidden border border-hairline transition-shadow ${
+        isDragging ? 'shadow-xl' : ''
+      }`}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,

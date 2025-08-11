@@ -1,4 +1,7 @@
+import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
 import { CreateStudentDialogDrawer } from '@/components/features/students/CreateStudentDialogDrawer.component'
+import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
+import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerClose,
@@ -7,13 +10,10 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import { Separator } from '@/components/ui/separator'
 import { CheckSquare2, User, Users, X } from 'lucide-react'
 import { useState } from 'react'
 import { ActionItem } from './ActionItem.component'
-import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
-import { Separator } from '@/components/ui/separator'
-import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
-import { Button } from '@/components/ui/button'
 
 export type ActionDrawerProps = {
   open: boolean
@@ -48,7 +48,7 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
               }}
               icon={<User />}
               title='Schüler:in'
-              description='Erfasse eine:n Schüler:in'
+              description='Füge eine neue Schüler:in hinzu.'
             />
 
             <ActionItem
@@ -57,7 +57,7 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
               }}
               icon={<Users />}
               title='Gruppe'
-              description='Erfasse eine Gruppe'
+              description='Füge eine neue Gruppe hinzu.'
             />
           </div>
           <Separator className='my-4' />
@@ -68,7 +68,7 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
               }}
               icon={<CheckSquare2 />}
               title='Todo'
-              description='Erfasse eine Gruppe'
+              description='Erfasse eine neue Todo.'
             />
           </div>
         </DrawerContent>

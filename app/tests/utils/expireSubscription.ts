@@ -1,8 +1,6 @@
-import supabaseAdmin from './supabaseAdmin.ts'
+import supabaseAdmin from './supabaseAdmin'
 
 export async function expireSubscription(userId: string) {
-  console.log('Expiring user subscription')
-
   const today = new Date()
   const yesterday = new Date(today)
   const pastDate = new Date(today)
@@ -18,10 +16,6 @@ export async function expireSubscription(userId: string) {
     .from('stripe_subscriptions')
     .update(data)
     .eq('user_id', userId)
-
-  console.log(
-    `Expired subscription for user ${userId}: ${data.period_start} - ${data.period_end}`,
-  )
   if (error) {
     throw new Error(error.message)
   }

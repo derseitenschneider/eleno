@@ -1,21 +1,26 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import * as draftsContextModule from '@/services/context/DraftsContext'
+import * as lessonPlanningContextModule from '@/services/context/LessonPlanningContext'
+import * as useSubscriptionModule from '@/services/context/SubscriptionContext'
+import * as userLocaleContextModule from '@/services/context/UserLocaleContext'
+import {
+  createMockGroup,
+  createMockLesson,
+  createMockSettings,
+  createMockStudent,
+} from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
+import type { Lesson, LessonHolder } from '@/types/types'
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithProviders } from '@/test/testUtils'
-import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
-import { PreparedLessonItem } from './PlannedLessonItem.component'
-import * as useCurrentHolderModule from '../useCurrentHolder'
-import * as useSubscriptionModule from '@/services/context/SubscriptionContext'
-import * as useCreateLessonModule from '../useCreateLesson'
-import * as useUpdateLessonModule from '../useUpdateLesson'
+import { toast } from 'sonner'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as settingsQueryModule from '../../settings/settingsQuery'
 import * as lessonsQueriesModule from '../lessonsQueries'
-import * as lessonPlanningContextModule from '@/services/context/LessonPlanningContext'
-import * as draftsContextModule from '@/services/context/DraftsContext'
-import * as userLocaleContextModule from '@/services/context/UserLocaleContext'
-import { createMockStudent, createMockGroup, createMockLesson, createMockSettings } from '@/test/factories'
-import type { LessonHolder, Lesson } from '@/types/types'
-import { toast } from 'sonner'
+import * as useCreateLessonModule from '../useCreateLesson'
+import * as useCurrentHolderModule from '../useCurrentHolder'
+import * as useUpdateLessonModule from '../useUpdateLesson'
+import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
+import { PreparedLessonItem } from './PlannedLessonItem.component'
 
 // Mock all external dependencies
 vi.mock('../useCurrentHolder')
@@ -38,7 +43,9 @@ vi.mock('sonner', () => ({
 vi.mock('@/components/ui/CustomEditor.component', () => ({
   default: ({ value, onChange, placeholder, disabled }: any) => (
     <textarea
-      data-testid={placeholder?.includes('Lektion') ? 'lesson-content' : 'homework'}
+      data-testid={
+        placeholder?.includes('Lektion') ? 'lesson-content' : 'homework'
+      }
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
@@ -50,8 +57,8 @@ vi.mock('@/components/ui/CustomEditor.component', () => ({
 vi.mock('@/components/ui/daypicker.component', () => ({
   DayPicker: ({ date, setDate, disabled }: any) => (
     <input
-      data-testid="date-picker"
-      type="date"
+      data-testid='date-picker'
+      type='date'
       value={date ? date.toISOString().split('T')[0] : ''}
       onChange={(e) => setDate(new Date(e.target.value))}
       disabled={disabled}
@@ -60,13 +67,13 @@ vi.mock('@/components/ui/daypicker.component', () => ({
 }))
 
 vi.mock('@/components/ui/MiniLoader.component', () => ({
-  default: () => <div data-testid="mini-loader">Loading...</div>,
+  default: () => <div data-testid='mini-loader'>Loading...</div>,
 }))
 
 vi.mock('./PlannedLessonDropdown.component', () => ({
   default: ({ insertLesson, lessonId }: any) => (
-    <div data-testid="prepare-lesson-dropdown">
-      <button data-testid="dropdown-insert" onClick={insertLesson}>
+    <div data-testid='prepare-lesson-dropdown'>
+      <button data-testid='dropdown-insert' onClick={insertLesson}>
         Insert
       </button>
     </div>
@@ -77,7 +84,7 @@ vi.mock('@/components/ui/tooltip', () => ({
   TooltipProvider: ({ children }: any) => <div>{children}</div>,
   Tooltip: ({ children }: any) => <div>{children}</div>,
   TooltipTrigger: ({ children, onClick }: any) => (
-    <button data-testid="tooltip-insert" onClick={onClick}>
+    <button data-testid='tooltip-insert' onClick={onClick}>
       {children}
     </button>
   ),
@@ -85,7 +92,7 @@ vi.mock('@/components/ui/tooltip', () => ({
 }))
 
 vi.mock('lucide-react', () => ({
-  BetweenHorizonalStart: () => <div data-testid="insert-icon" />,
+  BetweenHorizonalStart: () => <div data-testid='insert-icon' />,
 }))
 
 vi.mock('html-react-parser', () => ({
@@ -96,7 +103,7 @@ describe('Lesson Planning Workflow Integration', () => {
   const mockStudent = createMockStudent()
   const mockGroup = createMockGroup()
   const mockSettings = createMockSettings()
-  
+
   const mockStudentHolder: LessonHolder = {
     type: 's',
     holder: mockStudent,
@@ -109,44 +116,44 @@ describe('Lesson Planning Workflow Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Setup all mocks
     vi.mocked(useCurrentHolderModule.default).mockReturnValue({
       currentLessonHolder: mockStudentHolder,
     })
-    
+
     vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue({
       hasAccess: true,
     } as any)
-    
+
     vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
       createLesson: mockCreateLesson,
       isCreating: false,
     })
-    
+
     vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
       updateLesson: mockUpdateLesson,
       isUpdating: false,
     })
-    
+
     vi.mocked(settingsQueryModule.default).mockReturnValue({
       data: mockSettings,
     } as any)
-    
+
     vi.mocked(lessonsQueriesModule.usePlannedLessonsQuery).mockReturnValue({
       data: [],
     } as any)
-    
+
     vi.mocked(lessonPlanningContextModule.usePlanLessons).mockReturnValue({
       selectedForUpdating: null,
       setSelectedForUpdating: mockSetSelectedForUpdating,
     })
-    
+
     vi.mocked(draftsContextModule.useDrafts).mockReturnValue({
       setDrafts: mockSetDrafts,
       drafts: [],
     } as any)
-    
+
     vi.mocked(userLocaleContextModule.useUserLocale).mockReturnValue({
       userLocale: 'de-DE',
     } as any)
@@ -173,7 +180,10 @@ describe('Lesson Planning Workflow Integration', () => {
 
       // Fill out the form
       await user.type(screen.getByTestId('date-picker'), '2024-01-15')
-      await user.type(screen.getByTestId('lesson-content'), 'New planned lesson content')
+      await user.type(
+        screen.getByTestId('lesson-content'),
+        'New planned lesson content',
+      )
       await user.type(screen.getByTestId('homework'), 'New homework assignment')
 
       // Submit the form
@@ -191,7 +201,7 @@ describe('Lesson Planning Workflow Integration', () => {
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),
-        })
+        }),
       )
 
       // Verify form is reset after successful creation
@@ -235,10 +245,10 @@ describe('Lesson Planning Workflow Integration', () => {
       expect(toast.success).toHaveBeenCalledWith('Geplante Lektion eingefügt.')
 
       // Verify the draft setter function logic
-      const setterFunction = mockSetDrafts.mock.calls[0][0]
+      const setterFunction = mockSetDrafts.mock.calls[0]?.[0]
       const existingDrafts: Lesson[] = []
       const result = setterFunction(existingDrafts)
-      
+
       expect(result).toContain(plannedLesson)
       expect(result).toHaveLength(1)
     })
@@ -269,7 +279,9 @@ describe('Lesson Planning Workflow Integration', () => {
 
       // Verify form is pre-filled
       expect(screen.getByTestId('date-picker')).toHaveValue('2024-01-25')
-      expect(screen.getByTestId('lesson-content')).toHaveValue('Original content')
+      expect(screen.getByTestId('lesson-content')).toHaveValue(
+        'Original content',
+      )
       expect(screen.getByTestId('homework')).toHaveValue('Original homework')
 
       // Modify the lesson
@@ -291,7 +303,7 @@ describe('Lesson Planning Workflow Integration', () => {
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),
-        })
+        }),
       )
 
       // Verify form is reset and selection cleared
@@ -316,7 +328,7 @@ describe('Lesson Planning Workflow Integration', () => {
       })
 
       const { container } = renderWithProviders(
-        <PreparedLessonItem currentLesson={plannedLesson} />
+        <PreparedLessonItem currentLesson={plannedLesson} />,
       )
 
       // Verify highlighting is applied
@@ -332,7 +344,7 @@ describe('Lesson Planning Workflow Integration', () => {
         date: new Date('2024-02-15'),
         lessonContent: 'Later lesson',
       })
-      
+
       const lesson2 = createMockLesson({
         id: 'lesson-2',
         studentId: mockStudent.id,
@@ -340,7 +352,7 @@ describe('Lesson Planning Workflow Integration', () => {
         date: new Date('2024-02-10'),
         lessonContent: 'Earlier lesson',
       })
-      
+
       const otherStudentLesson = createMockLesson({
         id: 'other-lesson',
         studentId: 'other-student',
@@ -359,7 +371,7 @@ describe('Lesson Planning Workflow Integration', () => {
       expect(screen.getByText('Earlier lesson')).toBeInTheDocument()
       expect(screen.queryByText('10.02.2024')).toBeInTheDocument()
       expect(screen.queryByText('15.02.2024')).toBeInTheDocument()
-      
+
       // Should not display other student's lesson
       expect(screen.queryByText('12.02.2024')).not.toBeInTheDocument()
     })
@@ -384,7 +396,7 @@ describe('Lesson Planning Workflow Integration', () => {
 
       // Now clear the content and manually set it to empty (simulating edge case validation)
       await user.clear(screen.getByTestId('lesson-content'))
-      
+
       // Since the button becomes disabled when content is empty, let's test button disabled state
       expect(saveButton).toBeDisabled()
 
@@ -415,7 +427,11 @@ describe('Lesson Planning Workflow Integration', () => {
       await user.click(saveButton)
 
       await waitFor(() => {
-        expect(screen.getByText('Für dieses Datum existiert bereits eine geplante Lektion.')).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            'Für dieses Datum existiert bereits eine geplante Lektion.',
+          ),
+        ).toBeInTheDocument()
       })
 
       expect(mockCreateLesson).not.toHaveBeenCalled()
@@ -425,7 +441,7 @@ describe('Lesson Planning Workflow Integration', () => {
   describe('Loading States Integration', () => {
     it('should handle loading states throughout the workflow', async () => {
       const user = userEvent.setup()
-      
+
       // Mock creating state
       vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
         createLesson: mockCreateLesson,
@@ -436,7 +452,7 @@ describe('Lesson Planning Workflow Integration', () => {
 
       // Verify loading state is shown
       expect(screen.getByTestId('mini-loader')).toBeInTheDocument()
-      
+
       // Verify form is disabled during creation
       expect(screen.getByTestId('date-picker')).toBeDisabled()
       expect(screen.getByTestId('lesson-content')).toBeDisabled()
@@ -467,10 +483,10 @@ describe('Lesson Planning Workflow Integration', () => {
       })
 
       renderWithProviders(
-        <PreparedLessonItem 
-          currentLesson={plannedLesson} 
+        <PreparedLessonItem
+          currentLesson={plannedLesson}
           onClose={mockOnClose}
-        />
+        />,
       )
 
       const insertButton = screen.getByTestId('tooltip-insert')
@@ -513,9 +529,7 @@ describe('Lesson Planning Workflow Integration', () => {
 
       const existingDrafts = [lesson1]
 
-      renderWithProviders(
-        <PreparedLessonItem currentLesson={lesson2} />
-      )
+      renderWithProviders(<PreparedLessonItem currentLesson={lesson2} />)
 
       const insertButton = screen.getByTestId('tooltip-insert')
       await user.click(insertButton)
@@ -524,7 +538,7 @@ describe('Lesson Planning Workflow Integration', () => {
       expect(mockSetDrafts).toHaveBeenCalledWith(expect.any(Function))
 
       // Test the draft setter function
-      const setterFunction = mockSetDrafts.mock.calls[0][0]
+      const setterFunction = mockSetDrafts.mock.calls[0]?.[0]
       const result = setterFunction(existingDrafts)
 
       // Should filter out existing draft for same holder and add new one
@@ -549,16 +563,20 @@ describe('Lesson Planning Workflow Integration', () => {
         <div>
           <CreatePlannedLessonForm />
           <PreparedLessonItem currentLesson={selectedLesson} />
-        </div>
+        </div>,
       )
 
       // Form should be pre-filled from context
-      expect(screen.getByTestId('lesson-content')).toHaveValue(selectedLesson.lessonContent || '')
-      
+      expect(screen.getByTestId('lesson-content')).toHaveValue(
+        selectedLesson.lessonContent || '',
+      )
+
       // Item should be highlighted from context - check the container div, not the tooltip trigger
       const itemContainers = container.querySelectorAll('div')
-      const highlightedContainer = Array.from(itemContainers).find(div => 
-        div.classList.contains('border-primary') && div.classList.contains('shadow-sm')
+      const highlightedContainer = Array.from(itemContainers).find(
+        (div) =>
+          div.classList.contains('border-primary') &&
+          div.classList.contains('shadow-sm'),
       )
       expect(highlightedContainer).toBeTruthy()
     })

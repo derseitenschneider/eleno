@@ -1,8 +1,8 @@
 import {
-  expect,
-  type TestInfo,
   type Locator,
   type Page,
+  type TestInfo,
+  expect,
 } from '@playwright/test'
 
 export class LessonsPOM {

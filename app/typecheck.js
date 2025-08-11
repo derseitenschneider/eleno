@@ -6,7 +6,12 @@ const getAllFiles = (dir) =>
   readdirSync(dir).reduce((files, file) => {
     const name = join(dir, file)
     const isDirectory = statSync(name).isDirectory()
-    return isDirectory ? [...files, ...getAllFiles(name)] : [...files, name]
+    if (isDirectory) {
+      files.push(...getAllFiles(name))
+    } else {
+      files.push(name)
+    }
+    return files
   }, [])
 
 const sourceFiles = getAllFiles('./src')
@@ -15,7 +20,6 @@ const sourceFiles = getAllFiles('./src')
 
 try {
   execSync(`tsc --noEmit ${sourceFiles}`, { stdio: 'inherit' })
-  console.log('TypeScript check passed')
 } catch (error) {
   console.error('TypeScript check failed')
   process.exit(1)

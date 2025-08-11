@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test'
+import { type Locator, type Page, expect } from '@playwright/test'
 
 export class SubscriptionPOM {
   readonly page: Page
@@ -57,7 +57,7 @@ export class SubscriptionPOM {
     await this.buttonCheckoutMonthly.click()
   }
 
-  async interceptAPIResponse(serverRoute: string = '**/stripe/session/create') {
+  async interceptAPIResponse(serverRoute = '**/stripe/session/create') {
     await this.page.route(serverRoute, (route) => {
       route.fulfill({
         status: 200,

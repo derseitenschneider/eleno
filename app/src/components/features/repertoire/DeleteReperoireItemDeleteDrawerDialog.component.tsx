@@ -1,5 +1,3 @@
-import parse from 'html-react-parser'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -8,10 +6,12 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import type { RepertoireItem } from '@/types/types'
-import DeleteRepertoireItem from './DeleteRepertoireItem.component'
 import { Button } from '@/components/ui/button'
+import type { RepertoireItem } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import parse from 'html-react-parser'
 import { X } from 'lucide-react'
+import DeleteRepertoireItem from './DeleteRepertoireItem.component'
 
 export type DeleteRepertoireItemDrawerDialogProps = {
   open: boolean

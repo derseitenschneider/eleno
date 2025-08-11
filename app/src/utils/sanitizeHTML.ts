@@ -31,7 +31,9 @@ export function removeHTMLAttributes(html: string): string {
       const href = hrefMatch ? hrefMatch[0].trim() : ''
       const target = targetMatch ? targetMatch[0].trim() : 'target="_blank"'
 
-      return `<${tagName}${href ? ` ${href}` : ''}${target ? ` ${target}` : ''}>`
+      return `<${tagName}${href ? ` ${href}` : ''}${
+        target ? ` ${target}` : ''
+      }>`
     },
   )
 }

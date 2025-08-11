@@ -1,8 +1,4 @@
-import { useState, useEffect } from 'react'
-import {
-  useCreateNotificationView,
-  useNotificationsQuery,
-} from './notificationQueries'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -11,24 +7,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { X } from 'lucide-react'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  notificationsContent,
-  type SurveyNotificationContent,
   type InfoNotificationContent,
   type NotificationQuestion,
+  type SurveyNotificationContent,
+  notificationsContent,
 } from '@/config/notificationsConfig'
+import { cn } from '@/lib/utils'
+import { useLoading } from '@/services/context/LoadingContext'
 import { useUser } from '@/services/context/UserContext'
 import type { Notification as DbNotification } from '@/types/types'
-import { cn } from '@/lib/utils'
-import useProfileQuery from '../user/profileQuery'
-import { useLoading } from '@/services/context/LoadingContext'
+import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import useProfileQuery from '../user/profileQuery'
+import {
+  useCreateNotificationView,
+  useNotificationsQuery,
+} from './notificationQueries'
 
 type SurveyResponses = {
   [key: string]: string | string[] | undefined | null

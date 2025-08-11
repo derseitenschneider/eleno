@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import validateEmail from '../../../../utils/validateEmail'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
 import {
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Mail } from 'lucide-react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useUpdateEmail } from '../../user/useUpdateEmail'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Mail } from 'lucide-react'
+import { useState } from 'react'
+import validateEmail from '../../../../utils/validateEmail'
+import { useUpdateEmail } from '../../user/useUpdateEmail'
 
 interface EditEmailProps {
   onCloseModal?: () => void

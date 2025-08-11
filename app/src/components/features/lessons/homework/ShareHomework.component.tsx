@@ -4,20 +4,20 @@ import { IoLogoWhatsapp } from 'react-icons/io5'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { SiThreema } from 'react-icons/si'
 
-import { appConfig } from '@/config'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { Label } from '@/components/ui/label'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Info, XIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { appConfig } from '@/config'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useShareHomework } from '@/hooks/useShareHomework'
-import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { Info, XIcon } from 'lucide-react'
 
 interface ShareHomeworkProps {
   lessonId: number

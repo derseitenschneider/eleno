@@ -5,8 +5,8 @@ import type {
   LessonWithGroupId,
   LessonWithStudentId,
 } from '../../types/types'
-import supabase from './supabase'
 import mockLast3Lessons from './mock-db/mockLast3Lessons'
+import supabase from './supabase'
 
 const isDemo = appConfig.isDemoMode
 

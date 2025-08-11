@@ -1,20 +1,20 @@
-import parse from 'html-react-parser'
-import format from 'date-fns/format'
-import { ChevronLeft, Trash2 } from 'lucide-react'
-import type { Message } from '@/types/types'
+import Logo from '@/components/ui/Logo.component'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import Logo from '@/components/ui/Logo.component'
-import getLocale from '@/utils/getLocale'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useDeleteMessage } from './useDeleteMessage'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import type { Message } from '@/types/types'
+import getLocale from '@/utils/getLocale'
+import format from 'date-fns/format'
+import parse from 'html-react-parser'
+import { ChevronLeft, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useDeleteMessage } from './useDeleteMessage'
 
 interface MessageViewProps {
   message: Message | null

@@ -1,23 +1,23 @@
+import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import useScrollTo from '@/hooks/useScrollTo'
 import type { Student } from '@/types/types'
 import {
+  type FilterFn,
   type RowSelectionState,
   type SortingState,
-  type FilterFn,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { studentsColumns } from './columns'
-import StudentsControl from './control'
-import useScrollTo from '@/hooks/useScrollTo'
-import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
 import { useSearchParams } from 'react-router-dom'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { studentsColumns } from './columns'
 import { studentsColumnsMobile } from './columnsMobile'
+import StudentsControl from './control'
 
 type TActiveStudentsTable = {
   students: Array<Student>
@@ -106,7 +106,7 @@ export default function ActiveStudentsTable({
               setSearchParams(searchParams)
             }}
           >
-            Neue Schüler:innen erfassen
+            Neue Schüler:innen hinzufügen
           </Button>
         </Empty>
       )}

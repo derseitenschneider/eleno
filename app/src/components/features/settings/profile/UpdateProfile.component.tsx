@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
-import useProfileQuery from '../../user/profileQuery'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-import { toast } from 'sonner'
 import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import useProfileQuery from '../../user/profileQuery'
+import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
 
 interface EditProfileProps {
   onCloseModal?: () => void

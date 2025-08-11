@@ -1,6 +1,6 @@
-import { useDeleteLesson } from './useDeleteLesson'
-import { DialogDescription } from '@/components/ui/dialog'
 import { DeleteAbortButtons } from '@/components/ui/DeleteAbortButtonGroup'
+import { DialogDescription } from '@/components/ui/dialog'
+import { useDeleteLesson } from './useDeleteLesson'
 
 interface DeleteLessonProps {
   onCloseModal?: () => void

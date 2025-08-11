@@ -1,5 +1,5 @@
-import { vi } from 'vitest'
 import type { User } from '@supabase/supabase-js'
+import { vi } from 'vitest'
 
 // Supabase mocks
 export const mockSupabaseUser: User = {
@@ -21,14 +21,16 @@ export const mockSupabaseUser: User = {
 
 export const mockSupabaseClient = {
   auth: {
-    getUser: vi.fn().mockResolvedValue({ data: { user: mockSupabaseUser }, error: null }),
-    getSession: vi.fn().mockResolvedValue({ 
-      data: { session: { user: mockSupabaseUser } }, 
-      error: null 
+    getUser: vi
+      .fn()
+      .mockResolvedValue({ data: { user: mockSupabaseUser }, error: null }),
+    getSession: vi.fn().mockResolvedValue({
+      data: { session: { user: mockSupabaseUser } },
+      error: null,
     }),
     signOut: vi.fn().mockResolvedValue({ error: null }),
     onAuthStateChange: vi.fn().mockReturnValue({
-      data: { subscription: { unsubscribe: vi.fn() } }
+      data: { subscription: { unsubscribe: vi.fn() } },
     }),
   },
   from: vi.fn().mockReturnThis(),
@@ -70,7 +72,12 @@ export const createMockQueryClient = () => {
 
 // Router mocks
 export const mockNavigate = vi.fn()
-export const mockLocation = { pathname: '/test', search: '', hash: '', state: null }
+export const mockLocation = {
+  pathname: '/test',
+  search: '',
+  hash: '',
+  state: null,
+}
 
 // Hook mocks
 export const mockUseQuery = vi.fn().mockReturnValue({
@@ -160,7 +167,8 @@ vi.mock('@/services/api/supabase', () => ({
 
 vi.mock('react-hook-form', () => ({
   useForm: () => mockFormReturn,
-  Controller: ({ render }: any) => render({ field: {}, fieldState: {}, formState: {} }),
+  Controller: ({ render }: any) =>
+    render({ field: {}, fieldState: {}, formState: {} }),
 }))
 
 // Reset all mocks before each test

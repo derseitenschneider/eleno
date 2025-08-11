@@ -1,4 +1,5 @@
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import type {
@@ -17,7 +18,6 @@ import {
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { useUserLocale } from './UserLocaleContext'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 export const SubscriptionContext = createContext<ContextTypeSubscription>({
   subscription: undefined,
