@@ -7,30 +7,25 @@ import Account from '../components/features/settings/Account'
 import TodosCompleted from '../components/features/todos/TodosCompleted.component'
 import TodosOpen from '../components/features/todos/TodosOpen.component'
 
+import FirstStepsWizzard from '@/components/features/onboarding/FirstStepsWizzard.component'
+import PasswordCard from '@/components/features/onboarding/PasswordCard.component'
+import ProfileCard from '@/components/features/onboarding/ProfileCard.component'
+import View from '@/components/features/settings/View'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn } from '@/lib/utils'
+import Dashboard from '@/pages/Dashboard'
+import Inbox from '@/pages/Inbox.page'
+import OnboardingPage from '@/pages/Onboarding.page'
+import Settings from '@/pages/Settings.page'
+import SubscriptionPage from '@/pages/Subscription.page'
+import Timetable from '@/pages/Timetable.page'
+import Todos from '@/pages/Todos.page'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import Dashboard from '@/pages/Dashboard'
-import Todos from '@/pages/Todos.page'
-import Timetable from '@/pages/Timetable.page'
-import Settings from '@/pages/Settings.page'
-import { cn } from '@/lib/utils'
-import useHasBanner from '@/hooks/useHasBanner'
-import SubscriptionPage from '@/pages/Subscription.page'
-import OnboardingPage from '@/pages/Onboarding.page'
-import Inbox from '@/pages/Inbox.page'
-import View from '@/components/features/settings/View'
 
 const TodosWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner
-          ? 'mt-[49px] md:mt-[28px] md:h-[calc(100vh-28px)]'
-          : 'pb-20 sm:pb-[unset] md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)] ')}>
       <div className='container-page'>
         <Todos />
       </div>
@@ -39,13 +34,8 @@ const TodosWrapper = () => {
 }
 
 const TimetableWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <div className='py-4 pl-6 pr-4'>
         <Timetable />
       </div>
@@ -54,15 +44,8 @@ const TimetableWrapper = () => {
 }
 
 const SettingsWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <ScrollArea
-      className={cn(
-        hasBanner
-          ? 'mt-[49px] sm:mt-[32px] md:h-[calc(100vh-28px)]'
-          : 'md:h-screen',
-      )}
-    >
+    <ScrollArea className={cn('md:h-[calc(100vh-48px)]')}>
       <div className='container-page'>
         <Settings />
       </div>
@@ -70,14 +53,8 @@ const SettingsWrapper = () => {
   )
 }
 const InboxWrapper = () => {
-  const hasBanner = useHasBanner()
   return (
-    <div
-      className={cn(
-        'container-page h-full',
-        hasBanner ? 'mt-[32px] md:h-[calc(100vh-28px)]' : 'md:h-screen',
-      )}
-    >
+    <div className={cn('container-page h-full md:h-[calc(100vh-48px)]')}>
       <Inbox />
     </div>
   )
@@ -97,8 +74,19 @@ const mainRouter = createBrowserRouter(
         ...lessonsRoutes,
         ...studentsRoutes,
         {
-          path: 'first-steps',
+          path: 'onboarding',
           element: <OnboardingPage />,
+          children: [
+            {
+              path: 'profile',
+              element: <ProfileCard />,
+            },
+            {
+              path: 'password',
+              element: <PasswordCard />,
+            },
+            { path: 'first-steps', element: <FirstStepsWizzard /> },
+          ],
         },
         {
           path: 'todos',

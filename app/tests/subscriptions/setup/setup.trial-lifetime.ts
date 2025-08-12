@@ -1,4 +1,5 @@
-import { test as setup, expect } from '@playwright/test'
+import { expect, test as setup } from '@playwright/test'
+import { loginUser } from '../../utils/loginUser'
 import { setupTrialLifetime } from '../../utils/setupHelpers'
 
 setup(
@@ -6,11 +7,7 @@ setup(
   async ({ page }) => {
     const { email, password, authFile } = await setupTrialLifetime()
 
-    await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(email)
-    await page.getByTestId('login-password').fill(password)
-    await page.getByTestId('login-submit').click()
-    await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+    await loginUser(email, password, authFile, page)
 
     // Close toast, check activation message and delete it.
     const toasts = await page.getByRole('status').all()
@@ -30,10 +27,13 @@ setup(
     }
 
     await page.goto('/inbox')
-    await page.getByRole('button', { name: 'Upgrade erfolgreich' }).click()
+
+    await expect(async () => {
+      await page.getByRole('button', { name: 'Upgrade erfolgreich' }).click()
+      await page.reload()
+    }).toPass({ timeout: 30_000 })
+
     await expect(page.getByTestId('message-header')).toContainText(/upgrade/i)
     await page.getByRole('button', { name: 'Löschen' }).click()
-
-    await page.context().storageState({ path: authFile })
   },
 )

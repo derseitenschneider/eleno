@@ -8,7 +8,7 @@ type UserLocaleContextType = {
 
 const UserLocaleContext = createContext<UserLocaleContextType>({
   userLocale: 'en',
-  setUserLocale: () => { },
+  setUserLocale: () => {},
 })
 
 export function UserLocaleProvider({

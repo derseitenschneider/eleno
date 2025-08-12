@@ -13,6 +13,12 @@ class Config {
 	/** @var string $supabaseJwtSecret  */
 	public readonly string $supabaseJwtSecret;
 
+	/** @var string $supabaseServiceRoleKey  */
+	public readonly string $supabaseServiceRoleKey;
+
+	/** @var string $supabaseAnonKey  */
+	public readonly string $supabaseAnonKey;
+
 	/** @var string $supabaseHost  */
 	public readonly string $supabaseHost;
 
@@ -45,6 +51,21 @@ class Config {
 	/** @var string $smtpPassword  */
 	public readonly string $smtpPassword;
 
+	/** @var string $fluentCRMApiUrl  */
+	public readonly string $fluentCRMApiUrl;
+
+	/** @var string $fluentCRMUser  */
+	public readonly string $fluentCRMUser;
+
+	/** @var string $fluentCRMPassword  */
+	public readonly string $fluentCRMPassword;
+
+	/** @var string $fluentCMRInternalApiKey  */
+	public readonly string $fluentCMRInternalApiKey;
+
+	/** @var string $perspectiveWebhookToken  */
+	public readonly string $perspectiveWebhookToken;
+
 	/** @var array $corsAllowedOrigins  */
 	public readonly array $corsAllowedOrigins;
 
@@ -58,6 +79,8 @@ class Config {
 			'APP_BASE_URL',
 			'SUPABASE_URL',
 			'SUPABASE_JWT_SECRET',
+			'SUPABASE_ANON_KEY',
+			'SUPABASE_SERVICEROLE_KEY',
 			'SUPABASE_HOST',
 			'SUPABASE_PORT',
 			'SUPABASE_DBNAME',
@@ -68,6 +91,11 @@ class Config {
 			'SMTP_HOST',
 			'SMTP_USERNAME',
 			'SMTP_PASSWORD',
+			'FLUENTCRM_API_URL',
+			'FLUENTCRM_USERNAME',
+			'FLUENTCRM_PASSWORD',
+			'FLUENTCRM_INTERNAL_API_KEY',
+			'PERSPECTIVE_WEBHOOK_TOKEN',
 		);
 
 		foreach ( $required as $var ) {
@@ -76,19 +104,37 @@ class Config {
 			}
 		}
 
+		// Basic config
 		$this->appBaseUrl             = $_ENV['APP_BASE_URL'];
 		$this->supabaseUrl            = $_ENV['SUPABASE_URL'];
 		$this->supabaseJwtSecret      = $_ENV['SUPABASE_JWT_SECRET'];
+		$this->supabaseServiceRoleKey = $_ENV['SUPABASE_SERVICEROLE_KEY'];
+		$this->supabaseAnonKey        = $_ENV['SUPABASE_ANON_KEY'];
+
+		// Stripe
 		$this->stripeSecretKey        = $_ENV['STRIPE_SECRET_KEY'];
 		$this->stripeWebhookSignature = $_ENV['STRIPE_SIGNATURE'];
-		$this->supabaseHost           = $_ENV['SUPABASE_HOST'];
-		$this->supabasePort           = $_ENV['SUPABASE_PORT'];
-		$this->subapaseDbName         = $_ENV['SUPABASE_DBNAME'];
-		$this->supabaseUser           = $_ENV['SUPABASE_USER'];
-		$this->supabasePassword       = $_ENV['SUPABASE_PASSWORD'];
-		$this->smtpPassword           = $_ENV['SMTP_PASSWORD'];
-		$this->smtpUsername           = $_ENV['SMTP_USERNAME'];
-		$this->smtpHost               = $_ENV['SMTP_HOST'];
+
+		// Supabase database connection
+		$this->supabaseHost     = $_ENV['SUPABASE_HOST'];
+		$this->supabasePort     = $_ENV['SUPABASE_PORT'];
+		$this->subapaseDbName   = $_ENV['SUPABASE_DBNAME'];
+		$this->supabaseUser     = $_ENV['SUPABASE_USER'];
+		$this->supabasePassword = $_ENV['SUPABASE_PASSWORD'];
+
+		// SMTP credentials
+		$this->smtpPassword = $_ENV['SMTP_PASSWORD'];
+		$this->smtpUsername = $_ENV['SMTP_USERNAME'];
+		$this->smtpHost     = $_ENV['SMTP_HOST'];
+
+		// FluentCRM credentials
+		$this->fluentCRMApiUrl         = $_ENV['FLUENTCRM_API_URL'];
+		$this->fluentCRMUser           = $_ENV['FLUENTCRM_USERNAME'];
+		$this->fluentCRMPassword       = $_ENV['FLUENTCRM_PASSWORD'];
+		$this->fluentCMRInternalApiKey = $_ENV['FLUENTCRM_INTERNAL_API_KEY'];
+
+		// Perspective Funnel
+		$this->perspectiveWebhookToken = $_ENV['PERSPECTIVE_WEBHOOK_TOKEN'];
 
 		// Load CORS origins from environment or use defaults
 		$this->corsAllowedOrigins = isset( $_ENV['CORS_ALLOWED_ORIGINS'] )

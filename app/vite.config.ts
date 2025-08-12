@@ -1,11 +1,11 @@
 ///<reference types="vitest" />
 
-import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import preload from 'vite-plugin-preload'
 import { VitePWA } from 'vite-plugin-pwa'
-import { lightManifest, darkManifest, lightManifestDesktop } from './manifest'
+import { darkManifest, lightManifest, lightManifestDesktop } from './manifest'
 
 export default defineConfig({
   base: '/',

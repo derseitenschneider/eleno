@@ -1,21 +1,23 @@
-import type { LessonHolder, TTodoItem } from '@/types/types'
 import { Badge } from '@/components/ui/badge'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { LessonHolder, TTodoItem } from '@/types/types'
+import { Check, ChevronRight } from 'lucide-react'
+import CompletedTodoDropdown from './CompletedTodoDropdown.component'
 import OpenTodoDropdown from './OpenTodoDropdown.component'
 import { useCompleteTodo } from './useCompleteTodo'
-import { Check } from 'lucide-react'
-import CompletedTodoDropdown from './CompletedTodoDropdown.component'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 
-interface TodoItemProps {
+export interface TodoItemProps {
   todo: TTodoItem
   type: 'open' | 'completed'
 }
 
 function TodoItem({ todo, type }: TodoItemProps) {
+  const isMobile = useIsMobileDevice()
   const { userLocale } = useUserLocale()
   const { navigateToHolder } = useNavigateToHolder()
   const { activeSortedHolders, inactiveLessonHolders } = useLessonHolders()
@@ -59,18 +61,13 @@ function TodoItem({ todo, type }: TodoItemProps) {
       )}
     >
       <div className='flex'>
-        {type === 'open' && (
-          <Checkbox
-            onClick={() => completeTodo(todo.id)}
-            className='rounded-[3px] sm:size-[12px]'
-          />
-        )}
+        {type === 'open' && <Checkbox onClick={() => completeTodo(todo.id)} />}
         {type === 'completed' && <Check className='size-3 text-primary' />}
       </div>
-      <div className='flex flex-wrap items-start justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
+      <div className='flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-2 md:grid md:grid-cols-[1fr_250px_100px]'>
         <span
           className={cn(
-            'text-sm md:basis-auto break-word mr-auto',
+            'text-sm md:basis-auto w-full mr-auto',
             currentHolderName && todo.due && 'basis-full',
           )}
         >
@@ -83,7 +80,7 @@ function TodoItem({ todo, type }: TodoItemProps) {
               className={cn(
                 'cursor-pointer w-fit',
                 currentHolder.holder.archive &&
-                'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                  'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
               )}
             >
               {currentHolderName}
@@ -99,16 +96,22 @@ function TodoItem({ todo, type }: TodoItemProps) {
         >
           {todo.due
             ? todo.due.toLocaleDateString(userLocale, {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-            })
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+              })
             : null}
         </span>
       </div>
       <div className='flex justify-self-end'>
-        {type === 'open' && <OpenTodoDropdown id={todo.id} />}
-        {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}
+        {isMobile ? (
+          <ChevronRight className='size-5' />
+        ) : (
+          <>
+            {type === 'open' && <OpenTodoDropdown id={todo.id} />}
+            {type === 'completed' && <CompletedTodoDropdown id={todo.id} />}
+          </>
+        )}
       </div>
     </li>
   )

@@ -81,7 +81,7 @@ export default function AddHolderCombobox({
                   )}
                 >
                   {selectedHolder.type === 'g' && (
-                    <Users className='size-3 mr-1' />
+                    <Users className='mr-1 size-3' />
                   )}
                   {selectedHolder.type === 's'
                     ? `${selectedHolder.holder.firstName} ${selectedHolder.holder.lastName}`
@@ -90,7 +90,7 @@ export default function AddHolderCombobox({
               </div>
             ) : (
               <div className='flex flex-col justify-center rounded-md'>
-                <Users className='size-4 text-primary text-right' />
+                <Users className='size-4 text-right text-primary' />
               </div>
             )}
           </Button>
@@ -115,7 +115,7 @@ export default function AddHolderCombobox({
                       : lessonHolder.holder.name
                   return (
                     <CommandItem
-                      className='flex justify-between items-center'
+                      className='flex items-center justify-between'
                       key={id}
                       value={name}
                       onSelect={() => handleSelect(lessonHolder)}
@@ -123,7 +123,7 @@ export default function AddHolderCombobox({
                       <span>{name}</span>
                       {type === 'g' && (
                         <Badge>
-                          <Users className='size-3 mr-1' />
+                          <Users className='mr-1 size-3' />
                           Gruppe
                         </Badge>
                       )}

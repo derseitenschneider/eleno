@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
-import { Input } from "./input"
+import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
+import { Input } from './input'
 
 type DebounceInputProps = {
   value: string
@@ -8,14 +8,14 @@ type DebounceInputProps = {
   debounce?: number
   disabled?: boolean
   className?: string
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>
 
 export function DebouncedInput({
   value: initialValue,
   onChange,
   debounce = 500,
   disabled = false,
-  className = "",
+  className = '',
   ...props
 }: DebounceInputProps) {
   const [value, setValue] = useState(initialValue)
@@ -35,7 +35,7 @@ export function DebouncedInput({
   return (
     <Input
       {...props}
-      className={cn("pr-2 pl-8 w-sm h-8", className)}
+      className={cn('pr-2 pl-8 w-sm sm:h-[34px]', className)}
       type='search'
       placeholder='suchen'
       value={value}

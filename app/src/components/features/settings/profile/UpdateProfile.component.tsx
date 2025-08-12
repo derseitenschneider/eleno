@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
-import useProfileQuery from '../../user/profileQuery'
+import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import useProfileQuery from '../../user/profileQuery'
+import { useUpdateProfileMeta } from '../../user/useUpateProfileMeta'
 
 interface EditProfileProps {
   onCloseModal?: () => void
 }
 
-// TODO: implement zod validation
+// TODO: implement zod validation, both fields at least 3 chars
 function EditProfile({ onCloseModal }: EditProfileProps) {
   const { hasAccess } = useSubscription()
   const { data: userProfile } = useProfileQuery()
@@ -31,15 +34,33 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
     })
   }
 
-  function handleSave() {
-    updateProfileMeta(input, { onSuccess: () => onCloseModal?.() })
+  async function handleSave() {
+    if (!userProfile?.email) return
+    try {
+      updateProfileMeta(input, {
+        onSuccess: () => {
+          toast.success('Profil angepasst.')
+          onCloseModal?.()
+        },
+      })
+
+      await updateFluentCRMContact({
+        __force_update: 'yes',
+        first_name: input.firstName,
+        last_name: input.lastName,
+        email: userProfile.email,
+        status: 'subscribed',
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
     <div
       className={cn(
         isUpdating && 'opacity-80 pointer-events-none',
-        'sm:min-w-[350px]',
+        'sm:min-w-[350px] p-1',
       )}
     >
       <div className='space-y-6'>
@@ -70,19 +91,26 @@ function EditProfile({ onCloseModal }: EditProfileProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          disabled={isUpdating}
-          size='sm'
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col-reverse justify-end gap-3 sm:mt-8 sm:flex-row'>
+        {onCloseModal && (
+          <Button
+            disabled={isUpdating}
+            size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             size='sm'
-            disabled={isUpdating || !hasAccess}
+            disabled={
+              isUpdating || !hasAccess || !input.firstName || !input.lastName
+            }
+            className='w-full sm:w-auto'
             onClick={handleSave}
           >
             Speichern

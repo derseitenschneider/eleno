@@ -1,5 +1,6 @@
 import { isDemoMode } from '@/config'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
@@ -7,11 +8,13 @@ import { Link } from 'react-router-dom'
 
 function Banner() {
   const isOnline = useIsOnline()
+  const isMobile = useIsMobileDevice()
   const isPaymentFlagEnabled = useFeatureFlag('stripe-payment')
   const { subscriptionState, subscription } = useSubscription()
   const diffInTime =
     new Date(subscription?.period_end || '').getTime() - new Date().getTime()
   const daysRemaining = diffInTime / (1000 * 60 * 60 * 24)
+  return false
 
   if (isDemoMode)
     return (
@@ -38,7 +41,7 @@ function Banner() {
     return null
   }
 
-  if (subscriptionState === 'TRIAL_ACTIVE')
+  if (subscriptionState === 'TRIAL_ACTIVE' && !isMobile)
     return (
       <div
         data-testid='banner-trial'
@@ -60,7 +63,7 @@ function Banner() {
       </div>
     )
 
-  if (subscriptionState === 'TRIAL_EXPIRED')
+  if (subscriptionState === 'TRIAL_EXPIRED' && !isMobile)
     return (
       <div
         data-testid='banner-trial-expired'
@@ -76,7 +79,7 @@ function Banner() {
         </p>
       </div>
     )
-  if (subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED')
+  if (subscriptionState === 'SUBSCRIPTION_ACTIVE_EXPIRED' && !isMobile)
     return (
       <div
         data-testid='banner-payment-failed'
@@ -92,7 +95,7 @@ function Banner() {
       </div>
     )
 
-  if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED')
+  if (subscriptionState === 'SUBSCRIPTION_CANCELED_EXPIRED' && !isMobile)
     return (
       <div
         data-testid='banner-subscription-inactive'

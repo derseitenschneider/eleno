@@ -108,9 +108,8 @@ export default function Timetable() {
   ]
 
   return (
-    <div>
-      <div className='flex gap-10'>
-        <h1>Stundenplan</h1>
+    <div className='pb-8'>
+      <div className='mb-4 hidden sm:block'>
         {days.some((day) => day.lessonHolders.length > 0) && (
           <Button
             size='sm'
@@ -119,7 +118,7 @@ export default function Timetable() {
               setModalOpen('EXPORT')
             }}
           >
-            <FileDown className='h-4 w-4 text-primary mr-1' />
+            <FileDown className='mr-1 h-4 w-4 text-primary' />
             Exportieren
           </Button>
         )}
@@ -137,9 +136,9 @@ export default function Timetable() {
           emptyMessage='Keine Unterrichtsdaten vorhanden.'
           className='mt-8'
         >
-          <p className='mt-8 text-center max-w-[60ch]'>
-            Ergänze die Unterrichtsdaten (Zeit, Unterrichtstag, Unterrichtsort)
-            deiner Schüler:innen, damit diese im Stundenplan erscheinen.
+          <p className='mt-8 max-w-[60ch] text-center'>
+            Füge Schüler:innen und/oder Gruppen hinzu, damit diese im
+            Stundenplan erscheinen.
           </p>
         </Empty>
       )}

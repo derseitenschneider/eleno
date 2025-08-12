@@ -18,8 +18,8 @@ import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
 import { useState } from 'react'
 import BulkExportLessons from '../../lessons/BulkExportLessons.component'
-import { useDeactivateGroups } from '../useDeactivateGroups'
 import ResetGroups from '../ResetGroups.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -48,10 +48,10 @@ export function GroupsActionDropdown({
   if (!groups) return null
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button size='sm' variant='outline' disabled={isDisabledAction}>
-            <span className='text-inherit mr-1'>Aktion</span>
+            <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>
         </DropdownMenuTrigger>

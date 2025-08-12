@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const NOTE_NAMES = [
   'C',
@@ -179,9 +179,11 @@ const GenericTuner: React.FC = () => {
     let pos = 0
     while (pos < cutoff - 1) {
       if (
-        nsdf[pos] > 0 &&
-        nsdf[pos] > nsdf[pos - 1] &&
-        nsdf[pos] >= nsdf[pos + 1]
+        pos > 0 &&
+        pos < nsdf.length - 1 &&
+        (nsdf[pos] ?? 0) > 0 &&
+        (nsdf[pos] ?? 0) > (nsdf[pos - 1] ?? 0) &&
+        (nsdf[pos] ?? 0) >= (nsdf[pos + 1] ?? 0)
       ) {
         maxPositions.push(pos)
       }
@@ -192,9 +194,14 @@ const GenericTuner: React.FC = () => {
     let highestPeak = -1
     let peakIndex = -1
     for (let i = 0; i < maxPositions.length; i++) {
-      if (nsdf[maxPositions[i]] > highestPeak) {
-        highestPeak = nsdf[maxPositions[i]]
-        peakIndex = maxPositions[i]
+      const pos = maxPositions[i]
+      if (
+        pos !== undefined &&
+        pos < nsdf.length &&
+        (nsdf[pos] ?? 0) > highestPeak
+      ) {
+        highestPeak = nsdf[pos] ?? 0
+        peakIndex = pos
       }
     }
 
@@ -203,9 +210,9 @@ const GenericTuner: React.FC = () => {
     // Refine the peak by parabolic interpolation
     const refinedPeak = parabolicInterpolation(
       peakIndex,
-      nsdf[peakIndex - 1],
-      nsdf[peakIndex],
-      nsdf[peakIndex + 1],
+      (peakIndex > 0 ? nsdf[peakIndex - 1] : 0) ?? 0,
+      nsdf[peakIndex] ?? 0,
+      (peakIndex < nsdf.length - 1 ? nsdf[peakIndex + 1] : 0) ?? 0,
     )
     const pitchEstimate = sampleRate / refinedPeak
 
@@ -228,7 +235,7 @@ const GenericTuner: React.FC = () => {
     const noteNum = 12 * (Math.log(frequency / A4_FREQ) / Math.log(2))
     const noteInt = Math.round(noteNum) + 69
     const octave = Math.floor(noteInt / 12) - 1
-    const noteName = NOTE_NAMES[noteInt % 12]
+    const noteName = NOTE_NAMES[noteInt % 12] ?? ''
     return { note: noteName, octave }
   }
 
@@ -264,7 +271,9 @@ const GenericTuner: React.FC = () => {
           {/* </p> */}
           <div className='relative mb-4 h-8 w-full overflow-hidden rounded-full bg-gray-300'>
             <div
-              className={`${getDeviationColor(deviation)} absolute left-0 top-0 h-full transition-all duration-300 ease-in-out`}
+              className={`${getDeviationColor(
+                deviation,
+              )} absolute left-0 top-0 h-full transition-all duration-300 ease-in-out`}
               style={{
                 width: '100%',
                 // transform: `translateX(${Math.max(Math.min(deviation * 2, 100), -50)}%)`,

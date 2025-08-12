@@ -1,7 +1,7 @@
-import supabase from './supabase'
-import type { Note, PartialNote } from '../../types/types'
 import { appConfig } from '@/config'
+import type { Note, PartialNote } from '../../types/types'
 import mockNotes from './mock-db/mockNotes'
+import supabase from './supabase'
 const isDemo = appConfig.isDemoMode
 
 export const fetchActiveNotesAPI = async (userId: string) => {
@@ -11,7 +11,6 @@ export const fetchActiveNotesAPI = async (userId: string) => {
     .select('*')
     .eq('user_id', userId)
     .order('order')
-    .returns<Array<Note> | undefined>()
   if (error) throw new Error(error.message)
   return notes
 }

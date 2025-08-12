@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from './popover'
-import { Link2 } from 'lucide-react'
-import { Label } from './label'
-import { Input } from './input'
-import { Button, type ButtonProps } from './button'
 import { cn } from '@/lib/utils'
+import { Link2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Button, type ButtonProps } from './button'
+import { Input } from './input'
+import { Label } from './label'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 export const LinkButton = (props?: ButtonProps) => {
   const [open, setOpen] = useState(false)
@@ -198,13 +198,13 @@ export const LinkButton = (props?: ButtonProps) => {
   }
 
   return (
-    <Popover open={open} onOpenChange={handleOpenChange}>
+    <Popover modal={true} open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <button type='button' className='rsw-btn' {...props} ref={buttonRef}>
           <Link2 size={18} />
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-72'>
+      <PopoverContent hasPortal={false} className='w-72'>
         <div className='space-y-4'>
           <div className='space-y-2'>
             <Label htmlFor='link-url'>URL</Label>
@@ -212,6 +212,7 @@ export const LinkButton = (props?: ButtonProps) => {
               ref={inputRef}
               id='link-url'
               value={url}
+              type='url'
               onChange={(e) => setUrl(e.target.value)}
               placeholder='https://example.com'
               onKeyDown={handleKeyDown}

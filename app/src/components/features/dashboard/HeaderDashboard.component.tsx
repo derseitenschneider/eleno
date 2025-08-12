@@ -1,6 +1,6 @@
+import { appConfig } from '@/config'
 import { cn } from '@/lib/utils'
 import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
-import { appConfig } from '@/config'
 import useProfileQuery from '../user/profileQuery'
 
 function HeaderDashboard() {
@@ -8,6 +8,7 @@ function HeaderDashboard() {
 
   return (
     <header
+      data-testid='dashboard-header'
       className={cn(
         'px-5 py-4 sm:py-6',
         'md:p-6',
@@ -16,8 +17,6 @@ function HeaderDashboard() {
       )}
     >
       <div>
-        <h1 data-testid='dashboard-heading'>Dashboard</h1>
-
         <div>
           {appConfig.isDemoMode ? (
             <span className=''>

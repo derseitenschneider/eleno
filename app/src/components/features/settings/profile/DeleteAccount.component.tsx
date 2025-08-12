@@ -1,14 +1,16 @@
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { isDemoMode } from '@/config'
+import { cn } from '@/lib/utils'
+import { deleteFluentCRMContact } from '@/services/api/fluent-crm.api'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useUser } from '../../../../services/context/UserContext'
 import useFetchErrorToast from '../../../../hooks/fetchErrorToast'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { isDemoMode } from '@/config'
-import { useQueryClient } from '@tanstack/react-query'
+import { useUser } from '../../../../services/context/UserContext'
 import useSubscriptionQuery from '../../subscription/subscriptionQuery'
 
 interface DeleteAccountProps {
@@ -33,9 +35,10 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   }
 
   const handleDelete = async () => {
-    if (!subscription) return
+    if (!subscription || !user?.email) return
     setIsPending(true)
     try {
+      await deleteFluentCRMContact(user.email)
       await deleteAccount(subscription)
       navigate('/')
       queryClient.clear()
@@ -55,7 +58,7 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
   }
 
   return (
-    <div className='sm:w-[350px]'>
+    <div className='p-1 sm:w-[350px]'>
       <div className='space-y-6'>
         <p>Bestätige die Löschung deines Accounts mit deiner E-Mail Adresse.</p>
         <div>
@@ -69,26 +72,31 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
           />
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          size='sm'
-          variant='outline'
-          disabled={isPending}
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col justify-end gap-4 sm:mt-8 sm:flex-row'>
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             size='sm'
             variant='destructive'
             disabled={!isEmailCorrect || isPending}
+            className='w-full sm:w-auto'
             onClick={handleDelete}
           >
             Benutzerkonto löschen
           </Button>
           {isPending && <MiniLoader />}
         </div>
+        {onCloseModal && (
+          <Button
+            size='sm'
+            variant='outline'
+            disabled={isPending}
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
       </div>
     </div>
   )

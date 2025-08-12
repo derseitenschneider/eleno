@@ -12,15 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { Note } from '@/types/types'
+import { isDemoMode } from '@/config'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import type { Note, PartialNote } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteNote from './DeleteNote.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'
-import { isDemoMode } from '@/config'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type NoteDropdownProps = {
   noteId: number
@@ -37,18 +37,23 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
 
   function handleDuplication() {
     if (!currentNote) return
-    duplicateNote({
-      ...currentNote,
-      id: new Date().getMilliseconds(),
+    const duplicatedNote: PartialNote = {
       title: `Kopie ${currentNote.title}`,
-    })
+      text: currentNote.text,
+      backgroundColor: currentNote.backgroundColor,
+      order: currentNote.order,
+      user_id: currentNote.user_id,
+      groupId: currentNote.groupId,
+      studentId: currentNote.studentId,
+    }
+    duplicateNote(duplicatedNote)
   }
   function closeModal() {
     setOpenModal(undefined)
   }
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
           <MoreVertical className='h-4 w-4 text-primary' />
         </DropdownMenuTrigger>

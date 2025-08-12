@@ -1,30 +1,31 @@
-import type { PartialRepertoireItem } from '../../../types/types'
+import CustomEditor from '@/components/ui/CustomEditor.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { Input } from '@/components/ui/input'
-import ButtonRemove from '@/components/ui/buttonRemove'
-import { useCreateRepertoireItem } from './useCreateRepertoireItem'
-import { useState } from 'react'
+import { Separator } from '@/components/ui/separator'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import CustomEditor from '@/components/ui/CustomEditor.component'
-import { Blocker } from '../subscription/Blocker'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useState } from 'react'
+import type { PartialRepertoireItem } from '../../../types/types'
+import useCurrentHolder from '../lessons/useCurrentHolder'
+import { Blocker } from '../subscription/Blocker'
+import { useCreateRepertoireItem } from './useCreateRepertoireItem'
 
-interface AddRepertoireItemProps {
-  holderId: number
-  holderType: 's' | 'g'
+type CreateRepertoireProps = {
+  onCloseModal?: () => void
 }
 
-function CreateRepertoireItem({
-  holderId,
-  holderType,
-}: AddRepertoireItemProps) {
+function CreateRepertoireItem({ onCloseModal }: CreateRepertoireProps) {
   const { hasAccess } = useSubscription()
+  const { currentLessonHolder } = useCurrentHolder()
   const { createRepertoireItem, isCreating } = useCreateRepertoireItem()
-  const [hideToolbar, setHideToolbar] = useState(false)
   const isMobile = useIsMobileDevice()
 
-  const fieldType = holderType === 's' ? 'studentId' : 'groupId'
+  const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
+  const holderId = currentLessonHolder?.holder.id || 0
 
   const defaultItem: PartialRepertoireItem = {
     [fieldType]: holderId,
@@ -34,10 +35,6 @@ function CreateRepertoireItem({
   }
 
   const [item, setItem] = useState(defaultItem)
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem((prev) => ({ ...prev, title: e.target.value }))
-  }
 
   const handleChangeHTMLTitle = (e: string) => {
     setItem((prev) => ({ ...prev, title: e }))
@@ -53,79 +50,96 @@ function CreateRepertoireItem({
 
   function resetFields() {
     setItem(defaultItem)
-    setHideToolbar(true)
   }
 
   function handleSave() {
     createRepertoireItem(item, {
-      onSuccess: () => resetFields(),
+      onSuccess: () => {
+        onCloseModal?.()
+        resetFields()
+      },
     })
   }
   return (
-    <div className='relative mb-8 mt-6 flex items-end gap-2 sm:mb-12 sm:items-center'>
+    <div
+      key={`${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`}
+      className='relative mb-8 mt-6 flex flex-col sm:mb-12 sm:flex-row sm:items-center  sm:gap-2'
+    >
       <Blocker variant='inline' />
-      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-y-2 rounded-md border border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:pr-1'>
-        <div className='relative col-span-4 grow sm:col-span-1 sm:w-auto sm:shrink'>
-          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:block'>
-            Song
+      <div className='grid grow grid-cols-[auto_auto_1fr] items-center gap-16 rounded-md border-hairline bg-background100 p-1 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-x-2 sm:gap-y-2 sm:border sm:pr-1'>
+        <div className='relative col-span-5 grow sm:col-span-1 sm:w-auto sm:shrink'>
+          <span className='absolute left-1 top-[-26px] text-sm text-foreground/80'>
+            Titel
           </span>
-          {isMobile ? (
-            <Input
-              data-testid='input-create-repertoire'
-              autoFocus={!isMobile}
-              placeholder='Song...'
-              className='border-none'
-              type='text'
-              name='title'
-              onChange={handleChangeTitle}
-              value={item.title}
-            />
-          ) : (
-            <CustomEditor
-              type='mini'
-              value={item.title}
-              onChange={(e) => handleChangeHTMLTitle(e)}
-            />
-          )}
+          <CustomEditor
+            type='mini'
+            value={item.title}
+            onChange={(e) => handleChangeHTMLTitle(e)}
+          />
         </div>
 
-        <div>
-          <div className='relative mr-2 flex items-center sm:mr-0'>
-            <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
+        <div className='col-span-5 sm:col-span-1'>
+          <div className='relative flex items-center gap-1 sm:gap-0 '>
+            <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80'>
               Start
             </span>
-            <DayPicker date={item.startDate} setDate={handleChangeStart} />
+            <DayPicker
+              className='w-full'
+              date={item.startDate}
+              setDate={handleChangeStart}
+            />
             {item.startDate && (
               <ButtonRemove
                 disabled={isCreating}
-                className='translate-x-[-8px]'
+                className='sm:translate-x-[-8px]'
                 onRemove={() => handleChangeStart(undefined)}
               />
             )}
           </div>
         </div>
-        <div className='relative flex items-center'>
-          <span className='absolute left-1 top-[-26px] hidden text-sm text-foreground/80 sm:inline'>
+        <div className='relative col-span-5 flex items-center gap-1 sm:col-span-1 sm:gap-0'>
+          <span className='absolute left-1 top-[-26px] inline text-sm text-foreground/80 '>
             Ende
           </span>
-          <DayPicker date={item.endDate} setDate={handleChangeEnd} />
+          <DayPicker
+            className='w-full'
+            date={item.endDate}
+            setDate={handleChangeEnd}
+          />
           {item.endDate && (
             <ButtonRemove
               disabled={isCreating}
-              className='translate-x-[-8px]'
+              className='sm:translate-x-[-8px]'
               onRemove={() => handleChangeEnd(undefined)}
             />
           )}
         </div>
-        <Button
-          className='ml-auto'
-          onClick={handleSave}
-          size='sm'
-          disabled={isCreating || !item.title || !hasAccess}
-        >
-          Hinzufügen
-        </Button>
+        {!isMobile && (
+          <div className='col-span-5 flex w-full items-center gap-2 sm:col-span-1 sm:w-auto'>
+            <Button
+              className='w-full'
+              disabled={isCreating || !item.title || !hasAccess}
+              size='sm'
+              onClick={handleSave}
+            >
+              Speichern
+            </Button>
+            {isCreating && <MiniLoader />}
+          </div>
+        )}
       </div>
+      {isMobile && (
+        <div>
+          <Separator className='my-6' />
+          <SaveAbortButtons
+            onSave={handleSave}
+            isSaving={isCreating}
+            isDisabledSaving={isCreating || !item.title || !hasAccess}
+            isDisabledAborting={isCreating}
+            onAbort={() => onCloseModal?.()}
+          />
+        </div>
+      )}
     </div>
   )
 }

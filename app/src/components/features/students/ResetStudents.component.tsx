@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
-import { useResetStudents } from './useResetStudents'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Blocker } from '../subscription/Blocker'
-import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Blocker } from '../subscription/Blocker'
+import { useResetStudents } from './useResetStudents'
 
 interface ResetStudentsProps {
   selectedStudentIds: Array<number>
@@ -23,7 +23,7 @@ function ResetStudents({ onSuccess, selectedStudentIds }: ResetStudentsProps) {
   return (
     <div className={cn(!hasAccess && 'h-[150px]')}>
       <Blocker />
-      <p className='mb-6 text-sm'>
+      <p className='mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Schüler:innen zurücksetzen?

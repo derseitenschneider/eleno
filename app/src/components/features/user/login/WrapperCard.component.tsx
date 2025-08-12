@@ -1,3 +1,4 @@
+import Logo from '@/components/ui/Logo.component'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
@@ -11,29 +12,27 @@ type WrapperCardProps = {
 
 export default function WrapperCard({
   header,
-  size = 'sm',
   children,
   complementary,
   className = '',
 }: WrapperCardProps): JSX.Element {
-  const width = size === 'sm' ? 'sm:w-[400px]' : 'sm:w-[450px]'
-
   return (
     <div
       className={cn(
         className,
-        'flex w-full flex-col items-center justify-center gap-2 p-3',
+        'z-[1] flex flex-col items-center justify-center gap-4 p-3',
       )}
     >
-      <Card className='bg-zinc-50 py-3 sm:px-8'>
-        <CardContent className={`${width} flex flex-col space-y-3 pt-3`}>
-          <h2 className='mb-4  text-center text-3xl font-bold text-zinc-600'>
-            {header}
-          </h2>
+      <Logo className='h-14 w-14' />
+      <h1 className='mb-2 text-center text-2xl !font-medium tracking-tight  text-zinc-800'>
+        {header}
+      </h1>
+      <Card className='rounded-2xl border-zinc-300 bg-zinc-50 p-8 shadow-none md:w-[440px] lg:p-12'>
+        <CardContent className='flex flex-col space-y-5 p-0'>
           {children}
         </CardContent>
       </Card>
-      {complementary}
+      <div className='flex flex-col'>{complementary}</div>
     </div>
   )
 }

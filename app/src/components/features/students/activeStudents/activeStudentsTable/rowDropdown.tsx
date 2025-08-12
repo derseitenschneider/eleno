@@ -13,6 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { appConfig } from '@/config'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import {
   Archive,
   CheckSquare2,
@@ -24,14 +26,12 @@ import {
   Users,
 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ExportLessons from '../../../lessons/ExportLessons.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
-import UpdateStudents from '../../UpdateStudents.component'
-import { useDeactivateStudents } from '../../useDeactivateStudents'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
-import { useNavigate } from 'react-router-dom'
-import { appConfig } from '@/config'
+import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
+import { useDeactivateStudents } from '../../useDeactivateStudents'
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -66,9 +66,13 @@ export default function ActiveStudentRowDropdown({
   return (
     <>
       <div className='text-right'>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button
+              variant='ghost'
+              className='h-8 w-8 p-0'
+              onClick={(e) => e.stopPropagation()}
+            >
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
             </Button>
@@ -154,21 +158,18 @@ export default function ActiveStudentRowDropdown({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent onClick={handleDialogClick}>
-          <DialogHeader>
-            <DialogTitle>Schüler:in bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Schüler:in bearbeiten
-          </DialogDescription>
-          <UpdateStudents studentIds={[studentId]} onSuccess={closeModal} />
-        </DialogContent>
-      </Dialog>
+      <UpdateStudentsDialogDrawer
+        open={openModal === 'EDIT'}
+        onOpenChange={closeModal}
+        onDialogClick={handleDialogClick}
+        onSuccess={closeModal}
+        studentIds={[studentId]}
+      />
+
       <Dialog open={openModal === 'TODO'} onOpenChange={closeModal}>
         <DialogContent onClick={handleDialogClick}>
           <DialogHeader>
-            <DialogTitle>Neue Todo erstellen</DialogTitle>
+            <DialogTitle>Neue Todo erfassen</DialogTitle>
           </DialogHeader>
           <DialogDescription className='hidden'>
             Todo erstellen

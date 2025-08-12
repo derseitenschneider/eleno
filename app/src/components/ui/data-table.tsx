@@ -1,8 +1,8 @@
 import {
   type ColumnDef,
-  flexRender,
-  type Table as TTable,
   type Row,
+  type Table as TTable,
+  flexRender,
 } from '@tanstack/react-table'
 
 import {
@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
 import Empty from './Empty.component'
 import { ScrollArea } from './scroll-area'
@@ -34,12 +35,13 @@ export function DataTable<TData, TValue>({
   className,
   isSelectable = true,
 }: DataTableProps<TData, TValue>) {
+  const isMobile = useIsMobileDevice()
   function toggleSelection(row: Row<TData>) {
-    if (!isSelectable) return
+    if (!isSelectable || isMobile) return
     row.toggleSelected()
   }
   return (
-    <ScrollArea className='min-h-[130px] border border-hairline sm:min-h-[unset]'>
+    <ScrollArea className='min-h-[100px] border border-hairline sm:min-h-[unset]'>
       <Table
         className={cn(
           isFetching && 'opacity-50',
@@ -60,9 +62,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 )
               })}
@@ -76,7 +78,7 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
                 className={cn(
-                  'odd:bg-background100',
+                  'bg-background100 sm:even:bg-background50',
                   isSelectable && 'cursor-pointer',
                 )}
                 onClick={() => toggleSelection(row)}

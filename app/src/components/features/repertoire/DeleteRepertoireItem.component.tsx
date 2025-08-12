@@ -1,64 +1,52 @@
-import { Button } from '@/components/ui/button'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import parse from 'html-react-parser'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import type { RepertoireItem } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
 import { useDeleteRepertoireItem } from './useDeleteRepertoireItem'
-import { DialogDescription } from '@/components/ui/dialog'
 
 interface DeleteRepertoireItemProps {
-  itemId: number
-  holder: string
+  item: RepertoireItem
   onCloseModal?: () => void
 }
 
 function DeleteRepertoireItem({
-  itemId,
-  holder,
+  item,
   onCloseModal,
 }: DeleteRepertoireItemProps) {
-  const queryClient = useQueryClient()
-  const repertoire = queryClient.getQueryData(['repertoire', { holder }]) as
-    | Array<RepertoireItem>
-    | undefined
-  const itemToDelete = repertoire?.find((item) => item.id === itemId)
-
   const { deleteRepertoireItem, isDeleting, isError } =
     useDeleteRepertoireItem()
 
   function handleDelete() {
-    deleteRepertoireItem(itemId, {
+    deleteRepertoireItem(item.id, {
       onSuccess: () => onCloseModal?.(),
     })
   }
-  if (!itemToDelete) return null
+  if (!item) return null
 
   return (
-    <div className='max-w-[450px]'>
-      <DialogDescription>
-        Möchtest du den Song{' '}
-        <b>«{parse(removeHTMLAttributes(itemToDelete.title))}»</b> wirklich aus
-        dem Repertoire entfernen?
-      </DialogDescription>
-      <div className='flex justify-end gap-4 mt-4'>
+    <div>
+      <div className='mt-6 flex w-full flex-col-reverse justify-end gap-3  sm:mt-4 sm:flex-row'>
         <Button
           variant='outline'
           size='sm'
           disabled={isDeleting}
           onClick={onCloseModal}
+          className='w-full sm:w-auto'
         >
           Abbrechen
         </Button>
-        <Button
-          disabled={isDeleting}
-          size='sm'
-          variant='destructive'
-          onClick={handleDelete}
-        >
-          Löschen
-        </Button>
-        {isDeleting && <MiniLoader />}
+        <div className='flex items-center gap-2'>
+          <Button
+            disabled={isDeleting}
+            size='sm'
+            variant='destructive'
+            onClick={handleDelete}
+            className='w-full sm:w-auto'
+          >
+            Löschen
+          </Button>
+          {isDeleting && <MiniLoader />}
+        </div>
       </div>
       {isError && (
         <p className='mt-4 text-center text-sm text-warning'>

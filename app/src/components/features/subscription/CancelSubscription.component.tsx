@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
   DialogHeader,
@@ -7,11 +7,11 @@ import {
 } from '@/components/ui/dialog'
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
-import { toast } from 'sonner'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import useMessagesQuery from '../messages/messagesQueries'
-import useSubscriptionQuery from './subscriptionQuery'
 import useProfileQuery from '../user/profileQuery'
+import useSubscriptionQuery from './subscriptionQuery'
 
 interface CancelSubscriptionProps {
   onCloseModal?: () => void

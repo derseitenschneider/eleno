@@ -1,11 +1,12 @@
-import ButtonManageSubscription from '../buttons/ButtonManageSubscription.component'
-import ButtonCancelSubscription from '../buttons/ButtonCancelSubscription.component'
-import ButtonReactivateSubscription from '../buttons/ButtonReactivateSubscription.component'
-import ButtonGetInvoice from '../buttons/ButtonGetInvoice.component'
 import PaymentFailedNotification from '../PaymentFailedNotification.component'
-import StatusRow from './StatusRow.component'
+import ButtonCancelSubscription from '../buttons/ButtonCancelSubscription.component'
+import ButtonGetInvoice from '../buttons/ButtonGetInvoice.component'
+import ButtonManageSubscription from '../buttons/ButtonManageSubscription.component'
+import ButtonReactivateSubscription from '../buttons/ButtonReactivateSubscription.component'
+import { OrganizationRow } from '../organizations/OrganizationRow.component'
 import PeriodRow from './PeriodRow.component'
 import PlanRow from './PlanRow.component'
+import StatusRow from './StatusRow.component'
 
 export function SubscriptionInfos() {
   return (
@@ -15,6 +16,7 @@ export function SubscriptionInfos() {
           <StatusRow />
           <PlanRow />
           <PeriodRow />
+          <OrganizationRow />
         </div>
         <div className='flex-col items-end gap-5 self-start sm:flex lg:self-end'>
           <PaymentFailedNotification />

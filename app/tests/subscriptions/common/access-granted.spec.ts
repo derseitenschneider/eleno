@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { LessonsPOM } from '../../pom/LessonsPOM'
-import { TodosPOM } from '../../pom/TodosPOM'
 import { RepertoirePOM } from '../../pom/RepertoirePOM'
+import { TodosPOM } from '../../pom/TodosPOM'
 
 test('create lesson is not blocked', async ({ page }, testInfos) => {
   const lessonPom = new LessonsPOM(page, testInfos)

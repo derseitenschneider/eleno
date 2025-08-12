@@ -27,11 +27,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "feature_flag_users_flag_id_fkey"
-            columns: ["flag_id"]
+            foreignKeyName: 'feature_flag_users_flag_id_fkey'
+            columns: ['flag_id']
             isOneToOne: false
-            referencedRelation: "feature_flags"
-            referencedColumns: ["id"]
+            referencedRelation: 'feature_flags'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -57,7 +57,7 @@ export type Database = {
         Row: {
           archive: boolean
           created_at: string
-          dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson: Database['public']['Enums']['weekdays'] | null
           durationMinutes: number | null
           endOfLesson: string | null
           homework_sharing_authorized: boolean
@@ -71,7 +71,7 @@ export type Database = {
         Insert: {
           archive?: boolean
           created_at?: string
-          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson?: Database['public']['Enums']['weekdays'] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
           homework_sharing_authorized?: boolean
@@ -85,7 +85,7 @@ export type Database = {
         Update: {
           archive?: boolean
           created_at?: string
-          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson?: Database['public']['Enums']['weekdays'] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
           homework_sharing_authorized?: boolean
@@ -108,6 +108,7 @@ export type Database = {
           homeworkKey: string
           id: number
           lessonContent: string | null
+          status: Database['public']['Enums']['lesson_status']
           studentId: number | null
           user_id: string
         }
@@ -120,6 +121,7 @@ export type Database = {
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
+          status?: Database['public']['Enums']['lesson_status']
           studentId?: number | null
           user_id?: string
         }
@@ -132,23 +134,24 @@ export type Database = {
           homeworkKey?: string
           id?: number
           lessonContent?: string | null
+          status?: Database['public']['Enums']['lesson_status']
           studentId?: number | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "lessons_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'lessons_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'lessons_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -179,7 +182,7 @@ export type Database = {
           created_at: string
           id: string
           recipient: string
-          status: Database["public"]["Enums"]["message_status"]
+          status: Database['public']['Enums']['message_status']
           subject: string | null
         }
         Insert: {
@@ -187,7 +190,7 @@ export type Database = {
           created_at?: string
           id?: string
           recipient: string
-          status?: Database["public"]["Enums"]["message_status"]
+          status?: Database['public']['Enums']['message_status']
           subject?: string | null
         }
         Update: {
@@ -195,7 +198,7 @@ export type Database = {
           created_at?: string
           id?: string
           recipient?: string
-          status?: Database["public"]["Enums"]["message_status"]
+          status?: Database['public']['Enums']['message_status']
           subject?: string | null
         }
         Relationships: []
@@ -203,7 +206,7 @@ export type Database = {
       notes: {
         Row: {
           backgroundColor:
-            | Database["public"]["Enums"]["background_colors"]
+            | Database['public']['Enums']['background_colors']
             | null
           created_at: string | null
           groupId: number | null
@@ -216,7 +219,7 @@ export type Database = {
         }
         Insert: {
           backgroundColor?:
-            | Database["public"]["Enums"]["background_colors"]
+            | Database['public']['Enums']['background_colors']
             | null
           created_at?: string | null
           groupId?: number | null
@@ -229,7 +232,7 @@ export type Database = {
         }
         Update: {
           backgroundColor?:
-            | Database["public"]["Enums"]["background_colors"]
+            | Database['public']['Enums']['background_colors']
             | null
           created_at?: string | null
           groupId?: number | null
@@ -242,24 +245,24 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notes_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'notes_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "notes_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'notes_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
       notification_views: {
         Row: {
-          action_taken: Database["public"]["Enums"]["notification_action_taken"]
+          action_taken: Database['public']['Enums']['notification_action_taken']
           created_at: string
           id: number
           notification_id: number
@@ -268,7 +271,7 @@ export type Database = {
           viewed_at: string | null
         }
         Insert: {
-          action_taken: Database["public"]["Enums"]["notification_action_taken"]
+          action_taken: Database['public']['Enums']['notification_action_taken']
           created_at?: string
           id?: number
           notification_id: number
@@ -277,7 +280,7 @@ export type Database = {
           viewed_at?: string | null
         }
         Update: {
-          action_taken?: Database["public"]["Enums"]["notification_action_taken"]
+          action_taken?: Database['public']['Enums']['notification_action_taken']
           created_at?: string
           id?: number
           notification_id?: number
@@ -287,11 +290,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notification_views_notification_id_fkey"
-            columns: ["notification_id"]
+            foreignKeyName: 'notification_views_notification_id_fkey'
+            columns: ['notification_id']
             isOneToOne: false
-            referencedRelation: "notifications"
-            referencedColumns: ["id"]
+            referencedRelation: 'notifications'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -300,34 +303,82 @@ export type Database = {
           active: boolean
           created_at: string
           display_frequency:
-            | Database["public"]["Enums"]["notification_display_frequency"]
+            | Database['public']['Enums']['notification_display_frequency']
             | null
           expires_at: string | null
           id: number
           identifier: string
-          type: Database["public"]["Enums"]["notification_type"]
+          type: Database['public']['Enums']['notification_type']
         }
         Insert: {
           active?: boolean
           created_at?: string
           display_frequency?:
-            | Database["public"]["Enums"]["notification_display_frequency"]
+            | Database['public']['Enums']['notification_display_frequency']
             | null
           expires_at?: string | null
           id?: number
           identifier: string
-          type: Database["public"]["Enums"]["notification_type"]
+          type: Database['public']['Enums']['notification_type']
         }
         Update: {
           active?: boolean
           created_at?: string
           display_frequency?:
-            | Database["public"]["Enums"]["notification_display_frequency"]
+            | Database['public']['Enums']['notification_display_frequency']
             | null
           expires_at?: string | null
           id?: number
           identifier?: string
-          type?: Database["public"]["Enums"]["notification_type"]
+          type?: Database['public']['Enums']['notification_type']
+        }
+        Relationships: []
+      }
+      organizations: {
+        Row: {
+          active: boolean
+          admin_contact_email: string | null
+          billing_cycle_start: string
+          billing_interval: Database['public']['Enums']['billing_interval']
+          city: string | null
+          country: string | null
+          created_at: string | null
+          id: string
+          license_count: number
+          name: string
+          street: string | null
+          street_number: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          active?: boolean
+          admin_contact_email?: string | null
+          billing_cycle_start?: string
+          billing_interval?: Database['public']['Enums']['billing_interval']
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          license_count?: number
+          name: string
+          street?: string | null
+          street_number?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          active?: boolean
+          admin_contact_email?: string | null
+          billing_cycle_start?: string
+          billing_interval?: Database['public']['Enums']['billing_interval']
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          license_count?: number
+          name?: string
+          street?: string | null
+          street_number?: string | null
+          zip_code?: string | null
         }
         Relationships: []
       }
@@ -339,6 +390,10 @@ export type Database = {
           last_lesson_creation: string | null
           last_name: string | null
           login_count: number | null
+          organization_id: string | null
+          organization_role:
+            | Database['public']['Enums']['organization_role']
+            | null
         }
         Insert: {
           email?: string | null
@@ -347,6 +402,10 @@ export type Database = {
           last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
+          organization_id?: string | null
+          organization_role?:
+            | Database['public']['Enums']['organization_role']
+            | null
         }
         Update: {
           email?: string | null
@@ -355,8 +414,20 @@ export type Database = {
           last_lesson_creation?: string | null
           last_name?: string | null
           login_count?: number | null
+          organization_id?: string | null
+          organization_role?:
+            | Database['public']['Enums']['organization_role']
+            | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_organization_id_fkey'
+            columns: ['organization_id']
+            isOneToOne: false
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+        ]
       }
       repertoire: {
         Row: {
@@ -391,18 +462,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "repertoire_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'repertoire_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "repertoire_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'repertoire_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -410,19 +481,19 @@ export type Database = {
         Row: {
           created_at: string | null
           id: number
-          lesson_main_layout: Database["public"]["Enums"]["lesson_main_layout"]
+          lesson_main_layout: Database['public']['Enums']['lesson_main_layout']
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: number
-          lesson_main_layout?: Database["public"]["Enums"]["lesson_main_layout"]
+          lesson_main_layout?: Database['public']['Enums']['lesson_main_layout']
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: number
-          lesson_main_layout?: Database["public"]["Enums"]["lesson_main_layout"]
+          lesson_main_layout?: Database['public']['Enums']['lesson_main_layout']
           user_id?: string | null
         }
         Relationships: []
@@ -437,11 +508,11 @@ export type Database = {
           payment_status: string | null
           period_end: string | null
           period_start: string | null
-          plan: Database["public"]["Enums"]["subscription_plan"] | null
+          plan: Database['public']['Enums']['subscription_plan'] | null
           stripe_customer_id: string | null
           stripe_invoice_id: string | null
           stripe_subscription_id: string | null
-          subscription_status: Database["public"]["Enums"]["subscription_status"]
+          subscription_status: Database['public']['Enums']['subscription_status']
           user_id: string
         }
         Insert: {
@@ -453,11 +524,11 @@ export type Database = {
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
-          plan?: Database["public"]["Enums"]["subscription_plan"] | null
+          plan?: Database['public']['Enums']['subscription_plan'] | null
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
-          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_status?: Database['public']['Enums']['subscription_status']
           user_id: string
         }
         Update: {
@@ -469,11 +540,11 @@ export type Database = {
           payment_status?: string | null
           period_end?: string | null
           period_start?: string | null
-          plan?: Database["public"]["Enums"]["subscription_plan"] | null
+          plan?: Database['public']['Enums']['subscription_plan'] | null
           stripe_customer_id?: string | null
           stripe_invoice_id?: string | null
           stripe_subscription_id?: string | null
-          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_status?: Database['public']['Enums']['subscription_status']
           user_id?: string
         }
         Relationships: []
@@ -482,7 +553,7 @@ export type Database = {
         Row: {
           archive: boolean | null
           created_at: string | null
-          dayOfLesson: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson: Database['public']['Enums']['weekdays'] | null
           durationMinutes: number | null
           endOfLesson: string | null
           firstName: string
@@ -497,7 +568,7 @@ export type Database = {
         Insert: {
           archive?: boolean | null
           created_at?: string | null
-          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson?: Database['public']['Enums']['weekdays'] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
           firstName: string
@@ -512,7 +583,7 @@ export type Database = {
         Update: {
           archive?: boolean | null
           created_at?: string | null
-          dayOfLesson?: Database["public"]["Enums"]["weekdays"] | null
+          dayOfLesson?: Database['public']['Enums']['weekdays'] | null
           durationMinutes?: number | null
           endOfLesson?: string | null
           firstName?: string
@@ -559,18 +630,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "todos_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'todos_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "todos_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'todos_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -591,18 +662,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "lessons_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'lessons_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "lessons_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'lessons_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -617,7 +688,7 @@ export type Database = {
       only_active_notes: {
         Row: {
           backgroundColor:
-            | Database["public"]["Enums"]["background_colors"]
+            | Database['public']['Enums']['background_colors']
             | null
           groupId: number | null
           id: number | null
@@ -629,23 +700,31 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notes_groupId_fkey"
-            columns: ["groupId"]
+            foreignKeyName: 'notes_groupId_fkey'
+            columns: ['groupId']
             isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
+            referencedRelation: 'groups'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "notes_studentId_fkey"
-            columns: ["studentId"]
+            foreignKeyName: 'notes_studentId_fkey'
+            columns: ['studentId']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
+            referencedRelation: 'students'
+            referencedColumns: ['id']
           },
         ]
       }
     }
     Functions: {
+      add_user_to_organization: {
+        Args: {
+          user_id_to_add: string
+          org_id: string
+          user_role: Database['public']['Enums']['organization_role']
+        }
+        Returns: string
+      }
       convert_student_to_group: {
         Args: { p_student_id: number; p_group_data: Json }
         Returns: Json
@@ -662,32 +741,44 @@ export type Database = {
         Args: { user_id: string }
         Returns: string
       }
+      remove_user_from_organization: {
+        Args: { user_id_to_remove: string }
+        Returns: undefined
+      }
       send_bulk_eleno_messages: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
     }
     Enums: {
-      background_colors: "blue" | "red" | "green" | "yellow"
-      currencies: "CHF" | "EUR"
-      lesson_main_layout: "regular" | "reverse"
-      message_status: "sent" | "read" | "trash"
-      notification_action_taken: "dismissed" | "completed" | "clicked"
-      notification_action_type: "survey" | "link" | "dismiss_only" | "custom"
-      notification_display_frequency: "once" | "daily" | "always"
-      notification_display_position: "bottom" | "corner" | "center" | "top"
-      notification_type: "survey" | "update" | "news" | "alert"
-      recurring_intervals: "day" | "week" | "month" | "year"
-      subscription_plan: "month" | "year" | "lifetime"
-      subscription_status: "active" | "canceled" | "trial" | "expired"
+      background_colors: 'blue' | 'red' | 'green' | 'yellow'
+      billing_interval: 'month' | 'year'
+      currencies: 'CHF' | 'EUR'
+      lesson_main_layout: 'regular' | 'reverse'
+      lesson_status: 'documented' | 'prepared'
+      message_status: 'sent' | 'read' | 'trash'
+      notification_action_taken: 'dismissed' | 'completed' | 'clicked'
+      notification_action_type: 'survey' | 'link' | 'dismiss_only' | 'custom'
+      notification_display_frequency: 'once' | 'daily' | 'always'
+      notification_display_position: 'bottom' | 'corner' | 'center' | 'top'
+      notification_type: 'survey' | 'update' | 'news' | 'alert'
+      organization_role: 'admin' | 'member'
+      recurring_intervals: 'day' | 'week' | 'month' | 'year'
+      subscription_plan: 'month' | 'year' | 'lifetime' | 'licensed'
+      subscription_status:
+        | 'active'
+        | 'canceled'
+        | 'trial'
+        | 'expired'
+        | 'licensed'
       weekdays:
-        | "Montag"
-        | "Dienstag"
-        | "Mittwoch"
-        | "Donnerstag"
-        | "Freitag"
-        | "Samstag"
-        | "Sonntag"
+        | 'Montag'
+        | 'Dienstag'
+        | 'Mittwoch'
+        | 'Donnerstag'
+        | 'Freitag'
+        | 'Samstag'
+        | 'Sonntag'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -695,29 +786,29 @@ export type Database = {
   }
 }
 
-type DefaultSchema = Database[Extract<keyof Database, "public">]
+type DefaultSchema = Database[Extract<keyof Database, 'public'>]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -726,21 +817,21 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -749,21 +840,21 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -772,57 +863,66 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof Database },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
     Enums: {
-      background_colors: ["blue", "red", "green", "yellow"],
-      currencies: ["CHF", "EUR"],
-      lesson_main_layout: ["regular", "reverse"],
-      message_status: ["sent", "read", "trash"],
-      notification_action_taken: ["dismissed", "completed", "clicked"],
-      notification_action_type: ["survey", "link", "dismiss_only", "custom"],
-      notification_display_frequency: ["once", "daily", "always"],
-      notification_display_position: ["bottom", "corner", "center", "top"],
-      notification_type: ["survey", "update", "news", "alert"],
-      recurring_intervals: ["day", "week", "month", "year"],
-      subscription_plan: ["month", "year", "lifetime"],
-      subscription_status: ["active", "canceled", "trial", "expired"],
+      background_colors: ['blue', 'red', 'green', 'yellow'],
+      billing_interval: ['month', 'year'],
+      currencies: ['CHF', 'EUR'],
+      lesson_main_layout: ['regular', 'reverse'],
+      lesson_status: ['documented', 'prepared'],
+      message_status: ['sent', 'read', 'trash'],
+      notification_action_taken: ['dismissed', 'completed', 'clicked'],
+      notification_action_type: ['survey', 'link', 'dismiss_only', 'custom'],
+      notification_display_frequency: ['once', 'daily', 'always'],
+      notification_display_position: ['bottom', 'corner', 'center', 'top'],
+      notification_type: ['survey', 'update', 'news', 'alert'],
+      organization_role: ['admin', 'member'],
+      recurring_intervals: ['day', 'week', 'month', 'year'],
+      subscription_plan: ['month', 'year', 'lifetime', 'licensed'],
+      subscription_status: [
+        'active',
+        'canceled',
+        'trial',
+        'expired',
+        'licensed',
+      ],
       weekdays: [
-        "Montag",
-        "Dienstag",
-        "Mittwoch",
-        "Donnerstag",
-        "Freitag",
-        "Samstag",
-        "Sonntag",
+        'Montag',
+        'Dienstag',
+        'Mittwoch',
+        'Donnerstag',
+        'Freitag',
+        'Samstag',
+        'Sonntag',
       ],
     },
   },

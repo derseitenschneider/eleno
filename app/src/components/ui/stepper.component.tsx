@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
-import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
+import { Fragment } from 'react'
 
 export type Step = {
   id: number
@@ -27,7 +27,7 @@ const StepperProgress = ({ steps, currentStep = 0 }: StepperProps) => {
   }
 
   return (
-    <div className='flex items-center justify-between w-[550px] max-w-3xl mx-auto my-8 p-4'>
+    <div className='mx-auto flex w-auto max-w-3xl items-center justify-center p-4 sm:my-8 sm:w-[550px] sm:justify-between'>
       {steps.map((step, index) => (
         <Fragment key={step.id || index}>
           <StepIcon
@@ -37,7 +37,7 @@ const StepperProgress = ({ steps, currentStep = 0 }: StepperProps) => {
             isActive={index === currentStep}
           />
           {index < steps.length - 1 && (
-            <div className='flex-1 h-0.5 bg-gray-200 mx-2'>
+            <div className='mx-2 hidden h-0.5 flex-1 bg-gray-200 sm:block'>
               <motion.div
                 className='h-full bg-primary'
                 initial={{ width: '0%' }}
@@ -54,10 +54,12 @@ const StepperProgress = ({ steps, currentStep = 0 }: StepperProps) => {
 
 const StepIcon = ({ icon, label, isCompleted, isActive }: StepIconProps) => {
   return (
-    <div className='flex flex-col items-center'>
+    <div
+      className={cn('hidden sm:flex flex-col items-center', isActive && 'flex')}
+    >
       <motion.div
         className={cn(
-          'size-8 rounded-full flex items-center justify-center',
+          'sm:size-8 size-12 rounded-full flex items-center justify-center',
           isCompleted ? 'bg-primary' : 'ring-1 ring-hairline',
           isActive && 'ring-1 ring-primary',
         )}
@@ -67,11 +69,11 @@ const StepIcon = ({ icon, label, isCompleted, isActive }: StepIconProps) => {
         }}
       >
         {isCompleted ? (
-          <div className='size-5 text-white'>{icon}</div>
+          <div className='size-7 text-white sm:size-5'>{icon}</div>
         ) : isActive ? (
-          <div className='size-5 text-primary'>{icon}</div>
+          <div className='size-7 text-primary sm:size-5'>{icon}</div>
         ) : (
-          <div className='size-5 text-foreground/50'>{icon}</div>
+          <div className='size-7 text-foreground/50 sm:size-5'>{icon}</div>
         )}
       </motion.div>
       <span

@@ -7,21 +7,21 @@ import { toast } from 'sonner'
 export function useCompleteTodo() {
   const queryClient = useQueryClient()
   const fetchErrorToast = useFetchErrorToast()
-  const { mutate: completeTodo, isPending: isCompleting } = useMutation({
+  const { mutateAsync: completeTodo, isPending: isCompleting } = useMutation({
     mutationFn: completeTodoApi,
 
     onMutate: (id) => {
-      const prevTodos = queryClient.getQueryData(['todos']) as
-        | Array<TTodoItem>
-        | undefined
-      queryClient.setQueryData(
-        ['todos'],
-        (prev: Array<TTodoItem> | undefined) => {
-          const newTodos = prev?.filter((todo) => todo.id !== id)
-          return newTodos
-        },
+      const previousTodos = queryClient.getQueryData([
+        'todos',
+      ]) as Array<TTodoItem>
+
+      queryClient.setQueryData(['todos'], (prev: Array<TTodoItem>) =>
+        prev.map((todo) =>
+          todo.id === id ? { ...todo, archive: true } : todo,
+        ),
       )
-      return { prevTodos }
+
+      return { previousTodos }
     },
     onSuccess: () => {
       toast.success('Todo erledigt.')
@@ -33,7 +33,7 @@ export function useCompleteTodo() {
 
     onError: (_, __, context) => {
       fetchErrorToast()
-      queryClient.setQueryData(['todos'], () => context?.prevTodos)
+      queryClient.setQueryData(['todos'], context?.previousTodos)
     },
   })
   return { completeTodo, isCompleting }

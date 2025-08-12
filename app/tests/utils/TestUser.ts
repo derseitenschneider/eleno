@@ -1,9 +1,9 @@
 import fs from 'node:fs'
-import supabaseAdmin from './supabaseAdmin'
+import type { User } from '@supabase/supabase-js'
+import type Stripe from 'stripe'
 import { StripeService } from './StripeService'
-import { type User } from '@supabase/supabase-js'
-import Stripe from 'stripe'
 import { resolveJoin } from './resolveJoin'
+import supabaseAdmin from './supabaseAdmin'
 
 export type UserFlow =
   | 'trial-active'
@@ -28,6 +28,7 @@ export type UserFlow =
   | 'yearly-expired-paid'
   | 'yearly-monthly'
   | 'share-homework'
+  | 'general-user'
 
 type StripeFixture =
   | 'monthly-checkout'
@@ -36,7 +37,7 @@ type StripeFixture =
   | 'upgrade-yearly'
 type Options = {
   userflow: UserFlow
-  project: 'subscriptions' | 'share-homework'
+  project: 'subscriptions' | 'share-homework' | 'general'
 }
 
 export class TestUser {
@@ -109,7 +110,7 @@ export class TestUser {
    *
    * Id of the student created on init.
    */
-  private studentId: string = ''
+  private studentId = ''
 
   public constructor(options: Options) {
     this.stripeService = new StripeService()
@@ -123,11 +124,6 @@ export class TestUser {
   }
 
   public async init() {
-    console.log('===================================================')
-    console.log(':::::::::: USER ::::::::::\n')
-
-    console.log(`Start testUser setup for ${this.userflow}...`)
-
     this.user = await this.createUser()
     this.customer = await this.stripeService.createCustomer(
       this.user,
@@ -139,14 +135,9 @@ export class TestUser {
     await this.createPaymentFeatureFlagRow()
 
     this.writeData()
-
-    console.log(`Testuser setup for ${this.userflow} completed!`)
-    console.log('===================================================')
   }
 
   private async createUser() {
-    console.log('Creating new test user...')
-
     const email = this.email
     const password = this.password
     const { data: user, error: createUserError } =
@@ -159,7 +150,6 @@ export class TestUser {
     if (createUserError) {
       throw new Error(`Error creating new user: ${createUserError.message}`)
     }
-    console.log(`User ${user.user.id} created successfully.`)
     return user.user
   }
 
@@ -180,15 +170,12 @@ export class TestUser {
     fs.writeFileSync(fullPath, JSON.stringify(data), {
       encoding: 'utf8',
     })
-
-    console.log(`Data created: ${fullPath}`)
   }
 
   public async cancelAtPeriodEnd() {
     if (!this.customer) {
       throw new Error('No data present to cancel a subscription.')
     }
-    console.log('Canceling subscription on period end...')
     await this.stripeService.cancelAtPeriodEnd(this.customer.id)
   }
 
@@ -225,7 +212,6 @@ export class TestUser {
     if (!this.user || !this.customer) {
       throw new Error('No data present to create subscription row for.')
     }
-    console.log('Inserting new subscription row...')
 
     const today = new Date()
     const futureDate = new Date(today)
@@ -251,7 +237,6 @@ export class TestUser {
     if (!this.user || !this.customer) {
       throw new Error('No data present to populate students for.')
     }
-    console.log('Creating a student for user ', this.user.id)
     const { data: student, error } = await supabaseAdmin
       .from('students')
       .insert({
@@ -259,6 +244,7 @@ export class TestUser {
         firstName: 'Test',
         lastName: 'Student',
         instrument: 'Gitarre',
+        homework_sharing_authorized: true,
       })
       .select('id')
       .single()
@@ -285,7 +271,6 @@ export class TestUser {
     if (!this.user) {
       throw new Error("Can't run fixture without user and customer")
     }
-    console.log('Expiring user subscription...')
 
     const today = new Date()
     const yesterday = new Date(today)
@@ -302,10 +287,6 @@ export class TestUser {
       .from('stripe_subscriptions')
       .update(data)
       .eq('user_id', this.user.id)
-
-    console.log(
-      `Expired subscription for user ${this.user.id}: ${data.period_start} - ${data.period_end}`,
-    )
     if (error) {
       throw new Error(error.message)
     }
@@ -315,28 +296,23 @@ export class TestUser {
     if (!this.customer) {
       throw new Error("Can't run method without customer")
     }
-    console.log('Adding failing payment method...')
     await this.stripeService.attachNewPaymentMethod(
       this.customer.id,
       'pm_card_chargeCustomerFail',
     )
-    console.log('Failing payment method added.')
   }
 
   public async addSucceedingPaymentMethod() {
     if (!this.customer) {
       throw new Error("Can't run method without customer")
     }
-    console.log('Adding succeeding payment method...')
     await this.stripeService.attachNewPaymentMethod(
       this.customer.id,
       'pm_card_visa',
     )
-    console.log('Succeeding payment method added.')
   }
 
   public async upgradeToYearly() {
-    console.log('Upgrading customer to yearly subscription...')
     if (!this.customer) {
       throw new Error("Can't run method without customer")
     }
@@ -344,11 +320,9 @@ export class TestUser {
       this.customer.id,
       'price_1Qp7CXGqCC0x0XxsFFPDgzsa',
     )
-    console.log('Upgrade to yearly subscription successful.')
   }
 
   public async downGradeToMonthly() {
-    console.log('Downgrading customer to monthly subscription...')
     if (!this.customer) {
       throw new Error("Can't run method without customer")
     }
@@ -356,7 +330,6 @@ export class TestUser {
       this.customer.id,
       'price_1Qp79yGqCC0x0XxstXJPUz84',
     )
-    console.log('Downgrading customer successfull.')
   }
   public async advanceClock(timeOptions: {
     days: number
@@ -387,5 +360,24 @@ export class TestUser {
     }
 
     return lesson
+  }
+
+  /**
+   * Static method to create a general user for visual regression tests.
+   * Creates a user with basic trial subscription and returns credentials.
+   */
+  public static async createGeneralUser(): Promise<{ email: string; password: string; authFile: string }> {
+    const testUser = new TestUser({
+      userflow: 'general-user',
+      project: 'general',
+    })
+    
+    await testUser.init()
+    
+    return {
+      email: testUser.email,
+      password: testUser.password,
+      authFile: testUser.authFile,
+    }
   }
 }

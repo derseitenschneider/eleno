@@ -1,7 +1,6 @@
-import { Button } from '@/components/ui/button'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useDeleteLesson } from './useDeleteLesson'
+import { DeleteAbortButtons } from '@/components/ui/DeleteAbortButtonGroup'
 import { DialogDescription } from '@/components/ui/dialog'
+import { useDeleteLesson } from './useDeleteLesson'
 
 interface DeleteLessonProps {
   onCloseModal?: () => void
@@ -18,30 +17,15 @@ function DeleteLesson({ lessonId, onCloseModal }: DeleteLessonProps) {
   }
   return (
     <div>
-      <DialogDescription>
+      <DialogDescription className='mb-4'>
         Möchtest du diese Lektion wirklich löschen?
       </DialogDescription>
-      <div className='flex justify-end gap-4 mt-4'>
-        <Button
-          disabled={isDeleting}
-          size='sm'
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
-          <Button
-            disabled={isDeleting}
-            size='sm'
-            variant='destructive'
-            onClick={handleDelete}
-          >
-            Löschen
-          </Button>
-          {isDeleting && <MiniLoader />}
-        </div>
-      </div>
+      <DeleteAbortButtons
+        onDelete={handleDelete}
+        onAbort={onCloseModal}
+        isDisabled={isDeleting}
+        isDeleting={isDeleting}
+      />
       {isError && (
         <p className='mt-4 text-center text-sm text-warning'>
           Es ist etwas schiefgelaufen. Versuch's nochmal.

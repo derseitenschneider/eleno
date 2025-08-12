@@ -1,6 +1,7 @@
-import { test as setup, expect } from '@playwright/test'
-import { setupYearlyYearly } from '../../utils/setupHelpers'
+import { expect, test as setup } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { loginUser } from '../../utils/loginUser'
+import { setupYearlyYearly } from '../../utils/setupHelpers'
 
 setup(
   'create a trial user, run yearly checkout fixture, move clock forward one year and check if date has changed.',
@@ -9,12 +10,7 @@ setup(
     // Setup test data.
     const testUser = await setupYearlyYearly()
 
-    // Login
-    await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(testUser.email)
-    await page.getByTestId('login-password').fill(testUser.password)
-    await page.getByTestId('login-submit').click()
-    await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+    await loginUser(testUser.email, testUser.password, testUser.authFile, page)
 
     // Close toast, check activation message and delete it.
     const toasts = await page.getByRole('status').all()
@@ -47,8 +43,5 @@ setup(
     await subscriptionPom.startDate.waitFor()
     const newStartDate = await subscriptionPom.startDate.textContent()
     expect(initialStartDate).not.toEqual(newStartDate)
-
-    // Store login state in auth file.
-    await page.context().storageState({ path: testUser.authFile })
   },
 )

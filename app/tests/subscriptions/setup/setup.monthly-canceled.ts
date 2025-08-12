@@ -1,5 +1,6 @@
-import { test as setup, expect } from '@playwright/test'
+import { expect, test as setup } from '@playwright/test'
 import { SubscriptionPOM } from '../../pom/SubscriptionPOM'
+import { loginUser } from '../../utils/loginUser'
 import { setupMonthlyCanceled } from '../../utils/setupHelpers'
 
 setup(
@@ -8,12 +9,7 @@ setup(
     // Setup test data.
     const { email, password, authFile } = await setupMonthlyCanceled()
 
-    // Login
-    await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(email)
-    await page.getByTestId('login-password').fill(password)
-    await page.getByTestId('login-submit').click()
-    await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+    await loginUser(email, password, authFile, page)
 
     // Close toast, check activation message and delete it.
     const toasts = await page.getByRole('status').all()
@@ -39,8 +35,5 @@ setup(
 
     const subscriptionPom = new SubscriptionPOM(page)
     await subscriptionPom.goto()
-
-    // Store login state in auth file.
-    await page.context().storageState({ path: authFile })
   },
 )

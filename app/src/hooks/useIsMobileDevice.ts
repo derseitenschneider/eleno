@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const useIsMobileDevice = (): boolean => {
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -7,7 +7,7 @@ const useIsMobileDevice = (): boolean => {
 
   useEffect(() => {
     const checkMobile = (): void => {
-      const mobile = window.innerWidth <= 768 || window.innerHeight <= 768
+      const mobile = window.innerWidth < 768 || window.innerHeight < 768
       setIsMobile(mobile)
     }
 

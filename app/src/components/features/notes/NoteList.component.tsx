@@ -1,33 +1,37 @@
+import { DragDropContext, type DropResult, Droppable } from '@hello-pangea/dnd'
 import { useEffect, useState } from 'react'
-import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
 
 import CreateNote from './CreateNote.component'
 import Note from './Note.component'
 
-import { useActiveNotesQuery } from './notesQueries'
-import type { Note as TNote } from '@/types/types'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-} from '@/components/ui/dialog'
-import { DialogTitle } from '@radix-ui/react-dialog'
-import { useUpdateNote } from './useUpdateNote'
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
+import type { Note as TNote } from '@/types/types'
+import { Plus, X } from 'lucide-react'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
+import { NoteMobile } from './NoteMobile.component'
+import { useActiveNotesQuery } from './notesQueries'
+import { useUpdateNote } from './useUpdateNote'
 
 function NoteList() {
   const { currentLessonHolder } = useCurrentHolder()
+  const isMobile = useIsMobileDevice()
   const [openModal, setOpenModal] = useState<'ADD' | undefined>()
   const { updateNotes, isUpdating } = useUpdateNote()
 
   const { data } = useActiveNotesQuery()
 
-  const [notes, setNotes] = useState<Array<TNote>>()
+  const [notes, setNotes] = useState<Array<TNote> | undefined>()
   const fieldType = currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
   useEffect(() => {
@@ -35,7 +39,7 @@ function NoteList() {
       (note) => note[fieldType] === currentLessonHolder?.holder.id,
     )
     if (!currentNotes) return
-    setNotes(currentNotes)
+    setNotes(currentNotes as TNote[])
   }, [data, fieldType, currentLessonHolder?.holder.id])
 
   async function handleOnDragend(result: DropResult) {
@@ -50,7 +54,10 @@ function NoteList() {
     if (!reorderedItem) return
     items.splice(destination, 0, reorderedItem)
 
-    const newNotes = items.map((item, index) => ({ ...item, order: index }))
+    const newNotes: Array<TNote> = items.map((item, index) => ({
+      ...item,
+      order: index,
+    }))
     setNotes(newNotes)
     updateNotes(newNotes)
   }
@@ -90,9 +97,21 @@ function NoteList() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {sortedNotes.map((note, index) => (
-                    <Note note={note} index={index} key={note.id} />
-                  ))}
+                  {isMobile
+                    ? sortedNotes.map((note, index) => (
+                        <NoteMobile
+                          note={note}
+                          index={index}
+                          key={`${note.id}-${note.title}`}
+                        />
+                      ))
+                    : sortedNotes.map((note, index) => (
+                        <Note
+                          note={note}
+                          index={index}
+                          key={`${note.id}-${note.title}`}
+                        />
+                      ))}
                   {provided.placeholder}
                 </ul>
               )
@@ -101,25 +120,33 @@ function NoteList() {
         </DragDropContext>
       ) : null}
 
-      <Dialog
+      <DrawerOrDialog
         open={openModal === 'ADD'}
         onOpenChange={() => setOpenModal(undefined)}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Neue Notiz erstellen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Neue Notiz erstellen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Neue Notiz erstellen
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker blockerId='createNote' />
           <CreateNote
             holderType={currentLessonHolder.type}
             holderId={currentLessonHolder.holder.id}
             onCloseModal={() => setOpenModal(undefined)}
           />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </div>
   )
 }

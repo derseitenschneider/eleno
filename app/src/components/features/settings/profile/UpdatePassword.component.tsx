@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { PasswordInput } from '@/components/ui/password-input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { PasswordInput } from '@/components/ui/password-input'
+import { Separator } from '@/components/ui/separator'
 import { isDemoMode } from '@/config'
-import { useUpdatePassword } from '../../user/useUpdatePassword'
+import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useState } from 'react'
+import { useUpdatePassword } from '../../user/useUpdatePassword'
 
 interface EditPasswordProps {
   onCloseModal?: () => void
@@ -62,7 +63,7 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
     <div
       className={cn(
         isUpdating && 'opacity-80 pointer-events-none',
-        'sm:min-w-[350px]',
+        'sm:min-w-[350px] p-1',
       )}
     >
       <div className='space-y-6'>
@@ -88,19 +89,24 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
           <span className='mt-1 text-sm text-warning'>{error}</span>
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          size='sm'
-          variant='outline'
-          disabled={isUpdating}
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col-reverse justify-end gap-3 sm:mt-8 sm:flex-row'>
+        {onCloseModal && (
+          <Button
+            size='sm'
+            variant='outline'
+            disabled={isUpdating}
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             size='sm'
             disabled={isUpdating || !hasAccess}
+            className='w-full sm:w-auto'
             onClick={handleSave}
           >
             Speichern

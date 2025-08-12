@@ -1,20 +1,22 @@
-import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
+import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { Blocker } from '../subscription/Blocker'
+import useProfileQuery from '../user/profileQuery'
 import DeleteAccount from './profile/DeleteAccount.component'
 import EditEmail from './profile/UpdateEmail.component'
 import EditPassword from './profile/UpdatePassword.component'
 import EditProfile from './profile/UpdateProfile.component'
-import useProfileQuery from '../user/profileQuery'
-import { useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
-import { Blocker } from '../subscription/Blocker'
 
 function Account() {
   const { data: userProfile } = useProfileQuery()
@@ -28,6 +30,12 @@ function Account() {
   }, [])
 
   useEffect(() => {
+    if (searchParams.get('modal-open') === 'update-password') {
+      setModalOpen('EDIT_PASSWORD')
+    }
+  }, [searchParams.get])
+
+  useEffect(() => {
     if (searchParams.get('update-email') === 'success') {
       toast.success('E-Mail Adresse geändert.')
       searchParams.delete('update-email')
@@ -36,6 +44,10 @@ function Account() {
   }, [searchParams.get, setSearchParams, searchParams.delete, searchParams])
 
   function closeModal() {
+    if (searchParams.get('modal-open') === 'update-password') {
+      searchParams.delete('modal-open')
+      setSearchParams(searchParams)
+    }
     setModalOpen(undefined)
   }
 
@@ -54,6 +66,8 @@ function Account() {
         <Button
           type='button'
           size='sm'
+          variant='outline'
+          className='w-full sm:w-auto'
           onClick={() => setModalOpen('EDIT_PROFILE')}
         >
           Bearbeiten
@@ -66,10 +80,12 @@ function Account() {
           <p className='text-foreground/80'>E-Mail Adresse</p>
           <p>{userProfile.email}</p>
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex flex-col items-center gap-4 sm:flex-row'>
           <Button
             type='button'
             size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
             onClick={() => setModalOpen('EDIT_EMAIL')}
           >
             E-Mail ändern
@@ -77,6 +93,8 @@ function Account() {
           <Button
             type='button'
             size='sm'
+            variant='outline'
+            className='w-full sm:w-auto'
             onClick={() => setModalOpen('EDIT_PASSWORD')}
           >
             Passwort ändern
@@ -95,56 +113,101 @@ function Account() {
           type='button'
           size='sm'
           variant='destructive'
+          className='w-full sm:w-auto'
           onClick={() => setModalOpen('DELETE_ACCOUNT')}
         >
           Benutzerkonto löschen
         </Button>
       </div>
 
-      <Dialog open={modalOpen === 'EDIT_PROFILE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Profil bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_PROFILE'}
+        onOpenChange={closeModal}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Profil bearbeiten</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Bearbeite dein Profil
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker />
           <EditProfile onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'EDIT_EMAIL'} onOpenChange={closeModal}>
-        <DialogContent>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_EMAIL'}
+        onOpenChange={closeModal}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
           <Blocker />
           <EditEmail onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'EDIT_PASSWORD'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Passwort ändern</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog
+        open={modalOpen === 'EDIT_PASSWORD'}
+        onOpenChange={closeModal}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Passwort ändern</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Ändere dein Passwort
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <Blocker />
           <EditPassword onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'DELETE_ACCOUNT'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Benutzerkonto löschen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog
+        open={modalOpen === 'DELETE_ACCOUNT'}
+        onOpenChange={closeModal}
+      >
+        <DrawerOrDialogContent>
+          <DrawerOrDialogClose asChild>
+            <Button
+              variant='ghost'
+              className='absolute right-4 top-4 text-foreground/70'
+            >
+              <X className='size-5' />
+            </Button>
+          </DrawerOrDialogClose>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Benutzerkonto löschen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Lösche deinen Benutzerkonto
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <DeleteAccount onCloseModal={closeModal} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </div>
   )
 }

@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
-import Navbar from '../layouts/Navbar.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { useLoading } from '@/services/context/LoadingContext'
+import { Outlet } from 'react-router-dom'
+import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [
   { path: '', label: 'Benutzerkonto', key: 1, end: true },
@@ -28,7 +28,6 @@ function Settings() {
   if (isLoading) return <p>...loading</p>
   return (
     <div className='pb-20 sm:pb-[unset]'>
-      <h1 className='heading-1'>Einstellungen</h1>
       <Navbar navLinks={filteredNavlinks} />
       <Outlet />
     </div>

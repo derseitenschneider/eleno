@@ -16,6 +16,7 @@ export const theme = {
     padding: '2rem',
     screens: {
       '2xl': '1400px',
+      short: '900px',
     },
   },
   extend: {
@@ -30,6 +31,10 @@ export const theme = {
       background50: 'hsl(var(--background-50))',
       background100: 'hsl(var(--background-100))',
       background200: 'hsl(var(--background-200))',
+
+      sidebar: 'hsl(var(--background-sidebar))',
+
+      'sidebar-foreground': 'hsl(var(--foreground-sidebar))',
 
       noteGreen: 'hsl(var(--border-notes-green))',
       noteYellow: 'hsl(var(--border-notes-yellow))',

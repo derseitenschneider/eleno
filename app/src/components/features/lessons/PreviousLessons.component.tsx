@@ -1,16 +1,19 @@
-import { useLatestLessons } from './lessonsQueries'
 import Empty from '@/components/ui/Empty.component'
-import useCurrentHolder from './useCurrentHolder'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { PreviousLessonItem } from './PreviousLessonItem.component'
-import { NavLink } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
+import { useEffect, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
+import { LessonItem } from './LessonItem.component'
+import { LessonItemMobile } from './LessonItemMobile.component'
+import { useLatestLessons } from './lessonsQueries'
+import useCurrentHolder from './useCurrentHolder'
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
 }
 function PreviousLessons({ layout }: PreviousLessonsProps) {
   const { data: lessons } = useLatestLessons()
+  const isMobile = useIsMobileDevice()
   const scrollRef = useRef<HTMLDivElement>(null)
   const { currentLessonHolder } = useCurrentHolder()
 
@@ -23,16 +26,13 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
   const lessonField =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
 
-  const previousLessonsIds =
-    lessons
-      ?.sort((a, b) => {
-        return +b.date - +a.date
-      })
-      .filter(
-        (lesson) => lesson[lessonField] === currentLessonHolder?.holder.id,
-      )
-      ?.slice(0, 3)
-      .map((lesson) => lesson.id) || []
+  const previousLessonsSortedFiltered = lessons
+    ?.sort((a, b) => {
+      return +b.date - +a.date
+    })
+    ?.filter((lesson) => lesson.status === 'documented')
+    .filter((lesson) => lesson[lessonField] === currentLessonHolder?.holder.id)
+    ?.slice(0, 3)
 
   const newestLessonYear = lessons
     ?.filter(
@@ -42,41 +42,41 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
     .at(0)
     ?.date.getFullYear()
 
-  //TODO: fix scroll up when navigating to next student.
+  if (!previousLessonsSortedFiltered) return null
+
   return (
-    <div
-      className={cn(
-        layout === 'reverse' ? 'border-hairline border-b' : '',
-        'h-full overflow-hidden',
-      )}
-    >
+    <div>
       <div
         className={cn(
-          layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
-          'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          layout === 'reverse' ? 'border-hairline border-b' : '',
+          'special-min-height min-[1025px]:h-[290px] h-full overflow-hidden',
         )}
       >
-        <>
+        <div
+          className={cn(
+            layout === 'reverse' ? 'pt-6' : 'pb-4 pt-6 lg:py-4',
+            'flex h-full flex-col px-5 sm:pl-6 lg:pr-4',
+          )}
+        >
           <div className='mb-3 flex items-baseline justify-between'>
             <h5>Vergangene Lektionen</h5>
-            {previousLessonsIds.length > 0 && (
+            {previousLessonsSortedFiltered.length > 0 && (
               <NavLink to={`all?year=${newestLessonYear}`} end={true}>
                 Alle anzeigen
               </NavLink>
             )}
           </div>
           <div className='overflow-hidden'>
-            {previousLessonsIds.length > 0 ? (
+            {previousLessonsSortedFiltered.length > 0 ? (
               <ScrollArea ref={scrollRef} className='h-full'>
-                <div
-                  className={cn(
-                    layout === 'reverse' ? 'pb-6' : 'pb-12',
-                    'space-y-4',
-                  )}
-                >
-                  {previousLessonsIds.map((lessonId) => (
-                    <PreviousLessonItem key={lessonId} lessonId={lessonId} />
-                  ))}
+                <div className='min-[1200px]:pb-14 space-y-4 pb-6'>
+                  {previousLessonsSortedFiltered.map((lesson) => {
+                    if (isMobile)
+                      return (
+                        <LessonItemMobile key={lesson.id} lesson={lesson} />
+                      )
+                    return <LessonItem key={lesson.id} lesson={lesson} />
+                  })}
                 </div>
               </ScrollArea>
             ) : (
@@ -86,7 +86,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
               />
             )}
           </div>
-        </>
+        </div>
       </div>
     </div>
   )

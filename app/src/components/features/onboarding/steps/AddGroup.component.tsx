@@ -6,13 +6,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import CreateGroup from '../../groups/CreateGroup.component'
-import { useState } from 'react'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import UpdateGroup from '../../groups/UpdateGroup.component'
 import { PencilIcon } from 'lucide-react'
+import { useState } from 'react'
+import { CreateGroupDialogDrawer } from '../../groups/CreateGroupDialogDrawer.component'
+import UpdateGroup from '../../groups/UpdateGroup.component'
 
-export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
+export default function AddGroup() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'UPDATE' | null>(null)
   const [selectedGroup, setSelectedGroup] = useState<number>()
   const { activeSortedHolders } = useLessonHolders()
@@ -26,29 +26,31 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <>
-      <h2>Gruppen erfassen</h2>
+      <h2>Gruppen hinzufügen</h2>
       <div className='flex flex-col space-y-4'>
         {groups.length === 0 ? (
           <>
             <p>
-              Falls du Gruppen, Ensembles, Bands etc. unterrichtest, kannst du
-              diese ebenfalls bereits erfassen.
+              Unterrichtest du Ensembles, Bands oder andere Gruppen? Dann kannst
+              du sie hier in Eleno eintragen. So behältst du nicht nur bei
+              Einzel-, sondern auch bei Gruppenstunden immer den perfekten
+              Überblick und sparst wertvolle Zeit bei der Organisation.
             </p>
 
             <Button
               type='button'
               size='sm'
               onClick={() => setModalOpen('CREATE')}
-              className='ml-auto'
+              className='ml-auto w-full sm:w-auto'
             >
-              Gruppe erfassen
+              Gruppe hinzufügen
             </Button>
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
             <p>
-              Gratulation, nun hast du {groups.length}{' '}
-              {groups.length === 1 ? 'Gruppe' : 'Gruppen'} erfasst:
+              Super, du hast {groups.length}{' '}
+              {groups.length === 1 ? 'Gruppe' : 'Gruppen'} hinzugefügt:
             </p>
             <ul className=''>
               {groups.map((group) => (
@@ -58,7 +60,7 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
                 >
                   <span>- {group.holder.name}</span>
                   <Button
-                    className='flex gap-1 items-center text-primary w-fit'
+                    className='hidden w-fit items-center gap-1 text-primary sm:flex'
                     size='sm'
                     variant='ghost'
                     onClick={() => openUpdateModal(group.holder.id)}
@@ -70,30 +72,21 @@ export default function AddGroup({ onSuccess }: { onSuccess: () => void }) {
               ))}
             </ul>
             <Button
-              className='ml-auto'
+              className='ml-auto w-full sm:w-auto'
               size='sm'
               onClick={() => setModalOpen('CREATE')}
             >
-              Weitere erfassen
+              Weitere hinzufügen
             </Button>
           </div>
         )}
       </div>
 
-      <Dialog
+      <CreateGroupDialogDrawer
         open={modalOpen === 'CREATE'}
         onOpenChange={() => setModalOpen(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Gruppe erfassen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Erfasse eine neue Gruppe
-          </DialogDescription>
-          <CreateGroup onSuccess={() => setModalOpen(null)} />
-        </DialogContent>
-      </Dialog>
+        onSuccess={() => setModalOpen(null)}
+      />
 
       <Dialog
         open={modalOpen === 'UPDATE'}

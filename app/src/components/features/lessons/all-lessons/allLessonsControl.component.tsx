@@ -1,9 +1,11 @@
-import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { Lesson } from '@/types/types'
-import { ChevronLeft, FileDown } from 'lucide-react'
-import type { Table } from '@tanstack/react-table'
-import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Select,
   SelectContent,
@@ -11,17 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { isDemoMode } from '@/config'
+import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
+import type { Table } from '@tanstack/react-table'
+import { ChevronLeft, FileDown } from 'lucide-react'
+import { useState } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import ExportLessons from '../ExportLessons.component'
 import useCurrentHolder from '../useCurrentHolder'
-import { isDemoMode } from '@/config'
 
 type AllLessonsControlPros = {
   table: Table<Lesson>
@@ -61,7 +61,7 @@ export default function AllLessonsControl({
 
   if (!currentLessonHolder) return null
   return (
-    <div className='mb-4 flex items-center justify-between gap-4 sm:items-start'>
+    <div className='mb-4 flex flex-col items-stretch justify-between gap-4 sm:flex-row'>
       <div className='flex items-center justify-between'>
         <NavLink
           to={`/lessons/${currentLessonHolder.type}-${currentLessonHolder.holder.id}`}
@@ -71,7 +71,7 @@ export default function AllLessonsControl({
           <span className='text-primary'>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='items-center sm:flex sm:gap-4'>
+      <div className='flex flex-row-reverse items-center justify-between sm:flex-row sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}

@@ -1,20 +1,20 @@
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import type { StudentPartial } from '@/types/types'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus } from 'lucide-react'
 import { useCallback, useMemo, useState } from 'react'
-import { useCreateStudents } from './useCreateStudents'
-import { z } from 'zod'
-import { useFieldArray, useForm, FormProvider } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Form } from '@/components/ui/form'
-import StudentFormRow from './StudentFormRow.component'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { memo } from 'react'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useSubscription } from '@/services/context/SubscriptionContext'
-
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import StudentFormRow from './StudentFormRow.component'
+import { useCreateStudents } from './useCreateStudents'
 const MemoizedStudentFormRow = memo(StudentFormRow)
 
 type CreateStudentsProps = {
@@ -120,7 +120,13 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
 
   const onSubmit = useCallback(
     (data: { students: Array<StudentSchema> }) => {
-      createStudents(data.students, { onSuccess })
+      createStudents(
+        data.students.map((student) => ({
+          ...student,
+          homework_sharing_authorized: false,
+        })),
+        { onSuccess },
+      )
     },
     [createStudents, onSuccess],
   )
@@ -157,21 +163,24 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
       <FormProvider {...methods}>
         <Form {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <ScrollArea className='flex max-h-[75vh] flex-col !overflow-hidden'>
+            <ScrollArea
+              type='scroll'
+              className='flex flex-col !overflow-hidden rounded-lg md:border md:border-hairline md:px-2 lg:rounded-none lg:border-none lg:p-0'
+            >
               {memoizedStudentRows}
             </ScrollArea>
-            <div className='mt-4 flex items-center justify-between'>
-              <div className='flex items-center'>
+            <div className='flex flex-col justify-between gap-0 sm:mt-4 sm:flex-row sm:items-center sm:gap-3'>
+              <div className='mb-1 hidden items-center pl-1 sm:flex'>
                 <Input
                   disabled={isCreating}
-                  className='w-[7ch]'
+                  className='!w-[7ch]'
                   type='number'
                   value={numAdd}
                   onChange={(e) => setNumAdd(e.target.valueAsNumber)}
                 />
                 <Button
                   disabled={isCreating}
-                  className='ml-2 p-0'
+                  className='ml-2 p-2'
                   type='button'
                   variant='ghost'
                   size='sm'
@@ -181,8 +190,10 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                   <span>Mehr</span>
                 </Button>
               </div>
-              <div className='flex items-center gap-4'>
+              <Separator className='my-6 sm:hidden' />
+              <div className='flex flex-col-reverse items-center gap-4 sm:flex-row'>
                 <Button
+                  className='w-full'
                   disabled={isCreating}
                   size='sm'
                   variant='outline'
@@ -191,8 +202,9 @@ export default function CreateStudents({ onSuccess }: CreateStudentsProps) {
                 >
                   Abbrechen
                 </Button>
-                <div className='flex items-center gap-2'>
+                <div className='flex w-full items-center justify-stretch gap-2'>
                   <Button
+                    className='w-full'
                     disabled={isCreating || !hasAccess}
                     size='sm'
                     type='submit'

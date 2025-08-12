@@ -1,5 +1,6 @@
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import {
   Form,
   FormControl,
@@ -8,10 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -19,18 +17,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import ButtonRemove from '@/components/ui/buttonRemove'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import type { Group } from '@/types/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
+import { useCallback } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { Blocker } from '../subscription/Blocker'
 import {
   type GroupSchema,
   groupValidationSchema,
 } from './CreateGroup.component'
-import { useQueryClient } from '@tanstack/react-query'
 import { useUpdateGroup } from './useUpdateGroup'
-import type { Group } from '@/types/types'
-import { Label } from '@/components/ui/label'
-import { useCallback } from 'react'
-import { Blocker } from '../subscription/Blocker'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type UpdateGroupProps = {
   onSuccess?: () => void
@@ -87,7 +88,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
   }
 
   return (
-    <div className='w-[85vw]'>
+    <div className='p-4 pb-10 sm:w-[85vw] sm:p-0'>
       <Blocker />
       <div className={cn(grid, 'hidden lg:grid')}>
         <span className='pl-3 text-sm text-foreground/80'>Gruppenname*</span>
@@ -105,7 +106,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
               control={form.control}
               name='name'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-12 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Gruppenname*
                   </Label>
@@ -126,14 +127,14 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
               control={form.control}
               name='dayOfLesson'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-12 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Tag
                   </Label>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value || undefined}
+                      value={field.value || ''}
                     >
                       <SelectTrigger className='h-[36px]'>
                         <SelectValue placeholder='Unterrichtstag' />
@@ -175,6 +176,7 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
                 </FormItem>
               )}
             />
+            <div className='col-span-1 sm:hidden' />
             <FormField
               control={form.control}
               name='endOfLesson'
@@ -197,11 +199,12 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
                 </FormItem>
               )}
             />
+            <div className='col-span-1 sm:hidden' />
             <FormField
               control={form.control}
               name='durationMinutes'
               render={({ field }) => (
-                <FormItem className='col-span-6 space-y-0 lg:col-span-1'>
+                <FormItem className='col-span-4 space-y-0 sm:col-span-6 lg:col-span-1'>
                   <Label className='inline lg:hidden' htmlFor={field.name}>
                     Dauer
                   </Label>
@@ -258,7 +261,10 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
             </div>
             <div className='grid grid-cols-5 gap-3'>
               {fields.map((field, index) => (
-                <div key={field.id} className='relative'>
+                <div
+                  key={field.id}
+                  className='relative col-span-5 sm:col-span-1'
+                >
                   <FormField
                     control={form.control}
                     name={`students.${index}.name`}
@@ -282,12 +288,10 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
               ))}
               <Button
                 onClick={() => append({ name: '' })}
-                type='button'
                 size='sm'
-                className={cn(
-                  'w-fit self-center',
-                  fields.length !== 0 && 'ml-3',
-                )}
+                type='button'
+                variant='outline'
+                className='col-span-5 self-center sm:w-fit'
               >
                 <Plus className='mr-1 size-4' />
                 {fields.length === 0 ? 'Hinzufügen' : 'Mehr'}
@@ -295,9 +299,11 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
             </div>
           </div>
 
-          <div className='mt-4 flex items-center justify-end'>
-            <div className='flex items-center gap-4'>
+          <Separator className='my-6 sm:hidden' />
+          <div className='flex items-center justify-stretch sm:mt-4 sm:justify-end'>
+            <div className='flex w-full flex-col-reverse items-center gap-4 sm:w-auto sm:flex-row'>
               <Button
+                className='w-full sm:w-auto'
                 disabled={isUpdating}
                 size='sm'
                 variant='outline'
@@ -306,8 +312,9 @@ export default function UpdateGroup({ onSuccess, groupId }: UpdateGroupProps) {
               >
                 Abbrechen
               </Button>
-              <div className='flex items-center gap-2'>
+              <div className='flex w-full items-center gap-2 sm:w-auto'>
                 <Button
+                  className='w-full sm:w-auto'
                   disabled={isUpdating || !hasAccess}
                   size='sm'
                   type='submit'

@@ -1,5 +1,5 @@
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import PricingPlanCHF from './PricingPlanCHF.component'
 import PricingPlanEUR from './PricingPlanEUR.component'
 

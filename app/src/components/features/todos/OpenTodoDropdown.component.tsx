@@ -26,7 +26,7 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
   }
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger className='size-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
@@ -36,7 +36,7 @@ export default function OpenTodoDropdown({ id }: OpenTodoDropdownProps) {
               setOpenModal('EDIT')
             }}
           >
-            <Pencil className='h-4 w-4 text-primary mr-2' />
+            <Pencil className='mr-2 h-4 w-4 text-primary' />
             <span>Bearbeiten</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

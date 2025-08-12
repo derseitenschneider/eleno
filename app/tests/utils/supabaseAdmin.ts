@@ -1,6 +1,6 @@
+import path from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
-import path from 'node:path'
 
 const dotenvPath = path.resolve(path.dirname('.'), './tests/.env.test')
 dotenv.config({

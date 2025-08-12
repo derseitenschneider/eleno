@@ -1,8 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
   "css": {
     "formatter": {
       "enabled": false
@@ -24,13 +21,17 @@
       "indentWidth": 2
     }
   },
-  "linter": {
+  "files": {
     "ignore": [
-      "./app/coverage/*",
-      "./app/src/scss/tailwind.css",
-      "./app/supabase/functions/*",
-      "./app/tests/*"
-    ],
+      "./app/coverage/**",
+      "./app/playwright-report/**", 
+      "./app/test-results/**",
+      "./app/node_modules/**",
+      "./app/supabase/functions/**",
+      "./app/src/scss/tailwind.css"
+    ]
+  },
+  "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
@@ -38,5 +39,17 @@
         "noConsoleLog": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["./app/tests/**/*", "**/*.test.tsx", "**/*.spec.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ]
 }

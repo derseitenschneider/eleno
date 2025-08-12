@@ -1,18 +1,19 @@
+import {
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Mail } from 'lucide-react'
 import { useState } from 'react'
 import validateEmail from '../../../../utils/validateEmail'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Mail } from 'lucide-react'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useUpdateEmail } from '../../user/useUpdateEmail'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 
 interface EditEmailProps {
   onCloseModal?: () => void
@@ -47,17 +48,19 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
   if (success)
     return (
       <div className='sm:w-[350px]'>
-        <DialogHeader>
-          <DialogTitle>Bestätige deine E-Mail Adresse</DialogTitle>
-        </DialogHeader>
+        <DrawerOrDialogHeader>
+          <DrawerOrDialogTitle>
+            Bestätige deine E-Mail Adresse
+          </DrawerOrDialogTitle>
+        </DrawerOrDialogHeader>
         <div className='flex h-12 sm:h-16'>
           <Mail strokeWidth={1.5} className='h-full w-auto text-primary' />
         </div>
-        <DialogDescription>
+        <DrawerOrDialogDescription>
           Ein Bestätigungslink wurde an <strong>{input.email1}</strong>{' '}
           verschickt. Die Änderung tritt erst nach Bestätigung deiner neuen
           E-Mail Adresse in Kraft.
-        </DialogDescription>
+        </DrawerOrDialogDescription>
       </div>
     )
 
@@ -68,13 +71,13 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
         'sm:min-w-[350px]',
       )}
     >
-      <DialogHeader>
-        <DialogTitle>E-Mail Adresse ändern</DialogTitle>
-      </DialogHeader>
-      <DialogDescription className='hidden'>
+      <DrawerOrDialogHeader>
+        <DrawerOrDialogTitle>E-Mail Adresse ändern</DrawerOrDialogTitle>
+      </DrawerOrDialogHeader>
+      <DrawerOrDialogDescription className='hidden'>
         Ändere deine E-Mail Adresse
-      </DialogDescription>
-      <div className='space-y-6'>
+      </DrawerOrDialogDescription>
+      <div className='space-y-6 p-1'>
         <div>
           <Label htmlFor='email'>Neue E-Mail Adresse</Label>
           <Input
@@ -99,19 +102,24 @@ export default function EditEmail({ onCloseModal }: EditEmailProps) {
           <span className='mt-1 text-sm text-warning'>{error}</span>
         </div>
       </div>
-      <div className='mt-8 flex justify-end gap-4'>
-        <Button
-          size='sm'
-          disabled={isUpdating}
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
+      {onCloseModal && <Separator className='my-6 sm:hidden' />}
+      <div className='flex flex-col-reverse justify-end gap-3 sm:mt-8 sm:flex-row'>
+        {onCloseModal && (
+          <Button
+            size='sm'
+            disabled={isUpdating}
+            variant='outline'
+            className='w-full sm:w-auto'
+            onClick={onCloseModal}
+          >
+            Abbrechen
+          </Button>
+        )}
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
           <Button
             disabled={isUpdating || !hasAccess}
             size='sm'
+            className='w-full sm:w-auto'
             onClick={handleSave}
           >
             Speichern

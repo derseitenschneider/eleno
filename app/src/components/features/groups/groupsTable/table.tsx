@@ -1,20 +1,22 @@
+import Empty from '@/components/ui/Empty.component'
+import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import type { Group } from '@/types/types'
 import {
+  type FilterFn,
   type RowSelectionState,
   type SortingState,
-  type FilterFn,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { groupsColumns } from './columns'
-import GroupsControl from './control'
-import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { groupsColumns } from './columns'
+import { groupsColumnsMobile } from './columnsMobile'
+import GroupsControl from './control'
 
 type TGroupsTable = {
   groups: Array<Group>
@@ -33,6 +35,7 @@ export default function GroupsTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const isMobile = useIsMobileDevice()
   const navigate = useNavigate()
 
   const fuzzyFilter: FilterFn<Group> = (row, _, searchValue) => {
@@ -43,7 +46,7 @@ export default function GroupsTable({
 
   const table = useReactTable({
     data: groups,
-    columns: groupsColumns,
+    columns: isMobile ? groupsColumnsMobile : groupsColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -62,7 +65,7 @@ export default function GroupsTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div>
+    <div className='pb-12 sm:pb-0'>
       <GroupsControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -73,13 +76,14 @@ export default function GroupsTable({
       {groups.length > 0 ? (
         <DataTable
           table={table}
+          className='[&_tr]:border-b sm:[&_tr]:border-none'
           columns={groupsColumns}
           messageEmpty='Keine Gruppen vorhanden'
           isFetching={isFetching}
         />
       ) : (
         <Empty emptyMessage='Keine Gruppen vorhanden' className='mt-8'>
-          <div className='flex gap-2 items-center'>
+          <div className='flex items-center gap-2'>
             <Button
               className='mt-4'
               size='sm'
@@ -89,10 +93,10 @@ export default function GroupsTable({
                 setSearchParams(searchParams)
               }}
             >
-              Neue Gruppe erstellen
+              Neue Gruppe hinzufügen
             </Button>
             <Button
-              className='mt-4'
+              className='mt-4 hidden sm:block'
               size='sm'
               variant='outline'
               onClick={() => {

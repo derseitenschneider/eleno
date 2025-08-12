@@ -1,8 +1,8 @@
-import { type User } from '@supabase/supabase-js'
-import { resolveJoin } from './resolveJoin'
-import type Stripe from 'stripe'
-import { stripeClient } from './stripeClient'
 import { exec } from 'node:child_process'
+import type { User } from '@supabase/supabase-js'
+import type Stripe from 'stripe'
+import { resolveJoin } from './resolveJoin'
+import { stripeClient } from './stripeClient'
 
 export type TestCard = 'pm_card_chargeCustomerFail' | 'pm_card_visa'
 
@@ -20,10 +20,7 @@ export class StripeService {
     if (!user) {
       throw new Error('No user present to create a stripe customer from.')
     }
-    console.log('===================================================')
-    console.log(':::::::::: STRIPE CUSTOMER ::::::::::\n')
     await this.createTestClock(userflow)
-    console.log('Creating new stripe customer...')
     const customer = await this.client.customers.create({
       email: user.email,
       test_clock: this.clock?.id,
@@ -35,20 +32,14 @@ export class StripeService {
         uid: user.id,
       },
     })
-
-    console.log(`Customer ${customer.id} created successfully.`)
-    console.log('===================================================')
     return customer
   }
 
   private async createTestClock(userflow: string) {
-    console.log('Creating a stripe testClock...')
     const testClock = await this.client.testHelpers.testClocks.create({
       frozen_time: Math.round(+new Date() / 1_000),
       name: userflow,
     })
-
-    console.log(`Testclock created: ${testClock.id}`)
     this.clock = testClock
   }
 
@@ -63,11 +54,11 @@ export class StripeService {
   public async cancelAtPeriodEnd(customerId: string) {
     const subscriptions = await this.getSubscriptions(customerId)
 
-    subscriptions.forEach(async (sub) => {
+    for (const sub of subscriptions) {
       await this.client.subscriptions.update(sub.id, {
         cancel_at_period_end: true,
       })
-    })
+    }
   }
 
   public async updateSubscription(customerId: string, priceId: string) {
@@ -117,11 +108,11 @@ export class StripeService {
       customer: customerId,
     })
 
-    subscriptions.data.forEach(async (sub) => {
+    for (const sub of subscriptions.data) {
       await this.client.subscriptions.update(sub.id, {
         default_payment_method: newPaymentMethod.id,
       })
-    })
+    }
   }
 
   public async advanceClock(timeOptions: {
@@ -156,14 +147,13 @@ export class StripeService {
         await this.client.testHelpers.testClocks.retrieve(clockId)
 
       if (testClock.status === 'ready') {
-        console.log('TestClock is ready!')
         return // Clock is ready, exit the function
-      } else if (testClock.status === 'advancing') {
+      }
+      if (testClock.status === 'advancing') {
         if (attempt >= maxAttempts) {
           console.error('TestClock polling timed out.')
           return
         }
-        console.log('TestClock is advancing. Waiting...')
         await new Promise((resolve) => setTimeout(resolve, 1000)) // Wait for 1 second
         await this.pollTestClock(clockId, maxAttempts, attempt + 1) // Recursive call
       } else {
@@ -179,8 +169,6 @@ export class StripeService {
     userId: string,
     customerId: string,
   ) {
-    console.log(':::::::::: STRIPE FIXTURE ::::::::::\n')
-    console.log(`Start running fixture for ${fixtureName}...`)
     return new Promise((resolve, reject) => {
       // Since we cannot login into stripe cli with ci/cd because stripe login
       // only works with interactions, we pass the stripe secret to every command
@@ -200,7 +188,6 @@ export class StripeService {
 
       childProcess.stdout?.on('data', (data) => {
         stdoutData += data
-        console.log(data) // Log stdout in real-time
       })
 
       childProcess.stderr?.on('data', (data) => {
@@ -210,8 +197,6 @@ export class StripeService {
 
       childProcess.on('close', (code) => {
         if (code === 0) {
-          console.log(`Fixture for ${fixtureName} completed.`)
-          console.log('===================================================')
           resolve(stdoutData)
         } else {
           reject(

@@ -1,16 +1,17 @@
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useRef, useState } from 'react'
 import type { PartialTodoItem } from '../../../types/types'
-import { DayPicker } from '@/components/ui/daypicker.component'
-import { Button } from '@/components/ui/button'
 import AddHolderCombobox from '../students/AddHolderCombobox.component'
-import { Input } from '@/components/ui/input'
-import ButtonRemove from '@/components/ui/buttonRemove'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { useCreateTodoItem } from './useCreateTodoItem'
-import { cn } from '@/lib/utils'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { Blocker } from '../subscription/Blocker'
-import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useCreateTodoItem } from './useCreateTodoItem'
 
 interface AddTodoProps {
   onCloseModal?: () => void
@@ -99,28 +100,51 @@ function CreateTodo({ onCloseModal, holderId, holderType }: AddTodoProps) {
               selectedHolderId={selectedHolderId}
               setSelectedHolderId={setSelectedHolderId}
             />
-            <div className='flex items-center sm:mr-2'>
+            <div className='flex items-center gap-1 sm:mr-2 sm:gap-0'>
               <DayPicker disabled={isCreating} date={due} setDate={setDue} />
               {due && (
                 <ButtonRemove
                   disabled={isCreating}
-                  className='translate-x-[-8px]'
+                  className='sm:translate-x-[-8px]'
                   onRemove={() => setDue(undefined)}
                 />
               )}
             </div>
           </div>
         </div>
-        <Button
-          disabled={isCreating || !text || !hasAccess}
-          type='submit'
-          onClick={onSaveHandler}
-          size='sm'
-          className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
+        {/* {onCloseModal && <Separator className='my-4 sm:hidden' />} */}
+        <div
+          className={cn(
+            !onCloseModal ? 'mt-3' : 'mt-6',
+            'flex w-full flex-col items-center justify-end gap-3 sm:mt-0 sm:w-auto sm:flex-row',
+          )}
         >
-          Speichern
-        </Button>
-        {isCreating && <MiniLoader />}
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
+            <Button
+              disabled={isCreating || !text || !hasAccess}
+              type='submit'
+              onClick={onSaveHandler}
+              size='sm'
+              className='w-full sm:ml-0 sm:w-auto'
+            >
+              Speichern
+            </Button>
+            {isCreating && <MiniLoader />}
+          </div>
+
+          {onCloseModal && (
+            <Button
+              type='button'
+              disabled={isCreating}
+              className='w-full sm:hidden'
+              size='sm'
+              variant='outline'
+              onClick={() => onCloseModal()}
+            >
+              Abbrechen
+            </Button>
+          )}
+        </div>
       </form>
       <p className='pl-2 pt-1 text-sm text-warning'>{error || ''}</p>
     </div>

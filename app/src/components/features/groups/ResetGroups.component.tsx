@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button'
-import { useResetGroups } from './useResetGroups'
 import { DialogDescription } from '@/components/ui/dialog'
-import { Blocker } from '../subscription/Blocker'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import { cn } from '@/lib/utils'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { Blocker } from '../subscription/Blocker'
+import { useResetGroups } from './useResetGroups'
 
 interface ResetStudentsProps {
   selectedGroupIds: Array<number>
@@ -26,7 +26,7 @@ export default function ResetGroups({
   return (
     <div className={cn(!hasAccess && 'h-[150px]')}>
       <Blocker />
-      <DialogDescription className='mb-6 text-sm'>
+      <DialogDescription className='mb-6'>
         Möchtest du die Unterrichtsdaten
         <i> (Tag, Von, Bis, Dauer, Unterrichtsort) </i>
         der ausgewählten Gruppen zurücksetzen?

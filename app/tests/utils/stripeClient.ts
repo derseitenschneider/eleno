@@ -1,6 +1,6 @@
-import Stripe from 'stripe'
-import dotenv from 'dotenv'
 import path from 'node:path'
+import dotenv from 'dotenv'
+import Stripe from 'stripe'
 
 const dotenvPath = path.resolve(path.dirname('.'), 'tests', '.env.test')
 dotenv.config({

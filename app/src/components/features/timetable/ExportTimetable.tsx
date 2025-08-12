@@ -2,14 +2,14 @@ import { useState } from 'react'
 
 import { PDFDownloadLink } from '@react-pdf/renderer'
 
-import type { TimetableDay } from '../../../types/types'
-import TimetablePDF from '../pdf/TimetablePDF.component'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import sortTimeTableDays from '@/utils/sortTimetableDays'
 import { DialogDescription } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import sortTimeTableDays from '@/utils/sortTimetableDays'
+import type { TimetableDay } from '../../../types/types'
+import TimetablePDF from '../pdf/TimetablePDF.component'
 import useProfileQuery from '../user/profileQuery'
 
 interface ExportTimeTableProps {

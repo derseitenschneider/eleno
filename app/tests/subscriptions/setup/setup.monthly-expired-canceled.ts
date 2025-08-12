@@ -1,6 +1,7 @@
-import { test as setup, expect } from '@playwright/test'
-import { setupMonthlyExpiredCanceled } from '../../utils/setupHelpers'
+import { expect, test as setup } from '@playwright/test'
 import { cleanupToasts } from '../../utils/cleanupToasts'
+import { loginUser } from '../../utils/loginUser'
+import { setupMonthlyExpiredCanceled } from '../../utils/setupHelpers'
 
 setup(
   'create a montly subscription, attach failing payment, move clock two months.',
@@ -10,12 +11,7 @@ setup(
     // Setup monthly expired subscription.
     const { email, password, authFile } = await setupMonthlyExpiredCanceled()
 
-    // Login
-    await page.goto('/?page=login')
-    await page.getByTestId('login-email').fill(email)
-    await page.getByTestId('login-password').fill(password)
-    await page.getByTestId('login-submit').click()
-    await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+    await loginUser(email, password, authFile, page)
 
     // Await inactive banner
     await expect(async () => {
@@ -29,7 +25,6 @@ setup(
     // Clean up messages.
     await page.goto('/inbox')
 
-
     await page.getByRole('button', { name: 'Zugang ist aktiviert' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
 
@@ -41,8 +36,5 @@ setup(
 
     await page.getByRole('button', { name: 'beendet' }).click()
     await page.getByRole('button', { name: 'Löschen' }).click()
-
-    // Store login state in auth file.
-    await page.context().storageState({ path: authFile })
   },
 )

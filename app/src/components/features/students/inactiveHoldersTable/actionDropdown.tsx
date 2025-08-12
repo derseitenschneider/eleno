@@ -1,21 +1,28 @@
+import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { useDeleteHolders } from '@/hooks/useDeleteHolders'
 import type { Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { ChevronsUpDown, Trash2, Undo2 } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'
-import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
-import { toast } from 'sonner'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -43,12 +50,15 @@ export function InactiveStudentsActionDropdown({
     .map((id) => Number(id.split('-').at(1)))
 
   const isDisabledAction = Object.entries(selected).length === 0
+  const { dialogTitle: deleteDialogTitle, dialogBody: deleteDialogBody } =
+    useDeleteHolders(selectedHolderIds)
 
   function closeModal() {
     setOpenModal(null)
     setSelected({})
   }
-  async function handleReactivate() {
+  async function handleReactivate(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation()
     try {
       await Promise.all([
         reactivateStudents(selectedStudentIds),
@@ -64,9 +74,14 @@ export function InactiveStudentsActionDropdown({
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button size='sm' variant='outline' disabled={isDisabledAction}>
+          <Button
+            className='hidden sm:flex'
+            size='sm'
+            variant='outline'
+            disabled={isDisabledAction}
+          >
             <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>
@@ -81,7 +96,10 @@ export function InactiveStudentsActionDropdown({
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => setOpenModal('DELETE')}
+            onClick={(e) => {
+              e.stopPropagation()
+              setOpenModal('DELETE')
+            }}
             className='flex items-center gap-2'
           >
             <Trash2 className='h-4 w-4 text-warning' />
@@ -92,6 +110,10 @@ export function InactiveStudentsActionDropdown({
 
       <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{deleteDialogTitle}</DialogTitle>
+          </DialogHeader>
+          <DialogDescription>{deleteDialogBody}</DialogDescription>
           <DeleteHolders holderIds={selectedHolderIds} onSuccess={closeModal} />
         </DialogContent>
       </Dialog>

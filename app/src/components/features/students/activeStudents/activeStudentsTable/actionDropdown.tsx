@@ -1,3 +1,4 @@
+import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -27,7 +28,6 @@ import { useState } from 'react'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
-import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -56,10 +56,10 @@ export function ActiveStudentsActionDropdown({
   if (!students) return null
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button size='sm' variant='outline' disabled={isDisabledAction}>
-            <span className='text-inherit mr-1'>Aktion</span>
+            <span className='mr-1 text-inherit'>Aktion</span>
             <ChevronsUpDown className='size-4' />
           </Button>
         </DropdownMenuTrigger>

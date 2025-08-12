@@ -1,16 +1,19 @@
+import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
+import useMessagesQuery from '@/components/features/messages/messagesQueries'
+import useSettingsQuery from '@/components/features/settings/settingsQuery'
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import useProfileQuery from '@/components/features/user/profileQuery'
 import { useEffect } from 'react'
 import useGroupsQuery from '../../components/features/groups/groupsQuery'
-import { useLatestLessons } from '../../components/features/lessons/lessonsQueries'
+import {
+  useLatestLessons,
+  usePlannedLessonsQuery,
+} from '../../components/features/lessons/lessonsQueries'
 import { useActiveNotesQuery } from '../../components/features/notes/notesQueries'
 import useStudentsQuery from '../../components/features/students/studentsQueries'
 import useTodosQuery from '../../components/features/todos/todosQuery'
 import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
-import useMessagesQuery from '@/components/features/messages/messagesQueries'
-import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
-import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
-import useProfileQuery from '@/components/features/user/profileQuery'
-import useSettingsQuery from '@/components/features/settings/settingsQuery'
 
 interface DataProviderProps {
   children: React.ReactNode
@@ -22,6 +25,7 @@ function DataProvider({ children }: DataProviderProps) {
   const { isLoading: isLoadingStudents } = useStudentsQuery()
   const { isLoading: isLoadingGroups } = useGroupsQuery()
   const { isLoading: isLoadingLatestLessons } = useLatestLessons()
+  const { isLoading: isLoadingPlannedLessons } = usePlannedLessonsQuery()
   const { isLoading: isLoadingTodos } = useTodosQuery()
   const { isLoading: isLoadingNotes } = useActiveNotesQuery()
   const { isLoading: isLoadingMessages } = useMessagesQuery()
@@ -35,6 +39,7 @@ function DataProvider({ children }: DataProviderProps) {
       isLoadingStudents ||
       isLoadingGroups ||
       isLoadingLatestLessons ||
+      isLoadingPlannedLessons ||
       isLoadingTodos ||
       isLoadingNotes ||
       isLoadingMessages ||
@@ -49,6 +54,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingStudents,
     isLoadingGroups,
     isLoadingLatestLessons,
+    isLoadingPlannedLessons,
     isLoadingTodos,
     isLoadingNotes,
     isLoadingMessages,

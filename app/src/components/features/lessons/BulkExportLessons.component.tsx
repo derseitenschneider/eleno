@@ -1,24 +1,24 @@
-import { createElement, useState } from 'react'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { createElement, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { DayPicker } from '@/components/ui/daypicker.component'
-import ButtonRemove from '@/components/ui/buttonRemove'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
-import type { PDFProps } from './LessonsPDF'
-import { toast } from 'sonner'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import JSZip from 'jszip'
-import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
-import stripHtmlTags from '@/utils/stripHtmlTags'
-import { useUser } from '@/services/context/UserContext'
-import { isDemoMode } from '@/config'
+import { DayPicker } from '@/components/ui/daypicker.component'
 import { DialogDescription } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { isDemoMode } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import { useUser } from '@/services/context/UserContext'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import stripHtmlTags from '@/utils/stripHtmlTags'
+import JSZip from 'jszip'
+import { toast } from 'sonner'
+import type { PDFProps } from './LessonsPDF'
+import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 
 type BulkExportLessonsProps = {
   holderIds: Array<number>
@@ -125,7 +125,10 @@ export default function BulkExportLessons({
 
       for (const csvData of groupedCSV) {
         zipCSV.file(
-          `lektionsliste-${csvData.holderName.split(' ').join('-').toLowerCase()}.csv`,
+          `lektionsliste-${csvData.holderName
+            .split(' ')
+            .join('-')
+            .toLowerCase()}.csv`,
           csvData.csv,
         )
       }
@@ -212,7 +215,10 @@ export default function BulkExportLessons({
           }
           const blob = await pdf(createElement(LessonsPDF, props)).toBlob()
           return {
-            name: `lektionsliste-${student.split(' ').join('-').toLowerCase()}.pdf`,
+            name: `lektionsliste-${student
+              .split(' ')
+              .join('-')
+              .toLowerCase()}.pdf`,
             blob,
           }
         }),

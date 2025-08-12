@@ -8,6 +8,8 @@ export class ActiveStudentsPOM {
   constructor(page: Page) {
     this.page = page
     this.controlsBtnCreate = page.getByTestId('active-students-control-create')
+    this.createStudentsFirstRowFirstName =
+      this.page.getByTestId('first-name-input')
   }
 
   async goto() {

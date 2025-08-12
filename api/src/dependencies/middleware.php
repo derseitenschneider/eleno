@@ -1,6 +1,7 @@
 <?php
 
 use App\Config\Config;
+use App\Middleware\ApiKeyAuthMiddleware;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\CustomerAccessMiddleware;
 use DI\Container;
@@ -34,6 +35,15 @@ return function ( Container $container ) {
 			$config = $container->get( Config::class );
 
 			return new CorsMiddleware( $config );
+		}
+	);
+
+	$container->set(
+		ApiKeyAuthMiddleware::class,
+		function ( $container ) {
+			$config = $container->get( Config::class );
+
+			return new ApiKeyAuthMiddleware( $config );
 		}
 	);
 

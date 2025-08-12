@@ -1,15 +1,15 @@
 import LessonHeader from '@/components/features/lessons/LessonHeader'
-import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.component'
-import Repertoire from '@/components/features/repertoire/Repertoire.component'
-import { Outlet, type RouteObject } from 'react-router-dom'
-import NoStudents from '@/components/features/lessons/NoStudents.component'
-import LessonsPage from '@/pages/Lessons.page'
 import LessonNav from '@/components/features/lessons/LessonNav.component'
+import NoStudents from '@/components/features/lessons/NoStudents.component'
+import AllLessons from '@/components/features/lessons/all-lessons/AllLessons.component'
 import MusicTools from '@/components/features/lessons/toolbox/Toolbox.component'
+import Repertoire from '@/components/features/repertoire/Repertoire.component'
+import LessonsPage from '@/pages/Lessons.page'
+import { Outlet, type RouteObject } from 'react-router-dom'
 
 const LessonsWrapper = () => {
   return (
-    <div className='grid max-h-dvh grid-rows-[auto_1fr] overflow-hidden'>
+    <div className='grid max-h-[calc(100dvh-48px)] grid-rows-[auto_1fr] overflow-hidden lg:max-h-[calc(100vh-48px)] '>
       <LessonHeader />
       <Outlet />
       <MusicTools />

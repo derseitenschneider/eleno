@@ -1,10 +1,14 @@
+import {
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 import { Button } from '@/components/ui/button'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -15,9 +19,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
+import { DialogDescription } from '@radix-ui/react-dialog'
 import type { ColumnDef } from '@tanstack/react-table'
+import parse from 'html-react-parser'
 import {
   ArrowUpDown,
   InfoIcon,
@@ -28,11 +40,6 @@ import {
 import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
 import UpdateRepertoireItem from '../UpdateRepertoireItem.component'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '@/components/ui/popover'
 
 export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
   {
@@ -55,28 +62,28 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
       const { userLocale } = useUserLocale()
       const startDate = row.getValue('startDate')
         ? new Date(row.getValue('startDate')).toLocaleString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
         : null
       const endDate = row.getValue('endDate')
         ? new Date(row.getValue('endDate')).toLocaleString(userLocale, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-        })
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })
         : null
 
       return (
-        <div className='flex gap-2 items-center'>
+        <div className='flex items-center gap-2'>
           <span>{parse(removeHTMLAttributes(row.getValue('title')))}</span>
           <Popover>
             <PopoverTrigger>
-              <InfoIcon className='sm:hidden h-3 w-3 text-primary' />
+              <InfoIcon className='h-3 w-3 text-primary sm:hidden' />
             </PopoverTrigger>
             <PopoverContent>
-              <p className='mb-2 text-md'>{row.getValue('title')}</p>
+              <p className='text-md mb-2'>{row.getValue('title')}</p>
               <p>
                 <span className='text-foreground/75'>Start: </span>
                 {startDate || '—'}
@@ -96,7 +103,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0 hidden sm:flex'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -134,7 +141,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
     header: ({ column }) => {
       return (
         <Button
-          className='p-0 hidden sm:flex'
+          className='hidden p-0 sm:flex'
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -177,7 +184,7 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
       return (
         <>
           <div className='text-right'>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='h-8 w-8 p-0'>
                   <span className='sr-only'>Menü öffnen</span>
@@ -207,16 +214,22 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
             </DropdownMenu>
           </div>
 
-          <Dialog open={openModal === 'EDIT'} onOpenChange={closeModal}>
+          <Dialog
+            modal={true}
+            open={openModal === 'EDIT'}
+            onOpenChange={closeModal}
+          >
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Song bearbeiten</DialogTitle>
               </DialogHeader>
-              <UpdateRepertoireItem
-                holder={holder}
-                itemId={row.original.id}
-                onCloseModal={closeModal}
-              />
+              <div className='py-4'>
+                <UpdateRepertoireItem
+                  holder={holder}
+                  itemId={row.original.id}
+                  onCloseModal={closeModal}
+                />
+              </div>
             </DialogContent>
           </Dialog>
 
@@ -225,9 +238,13 @@ export const repertoireColumns: ColumnDef<RepertoireItem>[] = [
               <DialogHeader>
                 <DialogTitle>Song löschen</DialogTitle>
               </DialogHeader>
+              <DialogDescription>
+                Möchtest du den Song{' '}
+                <b>«{parse(removeHTMLAttributes(row.original.title))}»</b>{' '}
+                wirklich aus dem Repertoire entfernen?
+              </DialogDescription>
               <DeleteRepertoireItem
-                holder={holder}
-                itemId={row.original.id}
+                item={row.original}
                 onCloseModal={closeModal}
               />
             </DialogContent>

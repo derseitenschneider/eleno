@@ -1,0 +1,5 @@
+# Eleno Mission (Lite)
+
+Eleno is a comprehensive lesson documentation platform that helps German-speaking instrumental music teachers streamline student management, lesson documentation, homework assignment, and teaching organization by providing an integrated web-based solution with shareable homework links and automated todo management.
+
+Eleno serves German-speaking music teachers (private instructors, music schools, band coaches) who need efficient lesson administration and student progress tracking. Unlike generic international platforms, Eleno provides native German interface and workflows specifically designed for the German music education market, combined with hybrid Supabase+PHP architecture for robust payment processing and PWA-first approach for consistent cross-platform experience.

@@ -1,6 +1,6 @@
+import { cn } from '@/lib/utils'
 import type { SetStateAction } from 'react'
 import type { NotesBackgrounds } from '../../../types/types'
-import { cn } from '@/lib/utils'
 
 type TNoteColorProps = {
   color: NotesBackgrounds
@@ -11,7 +11,7 @@ export default function NoteColor({ color, setColor }: TNoteColorProps) {
   return (
     <div>
       <div className='mb-2 text-foreground'>Farbe auswählen</div>
-      <div className='flex gap-2'>
+      <div className='ml-1 flex gap-2'>
         <button
           className={cn(
             'size-5 border-foreground relative rounded-sm border',

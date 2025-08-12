@@ -1,5 +1,5 @@
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { Text, StyleSheet, View } from '@react-pdf/renderer'
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
 import Html from 'react-pdf-html'
 import BaseLayoutPDF from '../pdf/BaseLayoutPDF.component'
 import TablePDF from '../pdf/TablePDF.component'
@@ -8,13 +8,13 @@ export type PDFProps = {
   title?: string
   studentFullName: string
   lessons:
-  | Array<{
-    lessonContent: string | null
-    homework: string | null
-    date: string
-    id: number
-  }>
-  | undefined
+    | Array<{
+        lessonContent: string | null
+        homework: string | null
+        date: string
+        id: number
+      }>
+    | undefined
 }
 const styles = StyleSheet.create({
   col1: {

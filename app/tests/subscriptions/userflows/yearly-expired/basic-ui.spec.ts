@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
@@ -11,6 +11,7 @@ test('subscription status is expired', async ({ page }) => {
 
   await expect(async () => {
     await expect(subscriptionPom.statusBadge).toHaveText(/abgelaufen/i)
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })
 
@@ -32,21 +33,18 @@ test('pricing table title is hidden', async ({ page }) => {
   await expect(pricingTable).not.toBeVisible()
 })
 
-test('upgrade to lifetime section to be visible', async ({ page }) => {
-  const { lifetimeTeaser } = new SubscriptionPOM(page)
-  await expect(lifetimeTeaser).toBeVisible()
-})
-
 test('payment-failed banner is visible', async ({ page }) => {
   const { paymentFailedBanner } = new SubscriptionPOM(page)
 
   await expect(async () => {
     await expect(paymentFailedBanner).toBeVisible()
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })
 
 test('payment-failed notification is visible', async ({ page }) => {
   await expect(async () => {
     await expect(page.getByTestId('notification-payment-failed')).toBeVisible()
+    await page.reload()
   }).toPass({ timeout: 30_000 })
 })

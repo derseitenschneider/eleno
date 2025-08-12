@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import CustomEditor from '../../ui/CustomEditor.component'
-import type { Note, NotesBackgrounds } from '../../../types/types'
-import NoteColor from './NoteColor.component'
-import { useQueryClient } from '@tanstack/react-query'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useUpdateNote } from './useUpdateNote'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import type { Note, NotesBackgrounds } from '../../../types/types'
+import CustomEditor from '../../ui/CustomEditor.component'
 import { Blocker } from '../subscription/Blocker'
+import NoteColor from './NoteColor.component'
+import { useUpdateNote } from './useUpdateNote'
 
 interface UpdateNoteProps {
   onCloseModal?: () => void
@@ -44,7 +45,7 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
   }
 
   return (
-    <div className='relative sm:min-w-[500px] text-sm'>
+    <div className='relative px-1 text-sm sm:min-w-[500px]'>
       <Blocker />
       <Label htmlFor='title'>Titel</Label>
       <Input
@@ -57,14 +58,16 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
         onChange={handleTitle}
       />
 
-      <div className='mt-5 mb-6'>
+      <div className='mb-6 mt-5'>
         <CustomEditor value={text || ''} onChange={handleText} />
       </div>
-      <div className='flex flex-wrap gap-y-5 gap-x-4 justify-between items-end'>
+      <div className='flex flex-col flex-wrap justify-between gap-x-4 sm:flex-row sm:items-end sm:gap-y-5'>
         <NoteColor color={backgroundColor} setColor={setBackgroundColor} />
-        <div className='flex  gap-4 items-center'>
+        <Separator className='my-6 sm:hidden' />
+        <div className='flex  flex-col-reverse items-center gap-2 sm:flex-row sm:gap-4'>
           <Button
             type='button'
+            className='w-full'
             onClick={onCloseModal}
             size='sm'
             variant='outline'
@@ -72,9 +75,10 @@ function UpdateNote({ onCloseModal, noteId }: UpdateNoteProps) {
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2'>
             <Button
               type='button'
+              className='w-full'
               onClick={handleSave}
               size='sm'
               disabled={isUpdating}

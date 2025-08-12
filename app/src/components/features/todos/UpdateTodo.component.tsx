@@ -1,21 +1,22 @@
-import { Input } from '@/components/ui/input'
-import AddHolderCombobox from '../students/AddHolderCombobox.component'
-import { DayPicker } from '@/components/ui/daypicker.component'
-import ButtonRemove from '@/components/ui/buttonRemove'
-import { Button } from '@/components/ui/button'
-import { useUpdateTodo } from './useUpdateTodo'
-import { useQueryClient } from '@tanstack/react-query'
-import type { TTodoItem } from '@/types/types'
-import { useState } from 'react'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
+import { DayPicker } from '@/components/ui/daypicker.component'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { Blocker } from '../subscription/Blocker'
+import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import type { TTodoItem } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import AddHolderCombobox from '../students/AddHolderCombobox.component'
+import { Blocker } from '../subscription/Blocker'
+import { useUpdateTodo } from './useUpdateTodo'
 
 type UpdateTodoProps = {
   id: number
-  onSuccess: () => void
+  onSuccess?: () => void
 }
 export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
   const isMobile = useIsMobileDevice()
@@ -56,7 +57,7 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
       newTodo.groupId = null
     }
     updateTodo(newTodo, {
-      onSuccess,
+      onSuccess: () => onSuccess?.(),
     })
   }
 
@@ -105,17 +106,31 @@ export default function UpdateTodo({ id, onSuccess }: UpdateTodoProps) {
             </div>
           </div>
         </div>
-        <div className='flex items-center gap-2'>
-          <Button
-            disabled={isUpdating || !text || !hasAccess}
-            type='submit'
-            onClick={onSaveHandler}
-            size='sm'
-            className={cn('sm:mt-0 sm:ml-0', ' mt-2 ml-auto')}
-          >
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
+        <Separator className='my-6 sm:hidden' />
+        <div className='flex flex-col items-center gap-2 sm:flex-row'>
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
+            <Button
+              disabled={isUpdating || !text || !hasAccess}
+              type='submit'
+              onClick={onSaveHandler}
+              size='sm'
+              className={cn('sm:mt-0 sm:ml-auto', 'w-full sm:w-auto')}
+            >
+              Speichern
+            </Button>
+            {isUpdating && <MiniLoader />}
+          </div>
+          {isMobile && onSuccess && (
+            <Button
+              type='button'
+              variant='outline'
+              size='sm'
+              onClick={onSuccess}
+              className='w-full'
+            >
+              Abbrechen
+            </Button>
+          )}
         </div>
       </form>
     </div>

@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import parse from 'html-react-parser'
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import type { ColumnDef } from '@tanstack/react-table'
+import parse from 'html-react-parser'
 import {
   ArrowUpDown,
   MessageSquareShare,
@@ -25,11 +26,10 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useState } from 'react'
-import EditLesson from '../UpdateLesson.component'
 import DeleteLesson from '../DeleteLesson.component'
-import ShareHomework from '../ShareHomework.component'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { HomeworkExpired } from '../HomeworkExpired.component'
+import EditLesson from '../UpdateLesson.component'
+import { HomeworkExpired } from '../homework/HomeworkExpired.component'
+import ShareHomework from '../homework/ShareHomework.component'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {
@@ -102,7 +102,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
       return (
         <>
           <div className='text-right'>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='h-8 w-8 p-0'>
                   <span className='sr-only'>Menü öffnen</span>
@@ -121,7 +121,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
 
                 <DropdownMenuItem
                   onClick={() => setOpenModal('SHARE')}
-                  className='hidden items-center gap-2 md:flex'
+                  className='flex items-center gap-2'
                 >
                   <MessageSquareShare className='size-4 text-primary' />
                   <span>Hausaufgaben teilen</span>

@@ -1,14 +1,14 @@
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { TTodoItem } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
-import { useDeleteTodos } from './useDeleteTodos'
 import { Blocker } from '../subscription/Blocker'
+import { useDeleteTodos } from './useDeleteTodos'
 
 type DeleteTodosProps = {
   onCloseModal?: () => void
@@ -40,21 +40,14 @@ export default function DeleteTodos({
   }
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Todo{todoIds.length > 1 && 's'} löschen</DialogTitle>
-      </DialogHeader>
       <div>
         <Blocker />
-        {todoIds.length === 1 ? (
-          <DialogDescription>
-            Möchtest du die Todo{' '}
-            <span className='font-bold text-primary hyphens-auto'>{text}</span>{' '}
-            unwiederruflich löschen?
-          </DialogDescription>
-        ) : (
-          <p>Möchtest du alle erledigten Todos unwiederruflich löschen?</p>
-        )}
-        <div className='flex justify-end gap-4 mt-4'>
+        <DialogDescription>
+          {todoIds.length === 1
+            ? 'Möchtest du die ausgewählte Todo unwiederruflich löschen?'
+            : 'Möchtest du alle erledigten Todos unwiederruflich löschen?'}
+        </DialogDescription>
+        <div className='mt-6 flex flex-col-reverse justify-end gap-3 sm:flex-row'>
           <Button
             disabled={isDeleting}
             size='sm'
@@ -63,8 +56,9 @@ export default function DeleteTodos({
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2 sm:w-auto'>
             <Button
+              className='w-full'
               disabled={isDeleting}
               size='sm'
               variant='destructive'

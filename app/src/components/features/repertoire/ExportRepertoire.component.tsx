@@ -6,10 +6,10 @@ import type { LessonHolder, RepertoireItem } from '../../../types/types'
 
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useQueryClient } from '@tanstack/react-query'
 import RepertoirePDF from '../pdf/RepertoirePDF.component'
-import { Input } from '@/components/ui/input'
 
 type ExportRepertoireProps = { lessonHolder: LessonHolder }
 
@@ -56,17 +56,17 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
     title: item.title,
     startDate: item.startDate
       ? item.startDate.toLocaleDateString(userLocale, {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      })
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        })
       : '',
     endDate: item.endDate
       ? item.endDate.toLocaleDateString(userLocale, {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      })
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        })
       : '',
   }))
 

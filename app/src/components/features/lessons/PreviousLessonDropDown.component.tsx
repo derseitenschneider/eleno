@@ -1,10 +1,10 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+  DrawerOrDialog,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +16,8 @@ import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
 import EditLesson from './UpdateLesson.component'
+import ShareHomework from './homework/ShareHomework.component'
 import { useLatestLessons } from './lessonsQueries'
-import ShareHomework from './ShareHomework.component'
 
 type PreviousLessonDropDownProps = {
   lessonId: number
@@ -40,62 +40,59 @@ export default function PreviousLessonDropDown({
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger className='size-4 text-primary'>
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent className='mr-3 md:mr-0'>
           <DropdownMenuItem onClick={() => setModalOpen('EDIT')}>
-            <Pencil className='h-4 w-4 text-primary mr-2' />
+            <Pencil className='mr-2 h-4 w-4 text-primary' />
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            className='hidden md:flex'
-            onClick={() => setModalOpen('SHARE')}
-          >
-            <MessageSquareShare className='size-4 text-primary mr-2' />
+          <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
+            <MessageSquareShare className='mr-2 size-4 text-primary' />
             <span>Hausaufgaben teilen</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setModalOpen('DELETE')}>
-            <Trash2 className='h-4 w-4 text-warning mr-2' />
+            <Trash2 className='mr-2 h-4 w-4 text-warning' />
             <span>Lektion löschen</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={modalOpen === 'EDIT'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Lektion bearbeiten</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={modalOpen === 'EDIT'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Lektion bearbeiten</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Bearbeite die ausgewählte Lektion.
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <EditLesson onCloseModal={closeModal} lessonId={currentLesson?.id} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Hausaufgaben teilen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
+      <DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Hausaufgaben teilen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
             Teile die Hausaufgaben mit deinen Schüler:innen
-          </DialogDescription>
+          </DrawerOrDialogDescription>
           <ShareHomework lessonId={currentLesson?.id} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
-      <Dialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Lektion löschen</DialogTitle>
-          </DialogHeader>
+      <DrawerOrDialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}>
+        <DrawerOrDialogContent>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Lektion löschen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
           <DeleteLesson onCloseModal={closeModal} lessonId={currentLesson.id} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
     </>
   )
 }

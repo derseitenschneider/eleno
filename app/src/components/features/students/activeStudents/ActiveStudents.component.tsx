@@ -1,6 +1,6 @@
+import { compareLastName } from '@/utils/sortLessonHolders'
 import useStudentsQuery from '../studentsQueries'
 import ActiveStudentsTable from './activeStudentsTable/table'
-import { compareLastName } from '@/utils/sortLessonHolders'
 
 export default function ActiveStudents() {
   const { data: students, isPending, isError, isFetching } = useStudentsQuery()

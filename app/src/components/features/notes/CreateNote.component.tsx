@@ -1,15 +1,16 @@
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useUser } from '@/services/context/UserContext'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { useState } from 'react'
+import type { NotesBackgrounds, PartialNote } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 import NoteColor from './NoteColor.component'
-import type { NotesBackgrounds, PartialNote } from '../../../types/types'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useUser } from '@/services/context/UserContext'
 import { useCreateNote } from './useCreateNote'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { useSubscription } from '@/services/context/SubscriptionContext'
 
 type CreateNoteProps = {
   onCloseModal?: () => void
@@ -37,7 +38,6 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
       text: removeHTMLAttributes(text),
       backgroundColor: color,
       user_id: user?.id,
-      id: new Date().valueOf(),
       order: 0,
     }
     createNote(newNote, {
@@ -55,7 +55,7 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
   }
 
   return (
-    <div className='relative text-sm sm:w-[500px]'>
+    <div className='relative px-1 text-sm sm:w-[500px]'>
       <Label htmlFor='title'>Titel</Label>
       <Input
         id='title'
@@ -77,11 +77,13 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           <span className='block pt-2 text-sm text-warning'>{error}</span>
         )}
       </div>
-      <div className='flex flex-wrap items-end justify-between gap-x-4 gap-y-5'>
+      <div className='flex flex-col flex-wrap justify-between gap-x-4 sm:flex-row sm:items-end sm:gap-y-5 sm:pb-1'>
         <NoteColor color={color} setColor={setColor} />
-        <div className='flex items-center gap-4'>
+        <Separator className='my-6 sm:hidden' />
+        <div className='flex w-full flex-col-reverse items-center gap-2 sm:w-auto sm:flex-row sm:gap-4'>
           <Button
             type='button'
+            className='w-full'
             onClick={onCloseModal}
             size='sm'
             variant='outline'
@@ -89,8 +91,9 @@ function CreateNote({ onCloseModal, holderId, holderType }: CreateNoteProps) {
           >
             Abbrechen
           </Button>
-          <div className='flex items-center gap-2'>
+          <div className='flex w-full items-center gap-2'>
             <Button
+              className='w-full'
               type='button'
               onClick={handleSave}
               size='sm'

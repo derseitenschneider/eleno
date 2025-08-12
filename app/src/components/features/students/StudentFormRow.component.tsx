@@ -1,8 +1,7 @@
-import { memo, useCallback } from 'react'
-import { useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -12,9 +11,10 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { Trash2 } from 'lucide-react'
+import { memo, useCallback } from 'react'
+import { useFormContext } from 'react-hook-form'
 import type { UseFieldArrayRemove } from 'react-hook-form'
 import type { StudentSchema } from './CreateStudents.component'
-import { Label } from '@/components/ui/label'
 
 type StudentFormRowProps = {
   index: number
@@ -54,20 +54,20 @@ const StudentFormRow = memo(function StudentFormRow({
     <div
       className={cn(
         grid,
-        'lg:mt-1 gap-y-4 px-2 py-4 lg:p-0 lg:pr-1',
+        'lg:mt-1 gap-y-4 px-2 md:py-4 lg:p-0 lg:pr-1',
         fields > 1
-          ? 'lg:border-none lg:shadow-none border border-hairline mb-6 shadow-sm rounded-lg'
+          ? 'lg:border-none lg:shadow-none border bg-background100   border-hairline my-6 sm:my-6 shadow-sm rounded-lg'
           : 'mb-1',
       )}
     >
-      <span className='hidden lg:inline self-center text-sm text-foreground/75'>
+      <span className='hidden self-center text-sm text-foreground/75 lg:inline'>
         {index + 1}
       </span>
       <FormField
         control={control}
         name={`students.${index}.firstName`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 md:col-span-6 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Vorname*
             </Label>
@@ -76,6 +76,10 @@ const StudentFormRow = memo(function StudentFormRow({
                 id={field.name}
                 disabled={disabled}
                 placeholder='Vorname'
+                autoComplete='off'
+                autoCorrect='off'
+                type='text'
+                spellCheck={false}
                 {...field}
                 className={cn(
                   formState.errors.students?.[index]?.firstName &&
@@ -90,7 +94,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.lastName`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 md:col-span-6 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Nachname*
             </Label>
@@ -112,7 +116,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.instrument`}
         render={({ field }) => (
-          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Instrument*
             </Label>
@@ -134,7 +138,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.dayOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-6 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 md:col-span-6 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Tag
             </Label>
@@ -142,12 +146,12 @@ const StudentFormRow = memo(function StudentFormRow({
               <Select
                 disabled={disabled}
                 onValueChange={field.onChange}
-                defaultValue={field.value || undefined}
+                value={field.value || ''}
               >
                 <SelectTrigger className='h-[36px]'>
-                  <SelectValue placeholder='—' />
+                  <SelectValue placeholder='Unterrichtstag' />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='z-[130]'>
                   <SelectItem value='Montag'>Montag</SelectItem>
                   <SelectItem value='Dienstag'>Dienstag</SelectItem>
                   <SelectItem value='Mittwoch'>Mittwoch</SelectItem>
@@ -166,7 +170,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.startOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-3 space-y-0 px-1 md:col-span-2 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Von
             </Label>
@@ -181,6 +185,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 }}
                 value={field.value || ''}
                 className={cn(
+                  'h-10 sm:h-9',
                   formState.errors.students?.[index]?.startOfLesson &&
                     'border-warning',
                 )}
@@ -189,11 +194,12 @@ const StudentFormRow = memo(function StudentFormRow({
           </FormItem>
         )}
       />
+      <div className='col-span-1 sm:hidden' />
       <FormField
         control={control}
         name={`students.${index}.endOfLesson`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-3 space-y-0 md:col-span-2 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Bis
             </Label>
@@ -208,6 +214,7 @@ const StudentFormRow = memo(function StudentFormRow({
                 }}
                 value={field.value || ''}
                 className={cn(
+                  'h-10 sm:h-9',
                   formState.errors.students?.[index]?.endOfLesson &&
                     'border-warning',
                 )}
@@ -216,11 +223,12 @@ const StudentFormRow = memo(function StudentFormRow({
           </FormItem>
         )}
       />
+      <div className='col-span-1 sm:hidden' />
       <FormField
         control={control}
         name={`students.${index}.durationMinutes`}
         render={({ field }) => (
-          <FormItem className='col-span-2 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-4 space-y-0 md:col-span-2 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Dauer
             </Label>
@@ -263,7 +271,7 @@ const StudentFormRow = memo(function StudentFormRow({
         control={control}
         name={`students.${index}.location`}
         render={({ field }) => (
-          <FormItem className='col-span-12 lg:col-span-1 space-y-0'>
+          <FormItem className='col-span-12 space-y-0 lg:col-span-1'>
             <Label className='inline lg:hidden' htmlFor={field.name}>
               Unterrichtsort
             </Label>

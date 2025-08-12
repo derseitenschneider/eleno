@@ -1,31 +1,28 @@
 import { Outlet } from 'react-router-dom'
 
 import DataProvider from './services/context/DataProvider.component'
-import Sidebar from './layouts/sidebar/Sidebar.component'
 
+import { Toaster as Sonner } from '@/components/ui/sonner'
+import { Info } from 'lucide-react'
+import { NotificationManager } from './components/features/notifications/NotificationManager.component'
+import Banner from './components/ui/Banner.component'
+import { SidebarProvider } from './components/ui/sidebar'
+import { useOAuthTracker } from './hooks/useOAuthTracker'
+import { AppHeader } from './layouts/appHeader/AppHeader'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
+import { AppSidebar } from './layouts/sidebar/AppSidebar.component'
 import { DarkModeProvider } from './services/context/DarkModeContext'
 import { LoadingProvider } from './services/context/LoadingContext'
+import MainContext from './services/context/MainContext'
+import { SubscriptionProvider } from './services/context/SubscriptionContext'
 import { AuthProvider } from './services/context/UserContext'
 import { UserLocaleProvider } from './services/context/UserLocaleContext'
-import { Toaster as Sonner } from '@/components/ui/sonner'
-import MainContext from './services/context/MainContext'
-import { Info } from 'lucide-react'
-import useIsOnline from './hooks/useIsOnline'
-import { cn } from './lib/utils'
-import { SubscriptionProvider } from './services/context/SubscriptionContext'
-import Banner from './components/ui/Banner.component'
-import { NotificationManager } from './components/features/notifications/NotificationManager.component'
 
 export default function Application() {
-  const isOnline = useIsOnline()
+  useOAuthTracker()
+
   return (
-    <div
-      className={cn(
-        isOnline ? 'lg:before:h-[1px]' : 'lg:before:h-[0px]',
-        'lg:before:z-[40] lg:before:w-screen lg:before:bg-hairline lg:before:fixed lg:before:top-0 lg:before:left-0',
-      )}
-    >
+    <div>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
@@ -34,10 +31,14 @@ export default function Application() {
                 <MainContext>
                   <DarkModeProvider>
                     <Banner />
-                    <div className='md:ml-[50px]'>
-                      <Outlet />
-                    </div>
-                    <Sidebar />
+                    <SidebarProvider defaultOpen={false}>
+                      <AppSidebar />
+                      <main className='flex-1'>
+                        <AppHeader />
+                        <Outlet />
+                      </main>
+                      {/* <Sidebar /> */}
+                    </SidebarProvider>
                     <NavbarMobile />
                     <NotificationManager />
                   </DarkModeProvider>

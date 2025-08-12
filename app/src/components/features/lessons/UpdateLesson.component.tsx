@@ -2,13 +2,15 @@ import { useState } from 'react'
 import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 
+import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 import { DayPicker } from '@/components/ui/daypicker.component'
-import { Button } from '@/components/ui/button'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Separator } from '@/components/ui/separator'
+import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUpdateLesson } from './useUpdateLesson'
 import { useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { Blocker } from '../subscription/Blocker'
+import { useUpdateLesson } from './useUpdateLesson'
 
 type EditLessonProps = {
   lessonId: number
@@ -61,22 +63,30 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   function handleSave() {
     if (!lessonToUpdate) return
     updateLesson(
-      { ...lessonToUpdate, lessonContent, homework, date },
       {
-        onSuccess: () => onCloseModal?.(),
+        ...lessonToUpdate,
+        lessonContent: removeHTMLAttributes(lessonContent),
+        homework: removeHTMLAttributes(homework),
+        date,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Änderungen gespeichert.')
+          onCloseModal?.()
+        },
       },
     )
   }
 
   return (
-    <div className='relative'>
+    <div className='relative pb-4'>
       <Blocker />
-      <div className='flex items-center mb-3 gap-2'>
+      <div className='mb-3 flex items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isUpdating} date={date} setDate={handleSetDate} />
       </div>
-      <div className='lg:flex items-center mb-6 gap-8'>
-        <div className='mb-6 lg:mb-0 md:w-[450px]'>
+      <div className='mb-6 items-center gap-8 lg:flex'>
+        <div className='mb-6 md:w-[450px] lg:mb-0'>
           <p className='text-foreground/70'>Lektion</p>
 
           <CustomEditor
@@ -96,22 +106,14 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
           />
         </div>
       </div>
-      <div className='justify-end gap-4 flex items-center'>
-        <Button
-          disabled={isUpdating}
-          size='sm'
-          variant='outline'
-          onClick={onCloseModal}
-        >
-          Abbrechen
-        </Button>
-        <div className='flex items-center gap-2'>
-          <Button disabled={isUpdating} size='sm' onClick={handleSave}>
-            Speichern
-          </Button>
-          {isUpdating && <MiniLoader />}
-        </div>
-      </div>
+      <Separator className='my-6 sm:hidden' />
+      <SaveAbortButtons
+        onSave={handleSave}
+        onAbort={onCloseModal}
+        isSaving={isUpdating}
+        isDisabledSaving={isUpdating}
+        isDisabledAborting={isUpdating}
+      />
     </div>
   )
 }

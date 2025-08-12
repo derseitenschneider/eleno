@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
 import type { Message } from '@/types/types'
-import { toast } from 'sonner'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export function useMessageNotification(messages: Message[] | undefined) {
   const navigate = useNavigate()
@@ -18,7 +18,9 @@ export function useMessageNotification(messages: Message[] | undefined) {
 
     if (unnotifiedMessages.length > 0) {
       const numMessages = unnotifiedMessages.length
-      const description = `Du hast ${numMessages === 1 ? 'eine' : numMessages} neue Nachricht${numMessages > 1 ? 'en' : ''}.`
+      const description = `Du hast ${
+        numMessages === 1 ? 'eine' : numMessages
+      } neue Nachricht${numMessages > 1 ? 'en' : ''}.`
       toast('Neue Nachricht', {
         description,
         duration: Number.POSITIVE_INFINITY,

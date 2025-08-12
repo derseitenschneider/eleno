@@ -22,7 +22,7 @@ subscriptionStates.forEach((subscriptionState) => {
     downloadInvoice,
     chfOnly,
     cancelReactivate,
-    reactivateCancel
+    reactivateCancel,
   } = subscriptionState
 
   // Test setup
@@ -38,9 +38,11 @@ subscriptionStates.forEach((subscriptionState) => {
     testMatch: noTest
       ? ''
       : [
-        `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
-        `**/tests/subscriptions/common/access-${access ? 'granted' : 'blocked'}.spec.ts`,
-      ],
+          `**/tests/subscriptions/userflows/${state}/**/*.spec.ts`,
+          `**/tests/subscriptions/common/access-${
+            access ? 'granted' : 'blocked'
+          }.spec.ts`,
+        ],
     dependencies: noSetup ? undefined : [`setup-${state}`],
     use: {
       ...devices['Desktop Chrome'],

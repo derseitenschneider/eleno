@@ -17,7 +17,7 @@ function ButtonRemove({
     <button
       disabled={disabled}
       className={cn(
-        'bg-primary/70 rounded-full  hover:bg-primary h-[12px]',
+        'bg-primary/70 rounded-full  hover:bg-primary h-4 sm:h-[12px]',
         className,
       )}
       onClick={onRemove}

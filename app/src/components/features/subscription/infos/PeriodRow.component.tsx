@@ -8,7 +8,12 @@ export default function PeriodRow() {
     periodStartLocalized,
     periodEndLocalized,
   } = useSubscription()
-  if (subscriptionState === 'LIFETIME') return null
+  if (
+    subscriptionState === 'LIFETIME' ||
+    subscriptionState === 'INACTIVE' ||
+    subscriptionState === 'LICENSED_ACTIVE'
+  )
+    return null
   return (
     <>
       <p>Laufzeit:</p>

@@ -1,21 +1,50 @@
-import { TooltipProvider } from '@/components/ui/tooltip'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
-import useMessagesQuery from './messagesQueries'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { cn } from '@/lib/utils'
+import { useSearchParams } from 'react-router-dom'
 import MessageList from './MessageList.component'
-import MessageDisplay from './MessageDisplay.component'
+import { MessageView } from './MessageView.component'
+import useMessagesQuery from './messagesQueries'
 
-// TODO: Consume isLoading
 export default function Messages() {
   const { data: messages, isLoading } = useMessagesQuery()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const isDesktop = useMediaQuery('(min-width: 1025px)')
+
+  const selectedMessageId = searchParams.get('message')
+  const selectedMessage =
+    messages?.find((m) => m.id === selectedMessageId) || null
+
+  const handleClose = () => {
+    searchParams.delete('message')
+    setSearchParams(searchParams)
+  }
+
+  if (isLoading) {
+    return (
+      <div className='p-6 text-center text-muted-foreground'>
+        Nachrichten werden geladen...
+      </div>
+    )
+  }
 
   return (
-    <div className='h-full rounded-lg border border-hairline flex '>
-      <TooltipProvider delayDuration={0}>
-        <div className='basis-[500px] flex-grow-0 flex flex-col flex-1'>
-          <div className='flex items-center px-4 h-14 shrink-0'>
-            <p className='text-xl font-bold'>Nachrichten</p>
-          </div>
-          <Separator />
+    <TooltipProvider delayDuration={0}>
+      <div className='flex rounded-lg border-hairline sm:h-full lg:border '>
+        <div
+          className={cn(
+            'flex flex-1 flex-col',
+            isDesktop ? 'w-1/2 max-w-[500px]' : 'basis-full',
+          )}
+        >
           <div className='mt-4 flex-grow overflow-y-auto'>
             {messages && messages.length !== 0 ? (
               <MessageList messages={messages} />
@@ -26,13 +55,34 @@ export default function Messages() {
             )}
           </div>
         </div>
-        <Separator orientation='vertical' />
-        <div className='flex-grow h-full'>
-          {messages && messages.length !== 0 && (
-            <MessageDisplay messages={messages} />
-          )}
-        </div>
-      </TooltipProvider>
-    </div>
+        {isDesktop ? (
+          <>
+            <Separator className='hidden lg:block' orientation='vertical' />
+            <div className='hidden h-full flex-grow lg:block'>
+              <MessageView message={selectedMessage} />
+            </div>
+          </>
+        ) : (
+          <Drawer
+            direction='right'
+            open={!!selectedMessage}
+            onOpenChange={() => handleClose()}
+          >
+            <DrawerContent
+              className='flex !w-screen flex-col p-0 sm:!max-w-[unset] lg:!w-2/3'
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DrawerHeader className='hidden'>
+                <DrawerTitle>{selectedMessage?.subject}</DrawerTitle>
+                <DrawerDescription>
+                  Neue Nachricht wom {selectedMessage?.created_at}
+                </DrawerDescription>
+              </DrawerHeader>
+              <MessageView message={selectedMessage} onClose={handleClose} />
+            </DrawerContent>
+          </Drawer>
+        )}
+      </div>
+    </TooltipProvider>
   )
 }

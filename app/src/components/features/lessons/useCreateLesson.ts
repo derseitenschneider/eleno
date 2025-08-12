@@ -11,37 +11,49 @@ export function useCreateLesson() {
     mutationFn: createLessonAPI,
 
     onSuccess: (newLesson) => {
-      queryClient.setQueryData(['latest-3-lessons'], (prev: Array<Lesson>) => [
-        ...prev,
-        newLesson,
-      ])
-      toast.success('Lektion gespeichert.')
-      queryClient.invalidateQueries({
-        queryKey: ['latest-3-lessons'],
-      })
+      if (newLesson?.status === 'documented') {
+        queryClient.setQueryData(
+          ['latest-3-lessons'],
+          (prev: Array<Lesson>) => [...prev, newLesson],
+        )
+        toast.success('Lektion gespeichert.')
 
-      queryClient.invalidateQueries({
-        queryKey: [
-          'all-lessons',
-          {
-            holder: newLesson?.studentId
-              ? `s-${newLesson.studentId}`
-              : `g-${newLesson?.groupId}`,
-            year: newLesson?.date.getFullYear(),
-          },
-        ],
-      })
-      queryClient.invalidateQueries({
-        queryKey: [
-          'lesson-years',
-          {
-            holder: newLesson?.studentId
-              ? `s-${newLesson.studentId}`
-              : `g-${newLesson?.groupId}`,
-            year: newLesson?.date.getFullYear(),
-          },
-        ],
-      })
+        queryClient.invalidateQueries({
+          queryKey: ['latest-3-lessons'],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [
+            'all-lessons',
+            {
+              holder: newLesson?.studentId
+                ? `s-${newLesson.studentId}`
+                : `g-${newLesson?.groupId}`,
+              year: newLesson?.date.getFullYear(),
+            },
+          ],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [
+            'lesson-years',
+            {
+              holder: newLesson?.studentId
+                ? `s-${newLesson.studentId}`
+                : `g-${newLesson?.groupId}`,
+              year: newLesson?.date.getFullYear(),
+            },
+          ],
+        })
+      }
+
+      if (newLesson?.status === 'prepared') {
+        queryClient.setQueryData(
+          ['prepared-lessons'],
+          (prev: Array<Lesson>) => [...prev, newLesson],
+        )
+        toast.success('Lektion gespeichert.')
+      }
     },
 
     onError: () => {

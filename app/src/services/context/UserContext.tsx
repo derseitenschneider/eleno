@@ -1,4 +1,6 @@
 import type { Session } from '@supabase/gotrue-js/src/lib/types'
+import type { User } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   createContext,
   useCallback,
@@ -12,8 +14,6 @@ import LoginPage from '../../pages/LoginPage'
 import type { ContextTypeUser, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { deleteAccountSupabase, recoverPasswordSupabase } from '../api/user.api'
-import { useQueryClient } from '@tanstack/react-query'
-import type { User } from '@supabase/supabase-js'
 import { useLoading } from './LoadingContext'
 
 export const UserContext = createContext<ContextTypeUser>({
@@ -65,46 +65,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })
   }, [setIsLoading])
-
-  // const updateUserMeta = useCallback(async (data: UserMeta) => {
-  //   if (isDemoMode) {
-  //     mockUser.first_name = data.firstName
-  //     mockUser.last_name = data.lastName
-  //     return
-  //   }
-  //   try {
-  //     await updateUserMetaApi(data)
-  //     setUserProfile((prev) =>
-  //       prev
-  //         ? { ...prev, firstName: data.firstName, lastName: data.lastName }
-  //         : undefined,
-  //     )
-  //   } catch (error) {
-  //     if (error instanceof Error) throw new Error(error.message)
-  //   }
-  // }, [])
-
-  // const updateEmail = useCallback(async (email: string) => {
-  //   if (isDemoMode) {
-  //     mockUser.email = email
-  //     return
-  //   }
-  //
-  //   try {
-  //     await updateEmailSupabase(email)
-  //     setUserProfile((prev) => (prev ? { ...prev, email } : undefined))
-  //   } catch (error) {
-  //     if (error instanceof Error) throw new Error(error.message)
-  //   }
-  // }, [])
-
-  // const updatePassword = useCallback(async (password: string) => {
-  //   try {
-  //     await updatePasswordSupabase(password)
-  //   } catch (error) {
-  //     if (error instanceof Error) throw new Error(error.message)
-  //   }
-  // }, [])
 
   const deleteAccount = useCallback(
     async (subscription: Subscription) => {
@@ -161,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <UserContext.Provider value={value}>
       {currentSession && children}
       {!currentSession && !isLoading && (
-        <LoginPage className='grid min-h-screen grid-rows-[80px_1fr] bg-background100' />
+        <LoginPage className='grid min-h-[100dvh] bg-zinc-50 ' />
       )}
     </UserContext.Provider>
   )

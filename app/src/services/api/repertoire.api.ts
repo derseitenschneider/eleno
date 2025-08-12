@@ -1,7 +1,7 @@
 import { appConfig } from '@/config'
 import type { PartialRepertoireItem, RepertoireItem } from '../../types/types'
-import supabase from './supabase'
 import mockRepertoire from './mock-db/mockRepertoire'
+import supabase from './supabase'
 
 const isDemo = appConfig.isDemoMode
 

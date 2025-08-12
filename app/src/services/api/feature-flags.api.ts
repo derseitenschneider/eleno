@@ -1,9 +1,12 @@
 import supabase from './supabase'
-export const fetchFeatureFlag = async (flagName: string, userId: string): Promise<boolean> => {
+export const fetchFeatureFlag = async (
+  flagName: string,
+  userId: string,
+): Promise<boolean> => {
   try {
     const { data: flagData, error: flagError } = await supabase
       .from('feature_flags')
-      .select('*, feature_flag_users(*)',)
+      .select('*, feature_flag_users(*)')
       .eq('flag_name', flagName)
       .single()
 
@@ -34,7 +37,7 @@ export const fetchAllFeatureFlags = async () => {
   try {
     const { data: flagData, error: flagError } = await supabase
       .from('feature_flags')
-      .select('*, feature_flag_users(*)',)
+      .select('*, feature_flag_users(*)')
 
     if (flagError || !flagData) {
       console.error('Error fetching feature flag:', flagError)

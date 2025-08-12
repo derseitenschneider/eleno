@@ -1,23 +1,23 @@
 import { createElement, useState } from 'react'
 import type { Group, LessonHolder, Student } from '../../../types/types'
 
-import { Button } from '@/components/ui/button'
-import { DayPicker } from '@/components/ui/daypicker.component'
-import stripHtmlTags from '../../../utils/stripHtmlTags'
-import ButtonRemove from '@/components/ui/buttonRemove'
-import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import ButtonRemove from '@/components/ui/buttonRemove'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
-import type { PDFProps } from './LessonsPDF'
-import { toast } from 'sonner'
-import { useQueryClient } from '@tanstack/react-query'
-import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
-import { isDemoMode } from '@/config'
+import { DayPicker } from '@/components/ui/daypicker.component'
 import { DialogDescription } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { isDemoMode } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import stripHtmlTags from '../../../utils/stripHtmlTags'
+import type { PDFProps } from './LessonsPDF'
+import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 
 type ExportLessonsProps = {
   holderId: number
@@ -47,13 +47,13 @@ function ExportLessons({
   const selectedHolder =
     holderType === 's'
       ? ({
-        type: 's',
-        holder: allStudents.find((student) => student.id === holderId),
-      } as LessonHolder)
+          type: 's',
+          holder: allStudents.find((student) => student.id === holderId),
+        } as LessonHolder)
       : ({
-        type: 'g',
-        holder: allGroups.find((group) => group.id === holderId),
-      } as LessonHolder)
+          type: 'g',
+          holder: allGroups.find((group) => group.id === holderId),
+        } as LessonHolder)
 
   const { refetch: fetchAllLessons } = useAllLessons(
     [holderId],

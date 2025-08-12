@@ -1,7 +1,7 @@
+import { isDemoMode } from '@/config'
 import type { PartialTodoItem, TTodoItem } from '../../types/types'
 import { mockTodos } from './mock-db/mockTodos'
 import supabase from './supabase'
-import { isDemoMode } from '@/config'
 
 export const fetchTodosApi = async (
   userId: string,

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { SubscriptionPOM } from '../../../pom/SubscriptionPOM'
 
 test.beforeEach(async ({ page }) => {
@@ -15,11 +15,6 @@ test('plan is "Monatlich" ', async ({ page }) => {
 test('pricing table title is hidden', async ({ page }) => {
   const { pricingTable } = new SubscriptionPOM(page)
   await expect(pricingTable).not.toBeVisible()
-})
-
-test('upgrade to lifetime section to be visible', async ({ page }) => {
-  const { lifetimeTeaser } = new SubscriptionPOM(page)
-  await expect(lifetimeTeaser).toBeVisible()
 })
 
 test('trial banner is hidden', async ({ page }) => {

@@ -1,9 +1,5 @@
-import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { RepertoireItem } from '@/types/types'
-import { FileDown } from 'lucide-react'
-import { useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,8 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import ExportRepertoire from '../ExportRepertoire.component'
+import type { RepertoireItem } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { FileDown } from 'lucide-react'
+import { useState } from 'react'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
+import ExportRepertoire from '../ExportRepertoire.component'
 
 type RepertoireControlProps = {
   globalFilter: string
@@ -40,7 +40,7 @@ export default function RepertoireControl({
   if (!currentLessonHolder) return null
 
   return (
-    <div className='sm:flex hidden items-center gap-4 mb-4'>
+    <div className='mb-4 hidden items-center gap-4 sm:flex'>
       <div className='mr-auto'>
         {hasRepertoireItems && (
           <p className='text-sm'>
@@ -54,7 +54,7 @@ export default function RepertoireControl({
         onClick={() => setModalOpen('EXPORT')}
         disabled={!hasRepertoireItems || isFetching}
       >
-        <FileDown className='h-4 w-4 text-primary mr-1' />
+        <FileDown className='mr-1 h-4 w-4 text-primary' />
         Exportieren
       </Button>
       <SearchBar

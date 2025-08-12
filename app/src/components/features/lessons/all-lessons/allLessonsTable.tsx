@@ -9,12 +9,13 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { useState } from 'react'
 import { DataTable } from '@/components/ui/data-table'
-import { allLessonsColumns } from './allLessonsColumns'
-import AllLessonsControl from './allLessonsControl.component'
-import useHasBanner from '@/hooks/useHasBanner'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { allLessonsColumns } from './allLessonsColumns'
+import { allLessonsColumnsMobile } from './allLessonsColumnsMobile'
+import AllLessonsControl from './allLessonsControl.component'
 
 type AllLessonsTableProps = {
   lessons: Array<Lesson>
@@ -25,9 +26,9 @@ export default function AllLessonsTable({
   lessons,
   isFetching,
 }: AllLessonsTableProps) {
+  const isMobile = useIsMobileDevice()
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
-  const hasBanner = useHasBanner()
   const { userLocale } = useUserLocale()
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
@@ -53,7 +54,7 @@ export default function AllLessonsTable({
   const table = useReactTable({
     data: lessons,
     globalFilterFn: fuzzyFilter,
-    columns: allLessonsColumns,
+    columns: isMobile ? allLessonsColumnsMobile : allLessonsColumns,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
@@ -68,7 +69,7 @@ export default function AllLessonsTable({
   return (
     <div
       className={cn(
-        hasBanner ? 'h-[calc(100%-132px)]' : 'h-[calc(100%-100px)]',
+        'h-[calc(100%-100px)]',
         'mb-20 flex flex-col overflow-hidden p-4 px-5 py-6 sm:mb-10 sm:h-[calc(100%-40px)] sm:py-4 sm:pl-6 sm:pr-4',
       )}
     >
@@ -79,7 +80,7 @@ export default function AllLessonsTable({
         isFetching={isFetching}
       />
       <DataTable
-        className='h-full min-w-[600px] [&_td:not(:has(button)):not(:has(input))]:px-6 [&_td:not(:has(button))]:align-top [&_td]:py-3 [&_th]:px-6'
+        className='h-full sm:min-w-[600px] sm:[&_td:not(:has(button)):not(:has(input))]:px-6 [&_td:not(:has(button))]:align-top sm:[&_td]:py-3 sm:[&_th]:px-6'
         table={table}
         columns={allLessonsColumns}
         messageEmpty='Keine Lektionen vorhanden'

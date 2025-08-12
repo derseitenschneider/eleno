@@ -1,14 +1,24 @@
-import { useEffect, useState } from 'react'
-import compareDateTodos from '../../../utils/sortTodos'
+import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
 import useTodosQuery from '@/components/features/todos/todosQuery'
-import TodoItem from './TodoItem.component'
+import {
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
 import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import compareDateTodos from '../../../utils/sortTodos'
+import TodoItem from './TodoItem.component'
+import { TodoMobileDrawer } from './TodoMobileDrawer.component'
 
 export default function TodosCompleted() {
   const { data: todos, isPending } = useTodosQuery()
+  const isMobile = useIsMobileDevice()
   const [openModal, setOpenModal] = useState<'DELETE_ALL'>()
 
   useEffect(() => {
@@ -36,8 +46,9 @@ export default function TodosCompleted() {
     <div>
       {completedTodos && completedTodos?.length > 0 ? (
         <>
-          <div className='flex justify-end'>
+          <div className='flex sm:justify-end'>
             <Button
+              className='w-full sm:w-auto'
               size='sm'
               variant='destructive'
               onClick={() => setOpenModal('DELETE_ALL')}
@@ -46,18 +57,40 @@ export default function TodosCompleted() {
             </Button>
           </div>
           <ul className='mt-4'>
-            {sortedFilteredTodos.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} type='completed' />
-            ))}
+            {isMobile
+              ? sortedFilteredTodos.map((todo) => (
+                  <TodoMobileDrawer
+                    key={todo.id}
+                    todo={todo}
+                    type='completed'
+                  />
+                ))
+              : sortedFilteredTodos.map((todo) => (
+                  <TodoItem key={todo.id} todo={todo} type='completed' />
+                ))}
           </ul>
-          <Dialog open={openModal === 'DELETE_ALL'} onOpenChange={closeModal}>
-            <DialogContent>
+          <DrawerOrDialog
+            open={openModal === 'DELETE_ALL'}
+            onOpenChange={closeModal}
+          >
+            <DrawerOrDialogContent>
+              <DrawerOrDialogClose asChild>
+                <Button
+                  variant='ghost'
+                  className='absolute right-4 top-4 text-foreground/70'
+                >
+                  <X className='size-5' />
+                </Button>
+              </DrawerOrDialogClose>
+              <DrawerOrDialogHeader>
+                <DrawerOrDialogTitle>Todos löschen</DrawerOrDialogTitle>
+              </DrawerOrDialogHeader>
               <DeleteTodos
                 todoIds={completedTodos.map((todo) => todo.id)}
                 onCloseModal={closeModal}
               />
-            </DialogContent>
-          </Dialog>
+            </DrawerOrDialogContent>
+          </DrawerOrDialog>
         </>
       ) : (
         <Empty

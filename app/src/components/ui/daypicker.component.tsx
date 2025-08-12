@@ -10,7 +10,6 @@ import {
 import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { useState } from 'react'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 type DayPickerProps = {
   className?: string
@@ -26,12 +25,15 @@ export function DayPicker({
   disabled,
 }: DayPickerProps) {
   const { userLocale } = useUserLocale()
-  const isMobile = useIsMobileDevice()
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   return (
-    <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+    <Popover
+      modal={true}
+      open={isCalendarOpen}
+      onOpenChange={setIsCalendarOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           disabled={disabled}
@@ -44,9 +46,7 @@ export function DayPicker({
             className,
           )}
         >
-          <CalendarIcon
-            className={cn(isMobile && date && 'hidden', 'h-4 w-4 text-primary')}
-          />
+          <CalendarIcon className={cn('h-4 w-4 text-primary')} />
           {date ? (
             <span>
               {date.toLocaleDateString(userLocale, {

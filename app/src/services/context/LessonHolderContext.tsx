@@ -19,9 +19,9 @@ export type ContextTypeLessonHolder = {
 
 export const LessonHolderContext = createContext<ContextTypeLessonHolder>({
   nearestLessonPointer: 0,
-  setNearestLessonPointer: () => { },
+  setNearestLessonPointer: () => {},
   currentLessonPointer: 0,
-  setCurrentLessonPointer: () => { },
+  setCurrentLessonPointer: () => {},
   activeSortedHolders: [],
   activeSortedHolderTypeIds: [],
   inactiveLessonHolders: [],

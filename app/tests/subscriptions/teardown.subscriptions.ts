@@ -1,9 +1,9 @@
-import { test as teardown } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
+import { test as teardown } from '@playwright/test'
+import { resolveJoin } from '../utils/resolveJoin'
 import { stripeClient } from '../utils/stripeClient'
 import supabaseAdmin from '../utils/supabaseAdmin'
-import { resolveJoin } from '../utils/resolveJoin'
 
 type UserData = {
   userId: string
@@ -14,8 +14,6 @@ type UserData = {
 const dataPath = resolveJoin('../data/subscriptions')
 
 teardown('cleanup for subscriptions.', async () => {
-  console.log('===================================================')
-  console.log('Start cleanup...')
   const files = fs
     .readdirSync(dataPath)
     .filter((file) => file.endsWith('.json'))
@@ -36,11 +34,8 @@ teardown('cleanup for subscriptions.', async () => {
       }
 
       fs.unlinkSync(filePath)
-      console.log(`Cleanup completed for ${file}`)
     } catch (error) {
       console.error(`Error cleaning up ${file}:`, error)
     }
   }
-  console.log('All cleanup tasks for subscriptions completed!')
-  console.log('===================================================')
 })

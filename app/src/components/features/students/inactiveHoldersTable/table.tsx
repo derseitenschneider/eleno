@@ -1,9 +1,10 @@
 import { DataTable } from '@/components/ui/data-table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import type { LessonHolder } from '@/types/types'
 import {
+  type FilterFn,
   type RowSelectionState,
   type SortingState,
-  type FilterFn,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -11,6 +12,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { inactiveHoldersColumns } from './columns'
+import { inactiveHoldersColumnsMobile } from './columnsMobile'
 import InactiveHoldersControl from './control'
 type TInactiveHoldersTable = {
   inactiveHolders: Array<LessonHolder>
@@ -28,6 +30,7 @@ export default function InactiveHoldersTable({
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const isMobile = useIsMobileDevice()
 
   const fuzzyFilter: FilterFn<LessonHolder> = (row, _, searchValue) => {
     if (row.original.type === 's') {
@@ -60,7 +63,7 @@ export default function InactiveHoldersTable({
 
   const table = useReactTable({
     data: inactiveHolders,
-    columns: inactiveHoldersColumns,
+    columns: isMobile ? inactiveHoldersColumnsMobile : inactiveHoldersColumns,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -80,7 +83,7 @@ export default function InactiveHoldersTable({
   if (isError) return <p>...ERROR</p>
 
   return (
-    <div>
+    <div className='pb-12 sm:pb-0'>
       <InactiveHoldersControl
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
@@ -93,6 +96,7 @@ export default function InactiveHoldersTable({
         columns={inactiveHoldersColumns}
         messageEmpty='Das Archiv ist leer.'
         isFetching={isFetching}
+        className='[&_tr]:border-b sm:[&_tr]:border-none'
       />
     </div>
   )

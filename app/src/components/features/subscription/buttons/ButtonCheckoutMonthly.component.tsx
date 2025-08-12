@@ -1,5 +1,5 @@
-import { Button, type ButtonProps } from '@/components/ui/button'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { appConfig } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
@@ -68,7 +68,7 @@ export default function ButtonCheckoutMonthly({
     <div>
       <Button
         data-testid='pricing-checkout-monthly'
-        className='w-full flex gap-2'
+        className='flex w-full gap-2'
         onClick={getCheckoutSessionLink}
         disabled={status === 'LOADING'}
         {...props}

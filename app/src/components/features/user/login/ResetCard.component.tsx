@@ -13,9 +13,10 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { recoverPasswordSupabase } from '@/services/api/user.api'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronLeftIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import ResetSuccess from './ResetSuccess.component'
 import WrapperCard from './WrapperCard.component'
@@ -30,9 +31,15 @@ const resetSchema = z.object({
 type TInput = z.infer<typeof resetSchema>
 
 export default function ResetCard() {
+  const [searchParams] = useSearchParams()
   const [success, setSuccess] = useState(false)
 
+  const email = searchParams.get('email') || ''
+
   const form = useForm<TInput>({
+    defaultValues: {
+      email,
+    },
     resolver: zodResolver(resetSchema),
     mode: 'onSubmit',
     shouldFocusError: true,
@@ -58,9 +65,15 @@ export default function ResetCard() {
     <WrapperCard
       className='mt-[-80px]'
       complementary={
-        <p className=' text-center text-sm text-zinc-700'>
-          Noch kein Benutzerkonto? <Link to='/?page=signup'>Sign up</Link>
-        </p>
+        <div className='flex justify-center'>
+          <Link
+            className='flex items-center gap-1 text-sm font-normal text-zinc-500 !decoration-zinc-300'
+            to='/?page=login'
+          >
+            <ChevronLeftIcon size='16' />
+            Zurück
+          </Link>
+        </div>
       }
       header='Passwort zurücksetzten'
     >
@@ -74,7 +87,9 @@ export default function ResetCard() {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-zinc-700 '>E-Mail Adresse</FormLabel>
+                <FormLabel className='font-semibold text-zinc-700'>
+                  E-Mail
+                </FormLabel>
                 <FormControl>
                   <Input
                     disabled={form.formState.isSubmitting}
@@ -84,19 +99,20 @@ export default function ResetCard() {
                       form.formState.errors.email
                         ? 'border-warning'
                         : 'border-zinc-400',
+                      'bg-zinc-50 text-zinc-700 placeholder:text-zinc-400',
                     )}
                   />
                 </FormControl>
                 <FormMessage />
-                <FormDescription>
+                <FormDescription className='text-zinc-500'>
                   Du erhältst einen Link zum zurücksetzten deines Passworts.
                 </FormDescription>
               </FormItem>
             )}
           />
-          <div className='flex gap-2 items-center'>
+          <div className='flex items-center gap-2'>
             <Button
-              size='sm'
+              // size='sm'
               disabled={form.formState.isSubmitting}
               type='submit'
               className='w-full'

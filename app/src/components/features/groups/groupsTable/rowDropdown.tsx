@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
 import {
   Archive,
   CheckSquare2,
@@ -23,11 +24,10 @@ import {
   TableProperties,
 } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
-import UpdateGroup from '../UpdateGroup.component'
-import { useDeactivateGroups } from '../useDeactivateGroups'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import CreateTodo from '../../todos/CreateTodo.component'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import UpdateGroup from '../UpdateGroup.component'
+import { useDeactivateGroups } from '../useDeactivateGroups'
 
 type StudentRowDropdownProps = {
   groupId: number
@@ -57,9 +57,13 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
   return (
     <>
       <div className='text-right'>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button
+              variant='ghost'
+              className='h-8 w-8 p-0'
+              onClick={(e) => e.stopPropagation()}
+            >
               <span className='sr-only'>Menü öffnen</span>
               <MoreVertical className='h-4 w-4 text-primary' />
             </Button>

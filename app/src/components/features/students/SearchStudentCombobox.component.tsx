@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -12,15 +13,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
+import type { LessonHolder } from '@/types/types'
+import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { Search, Users } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Badge } from '@/components/ui/badge'
-import type { LessonHolder } from '@/types/types'
-import getNewestLessonYear from '@/utils/getNewestLessonYear'
 import { useLatestLessons } from '../lessons/lessonsQueries'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 export default function SearchStudentCombobox() {
   const isMobile = useIsMobileDevice()

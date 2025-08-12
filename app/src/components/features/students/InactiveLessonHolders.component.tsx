@@ -1,8 +1,8 @@
+import Empty from '@/components/ui/Empty.component'
 import type { LessonHolder } from '@/types/types'
 import useGroupsQuery from '../groups/groupsQuery'
-import useStudentsQuery from './studentsQueries'
 import InactiveHoldersTable from './inactiveHoldersTable/table'
-import Empty from '@/components/ui/Empty.component'
+import useStudentsQuery from './studentsQueries'
 
 export default function InactiveLessonHolders() {
   const {

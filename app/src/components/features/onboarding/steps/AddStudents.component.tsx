@@ -1,17 +1,26 @@
 import {
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+import { Button } from '@/components/ui/button'
+import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useState } from 'react'
 import CreateStudents from '../../students/CreateStudents.component'
-import { Button } from '@/components/ui/button'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import UpdateStudents from '../../students/UpdateStudents.component'
+import { ChevronLeft } from 'lucide-react'
 
-export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
+export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
   const { activeSortedHolders } = useLessonHolders()
 
@@ -19,60 +28,77 @@ export default function AddStudents({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <>
-      <h2>Schüler:innen erfassen</h2>
+      <h2>Schüler:innen hinzufügen</h2>
       <div className='flex flex-col space-y-4'>
         {students.length === 0 ? (
           <>
             <p>
-              Bevor du überhaupt mit dem Unterrichten anfangen kannst, solltest
-              du einen oder mehrere Schüler:innen erfassen.
+              Damit dein Unterricht reibungslos startet und du alle Infos sofort
+              parat hast, ist es Zeit, deine Schüler:innen in Eleno einzutragen.
+              So ist alles perfekt vorbereitet für eure nächste gemeinsame
+              Stunde!
             </p>
 
             <Button
               type='button'
               size='sm'
               onClick={() => setModalOpen('CREATE')}
-              className='ml-auto'
+              className='ml-auto w-full'
             >
-              Schüler:innen erfassen
+              Schüler:innen hinzufügen
             </Button>
           </>
         ) : (
           <div className='flex flex-col space-y-4'>
             <p>
               Wunderbar, du hast nun {students.length}{' '}
-              {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'} erfasst.
+              {students.length === 1 ? 'Schüler:in' : 'Schüler:innen'}{' '}
+              erfolgreich hinzugefügt! Dein Unterrichtsalltag wird so gleich
+              viel übersichtlicher. Weiter geht's zum nächsten Schritt, um Eleno
+              optimal für dich einzurichten.
             </p>
-            <div className='flex items-center justify-between gap-2'>
+            <div className='flex flex-wrap items-center justify-between gap-2'>
               <Button
                 variant='outline'
                 size='sm'
+                className='hidden w-full sm:flex sm:w-auto'
                 onClick={() => setModalOpen('EDIT')}
               >
                 Schüler:innen bearbeiten
               </Button>
-              <Button size='sm' onClick={() => setModalOpen('CREATE')}>
-                Weitere erfassen
+              <Button
+                className='w-full sm:w-auto'
+                size='sm'
+                onClick={() => setModalOpen('CREATE')}
+              >
+                Mehr hinzufügen
               </Button>
             </div>
           </div>
         )}
       </div>
 
-      <Dialog
+      <DrawerOrDialog
         open={modalOpen === 'CREATE'}
         onOpenChange={() => setModalOpen(null)}
+        direction='right'
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Schüler:innen erfassen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Erfasse neue Schüler:innen
-          </DialogDescription>
+        <DrawerOrDialogContent className='!w-screen sm:!w-auto'>
+          <DrawerOrDialogClose asChild>
+            <Button variant='ghost' size='icon'>
+              <ChevronLeft className='size-5' />
+              <span className='sr-only'>Close</span>
+            </Button>
+          </DrawerOrDialogClose>
+          <DrawerOrDialogHeader>
+            <DrawerOrDialogTitle>Schüler:in hinzufügen</DrawerOrDialogTitle>
+          </DrawerOrDialogHeader>
+          <DrawerOrDialogDescription className='hidden'>
+            Füge neue Schüler:innen hinzu
+          </DrawerOrDialogDescription>
           <CreateStudents onSuccess={() => setModalOpen(null)} />
-        </DialogContent>
-      </Dialog>
+        </DrawerOrDialogContent>
+      </DrawerOrDialog>
 
       <Dialog
         open={modalOpen === 'EDIT'}

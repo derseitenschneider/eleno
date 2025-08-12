@@ -1,8 +1,8 @@
 import {
-  expect,
-  type TestInfo,
   type Locator,
   type Page,
+  type TestInfo,
+  expect,
 } from '@playwright/test'
 import { cleanupToasts } from '../utils/cleanupToasts'
 
@@ -16,6 +16,7 @@ export class RepertoirePOM {
   constructor(page: Page, testInfos: TestInfo) {
     this.page = page
     this.lessonNavSidebar = this.page.getByTestId('lesson-nav-sidebar')
+    this.btnAddNote = this.page.getByTestId('btn-add-note')
     this.inputCreateItem = page.getByTestId('input-create-repertoire')
     this.testInfos = testInfos
   }

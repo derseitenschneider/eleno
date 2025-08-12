@@ -1,22 +1,20 @@
-import { Button } from '@/components/ui/button'
 import SearchBar from '@/components/ui/SearchBar.component'
-import type { Student } from '@/types/types'
-import { FileDown, Plus } from 'lucide-react'
-import type { RowSelectionState } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { ActiveStudentsActionDropdown } from './actionDropdown'
-import ExportStudentList from '../../ExportStudentList.component'
-import CreateStudents from '../../CreateStudents.component'
+import type { Student } from '@/types/types'
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { FileDown, Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Blocker } from '@/components/features/subscription/Blocker'
+import { CreateStudentDialogDrawer } from '../../CreateStudentDialogDrawer.component'
+import ExportStudentList from '../../ExportStudentList.component'
+import { ActiveStudentsActionDropdown } from './actionDropdown'
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -58,7 +56,7 @@ export default function StudentsControl({
   }
 
   return (
-    <div className='mb-4 flex items-end justify-between gap-4'>
+    <div className='mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row'>
       <div className='mr-auto hidden items-baseline gap-4 sm:flex'>
         <ActiveStudentsActionDropdown
           setSelected={setSelected}
@@ -81,11 +79,13 @@ export default function StudentsControl({
         Exportieren
       </Button>
       <SearchBar
+        className='w-full'
         searchInput={globalFilter}
         setSearchInput={(input) => setGlobalFilter(input)}
         disabled={isDisabledControls}
       />
       <Button
+        className='w-full sm:w-auto'
         data-testid='active-students-control-create'
         disabled={isFetching}
         size='sm'
@@ -104,18 +104,11 @@ export default function StudentsControl({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={modalOpen === 'CREATE'} onOpenChange={closeModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Schüler:innen erfassen</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className='hidden'>
-            Erfasse neue Schüler:innen
-          </DialogDescription>
-          <Blocker />
-          <CreateStudents onSuccess={closeModal} />
-        </DialogContent>
-      </Dialog>
+      <CreateStudentDialogDrawer
+        onOpenChange={closeModal}
+        open={modalOpen === 'CREATE'}
+        onSuccess={closeModal}
+      />
     </div>
   )
 }
