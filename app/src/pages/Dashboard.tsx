@@ -1,5 +1,4 @@
 import DashboardSkeleton from '@/components/ui/skeletons/DashboardSkeleton.component'
-import useHasBanner from '@/hooks/useHasBanner'
 import useScrollTo from '@/hooks/useScrollTo'
 import { cn } from '@/lib/utils'
 import FooterDashboard from '../components/features/dashboard/FooterDashboard.component'
@@ -11,7 +10,6 @@ import { useLoading } from '../services/context/LoadingContext'
 
 function Dashboard() {
   const { isLoading } = useLoading()
-  const hasBanner = useHasBanner()
   useScrollTo()
 
   if (isLoading) return <DashboardSkeleton />
