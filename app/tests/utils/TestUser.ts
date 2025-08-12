@@ -28,6 +28,7 @@ export type UserFlow =
   | 'yearly-expired-paid'
   | 'yearly-monthly'
   | 'share-homework'
+  | 'general-user'
 
 type StripeFixture =
   | 'monthly-checkout'
@@ -36,7 +37,7 @@ type StripeFixture =
   | 'upgrade-yearly'
 type Options = {
   userflow: UserFlow
-  project: 'subscriptions' | 'share-homework'
+  project: 'subscriptions' | 'share-homework' | 'general'
 }
 
 export class TestUser {
@@ -359,5 +360,24 @@ export class TestUser {
     }
 
     return lesson
+  }
+
+  /**
+   * Static method to create a general user for visual regression tests.
+   * Creates a user with basic trial subscription and returns credentials.
+   */
+  public static async createGeneralUser(): Promise<{ email: string; password: string; authFile: string }> {
+    const testUser = new TestUser({
+      userflow: 'general-user',
+      project: 'general',
+    })
+    
+    await testUser.init()
+    
+    return {
+      email: testUser.email,
+      password: testUser.password,
+      authFile: testUser.authFile,
+    }
   }
 }

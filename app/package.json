@@ -37,7 +37,16 @@
     "pw:repeat:max": "npm run pw -- --repeat-each 50",
     "pw:local:repeat": "npm run pw:local -- --repeat-each 5",
     "pw:local:repeat:med": "npm run pw:local -- --repeat-each 15",
-    "pw:local:repeat:max": "npm run pw:local -- --repeat-each 50"
+    "pw:local:repeat:max": "npm run pw:local -- --repeat-each 50",
+    "pw:accessibility": "npm run pw -- --project='*accessibility*'",
+    "pw:accessibility:local": "npm run pw:local -- --project='*accessibility*'",
+    "pw:accessibility:headed": "npm run pw -- --project='*accessibility*' --headed",
+    "pw:accessibility:debug": "npm run pw -- --project='*accessibility*' --debug",
+    "pw:performance": "npm run pw -- --project='*performance*'",
+    "pw:performance:local": "npm run pw:local -- --project='*performance*'",
+    "pw:performance:headed": "npm run pw -- --project='*performance*' --headed",
+    "pw:performance:debug": "npm run pw -- --project='*performance*' --debug",
+    "analyze-bundle": "node scripts/analyze-bundle.js"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
@@ -97,6 +106,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@biomejs/biome": "1.7.1",
     "@playwright/test": "^1.51.0",
     "@tanstack/react-query-devtools": "^5.49.2",

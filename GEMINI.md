@@ -2,4 +2,5 @@
 
 This file provides guidance to Gemini when working with code in this repository.
 
-Find all instructions in @./AGENTS.md.
+Find all instructions in @./AGENTS.md
+

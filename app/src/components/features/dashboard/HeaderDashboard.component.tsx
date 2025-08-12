@@ -8,6 +8,7 @@ function HeaderDashboard() {
 
   return (
     <header
+      data-testid='dashboard-header'
       className={cn(
         'px-5 py-4 sm:py-6',
         'md:p-6',

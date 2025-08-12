@@ -18,7 +18,7 @@ setup('authenticate', async ({ page }) => {
   await page.getByTestId('login-submit').click()
   await page.getByTestId('login-password').fill(testUserPassword)
   await page.getByTestId('login-submit').click()
-  await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+  await expect(page.getByTestId('dashboard-header')).toBeVisible()
 
   await page.context().storageState({ path: authFile })
 })

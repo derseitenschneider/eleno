@@ -1,0 +1,12 @@
+# Ignore authentication state files
+.auth/
+*.json
+
+# Ignore test artifacts
+test-results/
+playwright-report/
+test-results.xml
+
+# Ignore screenshot baselines (these will be committed separately)
+# *-actual.png
+# *-diff.png

@@ -1,6 +1,10 @@
 import { defineConfig } from '@playwright/test'
 import { shareHomeworkConfig } from './tests/share-homework/shareHomeworkConfig'
 import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
+import { visualRegressionConfig } from './tests/visual-regression/visualRegressionConfig'
+import { accessibilityConfig } from './tests/accessibility/accessibilityConfig'
+import { performanceConfig } from './tests/performance/performanceConfig'
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -37,5 +41,5 @@ export default defineConfig({
     },
   },
 
-  projects: [...subscriptionsConfig, ...shareHomeworkConfig],
+  projects: [...subscriptionsConfig, ...shareHomeworkConfig, ...visualRegressionConfig, ...accessibilityConfig, ...performanceConfig],
 })

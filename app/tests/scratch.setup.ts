@@ -32,7 +32,7 @@ setup('authenticate for scratch', async ({ page }) => {
   await page.getByTestId('login-email').fill(email)
   await page.getByTestId('login-password').fill(password)
   await page.getByTestId('login-submit').click()
-  await expect(page.getByTestId('dashboard-heading')).toBeVisible()
+  await expect(page.getByTestId('dashboard-header')).toBeVisible()
 
   const subscriptionPom = new SubscriptionPOM(page)
   await subscriptionPom.goto()
