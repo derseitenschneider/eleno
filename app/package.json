@@ -1,7 +1,7 @@
 {
   "name": "eleno",
   "private": true,
-  "version": "2.4.1",
+  "version": "2.4.2",
   "type": "module",
   "homepage": "https://app.eleno.net",
   "main": "./index.html",
