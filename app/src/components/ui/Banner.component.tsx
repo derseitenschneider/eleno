@@ -1,4 +1,3 @@
-import { isDemoMode } from '@/config'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import useIsOnline from '@/hooks/useIsOnline'
@@ -16,19 +15,6 @@ function Banner() {
   const daysRemaining = diffInTime / (1000 * 60 * 60 * 24)
   return false
 
-  if (isDemoMode)
-    return (
-      <div className='fixed top-0 z-40 w-full bg-primary p-1 text-center text-sm text-white'>
-        <b>Demo</b>
-        <Link
-          target='_blank'
-          to='https://app.eleno.net/?page=signup'
-          className='ml-3 text-white underline'
-        >
-          Jetzt Benutzerkonto erstellen
-        </Link>
-      </div>
-    )
 
   if (!isOnline)
     return (

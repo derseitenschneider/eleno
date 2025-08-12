@@ -8,7 +8,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { DialogDescription } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { isDemoMode } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
@@ -248,13 +247,6 @@ export default function BulkExportLessons({
     }
   }
 
-  if (isDemoMode) {
-    return (
-      <p className='text-base'>
-        Diese Funktion ist in der Demoversion leider nicht verfügbar.
-      </p>
-    )
-  }
 
   return (
     <div className='w-[500px]'>

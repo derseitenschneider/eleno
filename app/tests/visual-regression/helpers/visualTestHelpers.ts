@@ -29,6 +29,30 @@ export interface VisualTestOptions {
 
 /**
  * Visual regression test helper for consistent screenshot testing
+ * 
+ * IMPORTANT: For Eleno's dual navigation system and theme handling:
+ * 
+ * ## Navigation System:
+ * - Desktop (≥768px): Use `[data-sidebar="sidebar"]` for AppSidebar component
+ * - Mobile (<768px): Use `nav.fixed.bottom-0` for NavbarMobile component
+ * - Check viewport size to determine which navigation to test
+ * 
+ * ## Theme System:
+ * - Eleno uses `.dark-mode` and `.light-mode` classes on document.documentElement
+ * - NOT the standard `dark` class - testComponentThemes() needs updating for this app
+ * - Must set localStorage('isDarkMode') to match theme state
+ * 
+ * ## Example Navigation Test Pattern:
+ * ```typescript
+ * const viewport = page.viewportSize()
+ * const isMobileTest = viewport && viewport.width < 768
+ * 
+ * if (isMobileTest) {
+ *   const mobileNav = page.locator('nav.fixed.bottom-0')
+ * } else {
+ *   const desktopSidebar = page.locator('[data-sidebar="sidebar"]')
+ * }
+ * ```
  */
 export class VisualTestHelper {
   private page: Page
@@ -122,6 +146,19 @@ export class VisualTestHelper {
 
   /**
    * Test component at different responsive breakpoints
+   * 
+   * IMPORTANT: For navigation components, be aware of Eleno's dual navigation system:
+   * - Desktop sidebar is hidden on mobile viewports (display: none)
+   * - Mobile navigation is hidden on desktop viewports
+   * - Pass custom breakpoints to avoid testing hidden components
+   * 
+   * Example for desktop-only sidebar:
+   * ```typescript
+   * await visual.testResponsiveComponent(sidebar, 'nav', [
+   *   { name: 'tablet', width: 768, height: 1024 },
+   *   { name: 'desktop', width: 1280, height: 720 }
+   * ]) // Excludes mobile viewport where sidebar is hidden
+   * ```
    */
   async testResponsiveComponent(
     locator: Locator,
@@ -149,6 +186,9 @@ export class VisualTestHelper {
 
   /**
    * Test component in different theme modes
+   * 
+   * Uses Eleno's theme system with .dark-mode and .light-mode classes on document.documentElement
+   * and synchronizes with localStorage for DarkModeContext compatibility.
    */
   async testComponentThemes(
     locator: Locator,
@@ -156,13 +196,17 @@ export class VisualTestHelper {
     themes: ('light' | 'dark')[] = ['light', 'dark'],
   ): Promise<void> {
     for (const theme of themes) {
-      // Toggle theme by adding/removing dark class to html element
+      // Apply Eleno's theme classes and localStorage
       await this.page.evaluate((themeMode) => {
         const html = document.documentElement
         if (themeMode === 'dark') {
-          html.classList.add('dark')
+          html.classList.add('dark-mode')
+          html.classList.remove('light-mode')
+          localStorage.setItem('isDarkMode', 'true')
         } else {
-          html.classList.remove('dark')
+          html.classList.add('light-mode')
+          html.classList.remove('dark-mode')
+          localStorage.setItem('isDarkMode', 'false')
         }
       }, theme)
 
@@ -177,6 +221,27 @@ export class VisualTestHelper {
 
   /**
    * Test component states (hover, focus, active, etc.)
+   * 
+   * IMPORTANT: All states must include an action function, even if empty.
+   * The action function is required and will throw "state.action is not a function" if missing.
+   * 
+   * Example usage:
+   * ```typescript
+   * await visual.testComponentStates(locator, 'component-name', [
+   *   {
+   *     name: 'default',
+   *     action: async () => {
+   *       // No action needed for default state
+   *     }
+   *   },
+   *   {
+   *     name: 'hover',
+   *     action: async () => {
+   *       await locator.hover()
+   *     }
+   *   }
+   * ])
+   * ```
    */
   async testComponentStates(
     locator: Locator,

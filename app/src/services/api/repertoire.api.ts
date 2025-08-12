@@ -1,9 +1,5 @@
-import { appConfig } from '@/config'
 import type { PartialRepertoireItem, RepertoireItem } from '../../types/types'
-import mockRepertoire from './mock-db/mockRepertoire'
 import supabase from './supabase'
-
-const isDemo = appConfig.isDemoMode
 
 export const fetchRepertoireAPI = async (
   holderId: number,
@@ -11,11 +7,6 @@ export const fetchRepertoireAPI = async (
   userId: string,
 ): Promise<RepertoireItem[]> => {
   const fieldType = holderType === 's' ? 'studentId' : 'groupId'
-  if (isDemo) {
-    return mockRepertoire.filter(
-      (repertoireItem) => repertoireItem[fieldType] === holderId,
-    )
-  }
   const { data, error } = await supabase
     .from('repertoire')
     .select('*')
@@ -39,15 +30,6 @@ export const fetchRepertoireAPI = async (
 }
 
 export const createRepertoireItemAPI = async (item: PartialRepertoireItem) => {
-  if (isDemo) {
-    const newRepertoireItem: RepertoireItem = {
-      ...item,
-      created_at: new Date().toISOString(),
-      id: Math.random() * 1_000_000,
-    } as RepertoireItem
-    mockRepertoire.push(newRepertoireItem)
-    return newRepertoireItem
-  }
   const utcStartDate =
     item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
 
@@ -77,11 +59,6 @@ export const createRepertoireItemAPI = async (item: PartialRepertoireItem) => {
 }
 
 export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
-  if (isDemo) {
-    const index = mockRepertoire.findIndex((i) => i.id === item.id)
-    mockRepertoire[index] = item
-    return item
-  }
   const utcStartDate =
     item.startDate && new Date(`${item.startDate.toDateString()} UTC`)
 
@@ -104,13 +81,6 @@ export const updateRepertoireItemAPI = async (item: RepertoireItem) => {
 }
 
 export const deleteRepertoireItemAPI = async (itemId: number) => {
-  if (isDemo) {
-    const index = mockRepertoire.findIndex((item) => item.id === itemId)
-    if (index !== -1) {
-      mockRepertoire.splice(index, 1)
-    }
-    return
-  }
   const { error } = await supabase.from('repertoire').delete().eq('id', itemId)
   if (error) throw new Error(error.message)
 }

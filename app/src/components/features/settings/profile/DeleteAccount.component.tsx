@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { isDemoMode } from '@/config'
 import { cn } from '@/lib/utils'
 import { deleteFluentCRMContact } from '@/services/api/fluent-crm.api'
 import { useQueryClient } from '@tanstack/react-query'
@@ -49,13 +48,6 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
     }
   }
 
-  if (isDemoMode) {
-    return (
-      <p className='text-base'>
-        Diese Funktion ist in der Demoversion leider nicht verfügbar.
-      </p>
-    )
-  }
 
   return (
     <div className='p-1 sm:w-[350px]'>

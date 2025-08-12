@@ -29,7 +29,7 @@ const useFeatureFlag = (flagName: string): boolean => {
     return true
   }
 
-  if (appConfig.isDemoMode) {
+  if (false) {
     return false
   }
   // If user is in flags list, return true.

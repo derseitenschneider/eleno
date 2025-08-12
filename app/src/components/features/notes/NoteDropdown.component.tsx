@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { isDemoMode } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import type { Note, PartialNote } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -66,7 +65,7 @@ export default function NoteDropdown({ noteId }: NoteDropdownProps) {
             <span>Notiz bearbeiten</span>
           </DropdownMenuItem>
 
-          {(hasAccess || isDemoMode) && (
+          {hasAccess && (
             <DropdownMenuItem
               onClick={() => handleDuplication()}
               className='flex items-center gap-2'

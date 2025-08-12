@@ -55,8 +55,8 @@ export async function loginUser(
     // New signature: (page, options)
     actualPage = emailOrPage
     const options = passwordOrEmailOrOptions as LoginUserOptions
-    actualEmail = options.email || 'demo@eleno.net'
-    actualPassword = options.password || 'demopassword'
+    actualEmail = options.email || process.env.ELENO_TEST_EMAIL!
+    actualPassword = options.password || process.env.ELENO_TEST_PASSWORD!
   } else if (typeof passwordOrEmailOrOptions === 'string') {
     // Signature: (page, email, password)
     actualPage = emailOrPage
@@ -65,8 +65,8 @@ export async function loginUser(
   } else {
     // Signature: (page) - use default credentials
     actualPage = emailOrPage
-    actualEmail = 'demo@eleno.net'
-    actualPassword = 'demopassword'
+    actualEmail = process.env.ELENO_TEST_EMAIL!
+    actualPassword = process.env.ELENO_TEST_PASSWORD!
   }
 
   // Perform the login

@@ -9,7 +9,6 @@ import { DayPicker } from '@/components/ui/daypicker.component'
 import { DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { isDemoMode } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
@@ -195,13 +194,6 @@ function ExportLessons({
     }
   }
 
-  if (isDemoMode) {
-    return (
-      <p className='text-base'>
-        Diese Funktion ist in der Demoversion leider nicht verfügbar.
-      </p>
-    )
-  }
 
   return (
     <div className='w-[500px]'>

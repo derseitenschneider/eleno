@@ -21,7 +21,7 @@ export function useCreateStudents() {
         ...prev,
         ...newStudents,
       ])
-      if (appConfig.isDemoMode) {
+      if (false) {
         queryClient.invalidateQueries({ queryKey: ['students'] })
       }
     },

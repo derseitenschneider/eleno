@@ -132,7 +132,7 @@ export default function ActiveStudentRowDropdown({
 
             <DropdownMenuSeparator />
 
-            {!appConfig.isDemoMode && (
+            {!false && (
               <DropdownMenuItem
                 onClick={(e) => {
                   e.stopPropagation()

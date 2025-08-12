@@ -1,4 +1,3 @@
-import { appConfig } from '@/config'
 import { cn } from '@/lib/utils'
 import DarkmodeToggle from '../../ui/DarkmodeToggle.component'
 import useProfileQuery from '../user/profileQuery'
@@ -18,15 +17,9 @@ function HeaderDashboard() {
     >
       <div>
         <div>
-          {appConfig.isDemoMode ? (
-            <span className=''>
-              Willkommen bei der Demo von <b>Eleno</b>!{' '}
-            </span>
-          ) : (
-            <span className=''>
-              Hi <b>{userProfile?.first_name}</b>, willkommen bei Eleno!
-            </span>
-          )}
+          <span className=''>
+            Hi <b>{userProfile?.first_name}</b>, willkommen bei Eleno!
+          </span>
         </div>
       </div>
       <div className=''>

@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { isDemoMode } from '@/config'
 import type { Lesson } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import type { Table } from '@tanstack/react-table'
@@ -45,10 +44,7 @@ export default function AllLessonsControl({
     },
   ]) as Array<{ entity_id: number; years: Array<number> }> | undefined
 
-  let lessonYears = yearsData?.[0]?.years
-  if (isDemoMode) {
-    lessonYears = [new Date().getFullYear()]
-  }
+  const lessonYears = yearsData?.[0]?.years
   const selectedYear = searchParams.get('year')
   const hasLessonYears = lessonYears?.length ? lessonYears.length > 0 : false
 

@@ -1,4 +1,3 @@
-import { isDemoMode } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import useFeatureFlag from './useFeatureFlag'
 import useIsMobileDevice from './useIsMobileDevice'
@@ -12,7 +11,6 @@ export default function useHasBanner() {
   return false
 
   if (!isOnline) return true
-  if (isDemoMode) return true
 
   if (!isPaymentFlagEnabled) return false
 

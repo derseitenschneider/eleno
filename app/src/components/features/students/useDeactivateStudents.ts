@@ -33,9 +33,6 @@ export function useDeactivateStudents() {
       queryClient.invalidateQueries({
         queryKey: ['students'],
       })
-      // if (isDemoMode) {
-      //   queryClient.setQueryData(['students'], () => [...mockStudents])
-      // }
     },
 
     onError: (_, __, context) => {

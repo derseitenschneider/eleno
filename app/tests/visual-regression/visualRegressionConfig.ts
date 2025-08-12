@@ -13,7 +13,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',
-      viewport: { width: 1280, height: 720 },
+      viewport: { width: 1440, height: 900 },
       deviceScaleFactor: 1,
       hasTouch: false,
       isMobile: false,
@@ -66,7 +66,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',
-      viewport: { width: 1280, height: 720 },
+      viewport: { width: 1440, height: 900 },
       deviceScaleFactor: 1,
       hasTouch: false,
       isMobile: false,

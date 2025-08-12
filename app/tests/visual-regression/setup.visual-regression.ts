@@ -43,6 +43,9 @@ setup('authenticate for visual tests', async ({ page, context }) => {
     .single()
 
   if (student) {
+    // Create a test lesson for visual testing
+    await testUser.createLesson()
+    
     // Store student ID for visual tests
     const authDir = './tests/visual-regression/.auth'
     fs.mkdirSync(authDir, { recursive: true })

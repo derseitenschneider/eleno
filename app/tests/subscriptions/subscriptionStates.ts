@@ -32,15 +32,15 @@ export const subscriptionStates: Array<SubscriptionStates> = [
   //   downloadInvoice: false,
   // },
   //
-  {
-    state: 'monthly-active',
-    access: true,
-    pricingTable: false,
-    lifetimeTeaser: true,
-    manageSubscription: true,
-    downloadInvoice: false,
-    cancelReactivate: true,
-  },
+  // {
+  //   state: 'monthly-active',
+  //   access: true,
+  //   pricingTable: false,
+  //   lifetimeTeaser: true,
+  //   manageSubscription: true,
+  //   downloadInvoice: false,
+  //   cancelReactivate: true,
+  // },
   //
   // {
   //   state: 'monthly-monthly',

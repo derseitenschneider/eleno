@@ -149,7 +149,7 @@
 
 - **Frontend:** Vite build + static hosting
 - **CI/CD:** GitHub Actions (configured)
-- **Environment Management:** Multiple build modes (demo/staging/production)
+- **Environment Management:** Multiple build modes (staging/production)
 - **Preview:** Vite preview server
 
 ## Code Repository

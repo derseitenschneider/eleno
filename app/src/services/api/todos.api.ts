@@ -1,12 +1,9 @@
-import { isDemoMode } from '@/config'
 import type { PartialTodoItem, TTodoItem } from '../../types/types'
-import { mockTodos } from './mock-db/mockTodos'
 import supabase from './supabase'
 
 export const fetchTodosApi = async (
   userId: string,
 ): Promise<Array<TTodoItem>> => {
-  if (isDemoMode) return mockTodos
 
   const { data: todos, error } = await supabase
     .from('todos')
@@ -23,16 +20,6 @@ export const fetchTodosApi = async (
 }
 
 export const createTodoApi = async (todo: PartialTodoItem) => {
-  if (isDemoMode) {
-    const newTodo: TTodoItem = {
-      ...todo,
-      created_at: new Date().toISOString(),
-      id: Math.random() * 1_000_000,
-      user_id: 'mock-user-123456',
-    }
-    mockTodos.push(newTodo)
-    return newTodo
-  }
 
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
@@ -53,13 +40,6 @@ export const createTodoApi = async (todo: PartialTodoItem) => {
 }
 
 export const completeTodoApi = async (todoId: number) => {
-  if (isDemoMode) {
-    const index = mockTodos.findIndex((todo) => todo.id === todoId)
-    if (mockTodos[index]) {
-      mockTodos[index] = { ...mockTodos[index], completed: true }
-    }
-    return
-  }
 
   const { error } = await supabase
     .from('todos')
@@ -69,13 +49,6 @@ export const completeTodoApi = async (todoId: number) => {
 }
 
 export const updateTodoApi = async (todo: TTodoItem) => {
-  if (isDemoMode) {
-    const index = mockTodos.findIndex((t) => t.id === todo.id)
-    if (mockTodos[index]) {
-      mockTodos[index] = todo
-    }
-    return
-  }
 
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
@@ -89,13 +62,6 @@ export const updateTodoApi = async (todo: TTodoItem) => {
 }
 
 export const reactivateTodoApi = async (id: number) => {
-  if (isDemoMode) {
-    const index = mockTodos.findIndex((todo) => todo.id === id)
-    if (mockTodos[index]) {
-      mockTodos[index] = { ...mockTodos[index], completed: false }
-    }
-    return
-  }
 
   const { error } = await supabase
     .from('todos')
@@ -106,15 +72,6 @@ export const reactivateTodoApi = async (id: number) => {
 }
 
 export const deleteTodosApi = async (ids: Array<number>) => {
-  if (isDemoMode) {
-    for (const id of ids) {
-      const index = mockTodos.findIndex((todo) => todo.id === id)
-      if (mockTodos[index]) {
-        mockTodos.splice(index, 1)
-      }
-    }
-    return
-  }
 
   const { error } = await supabase.from('todos').delete().in('id', ids)
   if (error) throw new Error(error.message)

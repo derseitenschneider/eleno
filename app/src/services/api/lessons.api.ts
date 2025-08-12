@@ -1,14 +1,10 @@
-import { appConfig, isDemoMode } from '@/config'
 import type {
   Lesson,
   LessonPartial,
   LessonWithGroupId,
   LessonWithStudentId,
 } from '../../types/types'
-import mockLast3Lessons from './mock-db/mockLast3Lessons'
 import supabase from './supabase'
-
-const isDemo = appConfig.isDemoMode
 
 export async function fetchPlannedLessons(userId: string) {
   const { data, error } = await supabase
@@ -34,23 +30,6 @@ export const fetchLessonsByYearApi = async (
 ): Promise<
   Array<LessonWithGroupId> | Array<LessonWithStudentId> | undefined
 > => {
-  if (isDemoMode) {
-    if (holderType === 's') {
-      const lessons = mockLast3Lessons.filter(
-        (lesson) => lesson.studentId === holderId,
-      ) as Array<LessonWithStudentId>
-
-      return lessons.sort((a, b) =>
-        b.date.toISOString().localeCompare(a.date.toISOString()),
-      )
-    }
-    const lessons = mockLast3Lessons.filter(
-      (lesson) => lesson.groupId === holderId,
-    ) as Array<LessonWithGroupId>
-    return lessons.sort((a, b) =>
-      b.date.toISOString().localeCompare(a.date.toISOString()),
-    )
-  }
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const { data, error } = await supabase
     .from('lessons')
@@ -84,8 +63,6 @@ export const fetchAllLessonsApi = async ({
   endDate,
   userId,
 }: FetchAllLessonProps) => {
-  if (isDemo) return mockLast3Lessons
-
   const idField = holderType === 's' ? 'studentId' : 'groupId'
   const uctStartDate = new Date(`${startDate?.toDateString()} UTC`)
   const uctEndDate = new Date(`${endDate?.toDateString()} UTC`)
@@ -143,17 +120,6 @@ export const fetchAllLessonsCSVApi = async ({
 }
 
 export const createLessonAPI = async (lesson: LessonPartial) => {
-  if (isDemo) {
-    const newLesson: Lesson = {
-      ...lesson,
-      homeworkKey: '',
-      id: Math.random() * 1_000_000,
-      created_at: new Date().toISOString(),
-    } as Lesson
-
-    mockLast3Lessons.push(newLesson)
-    return newLesson
-  }
   const { date } = lesson
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
@@ -180,11 +146,6 @@ export const createLessonAPI = async (lesson: LessonPartial) => {
 }
 
 export const deleteLessonAPI = async (lessonId: number) => {
-  if (isDemo) {
-    const index = mockLast3Lessons.findIndex((l) => l.id === lessonId)
-    mockLast3Lessons.splice(index, 1)
-    return
-  }
   const { data, error } = await supabase
     .from('lessons')
     .delete()
@@ -201,11 +162,6 @@ export const deleteLessonAPI = async (lessonId: number) => {
 export const updateLessonAPI = async (
   lesson: Lesson,
 ): Promise<LessonWithGroupId | LessonWithStudentId> => {
-  if (isDemo) {
-    const index = mockLast3Lessons.findIndex((l) => l.id === lesson.id)
-    mockLast3Lessons[index] = lesson
-    return lesson
-  }
   const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
     .from('lessons')
@@ -228,7 +184,6 @@ export const reactivateHomeworkLinkApi = async (lesson: Lesson) => {
 }
 
 export const fetchLatestLessons = async (userId: string) => {
-  if (isDemo) return mockLast3Lessons
   const { data: lessons, error } = await supabase
     .from('last_3_lessons')
     .select()
@@ -244,7 +199,6 @@ export const fetchLatestLessons = async (userId: string) => {
 }
 
 export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
-  if (isDemo) return mockLast3Lessons
   const { data: lessons, error } = await supabase
     .from('lessons')
     .select('*')
@@ -258,12 +212,6 @@ export const fetchLatestLessonsPerStudent = async (studentIds: number[]) => {
 }
 
 export const fetchLessonYears = async (holderId: number) => {
-  if (isDemo)
-    return {
-      entity_id: holderId,
-      entity_type: 's',
-      years: [new Date().getFullYear()],
-    }
   const { data: years, error } = await supabase
     .from('lesson_years')
     .select('*')

@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Separator } from '@/components/ui/separator'
-import { isDemoMode } from '@/config'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useState } from 'react'
@@ -51,13 +50,6 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
     })
   }
 
-  if (isDemoMode) {
-    return (
-      <p className='text-base'>
-        Diese Funktion ist in der Demoversion leider nicht verfügbar.
-      </p>
-    )
-  }
 
   return (
     <div

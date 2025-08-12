@@ -47,28 +47,60 @@ test.describe('Lesson Components Visual Regression Tests', () => {
   test('lesson navigation sidebar - states and responsiveness', async ({ page }) => {
     const visual = createVisualTestHelper(page)
     
-    // Look for navigation sidebar
-    const navSidebar = page.locator('[data-testid="lesson-nav-sidebar"], .lesson-navigation, .sidebar')
-    
-    if (await navSidebar.first().isVisible()) {
-      const nav = navSidebar.first()
+    // Initialize theme based on test configuration
+    await page.evaluate(() => {
+      const html = document.documentElement
+      // Check if this is a dark theme test (colorScheme is set to 'dark')
+      const isDarkTest = window.matchMedia('(prefers-color-scheme: dark)').matches
       
-      // Test navigation states
-      await visual.testComponentStates(nav, 'lesson-nav-sidebar', [
-        {
-          name: 'expanded',
-          action: async () => {
-            // Try to expand navigation if collapsed
-            const expandButton = page.locator('[aria-label="Expand navigation"], .nav-toggle')
-            if (await expandButton.isVisible()) {
-              await expandButton.click()
+      if (isDarkTest) {
+        html.classList.add('dark-mode')
+        html.classList.remove('light-mode')
+        // Set localStorage to match
+        localStorage.setItem('isDarkMode', 'true')
+      } else {
+        html.classList.add('light-mode')
+        html.classList.remove('dark-mode')
+        // Set localStorage to match
+        localStorage.setItem('isDarkMode', 'false')
+      }
+    })
+    
+    // Check if we're running in a mobile test configuration
+    const viewport = page.viewportSize()
+    const isMobileTest = viewport && viewport.width < 768
+    
+    if (isMobileTest) {
+      // Test mobile navigation (< md screens)  
+      const mobileNav = page.locator('nav.fixed.bottom-0')
+      
+      if (await mobileNav.isVisible()) {
+        await visual.testComponentStates(mobileNav, 'lesson-nav-mobile', [
+          {
+            name: 'default',
+            action: async () => {
+              // No action needed for mobile nav default state
             }
           }
-        }
-      ])
+        ])
+      }
+    } else {
+      // Test desktop sidebar (md+ screens)
+      const desktopSidebar = page.locator('[data-sidebar="sidebar"]')
       
-      // Test responsive behavior
-      await visual.testResponsiveComponent(nav, 'lesson-nav-sidebar')
+      if (await desktopSidebar.first().isVisible()) {
+        const nav = desktopSidebar.first()
+        
+        // Test navigation states
+        await visual.testComponentStates(nav, 'lesson-nav-sidebar', [
+          {
+            name: 'default',
+            action: async () => {
+              // No action needed for default state
+            }
+          }
+        ])
+      }
     }
   })
 
