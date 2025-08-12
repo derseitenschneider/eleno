@@ -42,7 +42,7 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
   if (!currentHolder) return null
   return (
     <div className='relative sm:w-[600px]'>
-      {appConfig.isDemoMode ? (
+      {false ? (
         <p className='text-base'>
           Diese Funktion ist in der Demoversion leider nicht verfügbar.
         </p>
@@ -102,8 +102,8 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
           {sharingAuthorized && (
             <div
               className={cn(
-                isAuthorizingStudents ||
-                  (isAuthorizingGroup && 'opacity-50 pointer-events-none'),
+                (isAuthorizingStudents || isAuthorizingGroup) &&
+                  'opacity-50 pointer-events-none',
               )}
             >
               <p className='mt-4'>
@@ -146,7 +146,8 @@ function ShareHomework({ lessonId }: ShareHomeworkProps) {
                   <button
                     className='ml-2'
                     type='button'
-                    title='Link kopieren'
+                    title={isCopied ? 'Link kopiert' : 'Link kopieren'}
+                    aria-label={isCopied ? 'Link kopiert' : 'Link kopieren'}
                     onClick={copyToClipboard}
                   >
                     {isCopied ? (

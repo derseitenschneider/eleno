@@ -11,9 +11,8 @@ test.describe('Keyboard Navigation Accessibility Tests', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     accessibilityHelpers = new AccessibilityHelpers(page)
     lessonsPOM = new LessonsPOM(page, testInfo)
-    studentsPOM = new StudentsPOM(page, testInfo)
+    studentsPOM = new StudentsPOM(page)
     
-    await accessibilityHelpers.setupAxe()
   })
 
   test.describe('Main Navigation Keyboard Accessibility', () => {
@@ -315,7 +314,7 @@ test.describe('Keyboard Navigation Accessibility Tests', () => {
         const mainContent = page.locator('main, [role="main"], #main, #content')
         if (await mainContent.count() > 0) {
           const isNearMain = await page.evaluate(() => {
-            const main = document.querySelector('main, [role="main"], #main, #content')
+            const main = document.querySelector('main, [role="main"], #main, #content') as HTMLElement
             return main ? window.scrollY >= main.offsetTop - 100 : false
           })
           

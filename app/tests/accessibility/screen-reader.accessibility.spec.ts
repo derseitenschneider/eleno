@@ -11,9 +11,8 @@ test.describe('Screen Reader Compatibility Tests', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     accessibilityHelpers = new AccessibilityHelpers(page)
     lessonsPOM = new LessonsPOM(page, testInfo)
-    studentsPOM = new StudentsPOM(page, testInfo)
+    studentsPOM = new StudentsPOM(page)
     
-    await accessibilityHelpers.setupAxe()
   })
 
   test.describe('Semantic HTML Structure', () => {
@@ -362,12 +361,14 @@ test.describe('Screen Reader Compatibility Tests', () => {
           const current = positions[i]
           const previous = positions[i - 1]
           
-          // Allow for some flexibility in positioning
-          const isLogicalOrder = current.top >= (previous.top - 10) || 
-                               (Math.abs(current.top - previous.top) < 10 && current.left > previous.left)
-          
-          if (!isLogicalOrder) {
-            console.log(`Potentially illogical reading order: element ${i} at (${current.left}, ${current.top}) after element ${i-1} at (${previous.left}, ${previous.top})`)
+          if (current && previous) {
+            // Allow for some flexibility in positioning
+            const isLogicalOrder = current.top >= (previous.top - 10) || 
+                                 (Math.abs(current.top - previous.top) < 10 && current.left > previous.left)
+            
+            if (!isLogicalOrder) {
+              console.log(`Potentially illogical reading order: element ${i} at (${current.left}, ${current.top}) after element ${i-1} at (${previous.left}, ${previous.top})`)
+            }
           }
         }
       }

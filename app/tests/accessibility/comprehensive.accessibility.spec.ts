@@ -11,9 +11,8 @@ test.describe('Comprehensive Accessibility Tests', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     accessibilityHelpers = new AccessibilityHelpers(page)
     lessonsPOM = new LessonsPOM(page, testInfo)
-    studentsPOM = new StudentsPOM(page, testInfo)
+    studentsPOM = new StudentsPOM(page)
     
-    await accessibilityHelpers.setupAxe()
   })
 
   test.describe('Lesson Planning Workflow Accessibility', () => {

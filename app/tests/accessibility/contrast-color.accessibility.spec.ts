@@ -11,9 +11,8 @@ test.describe('Color Contrast Verification Tests', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     accessibilityHelpers = new AccessibilityHelpers(page)
     lessonsPOM = new LessonsPOM(page, testInfo)
-    studentsPOM = new StudentsPOM(page, testInfo)
+    studentsPOM = new StudentsPOM(page)
     
-    await accessibilityHelpers.setupAxe()
   })
 
   test.describe('Text Color Contrast', () => {
@@ -387,7 +386,7 @@ test.describe('Color Contrast Verification Tests', () => {
         if (isVisible) {
           const iconInfo = await icon.evaluate((el) => {
             const computed = window.getComputedStyle(el)
-            const rect = el.getBoundingBox?.() || el.getBoundingClientRect()
+            const rect = el.getBoundingClientRect()
             
             return {
               fill: el.getAttribute('fill') || computed.fill,
@@ -408,7 +407,7 @@ test.describe('Color Contrast Verification Tests', () => {
           }
           
           // Check if icon is invisible
-          if (iconInfo.opacity === '0' || iconInfo.opacity === 0) {
+          if (iconInfo.opacity === '0' || Number(iconInfo.opacity) === 0) {
             console.log(`Icon ${i} is invisible (opacity: 0)`)
           }
         }

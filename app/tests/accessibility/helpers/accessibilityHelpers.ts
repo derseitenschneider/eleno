@@ -225,7 +225,7 @@ export class AccessibilityHelpers {
       const currentLevel = headingLevels[i]
       const previousLevel = headingLevels[i - 1]
       
-      if (currentLevel > previousLevel + 1) {
+      if (currentLevel !== undefined && previousLevel !== undefined && currentLevel > previousLevel + 1) {
         throw new Error(`Heading hierarchy violation: h${previousLevel} followed by h${currentLevel}`)
       }
     }

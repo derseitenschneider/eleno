@@ -3,7 +3,9 @@ import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithProviders } from '@/test/testUtils'
 import { createMockLesson, createMockStudent, createMockGroup } from '@/test/factories'
+import type { LessonHolder } from '@/types/types'
 import ShareHomework from './ShareHomework.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 // Mock hooks and modules
 vi.mock('@/hooks/useIsMobileDevice', () => ({
@@ -30,7 +32,6 @@ vi.mock('@/components/features/students/useAuthorizeGroupsHomeworkLink', () => (
 
 vi.mock('@/config', () => ({
   appConfig: {
-    isDemoMode: false,
     apiUrl: 'https://test-api.eleno.net',
   },
 }))
@@ -54,6 +55,7 @@ vi.mocked(mockUseShareHomework)
 
 import { useShareHomework } from '@/hooks/useShareHomework'
 const mockShareHomework = vi.mocked(useShareHomework)
+const mockIsMobileDevice = vi.mocked(useIsMobileDevice)
 
 describe('ShareHomework Component', () => {
   let queryClient: QueryClient
@@ -78,7 +80,7 @@ describe('ShareHomework Component', () => {
         instrument: 'Piano',
         homework_sharing_authorized: false,
       }),
-    },
+    } satisfies LessonHolder,
     sharingAuthorized: false,
     isAuthorizingStudents: false,
     isAuthorizingGroup: false,
@@ -91,35 +93,9 @@ describe('ShareHomework Component', () => {
     subjectText: 'Hausaufgaben Piano vom 01.12.23',
   }
 
-  describe('Demo Mode', () => {
-    beforeEach(() => {
-      vi.mocked(vi.importActual('@/config')).appConfig = {
-        isDemoMode: true,
-        apiUrl: 'https://test-api.eleno.net',
-      }
-    })
-
-    it('should display demo mode message when isDemoMode is true', () => {
-      mockShareHomework.mockReturnValue(defaultHookReturn)
-      
-      renderWithProviders(<ShareHomework lessonId={1} />, {
-        queryClient,
-      })
-
-      expect(screen.getByText('Diese Funktion ist in der Demoversion leider nicht verfügbar.')).toBeInTheDocument()
-      expect(screen.queryByText('Einwilligung zum Teilen bestätigt')).not.toBeInTheDocument()
-    })
-  })
 
   describe('GDPR Consent Section', () => {
-    beforeEach(() => {
-      vi.mocked(vi.importActual('@/config')).appConfig = {
-        isDemoMode: false,
-        apiUrl: 'https://test-api.eleno.net',
-      }
-    })
-
-    it('should render consent checkbox when not in demo mode', () => {
+    it('should render consent checkbox', () => {
       mockShareHomework.mockReturnValue(defaultHookReturn)
       
       renderWithProviders(<ShareHomework lessonId={1} />, {
@@ -217,8 +193,12 @@ describe('ShareHomework Component', () => {
       })
 
       // Click close button
-      const closeButton = screen.getAllByRole('button')[1] // Second button is the close button
-      fireEvent.click(closeButton)
+      const buttons = screen.getAllByRole('button')
+      const closeButton = buttons[1] // Second button is the close button
+      expect(closeButton).toBeInTheDocument()
+      if (closeButton) {
+        fireEvent.click(closeButton)
+      }
 
       await waitFor(() => {
         expect(screen.queryByText('Mit dem Setzen dieser Checkbox bestätigst du, dass:')).not.toBeInTheDocument()
@@ -249,13 +229,23 @@ describe('ShareHomework Component', () => {
     })
 
     it('should display group name for group lessons', () => {
-      const groupHolder = {
+      const mockGroupData = createMockGroup({
+        id: 1,
+        name: 'Advanced Piano Group',
+        homework_sharing_authorized: true,
+      })
+
+      // Convert to the correct Group type expected by LessonHolder
+      const groupHolder: LessonHolder = {
         type: 'g' as const,
-        holder: createMockGroup({
-          id: 1,
-          name: 'Advanced Piano Group',
-          homework_sharing_authorized: true,
-        }),
+        holder: {
+          ...mockGroupData,
+          students: (mockGroupData.students || []).map(student => ({ 
+            name: typeof student === 'object' && student !== null && 'name' in student 
+              ? String(student.name) 
+              : String(student)
+          })),
+        },
       }
 
       mockShareHomework.mockReturnValue({
@@ -337,7 +327,7 @@ describe('ShareHomework Component', () => {
     })
 
     it('should display mobile copy button layout on mobile', () => {
-      vi.mocked(vi.importActual('@/hooks/useIsMobileDevice')).default.mockReturnValue(true)
+      mockIsMobileDevice.mockReturnValue(true)
       
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
@@ -432,7 +422,7 @@ describe('ShareHomework Component', () => {
     })
 
     it('should display platform names on mobile', () => {
-      vi.mocked(vi.importActual('@/hooks/useIsMobileDevice')).default.mockReturnValue(true)
+      mockIsMobileDevice.mockReturnValue(true)
       
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
@@ -462,7 +452,7 @@ describe('ShareHomework Component', () => {
     it('should return null when currentHolder is not available', () => {
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
-        currentHolder: null,
+        currentHolder: undefined,
       })
       
       const { container } = renderWithProviders(<ShareHomework lessonId={1} />, {
@@ -524,7 +514,7 @@ describe('ShareHomework Component', () => {
 
   describe('Responsive Behavior', () => {
     it('should adjust button layout for mobile view', () => {
-      vi.mocked(vi.importActual('@/hooks/useIsMobileDevice')).default.mockReturnValue(true)
+      mockIsMobileDevice.mockReturnValue(true)
       
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
@@ -535,9 +525,9 @@ describe('ShareHomework Component', () => {
         queryClient,
       })
 
-      // Platform buttons should have outline variant on mobile
-      const telegramButton = screen.getByTitle('Link per Telegram verschicken').closest('button')
-      expect(telegramButton).toHaveAttribute('data-variant', 'outline')
+      // Platform links should have outline variant styling on mobile
+      const telegramLink = screen.getByTitle('Link per Telegram verschicken')
+      expect(telegramLink).toHaveClass('border', 'border-primary')
       
       // Copy button should have mobile styling
       const copyButton = screen.getByRole('button', { name: /Link kopieren/ })
@@ -545,7 +535,7 @@ describe('ShareHomework Component', () => {
     })
 
     it('should use ghost variant for buttons on desktop', () => {
-      vi.mocked(vi.importActual('@/hooks/useIsMobileDevice')).default.mockReturnValue(false)
+      mockIsMobileDevice.mockReturnValue(false)
       
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
@@ -556,12 +546,13 @@ describe('ShareHomework Component', () => {
         queryClient,
       })
 
-      const telegramButton = screen.getByTitle('Link per Telegram verschicken').closest('button')
-      expect(telegramButton).toHaveAttribute('data-variant', 'ghost')
+      const telegramLink = screen.getByTitle('Link per Telegram verschicken')
+      // Ghost variant on desktop doesn't have border classes
+      expect(telegramLink).not.toHaveClass('border', 'border-primary')
     })
 
     it('should show separator on mobile only', () => {
-      vi.mocked(vi.importActual('@/hooks/useIsMobileDevice')).default.mockReturnValue(true)
+      mockIsMobileDevice.mockReturnValue(true)
       
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
@@ -572,7 +563,8 @@ describe('ShareHomework Component', () => {
         queryClient,
       })
 
-      const separator = screen.getByRole('separator')
+      // The separator is hidden on desktop (sm:hidden class)
+      const separator = document.querySelector('[data-orientation="horizontal"]')
       expect(separator).toHaveClass('sm:hidden')
     })
   })

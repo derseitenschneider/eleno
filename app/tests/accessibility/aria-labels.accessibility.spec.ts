@@ -11,9 +11,7 @@ test.describe('ARIA Label Validation Tests', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     accessibilityHelpers = new AccessibilityHelpers(page)
     lessonsPOM = new LessonsPOM(page, testInfo)
-    studentsPOM = new StudentsPOM(page, testInfo)
-    
-    await accessibilityHelpers.setupAxe()
+    studentsPOM = new StudentsPOM(page)
   })
 
   test.describe('Interactive Elements ARIA Labels', () => {

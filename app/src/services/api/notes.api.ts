@@ -1,11 +1,11 @@
-import { appConfig } from '@/config'
+import type { Database } from '../../types/supabase'
 import type { Note, PartialNote } from '../../types/types'
-import mockNotes from './mock-db/mockNotes'
 import supabase from './supabase'
-const isDemo = appConfig.isDemoMode
+
+// Type for the only_active_notes view which doesn't include created_at
+type ActiveNoteView = Database['public']['Views']['only_active_notes']['Row']
 
 export const fetchActiveNotesAPI = async (userId: string) => {
-  if (isDemo) return mockNotes
   const { data: notes, error } = await supabase
     .from('only_active_notes')
     .select('*')
@@ -16,16 +16,6 @@ export const fetchActiveNotesAPI = async (userId: string) => {
 }
 
 export const createNoteAPI = async (note: PartialNote) => {
-  if (isDemo) {
-    const newNote = {
-      ...note,
-      created_at: new Date().toISOString(),
-      id: Math.random() * 1_000_000,
-      order: 0,
-    } as Note
-    mockNotes.push(newNote)
-    return
-  }
   const { data, error } = await supabase
     .from('notes')
     .insert([{ ...note }])
@@ -37,26 +27,12 @@ export const createNoteAPI = async (note: PartialNote) => {
 }
 
 export const deleteNoteAPI = async (noteId: number) => {
-  if (isDemo) {
-    mockNotes.splice(
-      mockNotes.findIndex((note) => note.id === noteId),
-      1,
-    )
-    return
-  }
   const { error } = await supabase.from('notes').delete().eq('id', noteId)
 
   if (error) throw new Error(error.message)
 }
 
 export const updateNoteAPI = async (notes: Array<Note>) => {
-  if (isDemo) {
-    for (const note of notes) {
-      const index = mockNotes.findIndex((n) => n.id === note.id)
-      mockNotes[index] = note
-    }
-    return
-  }
   const { error } = await supabase.from('notes').upsert(notes)
   if (error) throw new Error(error.message)
 }

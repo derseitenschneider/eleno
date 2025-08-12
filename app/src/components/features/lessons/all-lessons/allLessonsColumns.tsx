@@ -61,7 +61,18 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
   },
   {
     accessorKey: 'lessonContent',
-    header: () => <span>Lektion</span>,
+    header: ({ column }) => {
+      return (
+        <Button
+          className='p-0'
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Lektionsinhalt
+          <ArrowUpDown className='ml-1 size-3' />
+        </Button>
+      )
+    },
     size: 45,
     minSize: 0,
     cell: ({ row }) => {

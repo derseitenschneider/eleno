@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import type { Note as TNote } from '@/types/types'
+import type { Note as TNote, ActiveNote } from '@/types/types'
 import { Plus, X } from 'lucide-react'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
@@ -39,7 +39,34 @@ function NoteList() {
       (note) => note[fieldType] === currentLessonHolder?.holder.id,
     )
     if (!currentNotes) return
-    setNotes(currentNotes as TNote[])
+    // The only_active_notes view doesn't include created_at, but Note type requires it
+    // We add a placeholder since created_at isn't used for display and will be preserved by the DB on update
+    const notesWithCreatedAt = currentNotes.map(note => {
+      const baseNote = {
+        ...note,
+        created_at: null as string | null, // DB will preserve the actual value on update
+        // Ensure proper typing for id, order, and user_id which can't be null in Note type
+        id: note.id ?? 0,
+        order: note.order ?? 0,
+        user_id: note.user_id ?? '',
+      }
+      
+      // Create properly typed Note based on whether it's for student or group
+      if (note.studentId !== null && note.studentId !== undefined) {
+        return {
+          ...baseNote,
+          studentId: note.studentId,
+          groupId: undefined as never,
+        } as TNote
+      } else {
+        return {
+          ...baseNote,
+          studentId: undefined as never,
+          groupId: note.groupId ?? 0,
+        } as TNote
+      }
+    })
+    setNotes(notesWithCreatedAt)
   }, [data, fieldType, currentLessonHolder?.holder.id])
 
   async function handleOnDragend(result: DropResult) {

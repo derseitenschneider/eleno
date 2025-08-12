@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { appConfig, isDemoMode } from '../../config'
+import { appConfig } from '@/config'
 import LoginPage from '../../pages/LoginPage'
 import type { ContextTypeUser, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
@@ -45,10 +45,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [isLoading])
 
   useEffect(() => {
-    if (isDemoMode) {
-      return
-    }
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setCurrentSession(session)
       if (session) {
@@ -94,10 +90,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 
   const logout = useCallback(async () => {
-    if (isDemoMode) {
-      window.location.href = 'https://eleno.net'
-      return
-    }
     queryClient.clear()
     await supabase.auth.signOut()
     navigate('/?page=login', { replace: true })
@@ -114,8 +106,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     recoverPassword,
   }
 
-  if (isDemoMode)
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 
   return (
     <UserContext.Provider value={value}>

@@ -3,6 +3,7 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithProviders } from '@/test/testUtils'
 import { createMockLesson, createMockStudent, createMockGroup } from '@/test/factories'
+import { createMockLoadingQueryResult, createMockErrorQueryResult, createMockSuccessQueryResult } from '@/test/mockHelpers'
 import AllLessons from './AllLessons.component'
 
 // Mock hooks and modules
@@ -36,9 +37,7 @@ vi.mock('@/services/context/UserLocaleContext', () => ({
 }))
 
 vi.mock('@/config', () => ({
-  isDemoMode: false,
   appConfig: {
-    isDemoMode: false,
     apiUrl: 'https://test-api.eleno.net',
     dbUrl: 'https://test-project.supabase.co',
     dbKey: 'test-anon-key',
@@ -122,16 +121,14 @@ describe('AllLessons Component', () => {
   describe('Data Loading States', () => {
     it('should display loading skeleton while fetching lesson years', () => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: true,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: undefined,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockLoadingQueryResult()
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(undefined, {
+          isFetching: false,
+        })
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -143,16 +140,12 @@ describe('AllLessons Component', () => {
 
     it('should display loading skeleton while fetching lessons', () => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: undefined,
-        isPending: true,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockLoadingQueryResult()
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -164,16 +157,14 @@ describe('AllLessons Component', () => {
 
     it('should display error page when lesson years query fails', () => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: true,
-      })
-      mockAllLessons.mockReturnValue({
-        data: undefined,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockErrorQueryResult()
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(undefined, {
+          isFetching: false,
+        })
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -185,16 +176,12 @@ describe('AllLessons Component', () => {
 
     it('should display error page when lessons query fails', () => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: undefined,
-        isPending: false,
-        isError: true,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockErrorQueryResult()
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -206,16 +193,14 @@ describe('AllLessons Component', () => {
 
     it('should return null when lessons data is not available', () => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: null,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(null as any, {
+          isFetching: false,
+        })
+      )
 
       const { container } = renderWithProviders(
         <AllLessons />,
@@ -229,16 +214,14 @@ describe('AllLessons Component', () => {
   describe('Lessons Data Display', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       // Mock query client data for years
       queryClient.setQueryData(
@@ -285,12 +268,11 @@ describe('AllLessons Component', () => {
     })
 
     it('should handle empty lessons data gracefully', () => {
-      mockAllLessons.mockReturnValue({
-        data: [],
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult([], {
+          isFetching: false,
+        })
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -304,16 +286,14 @@ describe('AllLessons Component', () => {
   describe('Filtering and Search', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
@@ -410,16 +390,14 @@ describe('AllLessons Component', () => {
   describe('Year Selection', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
@@ -452,12 +430,11 @@ describe('AllLessons Component', () => {
     })
 
     it('should disable year selector while fetching', () => {
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: true,
-      })
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: true,
+        })
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -472,16 +449,14 @@ describe('AllLessons Component', () => {
   describe('Export Functionality', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
@@ -513,12 +488,11 @@ describe('AllLessons Component', () => {
     })
 
     it('should disable export button while fetching', () => {
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: true,
-      })
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: true,
+        })
+      )
 
       renderWithProviders(
         <AllLessons />,
@@ -548,16 +522,14 @@ describe('AllLessons Component', () => {
   describe('Sorting Functionality', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
@@ -601,7 +573,7 @@ describe('AllLessons Component', () => {
   })
 
   describe('Group Lessons Support', () => {
-    const mockGroup = createMockGroup({
+    const mockGroupData = createMockGroup({
       id: 2,
       name: 'Advanced Piano Group',
     })
@@ -609,16 +581,22 @@ describe('AllLessons Component', () => {
     const groupCurrentHolder = {
       currentLessonHolder: {
         type: 'g' as const,
-        holder: mockGroup,
+        holder: {
+          ...mockGroupData,
+          students: (mockGroupData.students || []).map(student => ({ 
+            name: typeof student === 'object' && student !== null && 'name' in student 
+              ? String(student.name) 
+              : String(student)
+          })),
+        },
       },
     }
 
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(groupCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
 
       const groupLessons = mockLessons.map(lesson => ({
         ...lesson,
@@ -626,12 +604,11 @@ describe('AllLessons Component', () => {
         holderType: 'g' as const,
       }))
 
-      mockAllLessons.mockReturnValue({
-        data: groupLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(groupLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 'g-2' }],
@@ -664,16 +641,14 @@ describe('AllLessons Component', () => {
   describe('Responsive Behavior', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
@@ -718,59 +693,6 @@ describe('AllLessons Component', () => {
     })
   })
 
-  describe('Demo Mode', () => {
-    beforeEach(() => {
-      // Reset the config mock for demo mode tests
-      vi.doUnmock('@/config')
-      vi.mock('@/config', () => ({
-        isDemoMode: true,
-        appConfig: {
-          isDemoMode: true,
-          apiUrl: 'https://test-api.eleno.net',
-          dbUrl: 'https://test-project.supabase.co',
-          dbKey: 'test-anon-key',
-        },
-      }))
-      
-      mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
-
-      // Clear any existing query data
-      queryClient.clear()
-    })
-
-    it('should use current year for demo mode', () => {
-      renderWithProviders(
-        <AllLessons />,
-        { queryClient }
-      )
-
-      // In demo mode, the year selector should still be present
-      expect(screen.getByRole('combobox')).toBeInTheDocument()
-    })
-
-    it('should only show current year in year selector for demo mode', async () => {
-      renderWithProviders(
-        <AllLessons />,
-        { queryClient }
-      )
-
-      const selector = screen.getByRole('combobox')
-      expect(selector).toBeInTheDocument()
-      
-      // In demo mode, selector should be available but we'll just check it exists
-      // The internal logic uses current year from isDemoMode config
-    })
-  })
 
   describe('Error Recovery', () => {
     it('should recover when currentHolder becomes available', () => {
@@ -787,16 +709,14 @@ describe('AllLessons Component', () => {
 
       // Update to have holder
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       rerender(
         <AllLessons />
@@ -810,16 +730,14 @@ describe('AllLessons Component', () => {
   describe('Navigation', () => {
     beforeEach(() => {
       mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
-      mockLessonYears.mockReturnValue({
-        isPending: false,
-        isError: false,
-      })
-      mockAllLessons.mockReturnValue({
-        data: mockLessons,
-        isPending: false,
-        isError: false,
-        isFetching: false,
-      })
+      mockLessonYears.mockReturnValue(
+        createMockSuccessQueryResult([])
+      )
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        })
+      )
 
       queryClient.setQueryData(
         ['lesson-years', { holder: 's-1' }],
