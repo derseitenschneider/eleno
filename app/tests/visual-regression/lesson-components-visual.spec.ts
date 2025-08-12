@@ -5,7 +5,18 @@ import { createVisualTestHelper } from './helpers/visualTestHelpers'
 test.describe('Lesson Components Visual Regression Tests', () => {
   test.beforeEach(async ({ page }) => {
     const lessonsPOM = new LessonsPOM(page, test.info())
-    await lessonsPOM.goto()
+    
+    // Get stored student ID for direct navigation
+    const studentId = LessonsPOM.getStoredStudentId()
+    
+    if (studentId) {
+      // Navigate directly to lessons page using student ID
+      await lessonsPOM.goto(studentId)
+    } else {
+      // Fallback to original navigation method
+      console.warn('No student ID found, using fallback navigation')
+      await lessonsPOM.goto()
+    }
   })
 
   test('lesson header component - navigation and title', async ({ page }) => {

@@ -9,7 +9,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
   {
     name: 'visual-regression-desktop',
     testDir: './tests/visual-regression',
-    testMatch: '**/*.visual.spec.ts',
+    testMatch: '**/*-visual.spec.ts',
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',
@@ -37,7 +37,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
   {
     name: 'visual-regression-mobile',
     testDir: './tests/visual-regression',
-    testMatch: '**/*.visual.spec.ts',
+    testMatch: '**/*-visual.spec.ts',
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',
@@ -62,7 +62,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
   {
     name: 'visual-regression-dark-desktop',
     testDir: './tests/visual-regression',
-    testMatch: '**/*.visual.spec.ts',
+    testMatch: '**/*-visual.spec.ts',
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',
@@ -87,7 +87,7 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
   {
     name: 'visual-regression-dark-mobile',
     testDir: './tests/visual-regression',
-    testMatch: '**/*.visual.spec.ts',
+    testMatch: '**/*-visual.spec.ts',
     dependencies: ['visual-regression-setup'],
     use: {
       browserName: 'chromium',

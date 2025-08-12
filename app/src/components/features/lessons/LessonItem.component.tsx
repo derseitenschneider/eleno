@@ -20,7 +20,10 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
   if (!lesson) return
 
   return (
-    <div className='rounded-sm border border-hairline bg-background100 p-3'>
+    <div
+      data-testid='lesson-item'
+      className='rounded-sm border border-hairline bg-background100 p-3'
+    >
       {!isDisplayOnly && (
         <div className='flex items-start justify-between'>
           <p className='mb-1 text-xs'>

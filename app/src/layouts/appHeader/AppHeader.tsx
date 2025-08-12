@@ -21,6 +21,7 @@ export function AppHeader() {
   return (
     <header className='sticky top-0 z-[50] flex h-12 items-center justify-between border-b border-hairline bg-background100 px-4 sm:pl-6'>
       <SidebarTrigger
+        data-testid='sidebar-trigger'
         className={cn(
           isMobile ? 'size-5' : 'size-4',
           'flex sm:hidden lg:flex hover:bg-background50',

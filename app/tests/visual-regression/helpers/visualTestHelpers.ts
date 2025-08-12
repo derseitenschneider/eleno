@@ -211,4 +211,3 @@ export class VisualTestHelper {
 export function createVisualTestHelper(page: Page): VisualTestHelper {
   return new VisualTestHelper(page)
 }
-EOF < /dev/null
