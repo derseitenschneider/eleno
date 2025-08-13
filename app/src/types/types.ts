@@ -84,10 +84,7 @@ export type Group = Omit<DBTypes['groups'], 'students'> & {
   students: Array<{ name: string }>
 }
 
-export type GroupPartial = Omit<
-  Group,
-  'id' | 'created_at' | 'user_id' | 'archive'
->
+export type GroupPartial = Omit<Group, 'id' | 'created_at' | 'archive'>
 
 /*
 |--------------------------------------------------------------------------
