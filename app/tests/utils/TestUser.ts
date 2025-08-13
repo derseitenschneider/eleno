@@ -4,7 +4,7 @@ import type Stripe from 'stripe'
 import { StripeService } from './StripeService'
 import { resolveJoin } from './resolveJoin'
 import supabaseAdmin from './supabaseAdmin'
-import { GroupPartial } from '@/types/types'
+import type { GroupPartial } from '../../src/types/types'
 
 export type UserFlow =
   | 'trial-active'

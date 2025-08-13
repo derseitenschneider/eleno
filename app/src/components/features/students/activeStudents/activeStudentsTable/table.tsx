@@ -94,6 +94,7 @@ export default function ActiveStudentsTable({
           columns={studentsColumns}
           messageEmpty='Keine Schüler:innen vorhanden'
           isFetching={isFetching}
+          testId='students-table'
         />
       ) : (
         <Empty emptyMessage='Keine Schüler:innen vorhanden' className='mt-8'>

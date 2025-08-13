@@ -92,6 +92,7 @@ export default function InactiveHoldersTable({
         setSelected={setRowSelection}
       />
       <DataTable
+        testId='archive-table'
         table={table}
         columns={inactiveHoldersColumns}
         messageEmpty='Das Archiv ist leer.'

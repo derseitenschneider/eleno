@@ -75,6 +75,7 @@ export default function GroupsTable({
       />
       {groups.length > 0 ? (
         <DataTable
+          testId='groups-table'
           table={table}
           className='[&_tr]:border-b sm:[&_tr]:border-none'
           columns={groupsColumns}

@@ -41,6 +41,7 @@ function NavbarMobile() {
   return (
     <>
       <nav
+        data-testid='mobile-nav'
         className={cn(
           isLoading ? 'bg-background50' : 'bg-background50/65 backdrop-blur',
           'padding-mobile-nav max-w-screen pointer-events-auto visible fixed bottom-0 left-0 right-0 z-50 block px-5 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] md:pointer-events-none md:hidden',

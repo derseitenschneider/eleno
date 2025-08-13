@@ -64,7 +64,7 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     } else {
       // Desktop view - check sidebar
       const sidebar = page.locator(
-        '[data-sidebar="sidebar"], [data-testid="sidebar"]',
+        '[data-sidebar="sidebar"], [data-testid="app-sidebar"]',
       )
       if ((await sidebar.count()) > 0) {
         // Sidebar should be visible on desktop
@@ -81,7 +81,7 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     await page.goto('/students/archive')
 
     // Wait for page to load
-    await page.waitForSelector('main, [data-testid="archive-page"], table', {
+    await page.waitForSelector('main, [data-testid="archive-table"], table', {
       state: 'visible',
       timeout: 10000,
     })
@@ -118,31 +118,24 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     await page.goto('/students/groups')
 
     // Wait for groups page to load and wait for loading state to disappear
-    await page.waitForSelector('main, [data-testid="groups-page"]', {
+    await page.waitForSelector('main, [data-testid="groups-table"]', {
       state: 'visible',
       timeout: 10000,
     })
 
     // Wait for loading states to disappear
-    await page.waitForSelector('.animate-pulse, [data-testid="loading"], .skeleton', {
-      state: 'hidden',
-      timeout: 15000,
-    }).catch(() => {
-      // If no loading indicators found, that's fine
-    })
+    await page
+      .waitForSelector('.animate-pulse, [data-testid="loading"], .skeleton', {
+        state: 'hidden',
+        timeout: 15000,
+      })
+      .catch(() => {
+        // If no loading indicators found, that's fine
+      })
 
     // Wait for data
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(2000) // Give more time for groups to load
-
-    // Log group count for debugging (don't fail test on count)
-    // Look for group elements with various possible selectors
-    const groupElements = await page
-      .locator(
-        '[data-testid="group-item"], .group-card, tbody tr:not(.animate-pulse), [data-testid="group-row"], .group-name',
-      )
-      .count()
-    console.log(`Groups visible: ${groupElements}`)
 
     // Take screenshot
     const projectName = testInfo.project.name
@@ -251,16 +244,16 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
           const sidebar = document.querySelector('[data-sidebar="sidebar"]')
           if (!sidebar) return 'not found'
           const style = window.getComputedStyle(sidebar as HTMLElement)
-          const width = parseInt(style.width)
+          const width = Number.parseInt(style.width)
           return width > 100 ? 'expanded' : 'collapsed'
         })
 
         console.log(`${projectName}: Sidebar state: ${sidebarState}`)
 
         // If sidebar is collapsed on small laptop, try to expand it
-        if (sidebarState === 'collapsed' && viewport.width <= 1280) {
+        if (sidebarState === 'collapsed' && viewport?.width <= 1280) {
           const toggleButton = page.locator(
-            '[data-testid="sidebar-toggle"], button[aria-label*="sidebar"], button[aria-label*="menu"]',
+            '[data-testid="sidebar-trigger"], button[aria-label*="sidebar"], button[aria-label*="menu"]',
           )
           if ((await toggleButton.count()) > 0) {
             await toggleButton.first().click()

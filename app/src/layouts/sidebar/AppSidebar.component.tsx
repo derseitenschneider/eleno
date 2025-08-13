@@ -109,7 +109,12 @@ export function AppSidebar() {
   const isHome = pathname === '/'
 
   return (
-    <Sidebar collapsible='icon' variant='sidebar' className='hidden md:flex'>
+    <Sidebar
+      data-testid='app-sidebar'
+      collapsible='icon'
+      variant='sidebar'
+      className='hidden md:flex'
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
