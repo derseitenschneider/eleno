@@ -44,6 +44,11 @@
     "pw:performance:local": "npm run pw:local -- --project='*performance*'",
     "pw:performance:headed": "npm run pw -- --project='*performance*' --headed",
     "pw:performance:debug": "npm run pw -- --project='*performance*' --debug",
+    "pw:edge-case": "npm run pw -- --project='*edge-case*'",
+    "pw:edge-case:local": "npm run pw:local -- --project='*edge-case*'",
+    "pw:edge-case:headed": "npm run pw -- --project='*edge-case*' --headed",
+    "pw:edge-case:debug": "npm run pw -- --project='*edge-case*' --debug",
+    "pw:edge-case:update": "npm run pw -- --project='*edge-case*' --update-snapshots",
     "analyze-bundle": "node scripts/analyze-bundle.js"
   },
   "dependencies": {

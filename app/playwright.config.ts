@@ -4,6 +4,7 @@ import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
 import { visualRegressionConfig } from './tests/visual-regression/visualRegressionConfig'
 import { accessibilityConfig } from './tests/accessibility/accessibilityConfig'
 import { performanceConfig } from './tests/performance/performanceConfig'
+import { edgeCaseConfig } from './tests/edge-cases/edgeCaseConfig'
 
 export default defineConfig({
   testDir: './tests',
@@ -41,5 +42,5 @@ export default defineConfig({
     },
   },
 
-  projects: [...subscriptionsConfig, ...shareHomeworkConfig, ...visualRegressionConfig, ...accessibilityConfig, ...performanceConfig],
+  projects: [...subscriptionsConfig, ...shareHomeworkConfig, ...visualRegressionConfig, ...accessibilityConfig, ...performanceConfig, ...edgeCaseConfig],
 })

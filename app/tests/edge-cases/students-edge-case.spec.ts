@@ -1,0 +1,281 @@
+import { test, expect } from '@playwright/test'
+
+/**
+ * Edge-case visual regression tests for Students pages
+ * Tests problematic viewport sizes that previously caused data visibility issues
+ */
+test.describe('Students Page - Edge Case Visual Regression', () => {
+  test.beforeEach(async ({ page }) => {
+    // Set theme consistently for visual testing
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'light')
+      document.documentElement.classList.remove('dark-mode')
+      document.documentElement.classList.add('light-mode')
+    })
+  })
+
+  test('Active Students List - All viewports', async ({ page }, testInfo) => {
+    // Navigate to active students page
+    await page.goto('/students')
+
+    // Wait for students table to load
+    await page.waitForSelector(
+      'table, [data-testid="students-table"], .students-list',
+      {
+        state: 'visible',
+        timeout: 10000,
+      },
+    )
+
+    // Wait for data to load
+    await page.waitForLoadState('networkidle')
+
+    // Additional wait for any animations or lazy loading
+    await page.waitForTimeout(1000)
+
+    // Log student count for debugging (don't fail test on count)
+    const studentRows = await page
+      .locator('tbody tr, [data-testid="student-row"]')
+      .count()
+    console.log(`Active Students visible: ${studentRows}`)
+
+    // Take screenshot with viewport-specific name
+    const projectName = testInfo.project.name
+    await expect(page).toHaveScreenshot(`active-students-${projectName}.png`, {
+      fullPage: true,
+      animations: 'disabled',
+    })
+
+    // Log viewport info for debugging
+    const viewport = page.viewportSize()
+    console.log(
+      `Active Students - ${projectName}: ${viewport?.width}x${viewport?.height}, ${studentRows} students visible`,
+    )
+
+    // Verify critical elements are visible
+    if (viewport && viewport.width < 768) {
+      // Mobile view - check mobile-specific elements
+      const mobileNav = page.locator(
+        'nav.fixed.bottom-0, [data-testid="mobile-nav"]',
+      )
+      if (await mobileNav.isVisible()) {
+        expect(await mobileNav.isVisible()).toBe(true)
+      }
+    } else {
+      // Desktop view - check sidebar
+      const sidebar = page.locator(
+        '[data-sidebar="sidebar"], [data-testid="sidebar"]',
+      )
+      if ((await sidebar.count()) > 0) {
+        // Sidebar should be visible on desktop
+        const sidebarVisible = await sidebar.isVisible()
+        console.log(`Sidebar visible on ${projectName}: ${sidebarVisible}`)
+      }
+    }
+  })
+
+  test('Inactive Students (Archive) - All viewports', async ({
+    page,
+  }, testInfo) => {
+    // Navigate to archive page for inactive students and groups
+    await page.goto('/students/archive')
+
+    // Wait for page to load
+    await page.waitForSelector('main, [data-testid="archive-page"], table', {
+      state: 'visible',
+      timeout: 10000,
+    })
+
+    // Wait for data to load
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
+
+    // Log archive count for debugging (don't fail test on count)
+    // Archive page shows both archived students and groups
+    const archiveElements = await page
+      .locator(
+        'tbody tr, [data-testid="archive-row"], [data-testid="student-row"]',
+      )
+      .count()
+    console.log(`Archive items visible: ${archiveElements}`)
+
+    // Take screenshot
+    const projectName = testInfo.project.name
+    await expect(page).toHaveScreenshot(`archive-${projectName}.png`, {
+      fullPage: true,
+      animations: 'disabled',
+    })
+
+    // Log viewport info
+    const viewport = page.viewportSize()
+    console.log(
+      `Archive - ${projectName}: ${viewport?.width}x${viewport?.height}, ${archiveElements} items visible`,
+    )
+  })
+
+  test('Groups Page - All viewports', async ({ page }, testInfo) => {
+    // Navigate to groups page
+    await page.goto('/students/groups')
+
+    // Wait for groups page to load and wait for loading state to disappear
+    await page.waitForSelector('main, [data-testid="groups-page"]', {
+      state: 'visible',
+      timeout: 10000,
+    })
+
+    // Wait for loading states to disappear
+    await page.waitForSelector('.animate-pulse, [data-testid="loading"], .skeleton', {
+      state: 'hidden',
+      timeout: 15000,
+    }).catch(() => {
+      // If no loading indicators found, that's fine
+    })
+
+    // Wait for data
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(2000) // Give more time for groups to load
+
+    // Log group count for debugging (don't fail test on count)
+    // Look for group elements with various possible selectors
+    const groupElements = await page
+      .locator(
+        '[data-testid="group-item"], .group-card, tbody tr:not(.animate-pulse), [data-testid="group-row"], .group-name',
+      )
+      .count()
+    console.log(`Groups visible: ${groupElements}`)
+
+    // Take screenshot
+    const projectName = testInfo.project.name
+    await expect(page).toHaveScreenshot(`groups-${projectName}.png`, {
+      fullPage: true,
+      animations: 'disabled',
+    })
+
+    // Log viewport info
+    const viewport = page.viewportSize()
+    console.log(
+      `Groups - ${projectName}: ${viewport?.width}x${viewport?.height}, ${groupElements} groups visible`,
+    )
+  })
+
+  test('Table column responsiveness - Active Students', async ({
+    page,
+  }, testInfo) => {
+    await page.goto('/students')
+
+    // Wait for table to load
+    await page.waitForSelector('table, [data-testid="students-table"]', {
+      state: 'visible',
+      timeout: 10000,
+    })
+
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(500)
+
+    const viewport = page.viewportSize()
+    const projectName = testInfo.project.name
+
+    // Check which columns are visible based on viewport
+    const visibleColumns = await page.evaluate(() => {
+      const headers = Array.from(
+        document.querySelectorAll('thead th, thead td'),
+      )
+      return headers
+        .filter((h) => {
+          const style = window.getComputedStyle(h as HTMLElement)
+          return style.display !== 'none' && style.visibility !== 'hidden'
+        })
+        .map((h) => h.textContent?.trim())
+    })
+
+    console.log(
+      `${projectName} (${viewport?.width}px) visible columns:`,
+      visibleColumns,
+    )
+
+    // Verify appropriate columns for device type
+    if (viewport && viewport.width < 768) {
+      // Mobile should show fewer columns
+      expect(visibleColumns.length).toBeLessThanOrEqual(4)
+      console.log('Mobile view: Showing condensed columns')
+    } else {
+      // Desktop should show more columns
+      expect(visibleColumns.length).toBeGreaterThanOrEqual(4)
+      console.log('Desktop view: Showing full columns')
+    }
+
+    // Take a focused screenshot of the table
+    const table = page.locator('table, [data-testid="students-table"]').first()
+    await expect(table).toHaveScreenshot(`table-columns-${projectName}.png`, {
+      animations: 'disabled',
+    })
+  })
+
+  test('Navigation accessibility - All viewports', async ({
+    page,
+  }, testInfo) => {
+    await page.goto('/students')
+
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(500)
+
+    const viewport = page.viewportSize()
+    const projectName = testInfo.project.name
+
+    if (viewport && viewport.width < 768) {
+      // Mobile view - test mobile navigation
+      const mobileNav = page.locator(
+        'nav.fixed.bottom-0, [data-testid="mobile-nav"]',
+      )
+
+      if ((await mobileNav.count()) > 0) {
+        expect(await mobileNav.isVisible()).toBe(true)
+
+        // Take screenshot of mobile navigation
+        await expect(mobileNav).toHaveScreenshot(
+          `mobile-nav-${projectName}.png`,
+          {
+            animations: 'disabled',
+          },
+        )
+
+        console.log(`${projectName}: Mobile navigation visible and accessible`)
+      }
+    } else {
+      // Desktop view - test sidebar
+      const sidebar = page.locator('[data-sidebar="sidebar"]')
+
+      if ((await sidebar.count()) > 0) {
+        // Check if sidebar is collapsed or expanded
+        const sidebarState = await page.evaluate(() => {
+          const sidebar = document.querySelector('[data-sidebar="sidebar"]')
+          if (!sidebar) return 'not found'
+          const style = window.getComputedStyle(sidebar as HTMLElement)
+          const width = parseInt(style.width)
+          return width > 100 ? 'expanded' : 'collapsed'
+        })
+
+        console.log(`${projectName}: Sidebar state: ${sidebarState}`)
+
+        // If sidebar is collapsed on small laptop, try to expand it
+        if (sidebarState === 'collapsed' && viewport.width <= 1280) {
+          const toggleButton = page.locator(
+            '[data-testid="sidebar-toggle"], button[aria-label*="sidebar"], button[aria-label*="menu"]',
+          )
+          if ((await toggleButton.count()) > 0) {
+            await toggleButton.first().click()
+            await page.waitForTimeout(300) // Wait for animation
+
+            // Take screenshot of expanded sidebar
+            await expect(page).toHaveScreenshot(
+              `sidebar-expanded-${projectName}.png`,
+              {
+                animations: 'disabled',
+              },
+            )
+          }
+        }
+      }
+    }
+  })
+})

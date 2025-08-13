@@ -1,0 +1,18 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://dev.eleno.net",
+      "localStorage": [
+        {
+          "name": "isDarkMode",
+          "value": "false"
+        },
+        {
+          "name": "sb-brhpqxeowknyhrimssxw-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsImtpZCI6IkNzWWxsbEpTbTBaMzgxRU0iLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JyaHBxeGVvd2tueWhyaW1zc3h3LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI2NGIwMzg1Yy04YjBmLTQxZDEtYjkzZi1mM2EwZWRhZTZjOTgiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzU1MDYyNTg4LCJpYXQiOjE3NTUwNTg5ODgsImVtYWlsIjoicHctdGVzdC1nZW5lcmFsLXVzZXItMTc1NTA1ODk4NDI5N0BleGFtcGxlLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcnN0TmFtZSI6IlRlc3QiLCJsYXN0TmFtZSI6IlVzZXIifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc1NTA1ODk4OH1dLCJzZXNzaW9uX2lkIjoiNWY3MjVlNDUtNTBhMy00ZjI1LWFlYjAtNmM3NTgxNTg0MmE1IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.DnVMXMjuyi9W361fptEBtm0e5W2weUNYAlVa5an0fUM\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1755062588,\"refresh_token\":\"bpis6ru6nwah\",\"user\":{\"id\":\"64b0385c-8b0f-41d1-b93f-f3a0edae6c98\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"pw-test-general-user-1755058984297@example.com\",\"email_confirmed_at\":\"2025-08-13T04:23:04.792966Z\",\"phone\":\"\",\"confirmed_at\":\"2025-08-13T04:23:04.792966Z\",\"last_sign_in_at\":\"2025-08-13T04:23:08.159210593Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email_verified\":true,\"firstName\":\"Test\",\"lastName\":\"User\"},\"identities\":[{\"identity_id\":\"b7123ae5-47e3-4a59-89fd-c03d611081c6\",\"id\":\"64b0385c-8b0f-41d1-b93f-f3a0edae6c98\",\"user_id\":\"64b0385c-8b0f-41d1-b93f-f3a0edae6c98\",\"identity_data\":{\"email\":\"pw-test-general-user-1755058984297@example.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"64b0385c-8b0f-41d1-b93f-f3a0edae6c98\"},\"provider\":\"email\",\"last_sign_in_at\":\"2025-08-13T04:23:04.77623Z\",\"created_at\":\"2025-08-13T04:23:04.776291Z\",\"updated_at\":\"2025-08-13T04:23:04.776291Z\",\"email\":\"pw-test-general-user-1755058984297@example.com\"}],\"created_at\":\"2025-08-13T04:23:04.688762Z\",\"updated_at\":\"2025-08-13T04:23:08.177188Z\",\"is_anonymous\":false}}"
+        }
+      ]
+    }
+  ]
+}

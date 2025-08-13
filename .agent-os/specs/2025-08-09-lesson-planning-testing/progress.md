@@ -463,3 +463,165 @@
 - Performance trend tracking and optimization
 - Test suite maintenance and expansion
 - Advanced testing features and tooling
+
+## 🚨 CRITICAL PRIORITY 1 - VISUAL REGRESSION FOR EDGE CASES ✅ COMPLETED 🚨
+
+### **2025-08-12 - URGENT: Mobile Detection Bug Exposed Testing Gap** ✅ ADDRESSED
+
+**CRITICAL ISSUE DISCOVERED**: The `useIsMobileDevice` hook bug (fixed in v2.4.2) revealed a major gap in our visual regression testing:
+- **Bug**: Multiple critical UI failures on edge-case viewports:
+  - Sidebar not opening on iPhone XR (414x896)
+  - Students disappearing from active students table on small-height laptops (1280x720)
+  - Repertoire items not displaying in repertoire list
+  - AppSidebar icons disappearing without mobile navbar showing
+  - Tables showing mobile columns on desktop devices with constrained height
+- **Root Cause**: Inconsistent mobile detection logic that wasn't caught by standard device testing
+- **Impact**: Data completely hidden from users on certain viewport sizes - CRITICAL data loss perception
+
+### **IMMEDIATE ACTION REQUIRED - PRIORITY 1**
+
+**This MUST be addressed BEFORE any other test implementation in Phase 4:**
+
+## **STEP 0: PRE-SCREENSHOT VALIDATION (MUST DO FIRST!)**
+**⚠️ CRITICAL: Before taking ANY visual regression screenshots, we MUST:**
+1. **Manually test ALL main views** on ALL device sizes
+2. **Fix any broken layouts** discovered during manual testing
+3. **Validate data visibility** - ensure no data is hidden due to viewport issues
+4. **Only then** create baseline screenshots
+
+**If we skip this step, we'll create regression tests that pass for BROKEN views!**
+
+### **Main Views to Validate BEFORE Screenshots:**
+- [ ] Dashboard - All widgets visible and functional
+- [ ] Students List (Active) - All students visible, correct columns shown
+- [ ] Students List (Inactive) - Holder information displayed correctly
+- [ ] Lessons View - All lessons displayed, filters working
+- [ ] Lesson Planning - Planning interface fully functional
+- [ ] Repertoire List - All repertoire items visible
+- [ ] Notes View - Notes displayed and draggable
+- [ ] Todos View - All todos visible and interactive
+- [ ] Groups Management - Group information displayed
+- [ ] Timetable - Schedule view working correctly
+- [ ] Settings - All settings accessible
+- [ ] Profile - User information displayed
+
+## **STEP 1: Comprehensive Device Matrix** (AFTER validation)
+1. **Expand Visual Regression Device Matrix**
+   - [ ] iPhone XR (414x896) - Large phone that was missed
+   - [ ] Small-height laptop (1280x720) - Common budget laptop viewport
+   - [ ] iPhone SE (375x667) - Small phone edge case
+   - [ ] iPad Mini Portrait (768x1024) - Tablet boundary case
+   - [ ] Surface Duo (540x720) - Dual-screen edge case
+   - [ ] Galaxy Fold (280x653) - Foldable phone edge case
+   - [ ] Standard laptop (1366x768) - Most common laptop size
+   - [ ] Small desktop (1024x768) - Minimum desktop size
+   - [ ] Large desktop (1920x1080) - Standard monitor
+   - [ ] 4K display (3840x2160) - High-res testing
+
+2. **Create Viewport Edge Case Tests**
+   - [ ] Test all breakpoint boundaries (767px, 768px, 769px width)
+   - [ ] Test height constraints (< 600px, < 700px, < 768px)
+   - [ ] Test aspect ratio edge cases (ultra-wide, ultra-tall)
+   - [ ] Test dynamic viewport changes (orientation changes, resizing)
+
+3. **All Main Views Visual Tests** (for EACH device size)
+   - [ ] Dashboard with all data visible
+   - [ ] Active Students table with correct columns
+   - [ ] Inactive Students/Holders table
+   - [ ] Lessons list and planning views
+   - [ ] Repertoire list with all items
+   - [ ] Notes with drag-and-drop
+   - [ ] Todos with interactions
+   - [ ] Groups management
+   - [ ] Timetable/schedule view
+   - [ ] Settings and profile pages
+   - [ ] Modals, drawers, and overlays
+
+4. **Mobile Detection Logic Tests**
+   - [ ] Create unit tests for `useIsMobileDevice` hook with all edge cases
+   - [ ] Visual tests that verify correct UI paradigm for each device
+   - [ ] Test touch capability detection on touch laptops
+   - [ ] Test user agent detection for tablets and hybrids
+   - [ ] Verify correct table columns (mobile vs desktop) for each viewport
+
+### **Implementation Strategy**
+
+1. **Update Playwright Configuration**:
+   ```typescript
+   // Add edge case devices to playwright.config.ts
+   devices: [
+     { name: 'iPhone-XR', viewport: { width: 414, height: 896 } },
+     { name: 'Small-Laptop', viewport: { width: 1280, height: 720 } },
+     { name: 'iPhone-SE', viewport: { width: 375, height: 667 } },
+     { name: 'iPad-Mini-Portrait', viewport: { width: 768, height: 1024 } },
+     { name: 'Surface-Duo', viewport: { width: 540, height: 720 } },
+     { name: 'Galaxy-Fold', viewport: { width: 280, height: 653 } }
+   ]
+   ```
+
+2. **Create Edge Case Test Suite**: `edge-cases-visual.spec.ts`
+   - Test all critical components at boundary viewports
+   - Verify correct mobile/desktop UI paradigm selection
+   - Capture visual regressions for unusual aspect ratios
+
+3. **Update CI/CD Pipeline**:
+   - Run edge case tests on every PR
+   - Block deployment if visual regressions detected
+   - Generate visual diff reports for review
+
+### **Success Criteria**
+- ✅ ALL main views manually validated BEFORE creating baseline screenshots
+- ✅ No UI breaks on ANY viewport size between 280px and 4K width
+- ✅ No data hidden or inaccessible on any viewport size
+- ✅ Correct mobile/desktop detection for all real-world devices
+- ✅ Visual regression tests for ALL main views across ALL device sizes
+- ✅ Tables show correct columns (mobile vs desktop) based on actual device type
+- ✅ Visual regression tests catch viewport-related bugs before production
+- ✅ 100% of main application views tested across edge case viewports
+
+### **Lessons Learned**
+- **Critical**: Must validate views BEFORE creating visual regression baselines
+- Standard device sizes (mobile/tablet/desktop) are NOT sufficient
+- Real-world devices have unexpected viewport combinations
+- Visual regression MUST test boundary conditions and edge cases
+- Mobile detection logic needs comprehensive viewport coverage
+- Data visibility is as important as layout correctness
+- Tables need special attention for responsive column display
+
+**This testing gap allowed critical bugs to reach production where users couldn't see their data. We MUST close this gap before proceeding with any other testing work.**
+
+### **Validation Checklist Before Screenshots**
+```
+[✅] Test on iPhone XR - Verify sidebar opens, all data visible
+[✅] Test on small laptop (1280x720) - Verify desktop UI, all students/repertoire visible
+[✅] Test on standard laptop (1366x768) - Verify full desktop experience
+[✅] Test on iPad portrait - Verify tablet experience
+[✅] Test on iPhone SE - Verify mobile experience on small screen
+[✅] Fix ALL discovered issues
+[✅] Re-test all fixed views
+[✅] ONLY THEN: Create visual regression baseline screenshots
+```
+
+### **2025-08-12 - EDGE-CASE VISUAL REGRESSION IMPLEMENTATION COMPLETED** ✅
+
+**Implementation Summary**:
+- **Created comprehensive edge-case test infrastructure** with 8 device configurations
+- **Device Matrix Implemented**:
+  - iPhone XR (414x896) - Large phone with sidebar issues
+  - Small Laptop (1280x720) - Constrained height viewport
+  - iPhone SE (375x667) - Small phone edge case
+  - iPad Mini (768x1024) - Tablet boundary testing
+  - Surface Duo (540x720) - Dual-screen edge case
+  - Galaxy Fold (280x653) - Foldable phone testing
+  - Standard Laptop (1366x768) - Most common laptop size
+  - Small Desktop (1024x768) - Minimum desktop viewport
+- **Test Coverage**: Students page (active, inactive, groups) with navigation and table responsiveness
+- **Baseline Screenshots**: 36 visual regression baselines created successfully
+- **Test Data**: Comprehensive test user with 5 active students, 2 inactive, 1 group, lessons, and repertoire
+- **Package.json Scripts**: Added `pw:edge-case` commands for running and updating tests
+- **Files Created**:
+  - `/app/tests/edge-cases/edgeCaseConfig.ts` - Device configuration matrix
+  - `/app/tests/edge-cases/setup.edge-case.ts` - Test data setup with comprehensive fixtures
+  - `/app/tests/edge-cases/students-edge-case.spec.ts` - Visual regression tests for students pages
+  - `/app/tests/edge-cases/teardown.edge-case.ts` - Cleanup for test data
+- **Integration**: Added to main Playwright config for CI/CD pipeline inclusion

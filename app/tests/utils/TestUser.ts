@@ -110,7 +110,7 @@ export class TestUser {
    *
    * Id of the student created on init.
    */
-  private studentId = ''
+  public studentId = ''
 
   public constructor(options: Options) {
     this.stripeService = new StripeService()
@@ -366,18 +366,116 @@ export class TestUser {
    * Static method to create a general user for visual regression tests.
    * Creates a user with basic trial subscription and returns credentials.
    */
-  public static async createGeneralUser(): Promise<{ email: string; password: string; authFile: string }> {
+  public static async createGeneralUser(): Promise<{
+    email: string
+    password: string
+    authFile: string
+  }> {
     const testUser = new TestUser({
       userflow: 'general-user',
       project: 'general',
     })
-    
+
     await testUser.init()
-    
+
     return {
       email: testUser.email,
       password: testUser.password,
       authFile: testUser.authFile,
     }
+  }
+
+  // Methods for creating additional test data
+  public async createAdditionalStudents(count = 4) {
+    if (!this.user) {
+      throw new Error('No user data to create additional students')
+    }
+
+    const students = []
+    const studentNames = [
+      { firstName: 'Emma', lastName: 'Johnson', instrument: 'Piano' },
+      { firstName: 'Lucas', lastName: 'Martinez', instrument: 'Guitar' },
+      { firstName: 'Sophie', lastName: 'Chen', instrument: 'Violin' },
+      { firstName: 'Oliver', lastName: 'Williams', instrument: 'Drums' },
+      { firstName: 'Mia', lastName: 'Anderson', instrument: 'Flute' },
+    ]
+
+    for (let i = 0; i < count && i < studentNames.length; i++) {
+      students.push({
+        user_id: this.user.id,
+        firstName: studentNames[i].firstName,
+        lastName: studentNames[i].lastName,
+        instrument: studentNames[i].instrument,
+        archive: false,
+        homework_sharing_authorized: true,
+      })
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('students')
+      .insert(students)
+      .select()
+
+    if (error) {
+      throw new Error(`Error creating additional students: ${error.message}`)
+    }
+
+    return data
+  }
+
+  public async createInactiveStudents(count = 2) {
+    if (!this.user) {
+      throw new Error('No user data to create inactive students')
+    }
+
+    const inactiveStudents = []
+    const inactiveNames = [
+      { firstName: 'Former', lastName: 'Student One', instrument: 'Cello' },
+      { firstName: 'Former', lastName: 'Student Two', instrument: 'Saxophone' },
+    ]
+
+    for (let i = 0; i < count && i < inactiveNames.length; i++) {
+      inactiveStudents.push({
+        user_id: this.user.id,
+        firstName: inactiveNames[i]?.firstName,
+        lastName: inactiveNames[i]?.lastName,
+        instrument: inactiveNames[i]?.instrument,
+        archive: true, // Set to true for inactive students
+        homework_sharing_authorized: false,
+      })
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('students')
+      .insert(inactiveStudents)
+      .select()
+
+    if (error) {
+      throw new Error(`Error creating inactive students: ${error.message}`)
+    }
+
+    return data
+  }
+
+  public async createGroup(name = 'Advanced Guitar Group') {
+    if (!this.user) {
+      throw new Error('No user data to create group')
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('groups')
+      .insert({
+        user_id: this.user.id,
+        name,
+        homework_sharing_authorized: true,
+      })
+      .select()
+      .single()
+
+    if (error) {
+      throw new Error(`Error creating group: ${error.message}`)
+    }
+
+    return data
   }
 }
