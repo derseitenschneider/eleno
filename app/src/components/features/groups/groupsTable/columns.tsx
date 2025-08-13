@@ -105,7 +105,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
       return (
         <Button
           variant='ghost'
-          className='hidden lg:flex p-0'
+          className='hidden p-0 lg:flex'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Dauer
@@ -118,7 +118,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     cell: ({ row }) => {
       const duration = row.getValue('durationMinutes') as number
       return (
-        <span className='hidden lg:inline text-right'>
+        <span className='hidden text-right lg:inline'>
           {duration ? `${duration} Min.` : '–'}
         </span>
       )
@@ -151,7 +151,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
     minSize: 0,
     cell: ({ row }) => (
       <div className=''>
-        {row.original.students.length === 0 ? (
+        {row.original.students && row.original.students.length === 0 ? (
           '—'
         ) : (
           <Popover>
@@ -165,7 +165,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
             <PopoverContent>
               <h4>{row.original.students.length} Schüler:innen</h4>
               <ul>
-                {row.original.students.map((student) => (
+                {row.original.students?.map((student) => (
                   <li className='text-sm' key={student?.name}>
                     {student?.name}
                   </li>

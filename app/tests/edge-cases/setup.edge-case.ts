@@ -14,19 +14,19 @@ setup('setup edge-case test data', async ({ page, context }) => {
     userflow: 'general-user',
     project: 'general',
   })
-  
+
   // Initialize with default student
   await testUser.init()
-  
+
   // Create 4 additional active students (total will be 5)
   const additionalStudents = await testUser.createAdditionalStudents(4)
-  
+
   // Create 2 inactive students
   const inactiveStudents = await testUser.createInactiveStudents(2)
-  
+
   // Create 1 group
   const group = await testUser.createGroup('Advanced Guitar Group')
-  
+
   // Login with the created test user
   await loginUser(page, {
     email: testUser.email,
@@ -47,19 +47,19 @@ setup('setup edge-case test data', async ({ page, context }) => {
   // Store test data IDs for cleanup
   const authDir = './tests/edge-cases/.auth'
   fs.mkdirSync(authDir, { recursive: true })
-  
+
   const testData = {
     userId: (testUser as any).user?.id,
     defaultStudentId: testUser.studentId,
-    additionalStudentIds: additionalStudents?.map(s => s.id) || [],
-    inactiveStudentIds: inactiveStudents?.map(s => s.id) || [],
+    additionalStudentIds: additionalStudents?.map((s) => s.id) || [],
+    inactiveStudentIds: inactiveStudents?.map((s) => s.id) || [],
     groupId: group?.id,
     testUserEmail: testUser.email,
   }
-  
+
   fs.writeFileSync(
     path.join(authDir, 'test-data.json'),
-    JSON.stringify(testData, null, 2)
+    JSON.stringify(testData, null, 2),
   )
 
   // Save authentication state

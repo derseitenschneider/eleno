@@ -4,6 +4,7 @@ import type Stripe from 'stripe'
 import { StripeService } from './StripeService'
 import { resolveJoin } from './resolveJoin'
 import supabaseAdmin from './supabaseAdmin'
+import { GroupPartial } from '@/types/types'
 
 export type UserFlow =
   | 'trial-active'
@@ -403,9 +404,9 @@ export class TestUser {
     for (let i = 0; i < count && i < studentNames.length; i++) {
       students.push({
         user_id: this.user.id,
-        firstName: studentNames[i].firstName,
-        lastName: studentNames[i].lastName,
-        instrument: studentNames[i].instrument,
+        firstName: studentNames[i]?.firstName,
+        lastName: studentNames[i]?.lastName,
+        instrument: studentNames[i]?.instrument,
         archive: false,
         homework_sharing_authorized: true,
       })
@@ -461,14 +462,21 @@ export class TestUser {
     if (!this.user) {
       throw new Error('No user data to create group')
     }
+    const group: GroupPartial = {
+      name,
+      user_id: this.user.id,
+      students: [],
+      dayOfLesson: null,
+      durationMinutes: null,
+      startOfLesson: null,
+      endOfLesson: null,
+      homework_sharing_authorized: true,
+      location: null,
+    }
 
     const { data, error } = await supabaseAdmin
       .from('groups')
-      .insert({
-        user_id: this.user.id,
-        name,
-        homework_sharing_authorized: true,
-      })
+      .insert(group)
       .select()
       .single()
 

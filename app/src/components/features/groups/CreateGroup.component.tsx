@@ -29,6 +29,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 import { Blocker } from '../subscription/Blocker'
 import { useCreateGroup } from './useCreateGroup'
+import { useUser } from '@/services/context/UserContext'
 
 type CreateGroupsProps = {
   onSuccess: () => void
@@ -89,6 +90,7 @@ const defaultGroup: GroupSchema = {
 }
 
 export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
+  const { user } = useUser()
   const { hasAccess } = useSubscription()
   const { createGroup, isCreating } = useCreateGroup()
   const form = useForm<GroupSchema>({
@@ -121,9 +123,11 @@ export default function CreateGroup({ onSuccess }: CreateGroupsProps) {
   }, [form.setValue, form.getValues])
 
   function onSubmit(group: GroupSchema) {
-    const newGroup = {
+    if (!user) return
+    const newGroup: GroupPartial = {
       ...group,
       students: group.students?.filter((student) => student.name) || null,
+      user_id: user.id,
       homework_sharing_authorized: false,
     }
     createGroup(newGroup, {
