@@ -1,11 +1,16 @@
-import type { UseQueryResult, QueryObserverSuccessResult, QueryObserverLoadingResult, QueryObserverLoadingErrorResult } from '@tanstack/react-query'
+import type {
+  UseQueryResult,
+  QueryObserverSuccessResult,
+  QueryObserverLoadingResult,
+  QueryObserverLoadingErrorResult,
+} from '@tanstack/react-query'
 
 /**
  * Creates a complete UseQueryResult mock with all required properties
  * This helps avoid TypeScript errors when mocking @tanstack/react-query hooks
  */
 export function createMockUseQueryResult<TData = unknown, TError = Error>(
-  overrides: Partial<UseQueryResult<TData, TError>> = {}
+  overrides: Partial<UseQueryResult<TData, TError>> = {},
 ): UseQueryResult<TData, TError> {
   // Base properties common to all states
   const base = {
@@ -50,7 +55,7 @@ export function createMockUseQueryResult<TData = unknown, TError = Error>(
  */
 export function createMockSuccessQueryResult<TData>(
   data: TData,
-  overrides: Partial<QueryObserverSuccessResult<TData, Error>> = {}
+  overrides: Partial<QueryObserverSuccessResult<TData, Error>> = {},
 ): QueryObserverSuccessResult<TData, Error> {
   const base = {
     dataUpdatedAt: Date.now(),
@@ -88,7 +93,7 @@ export function createMockSuccessQueryResult<TData>(
  * Creates a mock for a loading query state
  */
 export function createMockLoadingQueryResult<TData = unknown>(
-  overrides: Partial<QueryObserverLoadingResult<TData, Error>> = {}
+  overrides: Partial<QueryObserverLoadingResult<TData, Error>> = {},
 ): QueryObserverLoadingResult<TData, Error> {
   const base = {
     dataUpdatedAt: 0,
@@ -127,7 +132,7 @@ export function createMockLoadingQueryResult<TData = unknown>(
  */
 export function createMockErrorQueryResult<TData = unknown>(
   error: Error = new Error('Mock error'),
-  overrides: Partial<QueryObserverLoadingErrorResult<TData, Error>> = {}
+  overrides: Partial<QueryObserverLoadingErrorResult<TData, Error>> = {},
 ): QueryObserverLoadingErrorResult<TData, Error> {
   const base = {
     dataUpdatedAt: 0,

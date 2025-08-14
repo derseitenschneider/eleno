@@ -121,7 +121,8 @@ export type NotesBackgrounds = DBTypes['notes']['backgroundColor']
 export type DbNote = DBTypes['notes']
 
 // Type for the only_active_notes view which doesn't include created_at
-export type ActiveNoteView = Database['public']['Views']['only_active_notes']['Row']
+export type ActiveNoteView =
+  Database['public']['Views']['only_active_notes']['Row']
 
 type NoteWithStudentId = Omit<DbNote, 'studentId' | 'groupId'> & {
   studentId: number

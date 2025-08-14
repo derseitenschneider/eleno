@@ -63,9 +63,7 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
       }
     } else {
       // Desktop view - check sidebar
-      const sidebar = page.locator(
-        '[data-sidebar="sidebar"], [data-testid="app-sidebar"]',
-      )
+      const sidebar = page.locator('[data-testid="app-sidebar"]')
       if ((await sidebar.count()) > 0) {
         // Sidebar should be visible on desktop
         const sidebarVisible = await sidebar.isVisible()
@@ -143,12 +141,6 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
       fullPage: true,
       animations: 'disabled',
     })
-
-    // Log viewport info
-    const viewport = page.viewportSize()
-    console.log(
-      `Groups - ${projectName}: ${viewport?.width}x${viewport?.height}, ${groupElements} groups visible`,
-    )
   })
 
   test('Table column responsiveness - Active Students', async ({
@@ -216,32 +208,82 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     const projectName = testInfo.project.name
 
     if (viewport && viewport.width < 768) {
-      // Mobile view - test mobile navigation
-      const mobileNav = page.locator(
-        'nav.fixed.bottom-0, [data-testid="mobile-nav"]',
-      )
+      // Mobile view - test mobile sidebar trigger and overlay
+      const sidebarTrigger = page.locator('[data-testid="sidebar-trigger"]')
 
-      if ((await mobileNav.count()) > 0) {
-        expect(await mobileNav.isVisible()).toBe(true)
+      // Verify trigger is visible on mobile
+      if (
+        (await sidebarTrigger.count()) > 0 &&
+        (await sidebarTrigger.isVisible())
+      ) {
+        console.log(`${projectName}: Mobile sidebar trigger visible`)
 
-        // Take screenshot of mobile navigation
-        await expect(mobileNav).toHaveScreenshot(
-          `mobile-nav-${projectName}.png`,
+        // Take screenshot of closed state first
+        await expect(page).toHaveScreenshot(
+          `mobile-sidebar-closed-${projectName}.png`,
           {
             animations: 'disabled',
           },
         )
 
-        console.log(`${projectName}: Mobile navigation visible and accessible`)
+        // Click to open mobile sidebar overlay
+        await sidebarTrigger.click()
+        await page.waitForTimeout(300) // Wait for animation
+
+        // Wait for sidebar sheet to be visible
+        const sidebarSheet = page.locator(
+          '[data-testid="app-sidebar"], .sidebar-overlay, [role="dialog"]',
+        )
+        if ((await sidebarSheet.count()) > 0) {
+          await expect(sidebarSheet.first()).toBeVisible()
+
+          // Take screenshot of opened mobile sidebar
+          await expect(page).toHaveScreenshot(
+            `mobile-sidebar-open-${projectName}.png`,
+            {
+              animations: 'disabled',
+            },
+          )
+
+          // Verify navigation items are accessible in mobile overlay
+          const navItems = page.locator(
+            'a[href="/students"], a[href="/"], button[data-testid="lesson-nav-sidebar"]',
+          )
+          const navItemCount = await navItems.count()
+          expect(navItemCount).toBeGreaterThan(0)
+
+          console.log(
+            `${projectName}: Mobile sidebar opened with ${navItemCount} navigation items`,
+          )
+
+          // Close sidebar by clicking outside the overlay (more realistic mobile behavior)
+          await page.click('body', {
+            position: { x: viewport.width - 50, y: 100 },
+          })
+          await page.waitForTimeout(300)
+        }
+      }
+
+      // Check for mobile navigation fallback
+      const mobileNav = page.locator('[data-testid="mobile-nav"]')
+      if ((await mobileNav.count()) > 0) {
+        expect(await mobileNav.isVisible()).toBe(true)
+        await expect(mobileNav).toHaveScreenshot(
+          `mobile-nav-fallback-${projectName}.png`,
+          {
+            animations: 'disabled',
+          },
+        )
+        console.log(`${projectName}: Mobile navigation fallback visible`)
       }
     } else {
       // Desktop view - test sidebar
-      const sidebar = page.locator('[data-sidebar="sidebar"]')
+      const sidebar = page.locator('[data-testid="app-sidebar"]')
 
       if ((await sidebar.count()) > 0) {
         // Check if sidebar is collapsed or expanded
         const sidebarState = await page.evaluate(() => {
-          const sidebar = document.querySelector('[data-sidebar="sidebar"]')
+          const sidebar = document.querySelector('[data-testid="app-sidebar"]')
           if (!sidebar) return 'not found'
           const style = window.getComputedStyle(sidebar as HTMLElement)
           const width = Number.parseInt(style.width)
@@ -251,11 +293,18 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
         console.log(`${projectName}: Sidebar state: ${sidebarState}`)
 
         // If sidebar is collapsed on small laptop, try to expand it
-        if (sidebarState === 'collapsed' && viewport?.width <= 1280) {
+        if (
+          sidebarState === 'collapsed' &&
+          viewport &&
+          viewport?.width <= 1280
+        ) {
           const toggleButton = page.locator(
             '[data-testid="sidebar-trigger"], button[aria-label*="sidebar"], button[aria-label*="menu"]',
           )
-          if ((await toggleButton.count()) > 0) {
+          if (
+            (await toggleButton.count()) > 0 &&
+            (await toggleButton.first().isVisible())
+          ) {
             await toggleButton.first().click()
             await page.waitForTimeout(300) // Wait for animation
 
@@ -266,8 +315,20 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
                 animations: 'disabled',
               },
             )
+          } else {
+            console.log(
+              `${projectName}: Sidebar toggle not visible, sidebar likely already expanded`,
+            )
           }
         }
+
+        // Take screenshot of current desktop sidebar state
+        await expect(page).toHaveScreenshot(
+          `sidebar-desktop-${sidebarState}-${projectName}.png`,
+          {
+            animations: 'disabled',
+          },
+        )
       }
     }
   })

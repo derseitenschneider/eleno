@@ -15,7 +15,6 @@ function Banner() {
   const daysRemaining = diffInTime / (1000 * 60 * 60 * 24)
   return false
 
-
   if (!isOnline)
     return (
       <div className='fixed top-0 z-40 w-full bg-amber-700 p-1 text-center text-sm text-white'>

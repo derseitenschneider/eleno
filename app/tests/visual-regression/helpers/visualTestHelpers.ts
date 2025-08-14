@@ -29,24 +29,24 @@ export interface VisualTestOptions {
 
 /**
  * Visual regression test helper for consistent screenshot testing
- * 
+ *
  * IMPORTANT: For Eleno's dual navigation system and theme handling:
- * 
+ *
  * ## Navigation System:
  * - Desktop (≥768px): Use `[data-sidebar="sidebar"]` for AppSidebar component
  * - Mobile (<768px): Use `nav.fixed.bottom-0` for NavbarMobile component
  * - Check viewport size to determine which navigation to test
- * 
+ *
  * ## Theme System:
  * - Eleno uses `.dark-mode` and `.light-mode` classes on document.documentElement
  * - NOT the standard `dark` class - testComponentThemes() needs updating for this app
  * - Must set localStorage('isDarkMode') to match theme state
- * 
+ *
  * ## Example Navigation Test Pattern:
  * ```typescript
  * const viewport = page.viewportSize()
  * const isMobileTest = viewport && viewport.width < 768
- * 
+ *
  * if (isMobileTest) {
  *   const mobileNav = page.locator('nav.fixed.bottom-0')
  * } else {
@@ -126,32 +126,39 @@ export class VisualTestHelper {
 
     const screenshotOptions = {
       threshold,
-      animations: disableAnimations ? 'disabled' as const : 'allow' as const,
+      animations: disableAnimations
+        ? ('disabled' as const)
+        : ('allow' as const),
       fullPage,
       mask,
     }
 
     if (clip) {
-      await expect(clip).toHaveScreenshot(
-        name ? `${name}.png` : undefined,
-        screenshotOptions,
-      )
+      if (name) {
+        await expect(clip).toHaveScreenshot(`${name}.png`, screenshotOptions)
+      } else {
+        await expect(clip).toHaveScreenshot(screenshotOptions)
+      }
     } else {
-      await expect(this.page).toHaveScreenshot(
-        name ? `${name}.png` : undefined,
-        screenshotOptions,
-      )
+      if (name) {
+        await expect(this.page).toHaveScreenshot(
+          `${name}.png`,
+          screenshotOptions,
+        )
+      } else {
+        await expect(this.page).toHaveScreenshot(screenshotOptions)
+      }
     }
   }
 
   /**
    * Test component at different responsive breakpoints
-   * 
+   *
    * IMPORTANT: For navigation components, be aware of Eleno's dual navigation system:
    * - Desktop sidebar is hidden on mobile viewports (display: none)
    * - Mobile navigation is hidden on desktop viewports
    * - Pass custom breakpoints to avoid testing hidden components
-   * 
+   *
    * Example for desktop-only sidebar:
    * ```typescript
    * await visual.testResponsiveComponent(sidebar, 'nav', [
@@ -186,7 +193,7 @@ export class VisualTestHelper {
 
   /**
    * Test component in different theme modes
-   * 
+   *
    * Uses Eleno's theme system with .dark-mode and .light-mode classes on document.documentElement
    * and synchronizes with localStorage for DarkModeContext compatibility.
    */
@@ -221,10 +228,10 @@ export class VisualTestHelper {
 
   /**
    * Test component states (hover, focus, active, etc.)
-   * 
+   *
    * IMPORTANT: All states must include an action function, even if empty.
    * The action function is required and will throw "state.action is not a function" if missing.
-   * 
+   *
    * Example usage:
    * ```typescript
    * await visual.testComponentStates(locator, 'component-name', [

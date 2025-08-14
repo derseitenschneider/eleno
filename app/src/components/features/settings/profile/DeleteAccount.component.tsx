@@ -48,7 +48,6 @@ function DeleteAccount({ onCloseModal }: DeleteAccountProps) {
     }
   }
 
-
   return (
     <div className='p-1 sm:w-[350px]'>
       <div className='space-y-6'>

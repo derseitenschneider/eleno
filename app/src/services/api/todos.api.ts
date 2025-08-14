@@ -4,7 +4,6 @@ import supabase from './supabase'
 export const fetchTodosApi = async (
   userId: string,
 ): Promise<Array<TTodoItem>> => {
-
   const { data: todos, error } = await supabase
     .from('todos')
     .select('*')
@@ -20,7 +19,6 @@ export const fetchTodosApi = async (
 }
 
 export const createTodoApi = async (todo: PartialTodoItem) => {
-
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
   const { data, error } = await supabase
@@ -40,7 +38,6 @@ export const createTodoApi = async (todo: PartialTodoItem) => {
 }
 
 export const completeTodoApi = async (todoId: number) => {
-
   const { error } = await supabase
     .from('todos')
     .update({ completed: true })
@@ -49,7 +46,6 @@ export const completeTodoApi = async (todoId: number) => {
 }
 
 export const updateTodoApi = async (todo: TTodoItem) => {
-
   const { due } = todo
   const utcDue = due ? new Date(`${due.toDateString()} UTC`) : null
   const todoDb = { ...todo, due: utcDue ? utcDue.toISOString() : null }
@@ -62,7 +58,6 @@ export const updateTodoApi = async (todo: TTodoItem) => {
 }
 
 export const reactivateTodoApi = async (id: number) => {
-
   const { error } = await supabase
     .from('todos')
     .update({ completed: false })
@@ -72,7 +67,6 @@ export const reactivateTodoApi = async (id: number) => {
 }
 
 export const deleteTodosApi = async (ids: Array<number>) => {
-
   const { error } = await supabase.from('todos').delete().in('id', ids)
   if (error) throw new Error(error.message)
 }

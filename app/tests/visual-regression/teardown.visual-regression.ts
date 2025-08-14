@@ -37,7 +37,9 @@ teardown('cleanup visual regression artifacts', async () => {
 
         const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
         if (error) {
-          throw new Error(`Could not delete db user ${userId}: ${error.message}`)
+          throw new Error(
+            `Could not delete db user ${userId}: ${error.message}`,
+          )
         }
 
         fs.unlinkSync(filePath)

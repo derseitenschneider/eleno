@@ -25,7 +25,9 @@ export interface MemoryInfo {
 /**
  * Collects comprehensive performance metrics from the browser
  */
-export async function collectPerformanceMetrics(page: Page): Promise<PerformanceMetrics> {
+export async function collectPerformanceMetrics(
+  page: Page,
+): Promise<PerformanceMetrics> {
   return await page.evaluate(() => {
     return new Promise<PerformanceMetrics>((resolve) => {
       // Wait for load event to ensure all metrics are available
@@ -36,19 +38,25 @@ export async function collectPerformanceMetrics(page: Page): Promise<Performance
       }
 
       function collectMetrics() {
-        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
+        const navigation = performance.getEntriesByType(
+          'navigation',
+        )[0] as PerformanceNavigationTiming
         const paint = performance.getEntriesByType('paint')
-        
-        const fcp = paint.find(entry => entry.name === 'first-contentful-paint')?.startTime || 0
-        
+
+        const fcp =
+          paint.find((entry) => entry.name === 'first-contentful-paint')
+            ?.startTime || 0
+
         // Get Core Web Vitals using PerformanceObserver if available
         let lcp = 0
         let cls = 0
         let tbt = 0
-        
+
         // Try to get LCP from existing entries
         try {
-          const lcpEntries = performance.getEntriesByType('largest-contentful-paint')
+          const lcpEntries = performance.getEntriesByType(
+            'largest-contentful-paint',
+          )
           if (lcpEntries.length > 0) {
             lcp = lcpEntries[lcpEntries.length - 1].startTime
           }
@@ -61,14 +69,15 @@ export async function collectPerformanceMetrics(page: Page): Promise<Performance
 
         // Get memory info if available
         const memoryInfo = (performance as any).memory
-        
+
         const metrics: PerformanceMetrics = {
           firstContentfulPaint: fcp,
           largestContentfulPaint: lcp,
           cumulativeLayoutShift: cls,
           timeToInteractive: tti,
           totalBlockingTime: tbt,
-          domContentLoaded: navigation.domContentLoadedEventEnd - navigation.navigationStart,
+          domContentLoaded:
+            navigation.domContentLoadedEventEnd - navigation.navigationStart,
           loadEvent: navigation.loadEventEnd - navigation.navigationStart,
           navigationStart: navigation.navigationStart,
           navigationEnd: navigation.loadEventEnd,
@@ -95,11 +104,11 @@ export async function getMemoryInfo(page: Page): Promise<MemoryInfo> {
     if (!memoryInfo) {
       throw new Error('Memory info not available')
     }
-    
+
     return {
       usedJSHeapSize: memoryInfo.usedJSHeapSize,
       totalJSHeapSize: memoryInfo.totalJSHeapSize,
-      jsHeapSizeLimit: memoryInfo.jsHeapSizeLimit
+      jsHeapSizeLimit: memoryInfo.jsHeapSizeLimit,
     }
   })
 }
@@ -123,10 +132,13 @@ export async function forceGarbageCollection(page: Page): Promise<void> {
 /**
  * Waits for the page to be completely loaded and idle
  */
-export async function waitForPageLoad(page: Page, timeout = 30000): Promise<void> {
+export async function waitForPageLoad(
+  page: Page,
+  timeout = 30000,
+): Promise<void> {
   await page.waitForLoadState('load', { timeout })
   await page.waitForLoadState('networkidle', { timeout })
-  
+
   // Additional wait for any React components to finish rendering
   await page.waitForTimeout(1000)
 }
@@ -134,33 +146,50 @@ export async function waitForPageLoad(page: Page, timeout = 30000): Promise<void
 /**
  * Creates a large dataset of lessons for performance testing
  */
-export async function createLargeDataset(page: Page, count: number): Promise<void> {
+export async function createLargeDataset(
+  page: Page,
+  count: number,
+): Promise<void> {
   await page.evaluate((lessonCount) => {
     // Mock a large dataset by injecting data into the application state
     const mockLessons = Array.from({ length: lessonCount }, (_, i) => ({
       id: `lesson-${i + 1}`,
       title: `Performance Test Lesson ${i + 1}`,
-      description: `This is a test lesson created for performance testing purposes. Lesson number ${i + 1} of ${lessonCount}.`,
-      date: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString(),
+      description: `This is a test lesson created for performance testing purposes. Lesson number ${
+        i + 1
+      } of ${lessonCount}.`,
+      date: new Date(
+        Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       duration: Math.floor(Math.random() * 120) + 30, // 30-150 minutes
-      notes: `Performance test notes for lesson ${i + 1}. This contains some sample text to simulate real lesson notes.`,
+      notes: `Performance test notes for lesson ${
+        i + 1
+      }. This contains some sample text to simulate real lesson notes.`,
       student_id: `student-${Math.floor(Math.random() * 50) + 1}`,
-      created_at: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString(),
-      updated_at: new Date().toISOString()
+      created_at: new Date(
+        Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      updated_at: new Date().toISOString(),
     }))
 
     // Store in sessionStorage for the application to use
-    sessionStorage.setItem('performance_test_lessons', JSON.stringify(mockLessons))
+    sessionStorage.setItem(
+      'performance_test_lessons',
+      JSON.stringify(mockLessons),
+    )
   }, count)
 }
 
 /**
  * Measures the time taken to render a component
  */
-export async function measureRenderTime(page: Page, selector: string): Promise<number> {
+export async function measureRenderTime(
+  page: Page,
+  selector: string,
+): Promise<number> {
   return await page.evaluate((sel) => {
     const startTime = performance.now()
-    
+
     return new Promise<number>((resolve) => {
       const observer = new MutationObserver((mutations) => {
         const element = document.querySelector(sel)
@@ -170,12 +199,12 @@ export async function measureRenderTime(page: Page, selector: string): Promise<n
           resolve(endTime - startTime)
         }
       })
-      
+
       observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
       })
-      
+
       // Fallback timeout
       setTimeout(() => {
         observer.disconnect()
@@ -230,7 +259,7 @@ export const performanceAssertions = {
     const usedMB = memoryInfo.usedJSHeapSize / (1024 * 1024)
     expect(usedMB).toBeLessThan(maxMB)
     expect(usedMB).toBeGreaterThan(0)
-  }
+  },
 }
 
 /**
@@ -239,25 +268,37 @@ export const performanceAssertions = {
 export function createPerformanceReport(
   testName: string,
   metrics: PerformanceMetrics,
-  additionalData: Record<string, any> = {}
+  additionalData: Record<string, any> = {},
 ): string {
   const report = {
     testName,
     timestamp: new Date().toISOString(),
     metrics: {
       'First Contentful Paint (ms)': Math.round(metrics.firstContentfulPaint),
-      'Largest Contentful Paint (ms)': Math.round(metrics.largestContentfulPaint),
+      'Largest Contentful Paint (ms)': Math.round(
+        metrics.largestContentfulPaint,
+      ),
       'Time to Interactive (ms)': Math.round(metrics.timeToInteractive),
       'DOM Content Loaded (ms)': Math.round(metrics.domContentLoaded),
       'Load Event (ms)': Math.round(metrics.loadEvent),
-      'Total Page Load Time (ms)': Math.round(metrics.navigationEnd - metrics.navigationStart),
+      'Total Page Load Time (ms)': Math.round(
+        metrics.navigationEnd - metrics.navigationStart,
+      ),
     },
-    memory: metrics.jsHeapUsedSize ? {
-      'JS Heap Used (MB)': Math.round(metrics.jsHeapUsedSize / (1024 * 1024)),
-      'JS Heap Total (MB)': Math.round((metrics.jsHeapTotalSize || 0) / (1024 * 1024)),
-      'JS Heap Limit (MB)': Math.round((metrics.jsHeapSizeLimit || 0) / (1024 * 1024)),
-    } : null,
-    additionalData
+    memory: metrics.jsHeapUsedSize
+      ? {
+          'JS Heap Used (MB)': Math.round(
+            metrics.jsHeapUsedSize / (1024 * 1024),
+          ),
+          'JS Heap Total (MB)': Math.round(
+            (metrics.jsHeapTotalSize || 0) / (1024 * 1024),
+          ),
+          'JS Heap Limit (MB)': Math.round(
+            (metrics.jsHeapSizeLimit || 0) / (1024 * 1024),
+          ),
+        }
+      : null,
+    additionalData,
   }
 
   return JSON.stringify(report, null, 2)

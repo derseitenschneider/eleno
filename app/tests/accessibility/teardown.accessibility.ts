@@ -12,7 +12,7 @@ teardown('cleanup accessibility test artifacts', async ({ page }) => {
   try {
     // Clear any test data that may have been created during accessibility tests
     await page.goto('/')
-    
+
     // Clear localStorage and sessionStorage
     await page.evaluate(() => {
       localStorage.clear()
@@ -33,7 +33,8 @@ teardown('cleanup accessibility test artifacts', async ({ page }) => {
     const reportData = {
       timestamp: new Date().toISOString(),
       testSuite: 'accessibility',
-      summary: 'Accessibility tests completed. Check individual test outputs for detailed findings.',
+      summary:
+        'Accessibility tests completed. Check individual test outputs for detailed findings.',
       recommendations: [
         'Review console logs for specific accessibility improvements',
         'Address any ARIA label issues identified in tests',
@@ -41,20 +42,22 @@ teardown('cleanup accessibility test artifacts', async ({ page }) => {
         'Ensure keyboard navigation works across all interactive elements',
         'Add skip links for better keyboard navigation',
         'Implement proper focus management in modal dialogs',
-        'Ensure form validation errors are announced to screen readers'
+        'Ensure form validation errors are announced to screen readers',
       ],
       wcagGuidelines: {
-        'Perceivable': 'Text alternatives, captions, color contrast, resizable text',
-        'Operable': 'Keyboard accessible, no seizures, user control of timing',
-        'Understandable': 'Readable text, predictable functionality, input assistance',
-        'Robust': 'Compatible with assistive technologies'
-      }
+        Perceivable:
+          'Text alternatives, captions, color contrast, resizable text',
+        Operable: 'Keyboard accessible, no seizures, user control of timing',
+        Understandable:
+          'Readable text, predictable functionality, input assistance',
+        Robust: 'Compatible with assistive technologies',
+      },
     }
 
     // Write accessibility report
     const reportPath = path.join(__dirname, 'accessibility-test-report.json')
     fs.writeFileSync(reportPath, JSON.stringify(reportData, null, 2))
-    
+
     console.log(`Accessibility test report saved to: ${reportPath}`)
   } catch (error) {
     console.log('Error generating accessibility report:', error)
@@ -68,7 +71,7 @@ teardown('cleanup accessibility auth files', async () => {
   try {
     const authDir = path.join(__dirname, '.auth')
     const authFile = path.join(authDir, 'user.json')
-    
+
     if (fs.existsSync(authFile)) {
       // Keep auth file for future tests, just log its existence
       console.log('Accessibility auth file maintained for future test runs')

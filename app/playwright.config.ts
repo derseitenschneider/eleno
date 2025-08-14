@@ -42,5 +42,12 @@ export default defineConfig({
     },
   },
 
-  projects: [...subscriptionsConfig, ...shareHomeworkConfig, ...visualRegressionConfig, ...accessibilityConfig, ...performanceConfig, ...edgeCaseConfig],
+  projects: [
+    ...subscriptionsConfig,
+    ...shareHomeworkConfig,
+    ...visualRegressionConfig,
+    ...accessibilityConfig,
+    ...performanceConfig,
+    ...edgeCaseConfig,
+  ],
 })

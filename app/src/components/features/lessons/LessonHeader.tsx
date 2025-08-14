@@ -29,8 +29,9 @@ function LessonHeader() {
         <div className='w-full'>
           <div className='flex items-center'>
             <NavLink
-              to={`/lessons/${type === 's' ? `s-${holder.id}` : `g-${holder.id}`
-                }`}
+              to={`/lessons/${
+                type === 's' ? `s-${holder.id}` : `g-${holder.id}`
+              }`}
               className='flex items-baseline hover:no-underline'
             >
               <div className='mr-[4px] h-4 translate-y-[1px] text-primary'>
@@ -47,8 +48,8 @@ function LessonHeader() {
           </div>
           <div className='flex items-center gap-1 text-sm'>
             {holder.dayOfLesson ||
-              holder.startOfLesson ||
-              holder.endOfLesson ? (
+            holder.startOfLesson ||
+            holder.endOfLesson ? (
               <span className='text-foreground/80 sm:text-foreground'>
                 {holder.dayOfLesson && `${holder.dayOfLesson}`}
                 {holder.dayOfLesson && holder.startOfLesson && ', '}

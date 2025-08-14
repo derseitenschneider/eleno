@@ -2,7 +2,11 @@ import { QueryClient } from '@tanstack/react-query'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithProviders } from '@/test/testUtils'
-import { createMockLesson, createMockStudent, createMockGroup } from '@/test/factories'
+import {
+  createMockLesson,
+  createMockStudent,
+  createMockGroup,
+} from '@/test/factories'
 import type { LessonHolder } from '@/types/types'
 import ShareHomework from './ShareHomework.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
@@ -16,19 +20,25 @@ vi.mock('@/hooks/useShareHomework', () => ({
   useShareHomework: vi.fn(),
 }))
 
-vi.mock('@/components/features/students/useAuthorizeStudentsHomeworkLink', () => ({
-  useAuthorizeStudentHomeworkLink: vi.fn(() => ({
-    authorizeStudent: vi.fn(),
-    isAuthorizingStudents: false,
-  })),
-}))
+vi.mock(
+  '@/components/features/students/useAuthorizeStudentsHomeworkLink',
+  () => ({
+    useAuthorizeStudentHomeworkLink: vi.fn(() => ({
+      authorizeStudent: vi.fn(),
+      isAuthorizingStudents: false,
+    })),
+  }),
+)
 
-vi.mock('@/components/features/students/useAuthorizeGroupsHomeworkLink', () => ({
-  useAuthorizeGroupHomeworkLink: vi.fn(() => ({
-    authorizeGroup: vi.fn(),
-    isAuthorizingGroup: false,
-  })),
-}))
+vi.mock(
+  '@/components/features/students/useAuthorizeGroupsHomeworkLink',
+  () => ({
+    useAuthorizeGroupHomeworkLink: vi.fn(() => ({
+      authorizeGroup: vi.fn(),
+      isAuthorizingGroup: false,
+    })),
+  }),
+)
 
 vi.mock('@/config', () => ({
   appConfig: {
@@ -89,20 +99,22 @@ describe('ShareHomework Component', () => {
     isCopied: false,
     lessonDate: '01.12.23',
     copyToClipboard: vi.fn(),
-    bodyText: 'Hallo Anna%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom 01.12.23',
+    bodyText:
+      'Hallo Anna%0D%0A %0D%0AUnter folgendem Link findest du deine Hausaufgaben vom 01.12.23',
     subjectText: 'Hausaufgaben Piano vom 01.12.23',
   }
-
 
   describe('GDPR Consent Section', () => {
     it('should render consent checkbox', () => {
       mockShareHomework.mockReturnValue(defaultHookReturn)
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
-      expect(screen.getByText('Einwilligung zum Teilen bestätigt')).toBeInTheDocument()
+      expect(
+        screen.getByText('Einwilligung zum Teilen bestätigt'),
+      ).toBeInTheDocument()
       expect(screen.getByRole('checkbox')).toBeInTheDocument()
       expect(screen.getByRole('checkbox')).not.toBeChecked()
     })
@@ -112,7 +124,7 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -126,7 +138,7 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         handleShareAuthorization,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -139,28 +151,42 @@ describe('ShareHomework Component', () => {
 
     it('should expand GDPR info when info icon is clicked', async () => {
       mockShareHomework.mockReturnValue(defaultHookReturn)
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
       // Initially GDPR content should not be visible
-      expect(screen.queryByText('Mit dem Setzen dieser Checkbox bestätigst du, dass:')).not.toBeInTheDocument()
+      expect(
+        screen.queryByText(
+          'Mit dem Setzen dieser Checkbox bestätigst du, dass:',
+        ),
+      ).not.toBeInTheDocument()
 
       // Click info button to expand
       const infoButton = screen.getByRole('button')
       fireEvent.click(infoButton)
 
       await waitFor(() => {
-        expect(screen.getByText('Mit dem Setzen dieser Checkbox bestätigst du, dass:')).toBeInTheDocument()
-        expect(screen.getByText('diese Schüler:innen volljährig sind, ODER')).toBeInTheDocument()
-        expect(screen.getByText(/du die ausdrückliche Einwilligung der Erziehungsberechtigten hast/)).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            'Mit dem Setzen dieser Checkbox bestätigst du, dass:',
+          ),
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText('diese Schüler:innen volljährig sind, ODER'),
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            /du die ausdrückliche Einwilligung der Erziehungsberechtigten hast/,
+          ),
+        ).toBeInTheDocument()
       })
     })
 
     it('should display terms and conditions link in GDPR section', async () => {
       mockShareHomework.mockReturnValue(defaultHookReturn)
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -170,8 +196,13 @@ describe('ShareHomework Component', () => {
       fireEvent.click(infoButton)
 
       await waitFor(() => {
-        const termsLink = screen.getByRole('link', { name: /Allgemeiner Geschäftsbedingungen/ })
-        expect(termsLink).toHaveAttribute('href', 'https://eleno.net/terms-conditions/#sharing-homework')
+        const termsLink = screen.getByRole('link', {
+          name: /Allgemeiner Geschäftsbedingungen/,
+        })
+        expect(termsLink).toHaveAttribute(
+          'href',
+          'https://eleno.net/terms-conditions/#sharing-homework',
+        )
         expect(termsLink).toHaveAttribute('target', '_blank')
         expect(termsLink).toHaveAttribute('rel', 'noreferrer')
       })
@@ -179,7 +210,7 @@ describe('ShareHomework Component', () => {
 
     it('should close GDPR info when close button is clicked', async () => {
       mockShareHomework.mockReturnValue(defaultHookReturn)
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -189,7 +220,11 @@ describe('ShareHomework Component', () => {
       fireEvent.click(infoButton)
 
       await waitFor(() => {
-        expect(screen.getByText('Mit dem Setzen dieser Checkbox bestätigst du, dass:')).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            'Mit dem Setzen dieser Checkbox bestätigst du, dass:',
+          ),
+        ).toBeInTheDocument()
       })
 
       // Click close button
@@ -201,7 +236,11 @@ describe('ShareHomework Component', () => {
       }
 
       await waitFor(() => {
-        expect(screen.queryByText('Mit dem Setzen dieser Checkbox bestätigst du, dass:')).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(
+            'Mit dem Setzen dieser Checkbox bestätigst du, dass:',
+          ),
+        ).not.toBeInTheDocument()
       })
     })
   })
@@ -212,7 +251,7 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -221,7 +260,7 @@ describe('ShareHomework Component', () => {
       expect(screen.getByText('Anna Schmidt')).toBeInTheDocument()
       expect(screen.getByText(/auf die Hausaufgaben vom/)).toBeInTheDocument()
       expect(screen.getByText('01.12.23')).toBeInTheDocument()
-      
+
       const link = screen.getByRole('link', { name: defaultHookReturn.url })
       expect(link).toHaveAttribute('href', defaultHookReturn.url)
       expect(link).toHaveAttribute('target', '_blank')
@@ -240,10 +279,13 @@ describe('ShareHomework Component', () => {
         type: 'g' as const,
         holder: {
           ...mockGroupData,
-          students: (mockGroupData.students || []).map(student => ({ 
-            name: typeof student === 'object' && student !== null && 'name' in student 
-              ? String(student.name) 
-              : String(student)
+          students: (mockGroupData.students || []).map((student) => ({
+            name:
+              typeof student === 'object' &&
+              student !== null &&
+              'name' in student
+                ? String(student.name)
+                : String(student),
           })),
         },
       }
@@ -253,7 +295,7 @@ describe('ShareHomework Component', () => {
         currentHolder: groupHolder,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -266,7 +308,7 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: false,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -281,12 +323,14 @@ describe('ShareHomework Component', () => {
         sharingAuthorized: true,
         isAuthorizingStudents: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
-      const linkSection = screen.getByText(/Mit diesem Link kann/).closest('div')
+      const linkSection = screen
+        .getByText(/Mit diesem Link kann/)
+        .closest('div')
       expect(linkSection).toHaveClass('opacity-50', 'pointer-events-none')
     })
   })
@@ -299,7 +343,7 @@ describe('ShareHomework Component', () => {
         sharingAuthorized: true,
         copyToClipboard,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -316,24 +360,26 @@ describe('ShareHomework Component', () => {
         sharingAuthorized: true,
         isCopied: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
       // Should show check icon instead of clipboard icon
       expect(screen.queryByText('Link kopieren')).not.toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /Link kopiert/ })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: /Link kopiert/ }),
+      ).toBeInTheDocument()
     })
 
     it('should display mobile copy button layout on mobile', () => {
       mockIsMobileDevice.mockReturnValue(true)
-      
+
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -358,11 +404,19 @@ describe('ShareHomework Component', () => {
         queryClient,
       })
 
-      expect(screen.getByTitle('Link per Telegram verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per Threema verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per Whatsapp verschicken')).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Telegram verschicken'),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Threema verschicken'),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Whatsapp verschicken'),
+      ).toBeInTheDocument()
       expect(screen.getByTitle('Link per SMS verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per E-Mail verschicken')).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per E-Mail verschicken'),
+      ).toBeInTheDocument()
     })
 
     it('should generate correct Telegram sharing link', () => {
@@ -383,7 +437,8 @@ describe('ShareHomework Component', () => {
       })
 
       const threemaLink = screen.getByTitle('Link per Threema verschicken')
-      const expectedUrl = 'https://threema.id/compose?text=Hallo Anna%0D%0ATest message'
+      const expectedUrl =
+        'https://threema.id/compose?text=Hallo Anna%0D%0ATest message'
       expect(threemaLink).toHaveAttribute('href', expectedUrl)
       expect(threemaLink).toHaveAttribute('target', '_blank')
       expect(threemaLink).toHaveAttribute('rel', 'noreferrer')
@@ -417,13 +472,14 @@ describe('ShareHomework Component', () => {
       })
 
       const emailLink = screen.getByTitle('Link per E-Mail verschicken')
-      const expectedUrl = 'mailto:?subject=Hausaufgaben Test&body=Hallo Anna%0D%0ATest message'
+      const expectedUrl =
+        'mailto:?subject=Hausaufgaben Test&body=Hallo Anna%0D%0ATest message'
       expect(emailLink).toHaveAttribute('href', expectedUrl)
     })
 
     it('should display platform names on mobile', () => {
       mockIsMobileDevice.mockReturnValue(true)
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -454,10 +510,13 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         currentHolder: undefined,
       })
-      
-      const { container } = renderWithProviders(<ShareHomework lessonId={1} />, {
-        queryClient,
-      })
+
+      const { container } = renderWithProviders(
+        <ShareHomework lessonId={1} />,
+        {
+          queryClient,
+        },
+      )
 
       expect(container.firstChild).toBeNull()
     })
@@ -468,13 +527,15 @@ describe('ShareHomework Component', () => {
         lessonDate: undefined,
         url: '',
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
       // Component should still render but with empty values
-      expect(screen.getByText('Einwilligung zum Teilen bestätigt')).toBeInTheDocument()
+      expect(
+        screen.getByText('Einwilligung zum Teilen bestätigt'),
+      ).toBeInTheDocument()
     })
 
     it('should disable sharing section during authorization process', () => {
@@ -483,23 +544,27 @@ describe('ShareHomework Component', () => {
         sharingAuthorized: true,
         isAuthorizingStudents: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
-      const sharingSection = screen.getByText(/Mit diesem Link kann/).closest('div')
+      const sharingSection = screen
+        .getByText(/Mit diesem Link kann/)
+        .closest('div')
       expect(sharingSection).toHaveClass('opacity-50', 'pointer-events-none')
     })
 
     it('should handle clipboard API errors gracefully', async () => {
-      const copyToClipboard = vi.fn().mockRejectedValue(new Error('Clipboard error'))
+      const copyToClipboard = vi
+        .fn()
+        .mockRejectedValue(new Error('Clipboard error'))
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
         sharingAuthorized: true,
         copyToClipboard,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -515,12 +580,12 @@ describe('ShareHomework Component', () => {
   describe('Responsive Behavior', () => {
     it('should adjust button layout for mobile view', () => {
       mockIsMobileDevice.mockReturnValue(true)
-      
+
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -528,7 +593,7 @@ describe('ShareHomework Component', () => {
       // Platform links should have outline variant styling on mobile
       const telegramLink = screen.getByTitle('Link per Telegram verschicken')
       expect(telegramLink).toHaveClass('border', 'border-primary')
-      
+
       // Copy button should have mobile styling
       const copyButton = screen.getByRole('button', { name: /Link kopieren/ })
       expect(copyButton).toHaveClass('mt-4')
@@ -536,12 +601,12 @@ describe('ShareHomework Component', () => {
 
     it('should use ghost variant for buttons on desktop', () => {
       mockIsMobileDevice.mockReturnValue(false)
-      
+
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
@@ -553,18 +618,20 @@ describe('ShareHomework Component', () => {
 
     it('should show separator on mobile only', () => {
       mockIsMobileDevice.mockReturnValue(true)
-      
+
       mockShareHomework.mockReturnValue({
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
       // The separator is hidden on desktop (sm:hidden class)
-      const separator = document.querySelector('[data-orientation="horizontal"]')
+      const separator = document.querySelector(
+        '[data-orientation="horizontal"]',
+      )
       expect(separator).toHaveClass('sm:hidden')
     })
   })
@@ -575,14 +642,14 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
       const checkbox = screen.getByRole('checkbox')
       expect(checkbox).toHaveAttribute('id', 'authorization')
-      
+
       const label = screen.getByLabelText('Einwilligung zum Teilen bestätigt')
       expect(label).toBeInTheDocument()
     })
@@ -592,16 +659,24 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })
 
-      expect(screen.getByTitle('Link per Telegram verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per Threema verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per Whatsapp verschicken')).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Telegram verschicken'),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Threema verschicken'),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per Whatsapp verschicken'),
+      ).toBeInTheDocument()
       expect(screen.getByTitle('Link per SMS verschicken')).toBeInTheDocument()
-      expect(screen.getByTitle('Link per E-Mail verschicken')).toBeInTheDocument()
+      expect(
+        screen.getByTitle('Link per E-Mail verschicken'),
+      ).toBeInTheDocument()
     })
 
     it('should support keyboard navigation', async () => {
@@ -609,7 +684,7 @@ describe('ShareHomework Component', () => {
         ...defaultHookReturn,
         sharingAuthorized: true,
       })
-      
+
       renderWithProviders(<ShareHomework lessonId={1} />, {
         queryClient,
       })

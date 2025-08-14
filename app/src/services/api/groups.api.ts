@@ -22,7 +22,6 @@ export const createGroupApi = async (group: GroupPartial) => {
 }
 
 export const deactivateGroupApi = async (groupIds: number[]) => {
-
   const { error } = await supabase
     .from('groups')
     .update({ archive: true })
@@ -32,7 +31,6 @@ export const deactivateGroupApi = async (groupIds: number[]) => {
 }
 
 export const reactivateGroupsApi = async (groupIds: number[]) => {
-
   const { error } = await supabase
     .from('groups')
     .update({ archive: false })
@@ -42,14 +40,12 @@ export const reactivateGroupsApi = async (groupIds: number[]) => {
 }
 
 export const deleteGroupsApi = async (groupIds: number[]) => {
-
   const { error } = await supabase.from('groups').delete().in('id', groupIds)
 
   if (error) throw new Error(error.message)
 }
 
 export const updateGroupApi = async (group: Group) => {
-
   const { data: updatedGroup, error } = await supabase
     .from('groups')
     .upsert(group)

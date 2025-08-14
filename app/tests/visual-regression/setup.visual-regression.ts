@@ -14,20 +14,20 @@ setup('authenticate for visual tests', async ({ page, context }) => {
     userflow: 'general-user',
     project: 'general',
   })
-  
+
   await testUser.init()
-  
+
   // Login with the created test user
   await loginUser(page, {
     email: testUser.email,
-    password: testUser.password, 
-    skipOnboarding: true
+    password: testUser.password,
+    skipOnboarding: true,
   })
 
   // Wait for application to be fully loaded
-  await page.waitForSelector('[data-testid="dashboard"], .dashboard, main', { 
+  await page.waitForSelector('[data-testid="dashboard"], .dashboard, main', {
     state: 'visible',
-    timeout: 30000 
+    timeout: 30000,
   })
 
   // Ensure stable state for visual testing
@@ -45,18 +45,20 @@ setup('authenticate for visual tests', async ({ page, context }) => {
   if (student) {
     // Create a test lesson for visual testing
     await testUser.createLesson()
-    
+
     // Store student ID for visual tests
     const authDir = './tests/visual-regression/.auth'
     fs.mkdirSync(authDir, { recursive: true })
-    
+
     const studentData = { studentId: student.id }
     fs.writeFileSync(
       path.join(authDir, 'student.json'),
-      JSON.stringify(studentData, null, 2)
+      JSON.stringify(studentData, null, 2),
     )
   }
 
   // Save authentication state
-  await context.storageState({ path: './tests/visual-regression/.auth/user.json' })
+  await context.storageState({
+    path: './tests/visual-regression/.auth/user.json',
+  })
 })

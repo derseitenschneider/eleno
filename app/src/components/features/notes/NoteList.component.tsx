@@ -41,7 +41,7 @@ function NoteList() {
     if (!currentNotes) return
     // The only_active_notes view doesn't include created_at, but Note type requires it
     // We add a placeholder since created_at isn't used for display and will be preserved by the DB on update
-    const notesWithCreatedAt = currentNotes.map(note => {
+    const notesWithCreatedAt = currentNotes.map((note) => {
       const baseNote = {
         ...note,
         created_at: null as string | null, // DB will preserve the actual value on update
@@ -50,7 +50,7 @@ function NoteList() {
         order: note.order ?? 0,
         user_id: note.user_id ?? '',
       }
-      
+
       // Create properly typed Note based on whether it's for student or group
       if (note.studentId !== null && note.studentId !== undefined) {
         return {

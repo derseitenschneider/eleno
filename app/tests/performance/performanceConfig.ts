@@ -2,7 +2,7 @@ import { defineConfig, devices, type Project } from '@playwright/test'
 
 /**
  * Performance Testing Configuration
- * 
+ *
  * This configuration sets up comprehensive performance testing for the Eleno application,
  * including page load metrics, memory usage monitoring, and large dataset performance testing.
  */
@@ -28,16 +28,16 @@ const performanceConfig: Project[] = [
           '--disable-features=VizDisplayCompositor',
           '--log-level=0',
           '--enable-logging',
-          '--v=1'
-        ]
-      }
+          '--v=1',
+        ],
+      },
     },
     testDir: './tests/performance',
     testMatch: '**/*.performance.spec.ts',
     timeout: 120000, // 2 minutes for performance tests
     expect: {
-      timeout: 30000 // 30 seconds for expect assertions
-    }
+      timeout: 30000, // 30 seconds for expect assertions
+    },
   },
   {
     name: 'performance-memory-profiling',
@@ -53,16 +53,16 @@ const performanceConfig: Project[] = [
           '--disable-web-security',
           '--enable-memory-info',
           '--js-flags=--expose-gc',
-          '--log-level=0'
-        ]
-      }
+          '--log-level=0',
+        ],
+      },
     },
     testDir: './tests/performance',
     testMatch: '**/*.memory.performance.spec.ts',
     timeout: 180000, // 3 minutes for memory profiling
     expect: {
-      timeout: 45000
-    }
+      timeout: 45000,
+    },
   },
   {
     name: 'performance-load-testing',
@@ -77,17 +77,17 @@ const performanceConfig: Project[] = [
           '--enable-performance-logging',
           '--disable-web-security',
           '--max_old_space_size=4096',
-          '--log-level=0'
-        ]
-      }
+          '--log-level=0',
+        ],
+      },
     },
     testDir: './tests/performance',
     testMatch: '**/*.load.performance.spec.ts',
     timeout: 300000, // 5 minutes for load testing
     expect: {
-      timeout: 60000
-    }
-  }
+      timeout: 60000,
+    },
+  },
 ]
 
 export { performanceConfig }

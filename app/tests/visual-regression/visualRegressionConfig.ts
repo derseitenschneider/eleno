@@ -29,7 +29,6 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
       threshold: 0.3, // 30% threshold to allow for minor rendering differences
       toHaveScreenshot: {
         threshold: 0.3,
-        mode: 'match',
         animations: 'disabled',
       },
     },
@@ -54,7 +53,6 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
       threshold: 0.3,
       toHaveScreenshot: {
         threshold: 0.3,
-        mode: 'match',
         animations: 'disabled',
       },
     },
@@ -79,7 +77,6 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
       threshold: 0.3,
       toHaveScreenshot: {
         threshold: 0.3,
-        mode: 'match',
         animations: 'disabled',
       },
     },
@@ -104,7 +101,6 @@ export const visualRegressionConfig: PlaywrightTestConfig['projects'] = [
       threshold: 0.3,
       toHaveScreenshot: {
         threshold: 0.3,
-        mode: 'match',
         animations: 'disabled',
       },
     },

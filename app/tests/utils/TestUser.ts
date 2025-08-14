@@ -386,6 +386,427 @@ export class TestUser {
     }
   }
 
+  /**
+   * Create multiple lessons for a specific student
+   */
+  public async createLessonsForStudent(studentId: string, count = 5) {
+    if (!this.user) {
+      throw new Error('No user data to create lessons')
+    }
+
+    const lessons = []
+    const lessonTemplates = [
+      {
+        lessonContent: 'Scales and Arpeggios practice',
+        homework: 'Practice C major scale 10 minutes daily',
+        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
+      },
+      {
+        lessonContent: 'New piece introduction: Mozart Sonata',
+        homework: 'Learn first 8 bars hands separately',
+        date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(), // 2 weeks ago
+      },
+      {
+        lessonContent: 'Rhythm exercises and sight reading',
+        homework: 'Complete rhythm worksheet pages 1-3',
+        date: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(), // 3 weeks ago
+      },
+      {
+        lessonContent: 'Technical work: finger independence',
+        homework: 'Hanon exercises 1-5, slow tempo',
+        date: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString(), // 4 weeks ago
+      },
+      {
+        lessonContent: 'Performance preparation and stage presence',
+        homework: 'Record yourself playing the recital piece',
+        date: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(), // 5 weeks ago
+      },
+    ]
+
+    for (let i = 0; i < count && i < lessonTemplates.length; i++) {
+      const { data, error } = await supabaseAdmin
+        .from('lessons')
+        .insert({
+          user_id: this.user.id,
+          studentId: parseInt(studentId),
+          ...lessonTemplates[i],
+        })
+        .select()
+        .single()
+
+      if (error) {
+        throw new Error(`Error creating lesson: ${error.message}`)
+      }
+      lessons.push(data)
+    }
+
+    return lessons
+  }
+
+  /**
+   * Create lessons for a group
+   */
+  public async createLessonsForGroup(groupId: string, count = 3) {
+    if (!this.user) {
+      throw new Error('No user data to create group lessons')
+    }
+
+    const lessons = []
+    const groupLessonTemplates = [
+      {
+        lessonContent: 'Ensemble playing: timing and listening',
+        homework: 'Practice your part with metronome at 80 BPM',
+        date: new Date().toISOString(),
+      },
+      {
+        lessonContent: 'Harmony and chord progressions',
+        homework: 'Memorize chord changes for sections A and B',
+        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      },
+      {
+        lessonContent: 'Group dynamics and balance',
+        homework: 'Record your part and send to group chat',
+        date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+      },
+    ]
+
+    for (let i = 0; i < count && i < groupLessonTemplates.length; i++) {
+      const { data, error } = await supabaseAdmin
+        .from('lessons')
+        .insert({
+          user_id: this.user.id,
+          groupId: parseInt(groupId),
+          ...groupLessonTemplates[i],
+        })
+        .select()
+        .single()
+
+      if (error) {
+        throw new Error(`Error creating group lesson: ${error.message}`)
+      }
+      lessons.push(data)
+    }
+
+    return lessons
+  }
+
+  /**
+   * Create repertoire items for a student using current database schema
+   */
+  public async createRepertoireItems(studentId: string, count = 4) {
+    if (!this.user) {
+      throw new Error('No user data to create repertoire items')
+    }
+
+    const repertoire = []
+    const pieces = [
+      {
+        title: 'Für Elise - Beethoven',
+        startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0], // 2 months ago
+        endDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0], // 1 month ago
+      },
+      {
+        title: 'Clair de Lune - Debussy',
+        startDate: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0], // 1.5 months ago
+        endDate: null, // Still working on it
+      },
+      {
+        title: 'Prelude in C Major - Bach',
+        startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0], // 3 months ago
+        endDate: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0], // 2.5 months ago
+      },
+      {
+        title: 'River Flows in You - Yiruma',
+        startDate: new Date().toISOString().split('T')[0], // Today
+        endDate: null, // Just started
+      },
+    ]
+
+    try {
+      for (let i = 0; i < count && i < pieces.length; i++) {
+        const { data, error } = await supabaseAdmin
+          .from('repertoire')
+          .insert({
+            user_id: this.user.id,
+            studentId: parseInt(studentId),
+            title: pieces[i]?.title || '',
+            startDate: pieces[i]?.startDate || null,
+            endDate: pieces[i]?.endDate || null,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.warn(`Repertoire creation failed: ${error.message}`)
+          break
+        }
+        repertoire.push(data)
+      }
+    } catch (error) {
+      console.warn('Repertoire creation failed:', error)
+    }
+
+    return repertoire
+  }
+
+  /**
+   * Create repertoire items for a group
+   */
+  public async createRepertoireForGroup(groupId: string, count = 3) {
+    if (!this.user) {
+      throw new Error('No user data to create group repertoire')
+    }
+
+    const repertoire = []
+    const groupPieces = [
+      {
+        title: 'Canon in D - Pachelbel (Ensemble)',
+        startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0],
+        endDate: null,
+      },
+      {
+        title: 'Eine kleine Nachtmusik - Mozart (Group)',
+        startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0],
+        endDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split('T')[0],
+      },
+      {
+        title: 'Ode to Joy - Beethoven (Choir)',
+        startDate: new Date().toISOString().split('T')[0],
+        endDate: null,
+      },
+    ]
+
+    try {
+      for (let i = 0; i < count && i < groupPieces.length; i++) {
+        const { data, error } = await supabaseAdmin
+          .from('repertoire')
+          .insert({
+            user_id: this.user.id,
+            groupId: parseInt(groupId),
+            title: groupPieces[i]?.title || '',
+            startDate: groupPieces[i]?.startDate || null,
+            endDate: groupPieces[i]?.endDate || null,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.warn(`Group repertoire creation failed: ${error.message}`)
+          break
+        }
+        repertoire.push(data)
+      }
+    } catch (error) {
+      console.warn('Group repertoire creation failed:', error)
+    }
+
+    return repertoire
+  }
+
+  /**
+   * Create notes for a student with different colors and orders
+   */
+  public async createNotesForStudent(studentId: string, count = 3) {
+    if (!this.user) {
+      throw new Error('No user data to create notes')
+    }
+
+    const notes = []
+    const noteTemplates = [
+      {
+        title: 'Practice Reminder',
+        text: 'Remember to practice scales daily for finger strength and dexterity. Focus on maintaining steady tempo.',
+        backgroundColor: 'blue',
+        order: 1,
+      },
+      {
+        title: 'Performance Notes',
+        text: 'Great improvement in dynamics this week! Continue working on crescendo and diminuendo in the Bach piece.',
+        backgroundColor: 'green',
+        order: 2,
+      },
+      {
+        title: 'Technical Work',
+        text: 'Need to focus on left hand independence. Practice Hanon exercises 1-5 at slower tempo with metronome.',
+        backgroundColor: 'yellow',
+        order: 3,
+      },
+    ]
+
+    try {
+      for (let i = 0; i < count && i < noteTemplates.length; i++) {
+        const { data, error } = await supabaseAdmin
+          .from('notes')
+          .insert({
+            user_id: this.user.id,
+            studentId: parseInt(studentId),
+            title: noteTemplates[i]?.title || '',
+            text: noteTemplates[i]?.text || '',
+            backgroundColor:
+              (noteTemplates[i]?.backgroundColor as
+                | 'blue'
+                | 'red'
+                | 'green'
+                | 'yellow') || 'blue',
+            order: noteTemplates[i]?.order || 1,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.warn(`Notes creation failed: ${error.message}`)
+          break
+        }
+        notes.push(data)
+      }
+    } catch (error) {
+      console.warn('Notes creation failed:', error)
+    }
+
+    return notes
+  }
+
+  /**
+   * Create notes for a group
+   */
+  public async createNotesForGroup(groupId: string, count = 2) {
+    if (!this.user) {
+      throw new Error('No user data to create group notes')
+    }
+
+    const notes = []
+    const groupNoteTemplates = [
+      {
+        title: 'Ensemble Coordination',
+        text: 'Work on listening to each other and maintaining synchronized tempo. Practice with metronome in next session.',
+        backgroundColor: 'blue',
+        order: 1,
+      },
+      {
+        title: 'Performance Preparation',
+        text: 'Great progress on harmony! Next week we will focus on stage positioning and visual presentation for the concert.',
+        backgroundColor: 'green',
+        order: 2,
+      },
+    ]
+
+    try {
+      for (let i = 0; i < count && i < groupNoteTemplates.length; i++) {
+        const { data, error } = await supabaseAdmin
+          .from('notes')
+          .insert({
+            user_id: this.user.id,
+            groupId: parseInt(groupId),
+            title: groupNoteTemplates[i]?.title || '',
+            text: groupNoteTemplates[i]?.text || '',
+            backgroundColor:
+              (groupNoteTemplates[i]?.backgroundColor as
+                | 'blue'
+                | 'red'
+                | 'green'
+                | 'yellow') || 'blue',
+            order: groupNoteTemplates[i]?.order || 1,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.warn(`Group notes creation failed: ${error.message}`)
+          break
+        }
+        notes.push(data)
+      }
+    } catch (error) {
+      console.warn('Group notes creation failed:', error)
+    }
+
+    return notes
+  }
+
+  /**
+   * Create general notes not tied to students or groups
+   */
+  public async createGeneralNotes(count = 4) {
+    if (!this.user) {
+      throw new Error('No user data to create general notes')
+    }
+
+    const notes = []
+    const generalNoteTemplates = [
+      {
+        title: 'Studio Policies',
+        text: 'Updated lesson cancellation policy: 24-hour notice required for rescheduling. Emergency exceptions apply.',
+        backgroundColor: 'red',
+        order: 1,
+      },
+      {
+        title: 'Recital Planning',
+        text: 'Spring recital scheduled for May 15th. Start preparing solo pieces. Ensemble pieces will be assigned next month.',
+        backgroundColor: 'blue',
+        order: 2,
+      },
+      {
+        title: 'New Equipment',
+        text: 'Ordered new digital piano for studio. Delivery expected next week. Will help with recording practice sessions.',
+        backgroundColor: 'green',
+        order: 3,
+      },
+      {
+        title: 'Teaching Resources',
+        text: 'Found excellent online metronome app with advanced features. Will demonstrate in upcoming lessons.',
+        backgroundColor: 'yellow',
+        order: 4,
+      },
+    ]
+
+    try {
+      for (let i = 0; i < count && i < generalNoteTemplates.length; i++) {
+        const { data, error } = await supabaseAdmin
+          .from('notes')
+          .insert({
+            user_id: this.user.id,
+            title: generalNoteTemplates[i]?.title || '',
+            text: generalNoteTemplates[i]?.text || '',
+            backgroundColor:
+              (generalNoteTemplates[i]?.backgroundColor as
+                | 'blue'
+                | 'red'
+                | 'green'
+                | 'yellow') || 'blue',
+            order: generalNoteTemplates[i]?.order || 1,
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.warn(`General notes creation failed: ${error.message}`)
+          break
+        }
+        notes.push(data)
+      }
+    } catch (error) {
+      console.warn('General notes creation failed:', error)
+    }
+
+    return notes
+  }
+
   // Methods for creating additional test data
   public async createAdditionalStudents(count = 4) {
     if (!this.user) {

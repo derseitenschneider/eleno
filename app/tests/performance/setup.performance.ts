@@ -5,7 +5,7 @@ const authFile = 'tests/performance/.auth/user.json'
 
 /**
  * Performance Test Setup
- * 
+ *
  * Sets up authentication and initial state for performance testing.
  * This setup runs once before all performance tests.
  */
@@ -16,18 +16,18 @@ setup('authenticate for performance tests', async ({ page }) => {
   await loginUser(page)
 
   // Wait for dashboard to be fully loaded
-  await expect(
-    page.getByRole('heading', { name: 'Quick Links' })
-  ).toBeVisible({ timeout: 30000 })
+  await expect(page.getByRole('heading', { name: 'Quick Links' })).toBeVisible({
+    timeout: 30000,
+  })
 
   // Ensure all navigation elements are loaded
-  await expect(
-    page.getByTestId('lesson-nav-sidebar')
-  ).toBeEnabled({ timeout: 30000 })
+  await expect(page.getByTestId('lesson-nav-sidebar')).toBeEnabled({
+    timeout: 30000,
+  })
 
   // Save authentication state
   await page.context().storageState({ path: authFile })
-  
+
   console.log('✅ Performance test authentication setup complete')
 })
 
@@ -38,7 +38,7 @@ setup('clear performance data', async ({ page }) => {
   await page.evaluate(() => {
     // Clear session storage
     sessionStorage.clear()
-    
+
     // Clear any performance test flags
     localStorage.removeItem('performance_test_mode')
     localStorage.removeItem('performance_test_lessons')

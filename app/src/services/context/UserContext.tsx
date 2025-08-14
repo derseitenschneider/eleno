@@ -106,7 +106,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     recoverPassword,
   }
 
-
   return (
     <UserContext.Provider value={value}>
       {currentSession && children}

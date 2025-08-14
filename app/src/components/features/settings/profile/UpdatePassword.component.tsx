@@ -50,7 +50,6 @@ export default function EditPassword({ onCloseModal }: EditPasswordProps) {
     })
   }
 
-
   return (
     <div
       className={cn(
