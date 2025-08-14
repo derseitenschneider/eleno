@@ -602,26 +602,29 @@
 [✅] ONLY THEN: Create visual regression baseline screenshots
 ```
 
-### **2025-08-12 - EDGE-CASE VISUAL REGRESSION IMPLEMENTATION COMPLETED** ✅
+### **2025-08-14 - EDGE-CASE VISUAL REGRESSION EXPANSION COMPLETED** ✅ **ENHANCED**
 
-**Implementation Summary**:
-- **Created comprehensive edge-case test infrastructure** with 8 device configurations
-- **Device Matrix Implemented**:
-  - iPhone XR (414x896) - Large phone with sidebar issues
-  - Small Laptop (1280x720) - Constrained height viewport
-  - iPhone SE (375x667) - Small phone edge case
-  - iPad Mini (768x1024) - Tablet boundary testing
-  - Surface Duo (540x720) - Dual-screen edge case
-  - Galaxy Fold (280x653) - Foldable phone testing
-  - Standard Laptop (1366x768) - Most common laptop size
-  - Small Desktop (1024x768) - Minimum desktop viewport
-- **Test Coverage**: Students page (active, inactive, groups) with navigation and table responsiveness
-- **Baseline Screenshots**: 36 visual regression baselines created successfully
-- **Test Data**: Comprehensive test user with 5 active students, 2 inactive, 1 group, lessons, and repertoire
-- **Package.json Scripts**: Added `pw:edge-case` commands for running and updating tests
-- **Files Created**:
-  - `/app/tests/edge-cases/edgeCaseConfig.ts` - Device configuration matrix
-  - `/app/tests/edge-cases/setup.edge-case.ts` - Test data setup with comprehensive fixtures
-  - `/app/tests/edge-cases/students-edge-case.spec.ts` - Visual regression tests for students pages
-  - `/app/tests/edge-cases/teardown.edge-case.ts` - Cleanup for test data
-- **Integration**: Added to main Playwright config for CI/CD pipeline inclusion
+**Enhanced Implementation Summary**:
+- **Extended edge-case test infrastructure** with separate dedicated test files for notes and repertoire
+- **Original Device Matrix**: 8 device configurations (iPhone XR, Small Laptop, iPhone SE, iPad Mini, Surface Duo, Galaxy Fold, Standard Laptop, Small Desktop)
+- **Expanded Test Coverage**:
+  - ✅ **Students Page Testing**: Active, inactive, groups with navigation and table responsiveness (original)
+  - ✅ **Lessons Page Testing**: Complete lesson functionality, navigation, and interface responsiveness
+  - ✅ **Notes Testing**: Dedicated tests for notes embedded in lesson interface (sidebar on desktop, integrated on mobile)
+  - ✅ **Repertoire Testing**: Dedicated tests for repertoire sub-routes and functionality
+- **Test Architecture Improvements**:
+  - ✅ **Enhanced TestUser Class**: Added comprehensive methods for creating notes and repertoire test data
+  - ✅ **Proper Database Schema Integration**: Updated all methods to use current Supabase schema (notes: backgroundColor enum, repertoire: title/startDate/endDate)
+  - ✅ **Architecture-Aware Testing**: Tests now correctly handle notes embedded in lessons and repertoire as sub-routes
+- **Comprehensive Test Data**: Enhanced setup with 3 student notes, 2 group notes, 4 general notes, and 4+ repertoire pieces per student/group
+- **Baseline Screenshots**: 100+ visual regression baselines across all test files and device configurations
+- **Files Enhanced/Created**:
+  - ✅ **Enhanced**: `/app/tests/utils/TestUser.ts` - Added notes and repertoire creation methods
+  - ✅ **Enhanced**: `/app/tests/edge-cases/setup.edge-case.ts` - Comprehensive test data including notes and repertoire
+  - ✅ **Enhanced**: `/app/tests/edge-cases/lessons-edge-case.spec.ts` - Basic repertoire navigation integration
+  - ✅ **Created**: `/app/tests/edge-cases/notes-edge-case.spec.ts` - 8 comprehensive notes tests within lesson context
+  - ✅ **Created**: `/app/tests/edge-cases/repertoire-edge-case.spec.ts` - 10 comprehensive repertoire functionality tests
+- **Test Separation Strategy**: Moved detailed functionality tests to dedicated files while keeping basic integration tests in main lesson file
+- **Junior Developer Documentation**: Comprehensive `@junior-dev-notes` sections explaining architecture and testing approaches
+- **Package.json Scripts**: Enhanced with separate commands for each test type (`pw:edge-case`, `pw:edge-notes`, `pw:edge-repertoire`)
+- **Integration**: All tests integrated with CI/CD pipeline for complete edge-case coverage
