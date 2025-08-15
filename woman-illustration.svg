@@ -1,0 +1,71 @@
+<svg width="686" height="385" viewBox="0 0 686 385" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background organic shape -->
+  <path d="M50 200C50 120 120 50 200 50C300 40 400 30 500 50C580 70 636 120 636 200C636 280 580 330 500 350C400 370 300 360 200 350C120 340 50 280 50 200Z" fill="#F4D35E" opacity="0.8"/>
+  
+  <!-- Left foliage -->
+  <ellipse cx="120" cy="150" rx="40" ry="80" fill="#8FAF4A" transform="rotate(-20 120 150)"/>
+  <ellipse cx="80" cy="180" rx="25" ry="50" fill="#9DBF5A" transform="rotate(-30 80 180)"/>
+  <ellipse cx="140" cy="120" rx="30" ry="60" fill="#6B8E23" transform="rotate(-10 140 120)"/>
+  
+  <!-- Right foliage -->
+  <ellipse cx="550" cy="140" rx="35" ry="70" fill="#8FAF4A" transform="rotate(25 550 140)"/>
+  <ellipse cx="580" cy="170" rx="20" ry="45" fill="#9DBF5A" transform="rotate(35 580 170)"/>
+  <ellipse cx="520" cy="110" rx="25" ry="55" fill="#6B8E23" transform="rotate(15 520 110)"/>
+  
+  <!-- Additional leaf details -->
+  <path d="M100 130C105 125 115 125 120 130C120 140 115 145 110 145C105 145 100 140 100 130Z" fill="#6B8E23"/>
+  <path d="M560 120C565 115 575 115 580 120C580 130 575 135 570 135C565 135 560 130 560 120Z" fill="#6B8E23"/>
+  
+  <!-- Woman's hat -->
+  <ellipse cx="343" cy="120" rx="70" ry="15" fill="#A67C52"/>
+  <path d="M290 100C290 80 310 65 343 65C376 65 396 80 396 100C396 110 390 118 380 120C370 115 360 113 343 113C326 113 316 115 306 120C296 118 290 110 290 100Z" fill="#9B6B47"/>
+  
+  <!-- Woman's hair -->
+  <path d="M280 140C280 120 300 105 343 105C386 105 406 120 406 140C406 160 400 180 390 200C385 220 380 240 375 260C370 280 365 300 360 320C350 340 340 350 330 355C320 350 310 340 300 320C295 300 290 280 285 260C280 240 275 220 270 200C260 180 254 160 254 140C254 135 260 130 270 135C275 138 278 140 280 140Z" fill="#2C1810"/>
+  
+  <!-- Hair flow and waves -->
+  <path d="M250 160C250 180 255 200 265 220C270 240 275 260 285 280C295 300 305 315 320 325C330 330 340 332 350 330C360 325 370 315 380 300C390 280 395 260 400 240C405 220 410 200 410 180C410 170 408 165 405 170C400 175 395 180 390 185C385 190 380 195 375 200C370 205 365 210 360 215C355 220 350 225 343 225C336 225 331 220 326 215C321 210 316 205 311 200C306 195 301 190 296 185C291 180 286 175 281 170C278 165 276 170 250 160Z" fill="#1A0E08"/>
+  
+  <!-- Woman's face -->
+  <ellipse cx="343" cy="160" rx="35" ry="40" fill="#F4C2A1"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="330" cy="150" rx="4" ry="3" fill="#2C1810"/>
+  <ellipse cx="356" cy="150" rx="4" ry="3" fill="#2C1810"/>
+  <circle cx="332" cy="149" r="1" fill="#FFFFFF"/>
+  <circle cx="358" cy="149" r="1" fill="#FFFFFF"/>
+  
+  <!-- Eyebrows -->
+  <path d="M325 145C330 143 335 143 340 145" stroke="#8B4513" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M351 145C356 143 361 143 366 145" stroke="#8B4513" stroke-width="2" stroke-linecap="round" fill="none"/>
+  
+  <!-- Nose -->
+  <path d="M343 155C344 158 343 160 343 162" stroke="#E6B894" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  
+  <!-- Lips -->
+  <path d="M338 170C341 172 345 172 348 170" stroke="#C85A3C" stroke-width="2" stroke-linecap="round" fill="none"/>
+  
+  <!-- Woman's neck -->
+  <rect x="333" y="195" width="20" height="25" fill="#F4C2A1"/>
+  
+  <!-- Dress top -->
+  <path d="M310 220C310 210 320 205 343 205C366 205 376 210 376 220L380 280C380 300 375 320 365 340L320 340C310 320 305 300 305 280L310 220Z" fill="#C85A3C"/>
+  
+  <!-- Dress straps -->
+  <rect x="320" y="205" width="8" height="30" fill="#C85A3C"/>
+  <rect x="358" y="205" width="8" height="30" fill="#C85A3C"/>
+  
+  <!-- Dress buttons -->
+  <circle cx="343" cy="240" r="3" fill="#B8863D"/>
+  <circle cx="343" cy="260" r="3" fill="#B8863D"/>
+  <circle cx="343" cy="280" r="3" fill="#B8863D"/>
+  
+  <!-- Woman's visible arm -->
+  <ellipse cx="380" cy="250" rx="12" ry="35" fill="#F4C2A1"/>
+  <ellipse cx="385" cy="290" rx="10" ry="25" fill="#F4C2A1"/>
+  
+  <!-- Small decorative leaves near woman -->
+  <ellipse cx="280" cy="180" rx="8" ry="15" fill="#8FAF4A" transform="rotate(-45 280 180)"/>
+  <ellipse cx="410" cy="190" rx="6" ry="12" fill="#9DBF5A" transform="rotate(45 410 190)"/>
+  <ellipse cx="270" cy="220" rx="5" ry="10" fill="#6B8E23" transform="rotate(-60 270 220)"/>
+</svg>

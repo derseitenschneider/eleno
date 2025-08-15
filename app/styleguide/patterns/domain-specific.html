@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain-Specific Patterns - Eleno Design System</title>
+    <link rel="stylesheet" href="../../src/styles/tailwind.css">
+    <link rel="stylesheet" href="../assets/styleguide.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background100 text-foreground">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-backgroundPlain border-b border-hairline sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <a href="../index.html" class="text-2xl font-bold text-primary">Eleno Design System</a>
+                        <span class="text-sm text-muted-foreground">/ Patterns / Domain-Specific</span>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-md hover:bg-background50">
+                        <span id="theme-icon">🌞</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="section-header">
+                    <h1 class="text-3xl font-bold mb-2">Domain-Specific Patterns</h1>
+                    <p class="text-lg text-muted-foreground">
+                        UI patterns specific to Eleno's educational features and workflows.
+                    </p>
+                </div>
+
+                <!-- Note System -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Note System</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Color-coded notes for organizing thoughts and lesson planning.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Green Note -->
+                        <div class="p-4 rounded-lg border-l-4 border-noteGreen" style="background: hsla(118, 50%, 50%, 0.05)">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold">Success Note</h3>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-sm">Great progress on scales today! Student mastered the C major scale.</p>
+                            <div class="mt-3 text-xs text-muted-foreground">
+                                <code>border-noteGreen bg-noteGreen/5</code>
+                            </div>
+                        </div>
+                        
+                        <!-- Yellow Note -->
+                        <div class="p-4 rounded-lg border-l-4 border-noteYellow" style="background: hsla(47, 95%, 76%, 0.05)">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold">Reminder Note</h3>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-sm">Remember to prepare sheet music for next week's recital.</p>
+                            <div class="mt-3 text-xs text-muted-foreground">
+                                <code>border-noteYellow bg-noteYellow/5</code>
+                            </div>
+                        </div>
+                        
+                        <!-- Blue Note -->
+                        <div class="p-4 rounded-lg border-l-4 border-noteBlue" style="background: hsla(203, 100%, 60%, 0.05)">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold">Information Note</h3>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-sm">Parent requested focus on sight-reading for upcoming exam.</p>
+                            <div class="mt-3 text-xs text-muted-foreground">
+                                <code>border-noteBlue bg-noteBlue/5</code>
+                            </div>
+                        </div>
+                        
+                        <!-- Red Note -->
+                        <div class="p-4 rounded-lg border-l-4 border-noteRed" style="background: hsla(0, 100%, 75%, 0.05)">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold">Important Note</h3>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-sm">Student has performance anxiety - approach with patience.</p>
+                            <div class="mt-3 text-xs text-muted-foreground">
+                                <code>border-noteRed bg-noteRed/5</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Note with drag handle -->
+                    <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                        <h3 class="font-semibold mb-3">Draggable Note Pattern</h3>
+                        <div class="flex items-start gap-3 p-3 bg-background50 rounded-lg cursor-move">
+                            <div class="text-muted-foreground">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 10a2 2 0 11-4 0 2 2 0 014 0zm0-6a2 2 0 11-4 0 2 2 0 014 0zm0 12a2 2 0 11-4 0 2 2 0 014 0zm6-8a2 2 0 11-4 0 2 2 0 014 0zm0-6a2 2 0 11-4 0 2 2 0 014 0zm0 12a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium mb-1">Draggable Note</div>
+                                <div class="text-sm text-muted-foreground">Drag handle allows reordering</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lesson Components -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Lesson Components</h2>
+                    <p class="text-muted-foreground mb-6">
+                        UI patterns for lesson planning and management.
+                    </p>
+                    
+                    <!-- Lesson Card -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3">Lesson Card</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-semibold">Piano Lesson - Emma Johnson</h4>
+                                    <p class="text-sm text-muted-foreground mt-1">Tuesday, Jan 15, 2024 • 3:00 PM</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal border border-primary bg-primary/10 text-primary">
+                                    Completed
+                                </span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="text-sm">
+                                    <span class="font-medium">Focus:</span> Scales and arpeggios
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-medium">Homework:</span> Practice C major scale, 10 mins daily
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button class="text-sm text-primary hover:underline">View Details</button>
+                                <button class="text-sm text-primary hover:underline">Share Homework</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Planned Lesson -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3">Planned Lesson Template</h3>
+                        <div class="bg-background50 border-2 border-dashed border-primary/30 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Lesson Plan Template</h4>
+                                    <p class="text-sm text-muted-foreground">Use for upcoming lesson</p>
+                                </div>
+                            </div>
+                            <button class="w-full bg-primary text-primary-foreground rounded-md py-2 text-sm font-medium hover:bg-primary-hover transition-colors">
+                                Apply Template
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Lesson Navigation -->
+                    <div>
+                        <h3 class="font-semibold mb-3">Lesson Navigation</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <button class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                    Previous Lesson
+                                </button>
+                                <div class="text-sm font-medium">Lesson 5 of 12</div>
+                                <button class="flex items-center gap-2 text-sm text-primary hover:text-primary-hover transition-colors">
+                                    Next Lesson
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Student/Group Management -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Student & Group Management</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Patterns for managing students and groups.
+                    </p>
+                    
+                    <!-- Student Card -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3">Student Card</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-semibold text-primary">EJ</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold">Emma Johnson</h4>
+                                        <div class="flex items-center gap-3 mt-1">
+                                            <span class="text-sm text-muted-foreground">Piano • Grade 5</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs border border-primary bg-primary/10 text-primary">
+                                                Active
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="mt-4 flex gap-4 text-sm text-muted-foreground">
+                                <div>Next lesson: Today, 3:00 PM</div>
+                                <div>12 lessons this month</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Card -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3">Group Card</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h4 class="font-semibold">Beginner Guitar Group</h4>
+                                    <p class="text-sm text-muted-foreground mt-1">6 students • Wednesday 4:00 PM</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs border border-primary bg-primary/10 text-primary">
+                                    Active
+                                </span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex -space-x-2">
+                                    <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-xs font-medium border-2 border-backgroundPlain">JD</div>
+                                    <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-xs font-medium border-2 border-backgroundPlain">AK</div>
+                                    <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-xs font-medium border-2 border-backgroundPlain">MS</div>
+                                    <div class="w-8 h-8 bg-background200 rounded-full flex items-center justify-center text-xs font-medium border-2 border-backgroundPlain">+3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Badges -->
+                    <div>
+                        <h3 class="font-semibold mb-3">Status Indicators</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal border border-primary bg-primary/10 text-primary">
+                                    Active
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal text-foreground/60">
+                                    Inactive
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal border border-warning bg-warning/10 text-warning">
+                                    On Hold
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal border border-destructive bg-destructive/10 text-destructive">
+                                    Cancelled
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Repertoire Management -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Repertoire Management</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Patterns for tracking musical pieces and progress.
+                    </p>
+                    
+                    <div class="bg-backgroundPlain border border-hairline rounded-lg overflow-hidden">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-hairline">
+                                    <th class="text-left p-3 font-medium">Piece</th>
+                                    <th class="text-left p-3 font-medium">Composer</th>
+                                    <th class="text-left p-3 font-medium">Student</th>
+                                    <th class="text-left p-3 font-medium">Progress</th>
+                                    <th class="text-left p-3 font-medium">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-hairline hover:bg-background50 transition-colors">
+                                    <td class="p-3">Für Elise</td>
+                                    <td class="p-3 text-muted-foreground">Beethoven</td>
+                                    <td class="p-3">Emma Johnson</td>
+                                    <td class="p-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 bg-background200 rounded-full h-2">
+                                                <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                            <span class="text-sm text-muted-foreground">75%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs border border-primary bg-primary/10 text-primary">
+                                            In Progress
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-hairline hover:bg-background50 transition-colors">
+                                    <td class="p-3">Moonlight Sonata</td>
+                                    <td class="p-3 text-muted-foreground">Beethoven</td>
+                                    <td class="p-3">John Smith</td>
+                                    <td class="p-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-24 bg-background200 rounded-full h-2">
+                                                <div class="bg-primary h-2 rounded-full" style="width: 100%"></div>
+                                            </div>
+                                            <span class="text-sm text-muted-foreground">100%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs border border-primary bg-primary/10 text-primary">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Homework Sharing -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Homework Sharing</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Pattern for sharing homework with students.
+                    </p>
+                    
+                    <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold">Share Homework</h3>
+                            <span class="text-sm text-muted-foreground">Expires in 7 days</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="p-3 bg-background50 rounded-lg">
+                                <div class="text-sm font-medium mb-1">Homework Content</div>
+                                <div class="text-sm text-muted-foreground">
+                                    1. Practice C major scale - 10 minutes<br>
+                                    2. Review page 15-16 of method book<br>
+                                    3. Work on dynamics in Für Elise
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-3">
+                                <input type="text" value="https://app.eleno.net/homework/abc123" readonly 
+                                       class="flex-1 px-3 py-2 border border-hairline rounded-md bg-background50 text-sm" />
+                                <button class="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-hover transition-colors">
+                                    Copy Link
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Link will expire on January 22, 2024
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Subscription UI -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Subscription Elements</h2>
+                    <p class="text-muted-foreground mb-6">
+                        UI patterns for subscription management.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Subscription Card -->
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="text-sm text-muted-foreground mb-1">Current Plan</div>
+                            <div class="text-xl font-semibold mb-3">Pro Plan</div>
+                            <div class="text-2xl font-bold mb-1">€19<span class="text-sm font-normal text-muted-foreground">/month</span></div>
+                            <div class="text-sm text-muted-foreground mb-4">Next billing: Feb 1, 2024</div>
+                            <button class="w-full py-2 border border-primary text-primary rounded-md text-sm font-medium hover:bg-primary/5 transition-colors">
+                                Manage Subscription
+                            </button>
+                        </div>
+                        
+                        <!-- Feature Limit -->
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-4">
+                            <div class="text-sm text-muted-foreground mb-1">Students</div>
+                            <div class="text-xl font-semibold mb-3">45 / 50</div>
+                            <div class="w-full bg-background200 rounded-full h-2 mb-3">
+                                <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+                            </div>
+                            <div class="text-sm text-muted-foreground">5 slots remaining</div>
+                        </div>
+                        
+                        <!-- Upgrade Prompt -->
+                        <div class="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                            <div class="text-sm font-medium mb-2">Upgrade to Premium</div>
+                            <div class="text-sm text-muted-foreground mb-3">Get unlimited students and advanced features</div>
+                            <button class="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary-hover transition-colors">
+                                Upgrade Now
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Usage Guidelines -->
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4">Usage Guidelines</h2>
+                    <div class="space-y-4">
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Note Colors</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use consistent color meanings: Green for success/positive, Yellow for reminders, 
+                                Blue for information, Red for important/urgent items.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Student Privacy</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use initials for avatar placeholders. Don't display sensitive information in 
+                                public views. Homework links should be temporary and expire.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Progress Indicators</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Always show percentage alongside progress bars. Use consistent colors 
+                                (primary for progress, background200 for remaining).
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Mobile Adaptations</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Cards stack vertically on mobile. Use drawer patterns instead of modals. 
+                                Ensure touch targets are at least 44x44px.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = document.documentElement.classList.contains('dark-mode') ? '🌙' : '🌞';
+        }
+    </script>
+</body>
+</html>

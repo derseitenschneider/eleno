@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons - Eleno Design System</title>
+    <link rel="stylesheet" href="../../src/styles/tailwind.css">
+    <link rel="stylesheet" href="../assets/styleguide.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background100 text-foreground">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-backgroundPlain border-b border-hairline sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <a href="../index.html" class="text-2xl font-bold text-primary">Eleno Design System</a>
+                        <span class="text-sm text-muted-foreground">/ Components / Buttons</span>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-md hover:bg-background50">
+                        <span id="theme-icon">🌞</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="section-header">
+                    <h1 class="text-3xl font-bold mb-2">Buttons</h1>
+                    <p class="text-lg text-muted-foreground">
+                        Interactive elements for triggering actions throughout the application.
+                    </p>
+                </div>
+
+                <!-- Button Variants -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Button Variants</h2>
+                    <p class="text-muted-foreground mb-6">Six button variants for different levels of emphasis and purpose.</p>
+                    
+                    <div class="variant-grid">
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 py-1">
+                                Default
+                            </button>
+                            <div class="variant-label">variant="default"</div>
+                        </div>
+                        
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-1">
+                                Destructive
+                            </button>
+                            <div class="variant-label">variant="destructive"</div>
+                        </div>
+                        
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary font-normal bg-background hover:bg-accent h-10 px-4 py-1">
+                                Outline
+                            </button>
+                            <div class="variant-label">variant="outline"</div>
+                        </div>
+                        
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-1">
+                                Secondary
+                            </button>
+                            <div class="variant-label">variant="secondary"</div>
+                        </div>
+                        
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-1">
+                                Ghost
+                            </button>
+                            <div class="variant-label">variant="ghost"</div>
+                        </div>
+                        
+                        <div class="variant-item">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-10 px-4 py-1">
+                                Link
+                            </button>
+                            <div class="variant-label">variant="link"</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Button Sizes -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Button Sizes</h2>
+                    <p class="text-muted-foreground mb-6">Four size options to fit different contexts and layouts.</p>
+                    
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <div class="text-center">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-11 rounded-md px-8">
+                                Large
+                            </button>
+                            <div class="variant-label">size="lg"</div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 py-1">
+                                Default
+                            </button>
+                            <div class="variant-label">size="default"</div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 py-1 px-4 sm:h-8 rounded-md sm:px-3">
+                                Small
+                            </button>
+                            <div class="variant-label">size="sm"</div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 w-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <div class="variant-label">size="icon"</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Button States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Button States</h2>
+                    <p class="text-muted-foreground mb-6">Interactive states and their visual feedback.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="font-semibold mb-4">Default State</h3>
+                            <div class="flex gap-4 flex-wrap">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1">
+                                    Normal
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 py-1" style="background: hsl(195, 42%, 43%)">
+                                    Hover
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 ring-2 ring-ring ring-offset-2">
+                                    Focus
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 opacity-50 pointer-events-none" disabled>
+                                    Disabled
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="font-semibold mb-4">Loading State</h3>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 opacity-70">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Loading...
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Button with Icons -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Buttons with Icons</h2>
+                    <p class="text-muted-foreground mb-6">Combining icons with text for enhanced clarity.</p>
+                    
+                    <div class="flex gap-4 flex-wrap">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 py-1">
+                            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Item
+                        </button>
+                        
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium border border-primary text-primary bg-background hover:bg-accent h-10 px-4 py-1">
+                            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download
+                        </button>
+                        
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-1">
+                            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Button Groups -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Button Groups</h2>
+                    <p class="text-muted-foreground mb-6">Common button group patterns used in the application.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="font-semibold mb-4">Save/Cancel Pattern</h3>
+                            <div class="flex gap-2">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 py-1">
+                                    Save Changes
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium border border-primary text-primary bg-background hover:bg-accent h-10 px-4 py-1">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="font-semibold mb-4">Delete/Abort Pattern</h3>
+                            <div class="flex gap-2">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-1">
+                                    Delete
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground h-10 px-4 py-1">
+                                    Abort
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code Examples -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Implementation</h2>
+                    <p class="text-muted-foreground mb-6">React component usage with TypeScript.</p>
+                    
+                    <div class="component-example">
+                        <div class="component-example-code">
+                            <pre><code class="language-tsx">import { Button } from '@/components/ui/button'
+
+// Default button
+&lt;Button&gt;Click me&lt;/Button&gt;
+
+// With variant and size
+&lt;Button variant="outline" size="lg"&gt;
+  Large Outline Button
+&lt;/Button&gt;
+
+// Destructive action
+&lt;Button variant="destructive"&gt;
+  Delete Item
+&lt;/Button&gt;
+
+// As a link
+&lt;Button variant="link" asChild&gt;
+  &lt;a href="/dashboard"&gt;Go to Dashboard&lt;/a&gt;
+&lt;/Button&gt;
+
+// With loading state
+&lt;Button disabled&gt;
+  &lt;Loader2 className="mr-2 h-4 w-4 animate-spin" /&gt;
+  Please wait
+&lt;/Button&gt;</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Usage Guidelines -->
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4">Usage Guidelines</h2>
+                    <div class="space-y-4">
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Primary Actions</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use the default variant for primary actions like "Save", "Submit", or "Create". 
+                                Limit to one primary button per section to maintain clear hierarchy.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Destructive Actions</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Always use the destructive variant for delete operations. Consider adding confirmation 
+                                dialogs for irreversible actions.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Button Text</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use clear, action-oriented text. Start with a verb when possible (e.g., "Create Lesson" 
+                                instead of "New"). Keep text concise, ideally 2-3 words.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Accessibility</h3>
+                            <p class="text-sm text-muted-foreground">
+                                All buttons include focus states for keyboard navigation. Ensure sufficient color contrast 
+                                and provide descriptive labels for icon-only buttons using aria-label.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = document.documentElement.classList.contains('dark-mode') ? '🌙' : '🌞';
+        }
+    </script>
+</body>
+</html>

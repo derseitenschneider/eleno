@@ -48,6 +48,8 @@
     "pw:edge-case:local": "npm run pw:local -- --project='*edge-case*'",
     "pw:edge-case:headed": "npm run pw -- --project='*edge-case*' --headed",
     "pw:edge-case:debug": "npm run pw -- --project='*edge-case*' --debug",
+    "styleguide": "vite serve styleguide --port 5174 --open",
+    "styleguide:build": "echo 'Styleguide is static HTML, no build needed'",
     "pw:edge-case:update": "npm run pw -- --project='*edge-case*' --update-snapshots",
     "analyze-bundle": "node scripts/analyze-bundle.js"
   },

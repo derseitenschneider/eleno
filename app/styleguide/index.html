@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eleno Design System</title>
+    <link rel="stylesheet" href="../src/styles/tailwind.css">
+    <link rel="stylesheet" href="./assets/styleguide.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                        ring: 'hsl(var(--ring))',
+                        backgroundPlain: 'hsl(var(--background-plain))',
+                        background50: 'hsl(var(--background-50))',
+                        background100: 'hsl(var(--background-100))',
+                        background200: 'hsl(var(--background-200))',
+                        hairline: 'hsl(var(--hairline))',
+                        foreground: 'hsl(var(--foreground))',
+                        warning: 'hsl(var(--clr-warning))',
+                        primary: {
+                            DEFAULT: 'hsl(var(--primary))',
+                            foreground: 'hsl(var(--primary-foreground))',
+                            hover: 'hsl(var(--primary-hover))',
+                        },
+                        secondary: {
+                            DEFAULT: 'hsl(var(--secondary))',
+                            foreground: 'hsl(var(--secondary-foreground))',
+                        },
+                        destructive: {
+                            DEFAULT: 'hsl(var(--destructive))',
+                            foreground: 'hsl(var(--destructive-foreground))',
+                        },
+                        muted: {
+                            DEFAULT: 'hsl(var(--muted))',
+                            foreground: 'hsl(var(--muted-foreground))',
+                        },
+                        accent: {
+                            DEFAULT: 'hsl(var(--accent))',
+                            foreground: 'hsl(var(--accent-foreground))',
+                        },
+                    },
+                    fontFamily: {
+                        body: ['"DM Sans"', 'Arial', 'Helvetica', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background100 text-foreground">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-backgroundPlain border-b border-hairline sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <h1 class="text-2xl font-bold text-primary">Eleno Design System</h1>
+                        <span class="text-sm text-muted-foreground">v1.0.0</span>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-md hover:bg-background50">
+                        <span id="theme-icon">🌞</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex">
+            <!-- Sidebar Navigation -->
+            <nav class="w-64 bg-background50 border-r border-hairline min-h-screen p-4 sticky top-16">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-2">Foundations</h3>
+                        <ul class="space-y-1">
+                            <li><a href="foundations/colors.html" class="block py-2 px-3 rounded hover:bg-background100">Colors</a></li>
+                            <li><a href="foundations/typography.html" class="block py-2 px-3 rounded hover:bg-background100">Typography</a></li>
+                            <li><a href="foundations/spacing.html" class="block py-2 px-3 rounded hover:bg-background100">Spacing</a></li>
+                            <li><a href="foundations/icons.html" class="block py-2 px-3 rounded hover:bg-background100">Icons</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-2">Components</h3>
+                        <ul class="space-y-1">
+                            <li><a href="components/buttons.html" class="block py-2 px-3 rounded hover:bg-background100">Buttons</a></li>
+                            <li><a href="components/forms.html" class="block py-2 px-3 rounded hover:bg-background100">Forms</a></li>
+                            <li><a href="components/cards.html" class="block py-2 px-3 rounded hover:bg-background100">Cards</a></li>
+                            <li><a href="components/tables.html" class="block py-2 px-3 rounded hover:bg-background100">Tables</a></li>
+                            <li><a href="components/modals.html" class="block py-2 px-3 rounded hover:bg-background100">Modals & Dialogs</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-2">Patterns</h3>
+                        <ul class="space-y-1">
+                            <li><a href="patterns/interactive-states.html" class="block py-2 px-3 rounded hover:bg-background100">Interactive States</a></li>
+                            <li><a href="patterns/domain-specific.html" class="block py-2 px-3 rounded hover:bg-background100">Domain-Specific</a></li>
+                            <li><a href="patterns/layouts.html" class="block py-2 px-3 rounded hover:bg-background100">Layouts</a></li>
+                            <li><a href="patterns/navigation.html" class="block py-2 px-3 rounded hover:bg-background100">Navigation</a></li>
+                            <li><a href="patterns/data-display.html" class="block py-2 px-3 rounded hover:bg-background100">Data Display</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-2">Appendix</h3>
+                        <ul class="space-y-1">
+                            <li><a href="backend-styles.html" class="block py-2 px-3 rounded hover:bg-background100">Backend Styles</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-8">
+                <div class="max-w-5xl">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold mb-4">Welcome to Eleno Design System</h2>
+                        <p class="text-lg text-muted-foreground">
+                            A comprehensive guide to Eleno's visual language, components, and patterns.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="text-xl font-semibold mb-2">Getting Started</h3>
+                            <p class="text-muted-foreground mb-4">
+                                Learn about our design principles, color system, and typography.
+                            </p>
+                            <a href="foundations/colors.html" class="text-primary hover:underline">Explore Foundations →</a>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain p-6 rounded-lg border border-hairline">
+                            <h3 class="text-xl font-semibold mb-2">Components</h3>
+                            <p class="text-muted-foreground mb-4">
+                                Browse our library of reusable UI components with live examples.
+                            </p>
+                            <a href="components/buttons.html" class="text-primary hover:underline">View Components →</a>
+                        </div>
+                    </div>
+
+                    <section class="mb-12">
+                        <h3 class="text-2xl font-semibold mb-4">Design Principles</h3>
+                        <div class="space-y-4">
+                            <div class="bg-background50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">Clarity</h4>
+                                <p class="text-muted-foreground">
+                                    Every element should have a clear purpose and be easily understood by teachers using the platform.
+                                </p>
+                            </div>
+                            <div class="bg-background50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">Consistency</h4>
+                                <p class="text-muted-foreground">
+                                    Maintain visual and behavioral consistency across all features to reduce cognitive load.
+                                </p>
+                            </div>
+                            <div class="bg-background50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">Accessibility</h4>
+                                <p class="text-muted-foreground">
+                                    Design for all users with proper contrast ratios, keyboard navigation, and screen reader support.
+                                </p>
+                            </div>
+                            <div class="bg-background50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">Mobile-First</h4>
+                                <p class="text-muted-foreground">
+                                    Optimize for mobile devices while ensuring a great desktop experience.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3 class="text-2xl font-semibold mb-4">Quick Reference</h3>
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h4 class="font-semibold mb-3">Tech Stack</h4>
+                            <ul class="space-y-2 text-muted-foreground">
+                                <li>• <strong>Framework:</strong> React 18 with TypeScript</li>
+                                <li>• <strong>Styling:</strong> Tailwind CSS with custom design tokens</li>
+                                <li>• <strong>Components:</strong> Radix UI primitives with shadcn/ui</li>
+                                <li>• <strong>Font:</strong> DM Sans (400, 500, 700)</li>
+                                <li>• <strong>Icons:</strong> Lucide React</li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = document.documentElement.classList.contains('dark-mode') ? '🌙' : '🌞';
+        }
+    </script>
+</body>
+</html>

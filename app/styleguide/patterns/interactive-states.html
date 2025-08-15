@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive States - Eleno Design System</title>
+    <link rel="stylesheet" href="../../src/styles/tailwind.css">
+    <link rel="stylesheet" href="../assets/styleguide.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .interactive-demo {
+            transition: all 0.2s ease;
+        }
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .skeleton-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-background100 text-foreground">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-backgroundPlain border-b border-hairline sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <a href="../index.html" class="text-2xl font-bold text-primary">Eleno Design System</a>
+                        <span class="text-sm text-muted-foreground">/ Patterns / Interactive States</span>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-md hover:bg-background50">
+                        <span id="theme-icon">🌞</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="section-header">
+                    <h1 class="text-3xl font-bold mb-2">Interactive States</h1>
+                    <p class="text-lg text-muted-foreground">
+                        Visual feedback for user interactions, loading states, and system status.
+                    </p>
+                </div>
+
+                <!-- Hover States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Hover States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Provide visual feedback when users hover over interactive elements.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Buttons</h3>
+                            <div class="space-y-3">
+                                <button class="interactive-demo inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 hover:bg-primary-hover transition-colors">
+                                    Hover over me
+                                </button>
+                                <div class="text-sm text-muted-foreground">
+                                    <code>hover:bg-primary-hover</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Cards</h3>
+                            <div class="interactive-demo border border-hairline rounded-lg p-4 hover:shadow-lg hover:border-primary/20 cursor-pointer transition-all">
+                                <div class="font-medium">Interactive Card</div>
+                                <div class="text-sm text-muted-foreground mt-1">Hover for elevation</div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>hover:shadow-lg hover:border-primary/20</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Links</h3>
+                            <div class="space-y-2">
+                                <a href="#" class="text-primary hover:underline transition-all">Standard Link</a>
+                                <div class="text-sm text-muted-foreground">
+                                    <code>hover:underline</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">List Items</h3>
+                            <div class="space-y-1">
+                                <div class="p-2 rounded hover:bg-background50 cursor-pointer transition-colors">Item 1</div>
+                                <div class="p-2 rounded hover:bg-background50 cursor-pointer transition-colors">Item 2</div>
+                                <div class="p-2 rounded hover:bg-background50 cursor-pointer transition-colors">Item 3</div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>hover:bg-background50</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Focus States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Focus States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Clear focus indicators for keyboard navigation and accessibility.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Input Focus</h3>
+                            <input 
+                                type="text" 
+                                placeholder="Click or tab to focus"
+                                class="w-full px-3 py-2 border border-hairline rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                            />
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>focus:ring-2 focus:ring-primary</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Button Focus</h3>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all">
+                                Tab to focus
+                            </button>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Checkbox Focus</h3>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded border-hairline text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2" />
+                                <span>Checkbox with focus ring</span>
+                            </label>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>focus:ring-2 focus:ring-primary focus:ring-offset-2</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Link Focus</h3>
+                            <a href="#" class="text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-1">
+                                Keyboard navigable link
+                            </a>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>focus:ring-2 focus:ring-primary focus:ring-offset-2</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Active/Pressed States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Active/Pressed States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Visual feedback when elements are being actively pressed or selected.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Button Active</h3>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 active:scale-95 active:bg-primary-hover transition-all">
+                                Click and hold
+                            </button>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>active:scale-95 active:bg-primary-hover</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Selected State</h3>
+                            <div class="space-y-2">
+                                <div class="p-3 rounded border border-hairline cursor-pointer">Normal item</div>
+                                <div class="p-3 rounded border-2 border-primary bg-primary/5 cursor-pointer">Selected item</div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>border-2 border-primary bg-primary/5</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Loading States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Loading States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Indicate when content is loading or actions are being processed.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Button Loading</h3>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 opacity-70" disabled>
+                                <svg class="loading-spinner -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Loading...
+                            </button>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                Spinner with <code>animate-spin</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Skeleton Loading</h3>
+                            <div class="space-y-3">
+                                <div class="h-4 bg-background200 rounded skeleton-pulse"></div>
+                                <div class="h-4 bg-background200 rounded skeleton-pulse w-3/4"></div>
+                                <div class="h-4 bg-background200 rounded skeleton-pulse w-1/2"></div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>animate-pulse</code> skeleton
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Mini Loader</h3>
+                            <div class="flex items-center space-x-1">
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                Dot loader with <code>animate-bounce</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Progress Bar</h3>
+                            <div class="w-full bg-background200 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 60%"></div>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                Progress indicator at 60%
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Disabled States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Disabled States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Indicate when elements are not interactive or available.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Disabled Button</h3>
+                            <div class="space-y-3">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1">
+                                    Enabled
+                                </button>
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground h-10 px-4 py-1 opacity-50 cursor-not-allowed" disabled>
+                                    Disabled
+                                </button>
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>disabled:opacity-50 disabled:cursor-not-allowed</code>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Disabled Input</h3>
+                            <div class="space-y-3">
+                                <input type="text" placeholder="Enabled input" class="w-full px-3 py-2 border border-hairline rounded-md" />
+                                <input type="text" placeholder="Disabled input" class="w-full px-3 py-2 border border-hairline rounded-md opacity-50 cursor-not-allowed bg-background50" disabled />
+                            </div>
+                            <div class="text-sm text-muted-foreground mt-3">
+                                <code>disabled:opacity-50 disabled:bg-background50</code>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Error States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Error States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Communicate errors and validation issues clearly.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Input Error</h3>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Email</label>
+                                <input type="email" value="invalid.email" class="w-full px-3 py-2 border-2 border-destructive rounded-md focus:outline-none focus:ring-2 focus:ring-destructive" />
+                                <p class="text-sm text-destructive">Please enter a valid email address</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Error Alert</h3>
+                            <div class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
+                                <div class="font-medium">Error</div>
+                                <div class="text-sm mt-1">Something went wrong. Please try again.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Success States -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Success States</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Provide positive feedback for successful actions.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Success Message</h3>
+                            <div class="bg-primary/10 border border-primary/20 text-primary px-4 py-3 rounded-lg">
+                                <div class="font-medium">Success!</div>
+                                <div class="text-sm mt-1">Your changes have been saved.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                            <h3 class="font-semibold mb-4">Success Checkbox</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-5 h-5 bg-primary rounded flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>Task completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Transition Timing -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-4">Transition Timing</h2>
+                    <p class="text-muted-foreground mb-6">
+                        Consistent animation timing for smooth interactions.
+                    </p>
+                    
+                    <div class="bg-backgroundPlain border border-hairline rounded-lg p-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-background50 rounded">
+                                <span class="font-mono text-sm">transition-all</span>
+                                <span class="text-sm text-muted-foreground">150ms, all properties</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-background50 rounded">
+                                <span class="font-mono text-sm">transition-colors</span>
+                                <span class="text-sm text-muted-foreground">150ms, color properties only</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-background50 rounded">
+                                <span class="font-mono text-sm">duration-200</span>
+                                <span class="text-sm text-muted-foreground">200ms duration</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-background50 rounded">
+                                <span class="font-mono text-sm">duration-300</span>
+                                <span class="text-sm text-muted-foreground">300ms duration</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-background50 rounded">
+                                <span class="font-mono text-sm">ease-in-out</span>
+                                <span class="text-sm text-muted-foreground">Standard easing</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Usage Guidelines -->
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4">Usage Guidelines</h2>
+                    <div class="space-y-4">
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Consistency</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use the same interaction patterns throughout the application. If buttons scale on click in one place, 
+                                they should behave the same way everywhere.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Performance</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Use CSS transitions and transforms for better performance. Avoid animating properties like width, 
+                                height, or position when possible.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Accessibility</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Respect prefers-reduced-motion settings. Provide clear focus indicators for keyboard users. 
+                                Don't rely solely on color to convey state changes.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-background50 p-4 rounded-lg">
+                            <h3 class="font-semibold mb-2">Feedback Timing</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Provide immediate feedback for user actions. Show loading states for operations that take more 
+                                than 300ms. Use skeleton screens for content that's loading.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = document.documentElement.classList.contains('dark-mode') ? '🌙' : '🌞';
+        }
+    </script>
+</body>
+</html>
