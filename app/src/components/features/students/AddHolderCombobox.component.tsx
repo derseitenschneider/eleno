@@ -77,7 +77,7 @@ export default function AddHolderCombobox({
                 <Badge
                   className={cn(
                     selectedHolder.holder.archive &&
-                      'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                    'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
                   )}
                 >
                   {selectedHolder.type === 'g' && (
@@ -95,7 +95,12 @@ export default function AddHolderCombobox({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='p-0' side='bottom' align='start'>
+        <PopoverContent
+          hasPortal={false}
+          className='p-0'
+          side='bottom'
+          align='start'
+        >
           <Command>
             {!isMobile && (
               <CommandInput
