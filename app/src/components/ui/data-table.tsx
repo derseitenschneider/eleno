@@ -45,7 +45,7 @@ export function DataTable<TData, TValue>({
   return (
     <ScrollArea className='min-h-[100px] border border-hairline sm:min-h-[unset]'>
       <Table
-        data-testId={testId}
+        data-testid={testId}
         className={cn(
           isFetching && 'opacity-50',
           'pb-4 shadow w-full lg:min-w-[650px]',
@@ -65,9 +65,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 )
               })}

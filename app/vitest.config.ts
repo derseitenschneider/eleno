@@ -9,6 +9,22 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
     css: true,
+    // Parallel execution configuration with better isolation
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: false,
+        maxThreads: 4, // Reduced to minimize race conditions
+        minThreads: 1,
+        isolate: true, // Better isolation between threads
+        useAtomics: true,
+      },
+    },
+    maxConcurrency: 3, // Reduced concurrency for stability
+    fileParallelism: true,
+    // Test timeout settings for async operations
+    testTimeout: 10000,
+    hookTimeout: 10000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

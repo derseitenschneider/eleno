@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import * as matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
-import { afterAll, afterEach, beforeAll, expect, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { server } from './msw'
 
 // Extend Vitest's expect with jest-dom matchers
@@ -9,9 +9,18 @@ expect.extend(matchers)
 
 // Setup MSW
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeEach(() => {
+  // Clear all mocks before each test to prevent state leakage
+  vi.clearAllMocks()
+  // Reset any module mocks to ensure clean state
+  vi.resetModules()
+})
 afterEach(() => {
   server.resetHandlers()
   cleanup()
+  // Additional cleanup for parallel execution
+  vi.clearAllMocks()
+  vi.unstubAllGlobals()
 })
 afterAll(() => server.close())
 
