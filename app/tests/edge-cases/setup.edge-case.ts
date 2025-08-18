@@ -173,6 +173,7 @@ setup('setup edge-case test data', async ({ page, context }) => {
 
   const testData = {
     userId: (testUser as any).user?.id,
+    clockId: (testUser as any).customer?.test_clock,
     defaultStudentId: testUser.studentId,
     additionalStudentIds: additionalStudents?.map((s) => s.id) || [],
     inactiveStudentIds: inactiveStudents?.map((s) => s.id) || [],

@@ -1,0 +1,351 @@
+{
+  "metrics": [
+    {
+      "timestamp": "2025-08-18T07:02:55.974Z",
+      "git": {
+        "commit": "unknown",
+        "branch": "unknown",
+        "author": "unknown"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": null,
+      "playwright": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 26,
+        "duration": 8086.138,
+        "suites": 6,
+        "passRate": 0
+      },
+      "unitTests": null,
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": null
+    },
+    {
+      "timestamp": "2025-08-18T07:15:33.646Z",
+      "git": {
+        "commit": "unknown",
+        "branch": "unknown",
+        "author": "unknown"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 26,
+        "duration": 8086.138,
+        "suites": 6,
+        "passRate": 0
+      },
+      "unitTests": null,
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": null
+    },
+    {
+      "timestamp": "2025-08-18T07:18:42.452Z",
+      "git": {
+        "commit": "unknown",
+        "branch": "unknown",
+        "author": "unknown"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": null,
+      "unitTests": null,
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": null
+    },
+    {
+      "timestamp": "2025-08-18T07:19:14.159Z",
+      "git": {
+        "commit": "unknown",
+        "branch": "unknown",
+        "author": "unknown"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": null,
+      "unitTests": null,
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": null
+    },
+    {
+      "timestamp": "2025-08-18T08:40:11.733Z",
+      "git": {
+        "commit": "2c1c146b7d5b9b83ab15087ad86ebc7805568af7",
+        "branch": "dev",
+        "author": "Brian Boy"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": null,
+      "unitTests": null,
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": {
+        "size": 0,
+        "sizeFormatted": "0 Bytes",
+        "timestamp": "2025-08-18T08:40:11.842Z",
+        "note": "Size calculation failed"
+      }
+    },
+    {
+      "timestamp": "2025-08-18T08:41:00.503Z",
+      "git": {
+        "commit": "2c1c146b7d5b9b83ab15087ad86ebc7805568af7",
+        "branch": "dev",
+        "author": "Brian Boy"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": null,
+      "unitTests": {
+        "total": 15,
+        "passed": 10,
+        "failed": 5,
+        "duration": 15153,
+        "suites": 15
+      },
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": {
+        "size": 12939264,
+        "sizeFormatted": "12.34 MB",
+        "timestamp": "2025-08-18T08:41:00.609Z"
+      }
+    },
+    {
+      "timestamp": "2025-08-18T08:42:19.990Z",
+      "git": {
+        "commit": "2c1c146b7d5b9b83ab15087ad86ebc7805568af7",
+        "branch": "dev",
+        "author": "Brian Boy"
+      },
+      "environment": {
+        "nodeVersion": "v24.5.0",
+        "ci": false,
+        "runner": "local",
+        "workflow": null,
+        "runId": null
+      },
+      "coverage": {
+        "statements": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        },
+        "branches": {
+          "covered": 360,
+          "total": 685,
+          "percentage": 52.55
+        },
+        "functions": {
+          "covered": 115,
+          "total": 547,
+          "percentage": 21.02
+        },
+        "lines": {
+          "covered": 3746,
+          "total": 24718,
+          "percentage": 15.15
+        }
+      },
+      "playwright": {
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0,
+        "duration": 10855,
+        "suites": 1,
+        "passRate": 67
+      },
+      "unitTests": {
+        "total": 15,
+        "passed": 10,
+        "failed": 5,
+        "duration": 15153,
+        "suites": 15
+      },
+      "performance": {
+        "buildTime": null,
+        "testExecutionTime": null,
+        "bundleSize": null
+      },
+      "build": {
+        "size": 12939264,
+        "sizeFormatted": "12.34 MB",
+        "timestamp": "2025-08-18T08:42:20.245Z"
+      }
+    }
+  ],
+  "lastUpdated": "2025-08-18T08:42:20.245Z"
+}

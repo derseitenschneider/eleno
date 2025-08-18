@@ -1,18 +1,74 @@
 {
-  "userId": "867015cf-54bc-4aef-8c35-9248cd028c20",
-  "defaultStudentId": 5402,
-  "additionalStudentIds": [5403, 5404, 5405, 5406],
-  "inactiveStudentIds": [5407, 5408],
-  "groupId": 176,
-  "testUserEmail": "pw-test-general-user-1755149038452@example.com",
-  "mainStudentLessonIds": [58452, 58453, 58454, 58455, 58456],
-  "additionalLessonIds": [58457, 58458, 58459, 58460, 58461],
-  "groupLessonIds": [58462, 58463, 58464],
-  "mainStudentRepertoireIds": [4407, 4408, 4409, 4410],
-  "additionalRepertoireIds": [4411, 4412, 4413, 4414],
-  "groupRepertoireIds": [4415, 4416, 4417],
-  "mainStudentNotesIds": [3667, 3668, 3669],
-  "additionalStudentNotesIds": [3670, 3671, 3672, 3673],
-  "groupNotesIds": [3674, 3675],
-  "generalNotesIds": [3676, 3677, 3678, 3679]
+  "userId": "82977b88-648a-4db4-b769-9f5edca1aeac",
+  "clockId": "clock_1RxY7HGqCC0x0XxsSs7W1lda",
+  "defaultStudentId": 5553,
+  "additionalStudentIds": [
+    5554,
+    5555,
+    5556,
+    5557
+  ],
+  "inactiveStudentIds": [
+    5558,
+    5559
+  ],
+  "groupId": 186,
+  "testUserEmail": "pw-test-general-user-1755542951119@example.com",
+  "mainStudentLessonIds": [
+    58867,
+    58868,
+    58869,
+    58870,
+    58871
+  ],
+  "additionalLessonIds": [
+    58872,
+    58873,
+    58874,
+    58875,
+    58876
+  ],
+  "groupLessonIds": [
+    58877,
+    58878,
+    58879
+  ],
+  "mainStudentRepertoireIds": [
+    4535,
+    4536,
+    4537,
+    4538
+  ],
+  "additionalRepertoireIds": [
+    4539,
+    4540,
+    4541,
+    4542
+  ],
+  "groupRepertoireIds": [
+    4543,
+    4544,
+    4545
+  ],
+  "mainStudentNotesIds": [
+    3861,
+    3862,
+    3863
+  ],
+  "additionalStudentNotesIds": [
+    3864,
+    3865,
+    3866,
+    3867
+  ],
+  "groupNotesIds": [
+    3868,
+    3869
+  ],
+  "generalNotesIds": [
+    3870,
+    3871,
+    3872,
+    3873
+  ]
 }

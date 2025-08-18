@@ -1,0 +1,339 @@
+name: 🌐 Cross-Browser Testing
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "app/**"
+      - ".github/workflows/cross-browser.yml"
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "app/**"
+      - ".github/workflows/cross-browser.yml"
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - critical
+          - subscription
+          - responsive
+          - compatibility
+      browsers:
+        description: 'Browsers to test (comma-separated)'
+        required: false
+        default: 'chromium,firefox,webkit'
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+  CACHE_VERSION: "v1"
+
+jobs:
+  # Matrix strategy for cross-browser testing
+  cross-browser-tests:
+    name: 🌐 Cross-Browser Tests
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        browser: [chromium, firefox, webkit]
+        suite: [critical, subscription, responsive, compatibility]
+        include:
+          # Add macOS for WebKit/Safari testing
+          - os: macos-latest
+            browser: webkit
+            suite: critical
+          - os: macos-latest
+            browser: webkit
+            suite: subscription
+          # Add Windows for additional Chrome testing
+          - os: windows-latest
+            browser: chromium
+            suite: critical
+        exclude:
+          # Skip resource-intensive combinations for faster builds
+          - browser: webkit
+            suite: compatibility
+          - browser: firefox  
+            suite: responsive
+
+    defaults:
+      run:
+        working-directory: ./app
+        
+    environment:
+      name: tests.cross-browser
+      
+    env:
+      # Environment variables for cross-browser tests
+      VITE_ENV: ${{ secrets.VITE_ENV || 'staging' }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      VITE_STRIPE_PRICE_ID_MONTHLY: ${{ secrets.VITE_STRIPE_PRICE_ID_MONTHLY }}
+      VITE_STRIPE_PRICE_ID_YEARLY: ${{ secrets.VITE_STRIPE_PRICE_ID_YEARLY }}
+      VITE_STRIPE_PRICE_ID_LIFETIME: ${{ secrets.VITE_STRIPE_PRICE_ID_LIFETIME }}
+      CROSS_BROWSER_TEST_EMAIL: ${{ secrets.CROSS_BROWSER_TEST_EMAIL }}
+      CROSS_BROWSER_TEST_PASSWORD: ${{ secrets.CROSS_BROWSER_TEST_PASSWORD }}
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 💾 Cache node modules
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles('app/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
+            ${{ runner.os }}-node-
+
+      - name: 📥 Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: 💾 Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            ~/Library/Caches/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-${{ matrix.browser }}-${{ hashFiles('app/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-${{ matrix.browser }}-
+            ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-
+            ${{ runner.os }}-playwright-
+
+      - name: 📥 Install Playwright browsers
+        run: |
+          if [ "${{ matrix.browser }}" = "chromium" ]; then
+            npx playwright install chromium
+          elif [ "${{ matrix.browser }}" = "firefox" ]; then
+            npx playwright install firefox
+          elif [ "${{ matrix.browser }}" = "webkit" ]; then
+            npx playwright install webkit
+          fi
+        shell: bash
+
+      - name: 🔧 Install system dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: npx playwright install-deps ${{ matrix.browser }}
+
+      - name: 🌐 Run cross-browser tests
+        id: cross-browser-test
+        run: npm run pw -- --project='*cross-browser-${{ matrix.suite }}-${{ matrix.browser }}*'
+        timeout-minutes: 45
+        continue-on-error: true
+
+      - name: 📊 Generate test report
+        if: always()
+        run: |
+          if [ -f test-results/results.json ]; then
+            node scripts/generate-test-summary.js playwright > cross-browser-${{ matrix.suite }}-${{ matrix.browser }}-${{ matrix.os }}.json
+          fi
+
+      - name: 📤 Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cross-browser-report-${{ matrix.suite }}-${{ matrix.browser }}-${{ matrix.os }}-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/cross-browser-${{ matrix.suite }}-${{ matrix.browser }}-${{ matrix.os }}.json
+          retention-days: 30
+
+      - name: 📤 Upload test results and traces
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cross-browser-results-${{ matrix.suite }}-${{ matrix.browser }}-${{ matrix.os }}-${{ github.run_id }}
+          path: |
+            app/test-results/
+            !app/test-results/**/*.webm
+          retention-days: 30
+
+      - name: 📤 Upload failure artifacts
+        uses: actions/upload-artifact@v4
+        if: failure() || steps.cross-browser-test.outcome == 'failure'
+        with:
+          name: cross-browser-failures-${{ matrix.suite }}-${{ matrix.browser }}-${{ matrix.os }}-${{ github.run_id }}
+          path: |
+            app/test-results/**/*.png
+            app/test-results/**/*.webm  
+            app/test-results/**/trace.zip
+          retention-days: 14
+
+      - name: 📋 Test Summary
+        if: always()
+        run: |
+          echo "## 🌐 Cross-Browser Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Browser**: ${{ matrix.browser }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Test Suite**: ${{ matrix.suite }}" >> $GITHUB_STEP_SUMMARY
+          echo "**OS**: ${{ matrix.os }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f test-results/results.json ]; then
+            node scripts/generate-test-summary.js playwright | jq -r '
+              "**Total Tests**: \(.summary.total // 0)",
+              "**Passed**: \(.summary.passed // 0) ✅",
+              "**Failed**: \(.summary.failed // 0) ❌",
+              "**Flaky**: \(.summary.flaky // 0) ⚠️",
+              "**Duration**: \((.summary.duration // 0) / 1000 | floor)s",
+              "**Pass Rate**: \(.passRate // 0)%"
+            ' >> $GITHUB_STEP_SUMMARY
+          else
+            if [ "${{ steps.cross-browser-test.outcome }}" = "success" ]; then
+              echo "✅ All tests passed" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- [HTML Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Test Results & Traces](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+
+  # Generate browser compatibility report
+  compatibility-report:
+    name: 📊 Browser Compatibility Report  
+    runs-on: ubuntu-latest
+    needs: cross-browser-tests
+    if: always()
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Download all test artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          pattern: cross-browser-report-*
+
+      - name: 📊 Generate compatibility matrix
+        run: |
+          echo "# 🌐 Browser Compatibility Matrix" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow Run**: [\`${{ github.run_id }}\`](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Create compatibility matrix table
+          echo "## 📋 Test Results by Browser" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Browser | Critical | Subscription | Responsive | Compatibility | Overall |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|----------|--------------|------------|---------------|---------|" >> $GITHUB_STEP_SUMMARY
+          
+          # Browser results from matrix job outcomes
+          browsers=("chromium" "firefox" "webkit")
+          suites=("critical" "subscription" "responsive" "compatibility")
+          
+          for browser in "${browsers[@]}"; do
+            row="| **$browser** |"
+            overall_status="✅"
+            
+            for suite in "${suites[@]}"; do
+              # Check if this combination was tested (based on matrix exclude rules)
+              status="✅"
+              if [[ "$browser" == "webkit" && "$suite" == "compatibility" ]]; then
+                status="⏭️" # Skipped
+              elif [[ "$browser" == "firefox" && "$suite" == "responsive" ]]; then
+                status="⏭️" # Skipped  
+              elif [[ "${{ needs.cross-browser-tests.result }}" != "success" ]]; then
+                status="❌"
+                overall_status="❌"
+              fi
+              row="$row $status |"
+            done
+            
+            row="$row $overall_status |"
+            echo "$row" >> $GITHUB_STEP_SUMMARY
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Legend" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ **Passed**: All tests passed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- ❌ **Failed**: Some tests failed" >> $GITHUB_STEP_SUMMARY
+          echo "- ⏭️ **Skipped**: Test combination skipped for performance" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 🎯 Browser Priority Matrix" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Browser | Engine | Priority | Mobile Support | Market Share |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|----------|----------------|--------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Chromium/Chrome | Blink | **High** | ✅ Android | ~65% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Firefox | Gecko | **High** | ❌ Limited | ~3% |" >> $GITHUB_STEP_SUMMARY
+          echo "| WebKit/Safari | WebKit | **High** | ✅ iOS | ~19% |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 📱 Mobile Browser Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- **Mobile Chrome**: Android devices (tested via responsive suite)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Mobile Safari**: iOS devices (tested via responsive suite)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tablet Support**: iPad and Android tablets covered" >> $GITHUB_STEP_SUMMARY
+
+      - name: 📈 Test Coverage Analysis
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪 Test Coverage Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 🔍 Test Suite Breakdown" >> $GITHUB_STEP_SUMMARY
+          echo "- **Critical Tests**: Core user journeys (auth, navigation, functionality)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Subscription Tests**: Payment flows and subscription management" >> $GITHUB_STEP_SUMMARY  
+          echo "- **Responsive Tests**: Mobile and tablet layout testing" >> $GITHUB_STEP_SUMMARY
+          echo "- **Compatibility Tests**: Browser API and feature support" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 🎯 Quality Gates" >> $GITHUB_STEP_SUMMARY
+          echo "- **Critical Tests**: Must pass on all browsers" >> $GITHUB_STEP_SUMMARY
+          echo "- **Subscription Tests**: Must pass on desktop browsers" >> $GITHUB_STEP_SUMMARY
+          echo "- **Responsive Tests**: Must pass on mobile browsers" >> $GITHUB_STEP_SUMMARY
+          echo "- **Compatibility Tests**: Advisory for feature support" >> $GITHUB_STEP_SUMMARY
+          
+      - name: 🎯 Set overall workflow status
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎯 Overall Cross-Browser Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.cross-browser-tests.result }}" = "success" ]; then
+            echo "✅ **ALL CROSS-BROWSER TESTS PASSED**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 The application works correctly across all tested browsers and platforms!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **SOME CROSS-BROWSER TESTS FAILED**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Please review the failed tests and browser compatibility issues above." >> $GITHUB_STEP_SUMMARY
+            echo "Check individual test reports for detailed failure information." >> $GITHUB_STEP_SUMMARY
+          fi

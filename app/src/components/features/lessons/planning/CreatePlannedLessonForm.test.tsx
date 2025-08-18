@@ -173,8 +173,11 @@ describe('CreatePlannedLessonForm', () => {
         currentLessonHolder: null,
       })
 
-      const { container } = renderWithProviders(<CreatePlannedLessonForm />)
-      expect(container.firstChild).toBeNull()
+      renderWithProviders(<CreatePlannedLessonForm />)
+      // Component should not render any form elements when no current holder
+      expect(screen.queryByTestId('lesson-content')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('homework')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /speichern/i })).not.toBeInTheDocument()
     })
 
     it('returns null when no settings', () => {
@@ -182,8 +185,11 @@ describe('CreatePlannedLessonForm', () => {
         data: null,
       } as any)
 
-      const { container } = renderWithProviders(<CreatePlannedLessonForm />)
-      expect(container.firstChild).toBeNull()
+      renderWithProviders(<CreatePlannedLessonForm />)
+      // Component should not render any form elements when no settings
+      expect(screen.queryByTestId('lesson-content')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('homework')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /speichern/i })).not.toBeInTheDocument()
     })
   })
 

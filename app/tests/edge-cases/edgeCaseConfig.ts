@@ -22,6 +22,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 2,
       isMobile: true,
       hasTouch: true,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -44,6 +45,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 1,
       isMobile: false,
       hasTouch: false,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -66,6 +68,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 2,
       isMobile: true,
       hasTouch: true,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -88,6 +91,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 2,
       isMobile: true,
       hasTouch: true,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -110,6 +114,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 2.5,
       isMobile: true,
       hasTouch: true,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -132,6 +137,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 3,
       isMobile: true,
       hasTouch: true,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -154,6 +160,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 1,
       isMobile: false,
       hasTouch: false,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {
@@ -176,6 +183,7 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
       deviceScaleFactor: 1,
       isMobile: false,
       hasTouch: false,
+      headless: true,
       storageState: './tests/edge-cases/.auth/user.json',
     },
     expect: {

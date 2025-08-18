@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 
@@ -47,6 +47,20 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   const [date, setDate] = useState<Date>(lessonToUpdate?.date || new Date())
 
   const { updateLesson, isUpdating } = useUpdateLesson()
+
+  // Update state when lesson data becomes available
+  useEffect(() => {
+    if (lessonToUpdate) {
+      setLessonContent(lessonToUpdate.lessonContent || '')
+      setHomework(lessonToUpdate.homework || '')
+      setDate(lessonToUpdate.date || new Date())
+    } else {
+      // Reset to empty values when lesson is not found
+      setLessonContent('')
+      setHomework('')
+      setDate(new Date())
+    }
+  }, [lessonToUpdate])
 
   const handleLessonContent = (content: string) => {
     setLessonContent(content)

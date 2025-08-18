@@ -567,3 +567,25 @@ export function exportPerformanceData() {
   
   return JSON.stringify(data, null, 2)
 }
+
+/**
+ * Wrap a render function with performance timing
+ */
+export function withRenderTiming<T extends (...args: any[]) => any>(
+  renderFunction: T,
+  componentName: string
+): T {
+  return ((...args: any[]) => {
+    const timerName = `Render ${componentName}`
+    startTimer(timerName, { componentName })
+    
+    try {
+      const result = renderFunction(...args)
+      endTimer(timerName)
+      return result
+    } catch (error) {
+      endTimer(timerName)
+      throw error
+    }
+  }) as T
+}

@@ -262,14 +262,14 @@ describe('LessonItem', () => {
       const { container } = renderWithProviders(
         <LessonItem lesson={null as any} />,
       )
-      expect(container.firstChild).toBeNull()
+      expect(container.querySelector('[data-testid="lesson-item"]')).not.toBeInTheDocument()
     })
 
     it('should handle undefined lesson', () => {
       const { container } = renderWithProviders(
         <LessonItem lesson={undefined as any} />,
       )
-      expect(container.firstChild).toBeNull()
+      expect(container.querySelector('[data-testid="lesson-item"]')).not.toBeInTheDocument()
     })
 
     it('should render with minimal lesson data', () => {

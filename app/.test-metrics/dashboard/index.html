@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eleno Test Metrics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            font-weight: 500;
+            color: #64748b;
+        }
+        
+        .metric-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .status-good { color: #10b981; }
+        .status-warning { color: #f59e0b; }
+        .status-error { color: #ef4444; }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+        
+        .alert-high {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+        
+        .alert-medium {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+        
+        .alert-low {
+            background: #f0f9ff;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+        
+        .timestamp {
+            font-size: 0.875rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .no-data {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Test Metrics Dashboard</h1>
+        <p>Real-time monitoring of test health, coverage, and performance</p>
+    </div>
+    
+    <div class="container">
+        
+        
+        <div class="grid">
+            
+            <div class="card">
+                <h3>📈 Current Coverage</h3>
+                <div class="metric">
+                    <span class="metric-label">Statements</span>
+                    <span class="metric-value status-error">15.15%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Branches</span>
+                    <span class="metric-value status-error">52.55%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Functions</span>
+                    <span class="metric-value status-error">21.02%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Lines</span>
+                    <span class="metric-value status-error">15.15%</span>
+                </div>
+            </div>
+            
+            
+            
+            <div class="card">
+                <h3>🧪 Test Results</h3>
+                
+                <div class="metric">
+                    <span class="metric-label">Unit Tests (Total)</span>
+                    <span class="metric-value">15</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Unit Tests (Passed)</span>
+                    <span class="metric-value status-good">10</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Unit Tests (Failed)</span>
+                    <span class="metric-value status-error">5</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Unit Test Duration</span>
+                    <span class="metric-value">15s</span>
+                </div>
+                
+                
+                <div class="metric">
+                    <span class="metric-label">E2E Tests (Total)</span>
+                    <span class="metric-value">3</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">E2E Tests (Passed)</span>
+                    <span class="metric-value status-good">2</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">E2E Tests (Failed)</span>
+                    <span class="metric-value status-error">1</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">E2E Pass Rate</span>
+                    <span class="metric-value status-error">67%</span>
+                </div>
+                
+            </div>
+            
+            
+            
+            <div class="card">
+                <h3>🔨 Build Metrics</h3>
+                <div class="metric">
+                    <span class="metric-label">Bundle Size</span>
+                    <span class="metric-value">12.34 MB</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Last Build</span>
+                    <span class="metric-value">8/18/2025, 10:42:20 AM</span>
+                </div>
+                
+                <div class="metric">
+                    <span class="metric-label">Test Duration</span>
+                    <span class="metric-value">11s</span>
+                </div>
+                
+            </div>
+            
+            
+            
+            <div class="card">
+                <h3>📋 Environment Info</h3>
+                <div class="metric">
+                    <span class="metric-label">Branch</span>
+                    <span class="metric-value">dev</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Commit</span>
+                    <span class="metric-value">2c1c146b</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Author</span>
+                    <span class="metric-value">Brian Boy</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Node Version</span>
+                    <span class="metric-value">v24.5.0</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        <div class="card">
+            <h3>📈 Coverage Trends (Last 30 Runs)</h3>
+            <div class="chart-container">
+                <canvas id="coverageChart"></canvas>
+            </div>
+        </div>
+        
+        
+        
+        <div class="grid">
+            <div class="card">
+                <h3>🎭 Test Results Trends</h3>
+                <div class="chart-container">
+                    <canvas id="testResultsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📊 Pass Rate Trends</h3>
+                <div class="chart-container">
+                    <canvas id="passRateChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="grid">
+            <div class="card">
+                <h3>📦 Bundle Size Trends</h3>
+                <div class="chart-container">
+                    <canvas id="bundleSizeChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h3>⏱️ Test Duration Trends</h3>
+                <div class="chart-container">
+                    <canvas id="durationChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="timestamp">
+            Last updated: 8/18/2025, 10:42:26 AM
+             • Data from: 8/18/2025, 10:42:19 AM
+        </div>
+    </div>
+    
+    <script>
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        Chart.defaults.color = '#64748b';
+        
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#f1f5f9'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: '#f1f5f9'
+                    }
+                }
+            }
+        };
+        
+        
+        new Chart(document.getElementById('coverageChart'), {
+            type: 'line',
+            data: {"labels":["2025-08-18","2025-08-18","2025-08-18","2025-08-18","2025-08-18","2025-08-18"],"datasets":[{"label":"Statements","data":[15.15,15.15,15.15,15.15,15.15,15.15],"borderColor":"#10B981","backgroundColor":"#10B98120","fill":false},{"label":"Branches","data":[52.55,52.55,52.55,52.55,52.55,52.55],"borderColor":"#3B82F6","backgroundColor":"#3B82F620","fill":false},{"label":"Functions","data":[21.02,21.02,21.02,21.02,21.02,21.02],"borderColor":"#8B5CF6","backgroundColor":"#8B5CF620","fill":false},{"label":"Lines","data":[15.15,15.15,15.15,15.15,15.15,15.15],"borderColor":"#F59E0B","backgroundColor":"#F59E0B20","fill":false}]},
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        ...chartOptions.scales.y,
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        
+        
+        new Chart(document.getElementById('testResultsChart'), {
+            type: 'bar',
+            data: {"labels":["2025-08-18","2025-08-18","2025-08-18","2025-08-18"],"datasets":[{"label":"Unit Tests (Passed)","data":[0,0,10,10],"backgroundColor":"#10B981","stack":"unit"},{"label":"Unit Tests (Failed)","data":[0,0,5,5],"backgroundColor":"#EF4444","stack":"unit"},{"label":"E2E Tests (Passed)","data":[0,0,0,2],"backgroundColor":"#3B82F6","stack":"e2e"},{"label":"E2E Tests (Failed)","data":[0,0,0,1],"backgroundColor":"#DC2626","stack":"e2e"},{"label":"E2E Tests (Flaky)","data":[0,0,0,0],"backgroundColor":"#F59E0B","stack":"e2e"}],"passRateData":{"labels":["2025-08-18","2025-08-18","2025-08-18","2025-08-18"],"data":[100,100,67,67],"borderColor":"#6366F1","backgroundColor":"#6366F120","fill":true}},
+            options: chartOptions
+        });
+        
+        new Chart(document.getElementById('passRateChart'), {
+            type: 'line',
+            data: {
+                labels: ["2025-08-18","2025-08-18","2025-08-18","2025-08-18"],
+                datasets: [{
+                    label: 'Pass Rate (%)',
+                    data: [100,100,67,67],
+                    borderColor: '#6366F1',
+                    backgroundColor: '#6366F120',
+                    fill: true
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        ...chartOptions.scales.y,
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        
+        
+        new Chart(document.getElementById('bundleSizeChart'), {
+            type: 'line',
+            data: {"labels":["2025-08-18","2025-08-18"],"datasets":[{"label":"Build Size (MB)","data":[12.33984375,12.33984375],"borderColor":"#EC4899","backgroundColor":"#EC489920","fill":true}]},
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        ...chartOptions.scales.y,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(2) + ' MB';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        
+        
+        new Chart(document.getElementById('durationChart'), {
+            type: 'line',
+            data: {"labels":["2025-08-18"],"datasets":[{"label":"Test Duration (seconds)","data":[10.855],"borderColor":"#14B8A6","backgroundColor":"#14B8A620","fill":true}]},
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        ...chartOptions.scales.y,
+                        ticks: {
+                            callback: function(value) {
+                                return value + 's';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>

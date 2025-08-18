@@ -331,9 +331,10 @@ describe('Lesson Planning Workflow Integration', () => {
         <PreparedLessonItem currentLesson={plannedLesson} />,
       )
 
-      // Verify highlighting is applied
-      const itemContainer = container.firstChild
-      expect(itemContainer).toHaveClass('border-primary', 'shadow-sm')
+      // Verify highlighting is applied - find the lesson item div
+      const lessonItem = container.querySelector('.border-primary')
+      expect(lessonItem).toBeInTheDocument()
+      expect(lessonItem).toHaveClass('border-primary', 'shadow-sm')
     })
 
     it('should filter and sort planned lessons correctly for current holder', () => {

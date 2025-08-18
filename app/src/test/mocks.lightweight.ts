@@ -465,6 +465,7 @@ export function setupLightweightMocks() {
     useForm: () => lightweightFormReturn,
     Controller: ({ render }: any) =>
       render({ field: {}, fieldState: {}, formState: {} }),
+    FormProvider: ({ children }: { children: React.ReactNode }) => children,
   }))
 }
 

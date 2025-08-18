@@ -1,0 +1,389 @@
+# Deployment Status Tracking and Monitoring
+# Tracks deployment health, creates status badges, and provides monitoring dashboard
+
+name: 📊 Deployment Monitoring
+
+on:
+  schedule:
+    # Run every 15 minutes to monitor deployment status
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      force_check:
+        description: 'Force immediate health check'
+        required: false
+        type: boolean
+        default: true
+      environment:
+        description: 'Specific environment to check'
+        required: false
+        type: choice
+        options:
+          - 'all'
+          - 'staging'
+          - 'production'
+        default: 'all'
+
+env:
+  MONITORING_TIMEOUT: 30
+
+jobs:
+  # Check application health across all environments
+  health-monitoring:
+    name: 🏥 Health Monitoring
+    runs-on: ubuntu-latest
+    outputs:
+      app-staging-status: ${{ steps.check-app-staging.outputs.status }}
+      app-production-status: ${{ steps.check-app-production.outputs.status }}
+      api-staging-status: ${{ steps.check-api-staging.outputs.status }}
+      api-production-status: ${{ steps.check-api-production.outputs.status }}
+      overall-health: ${{ steps.overall-health.outputs.status }}
+    steps:
+      - name: 🏥 Check App Staging Health
+        id: check-app-staging
+        if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'staging' || !github.event.inputs.environment
+        run: |
+          echo "Checking staging application health..."
+          
+          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://staging.eleno.app" > /dev/null; then
+            echo "status=healthy" >> $GITHUB_OUTPUT
+            echo "✅ Staging App: Healthy"
+          else
+            echo "status=unhealthy" >> $GITHUB_OUTPUT
+            echo "❌ Staging App: Unhealthy"
+          fi
+
+      - name: 🏥 Check App Production Health
+        id: check-app-production
+        if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'production' || !github.event.inputs.environment
+        run: |
+          echo "Checking production application health..."
+          
+          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://eleno.app" > /dev/null; then
+            echo "status=healthy" >> $GITHUB_OUTPUT
+            echo "✅ Production App: Healthy"
+          else
+            echo "status=unhealthy" >> $GITHUB_OUTPUT
+            echo "❌ Production App: Unhealthy"
+          fi
+
+      - name: 🏥 Check API Staging Health
+        id: check-api-staging
+        if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'staging' || !github.event.inputs.environment
+        run: |
+          echo "Checking staging API health..."
+          
+          # Try multiple endpoints for API health
+          ENDPOINTS=("https://api-staging.eleno.app/health" "https://api-staging.eleno.app")
+          API_HEALTHY=false
+          
+          for endpoint in "${ENDPOINTS[@]}"; do
+            if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "$endpoint" > /dev/null; then
+              API_HEALTHY=true
+              break
+            fi
+          done
+          
+          if [ "$API_HEALTHY" = true ]; then
+            echo "status=healthy" >> $GITHUB_OUTPUT
+            echo "✅ Staging API: Healthy"
+          else
+            echo "status=unhealthy" >> $GITHUB_OUTPUT
+            echo "❌ Staging API: Unhealthy"
+          fi
+
+      - name: 🏥 Check API Production Health
+        id: check-api-production
+        if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'production' || !github.event.inputs.environment
+        run: |
+          echo "Checking production API health..."
+          
+          # Try multiple endpoints for API health
+          ENDPOINTS=("https://api.eleno.app/health" "https://api.eleno.app")
+          API_HEALTHY=false
+          
+          for endpoint in "${ENDPOINTS[@]}"; do
+            if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "$endpoint" > /dev/null; then
+              API_HEALTHY=true
+              break
+            fi
+          done
+          
+          if [ "$API_HEALTHY" = true ]; then
+            echo "status=healthy" >> $GITHUB_OUTPUT
+            echo "✅ Production API: Healthy"
+          else
+            echo "status=unhealthy" >> $GITHUB_OUTPUT
+            echo "❌ Production API: Unhealthy"
+          fi
+
+      - name: 📊 Calculate Overall Health
+        id: overall-health
+        run: |
+          UNHEALTHY_COUNT=0
+          TOTAL_SERVICES=0
+          
+          # Count unhealthy services
+          if [ "${{ steps.check-app-staging.outputs.status }}" = "unhealthy" ]; then
+            UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
+          fi
+          TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
+          
+          if [ "${{ steps.check-app-production.outputs.status }}" = "unhealthy" ]; then
+            UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
+          fi
+          TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
+          
+          if [ "${{ steps.check-api-staging.outputs.status }}" = "unhealthy" ]; then
+            UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
+          fi
+          TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
+          
+          if [ "${{ steps.check-api-production.outputs.status }}" = "unhealthy" ]; then
+            UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
+          fi
+          TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
+          
+          # Determine overall status
+          if [ $UNHEALTHY_COUNT -eq 0 ]; then
+            echo "status=healthy" >> $GITHUB_OUTPUT
+            echo "🎉 All services healthy"
+          elif [ $UNHEALTHY_COUNT -lt $TOTAL_SERVICES ]; then
+            echo "status=degraded" >> $GITHUB_OUTPUT
+            echo "⚠️ Some services unhealthy ($UNHEALTHY_COUNT/$TOTAL_SERVICES)"
+          else
+            echo "status=critical" >> $GITHUB_OUTPUT
+            echo "🚨 All services unhealthy"
+          fi
+
+  # Generate status badges and dashboard
+  status-dashboard:
+    name: 📊 Status Dashboard
+    runs-on: ubuntu-latest
+    needs: health-monitoring
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📊 Generate Health Dashboard
+        run: |
+          echo "## 🏥 Deployment Health Dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Last Updated**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🌐 Application Status" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          
+          # App Staging Status
+          if [ "${{ needs.health-monitoring.outputs.app-staging-status }}" = "healthy" ]; then
+            echo "| Staging App | ✅ Healthy | [Visit](https://staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Staging App | ❌ Unhealthy | [Check](https://staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # App Production Status
+          if [ "${{ needs.health-monitoring.outputs.app-production-status }}" = "healthy" ]; then
+            echo "| Production App | ✅ Healthy | [Visit](https://eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Production App | ❌ Unhealthy | [Check](https://eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔌 API Status" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          
+          # API Staging Status
+          if [ "${{ needs.health-monitoring.outputs.api-staging-status }}" = "healthy" ]; then
+            echo "| Staging API | ✅ Healthy | [Check](https://api-staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Staging API | ❌ Unhealthy | [Check](https://api-staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # API Production Status
+          if [ "${{ needs.health-monitoring.outputs.api-production-status }}" = "healthy" ]; then
+            echo "| Production API | ✅ Healthy | [Check](https://api.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Production API | ❌ Unhealthy | [Check](https://api.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📈 Overall Health" >> $GITHUB_STEP_SUMMARY
+          
+          case "${{ needs.health-monitoring.outputs.overall-health }}" in
+            healthy)
+              echo "🎉 **ALL SYSTEMS OPERATIONAL** - All services are healthy" >> $GITHUB_STEP_SUMMARY
+              ;;
+            degraded)
+              echo "⚠️ **DEGRADED PERFORMANCE** - Some services are experiencing issues" >> $GITHUB_STEP_SUMMARY
+              ;;
+            critical)
+              echo "🚨 **MAJOR OUTAGE** - Critical services are down" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac
+
+      - name: 📊 Generate Status Badges
+        run: |
+          mkdir -p badges
+          
+          # Function to generate badge JSON
+          generate_badge() {
+            local label="$1"
+            local message="$2"
+            local color="$3"
+            
+            cat > "badges/${label,,}-status.json" << EOF
+          {
+            "schemaVersion": 1,
+            "label": "$label",
+            "message": "$message",
+            "color": "$color"
+          }
+          EOF
+          }
+          
+          # Generate badges for each service
+          if [ "${{ needs.health-monitoring.outputs.app-staging-status }}" = "healthy" ]; then
+            generate_badge "App Staging" "healthy" "brightgreen"
+          else
+            generate_badge "App Staging" "unhealthy" "red"
+          fi
+          
+          if [ "${{ needs.health-monitoring.outputs.app-production-status }}" = "healthy" ]; then
+            generate_badge "App Production" "healthy" "brightgreen"
+          else
+            generate_badge "App Production" "unhealthy" "red"
+          fi
+          
+          if [ "${{ needs.health-monitoring.outputs.api-staging-status }}" = "healthy" ]; then
+            generate_badge "API Staging" "healthy" "brightgreen"
+          else
+            generate_badge "API Staging" "unhealthy" "red"
+          fi
+          
+          if [ "${{ needs.health-monitoring.outputs.api-production-status }}" = "healthy" ]; then
+            generate_badge "API Production" "healthy" "brightgreen"
+          else
+            generate_badge "API Production" "unhealthy" "red"
+          fi
+          
+          # Overall health badge
+          case "${{ needs.health-monitoring.outputs.overall-health }}" in
+            healthy)
+              generate_badge "Overall Status" "operational" "brightgreen"
+              ;;
+            degraded)
+              generate_badge "Overall Status" "degraded" "yellow"
+              ;;
+            critical)
+              generate_badge "Overall Status" "critical" "red"
+              ;;
+          esac
+
+      - name: 📤 Upload status badges
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-status-badges-${{ github.run_id }}
+          path: badges/
+          retention-days: 7
+
+  # Alert on critical issues
+  alert-on-issues:
+    name: 🚨 Critical Alerts
+    runs-on: ubuntu-latest
+    needs: health-monitoring
+    if: needs.health-monitoring.outputs.overall-health == 'critical'
+    steps:
+      - name: 🚨 Critical System Alert
+        run: |
+          echo "## 🚨 CRITICAL SYSTEM ALERT" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**⚠️ IMMEDIATE ACTION REQUIRED**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Multiple critical services are down or unresponsive:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Service Status:**" >> $GITHUB_STEP_SUMMARY
+          echo "- App Staging: ${{ needs.health-monitoring.outputs.app-staging-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- App Production: ${{ needs.health-monitoring.outputs.app-production-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- API Staging: ${{ needs.health-monitoring.outputs.api-staging-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- API Production: ${{ needs.health-monitoring.outputs.api-production-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Immediate Actions:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Alert DevOps team immediately" >> $GITHUB_STEP_SUMMARY
+          echo "2. Check server status and logs" >> $GITHUB_STEP_SUMMARY
+          echo "3. Verify network connectivity" >> $GITHUB_STEP_SUMMARY
+          echo "4. Consider emergency rollback if recent deployment" >> $GITHUB_STEP_SUMMARY
+          echo "5. Monitor user impact and communications" >> $GITHUB_STEP_SUMMARY
+          
+          # This will fail the workflow to trigger notifications
+          exit 1
+
+  # Deployment history tracking
+  deployment-history:
+    name: 📝 Deployment History
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📝 Check Recent Deployments
+        run: |
+          echo "## 📝 Recent Deployment History" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Last 5 Deployments per Environment:**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Use GitHub API to get recent workflow runs
+          curl -s -H "Authorization: token ${{ github.token }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/repos/${{ github.repository }}/actions/runs?per_page=50" | \
+               jq -r '.workflow_runs[] | 
+                      select(.name | contains("Deploy")) | 
+                      select(.status == "completed") | 
+                      "\(.name) | \(.conclusion) | \(.created_at) | \(.head_commit.message[:50])..."' | \
+               head -10 | \
+               while IFS='|' read -r workflow status created message; do
+                 if [ "$status" = " success " ]; then
+                   echo "- ✅ $workflow - $(date -d\"$created\" '+%Y-%m-%d %H:%M') - $message" >> $GITHUB_STEP_SUMMARY
+                 else
+                   echo "- ❌ $workflow - $(date -d\"$created\" '+%Y-%m-%d %H:%M') - $message" >> $GITHUB_STEP_SUMMARY
+                 fi
+               done
+
+      - name: 📊 Deployment Metrics
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Deployment Metrics (Last 30 Days)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Get deployment success rate from the last 30 days
+          THIRTY_DAYS_AGO=$(date -d '30 days ago' --iso-8601)
+          
+          curl -s -H "Authorization: token ${{ github.token }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/repos/${{ github.repository }}/actions/runs?created=>$THIRTY_DAYS_AGO" | \
+               jq -r --arg cutoff "$THIRTY_DAYS_AGO" '
+                 .workflow_runs[] | 
+                 select(.name | contains("Deploy")) | 
+                 select(.status == "completed") |
+                 select(.created_at >= $cutoff) |
+                 .conclusion' | \
+               awk '
+                 BEGIN { total=0; success=0 }
+                 { total++ }
+                 /success/ { success++ }
+                 END { 
+                   if (total > 0) {
+                     rate = (success/total)*100
+                     printf "- **Total Deployments**: %d\n", total
+                     printf "- **Successful Deployments**: %d\n", success
+                     printf "- **Success Rate**: %.1f%%\n", rate
+                     if (rate >= 95) printf "- **Status**: 🎉 Excellent\n"
+                     else if (rate >= 80) printf "- **Status**: ✅ Good\n"
+                     else if (rate >= 60) printf "- **Status**: ⚠️ Needs Attention\n"
+                     else printf "- **Status**: 🚨 Critical\n"
+                   } else {
+                     printf "- **No deployments in the last 30 days**\n"
+                   }
+                 }' >> $GITHUB_STEP_SUMMARY

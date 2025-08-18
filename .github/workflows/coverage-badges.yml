@@ -1,0 +1,184 @@
+name: 🎨 Coverage Badges
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  update-badges:
+    name: 🎨 Update Coverage Badges
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🧪 Run tests with coverage
+        run: npm run test:cov
+
+      - name: 🎯 Check coverage thresholds
+        id: coverage-check
+        run: node scripts/check-coverage-thresholds.js
+        continue-on-error: true
+
+      - name: 🎨 Generate coverage badges
+        run: node scripts/generate-coverage-badges.js
+
+      - name: 📤 Upload badge artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badges-${{ github.run_id }}
+          path: |
+            app/coverage/badges.json
+            app/coverage/badges.md
+            app/coverage/coverage-summary.json
+          retention-days: 90
+
+      - name: 📋 Badge Generation Summary
+        run: |
+          echo "## 🎨 Coverage Badges Updated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f coverage/badges.json ]; then
+            # Parse badge data
+            OVERALL_COVERAGE=$(cat coverage/badges.json | jq -r '.coverage.overall.percentage')
+            QUALITY_GATE=$(cat coverage/badges.json | jq -r '.qualityGate.status')
+            COMPLIANCE=$(cat coverage/badges.json | jq -r '.coverage.compliance.passingMetrics')
+            TOTAL_METRICS=$(cat coverage/badges.json | jq -r '.coverage.compliance.totalMetrics')
+            
+            echo "**📊 Badge Status:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Overall Coverage: ${OVERALL_COVERAGE}%" >> $GITHUB_STEP_SUMMARY
+            echo "- Quality Gate: ${QUALITY_GATE}" >> $GITHUB_STEP_SUMMARY
+            echo "- Threshold Compliance: ${COMPLIANCE}/${TOTAL_METRICS}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Include badge markdown
+            if [ -f coverage/badges.md ]; then
+              cat coverage/badges.md >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "⚠️ Badge generation failed - coverage data not available" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- [Badge Data (JSON)](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Badge Markdown](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+
+      - name: 💾 Commit badge updates (if needed)
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Copy badges to docs directory for easy access
+          mkdir -p ../docs/badges
+          if [ -f coverage/badges.json ]; then
+            cp coverage/badges.json ../docs/badges/
+            cp coverage/badges.md ../docs/badges/
+            
+            # Check if there are any changes
+            if ! git diff --quiet ../docs/badges/; then
+              git add ../docs/badges/
+              git commit -m "docs: update coverage badges [skip ci]
+
+🤖 Automated badge update from CI
+- Overall coverage: $(cat coverage/badges.json | jq -r '.coverage.overall.percentage')%
+- Quality gate: $(cat coverage/badges.json | jq -r '.qualityGate.status')
+- Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+              
+              git push origin main
+              echo "✅ Coverage badges updated and committed" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "ℹ️ No badge changes detected" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+  # Job to create README badges (manual trigger for now)
+  readme-badges:
+    name: 📝 README Badge Examples
+    runs-on: ubuntu-latest
+    needs: update-badges
+    if: github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download badge artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-badges-${{ github.run_id }}
+          path: ./app/coverage
+
+      - name: 📝 Generate README badge examples
+        run: |
+          if [ -f coverage/badges.json ]; then
+            echo "# Coverage Badge Examples" > coverage-badge-examples.md
+            echo "" >> coverage-badge-examples.md
+            echo "Add these to your README.md:" >> coverage-badge-examples.md
+            echo "" >> coverage-badge-examples.md
+            
+            # Extract badge URLs from JSON
+            OVERALL_URL=$(cat coverage/badges.json | jq -r '.coverage.overall.url')
+            QUALITY_GATE_URL=$(cat coverage/badges.json | jq -r '.qualityGate.url')
+            COMPLIANCE_URL=$(cat coverage/badges.json | jq -r '.coverage.compliance.url')
+            
+            echo "\`\`\`markdown" >> coverage-badge-examples.md
+            echo "[![Coverage]($OVERALL_URL)](https://github.com/${{ github.repository }}/actions)" >> coverage-badge-examples.md
+            echo "[![Quality Gate]($QUALITY_GATE_URL)](https://github.com/${{ github.repository }}/actions)" >> coverage-badge-examples.md
+            echo "[![Threshold Compliance]($COMPLIANCE_URL)](https://github.com/${{ github.repository }}/actions)" >> coverage-badge-examples.md
+            echo "\`\`\`" >> coverage-badge-examples.md
+            echo "" >> coverage-badge-examples.md
+            
+            echo "### Live Badges:" >> coverage-badge-examples.md
+            echo "" >> coverage-badge-examples.md
+            echo "![Coverage]($OVERALL_URL)" >> coverage-badge-examples.md
+            echo "![Quality Gate]($QUALITY_GATE_URL)" >> coverage-badge-examples.md  
+            echo "![Threshold Compliance]($COMPLIANCE_URL)" >> coverage-badge-examples.md
+          fi
+
+      - name: 📤 Upload README examples
+        uses: actions/upload-artifact@v4
+        with:
+          name: readme-badge-examples-${{ github.run_id }}
+          path: app/coverage-badge-examples.md
+          retention-days: 30
+
+      - name: 📋 README Badge Summary
+        run: |
+          echo "## 📝 README Badge Examples Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Copy the markdown from the artifact to add badges to your README." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Quick Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [Badge Examples](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY

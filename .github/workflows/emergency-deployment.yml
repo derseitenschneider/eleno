@@ -1,0 +1,304 @@
+# Emergency "Break Glass" Deployment Workflow
+# Use ONLY in critical situations when normal deployments are blocked
+# Requires manual approval and provides audit trail
+
+name: 🚨 Emergency Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: 'Select deployment target'
+        required: true
+        type: choice
+        options:
+          - 'app-staging'
+          - 'app-production'
+          - 'api-staging'
+          - 'api-production'
+      emergency_reason:
+        description: 'Emergency deployment reason (required for audit)'
+        required: true
+        type: string
+      skip_tests:
+        description: 'Skip tests (ONLY for critical security fixes)'
+        required: true
+        type: boolean
+        default: false
+      rollback_commit:
+        description: 'Specific commit to deploy (leave empty for current HEAD)'
+        required: false
+        type: string
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # Approval and validation
+  emergency-approval:
+    name: 🚨 Emergency Approval
+    runs-on: ubuntu-latest
+    environment:
+      name: emergency-deployment
+      # This environment should be configured with protection rules requiring manual approval
+    outputs:
+      approved: ${{ steps.approval.outputs.approved }}
+      deployment-target: ${{ github.event.inputs.deployment_target }}
+      skip-tests: ${{ github.event.inputs.skip_tests }}
+      commit-to-deploy: ${{ steps.commit-validation.outputs.commit-to-deploy }}
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Validate emergency deployment
+        id: approval
+        run: |
+          echo "## 🚨 EMERGENCY DEPLOYMENT REQUEST" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**⚠️ This is an emergency deployment that bypasses normal safety checks**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Request Details:**" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target**: ${{ github.event.inputs.deployment_target }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Reason**: ${{ github.event.inputs.emergency_reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Skip Tests**: ${{ github.event.inputs.skip_tests }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Requested by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ github.event.inputs.rollback_commit }}" != "" ]; then
+            echo "- **Target Commit**: ${{ github.event.inputs.rollback_commit }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Target Commit**: Current HEAD (${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**🔒 Manual approval required in GitHub Environment protection rules**" >> $GITHUB_STEP_SUMMARY
+          echo "approved=true" >> $GITHUB_OUTPUT
+
+      - name: 🔍 Validate commit to deploy
+        id: commit-validation
+        run: |
+          if [ "${{ github.event.inputs.rollback_commit }}" != "" ]; then
+            # Validate the specified commit exists
+            if git cat-file -e "${{ github.event.inputs.rollback_commit }}^{commit}"; then
+              echo "commit-to-deploy=${{ github.event.inputs.rollback_commit }}" >> $GITHUB_OUTPUT
+              echo "✅ Commit ${{ github.event.inputs.rollback_commit }} validated" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "❌ Invalid commit: ${{ github.event.inputs.rollback_commit }}" >> $GITHUB_STEP_SUMMARY
+              exit 1
+            fi
+          else
+            echo "commit-to-deploy=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "✅ Using current HEAD: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Optional tests (can be skipped in emergency)
+  emergency-tests:
+    name: 🧪 Emergency Tests
+    runs-on: ubuntu-latest
+    needs: emergency-approval
+    if: needs.emergency-approval.outputs.skip-tests == 'false'
+    steps:
+      - name: 🚚 Checkout specific commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.emergency-approval.outputs.commit-to-deploy }}
+
+      - name: 🧪 Run critical tests only
+        run: |
+          echo "## 🧪 Emergency Test Execution" >> $GITHUB_STEP_SUMMARY
+          echo "Running critical tests for emergency deployment..." >> $GITHUB_STEP_SUMMARY
+          
+          # Determine which tests to run based on target
+          case "${{ needs.emergency-approval.outputs.deployment-target }}" in
+            app-*)
+              echo "### Frontend Tests" >> $GITHUB_STEP_SUMMARY
+              cd app
+              npm ci
+              npm run typecheck
+              npm run test
+              echo "✅ Frontend tests passed" >> $GITHUB_STEP_SUMMARY
+              ;;
+            api-*)
+              echo "### Backend Tests" >> $GITHUB_STEP_SUMMARY
+              cd api
+              composer install --optimize-autoloader
+              composer test
+              echo "✅ Backend tests passed" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac
+
+  # Emergency deployment execution
+  emergency-deploy-app:
+    name: 🚨 Emergency App Deployment
+    runs-on: ubuntu-latest
+    needs: [emergency-approval, emergency-tests]
+    if: always() && needs.emergency-approval.outputs.approved == 'true' && startsWith(needs.emergency-approval.outputs.deployment-target, 'app-')
+    environment:
+      name: ${{ needs.emergency-approval.outputs.deployment-target }}
+    env:
+      VITE_API_URL: ${{ secrets.API_URL }}
+      VITE_APP_URL: ${{ secrets.APP_URL }}
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+      VITE_STRIPE_PRICE_ID_MONTHLY: ${{ secrets.STRIPE_PRICE_ID_MONTHLY }}
+      VITE_STRIPE_PRICE_ID_YEARLY: ${{ secrets.STRIPE_PRICE_ID_YEARLY }}
+      VITE_STRIPE_PRICE_ID_LIFETIME: ${{ secrets.STRIPE_PRICE_ID_LIFETIME }}
+    steps:
+      - name: 🚚 Checkout specific commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.emergency-approval.outputs.commit-to-deploy }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: |
+          cd app
+          npm ci
+
+      - name: 🔨 Build application
+        run: |
+          cd app
+          if [[ "${{ needs.emergency-approval.outputs.deployment-target }}" == *"production"* ]]; then
+            npm run build
+          else
+            npm run build:staging
+          fi
+
+      - name: 📂 Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ contains(needs.emergency-approval.outputs.deployment-target, 'production') && secrets.FTP_SERVER || secrets.FTP_APP_SERVER }}
+          username: ${{ contains(needs.emergency-approval.outputs.deployment-target, 'production') && secrets.FTP_USERNAME || secrets.FTP_APP_USERNAME }}
+          password: ${{ contains(needs.emergency-approval.outputs.deployment-target, 'production') && secrets.FTP_PASSWORD || secrets.FTP_APP_PASSWORD }}
+          local-dir: app/dist/
+
+      - name: 📊 Emergency deployment summary
+        run: |
+          echo "## 🚨 EMERGENCY DEPLOYMENT COMPLETED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Target**: ${{ needs.emergency-approval.outputs.deployment-target }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: ${{ needs.emergency-approval.outputs.commit-to-deploy }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Reason**: ${{ github.event.inputs.emergency_reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Completion time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+
+  emergency-deploy-api:
+    name: 🚨 Emergency API Deployment
+    runs-on: ubuntu-latest
+    needs: [emergency-approval, emergency-tests]
+    if: always() && needs.emergency-approval.outputs.approved == 'true' && startsWith(needs.emergency-approval.outputs.deployment-target, 'api-')
+    environment:
+      name: ${{ needs.emergency-approval.outputs.deployment-target }}
+    steps:
+      - name: 🚚 Checkout specific commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.emergency-approval.outputs.commit-to-deploy }}
+
+      - name: 📦 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, intl
+
+      - name: 📥 Install Composer dependencies
+        run: |
+          cd api
+          composer install --no-dev --optimize-autoloader
+
+      - name: 🔧 Create .env file
+        run: |
+          cd api
+          echo "APP_BASE_URL=${{ secrets.APP_BASE_URL }}" >> .env
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
+          echo "SUPABASE_SERVICEROLE_KEY=${{ secrets.SUPABASE_SERVICEROLE_KEY }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+          echo "SUPABASE_HOST=${{ secrets.SUPABASE_HOST }}" >> .env
+          echo "SUPABASE_PORT=${{ secrets.SUPABASE_PORT }}" >> .env
+          echo "SUPABASE_DBNAME=${{ secrets.SUPABASE_DBNAME }}" >> .env
+          echo "SUPABASE_USER=${{ secrets.SUPABASE_USER }}" >> .env
+          echo "SUPABASE_PASSWORD=${{ secrets.SUPABASE_PASSWORD }}" >> .env
+          
+          if [[ "${{ needs.emergency-approval.outputs.deployment-target }}" == *"production"* ]]; then
+            echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
+            echo "STRIPE_SIGNATURE=${{ secrets.STRIPE_SIGNATURE }}" >> .env
+          else
+            echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_TEST_SECRET_KEY }}" >> .env
+            echo "STRIPE_SIGNATURE=${{ secrets.STRIPE_TEST_SIGNATURE }}" >> .env
+          fi
+          
+          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" >> .env
+          echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+          echo "FLUENTCRM_API_URL=${{ secrets.FLUENTCRM_API_URL }}" >> .env
+          echo "FLUENTCRM_USERNAME=${{ secrets.FLUENTCRM_USERNAME }}" >> .env
+          echo "FLUENTCRM_PASSWORD=\"${{ secrets.FLUENTCRM_PASSWORD }}\"" >> .env
+          echo "FLUENTCRM_INTERNAL_API_KEY=${{ secrets.FLUENTCRM_INTERNAL_API_KEY }}" >> .env
+          echo "PERSPECTIVE_WEBHOOK_TOKEN=${{ secrets.PERSPECTIVE_WEBHOOK_TOKEN }}" >> .env
+
+      - name: 📂 Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_API_SERVER }}
+          username: ${{ secrets.FTP_API_USERNAME }}
+          password: ${{ secrets.FTP_API_PASSWORD }}
+          local-dir: ./api/
+
+      - name: 📊 Emergency deployment summary
+        run: |
+          echo "## 🚨 EMERGENCY API DEPLOYMENT COMPLETED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Target**: ${{ needs.emergency-approval.outputs.deployment-target }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: ${{ needs.emergency-approval.outputs.commit-to-deploy }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Reason**: ${{ github.event.inputs.emergency_reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Completion time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+
+  # Audit and follow-up
+  emergency-audit:
+    name: 📋 Emergency Deployment Audit
+    runs-on: ubuntu-latest
+    needs: [emergency-approval, emergency-deploy-app, emergency-deploy-api]
+    if: always() && needs.emergency-approval.outputs.approved == 'true'
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📋 Generate audit log
+        run: |
+          echo "## 📋 Emergency Deployment Audit Log" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Emergency deployment has been completed. This audit log serves as a record.**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment Details" >> $GITHUB_STEP_SUMMARY
+          echo "- **Workflow Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target**: ${{ needs.emergency-approval.outputs.deployment-target }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ needs.emergency-approval.outputs.commit-to-deploy }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Reason**: ${{ github.event.inputs.emergency_reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tests Skipped**: ${{ github.event.inputs.skip_tests }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Initiated by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Start time**: ${{ github.event.created_at }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Completion time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Required Follow-up Actions" >> $GITHUB_STEP_SUMMARY
+          echo "1. **Monitor application health immediately**" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Check error rates and user impact**" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Document lessons learned**" >> $GITHUB_STEP_SUMMARY
+          echo "4. **Plan proper fix and testing for next regular deployment**" >> $GITHUB_STEP_SUMMARY
+          echo "5. **Review emergency procedures and improve if needed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Emergency Contact Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **DevOps Team**: Alert immediately if issues arise" >> $GITHUB_STEP_SUMMARY
+          echo "- **Product Manager**: Notify of emergency deployment" >> $GITHUB_STEP_SUMMARY
+          echo "- **QA Team**: Prepare for immediate validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**⚠️ This emergency deployment should be followed by proper testing and a regular deployment ASAP.**" >> $GITHUB_STEP_SUMMARY

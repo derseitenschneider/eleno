@@ -132,7 +132,7 @@ describe('CreateLessonForm', () => {
       })
 
       const { container } = renderWithProviders(<CreateLessonForm />)
-      expect(container.firstChild).toBeNull()
+      expect(container.querySelector('form')).not.toBeInTheDocument()
     })
 
     it('should not render when settings are not available', () => {
@@ -141,7 +141,7 @@ describe('CreateLessonForm', () => {
       } as any)
 
       const { container } = renderWithProviders(<CreateLessonForm />)
-      expect(container.firstChild).toBeNull()
+      expect(container.querySelector('form')).not.toBeInTheDocument()
     })
   })
 

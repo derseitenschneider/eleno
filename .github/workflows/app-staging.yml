@@ -1,4 +1,5 @@
-# Deploys the application  from [dev] to staging.
+# Deploys the application from [dev] to staging.
+# Deployment is blocked if tests fail.
 name: 📱 [STAGING] Deploy application on push dev
 on:
   push:
@@ -6,10 +7,106 @@ on:
       - dev
     paths:
       - "app/**"
+  workflow_run:
+    workflows: ["🧪 Comprehensive Test Suite"]
+    types:
+      - completed
+    branches:
+      - dev
+
 jobs:
+  # Check if tests passed for this commit
+  check-tests:
+    name: 🧪 Verify Tests Passed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    outputs:
+      tests-passed: ${{ steps.check-status.outputs.tests-passed }}
+      deployment-allowed: ${{ steps.check-status.outputs.deployment-allowed }}
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Check test status
+        id: check-status
+        run: |
+          # If triggered by push, wait for tests to complete
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "🔄 Push event detected - will check test status"
+            echo "tests-passed=pending" >> $GITHUB_OUTPUT
+            echo "deployment-allowed=false" >> $GITHUB_OUTPUT
+          else
+            # Triggered by workflow_run completion
+            if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
+              echo "✅ Tests passed for commit ${{ github.event.workflow_run.head_sha }}"
+              echo "tests-passed=true" >> $GITHUB_OUTPUT
+              echo "deployment-allowed=true" >> $GITHUB_OUTPUT
+            else
+              echo "❌ Tests failed for commit ${{ github.event.workflow_run.head_sha }}"
+              echo "tests-passed=false" >> $GITHUB_OUTPUT
+              echo "deployment-allowed=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+  # Wait for tests if triggered by push
+  wait-for-tests:
+    name: ⏳ Wait for Tests
+    runs-on: ubuntu-latest
+    needs: check-tests
+    if: needs.check-tests.outputs.tests-passed == 'pending'
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⏳ Wait for test completion
+        id: wait-tests
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const maxWaitTime = 30 * 60 * 1000; // 30 minutes
+            const pollInterval = 30 * 1000; // 30 seconds
+            const startTime = Date.now();
+            
+            console.log('🔄 Waiting for test workflow to complete...');
+            
+            while (Date.now() - startTime < maxWaitTime) {
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'test.yml',
+                head_sha: context.sha,
+                per_page: 1
+              });
+              
+              if (runs.workflow_runs.length > 0) {
+                const run = runs.workflow_runs[0];
+                console.log(`📊 Test workflow status: ${run.status} (${run.conclusion})`);
+                
+                if (run.status === 'completed') {
+                  if (run.conclusion === 'success') {
+                    console.log('✅ Tests passed! Deployment can proceed.');
+                    core.setOutput('tests-passed', 'true');
+                    return;
+                  } else {
+                    console.log('❌ Tests failed! Blocking deployment.');
+                    core.setFailed(`Tests failed with conclusion: ${run.conclusion}`);
+                    return;
+                  }
+                }
+              }
+              
+              console.log('⏳ Tests still running, waiting...');
+              await new Promise(resolve => setTimeout(resolve, pollInterval));
+            }
+            
+            console.log('⏰ Timeout waiting for tests');
+            core.setFailed('Timeout waiting for test completion');
+
   web-deploy:
     name: 🎉 Deploy Staging App
     runs-on: ubuntu-latest
+    needs: [check-tests, wait-for-tests]
+    if: always() && (needs.check-tests.outputs.deployment-allowed == 'true' || needs.wait-for-tests.outputs.tests-passed == 'true')
     environment:
       name: app.staging
     env:
@@ -46,9 +143,90 @@ jobs:
         run: find app/dist/ -print
 
       - name: 📂 Sync files
+        id: deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.FTP_APP_SERVER }}
           username: ${{ secrets.FTP_APP_USERNAME }}
           password: ${{ secrets.FTP_APP_PASSWORD }}
           local-dir: app/dist/
+
+      - name: 🎉 Deployment Success
+        if: success()
+        run: |
+          echo "## 🎉 Staging Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Application deployed successfully to staging**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployment Details:**" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: Staging" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployment time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Quick Links:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [View Application](https://staging.eleno.app)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Deployment Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+
+      - name: ❌ Deployment Failed
+        if: failure()
+        run: |
+          echo "## ❌ Staging Deployment Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "❌ **Application deployment to staging failed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Failure Details:**" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: Staging" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Failure time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔧 **Next Steps:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Check the deployment logs above for error details" >> $GITHUB_STEP_SUMMARY
+          echo "2. Verify FTP server connectivity and credentials" >> $GITHUB_STEP_SUMMARY
+          echo "3. Check build artifacts were created successfully" >> $GITHUB_STEP_SUMMARY
+          echo "4. Contact DevOps team if issue persists" >> $GITHUB_STEP_SUMMARY
+          exit 1
+
+  # Post-deployment health check
+  health-check:
+    name: 🏥 Health Check
+    runs-on: ubuntu-latest
+    needs: web-deploy
+    if: success()
+    steps:
+      - name: 🏥 Check staging app health
+        id: health-check
+        run: |
+          echo "🔍 Performing health check on staging application..."
+          
+          # Wait for deployment to propagate
+          sleep 30
+          
+          # Check if the app is responding
+          HEALTH_URL="https://staging.eleno.app"
+          
+          if curl -f -s --max-time 30 "$HEALTH_URL" > /dev/null; then
+            echo "✅ Health check passed - application is responding"
+            echo "health-status=healthy" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Health check failed - application not responding"
+            echo "health-status=unhealthy" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📊 Health Check Summary
+        run: |
+          echo "## 🏥 Post-Deployment Health Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.health-check.outputs.health-status }}" = "healthy" ]; then
+            echo "✅ **Application is healthy and responding**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The staging deployment completed successfully and the application is accessible." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Application health check failed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The deployment completed but the application may not be fully functional." >> $GITHUB_STEP_SUMMARY
+            echo "Please investigate the application logs and server status." >> $GITHUB_STEP_SUMMARY
+          fi

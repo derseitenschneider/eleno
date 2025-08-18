@@ -174,9 +174,15 @@ describe('UpdateLesson', () => {
     })
 
     it('should handle empty query data gracefully', () => {
-      queryClient.clear()
+      // Create a fresh query client without default data
+      const freshQueryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false },
+        },
+      })
 
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
 
       const editors = screen.getAllByTestId('custom-editor')
       expect(editors[0]).toHaveValue('')
@@ -397,17 +403,28 @@ describe('UpdateLesson', () => {
   describe('Data Handling', () => {
     it('should handle null lesson content', () => {
       const lessonWithNullContent = {
-        ...mockLesson,
+        ...createMockLesson(),
+        id: 1,
         lessonContent: null,
         homework: null,
+        date: new Date('2023-12-01'),
       }
 
-      queryClient.setQueryData(
+      // Create a fresh query client for this test
+      const freshQueryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false },
+        },
+      })
+
+      freshQueryClient.setQueryData(
         ['all-lessons', { holder: '', year: 0 }],
         [lessonWithNullContent],
       )
+      freshQueryClient.setQueryData(['latest-3-lessons'], [])
 
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
 
       const editors = screen.getAllByTestId('custom-editor')
       expect(editors[0]).toHaveValue('')
@@ -416,24 +433,36 @@ describe('UpdateLesson', () => {
 
     it('should combine lessons from both query sources', () => {
       const allLessonsLesson = {
-        ...mockLesson,
+        ...createMockLesson(),
         id: 1,
         lessonContent: 'All lessons content',
+        homework: 'All lessons homework',
+        date: new Date('2023-12-01'),
       }
       const latestLessonsLesson = {
-        ...mockLesson,
+        ...createMockLesson(),
         id: 2,
         lessonContent: 'Latest lessons content',
+        homework: 'Latest lessons homework',
+        date: new Date('2023-12-02'),
       }
 
-      queryClient.setQueryData(
+      // Create a fresh query client for this test
+      const freshQueryClient = new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false },
+        },
+      })
+
+      freshQueryClient.setQueryData(
         ['all-lessons', { holder: '', year: 0 }],
         [allLessonsLesson],
       )
-      queryClient.setQueryData(['latest-3-lessons'], [latestLessonsLesson])
+      freshQueryClient.setQueryData(['latest-3-lessons'], [latestLessonsLesson])
 
       // Test finding lesson from all lessons
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
       expect(screen.getAllByTestId('custom-editor')[0]).toHaveValue(
         'All lessons content',
       )

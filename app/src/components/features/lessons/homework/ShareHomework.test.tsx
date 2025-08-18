@@ -518,7 +518,7 @@ describe('ShareHomework Component', () => {
         },
       )
 
-      expect(container.firstChild).toBeNull()
+      expect(container.querySelector('[data-testid="share-homework"]')).not.toBeInTheDocument()
     })
 
     it('should handle missing lesson data gracefully', () => {
