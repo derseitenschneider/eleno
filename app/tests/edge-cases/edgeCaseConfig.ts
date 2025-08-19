@@ -6,9 +6,15 @@ import type { PlaywrightTestConfig } from '@playwright/test'
  */
 export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
   {
+    name: 'edge-case-teardown',
+    testDir: './tests/edge-cases',
+    testMatch: '**/teardown.edge-case.ts',
+  },
+  {
     name: 'edge-case-setup',
     testDir: './tests/edge-cases',
     testMatch: '**/setup.edge-case.ts',
+    teardown: 'edge-case-teardown',
   },
   // iPhone XR - Large phone that had sidebar issues
   {
@@ -193,10 +199,5 @@ export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
         animations: 'disabled',
       },
     },
-  },
-  {
-    name: 'edge-case-cleanup',
-    testDir: './tests/edge-cases',
-    testMatch: '**/teardown.edge-case.ts',
   },
 ]

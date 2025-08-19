@@ -47,11 +47,13 @@ test.describe('Lessons Page - Edge Case Visual Regression', () => {
   })
 
   test.beforeEach(async ({ page }) => {
-    // Set consistent theme for visual testing
+    // Set consistent theme and test mode for visual testing
     await page.addInitScript(() => {
       localStorage.setItem('theme', 'light')
       document.documentElement.classList.remove('dark-mode')
       document.documentElement.classList.add('light-mode')
+      // Set test mode flag for consistent date handling
+      ;(window as any).__PLAYWRIGHT_TEST__ = true
     })
   })
 

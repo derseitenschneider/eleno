@@ -8,7 +8,7 @@ export const subscriptionsConfig: Array<Project> = [
   },
 ]
 
-subscriptionStates.forEach((subscriptionState) => {
+for (const subscriptionState of subscriptionStates) {
   const noTeardown = process.env.NO_TEARDOWN
   const noSetup = process.env.NO_SETUP
   const noTest = process.env.NO_TEST
@@ -95,4 +95,4 @@ subscriptionStates.forEach((subscriptionState) => {
   }
 
   subscriptionsConfig.push(setup, test)
-})
+}

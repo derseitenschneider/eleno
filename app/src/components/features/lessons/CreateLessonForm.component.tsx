@@ -16,7 +16,15 @@ import useCurrentHolder from './useCurrentHolder'
 import { useUpdateLesson } from './useUpdateLesson'
 
 export function CreateLessonForm() {
-  const [date, setDate] = useState<Date>(new Date())
+  // Use fixed date in test mode, otherwise use current date
+  const getInitialDate = () => {
+    if (typeof window !== 'undefined' && (window as any).__PLAYWRIGHT_TEST__) {
+      return new Date('2025-08-13')
+    }
+    return new Date()
+  }
+
+  const [date, setDate] = useState<Date>(getInitialDate())
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
   const { updateLesson, isUpdating } = useUpdateLesson()
@@ -39,11 +47,11 @@ export function CreateLessonForm() {
     if (currentDraft) {
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
-      setDate(currentDraft.date || new Date())
+      setDate(currentDraft.date || getInitialDate())
     } else {
       setLessonContent('')
       setHomework('')
-      setDate(new Date())
+      setDate(getInitialDate())
     }
   }, [drafts, typeField, currentLessonHolder?.holder.id])
 

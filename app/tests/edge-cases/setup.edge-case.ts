@@ -39,7 +39,7 @@ setup('setup edge-case test data', async ({ page, context }) => {
   )
 
   // Create lessons for additional students (first 2)
-  let additionalLessonIds: number[] = []
+  const additionalLessonIds: number[] = []
   if (additionalStudents && additionalStudents.length > 0) {
     const firstStudentLessons = await testUser.createLessonsForStudent(
       additionalStudents[0].id.toString(),
@@ -74,7 +74,7 @@ setup('setup edge-case test data', async ({ page, context }) => {
   }
 
   // Create repertoire for additional students and group
-  let additionalRepertoireIds: number[] = []
+  const additionalRepertoireIds: number[] = []
   let groupRepertoireItems: any[] = []
 
   try {
@@ -111,7 +111,7 @@ setup('setup edge-case test data', async ({ page, context }) => {
 
   // Create notes for students and groups
   let notesItems: any[] = []
-  let studentNotesIds: number[] = []
+  const studentNotesIds: number[] = []
   let groupNotesItems: any[] = []
   let generalNotesItems: any[] = []
 
