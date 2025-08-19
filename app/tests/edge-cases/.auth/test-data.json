@@ -1,0 +1,74 @@
+{
+  "userId": "068fd5e5-8035-4267-8688-0cfac6843443",
+  "clockId": "clock_1RxxQDGqCC0x0XxsDrYQK3lt",
+  "defaultStudentId": 5733,
+  "additionalStudentIds": [
+    5734,
+    5735,
+    5736,
+    5737
+  ],
+  "inactiveStudentIds": [
+    5738,
+    5739
+  ],
+  "groupId": 209,
+  "testUserEmail": "pw-test-general-user-1755640224670@example.com",
+  "mainStudentLessonIds": [
+    59389,
+    59390,
+    59391,
+    59392,
+    59393
+  ],
+  "additionalLessonIds": [
+    59394,
+    59395,
+    59396,
+    59397,
+    59398
+  ],
+  "groupLessonIds": [
+    59399,
+    59400,
+    59401
+  ],
+  "mainStudentRepertoireIds": [
+    4817,
+    4818,
+    4819,
+    4820
+  ],
+  "additionalRepertoireIds": [
+    4821,
+    4822,
+    4823,
+    4824
+  ],
+  "groupRepertoireIds": [
+    4825,
+    4826,
+    4827
+  ],
+  "mainStudentNotesIds": [
+    4215,
+    4216,
+    4217
+  ],
+  "additionalStudentNotesIds": [
+    4218,
+    4219,
+    4220,
+    4221
+  ],
+  "groupNotesIds": [
+    4222,
+    4223
+  ],
+  "generalNotesIds": [
+    4224,
+    4225,
+    4226,
+    4227
+  ]
+}

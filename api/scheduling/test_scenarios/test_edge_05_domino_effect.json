@@ -1,0 +1,87 @@
+{
+  "_test_description": "Edge Case 5: Domino Effect - Scheduling one student blocks a chain of others",
+  "_expected_result": "Algorithm should detect chain dependencies and make optimal choice",
+  "_edge_case_type": "time_overlap_complexity",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Trigger_Student",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Chain_A1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Chain_A2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:15", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Chain_A3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Chain_B1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Chain_B2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Chain_B3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:45", "end_time": "17:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Independent_Early",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Independent_Late",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

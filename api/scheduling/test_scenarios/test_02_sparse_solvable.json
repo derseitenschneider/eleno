@@ -1,0 +1,140 @@
+{
+  "_test_description": "Test 2: 15 students with sparse but solvable availability - SHOULD FULLY SOLVE",
+  "_expected_result": "All 15 students should be scheduled successfully with careful time management",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "13:00", "end_time": "19:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "13:00", "end_time": "19:00", "location": "studio_b"},
+      {"day": "wednesday", "start_time": "13:00", "end_time": "19:00", "location": "studio_c"},
+      {"day": "thursday", "start_time": "13:00", "end_time": "19:00", "location": "studio_a"},
+      {"day": "friday", "start_time": "13:00", "end_time": "19:00", "location": "studio_b"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Student_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:15", "end_time": "15:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:45", "end_time": "17:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "18:00", "end_time": "19:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_06",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "13:00", "end_time": "14:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_07",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "14:15", "end_time": "15:30", "location": "studio_b"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Student_08",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:45", "end_time": "16:45", "location": "studio_b"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Student_09",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:30", "location": "studio_b"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Student_10",
+      "accessible_locations": ["studio_c"],
+      "availability": [
+        {"day": "wednesday", "start_time": "13:00", "end_time": "14:30", "location": "studio_c"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Student_11",
+      "accessible_locations": ["studio_c"],
+      "availability": [
+        {"day": "wednesday", "start_time": "14:45", "end_time": "16:15", "location": "studio_c"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Student_12",
+      "accessible_locations": ["studio_c"],
+      "availability": [
+        {"day": "wednesday", "start_time": "16:30", "end_time": "18:00", "location": "studio_c"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Student_13",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "thursday", "start_time": "13:00", "end_time": "15:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Student_14",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "thursday", "start_time": "15:15", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Student_15",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "friday", "start_time": "16:00", "end_time": "18:30", "location": "studio_b"}
+      ],
+      "lesson_duration": 120
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"},
+    {"id": "studio_b", "name": "Practice Room"},
+    {"id": "studio_c", "name": "Recital Hall"}
+  ]
+}

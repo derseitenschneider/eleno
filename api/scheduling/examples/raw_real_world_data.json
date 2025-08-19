@@ -1,0 +1,57 @@
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"},
+      {"day": "tuesday", "start_time": "12:00", "end_time": "22:00", "location": "spiez"},
+      {"day": "wednesday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Bhend Myles",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:45", "end_time": "17:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "11:15", "end_time": "11:55", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Bleuer Lia",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Bleuer Tim",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Riesen Nils Levin",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:30", "location": "spiez"},
+        {"day": "wednesday", "start_time": "13:00", "end_time": "14:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Konrad Dean",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "17:45", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    }
+  ],
+  "locations": [
+    {"id": "steffisburg", "name": "Steffisburg Studio"},
+    {"id": "spiez", "name": "Spiez Studio"}
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "_test_description": "Edge Case 22: Resource Starvation - Some students consistently blocked by others",
+  "_expected_result": "Tests algorithm's fairness when some students have limited scheduling options",
+  "_edge_case_type": "optimization_challenge",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_b"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Privileged_A1",
+      "accessible_locations": ["studio_a", "studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Privileged_A2",
+      "accessible_locations": ["studio_a", "studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Privileged_A3",
+      "accessible_locations": ["studio_a", "studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Constrained_Mon_Only",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Constrained_Tue_Only",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:00", "end_time": "16:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Victim_Narrow_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Victim_Narrow_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Victim_Narrow_3",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "tuesday", "start_time": "16:30", "end_time": "17:30", "location": "studio_b"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Desperate_Filler",
+      "accessible_locations": ["studio_a", "studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "18:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "17:30", "end_time": "18:00", "location": "studio_b"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"},
+    {"id": "studio_b", "name": "Practice Room"}
+  ]
+}

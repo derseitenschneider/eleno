@@ -1,0 +1,95 @@
+{
+  "_test_description": "Edge Case 4: Interleaved Windows - Complex overlapping pattern creating scheduling puzzle",
+  "_expected_result": "Tests algorithm's ability to solve complex interleaved scheduling patterns",
+  "_edge_case_type": "time_overlap_complexity",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "20:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Pattern_A1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_B1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_C1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_A2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_B2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_C2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_A3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "18:00", "end_time": "19:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Pattern_B3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "18:30", "end_time": "20:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Short_Slot_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Short_Slot_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

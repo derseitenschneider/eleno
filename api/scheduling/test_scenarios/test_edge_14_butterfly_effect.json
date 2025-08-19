@@ -1,0 +1,87 @@
+{
+  "_test_description": "Edge Case 14: Butterfly Effect - One student with strict availability affects entire schedule",
+  "_expected_result": "Tests how one critical constraint impacts the entire scheduling solution",
+  "_edge_case_type": "availability_pattern_conflict",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Butterfly_Critical",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Flexible_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_4",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Cascade_Before",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Cascade_After",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Dependent_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:45", "end_time": "15:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Dependent_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:15", "end_time": "17:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "_test_description": "Edge Case 20: Weekend Warriors - 12 students only available Saturday/Sunday",
+  "_expected_result": "Tests algorithm with compressed weekend scheduling constraints",
+  "_edge_case_type": "real_world_complex",
+  "teacher": {
+    "availability": [
+      {"day": "saturday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"},
+      {"day": "sunday", "start_time": "10:00", "end_time": "16:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Early_Bird_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "09:00", "end_time": "10:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Early_Bird_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "09:30", "end_time": "11:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Morning_Slot_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "10:30", "end_time": "12:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Morning_Slot_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "11:30", "end_time": "13:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Afternoon_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "13:00", "end_time": "14:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Afternoon_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "14:30", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Late_Saturday",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Sunday_Early",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "sunday", "start_time": "10:00", "end_time": "11:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Sunday_Mid_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "sunday", "start_time": "11:00", "end_time": "12:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Sunday_Mid_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "sunday", "start_time": "12:30", "end_time": "14:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Sunday_Late_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "sunday", "start_time": "14:00", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Sunday_Late_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "sunday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Weekend_Flexible",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "saturday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"},
+        {"day": "sunday", "start_time": "10:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

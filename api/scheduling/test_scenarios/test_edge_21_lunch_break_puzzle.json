@@ -1,0 +1,97 @@
+{
+  "_test_description": "Edge Case 21: Lunch Break Puzzle - Teacher has lunch break creating scheduling gap",
+  "_expected_result": "Tests algorithm's handling of teacher unavailability within the day",
+  "_edge_case_type": "real_world_complex",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "12:00", "location": "studio_a"},
+      {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Morning_Early",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Morning_Mid",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Morning_Late",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Lunch_Crosser_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:30", "end_time": "13:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Lunch_Crosser_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "12:00", "end_time": "14:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Afternoon_Early",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Afternoon_Mid",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Afternoon_Late",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "All_Day_Flexible",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "12:00", "location": "studio_a"},
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Gap_Waster",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:45", "end_time": "13:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

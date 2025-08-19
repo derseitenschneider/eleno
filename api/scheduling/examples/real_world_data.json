@@ -1,0 +1,247 @@
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"},
+      {"day": "tuesday", "start_time": "12:00", "end_time": "22:00", "location": "spiez"},
+      {"day": "wednesday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Bhend Myles",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "17:00", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "15:45", "end_time": "17:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "11:15", "end_time": "11:55", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Bleuer Lia",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Bleuer Tim",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Brandenberg Louan",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "13:30", "end_time": "22:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "16:30", "end_time": "22:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Bürgi Nick",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:00", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "18:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Christen Noam",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "17:15", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Hunziker Ayleen",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "13:30", "end_time": "14:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Ibrahimi Mahsa",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "wednesday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Kluge Benjamin",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "16:15", "end_time": "20:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Kneubühler Florine",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "18:00", "end_time": "20:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "13:30", "end_time": "20:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Küenzi Livia",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "22:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "15:30", "end_time": "22:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Muri Marlen",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "13:45", "end_time": "14:45", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "16:15", "end_time": "18:30", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "13:45", "end_time": "15:15", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Rüfenacht Sabrina",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "19:00", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "17:30", "end_time": "19:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Schepky Nico",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "wednesday", "start_time": "13:30", "end_time": "14:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Studer Tyl",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "16:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "17:00", "end_time": "19:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Topalli Ana Nora",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "13:30", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "15:35", "end_time": "18:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Von Gunten Timeo",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:30", "end_time": "16:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "12:00", "end_time": "13:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Wildi Marlon",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:30", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "13:00", "end_time": "14:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Zwahlen Marla",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "19:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Meier Samuel Luca",
+      "accessible_locations": ["steffisburg", "spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Juillard Jonas",
+      "accessible_locations": ["spiez", "steffisburg"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:30", "end_time": "22:00", "location": "spiez"},
+        {"day": "wednesday", "start_time": "19:00", "end_time": "22:00", "location": "spiez"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Flühmann Vincent",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "tuesday", "start_time": "16:45", "end_time": "18:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Giandon Lina",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "tuesday", "start_time": "16:40", "end_time": "18:30", "location": "spiez"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Reutebuch Luiz",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "tuesday", "start_time": "18:30", "end_time": "19:15", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Riesen Nils Levin",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:30", "location": "spiez"},
+        {"day": "tuesday", "start_time": "16:30", "end_time": "19:30", "location": "spiez"},
+        {"day": "wednesday", "start_time": "13:00", "end_time": "14:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Konrad Dean",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "17:45", "location": "spiez"},
+        {"day": "tuesday", "start_time": "15:45", "end_time": "18:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    }
+  ],
+  "locations": [
+    {"id": "steffisburg", "name": "Steffisburg Studio"},
+    {"id": "spiez", "name": "Spiez Studio"}
+  ]
+}

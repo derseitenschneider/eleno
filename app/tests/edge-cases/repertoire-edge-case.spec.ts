@@ -45,8 +45,26 @@ test.describe('Repertoire - Edge Case Visual Regression', () => {
   })
 
   test.beforeEach(async ({ page }) => {
-    // Set consistent theme for visual testing
+    // Set consistent theme and date for visual testing
     await page.addInitScript(() => {
+      // Mock Date to return consistent date for tests
+      const OriginalDate = Date
+      window.Date = class extends OriginalDate {
+        constructor(...args) {
+          if (args.length === 0) {
+            super('2025-08-13T10:00:00Z')
+          } else {
+            super(...args)
+          }
+        }
+        static now() {
+          return new Date('2025-08-13T10:00:00Z').getTime()
+        }
+      }
+      Object.setPrototypeOf(window.Date, OriginalDate)
+      Object.setPrototypeOf(window.Date.prototype, OriginalDate.prototype)
+      
+      // Set theme
       localStorage.setItem('theme', 'light')
       document.documentElement.classList.remove('dark-mode')
       document.documentElement.classList.add('light-mode')

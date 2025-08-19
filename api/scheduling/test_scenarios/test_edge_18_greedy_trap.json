@@ -1,0 +1,87 @@
+{
+  "_test_description": "Edge Case 18: Greedy Trap - Scheduling shorter lessons first blocks longer ones",
+  "_expected_result": "Tests if algorithm avoids greedy choices that prevent optimal solutions",
+  "_edge_case_type": "optimization_challenge",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Long_Optimal",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 120
+    },
+    {
+      "name": "Medium_Blocker_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Medium_Blocker_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Short_Tempting_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:15", "end_time": "14:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Short_Tempting_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:15", "end_time": "15:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Alternative_Long",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Alternative_Medium_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Alternative_Medium_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Cleanup_Short",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

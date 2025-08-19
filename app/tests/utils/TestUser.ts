@@ -351,7 +351,7 @@ export class TestUser {
         homework: 'Test Homework',
         studentId: this.studentId,
         user_id: this.user.id,
-        date: new Date(),
+        date: '2025-08-01',
       })
       .select('*')
       .single()
@@ -399,27 +399,27 @@ export class TestUser {
       {
         lessonContent: 'Scales and Arpeggios practice',
         homework: 'Practice C major scale 10 minutes daily',
-        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
+        date: '2025-06-12',
       },
       {
         lessonContent: 'New piece introduction: Mozart Sonata',
         homework: 'Learn first 8 bars hands separately',
-        date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(), // 2 weeks ago
+        date: '2025-06-19',
       },
       {
         lessonContent: 'Rhythm exercises and sight reading',
         homework: 'Complete rhythm worksheet pages 1-3',
-        date: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(), // 3 weeks ago
+        date: '2025-06-27',
       },
       {
         lessonContent: 'Technical work: finger independence',
         homework: 'Hanon exercises 1-5, slow tempo',
-        date: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString(), // 4 weeks ago
+        date: '2025-07-03',
       },
       {
         lessonContent: 'Performance preparation and stage presence',
         homework: 'Record yourself playing the recital piece',
-        date: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(), // 5 weeks ago
+        date: '2025-07-10',
       },
     ]
 
@@ -428,7 +428,7 @@ export class TestUser {
         .from('lessons')
         .insert({
           user_id: this.user.id,
-          studentId: parseInt(studentId),
+          studentId: Number.parseInt(studentId),
           ...lessonTemplates[i],
         })
         .select()
@@ -456,17 +456,17 @@ export class TestUser {
       {
         lessonContent: 'Ensemble playing: timing and listening',
         homework: 'Practice your part with metronome at 80 BPM',
-        date: new Date().toISOString(),
+        date: '2025-06-01',
       },
       {
         lessonContent: 'Harmony and chord progressions',
         homework: 'Memorize chord changes for sections A and B',
-        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+        date: '2025-06-08',
       },
       {
         lessonContent: 'Group dynamics and balance',
         homework: 'Record your part and send to group chat',
-        date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+        date: '2025-06-15',
       },
     ]
 
@@ -475,7 +475,7 @@ export class TestUser {
         .from('lessons')
         .insert({
           user_id: this.user.id,
-          groupId: parseInt(groupId),
+          groupId: Number.parseInt(groupId),
           ...groupLessonTemplates[i],
         })
         .select()
@@ -502,28 +502,18 @@ export class TestUser {
     const pieces = [
       {
         title: 'Für Elise - Beethoven',
-        startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0], // 2 months ago
-        endDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0], // 1 month ago
+        startDate: '2025-06-01',
+        endDate: '2025-06-08',
       },
       {
         title: 'Clair de Lune - Debussy',
-        startDate: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0], // 1.5 months ago
-        endDate: null, // Still working on it
+        startDate: '2025-05-01',
+        endDate: null,
       },
       {
         title: 'Prelude in C Major - Bach',
-        startDate: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0], // 3 months ago
-        endDate: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0], // 2.5 months ago
+        startDate: '2025-03-01',
+        endDate: '2025-04-15',
       },
       {
         title: 'River Flows in You - Yiruma',
@@ -538,7 +528,7 @@ export class TestUser {
           .from('repertoire')
           .insert({
             user_id: this.user.id,
-            studentId: parseInt(studentId),
+            studentId: Number.parseInt(studentId),
             title: pieces[i]?.title || '',
             startDate: pieces[i]?.startDate || null,
             endDate: pieces[i]?.endDate || null,
@@ -571,23 +561,17 @@ export class TestUser {
     const groupPieces = [
       {
         title: 'Canon in D - Pachelbel (Ensemble)',
-        startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0],
+        startDate: '2025-08-15',
         endDate: null,
       },
       {
         title: 'Eine kleine Nachtmusik - Mozart (Group)',
-        startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0],
-        endDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0],
+        startDate: '2025-06-13',
+        endDate: '2025-07-20',
       },
       {
         title: 'Ode to Joy - Beethoven (Choir)',
-        startDate: new Date().toISOString().split('T')[0],
+        startDate: '2025-06-12',
         endDate: null,
       },
     ]
@@ -598,7 +582,7 @@ export class TestUser {
           .from('repertoire')
           .insert({
             user_id: this.user.id,
-            groupId: parseInt(groupId),
+            groupId: Number.parseInt(groupId),
             title: groupPieces[i]?.title || '',
             startDate: groupPieces[i]?.startDate || null,
             endDate: groupPieces[i]?.endDate || null,
@@ -655,7 +639,7 @@ export class TestUser {
           .from('notes')
           .insert({
             user_id: this.user.id,
-            studentId: parseInt(studentId),
+            studentId: Number.parseInt(studentId),
             title: noteTemplates[i]?.title || '',
             text: noteTemplates[i]?.text || '',
             backgroundColor:
@@ -712,7 +696,7 @@ export class TestUser {
           .from('notes')
           .insert({
             user_id: this.user.id,
-            groupId: parseInt(groupId),
+            groupId: Number.parseInt(groupId),
             title: groupNoteTemplates[i]?.title || '',
             text: groupNoteTemplates[i]?.text || '',
             backgroundColor:

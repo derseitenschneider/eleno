@@ -1,0 +1,2158 @@
+{
+  "summary": {
+    "total_tests": 20,
+    "passed_tests": 6,
+    "failed_tests": 0,
+    "error_tests": 0,
+    "total_time": 2.5685291290283203,
+    "timestamp": "2025-08-19 23:23:08"
+  },
+  "results": [
+    {
+      "test_name": "test_01_balanced_solvable",
+      "description": "Test 1: 10 students balanced across 2 locations - SHOULD FULLY SOLVE",
+      "expected_result": "All 10 students should be scheduled successfully",
+      "total_students": 10,
+      "scheduled_count": 10,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.012763261795043945,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-18:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:00",
+          "student": "Student_04",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:15-16:15",
+          "student": "Student_05",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "wednesday",
+          "time": "14:00-15:00",
+          "student": "Student_07",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "wednesday",
+          "time": "17:15-18:00",
+          "student": "Student_08",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "thursday",
+          "time": "15:00-16:00",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "friday",
+          "time": "16:15-17:00",
+          "student": "Student_10",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.012,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 10,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 6,
+          "studio_b": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 35
+      }
+    },
+    {
+      "test_name": "test_02_sparse_solvable",
+      "description": "Test 2: 15 students with sparse but solvable availability - SHOULD FULLY SOLVE",
+      "expected_result": "All 15 students should be scheduled successfully with careful time management",
+      "total_students": 15,
+      "scheduled_count": 15,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.021637678146362305,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "13:15-14:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:15",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:45-16:30",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "13:15-14:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:15",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "16:00-16:45",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:30",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 75
+        },
+        {
+          "day": "wednesday",
+          "time": "13:00-14:00",
+          "student": "Student_10",
+          "location": "studio_c",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.021,
+        "status": "OPTIMAL",
+        "total_students": 15,
+        "scheduled_students": 15,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 7,
+          "studio_b": 5,
+          "studio_c": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 35
+      }
+    },
+    {
+      "test_name": "test_03_varied_durations",
+      "description": "Test 3: 20 students across 3 locations with varied lesson durations - SHOULD FULLY SOLVE",
+      "expected_result": "All 20 students should be scheduled with optimized time slot allocation",
+      "total_students": 20,
+      "scheduled_count": 20,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.028738975524902344,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "12:30-13:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "13:15-14:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:30",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:45",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 75
+        },
+        {
+          "day": "monday",
+          "time": "17:00-18:30",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 90
+        },
+        {
+          "day": "monday",
+          "time": "19:30-20:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "12:15-13:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "13:30-14:30",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "14:30-15:45",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 75
+        },
+        {
+          "day": "tuesday",
+          "time": "16:00-17:30",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 90
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.027,
+        "status": "OPTIMAL",
+        "total_students": 20,
+        "scheduled_students": 20,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 8,
+          "studio_b": 7,
+          "studio_c": 5
+        },
+        "solver_iterations": 0,
+        "variables_created": 50
+      }
+    },
+    {
+      "test_name": "test_04_full_week",
+      "description": "Test 4: 25 students with full week schedule - SHOULD FULLY SOLVE",
+      "expected_result": "All 25 students should be scheduled across all weekdays with balanced distribution",
+      "total_students": 25,
+      "scheduled_count": 25,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.0340418815612793,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:30-15:30",
+          "student": "Student_09",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "14:30-15:30",
+          "student": "Student_12",
+          "location": "studio_b",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.032,
+        "status": "OPTIMAL",
+        "total_students": 25,
+        "scheduled_students": 25,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 17,
+          "studio_b": 8
+        },
+        "solver_iterations": 0,
+        "variables_created": 65
+      }
+    },
+    {
+      "test_name": "test_05_optimized_slots",
+      "description": "Test 5: 30 students with optimized time slots requiring efficient packing - SHOULD FULLY SOLVE",
+      "expected_result": "All 30 students should be scheduled with optimal time slot utilization",
+      "total_students": 30,
+      "scheduled_count": 30,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.03556203842163086,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "13:00-13:30",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "13:30-14:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:30",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "18:00-19:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "19:45-21:00",
+          "student": "Student_07",
+          "location": "studio_a",
+          "duration": 75
+        },
+        {
+          "day": "tuesday",
+          "time": "13:00-13:30",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "13:30-14:00",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:00",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.034,
+        "status": "OPTIMAL",
+        "total_students": 30,
+        "scheduled_students": 30,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 10,
+          "studio_b": 10,
+          "studio_c": 10
+        },
+        "solver_iterations": 0,
+        "variables_created": 57
+      }
+    },
+    {
+      "test_name": "test_06_location_conflicts",
+      "description": "Test 6: 12 students with location access conflicts for 2 - SHOULD PARTIALLY SOLVE",
+      "expected_result": "10 students scheduled, 2 unscheduled due to location access conflicts",
+      "total_students": 12,
+      "scheduled_count": 10,
+      "unscheduled_count": 2,
+      "success_rate": 83.33333333333334,
+      "solve_time": 0.015413045883178711,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_11_CONFLICT",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Inaccessible Studio C"
+        },
+        {
+          "student": "Student_12_CONFLICT",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Tuesday at Inaccessible Studio D"
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:00",
+          "student": "Student_05",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:15-16:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "16:15-17:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "wednesday",
+          "time": "14:30-15:30",
+          "student": "Student_09",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "wednesday",
+          "time": "16:00-17:00",
+          "student": "Student_10",
+          "location": "studio_a",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.015,
+        "status": "OPTIMAL",
+        "total_students": 12,
+        "scheduled_students": 10,
+        "schedule_efficiency_percent": 83.3,
+        "location_usage": {
+          "studio_a": 6,
+          "studio_b": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 22
+      }
+    },
+    {
+      "test_name": "test_07_time_overlap",
+      "description": "Test 7: 18 students with time overlap bottleneck for 3 - SHOULD PARTIALLY SOLVE",
+      "expected_result": "15 students scheduled, 3 unscheduled due to competing for same time slot",
+      "total_students": 18,
+      "scheduled_count": 15,
+      "unscheduled_count": 3,
+      "success_rate": 83.33333333333334,
+      "solve_time": 0.022566795349121094,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_16_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_01."
+        },
+        {
+          "student": "Student_17_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02."
+        },
+        {
+          "student": "Student_18_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_03."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "19:15-20:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:30-15:30",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "16:00-17:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "17:30-18:30",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "wednesday",
+          "time": "14:00-15:15",
+          "student": "Student_10",
+          "location": "studio_a",
+          "duration": 75
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.021,
+        "status": "OPTIMAL",
+        "total_students": 18,
+        "scheduled_students": 15,
+        "schedule_efficiency_percent": 83.3,
+        "location_usage": {
+          "studio_a": 9,
+          "studio_b": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 33
+      }
+    },
+    {
+      "test_name": "test_08_mixed_conflicts",
+      "description": "Test 8: 22 students with mixed location and time conflicts - SHOULD PARTIALLY SOLVE",
+      "expected_result": "17-19 students scheduled, 3-5 unscheduled due to various conflicts",
+      "total_students": 22,
+      "scheduled_count": 19,
+      "unscheduled_count": 3,
+      "success_rate": 86.36363636363636,
+      "solve_time": 0.012786865234375,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_20_LOC_CONFLICT",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Inaccessible Studio"
+        },
+        {
+          "student": "Student_21_TIME_CONFLICT",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        },
+        {
+          "student": "Student_22_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_18."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:15-16:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "16:15-17:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "18:15-19:00",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.012,
+        "status": "OPTIMAL",
+        "total_students": 22,
+        "scheduled_students": 19,
+        "schedule_efficiency_percent": 86.4,
+        "location_usage": {
+          "studio_a": 8,
+          "studio_b": 8,
+          "studio_c": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 43
+      }
+    },
+    {
+      "test_name": "test_09_capacity_constraints",
+      "description": "Test 9: 35 students with capacity constraints - SHOULD PARTIALLY SOLVE",
+      "expected_result": "25-30 students scheduled, 5-10 unscheduled due to limited teacher availability",
+      "total_students": 35,
+      "scheduled_count": 24,
+      "unscheduled_count": 11,
+      "success_rate": 68.57142857142857,
+      "solve_time": 0.031961917877197266,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_25_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_01."
+        },
+        {
+          "student": "Student_26_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_03."
+        },
+        {
+          "student": "Student_27_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_03, Student_04."
+        },
+        {
+          "student": "Student_28_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_05, Student_04."
+        },
+        {
+          "student": "Student_29_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_05, Student_06."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:45",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:45",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:00-18:45",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "19:15-20:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-14:45",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-15:45",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "16:00-16:45",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.031,
+        "status": "OPTIMAL",
+        "total_students": 35,
+        "scheduled_students": 24,
+        "schedule_efficiency_percent": 68.6,
+        "location_usage": {
+          "studio_a": 9,
+          "studio_b": 9,
+          "studio_c": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 70
+      }
+    },
+    {
+      "test_name": "test_10_realistic_load",
+      "description": "Test 10: 40 students with realistic mixed constraints - SHOULD PARTIALLY SOLVE",
+      "expected_result": "30-35 students scheduled, 5-10 unscheduled due to realistic scheduling challenges",
+      "total_students": 40,
+      "scheduled_count": 34,
+      "unscheduled_count": 6,
+      "success_rate": 85.0,
+      "solve_time": 0.04003310203552246,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_02",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_38_OVERLAP."
+        },
+        {
+          "student": "Student_11",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_40_OVERLAP."
+        },
+        {
+          "student": "Student_35_CONFLICT",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Inaccessible Studio"
+        },
+        {
+          "student": "Student_36_CONFLICT",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Sunday at Main Studio"
+        },
+        {
+          "student": "Student_37_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_01."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "13:15-14:00",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:00-16:00",
+          "student": "Student_38_OVERLAP",
+          "location": "studio_a",
+          "duration": 120
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_03",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_04",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:00",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "19:15-20:00",
+          "student": "Student_07",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:15-15:00",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.038,
+        "status": "OPTIMAL",
+        "total_students": 40,
+        "scheduled_students": 34,
+        "schedule_efficiency_percent": 85.0,
+        "location_usage": {
+          "studio_a": 13,
+          "studio_b": 12,
+          "studio_c": 9
+        },
+        "solver_iterations": 0,
+        "variables_created": 77
+      }
+    },
+    {
+      "test_name": "test_11_max_load_stress",
+      "description": "Test 11: 45 students maximum load stress test - SHOULD PARTIALLY SOLVE",
+      "expected_result": "30-40 students scheduled, algorithm should handle maximum load without failure",
+      "total_students": 45,
+      "scheduled_count": 39,
+      "unscheduled_count": 6,
+      "success_rate": 86.66666666666667,
+      "solve_time": 0.04066586494445801,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_20",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_45_EXTRA."
+        },
+        {
+          "student": "Student_40_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02."
+        },
+        {
+          "student": "Student_41_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_03."
+        },
+        {
+          "student": "Student_42_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        },
+        {
+          "student": "Student_43_EXTRA",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_11."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "12:00-12:30",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "13:00-13:30",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "17:30-18:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "18:30-19:00",
+          "student": "Student_07",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "19:30-20:00",
+          "student": "Student_08",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "20:30-21:00",
+          "student": "Student_09",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "12:00-12:45",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.04,
+        "status": "OPTIMAL",
+        "total_students": 45,
+        "scheduled_students": 39,
+        "schedule_efficiency_percent": 86.7,
+        "location_usage": {
+          "studio_a": 15,
+          "studio_b": 14,
+          "studio_c": 10
+        },
+        "solver_iterations": 7,
+        "variables_created": 82
+      }
+    },
+    {
+      "test_name": "test_12_same_timeslot",
+      "description": "Test 12: 10 students all wanting same time slot - SHOULD MOSTLY FAIL",
+      "expected_result": "Only 1 student scheduled, 9 unscheduled due to time conflict",
+      "total_students": 10,
+      "scheduled_count": 1,
+      "unscheduled_count": 9,
+      "success_rate": 10.0,
+      "solve_time": 0.005824089050292969,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_01",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        },
+        {
+          "student": "Student_02",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        },
+        {
+          "student": "Student_03",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        },
+        {
+          "student": "Student_04",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        },
+        {
+          "student": "Student_05",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_10",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.006,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 1,
+        "schedule_efficiency_percent": 10.0,
+        "location_usage": {
+          "studio_a": 1
+        },
+        "solver_iterations": 0,
+        "variables_created": 20
+      }
+    },
+    {
+      "test_name": "test_13_cascading_windows",
+      "description": "Test 13: 15 students with cascading time windows - SHOULD FULLY SOLVE",
+      "expected_result": "All 15 students scheduled with optimal cascading arrangement",
+      "total_students": 15,
+      "scheduled_count": 9,
+      "unscheduled_count": 6,
+      "success_rate": 60.0,
+      "solve_time": 0.014503240585327148,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_03",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_04."
+        },
+        {
+          "student": "Student_05",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_04, Student_06."
+        },
+        {
+          "student": "Student_07",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_08, Student_06."
+        },
+        {
+          "student": "Student_09",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_08, Student_10."
+        },
+        {
+          "student": "Student_11",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_12, Student_10."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "13:00-13:30",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "13:30-14:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:30",
+          "student": "Student_08",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Student_10",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:30",
+          "student": "Student_12",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:00",
+          "student": "Student_14",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:30",
+          "student": "Student_15",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.014,
+        "status": "OPTIMAL",
+        "total_students": 15,
+        "scheduled_students": 9,
+        "schedule_efficiency_percent": 60.0,
+        "location_usage": {
+          "studio_a": 9
+        },
+        "solver_iterations": 0,
+        "variables_created": 45
+      }
+    },
+    {
+      "test_name": "test_14_minimal_availability",
+      "description": "Test 14: 20 students with minimal teacher availability - SHOULD PARTIALLY SOLVE",
+      "expected_result": "4-5 students scheduled, 15-16 unscheduled due to limited teacher time",
+      "total_students": 20,
+      "scheduled_count": 4,
+      "unscheduled_count": 16,
+      "success_rate": 20.0,
+      "solve_time": 0.009100914001464844,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_05",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_01."
+        },
+        {
+          "student": "Student_06",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Main Studio"
+        },
+        {
+          "student": "Student_07",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Tuesday at Main Studio"
+        },
+        {
+          "student": "Student_08",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Thursday at Main Studio"
+        },
+        {
+          "student": "Student_09",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Friday at Main Studio"
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "wednesday",
+          "time": "16:00-16:30",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "wednesday",
+          "time": "16:30-17:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "wednesday",
+          "time": "17:00-17:30",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "wednesday",
+          "time": "17:30-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.009,
+        "status": "OPTIMAL",
+        "total_students": 20,
+        "scheduled_students": 4,
+        "schedule_efficiency_percent": 20.0,
+        "location_usage": {
+          "studio_a": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 13
+      }
+    },
+    {
+      "test_name": "test_15_fragmented_schedule",
+      "description": "Test 15: 25 students with fragmented availability windows - SHOULD PARTIALLY SOLVE",
+      "expected_result": "18-22 students scheduled, some unscheduled due to fragmentation",
+      "total_students": 25,
+      "scheduled_count": 16,
+      "unscheduled_count": 9,
+      "success_rate": 64.0,
+      "solve_time": 0.00877690315246582,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_17_GAP",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        },
+        {
+          "student": "Student_18_GAP",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        },
+        {
+          "student": "Student_19_GAP",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        },
+        {
+          "student": "Student_20_GAP",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        },
+        {
+          "student": "Student_21_GAP",
+          "reason_type": "location_schedule_mismatch",
+          "description": "No time overlap between student availability and teacher availability at accessible locations."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:30",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:45-18:30",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "13:00-13:30",
+          "student": "Student_05",
+          "location": "studio_b",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "16:30-17:15",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "19:00-19:45",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "19:45-20:30",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "wednesday",
+          "time": "15:30-16:00",
+          "student": "Student_10",
+          "location": "studio_c",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.008,
+        "status": "OPTIMAL",
+        "total_students": 25,
+        "scheduled_students": 16,
+        "schedule_efficiency_percent": 64.0,
+        "location_usage": {
+          "studio_a": 8,
+          "studio_b": 7,
+          "studio_c": 1
+        },
+        "solver_iterations": 0,
+        "variables_created": 35
+      }
+    },
+    {
+      "test_name": "test_16_location_switching",
+      "description": "Test 16: 30 students requiring location-switching optimization - SHOULD FULLY SOLVE",
+      "expected_result": "All 30 students scheduled with intelligent location switching",
+      "total_students": 30,
+      "scheduled_count": 25,
+      "unscheduled_count": 5,
+      "success_rate": 83.33333333333334,
+      "solve_time": 0.0275421142578125,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_01",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_23, Student_20."
+        },
+        {
+          "student": "Student_03",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_21, Student_24."
+        },
+        {
+          "student": "Student_04",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_25, Student_22."
+        },
+        {
+          "student": "Student_09",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_26, Student_28."
+        },
+        {
+          "student": "Student_29",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_10."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-15:00",
+          "student": "Student_20",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "14:00-15:00",
+          "student": "Student_23",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:00-17:00",
+          "student": "Student_21",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "16:00-17:00",
+          "student": "Student_24",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "17:00-18:00",
+          "student": "Student_22",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "17:00-18:00",
+          "student": "Student_25",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-15:15",
+          "student": "Student_26",
+          "location": "studio_a",
+          "duration": 75
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-15:15",
+          "student": "Student_28",
+          "location": "studio_c",
+          "duration": 75
+        },
+        {
+          "day": "tuesday",
+          "time": "15:15-16:00",
+          "student": "Student_10",
+          "location": "studio_c",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.027,
+        "status": "OPTIMAL",
+        "total_students": 30,
+        "scheduled_students": 25,
+        "schedule_efficiency_percent": 83.3,
+        "location_usage": {
+          "studio_a": 5,
+          "studio_b": 9,
+          "studio_c": 11
+        },
+        "solver_iterations": 0,
+        "variables_created": 99
+      }
+    },
+    {
+      "test_name": "test_17_duration_edge_cases",
+      "description": "Test 17: 15 students with edge case durations (15, 30, 45, 60, 75, 90 min) - SHOULD FULLY SOLVE",
+      "expected_result": "All 15 students scheduled with various duration edge cases handled correctly",
+      "total_students": 15,
+      "scheduled_count": 15,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.01985311508178711,
+      "test_passed": "PASS",
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "13:00-13:15",
+          "student": "Student_01_15min",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "13:15-13:30",
+          "student": "Student_02_15min",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "13:30-13:45",
+          "student": "Student_03_15min",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "13:45-14:15",
+          "student": "Student_04_30min",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:15-14:45",
+          "student": "Student_05_30min",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:30",
+          "student": "Student_06_45min",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:15",
+          "student": "Student_07_45min",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:15",
+          "student": "Student_08_60min",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:15",
+          "student": "Student_09_60min",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "18:15-19:30",
+          "student": "Student_10_75min",
+          "location": "studio_a",
+          "duration": 75
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.019,
+        "status": "OPTIMAL",
+        "total_students": 15,
+        "scheduled_students": 15,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 11,
+          "studio_b": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 27
+      }
+    },
+    {
+      "test_name": "test_18_cross_location_conflicts",
+      "description": "Test 18: 20 students with cross-location conflicts - SHOULD PARTIALLY SOLVE",
+      "expected_result": "15-17 students scheduled, 3-5 unscheduled due to complex location conflicts",
+      "total_students": 20,
+      "scheduled_count": 14,
+      "unscheduled_count": 6,
+      "success_rate": 70.0,
+      "solve_time": 0.020224809646606445,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_15_CROSS_CONFLICT",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_05, Student_01."
+        },
+        {
+          "student": "Student_16_CROSS_CONFLICT",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_10."
+        },
+        {
+          "student": "Student_17_CROSS_CONFLICT",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_13, Student_06."
+        },
+        {
+          "student": "Student_18_INACCESSIBLE",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Inaccessible Studio"
+        },
+        {
+          "student": "Student_19_UNAVAILABLE_TIME",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Sunday at Main Studio"
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-14:45",
+          "student": "Student_05",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:15-16:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "16:15-17:00",
+          "student": "Student_07",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:15-18:00",
+          "student": "Student_08",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "wednesday",
+          "time": "14:30-15:30",
+          "student": "Student_09",
+          "location": "studio_c",
+          "duration": 60
+        },
+        {
+          "day": "wednesday",
+          "time": "16:00-17:00",
+          "student": "Student_10",
+          "location": "studio_c",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.019,
+        "status": "OPTIMAL",
+        "total_students": 20,
+        "scheduled_students": 14,
+        "schedule_efficiency_percent": 70.0,
+        "location_usage": {
+          "studio_a": 4,
+          "studio_b": 4,
+          "studio_c": 3,
+          "studio_d": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 34
+      }
+    },
+    {
+      "test_name": "test_19_weekend_only",
+      "description": "Test 19: 28 students with weekend-only availability - SHOULD PARTIALLY SOLVE",
+      "expected_result": "20-25 students scheduled, some unscheduled due to weekend time constraints",
+      "total_students": 28,
+      "scheduled_count": 27,
+      "unscheduled_count": 1,
+      "success_rate": 96.42857142857143,
+      "solve_time": 0.024464130401611328,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_28_OVERLAP",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_02, Student_11, Student_01, Student_10."
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "saturday",
+          "time": "09:00-09:45",
+          "student": "Student_01",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "10:00-10:45",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "10:15-11:00",
+          "student": "Student_02",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "11:00-11:45",
+          "student": "Student_03",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "11:15-12:00",
+          "student": "Student_11",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "12:00-12:45",
+          "student": "Student_12",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "12:15-13:00",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "13:15-14:00",
+          "student": "Student_05",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "13:15-14:00",
+          "student": "Student_13",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "saturday",
+          "time": "14:15-15:00",
+          "student": "Student_06",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.024,
+        "status": "OPTIMAL",
+        "total_students": 28,
+        "scheduled_students": 27,
+        "schedule_efficiency_percent": 96.4,
+        "location_usage": {
+          "studio_a": 15,
+          "studio_b": 12
+        },
+        "solver_iterations": 0,
+        "variables_created": 65
+      }
+    },
+    {
+      "test_name": "test_20_real_world_complex",
+      "description": "Test 20: 32 students with real-world complexity simulation - SHOULD PARTIALLY SOLVE",
+      "expected_result": "25-28 students scheduled, realistic scheduling challenges with complex constraints",
+      "total_students": 32,
+      "scheduled_count": 26,
+      "unscheduled_count": 6,
+      "success_rate": 81.25,
+      "solve_time": 0.030915021896362305,
+      "test_passed": "PARTIAL",
+      "conflicts": [
+        {
+          "student": "Student_02",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_27_CONFLICT."
+        },
+        {
+          "student": "Student_14",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_32_LATE_TIME."
+        },
+        {
+          "student": "Student_28_CONFLICT",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_05."
+        },
+        {
+          "student": "Student_29_UNAVAILABLE",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Monday at Inaccessible Studio"
+        },
+        {
+          "student": "Student_30_TIME_MISMATCH",
+          "reason_type": "location_day_mismatch",
+          "description": "Student availability doesn't match teacher's location schedule: Sunday at Main Studio"
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:30-16:30",
+          "student": "Student_27_CONFLICT",
+          "location": "studio_a",
+          "duration": 120
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Student_01",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:30",
+          "student": "Student_03",
+          "location": "studio_b",
+          "duration": 75
+        },
+        {
+          "day": "monday",
+          "time": "18:00-19:30",
+          "student": "Student_04",
+          "location": "studio_a",
+          "duration": 90
+        },
+        {
+          "day": "tuesday",
+          "time": "13:00-13:45",
+          "student": "Student_05",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-15:00",
+          "student": "Student_06",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-16:15",
+          "student": "Student_07",
+          "location": "studio_c",
+          "duration": 75
+        },
+        {
+          "day": "tuesday",
+          "time": "16:15-17:00",
+          "student": "Student_08",
+          "location": "studio_c",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "17:00-18:30",
+          "student": "Student_09",
+          "location": "studio_b",
+          "duration": 90
+        },
+        {
+          "day": "tuesday",
+          "time": "18:30-19:00",
+          "student": "Student_10",
+          "location": "studio_b",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.029,
+        "status": "OPTIMAL",
+        "total_students": 32,
+        "scheduled_students": 26,
+        "schedule_efficiency_percent": 81.2,
+        "location_usage": {
+          "studio_a": 10,
+          "studio_b": 8,
+          "studio_c": 8
+        },
+        "solver_iterations": 0,
+        "variables_created": 47
+      }
+    }
+  ]
+}

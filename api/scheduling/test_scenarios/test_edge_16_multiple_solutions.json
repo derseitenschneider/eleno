@@ -1,0 +1,84 @@
+{
+  "_test_description": "Edge Case 16: Multiple Valid Solutions - Tests if algorithm finds optimal vs just feasible",
+  "_expected_result": "Tests optimization quality when multiple valid scheduling solutions exist",
+  "_edge_case_type": "optimization_challenge",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Flexible_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_C",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_D",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a"},
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Constraint_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Constraint_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:30", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Optimal_Gap_Filler_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Optimal_Gap_Filler_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

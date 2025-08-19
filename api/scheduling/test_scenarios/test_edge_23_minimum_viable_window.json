@@ -1,0 +1,91 @@
+{
+  "_test_description": "Edge Case 23: Minimum Viable Window - 15-minute window for 15-minute lesson",
+  "_expected_result": "Tests algorithm's handling of absolute minimum time constraints",
+  "_edge_case_type": "duration_based_conflict",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "14:30", "end_time": "14:45", "location": "studio_a"},
+      {"day": "monday", "start_time": "15:00", "end_time": "15:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "15:30", "end_time": "15:45", "location": "studio_a"},
+      {"day": "monday", "start_time": "16:00", "end_time": "16:30", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Exact_Fit_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Exact_Fit_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "14:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Exact_Fit_3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "15:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Exact_Fit_4",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "15:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Double_Slot_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Impossible_20min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 20
+    },
+    {
+      "name": "Spanning_Gap",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Edge_Overlap_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:05", "end_time": "14:35", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Edge_Overlap_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "16:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

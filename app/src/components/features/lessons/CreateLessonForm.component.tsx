@@ -16,11 +16,7 @@ import useCurrentHolder from './useCurrentHolder'
 import { useUpdateLesson } from './useUpdateLesson'
 
 export function CreateLessonForm() {
-  // Use fixed date in test mode, otherwise use current date.
   const getInitialDate = () => {
-    if (typeof window !== 'undefined' && (window as any).__PLAYWRIGHT_TEST__) {
-      return new Date('2025-08-13')
-    }
     return new Date()
   }
 

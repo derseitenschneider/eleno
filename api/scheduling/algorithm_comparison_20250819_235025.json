@@ -1,0 +1,1837 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "enhanced_wins": 0,
+    "original_wins": 0,
+    "ties": 25,
+    "failures": 0,
+    "category_performance": {
+      "time_overlap_complexity": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 5,
+        "total": 5
+      },
+      "location_constraint_conflict": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 3,
+        "total": 3
+      },
+      "duration_based_conflict": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 4,
+        "total": 4
+      },
+      "availability_pattern_conflict": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 5,
+        "total": 5
+      },
+      "optimization_challenge": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 5,
+        "total": 5
+      },
+      "real_world_complex": {
+        "enhanced_wins": 0,
+        "original_wins": 0,
+        "ties": 3,
+        "total": 3
+      }
+    },
+    "significant_improvements": []
+  },
+  "total_time": 3.7914669513702393,
+  "timestamp": "2025-08-19 23:50:25",
+  "results": [
+    {
+      "test_name": "test_edge_01_perfect_puzzle",
+      "description": "Edge Case 1: Perfect Puzzle - All students fit exactly with no gaps",
+      "edge_case_type": "time_overlap_complexity",
+      "total_students": 8,
+      "original": {
+        "scheduled_count": 7,
+        "unscheduled_count": 1,
+        "success_rate": 87.5,
+        "solve_time": 0.021606922149658203,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.021606922149658203,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 87.5,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 54,
+          "variables_created": 33
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 7,
+        "unscheduled_count": 1,
+        "success_rate": 87.5,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 87.5,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 54,
+          "variables_created": 33,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.575,
+          "high_priority_scheduled": 7,
+          "total_solve_time": 0.01972031593322754,
+          "best_strategy_score": 1.575
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 8,
+        "winner": "tie",
+        "improvement": {
+          "faster_by": 0.001886606216430664
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.002s faster"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_02_one_minute_off",
+      "description": "Edge Case 2: One Minute Off - Each student's availability ends 1 minute before the next begins",
+      "edge_case_type": "time_overlap_complexity",
+      "total_students": 6,
+      "original": {
+        "scheduled_count": 4,
+        "unscheduled_count": 2,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.0033903121948242188,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.0033903121948242188,
+          "status": "OPTIMAL",
+          "total_students": 6,
+          "scheduled_students": 4,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 4
+          },
+          "solver_iterations": 0,
+          "variables_created": 6
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 4,
+        "unscheduled_count": 2,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 6,
+          "scheduled_students": 4,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 4
+          },
+          "solver_iterations": 0,
+          "variables_created": 6,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.067,
+          "high_priority_scheduled": 4,
+          "total_solve_time": 0.005593776702880859,
+          "best_strategy_score": 1.0666666666666667
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 6,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.0022034645080566406
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.002s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_03_nested_availability",
+      "description": "Edge Case 3: Nested Availability - Students with completely nested time windows",
+      "edge_case_type": "time_overlap_complexity",
+      "total_students": 7,
+      "original": {
+        "scheduled_count": 3,
+        "unscheduled_count": 4,
+        "success_rate": 42.857142857142854,
+        "solve_time": 0.010955095291137695,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.010955095291137695,
+          "status": "OPTIMAL",
+          "total_students": 7,
+          "scheduled_students": 3,
+          "schedule_efficiency_percent": 42.9,
+          "location_usage": {
+            "studio_a": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 22
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 3,
+        "unscheduled_count": 4,
+        "success_rate": 42.857142857142854,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 7,
+          "scheduled_students": 3,
+          "schedule_efficiency_percent": 42.9,
+          "location_usage": {
+            "studio_a": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 22,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 0.729,
+          "high_priority_scheduled": 3,
+          "total_solve_time": 0.024960994720458984,
+          "best_strategy_score": 0.7285714285714286
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 7,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.014005899429321289
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.014s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_04_interleaved_windows",
+      "description": "Edge Case 4: Interleaved Windows - Complex overlapping pattern creating scheduling puzzle",
+      "edge_case_type": "time_overlap_complexity",
+      "total_students": 10,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 4,
+        "success_rate": 60.0,
+        "solve_time": 0.00837397575378418,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.00837397575378418,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 60.0,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 26
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 4,
+        "success_rate": 60.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 60.0,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 26,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.2,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.016475200653076172,
+          "best_strategy_score": 1.2
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 10,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.008101224899291992
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.008s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_05_domino_effect",
+      "description": "Edge Case 5: Domino Effect - Scheduling one student blocks a chain of others",
+      "edge_case_type": "time_overlap_complexity",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 7,
+        "unscheduled_count": 2,
+        "success_rate": 77.77777777777779,
+        "solve_time": 0.0058443546295166016,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.0058443546295166016,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 77.8,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 0,
+          "variables_created": 18
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 7,
+        "unscheduled_count": 2,
+        "success_rate": 77.77777777777779,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 77.8,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 0,
+          "variables_created": 18,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.478,
+          "high_priority_scheduled": 7,
+          "total_solve_time": 0.011837959289550781,
+          "best_strategy_score": 1.4777777777777779
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.00599360466003418
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.006s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_06_musical_chairs",
+      "description": "Edge Case 6: Musical Chairs - 8 students, 7 time slots at accessible locations",
+      "edge_case_type": "location_constraint_conflict",
+      "total_students": 8,
+      "original": {
+        "scheduled_count": 7,
+        "unscheduled_count": 1,
+        "success_rate": 87.5,
+        "solve_time": 0.007179737091064453,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.007179737091064453,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 87.5,
+          "location_usage": {
+            "studio_a": 4,
+            "studio_b": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 26
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 7,
+        "unscheduled_count": 1,
+        "success_rate": 87.5,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 87.5,
+          "location_usage": {
+            "studio_a": 4,
+            "studio_b": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 26,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.575,
+          "high_priority_scheduled": 7,
+          "total_solve_time": 0.013477802276611328,
+          "best_strategy_score": 1.575
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 8,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.006298065185546875
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.006s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_07_location_hopping",
+      "description": "Edge Case 7: Location Hopping Required - Optimal solution requires frequent location switches",
+      "edge_case_type": "location_constraint_conflict",
+      "total_students": 10,
+      "original": {
+        "scheduled_count": 8,
+        "unscheduled_count": 2,
+        "success_rate": 80.0,
+        "solve_time": 0.005169868469238281,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.005169868469238281,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 3,
+            "studio_c": 2
+          },
+          "solver_iterations": 0,
+          "variables_created": 18
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 8,
+        "unscheduled_count": 2,
+        "success_rate": 80.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 3,
+            "studio_c": 2
+          },
+          "solver_iterations": 0,
+          "variables_created": 18,
+          "gap_penalty_score": 0.3,
+          "switch_penalty_score": 0.35,
+          "solution_quality_score": 0.95,
+          "high_priority_scheduled": 8,
+          "total_solve_time": 0.010251045227050781,
+          "best_strategy_score": 0.95
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 10,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.0050811767578125,
+          "more_gaps": 0.3
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.005s slower",
+          "Enhanced has more gaps"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_08_isolated_islands",
+      "description": "Edge Case 8: Isolated Islands - Students grouped by location with no overlap between groups",
+      "edge_case_type": "location_constraint_conflict",
+      "total_students": 10,
+      "original": {
+        "scheduled_count": 7,
+        "unscheduled_count": 3,
+        "success_rate": 70.0,
+        "solve_time": 0.008260726928710938,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.008260726928710938,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 70.0,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 2,
+            "studio_c": 2
+          },
+          "solver_iterations": 0,
+          "variables_created": 34
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 7,
+        "unscheduled_count": 3,
+        "success_rate": 70.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 70.0,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 2,
+            "studio_c": 2
+          },
+          "solver_iterations": 11,
+          "variables_created": 34,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.4,
+          "high_priority_scheduled": 7,
+          "total_solve_time": 0.014989137649536133,
+          "best_strategy_score": 1.4
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 10,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.006728410720825195
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.007s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_09_mixed_duration_tetris",
+      "description": "Edge Case 9: Mixed Duration Tetris - Multiple lesson durations that must fit perfectly",
+      "edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.007368803024291992,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.007368803024291992,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 26
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 26,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.267,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.01821112632751465,
+          "best_strategy_score": 1.2666666666666666
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.010842323303222656
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.011s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_10_prime_durations",
+      "description": "Edge Case 10: Prime Number Durations - Non-standard lesson durations that test granularity",
+      "edge_case_type": "duration_based_conflict",
+      "total_students": 10,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 4,
+        "success_rate": 60.0,
+        "solve_time": 0.01658916473388672,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.01658916473388672,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 60.0,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 72,
+          "variables_created": 47
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 4,
+        "success_rate": 60.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 60.0,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 80,
+          "variables_created": 47,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.2,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.028696060180664062,
+          "best_strategy_score": 1.2
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 10,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.012106895446777344
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.012s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_11_duration_mismatch",
+      "description": "Edge Case 11: Duration Mismatch - All students need 60 minutes but windows are 45 minutes",
+      "edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 4,
+        "unscheduled_count": 5,
+        "success_rate": 44.44444444444444,
+        "solve_time": 0.003835916519165039,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.003835916519165039,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 4,
+          "schedule_efficiency_percent": 44.4,
+          "location_usage": {
+            "studio_a": 4
+          },
+          "solver_iterations": 0,
+          "variables_created": 9
+        },
+        "conflicts": [
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 4,
+        "unscheduled_count": 5,
+        "success_rate": 44.44444444444444,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 4,
+          "schedule_efficiency_percent": 44.4,
+          "location_usage": {
+            "studio_a": 4
+          },
+          "solver_iterations": 0,
+          "variables_created": 9,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 0.844,
+          "high_priority_scheduled": 4,
+          "total_solve_time": 0.007395029067993164,
+          "best_strategy_score": 0.8444444444444444
+        },
+        "conflicts": [
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.003559112548828125
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.004s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_12_swiss_cheese",
+      "description": "Edge Case 12: Swiss Cheese Schedule - Many small gaps in availability",
+      "edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 8,
+        "unscheduled_count": 1,
+        "success_rate": 88.88888888888889,
+        "solve_time": 0.004141092300415039,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.004141092300415039,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 88.9,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 15
+        },
+        "conflicts": [
+          "no_time_overlap"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 8,
+        "unscheduled_count": 1,
+        "success_rate": 88.88888888888889,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 88.9,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 15,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.689,
+          "high_priority_scheduled": 8,
+          "total_solve_time": 0.008996009826660156,
+          "best_strategy_score": 1.6888888888888887
+        },
+        "conflicts": [
+          "no_time_overlap"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.004854917526245117
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.005s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_13_peak_hour_congestion",
+      "description": "Edge Case 13: Peak Hour Congestion - All students only available during prime time",
+      "edge_case_type": "availability_pattern_conflict",
+      "total_students": 12,
+      "original": {
+        "scheduled_count": 7,
+        "unscheduled_count": 5,
+        "success_rate": 58.333333333333336,
+        "solve_time": 0.00994110107421875,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.00994110107421875,
+          "status": "OPTIMAL",
+          "total_students": 12,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 58.3,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 0,
+          "variables_created": 31
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 7,
+        "unscheduled_count": 5,
+        "success_rate": 58.333333333333336,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 12,
+          "scheduled_students": 7,
+          "schedule_efficiency_percent": 58.3,
+          "location_usage": {
+            "studio_a": 7
+          },
+          "solver_iterations": 0,
+          "variables_created": 31,
+          "gap_penalty_score": 0.3,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 0.983,
+          "high_priority_scheduled": 7,
+          "total_solve_time": 0.021960020065307617,
+          "best_strategy_score": 0.9833333333333332
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 12,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.012018918991088867,
+          "more_gaps": 0.3
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.012s slower",
+          "Enhanced has more gaps"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_14_butterfly_effect",
+      "description": "Edge Case 14: Butterfly Effect - One student with strict availability affects entire schedule",
+      "edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0.03473687171936035,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.03473687171936035,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 65
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 65,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.056,
+          "high_priority_scheduled": 5,
+          "total_solve_time": 0.06776213645935059,
+          "best_strategy_score": 1.0555555555555556
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.033025264739990234
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.033s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_15_circular_dependency",
+      "description": "Edge Case 15: Circular Dependency - Student A blocks B, B blocks C, C blocks A",
+      "edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.005440950393676758,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.005440950393676758,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 15
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 15,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.267,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.01345372200012207,
+          "best_strategy_score": 1.2666666666666666
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.008012771606445312
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.008s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_16_multiple_solutions",
+      "description": "Edge Case 16: Multiple Valid Solutions - Tests if algorithm finds optimal vs just feasible",
+      "edge_case_type": "optimization_challenge",
+      "total_students": 8,
+      "original": {
+        "scheduled_count": 8,
+        "unscheduled_count": 0,
+        "success_rate": 100.0,
+        "solve_time": 0.012752771377563477,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.012752771377563477,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 100.0,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 50
+        },
+        "conflicts": []
+      },
+      "enhanced": {
+        "scheduled_count": 8,
+        "unscheduled_count": 0,
+        "success_rate": 100.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 8,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 100.0,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 50,
+          "gap_penalty_score": 0.125,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.675,
+          "high_priority_scheduled": 8,
+          "total_solve_time": 0.02409815788269043,
+          "best_strategy_score": 1.6749999999999998
+        },
+        "conflicts": []
+      },
+      "comparison": {
+        "total_students": 8,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.011345386505126953,
+          "more_gaps": 0.125
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.011s slower",
+          "Enhanced has more gaps"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_17_gap_minimization_trap",
+      "description": "Edge Case 17: Gap Minimization Trap - Minimizing gaps creates unsolvable situation",
+      "edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.0031490325927734375,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.0031490325927734375,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 13
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "no_time_overlap"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 6
+          },
+          "solver_iterations": 0,
+          "variables_created": 13,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.267,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.008841991424560547,
+          "best_strategy_score": 1.2666666666666666
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "no_time_overlap"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.005692958831787109
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.006s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_18_greedy_trap",
+      "description": "Edge Case 18: Greedy Trap - Scheduling shorter lessons first blocks longer ones",
+      "edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0.005209207534790039,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.005209207534790039,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 16
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 16,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.056,
+          "high_priority_scheduled": 5,
+          "total_solve_time": 0.010069131851196289,
+          "best_strategy_score": 1.0555555555555556
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.00485992431640625
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.005s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_19_school_rush",
+      "description": "Edge Case 19: School Day Rush - 20 students all want after-school slots",
+      "edge_case_type": "real_world_complex",
+      "total_students": 20,
+      "original": {
+        "scheduled_count": 16,
+        "unscheduled_count": 4,
+        "success_rate": 80.0,
+        "solve_time": 0.053903818130493164,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.053903818130493164,
+          "status": "OPTIMAL",
+          "total_students": 20,
+          "scheduled_students": 16,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 16
+          },
+          "solver_iterations": 0,
+          "variables_created": 125
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 16,
+        "unscheduled_count": 4,
+        "success_rate": 80.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 20,
+          "scheduled_students": 16,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 16
+          },
+          "solver_iterations": 0,
+          "variables_created": 125,
+          "gap_penalty_score": 0.25,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 2.15,
+          "high_priority_scheduled": 16,
+          "total_solve_time": 0.1045541763305664,
+          "best_strategy_score": 2.1500000000000004
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 20,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.05065035820007324,
+          "more_gaps": 0.25
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.051s slower",
+          "Enhanced has more gaps"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_20_weekend_warriors",
+      "description": "Edge Case 20: Weekend Warriors - 12 students only available Saturday/Sunday",
+      "edge_case_type": "real_world_complex",
+      "total_students": 13,
+      "original": {
+        "scheduled_count": 12,
+        "unscheduled_count": 1,
+        "success_rate": 92.3076923076923,
+        "solve_time": 0.01915287971496582,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.01915287971496582,
+          "status": "OPTIMAL",
+          "total_students": 13,
+          "scheduled_students": 12,
+          "schedule_efficiency_percent": 92.3,
+          "location_usage": {
+            "studio_a": 12
+          },
+          "solver_iterations": 0,
+          "variables_created": 80
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 12,
+        "unscheduled_count": 1,
+        "success_rate": 92.3076923076923,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 13,
+          "scheduled_students": 12,
+          "schedule_efficiency_percent": 92.3,
+          "location_usage": {
+            "studio_a": 12
+          },
+          "solver_iterations": 0,
+          "variables_created": 80,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 2.123,
+          "high_priority_scheduled": 12,
+          "total_solve_time": 0.03757619857788086,
+          "best_strategy_score": 2.123076923076923
+        },
+        "conflicts": [
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 13,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.01842331886291504
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.018s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_21_lunch_break_puzzle",
+      "description": "Edge Case 21: Lunch Break Puzzle - Teacher has lunch break creating scheduling gap",
+      "edge_case_type": "real_world_complex",
+      "total_students": 10,
+      "original": {
+        "scheduled_count": 8,
+        "unscheduled_count": 2,
+        "success_rate": 80.0,
+        "solve_time": 0.01685476303100586,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.01685476303100586,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 45
+        },
+        "conflicts": [
+          "no_time_overlap",
+          "no_time_overlap"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 8,
+        "unscheduled_count": 2,
+        "success_rate": 80.0,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 10,
+          "scheduled_students": 8,
+          "schedule_efficiency_percent": 80.0,
+          "location_usage": {
+            "studio_a": 8
+          },
+          "solver_iterations": 0,
+          "variables_created": 45,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.6,
+          "high_priority_scheduled": 8,
+          "total_solve_time": 0.024835824966430664,
+          "best_strategy_score": 1.6
+        },
+        "conflicts": [
+          "no_time_overlap",
+          "no_time_overlap"
+        ]
+      },
+      "comparison": {
+        "total_students": 10,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.007981061935424805
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.008s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_22_resource_starvation",
+      "description": "Edge Case 22: Resource Starvation - Some students consistently blocked by others",
+      "edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.0429689884185791,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.0429689884185791,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 78
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 6,
+        "unscheduled_count": 3,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 6,
+          "schedule_efficiency_percent": 66.7,
+          "location_usage": {
+            "studio_a": 3,
+            "studio_b": 3
+          },
+          "solver_iterations": 0,
+          "variables_created": 78,
+          "gap_penalty_score": 0.25,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.017,
+          "high_priority_scheduled": 6,
+          "total_solve_time": 0.08176207542419434,
+          "best_strategy_score": 1.0166666666666666
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.038793087005615234,
+          "more_gaps": 0.25
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.039s slower",
+          "Enhanced has more gaps"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_23_minimum_viable_window",
+      "description": "Edge Case 23: Minimum Viable Window - 15-minute window for 15-minute lesson",
+      "edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "original": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0.005562782287597656,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.005562782287597656,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 7
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken",
+          "no_time_overlap",
+          "no_time_overlap"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 5,
+        "unscheduled_count": 4,
+        "success_rate": 55.55555555555556,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 9,
+          "scheduled_students": 5,
+          "schedule_efficiency_percent": 55.6,
+          "location_usage": {
+            "studio_a": 5
+          },
+          "solver_iterations": 0,
+          "variables_created": 7,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.056,
+          "high_priority_scheduled": 5,
+          "total_solve_time": 0.010939836502075195,
+          "best_strategy_score": 1.0555555555555556
+        },
+        "conflicts": [
+          "no_time_overlap",
+          "no_time_overlap",
+          "no_time_overlap",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 9,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.005377054214477539
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.005s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_24_time_zone_simulation",
+      "description": "Edge Case 24: Time Zone Simulation - Students with availability offset by exact hours",
+      "edge_case_type": "availability_pattern_conflict",
+      "total_students": 11,
+      "original": {
+        "scheduled_count": 9,
+        "unscheduled_count": 2,
+        "success_rate": 81.81818181818183,
+        "solve_time": 0.014580011367797852,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.014580011367797852,
+          "status": "OPTIMAL",
+          "total_students": 11,
+          "scheduled_students": 9,
+          "schedule_efficiency_percent": 81.8,
+          "location_usage": {
+            "studio_a": 9
+          },
+          "solver_iterations": 50,
+          "variables_created": 51
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 9,
+        "unscheduled_count": 2,
+        "success_rate": 81.81818181818183,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 11,
+          "scheduled_students": 9,
+          "schedule_efficiency_percent": 81.8,
+          "location_usage": {
+            "studio_a": 9
+          },
+          "solver_iterations": 50,
+          "variables_created": 51,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.718,
+          "high_priority_scheduled": 9,
+          "total_solve_time": 0.027790307998657227,
+          "best_strategy_score": 1.7181818181818183
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 11,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.013210296630859375
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.013s slower"
+        ]
+      }
+    },
+    {
+      "test_name": "test_edge_25_fairness_vs_efficiency",
+      "description": "Edge Case 25: Fairness vs Efficiency - Maximum students scheduled vs equal opportunity",
+      "edge_case_type": "optimization_challenge",
+      "total_students": 12,
+      "original": {
+        "scheduled_count": 10,
+        "unscheduled_count": 2,
+        "success_rate": 83.33333333333334,
+        "solve_time": 0.09011101722717285,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0.09011101722717285,
+          "status": "OPTIMAL",
+          "total_students": 12,
+          "scheduled_students": 10,
+          "schedule_efficiency_percent": 83.3,
+          "location_usage": {
+            "studio_a": 8,
+            "studio_b": 2
+          },
+          "solver_iterations": 0,
+          "variables_created": 95
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "enhanced": {
+        "scheduled_count": 10,
+        "unscheduled_count": 2,
+        "success_rate": 83.33333333333334,
+        "solve_time": 0,
+        "status": "OPTIMAL",
+        "statistics": {
+          "solve_time_seconds": 0,
+          "status": "OPTIMAL",
+          "total_students": 12,
+          "scheduled_students": 10,
+          "schedule_efficiency_percent": 83.3,
+          "location_usage": {
+            "studio_a": 8,
+            "studio_b": 2
+          },
+          "solver_iterations": 0,
+          "variables_created": 95,
+          "gap_penalty_score": 0.0,
+          "switch_penalty_score": 0.0,
+          "solution_quality_score": 1.833,
+          "high_priority_scheduled": 10,
+          "total_solve_time": 0.13874077796936035,
+          "best_strategy_score": 1.8333333333333333
+        },
+        "conflicts": [
+          "slots_taken",
+          "slots_taken"
+        ]
+      },
+      "comparison": {
+        "total_students": 12,
+        "winner": "tie",
+        "improvement": {
+          "slower_by": 0.0486297607421875
+        },
+        "analysis": [
+          "Same number of students scheduled",
+          "Enhanced was 0.049s slower"
+        ]
+      }
+    }
+  ]
+}

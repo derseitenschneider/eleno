@@ -1,0 +1,95 @@
+{
+  "_test_description": "Edge Case 10: Prime Number Durations - Non-standard lesson durations that test granularity",
+  "_expected_result": "Tests algorithm's handling of unusual lesson durations and time slot granularity",
+  "_edge_case_type": "duration_based_conflict",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Prime_17min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 17
+    },
+    {
+      "name": "Prime_23min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:15", "end_time": "15:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 23
+    },
+    {
+      "name": "Prime_31min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 31
+    },
+    {
+      "name": "Prime_37min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 37
+    },
+    {
+      "name": "Prime_41min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 41
+    },
+    {
+      "name": "Prime_43min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 43
+    },
+    {
+      "name": "Prime_47min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 47
+    },
+    {
+      "name": "Prime_53min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 53
+    },
+    {
+      "name": "Flexible_Short",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 11
+    },
+    {
+      "name": "Flexible_Medium",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 29
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

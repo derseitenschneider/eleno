@@ -1,0 +1,2369 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "passed_tests": 25,
+    "failed_tests": 0,
+    "error_tests": 0,
+    "total_time": 3.1618378162384033,
+    "timestamp": "2025-08-19 23:47:44"
+  },
+  "insights": {
+    "total_tests": 25,
+    "category_performance": {
+      "time_overlap_complexity": {
+        "tests_passed": 5,
+        "total_tests": 5,
+        "pass_rate": 100.0,
+        "avg_success_rate": 66.96031746031746,
+        "avg_solve_time": 0.013724279403686524
+      },
+      "location_constraint_conflict": {
+        "tests_passed": 3,
+        "total_tests": 3,
+        "pass_rate": 100.0,
+        "avg_success_rate": 79.16666666666667,
+        "avg_solve_time": 0.015023628870646158
+      },
+      "duration_based_conflict": {
+        "tests_passed": 4,
+        "total_tests": 4,
+        "pass_rate": 100.0,
+        "avg_success_rate": 56.66666666666666,
+        "avg_solve_time": 0.014648079872131348
+      },
+      "availability_pattern_conflict": {
+        "tests_passed": 5,
+        "total_tests": 5,
+        "pass_rate": 100.0,
+        "avg_success_rate": 70.25252525252526,
+        "avg_solve_time": 0.015089797973632812
+      },
+      "optimization_challenge": {
+        "tests_passed": 5,
+        "total_tests": 5,
+        "pass_rate": 100.0,
+        "avg_success_rate": 74.44444444444446,
+        "avg_solve_time": 0.03641033172607422
+      },
+      "real_world_complex": {
+        "tests_passed": 3,
+        "total_tests": 3,
+        "pass_rate": 100.0,
+        "avg_success_rate": 84.1025641025641,
+        "avg_solve_time": 0.03545896212259928
+      }
+    },
+    "failure_analysis": {},
+    "algorithm_weaknesses": [],
+    "conflict_patterns": {},
+    "performance_metrics": {}
+  },
+  "results": [
+    {
+      "test_name": "test_edge_01_perfect_puzzle",
+      "description": "Edge Case 1: Perfect Puzzle - All students fit exactly with no gaps",
+      "expected_result": "All 8 students should be scheduled with perfect time efficiency",
+      "_edge_case_type": "time_overlap_complexity",
+      "total_students": 8,
+      "scheduled_count": 7,
+      "unscheduled_count": 1,
+      "success_rate": 87.5,
+      "solve_time": 0.013812065124511719,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Student_30min_E",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_30min_D.",
+          "suggestions": [
+            "Monday 17:30 at Main Studio is taken by Student_30min_D",
+            "Consider asking other students to change their lesson times"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Student_30min_A",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:15",
+          "student": "Student_30min_B",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Student_45min_A",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:30",
+          "student": "Student_30min_C",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:15",
+          "student": "Student_45min_B",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.014,
+        "status": "OPTIMAL",
+        "total_students": 8,
+        "scheduled_students": 7,
+        "schedule_efficiency_percent": 87.5,
+        "location_usage": {
+          "studio_a": 7
+        },
+        "solver_iterations": 54,
+        "variables_created": 33
+      },
+      "edge_insights": [
+        "Average gap between lessons: 15.0 minutes",
+        "Total wasted time: 15.0 minutes",
+        "Student availability overlaps detected: 13"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_02_one_minute_off",
+      "description": "Edge Case 2: One Minute Off - Each student's availability ends 1 minute before the next begins",
+      "expected_result": "Should test algorithm's handling of tight time constraints with no buffer",
+      "_edge_case_type": "time_overlap_complexity",
+      "total_students": 6,
+      "scheduled_count": 4,
+      "unscheduled_count": 2,
+      "success_rate": 66.66666666666666,
+      "solve_time": 0.006046295166015625,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Student_Overlap_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_A.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Student_A",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Student_Overlap_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_B.",
+          "suggestions": [
+            "Monday 15:30 at Main Studio is taken by Student_B",
+            "Consider asking other students to change their lesson times"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_A",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:45",
+          "student": "Student_B",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:45",
+          "student": "Student_C",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Student_D",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.006,
+        "status": "OPTIMAL",
+        "total_students": 6,
+        "scheduled_students": 4,
+        "schedule_efficiency_percent": 66.7,
+        "location_usage": {
+          "studio_a": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 6
+      },
+      "edge_insights": [
+        "Average gap between lessons: 15.0 minutes",
+        "Total wasted time: 45.0 minutes",
+        "Student availability overlaps detected: 4"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_03_nested_availability",
+      "description": "Edge Case 3: Nested Availability - Students with completely nested time windows",
+      "expected_result": "Algorithm should choose optimal nesting to maximize scheduled students",
+      "_edge_case_type": "time_overlap_complexity",
+      "total_students": 7,
+      "scheduled_count": 3,
+      "unscheduled_count": 4,
+      "success_rate": 42.857142857142854,
+      "solve_time": 0.016382932662963867,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Student_Outer",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Level3_B, Student_Level3_A.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Student_Level3_B",
+            "Monday 14:15 at Main Studio is taken by Student_Level3_B"
+          ]
+        },
+        {
+          "student": "Student_Level2_A",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Level3_B.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Student_Level3_B",
+            "Monday 15:15 at Main Studio is taken by Student_Level3_B"
+          ]
+        },
+        {
+          "student": "Student_Level2_B",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Level3_B.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Student_Level3_B",
+            "Monday 14:45 at Main Studio is taken by Student_Level3_B"
+          ]
+        },
+        {
+          "student": "Student_Level4_Inner",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Level3_B.",
+          "suggestions": [
+            "Monday 15:15 at Main Studio is taken by Student_Level3_B",
+            "Consider asking other students to change their lesson times"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "15:00-15:45",
+          "student": "Student_Level3_B",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:45-16:30",
+          "student": "Student_Level3_A",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Student_Gap_Filler",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.016,
+        "status": "OPTIMAL",
+        "total_students": 7,
+        "scheduled_students": 3,
+        "schedule_efficiency_percent": 42.9,
+        "location_usage": {
+          "studio_a": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 22
+      },
+      "edge_insights": [
+        "Average gap between lessons: 30.0 minutes",
+        "Total wasted time: 30.0 minutes",
+        "Student availability overlaps detected: 17"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_04_interleaved_windows",
+      "description": "Edge Case 4: Interleaved Windows - Complex overlapping pattern creating scheduling puzzle",
+      "expected_result": "Tests algorithm's ability to solve complex interleaved scheduling patterns",
+      "_edge_case_type": "time_overlap_complexity",
+      "total_students": 10,
+      "scheduled_count": 6,
+      "unscheduled_count": 4,
+      "success_rate": 60.0,
+      "solve_time": 0.019352197647094727,
+      "test_passed": "PASS",
+      "teacher_hours": 6.0,
+      "conflicts": [
+        {
+          "student": "Pattern_B1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Slot_1, Pattern_A1.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Pattern_A1",
+            "Monday 14:45 at Main Studio is taken by Pattern_A1"
+          ]
+        },
+        {
+          "student": "Pattern_C1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Slot_1.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Short_Slot_1",
+            "Monday 15:15 at Main Studio is taken by Short_Slot_1"
+          ]
+        },
+        {
+          "student": "Pattern_A2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Pattern_B2.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Pattern_B2",
+            "Monday 16:15 at Main Studio is taken by Pattern_B2"
+          ]
+        },
+        {
+          "student": "Pattern_C2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Slot_2, Pattern_B2.",
+          "suggestions": [
+            "Monday 17:00 at Main Studio is taken by Pattern_B2",
+            "Monday 17:15 at Main Studio is taken by Pattern_B2"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-15:00",
+          "student": "Pattern_A1",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Short_Slot_1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:30",
+          "student": "Pattern_B2",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "17:30-18:00",
+          "student": "Short_Slot_2",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "18:00-19:00",
+          "student": "Pattern_A3",
+          "location": "studio_a",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.019,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 60.0,
+        "location_usage": {
+          "studio_a": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 26
+      },
+      "edge_insights": [
+        "Average gap between lessons: 30.0 minutes",
+        "Total wasted time: 60.0 minutes",
+        "Student availability overlaps detected: 13"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_05_domino_effect",
+      "description": "Edge Case 5: Domino Effect - Scheduling one student blocks a chain of others",
+      "expected_result": "Algorithm should detect chain dependencies and make optimal choice",
+      "_edge_case_type": "time_overlap_complexity",
+      "total_students": 9,
+      "scheduled_count": 7,
+      "unscheduled_count": 2,
+      "success_rate": 77.77777777777779,
+      "solve_time": 0.01302790641784668,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Trigger_Student",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Chain_A1, Chain_A2.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Chain_A1",
+            "Monday 15:15 at Main Studio is taken by Chain_A2"
+          ]
+        },
+        {
+          "student": "Chain_B1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Chain_A3.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Chain_A3",
+            "Monday 16:15 at Main Studio is taken by Chain_A3"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Independent_Early",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:15",
+          "student": "Chain_A1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Chain_A2",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:30",
+          "student": "Chain_A3",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:00",
+          "student": "Chain_B2",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.013,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 7,
+        "schedule_efficiency_percent": 77.8,
+        "location_usage": {
+          "studio_a": 7
+        },
+        "solver_iterations": 0,
+        "variables_created": 18
+      },
+      "edge_insights": [
+        "Average gap between lessons: 15.0 minutes",
+        "Total wasted time: 15.0 minutes",
+        "Student availability overlaps detected: 13"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_06_musical_chairs",
+      "description": "Edge Case 6: Musical Chairs - 8 students, 7 time slots at accessible locations",
+      "expected_result": "7 students scheduled, 1 unscheduled due to insufficient time slots",
+      "_edge_case_type": "location_constraint_conflict",
+      "total_students": 8,
+      "scheduled_count": 7,
+      "unscheduled_count": 1,
+      "success_rate": 87.5,
+      "solve_time": 0.014513969421386719,
+      "test_passed": "PASS",
+      "teacher_hours": 6.5,
+      "conflicts": [
+        {
+          "student": "Student_Unlucky",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_B2, Student_A2, Student_A3, Student_A1, Student_B3.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Student_A1",
+            "Monday 14:45 at Main Studio is taken by Student_A2"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Student_A1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:30",
+          "student": "Student_A2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:15",
+          "student": "Student_A3",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:15",
+          "student": "Student_A4",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-15:45",
+          "student": "Student_B1",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.014,
+        "status": "OPTIMAL",
+        "total_students": 8,
+        "scheduled_students": 7,
+        "schedule_efficiency_percent": 87.5,
+        "location_usage": {
+          "studio_a": 4,
+          "studio_b": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 26
+      },
+      "edge_insights": [
+        "Teacher location switches required: 0",
+        "Location usage distribution: {'studio_a': 4, 'studio_b': 3}"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_07_location_hopping",
+      "description": "Edge Case 7: Location Hopping Required - Optimal solution requires frequent location switches",
+      "expected_result": "Tests if algorithm optimizes for minimal gaps vs location switching efficiency",
+      "_edge_case_type": "location_constraint_conflict",
+      "total_students": 10,
+      "scheduled_count": 8,
+      "unscheduled_count": 2,
+      "success_rate": 80.0,
+      "solve_time": 0.011746883392333984,
+      "test_passed": "PASS",
+      "teacher_hours": 18.0,
+      "conflicts": [
+        {
+          "student": "A_15_30",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Block_Student_A.",
+          "suggestions": [
+            "Monday 15:30 at Main Studio is taken by Block_Student_A",
+            "Monday 15:45 at Main Studio is taken by Block_Student_A"
+          ]
+        },
+        {
+          "student": "B_16_00",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Block_Student_B.",
+          "suggestions": [
+            "Monday 16:00 at Practice Room is taken by Block_Student_B",
+            "Monday 16:15 at Practice Room is taken by Block_Student_B"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "A_14_00",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:15",
+          "student": "B_14_30",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:45-16:15",
+          "student": "Block_Student_A",
+          "location": "studio_a",
+          "duration": 90
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:45",
+          "student": "C_15_00",
+          "location": "studio_c",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:45",
+          "student": "Block_Student_B",
+          "location": "studio_b",
+          "duration": 90
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.011,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 8,
+        "schedule_efficiency_percent": 80.0,
+        "location_usage": {
+          "studio_a": 3,
+          "studio_b": 3,
+          "studio_c": 2
+        },
+        "solver_iterations": 0,
+        "variables_created": 18
+      },
+      "edge_insights": [
+        "Teacher location switches required: 7",
+        "Location usage distribution: {'studio_a': 3, 'studio_b': 3, 'studio_c': 2}"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_08_isolated_islands",
+      "description": "Edge Case 8: Isolated Islands - Students grouped by location with no overlap between groups",
+      "expected_result": "Tests algorithm's ability to handle completely separate scheduling domains",
+      "_edge_case_type": "location_constraint_conflict",
+      "total_students": 10,
+      "scheduled_count": 7,
+      "unscheduled_count": 3,
+      "success_rate": 70.0,
+      "solve_time": 0.018810033798217773,
+      "test_passed": "PASS",
+      "teacher_hours": 6.0,
+      "conflicts": [
+        {
+          "student": "Island_A_Student_3",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Island_A_Student_2.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Island_A_Student_2",
+            "Monday 15:15 at Main Studio is taken by Island_A_Student_2"
+          ]
+        },
+        {
+          "student": "Island_B_Student_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Island_B_Student_1.",
+          "suggestions": [
+            "Tuesday 14:30 at Practice Room is taken by Island_B_Student_1",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Island_C_Student_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Island_C_Student_1.",
+          "suggestions": [
+            "Wednesday 14:45 at Recording Studio is taken by Island_C_Student_1",
+            "Consider asking other students to change their lesson times"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Island_A_Student_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:30",
+          "student": "Island_A_Student_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Island_A_Student_4",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-15:00",
+          "student": "Island_B_Student_1",
+          "location": "studio_b",
+          "duration": 60
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-16:00",
+          "student": "Island_B_Student_3",
+          "location": "studio_b",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.018,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 7,
+        "schedule_efficiency_percent": 70.0,
+        "location_usage": {
+          "studio_a": 3,
+          "studio_b": 2,
+          "studio_c": 2
+        },
+        "solver_iterations": 0,
+        "variables_created": 34
+      },
+      "edge_insights": [
+        "Teacher location switches required: 0",
+        "Location usage distribution: {'studio_a': 3, 'studio_b': 2, 'studio_c': 2}"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_09_mixed_duration_tetris",
+      "description": "Edge Case 9: Mixed Duration Tetris - Multiple lesson durations that must fit perfectly",
+      "expected_result": "Tests algorithm's ability to solve duration-based scheduling puzzles",
+      "_edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "scheduled_count": 6,
+      "unscheduled_count": 3,
+      "success_rate": 66.66666666666666,
+      "solve_time": 0.013589143753051758,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Medium_60min_A",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Overlap_45min.",
+          "suggestions": [
+            "Monday 15:30 at Main Studio is taken by Overlap_45min",
+            "Monday 15:45 at Main Studio is taken by Overlap_45min"
+          ]
+        },
+        {
+          "student": "Overlap_60min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Long_90min_A, Overlap_45min.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Long_90min_A",
+            "Monday 14:45 at Main Studio is taken by Long_90min_A"
+          ]
+        },
+        {
+          "student": "Late_75min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_30min_A.",
+          "suggestions": [
+            "Monday 16:15 at Main Studio is taken by Short_30min_A",
+            "Monday 16:30 at Main Studio is taken by Short_30min_A"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-15:30",
+          "student": "Long_90min_A",
+          "location": "studio_a",
+          "duration": 90
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:15",
+          "student": "Overlap_45min",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:00",
+          "student": "Short_30min_A",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:15",
+          "student": "Quick_15min_A",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "17:15-17:30",
+          "student": "Quick_15min_B",
+          "location": "studio_a",
+          "duration": 15
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.013,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 66.7,
+        "location_usage": {
+          "studio_a": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 26
+      },
+      "edge_insights": [
+        "Duration variance: 656.2 minutes",
+        "Average lesson duration: 37.5 minutes"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_10_prime_durations",
+      "description": "Edge Case 10: Prime Number Durations - Non-standard lesson durations that test granularity",
+      "expected_result": "Tests algorithm's handling of unusual lesson durations and time slot granularity",
+      "_edge_case_type": "duration_based_conflict",
+      "total_students": 10,
+      "scheduled_count": 6,
+      "unscheduled_count": 4,
+      "success_rate": 60.0,
+      "solve_time": 0.03394913673400879,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Prime_31min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Flexible_Short, Prime_23min.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Flexible_Short",
+            "Monday 14:45 at Main Studio is taken by Prime_23min"
+          ]
+        },
+        {
+          "student": "Prime_37min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Prime_23min, Prime_41min.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Prime_23min",
+            "Monday 15:15 at Main Studio is taken by Prime_41min"
+          ]
+        },
+        {
+          "student": "Prime_43min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Prime_41min, Prime_47min.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Prime_41min",
+            "Monday 16:15 at Main Studio is taken by Prime_47min"
+          ]
+        },
+        {
+          "student": "Prime_53min",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Prime_47min.",
+          "suggestions": [
+            "Monday 17:00 at Main Studio is taken by Prime_47min",
+            "Consider asking other students to change their lesson times"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:17",
+          "student": "Prime_17min",
+          "location": "studio_a",
+          "duration": 17
+        },
+        {
+          "day": "monday",
+          "time": "14:30-14:41",
+          "student": "Flexible_Short",
+          "location": "studio_a",
+          "duration": 11
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:08",
+          "student": "Prime_23min",
+          "location": "studio_a",
+          "duration": 23
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:11",
+          "student": "Prime_41min",
+          "location": "studio_a",
+          "duration": 41
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:17",
+          "student": "Prime_47min",
+          "location": "studio_a",
+          "duration": 47
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.033,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 60.0,
+        "location_usage": {
+          "studio_a": 6
+        },
+        "solver_iterations": 72,
+        "variables_created": 47
+      },
+      "edge_insights": [
+        "Duration variance: 161.0 minutes",
+        "Average lesson duration: 28.0 minutes"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_11_duration_mismatch",
+      "description": "Edge Case 11: Duration Mismatch - All students need 60 minutes but windows are 45 minutes",
+      "expected_result": "Should demonstrate how algorithm handles impossible duration constraints",
+      "_edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "scheduled_count": 4,
+      "unscheduled_count": 5,
+      "success_rate": 44.44444444444444,
+      "solve_time": 0.004145145416259766,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Mismatch_Student_1",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 14:00-14:45 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        },
+        {
+          "student": "Mismatch_Student_2",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 14:45-15:30 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        },
+        {
+          "student": "Mismatch_Student_3",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 15:30-16:15 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        },
+        {
+          "student": "Mismatch_Student_4",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 16:15-17:00 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        },
+        {
+          "student": "Mismatch_Student_5",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 17:00-17:45 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-15:00",
+          "student": "Perfect_Fit_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:00-16:00",
+          "student": "Longer_Window_1",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:15",
+          "student": "Longer_Window_2",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Perfect_Fit_2",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.004,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 4,
+        "schedule_efficiency_percent": 44.4,
+        "location_usage": {
+          "studio_a": 4
+        },
+        "solver_iterations": 0,
+        "variables_created": 9
+      },
+      "edge_insights": [
+        "Duration variance: 56.2 minutes",
+        "Average lesson duration: 52.5 minutes"
+      ],
+      "conflict_no_time_overlap_count": 1
+    },
+    {
+      "test_name": "test_edge_12_swiss_cheese",
+      "description": "Edge Case 12: Swiss Cheese Schedule - Many small gaps in availability",
+      "expected_result": "Tests algorithm's ability to work with fragmented, discontinuous availability",
+      "_edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "scheduled_count": 8,
+      "unscheduled_count": 1,
+      "success_rate": 88.88888888888889,
+      "solve_time": 0.004268169403076172,
+      "test_passed": "PASS",
+      "teacher_hours": 2.0,
+      "conflicts": [
+        {
+          "student": "Impossible_45min",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 14:00-17:45 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-14:15; Monday 14:30-14:45; Monday 15:00-15:15; Monday 15:30-15:45; Monday 16:00-16:15; Monday 16:30-16:45; Monday 17:00-17:15; Monday 17:30-17:45"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:15",
+          "student": "Exact_Fit_1",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "14:30-14:45",
+          "student": "Exact_Fit_2",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:15",
+          "student": "Exact_Fit_3",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Double_Slot_1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:30",
+          "student": "Double_Slot_2",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.004,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 8,
+        "schedule_efficiency_percent": 88.9,
+        "location_usage": {
+          "studio_a": 8
+        },
+        "solver_iterations": 0,
+        "variables_created": 15
+      },
+      "edge_insights": [],
+      "conflict_no_time_overlap_count": 1
+    },
+    {
+      "test_name": "test_edge_13_peak_hour_congestion",
+      "description": "Edge Case 13: Peak Hour Congestion - All students only available during prime time",
+      "expected_result": "Tests algorithm's handling of high demand for limited prime time slots",
+      "_edge_case_type": "availability_pattern_conflict",
+      "total_students": 12,
+      "scheduled_count": 7,
+      "unscheduled_count": 5,
+      "success_rate": 58.333333333333336,
+      "solve_time": 0.009966850280761719,
+      "test_passed": "PASS",
+      "teacher_hours": 40.0,
+      "conflicts": [
+        {
+          "student": "Peak_Mon_Student_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Peak_Mon_Student_3.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Peak_Mon_Student_3",
+            "Monday 15:15 at Main Studio is taken by Peak_Mon_Student_3"
+          ]
+        },
+        {
+          "student": "Peak_Mon_Student_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Peak_Mon_Student_3.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Peak_Mon_Student_3",
+            "Monday 15:15 at Main Studio is taken by Peak_Mon_Student_3"
+          ]
+        },
+        {
+          "student": "Peak_Tue_Student_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Peak_Tue_Student_2.",
+          "suggestions": [
+            "Tuesday 15:30 at Main Studio is taken by Peak_Tue_Student_2",
+            "Tuesday 15:45 at Main Studio is taken by Peak_Tue_Student_2"
+          ]
+        },
+        {
+          "student": "Peak_Wed_Student_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Peak_Wed_Student_2.",
+          "suggestions": [
+            "Wednesday 16:00 at Main Studio is taken by Peak_Wed_Student_2",
+            "Wednesday 16:15 at Main Studio is taken by Peak_Wed_Student_2"
+          ]
+        },
+        {
+          "student": "Multi_Peak_Flexible",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Peak_Tue_Student_2, Peak_Wed_Student_2, Peak_Mon_Student_3.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Peak_Mon_Student_3",
+            "Monday 15:15 at Main Studio is taken by Peak_Mon_Student_3"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "12:00-12:45",
+          "student": "Off_Peak_Early",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Peak_Mon_Student_3",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "19:15-20:00",
+          "student": "Off_Peak_Late",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:45-16:30",
+          "student": "Peak_Tue_Student_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "wednesday",
+          "time": "16:15-17:00",
+          "student": "Peak_Wed_Student_2",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.01,
+        "status": "OPTIMAL",
+        "total_students": 12,
+        "scheduled_students": 7,
+        "schedule_efficiency_percent": 58.3,
+        "location_usage": {
+          "studio_a": 7
+        },
+        "solver_iterations": 0,
+        "variables_created": 31
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_14_butterfly_effect",
+      "description": "Edge Case 14: Butterfly Effect - One student with strict availability affects entire schedule",
+      "expected_result": "Tests how one critical constraint impacts the entire scheduling solution",
+      "_edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "scheduled_count": 5,
+      "unscheduled_count": 4,
+      "success_rate": 55.55555555555556,
+      "solve_time": 0.040657997131347656,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Flexible_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Dependent_1, Butterfly_Critical, Dependent_2, Flexible_4, Flexible_3.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Flexible_3",
+            "Monday 14:15 at Main Studio is taken by Flexible_3"
+          ]
+        },
+        {
+          "student": "Flexible_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Dependent_1, Butterfly_Critical, Dependent_2, Flexible_4, Flexible_3.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Flexible_3",
+            "Monday 14:15 at Main Studio is taken by Flexible_3"
+          ]
+        },
+        {
+          "student": "Cascade_Before",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Dependent_1.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Dependent_1",
+            "Monday 15:15 at Main Studio is taken by Dependent_1"
+          ]
+        },
+        {
+          "student": "Cascade_After",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Butterfly_Critical.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Butterfly_Critical",
+            "Monday 16:15 at Main Studio is taken by Butterfly_Critical"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:45",
+          "student": "Flexible_3",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:30",
+          "student": "Dependent_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:30",
+          "student": "Butterfly_Critical",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:15",
+          "student": "Dependent_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Flexible_4",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.04,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 5,
+        "schedule_efficiency_percent": 55.6,
+        "location_usage": {
+          "studio_a": 5
+        },
+        "solver_iterations": 0,
+        "variables_created": 65
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_15_circular_dependency",
+      "description": "Edge Case 15: Circular Dependency - Student A blocks B, B blocks C, C blocks A",
+      "expected_result": "Tests algorithm's ability to detect and resolve circular scheduling dependencies",
+      "_edge_case_type": "availability_pattern_conflict",
+      "total_students": 9,
+      "scheduled_count": 6,
+      "unscheduled_count": 3,
+      "success_rate": 66.66666666666666,
+      "solve_time": 0.006777048110961914,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Circle_A",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Chain_Start.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Chain_Start",
+            "Monday 14:45 at Main Studio is taken by Chain_Start"
+          ]
+        },
+        {
+          "student": "Circle_B",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Chain_Start, Chain_Middle.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Chain_Start",
+            "Monday 15:15 at Main Studio is taken by Chain_Middle"
+          ]
+        },
+        {
+          "student": "Circle_C",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Escape_Early.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Escape_Early",
+            "Monday 14:15 at Main Studio is taken by Escape_Early"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Escape_Early",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:15",
+          "student": "Chain_Start",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:45-16:15",
+          "student": "Chain_Middle",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:15-16:45",
+          "student": "Chain_End",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:45-17:15",
+          "student": "Escape_Late",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.007,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 66.7,
+        "location_usage": {
+          "studio_a": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 15
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_16_multiple_solutions",
+      "description": "Edge Case 16: Multiple Valid Solutions - Tests if algorithm finds optimal vs just feasible",
+      "expected_result": "Tests optimization quality when multiple valid scheduling solutions exist",
+      "_edge_case_type": "optimization_challenge",
+      "total_students": 8,
+      "scheduled_count": 8,
+      "unscheduled_count": 0,
+      "success_rate": 100.0,
+      "solve_time": 0.011770963668823242,
+      "test_passed": "PASS",
+      "teacher_hours": 8.0,
+      "conflicts": [],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:30-15:15",
+          "student": "Constraint_A",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:45",
+          "student": "Flexible_C",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:45-17:15",
+          "student": "Optimal_Gap_Filler_1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "tuesday",
+          "time": "14:00-14:45",
+          "student": "Flexible_A",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-15:45",
+          "student": "Flexible_B",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.011,
+        "status": "OPTIMAL",
+        "total_students": 8,
+        "scheduled_students": 8,
+        "schedule_efficiency_percent": 100.0,
+        "location_usage": {
+          "studio_a": 8
+        },
+        "solver_iterations": 0,
+        "variables_created": 50
+      },
+      "edge_insights": [
+        "Schedule efficiency score: 0.80",
+        "Algorithm found optimal solution"
+      ]
+    },
+    {
+      "test_name": "test_edge_17_gap_minimization_trap",
+      "description": "Edge Case 17: Gap Minimization Trap - Minimizing gaps creates unsolvable situation",
+      "expected_result": "Tests if gap penalty optimization interferes with finding feasible solutions",
+      "_edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "scheduled_count": 6,
+      "unscheduled_count": 3,
+      "success_rate": 66.66666666666666,
+      "solve_time": 0.007324934005737305,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Gap_Creator_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Alternative_Small_1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Alternative_Small_1",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Gap_Creator_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Alternative_Small_4.",
+          "suggestions": [
+            "Monday 16:30 at Main Studio is taken by Alternative_Small_4",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Gap_Filler_Impossible",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 15:30-16:30 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-18:00"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Alternative_Small_1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:45-15:15",
+          "student": "Alternative_Small_2",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:45-16:15",
+          "student": "Alternative_Small_3",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:15-16:45",
+          "student": "Alternative_Small_4",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:30",
+          "student": "Alternative_Small_5",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.007,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 66.7,
+        "location_usage": {
+          "studio_a": 6
+        },
+        "solver_iterations": 0,
+        "variables_created": 13
+      },
+      "edge_insights": [
+        "Schedule efficiency score: 0.47",
+        "Algorithm found optimal solution"
+      ],
+      "conflict_slots_taken_count": 1,
+      "conflict_no_time_overlap_count": 1
+    },
+    {
+      "test_name": "test_edge_18_greedy_trap",
+      "description": "Edge Case 18: Greedy Trap - Scheduling shorter lessons first blocks longer ones",
+      "expected_result": "Tests if algorithm avoids greedy choices that prevent optimal solutions",
+      "_edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "scheduled_count": 5,
+      "unscheduled_count": 4,
+      "success_rate": 55.55555555555556,
+      "solve_time": 0.012473821640014648,
+      "test_passed": "PASS",
+      "teacher_hours": 4.0,
+      "conflicts": [
+        {
+          "student": "Long_Optimal",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Tempting_1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Short_Tempting_1",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Medium_Blocker_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Tempting_1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Short_Tempting_1",
+            "Monday 14:15 at Main Studio is taken by Short_Tempting_1"
+          ]
+        },
+        {
+          "student": "Medium_Blocker_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Short_Tempting_2.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Short_Tempting_2",
+            "Monday 15:15 at Main Studio is taken by Short_Tempting_2"
+          ]
+        },
+        {
+          "student": "Alternative_Long",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Alternative_Medium_1.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Alternative_Medium_1",
+            "Monday 16:15 at Main Studio is taken by Alternative_Medium_1"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:15-14:45",
+          "student": "Short_Tempting_1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:15-15:45",
+          "student": "Short_Tempting_2",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:45",
+          "student": "Alternative_Medium_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:00-17:45",
+          "student": "Alternative_Medium_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:45-18:00",
+          "student": "Cleanup_Short",
+          "location": "studio_a",
+          "duration": 15
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.012,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 5,
+        "schedule_efficiency_percent": 55.6,
+        "location_usage": {
+          "studio_a": 5
+        },
+        "solver_iterations": 0,
+        "variables_created": 16
+      },
+      "edge_insights": [
+        "Schedule efficiency score: 0.36",
+        "Algorithm found optimal solution"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_19_school_rush",
+      "description": "Edge Case 19: School Day Rush - 20 students all want after-school slots",
+      "expected_result": "Tests algorithm under realistic high-demand after-school scenario",
+      "_edge_case_type": "real_world_complex",
+      "total_students": 20,
+      "scheduled_count": 16,
+      "unscheduled_count": 4,
+      "success_rate": 80.0,
+      "solve_time": 0.0527958869934082,
+      "test_passed": "PASS",
+      "teacher_hours": 15.0,
+      "conflicts": [
+        {
+          "student": "Student_Mon_3",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Mon_2.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Student_Mon_2",
+            "Monday 16:15 at Main Studio is taken by Student_Mon_2"
+          ]
+        },
+        {
+          "student": "Student_Tue_3",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Tue_2.",
+          "suggestions": [
+            "Tuesday 16:00 at Main Studio is taken by Student_Tue_2",
+            "Tuesday 16:15 at Main Studio is taken by Student_Tue_2"
+          ]
+        },
+        {
+          "student": "Student_Wed_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Wed_1, Student_Wed_3.",
+          "suggestions": [
+            "Wednesday 15:30 at Main Studio is taken by Student_Wed_1",
+            "Wednesday 15:45 at Main Studio is taken by Student_Wed_3"
+          ]
+        },
+        {
+          "student": "Student_Thu_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Student_Thu_3, Student_Thu_1.",
+          "suggestions": [
+            "Thursday 15:30 at Main Studio is taken by Student_Thu_1",
+            "Thursday 15:45 at Main Studio is taken by Student_Thu_3"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "15:00-15:45",
+          "student": "Student_Mon_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:45-16:30",
+          "student": "Student_Mon_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:30-17:15",
+          "student": "Student_Mon_4",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "17:15-18:00",
+          "student": "Student_Mon_5",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-15:45",
+          "student": "Student_Tue_1",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.052,
+        "status": "OPTIMAL",
+        "total_students": 20,
+        "scheduled_students": 16,
+        "schedule_efficiency_percent": 80.0,
+        "location_usage": {
+          "studio_a": 16
+        },
+        "solver_iterations": 0,
+        "variables_created": 125
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_20_weekend_warriors",
+      "description": "Edge Case 20: Weekend Warriors - 12 students only available Saturday/Sunday",
+      "expected_result": "Tests algorithm with compressed weekend scheduling constraints",
+      "_edge_case_type": "real_world_complex",
+      "total_students": 13,
+      "scheduled_count": 12,
+      "unscheduled_count": 1,
+      "success_rate": 92.3076923076923,
+      "solve_time": 0.03147697448730469,
+      "test_passed": "PASS",
+      "teacher_hours": 14.0,
+      "conflicts": [
+        {
+          "student": "Early_Bird_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Early_Bird_1, Morning_Slot_1.",
+          "suggestions": [
+            "Saturday 09:30 at Main Studio is taken by Early_Bird_1",
+            "Saturday 09:45 at Main Studio is taken by Early_Bird_1"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "saturday",
+          "time": "09:00-10:00",
+          "student": "Early_Bird_1",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "saturday",
+          "time": "10:30-11:45",
+          "student": "Morning_Slot_1",
+          "location": "studio_a",
+          "duration": 75
+        },
+        {
+          "day": "saturday",
+          "time": "11:45-13:00",
+          "student": "Morning_Slot_2",
+          "location": "studio_a",
+          "duration": 75
+        },
+        {
+          "day": "saturday",
+          "time": "13:00-14:30",
+          "student": "Afternoon_1",
+          "location": "studio_a",
+          "duration": 90
+        },
+        {
+          "day": "saturday",
+          "time": "14:30-16:00",
+          "student": "Afternoon_2",
+          "location": "studio_a",
+          "duration": 90
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.031,
+        "status": "OPTIMAL",
+        "total_students": 13,
+        "scheduled_students": 12,
+        "schedule_efficiency_percent": 92.3,
+        "location_usage": {
+          "studio_a": 12
+        },
+        "solver_iterations": 0,
+        "variables_created": 80
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_21_lunch_break_puzzle",
+      "description": "Edge Case 21: Lunch Break Puzzle - Teacher has lunch break creating scheduling gap",
+      "expected_result": "Tests algorithm's handling of teacher unavailability within the day",
+      "_edge_case_type": "real_world_complex",
+      "total_students": 10,
+      "scheduled_count": 8,
+      "unscheduled_count": 2,
+      "success_rate": 80.0,
+      "solve_time": 0.02210402488708496,
+      "test_passed": "PASS",
+      "teacher_hours": 7.0,
+      "conflicts": [
+        {
+          "student": "Lunch_Crosser_1",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 11:30-13:30 at Main Studio",
+            "Teacher available at Main Studio: Monday 09:00-12:00; Monday 13:00-17:00"
+          ]
+        },
+        {
+          "student": "Lunch_Crosser_2",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 12:00-14:00 at Main Studio",
+            "Teacher available at Main Studio: Monday 09:00-12:00; Monday 13:00-17:00"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "09:00-10:00",
+          "student": "Morning_Early",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "10:00-11:00",
+          "student": "Morning_Mid",
+          "location": "studio_a",
+          "duration": 60
+        },
+        {
+          "day": "monday",
+          "time": "11:00-11:45",
+          "student": "Morning_Late",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "11:45-12:30",
+          "student": "Gap_Waster",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "13:15-14:15",
+          "student": "Afternoon_Early",
+          "location": "studio_a",
+          "duration": 60
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.022,
+        "status": "OPTIMAL",
+        "total_students": 10,
+        "scheduled_students": 8,
+        "schedule_efficiency_percent": 80.0,
+        "location_usage": {
+          "studio_a": 8
+        },
+        "solver_iterations": 0,
+        "variables_created": 45
+      },
+      "edge_insights": [],
+      "conflict_no_time_overlap_count": 1
+    },
+    {
+      "test_name": "test_edge_22_resource_starvation",
+      "description": "Edge Case 22: Resource Starvation - Some students consistently blocked by others",
+      "expected_result": "Tests algorithm's fairness when some students have limited scheduling options",
+      "_edge_case_type": "optimization_challenge",
+      "total_students": 9,
+      "scheduled_count": 6,
+      "unscheduled_count": 3,
+      "success_rate": 66.66666666666666,
+      "solve_time": 0.060880184173583984,
+      "test_passed": "PASS",
+      "teacher_hours": 8.0,
+      "conflicts": [
+        {
+          "student": "Privileged_A1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Constrained_Tue_Only, Victim_Narrow_3, Victim_Narrow_2, Victim_Narrow_1, Constrained_Mon_Only.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Victim_Narrow_1",
+            "Monday 14:15 at Main Studio is taken by Victim_Narrow_1"
+          ]
+        },
+        {
+          "student": "Privileged_A2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Constrained_Tue_Only, Victim_Narrow_3, Victim_Narrow_2, Victim_Narrow_1, Constrained_Mon_Only.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Victim_Narrow_1",
+            "Monday 14:15 at Main Studio is taken by Victim_Narrow_1"
+          ]
+        },
+        {
+          "student": "Privileged_A3",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Constrained_Tue_Only, Victim_Narrow_3, Victim_Narrow_2, Victim_Narrow_1, Constrained_Mon_Only.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Victim_Narrow_1",
+            "Monday 14:15 at Main Studio is taken by Victim_Narrow_1"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:30-15:15",
+          "student": "Victim_Narrow_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "15:15-16:00",
+          "student": "Constrained_Mon_Only",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "16:15-17:00",
+          "student": "Victim_Narrow_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "15:00-15:45",
+          "student": "Constrained_Tue_Only",
+          "location": "studio_b",
+          "duration": 45
+        },
+        {
+          "day": "tuesday",
+          "time": "16:45-17:30",
+          "student": "Victim_Narrow_3",
+          "location": "studio_b",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.06,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 6,
+        "schedule_efficiency_percent": 66.7,
+        "location_usage": {
+          "studio_a": 3,
+          "studio_b": 3
+        },
+        "solver_iterations": 0,
+        "variables_created": 78
+      },
+      "edge_insights": [
+        "Schedule efficiency score: 0.47",
+        "Algorithm found optimal solution"
+      ],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_23_minimum_viable_window",
+      "description": "Edge Case 23: Minimum Viable Window - 15-minute window for 15-minute lesson",
+      "expected_result": "Tests algorithm's handling of absolute minimum time constraints",
+      "_edge_case_type": "duration_based_conflict",
+      "total_students": 9,
+      "scheduled_count": 5,
+      "unscheduled_count": 4,
+      "success_rate": 55.55555555555556,
+      "solve_time": 0.006908893585205078,
+      "test_passed": "PASS",
+      "teacher_hours": 1.5,
+      "conflicts": [
+        {
+          "student": "Exact_Fit_2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Spanning_Gap.",
+          "suggestions": [
+            "Monday 14:30 at Main Studio is taken by Spanning_Gap",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Double_Slot_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Edge_Overlap_2.",
+          "suggestions": [
+            "Monday 16:00 at Main Studio is taken by Edge_Overlap_2",
+            "Consider asking other students to change their lesson times"
+          ]
+        },
+        {
+          "student": "Impossible_20min",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 14:00-14:15 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-14:15; Monday 14:30-14:45; Monday 15:00-15:15; Monday 15:30-15:45; Monday 16:00-16:30"
+          ]
+        },
+        {
+          "student": "Edge_Overlap_1",
+          "reason_type": "no_time_overlap",
+          "description": "No overlapping availability between student and teacher.",
+          "suggestions": [
+            "Student is available: Monday 14:05-14:35 at Main Studio",
+            "Teacher available at Main Studio: Monday 14:00-14:15; Monday 14:30-14:45; Monday 15:00-15:15; Monday 15:30-15:45; Monday 16:00-16:30"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:15",
+          "student": "Exact_Fit_1",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:00",
+          "student": "Spanning_Gap",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:15",
+          "student": "Exact_Fit_3",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "15:30-15:45",
+          "student": "Exact_Fit_4",
+          "location": "studio_a",
+          "duration": 15
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:15",
+          "student": "Edge_Overlap_2",
+          "location": "studio_a",
+          "duration": 15
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.007,
+        "status": "OPTIMAL",
+        "total_students": 9,
+        "scheduled_students": 5,
+        "schedule_efficiency_percent": 55.6,
+        "location_usage": {
+          "studio_a": 5
+        },
+        "solver_iterations": 0,
+        "variables_created": 7
+      },
+      "edge_insights": [
+        "Duration variance: 36.0 minutes",
+        "Average lesson duration: 18.0 minutes"
+      ],
+      "conflict_slots_taken_count": 1,
+      "conflict_no_time_overlap_count": 1
+    },
+    {
+      "test_name": "test_edge_24_time_zone_simulation",
+      "description": "Edge Case 24: Time Zone Simulation - Students with availability offset by exact hours",
+      "expected_result": "Tests algorithm with systematic hour-offset availability patterns",
+      "_edge_case_type": "availability_pattern_conflict",
+      "total_students": 11,
+      "scheduled_count": 9,
+      "unscheduled_count": 2,
+      "success_rate": 81.81818181818183,
+      "solve_time": 0.013778924942016602,
+      "test_passed": "PASS",
+      "teacher_hours": 8.0,
+      "conflicts": [
+        {
+          "student": "UTC_Plus_0",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Half_Hour_Offset_1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Half_Hour_Offset_1",
+            "Monday 14:15 at Main Studio is taken by Half_Hour_Offset_1"
+          ]
+        },
+        {
+          "student": "UTC_Plus_1",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Bridge_Student.",
+          "suggestions": [
+            "Monday 15:00 at Main Studio is taken by Bridge_Student",
+            "Monday 15:15 at Main Studio is taken by Bridge_Student"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "10:00-10:45",
+          "student": "UTC_Minus_4",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "11:15-12:00",
+          "student": "UTC_Minus_3",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "12:15-13:00",
+          "student": "UTC_Minus_2",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "13:00-13:45",
+          "student": "UTC_Minus_1",
+          "location": "studio_a",
+          "duration": 45
+        },
+        {
+          "day": "monday",
+          "time": "13:45-14:30",
+          "student": "Half_Hour_Offset_1",
+          "location": "studio_a",
+          "duration": 45
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.013,
+        "status": "OPTIMAL",
+        "total_students": 11,
+        "scheduled_students": 9,
+        "schedule_efficiency_percent": 81.8,
+        "location_usage": {
+          "studio_a": 9
+        },
+        "solver_iterations": 50,
+        "variables_created": 51
+      },
+      "edge_insights": [],
+      "conflict_slots_taken_count": 1
+    },
+    {
+      "test_name": "test_edge_25_fairness_vs_efficiency",
+      "description": "Edge Case 25: Fairness vs Efficiency - Maximum students scheduled vs equal opportunity",
+      "expected_result": "Tests algorithm's trade-off between maximizing total schedules vs fairness",
+      "_edge_case_type": "optimization_challenge",
+      "total_students": 12,
+      "scheduled_count": 10,
+      "unscheduled_count": 2,
+      "success_rate": 83.33333333333334,
+      "solve_time": 0.08960175514221191,
+      "test_passed": "PASS",
+      "teacher_hours": 8.0,
+      "conflicts": [
+        {
+          "student": "Fair_Competitor_B2",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Fair_Competitor_B4, Efficient_Group_A4, Efficient_Group_A5, Efficient_Group_A1, Efficient_Group_A3, Efficient_Group_A2, Fair_Competitor_B1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Efficient_Group_A1",
+            "Monday 14:15 at Main Studio is taken by Efficient_Group_A1"
+          ]
+        },
+        {
+          "student": "Fair_Competitor_B3",
+          "reason_type": "slots_taken",
+          "description": "All available time slots are occupied by other students: Fair_Competitor_B4, Efficient_Group_A4, Efficient_Group_A5, Efficient_Group_A1, Efficient_Group_A3, Efficient_Group_A2, Fair_Competitor_B1.",
+          "suggestions": [
+            "Monday 14:00 at Main Studio is taken by Efficient_Group_A1",
+            "Monday 14:15 at Main Studio is taken by Efficient_Group_A1"
+          ]
+        }
+      ],
+      "scheduled_lessons": [
+        {
+          "day": "monday",
+          "time": "14:00-14:30",
+          "student": "Efficient_Group_A1",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "14:30-15:00",
+          "student": "Efficient_Group_A2",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:00-15:30",
+          "student": "Efficient_Group_A3",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "15:30-16:00",
+          "student": "Efficient_Group_A4",
+          "location": "studio_a",
+          "duration": 30
+        },
+        {
+          "day": "monday",
+          "time": "16:00-16:30",
+          "student": "Efficient_Group_A5",
+          "location": "studio_a",
+          "duration": 30
+        }
+      ],
+      "statistics": {
+        "solve_time_seconds": 0.089,
+        "status": "OPTIMAL",
+        "total_students": 12,
+        "scheduled_students": 10,
+        "schedule_efficiency_percent": 83.3,
+        "location_usage": {
+          "studio_a": 8,
+          "studio_b": 2
+        },
+        "solver_iterations": 0,
+        "variables_created": 95
+      },
+      "edge_insights": [
+        "Schedule efficiency score: 0.83",
+        "Algorithm found optimal solution"
+      ],
+      "conflict_slots_taken_count": 1
+    }
+  ]
+}

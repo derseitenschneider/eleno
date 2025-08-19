@@ -1,0 +1,59 @@
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"},
+      {"day": "tuesday", "start_time": "12:00", "end_time": "22:00", "location": "spiez"},
+      {"day": "wednesday", "start_time": "12:00", "end_time": "22:00", "location": "steffisburg"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Bhend Myles - Fixed",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "15:45", "end_time": "17:00", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "15:45", "end_time": "17:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Bleuer Lia - Fixed",
+      "accessible_locations": ["steffisburg"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"},
+        {"day": "wednesday", "start_time": "17:00", "end_time": "18:30", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Riesen Nils Levin - Fixed",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "tuesday", "start_time": "16:30", "end_time": "19:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Konrad Dean - Fixed",
+      "accessible_locations": ["spiez"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:45", "end_time": "18:30", "location": "spiez"}
+      ],
+      "lesson_duration": 40
+    },
+    {
+      "name": "Multi-Location Student",
+      "accessible_locations": ["steffisburg", "spiez"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "spiez"},
+        {"day": "wednesday", "start_time": "14:00", "end_time": "18:00", "location": "steffisburg"}
+      ],
+      "lesson_duration": 30
+    }
+  ],
+  "locations": [
+    {"id": "steffisburg", "name": "Steffisburg Studio"},
+    {"id": "spiez", "name": "Spiez Studio"}
+  ]
+}

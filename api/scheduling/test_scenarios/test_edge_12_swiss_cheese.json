@@ -1,0 +1,94 @@
+{
+  "_test_description": "Edge Case 12: Swiss Cheese Schedule - Many small gaps in availability",
+  "_expected_result": "Tests algorithm's ability to work with fragmented, discontinuous availability",
+  "_edge_case_type": "availability_pattern_conflict",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "14:30", "end_time": "14:45", "location": "studio_a"},
+      {"day": "monday", "start_time": "15:00", "end_time": "15:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "15:30", "end_time": "15:45", "location": "studio_a"},
+      {"day": "monday", "start_time": "16:00", "end_time": "16:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "16:30", "end_time": "16:45", "location": "studio_a"},
+      {"day": "monday", "start_time": "17:00", "end_time": "17:15", "location": "studio_a"},
+      {"day": "monday", "start_time": "17:30", "end_time": "17:45", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Exact_Fit_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Exact_Fit_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "14:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Exact_Fit_3",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "15:15", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Double_Slot_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Double_Slot_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "16:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Gap_Jumper_1",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:30", "end_time": "17:00", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Gap_Jumper_2",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "17:30", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Impossible_45min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "17:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Flexible_Multi",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:30", "end_time": "17:45", "location": "studio_a"}
+      ],
+      "lesson_duration": 15
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}
