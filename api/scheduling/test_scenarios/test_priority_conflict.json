@@ -1,0 +1,31 @@
+{
+  "_test_description": "Priority conflict test - two students want the same high-priority slot, algorithm should choose based on priority",
+  "_expected_result": "Student with higher priority should get the contested slot, other should fall back to lower priority",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "13:00", "end_time": "15:00", "location": "home"}
+    ]
+  },
+  "students": [
+    {
+      "name": "HighPriorityStudent",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "home", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "LowPriorityStudent",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "home", "priority": 2},
+        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "home", "priority": 3}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "home", "name": "Home Studio"}
+  ]
+}

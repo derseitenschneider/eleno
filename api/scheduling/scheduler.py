@@ -24,6 +24,7 @@ class LessonScheduler:
         # Time slots (15-minute intervals)
         self.time_slots = self._generate_time_slots()
         self.lesson_vars = {}
+        self.lesson_priority_map = {}  # Track priority for each lesson variable
         self.statistics = {}
     
     def _generate_time_slots(self) -> List[Tuple[str, int, str]]:
@@ -83,21 +84,25 @@ class LessonScheduler:
                 if not student.can_access_location(location):
                     continue
                 
-                # Check if student is available at this time
-                student_available = any(
-                    w.day == day and 
-                    w.location == location and
-                    w.start_minutes <= start_minutes and
-                    w.end_minutes >= start_minutes + student.lesson_duration
-                    for w in student.availability
-                )
+                # Check if student is available at this time and find the best priority
+                matching_windows = [
+                    w for w in student.availability
+                    if w.day == day and 
+                       w.location == location and
+                       w.start_minutes <= start_minutes and
+                       w.end_minutes >= start_minutes + student.lesson_duration
+                ]
                 
-                if not student_available:
+                if not matching_windows:
                     continue
                 
+                # Use the highest priority (lowest number) among matching windows
+                best_priority = min(w.priority for w in matching_windows)
+                
                 var_name = f'lesson_{student.name}_{day}_{start_minutes}_{location}'
-                self.lesson_vars[(student.name, day, start_minutes, location)] = \
-                    self.model.NewBoolVar(var_name)
+                lesson_key = (student.name, day, start_minutes, location)
+                self.lesson_vars[lesson_key] = self.model.NewBoolVar(var_name)
+                self.lesson_priority_map[lesson_key] = best_priority
     
     def _add_constraints(self):
         """Add scheduling constraints."""
@@ -154,11 +159,45 @@ class LessonScheduler:
         # Primary objective: Maximize number of scheduled lessons
         total_lessons = sum(self.lesson_vars.values())
         
-        # Secondary objective: Minimize gaps between lessons
+        # Secondary objective: Prioritize high-priority time slots
+        priority_bonus = self._calculate_priority_bonus()
+        
+        # Tertiary objective: Minimize gaps between lessons
         gap_penalty = self._calculate_gap_penalty()
         
-        # Combine objectives (prioritize scheduling lessons)
-        self.model.Maximize(total_lessons * 1000 - gap_penalty)
+        # Combine objectives (lessons count most, then priority, then minimize gaps)
+        self.model.Maximize(total_lessons * 10000 + priority_bonus - gap_penalty)
+    
+    def _calculate_priority_bonus(self) -> cp_model.IntVar:
+        """Calculate bonus points for scheduling in high-priority time slots."""
+        priority_bonus = self.model.NewIntVar(0, 50000, 'priority_bonus')
+        
+        # Calculate bonus points based on priority
+        bonus_terms = []
+        for lesson_key, var in self.lesson_vars.items():
+            priority = self.lesson_priority_map[lesson_key]
+            
+            # Priority scoring: 1=100 points, 2=50 points, 3=10 points
+            if priority == 1:
+                bonus_points = 100
+            elif priority == 2:
+                bonus_points = 50
+            elif priority == 3:
+                bonus_points = 10
+            else:
+                bonus_points = 1  # Fallback for any other priority values
+            
+            # Create a variable that equals bonus_points when lesson is scheduled, 0 otherwise
+            bonus_var = self.model.NewIntVar(0, bonus_points, f'bonus_{lesson_key}')
+            self.model.Add(bonus_var == bonus_points * var)
+            bonus_terms.append(bonus_var)
+        
+        if bonus_terms:
+            self.model.Add(priority_bonus == sum(bonus_terms))
+        else:
+            self.model.Add(priority_bonus == 0)
+        
+        return priority_bonus
     
     def _calculate_gap_penalty(self) -> cp_model.IntVar:
         """Calculate penalty for gaps between lessons."""

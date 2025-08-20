@@ -1,0 +1,56 @@
+{
+  "_test_description": "Priority-based scheduling test - students provide multiple time windows with priorities",
+  "_expected_result": "Students should be scheduled in their highest priority slots when possible",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "home"},
+      {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "home"},
+      {"day": "wednesday", "start_time": "15:00", "end_time": "18:00", "location": "home"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "home", "priority": 1},
+        {"day": "monday", "start_time": "14:00", "end_time": "17:00", "location": "home", "priority": 2},
+        {"day": "wednesday", "start_time": "15:00", "end_time": "15:30", "location": "home", "priority": 3}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Bob",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "monday", "start_time": "13:30", "end_time": "14:30", "location": "home", "priority": 1},
+        {"day": "tuesday", "start_time": "14:00", "end_time": "16:00", "location": "home", "priority": 2},
+        {"day": "wednesday", "start_time": "16:00", "end_time": "18:00", "location": "home", "priority": 3}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Charlie",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "tuesday", "start_time": "14:00", "end_time": "15:00", "location": "home", "priority": 1},
+        {"day": "tuesday", "start_time": "15:00", "end_time": "17:00", "location": "home", "priority": 2},
+        {"day": "wednesday", "start_time": "15:30", "end_time": "17:00", "location": "home", "priority": 3}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Diana",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "home", "priority": 1},
+        {"day": "tuesday", "start_time": "16:00", "end_time": "18:00", "location": "home", "priority": 2},
+        {"day": "wednesday", "start_time": "17:00", "end_time": "18:00", "location": "home", "priority": 3}
+      ],
+      "lesson_duration": 45
+    }
+  ],
+  "locations": [
+    {"id": "home", "name": "Home Studio"}
+  ]
+}

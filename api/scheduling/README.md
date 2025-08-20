@@ -5,6 +5,7 @@ A Python-based automatic lesson scheduling system using Google OR-Tools for cons
 ## Features
 
 - **Multi-location scheduling** with student accessibility constraints
+- **Priority-based scheduling** - students can rank their preferred time slots
 - **Comprehensive conflict analysis** with actionable suggestions
 - **OR-Tools constraint programming** for optimal scheduling
 - **Detailed CLI interface** with multiple output formats
@@ -36,6 +37,12 @@ source venv/bin/activate
 
 # Test with simple solvable case
 python run.py schedule examples/simple_solvable.json
+
+# Test with priority-based scheduling (NEW!)
+python run.py schedule examples/priority_example.json
+
+# Test with real-world priority scenario (NEW!)
+python run.py schedule examples/real_world_priority.json
 
 # Test with location conflicts
 python run.py schedule examples/location_conflict.json --verbose
@@ -70,7 +77,8 @@ python run.py validate examples/simple_solvable.json
       "name": "Alice",
       "accessible_locations": ["studio_a"],
       "availability": [
-        {"day": "monday", "start_time": "15:00", "end_time": "17:00", "location": "studio_a"}
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a", "priority": 1},
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a", "priority": 2}
       ],
       "lesson_duration": 30
     }
@@ -81,13 +89,41 @@ python run.py validate examples/simple_solvable.json
 }
 ```
 
+### Priority Field (Optional)
+
+Students can now specify multiple time windows with priority rankings:
+
+- **`priority: 1`** - Most preferred time slot (highest priority)
+- **`priority: 2`** - Second choice
+- **`priority: 3`** - Last resort option
+
+**Notes:**
+- If no priority is specified, defaults to `priority: 1`
+- Algorithm will try to schedule students in their highest priority slots first
+- When conflicts arise, higher priority preferences take precedence
+
 ## Example Scenarios
 
+### Basic Scenarios
 1. **`simple_solvable.json`** - Basic scenario with 3 students, optimal solution exists
 2. **`complex_solvable.json`** - 8 students across 3 locations with varying constraints
 3. **`location_conflict.json`** - Students can't access teacher's available locations
 4. **`impossible_overlap.json`** - Too many students competing for the same time slot
 5. **`partial_solution.json`** - Some students can be scheduled, others have conflicts
+6. **`priority_example.json`** - Enhanced simple example with priority rankings (NEW!)
+7. **`real_world_priority.json`** - Realistic teacher scenario with student preferences (NEW!)
+
+### Priority-Based Scenarios (New!)
+8. **`test_priority_based.json`** - Students with multiple priority-ranked time windows
+9. **`test_priority_conflict.json`** - Priority-based conflict resolution demonstration
+
+```bash
+# Test priority-based scheduling
+python run.py schedule test_scenarios/test_priority_based.json
+
+# Test priority conflict resolution
+python run.py schedule test_scenarios/test_priority_conflict.json
+```
 
 ## Output Examples
 
@@ -157,7 +193,11 @@ python run.py validate INPUT_FILE
 ## Optimization Objectives
 
 1. **Primary**: Maximize number of scheduled lessons
-2. **Secondary**: Minimize gaps between consecutive lessons for the teacher
+2. **Secondary**: Maximize student priority satisfaction (schedule in preferred time slots)
+   - Priority 1 slots: +100 bonus points
+   - Priority 2 slots: +50 bonus points  
+   - Priority 3 slots: +10 bonus points
+3. **Tertiary**: Minimize gaps between consecutive lessons for the teacher
 
 ## Performance
 

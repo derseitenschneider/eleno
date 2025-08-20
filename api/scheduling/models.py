@@ -10,11 +10,12 @@ import json
 
 @dataclass
 class TimeWindow:
-    """Represents a time window with day, start/end times, and location."""
+    """Represents a time window with day, start/end times, location, and priority."""
     day: str  # monday, tuesday, etc.
     start_time: str  # HH:MM format
     end_time: str  # HH:MM format
     location: str
+    priority: int = 1  # 1 = highest priority, 2 = medium, 3 = lowest
     
     def to_minutes(self, time_str: str) -> int:
         """Convert HH:MM to minutes since midnight."""
@@ -157,13 +158,21 @@ class SchedulingData:
         # Parse teacher schedule
         teacher_windows = []
         for window_data in data['teacher']['availability']:
+            # Add default priority if not specified
+            if 'priority' not in window_data:
+                window_data['priority'] = 1
             teacher_windows.append(TimeWindow(**window_data))
         teacher = TeacherSchedule(teacher_windows)
         
         # Parse students
         students = []
         for student_data in data['students']:
-            student_windows = [TimeWindow(**window) for window in student_data['availability']]
+            student_windows = []
+            for window in student_data['availability']:
+                # Add default priority if not specified
+                if 'priority' not in window:
+                    window['priority'] = 1
+                student_windows.append(TimeWindow(**window))
             student = Student(
                 name=student_data['name'],
                 availability=student_windows,
