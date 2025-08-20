@@ -14,6 +14,10 @@ import * as path from 'node:path'
  * - Notes: 3 notes for main student + notes for additional students + 2 group notes + 4 general notes
  */
 setup('setup edge-case test data', async ({ page, context }) => {
+  // Set consistent system time for reproducible test results
+  // This ensures subscription badges show same remaining days
+  await page.clock.install({ time: new Date('2025-08-15T12:00:00.000Z') })
+
   // Create a test user with default student and subscription
   const testUser = new TestUser({
     userflow: 'general-user',

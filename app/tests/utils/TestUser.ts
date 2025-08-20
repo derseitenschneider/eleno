@@ -517,7 +517,7 @@ export class TestUser {
       },
       {
         title: 'River Flows in You - Yiruma',
-        startDate: new Date().toISOString().split('T')[0], // Today
+        startDate: '2025-08-19', // Static date for consistent tests
         endDate: null, // Just started
       },
     ]
