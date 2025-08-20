@@ -1,0 +1,143 @@
+{
+  "_test_description": "CHAOS 08: Fibonacci Spiral - Lesson durations following Fibonacci sequence create impossible packing puzzles",
+  "_expected_failure": "Mathematical sequence creates non-optimal packing with significant wasted time",
+  "_pathological_aspect": "Natural mathematical patterns that don't align with scheduling grid create inefficiencies",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Fib_01_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 1
+    },
+    {
+      "name": "Fib_01_Min_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 1
+    },
+    {
+      "name": "Fib_02_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 2
+    },
+    {
+      "name": "Fib_03_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 3
+    },
+    {
+      "name": "Fib_05_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 5
+    },
+    {
+      "name": "Fib_08_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 8
+    },
+    {
+      "name": "Fib_13_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 13
+    },
+    {
+      "name": "Fib_21_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 21
+    },
+    {
+      "name": "Fib_34_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 34
+    },
+    {
+      "name": "Fib_55_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 55
+    },
+    {
+      "name": "Fib_89_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 89
+    },
+    {
+      "name": "Fib_144_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 144
+    },
+    {
+      "name": "Fib_233_Min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 233
+    },
+    {
+      "name": "Anti_Fib_Prime_17",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 17
+    },
+    {
+      "name": "Anti_Fib_Prime_37",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 37
+    },
+    {
+      "name": "Anti_Fib_Prime_67",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 67
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

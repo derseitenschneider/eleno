@@ -1,0 +1,132 @@
+{
+  "_test_description": "CHAOS 06: Gap Optimization Trap - Minimizing gaps creates suboptimal overall schedule",
+  "_expected_failure": "Gap minimization objective conflicts with student maximization, creates local optimum trap",
+  "_pathological_aspect": "Well-intentioned optimization objective sabotages main goal",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Gapless_Cluster_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapless_Cluster_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapless_Cluster_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "12:00", "end_time": "13:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapless_Cluster_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapless_Cluster_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 2}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 2}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 2}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "12:00", "end_time": "13:00", "location": "studio_a", "priority": 2}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "13:00", "end_time": "14:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_06",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_07",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_08",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "16:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Gapped_Student_09",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "17:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

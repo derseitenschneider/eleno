@@ -1,0 +1,114 @@
+{
+  "_test_description": "CHAOS 10: Paradox Engine - Circular dependencies where A blocks B, B blocks C, C blocks A",
+  "_expected_failure": "Circular constraints create unsolvable scenarios with no clear optimal choice",
+  "_pathological_aspect": "Perfect circular logic trap where any choice leads to same suboptimal result",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "17:00", "location": "studio_a"},
+      {"day": "monday", "start_time": "14:00", "end_time": "17:00", "location": "studio_b"},
+      {"day": "monday", "start_time": "14:00", "end_time": "17:00", "location": "studio_c"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Circle_Alpha",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Circle_Beta",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:30", "location": "studio_b", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Circle_Gamma",
+      "accessible_locations": ["studio_c"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "15:30", "location": "studio_c", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Blocker_AB_1",
+      "accessible_locations": ["studio_a", "studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a", "priority": 1},
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_b", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Blocker_BC_1",
+      "accessible_locations": ["studio_b", "studio_c"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_b", "priority": 1},
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_c", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Blocker_CA_1",
+      "accessible_locations": ["studio_c", "studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_c", "priority": 1},
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Later_Slot_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Later_Slot_B",
+      "accessible_locations": ["studio_b"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "17:00", "location": "studio_b", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Later_Slot_C",
+      "accessible_locations": ["studio_c"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "17:00", "location": "studio_c", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Chaos_Wildcard_1",
+      "accessible_locations": ["studio_a", "studio_b", "studio_c"],
+      "availability": [
+        {"day": "monday", "start_time": "14:45", "end_time": "16:15", "location": "studio_a", "priority": 1},
+        {"day": "monday", "start_time": "14:45", "end_time": "16:15", "location": "studio_b", "priority": 1},
+        {"day": "monday", "start_time": "14:45", "end_time": "16:15", "location": "studio_c", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Chaos_Wildcard_2",
+      "accessible_locations": ["studio_a", "studio_b", "studio_c"],
+      "availability": [
+        {"day": "monday", "start_time": "15:15", "end_time": "16:45", "location": "studio_a", "priority": 1},
+        {"day": "monday", "start_time": "15:15", "end_time": "16:45", "location": "studio_b", "priority": 1},
+        {"day": "monday", "start_time": "15:15", "end_time": "16:45", "location": "studio_c", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Studio Alpha"},
+    {"id": "studio_b", "name": "Studio Beta"},
+    {"id": "studio_c", "name": "Studio Gamma"}
+  ]
+}

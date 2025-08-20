@@ -1,0 +1,139 @@
+{
+  "_test_description": "CHAOS 04: Break-Induced Starvation - Teacher break requirements create systematic bias against certain students",
+  "_expected_failure": "Break constraints create artificial scarcity that starves students with specific lesson durations",
+  "_pathological_aspect": "Well-intentioned break policy creates unfair systematic discrimination",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 180,
+      "min_break_duration_minutes": 20
+    }
+  },
+  "students": [
+    {
+      "name": "BreakBuster_119min_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 119
+    },
+    {
+      "name": "BreakBuster_119min_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 119
+    },
+    {
+      "name": "BreakBuster_119min_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 119
+    },
+    {
+      "name": "BreakBuster_119min_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 119
+    },
+    {
+      "name": "BreakFriendly_59min_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_06",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_07",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "BreakFriendly_59min_08",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 59
+    },
+    {
+      "name": "EdgeCase_61min_Breaker",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 61
+    },
+    {
+      "name": "EdgeCase_179min_MaxBlock",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 179
+    },
+    {
+      "name": "EdgeCase_181min_OverBlock",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 181
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

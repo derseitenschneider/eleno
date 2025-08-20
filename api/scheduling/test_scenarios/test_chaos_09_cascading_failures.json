@@ -1,0 +1,127 @@
+{
+  "_test_description": "CHAOS 09: Cascading Failures - Scheduling any student eliminates multiple others in domino effect",
+  "_expected_failure": "High constraint density causes exponential search space explosion and poor decisions",
+  "_pathological_aspect": "Extreme constraint coupling where every decision has massive consequences",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Cascade_Trigger_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:15", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Cascade_Victim_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:07", "end_time": "14:22", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Cascade_Victim_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:14", "end_time": "14:29", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Cascade_Victim_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:21", "end_time": "14:36", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Cascade_Victim_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:28", "end_time": "14:43", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Alternative_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:15", "end_time": "14:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Alternative_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "14:45", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Alternative_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:45", "end_time": "15:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:10", "end_time": "14:25", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:20", "end_time": "14:35", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_C",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:25", "end_time": "14:40", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_D",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:35", "end_time": "14:50", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_E",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:40", "end_time": "14:55", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Overlapper_F",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:50", "end_time": "15:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 10
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

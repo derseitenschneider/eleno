@@ -1,0 +1,141 @@
+{
+  "_test_description": "CHAOS 01: Priority Inversion Cascade - High priority students with flexible availability vs low priority students that can only fit in prime slots",
+  "_expected_failure": "Algorithm either ignores priorities to maximize schedules OR respects priorities and massively under-schedules",
+  "_pathological_aspect": "Forces algorithm to choose between optimization objectives",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Prime_Slot_P3_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "10:30", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:30", "end_time": "11:00", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "11:30", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:30", "end_time": "12:00", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:00", "end_time": "14:30", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_06",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:00", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_07",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:00", "end_time": "15:30", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_08",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:00", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_09",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "10:00", "end_time": "10:30", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Prime_Slot_P3_10",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "tuesday", "start_time": "10:30", "end_time": "11:00", "location": "studio_a", "priority": 3}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Flexible_P1_01",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Flexible_P1_02",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Flexible_P1_03",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Flexible_P1_04",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Flexible_P1_05",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1},
+        {"day": "tuesday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}

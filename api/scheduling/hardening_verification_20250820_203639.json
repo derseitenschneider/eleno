@@ -1,0 +1,74 @@
+{
+  "verification_session": {
+    "timestamp": "2025-08-20T20:36:39.299118",
+    "total_scenarios": 4,
+    "total_improvements": 0,
+    "avg_improvement": 0.0
+  },
+  "detailed_results": [
+    {
+      "scenario": "test_scenarios/test_chaos_01_priority_inversion.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.2714066505432129,
+        "status": "ERROR: 'ScheduleResult' object has no attribute 'status'"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.0004248619079589844,
+        "status": "ERROR: __init__() got an unexpected keyword argument 'status'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_02_harmonic_resonance.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.33889293670654297,
+        "status": "ERROR: 'ScheduleResult' object has no attribute 'status'"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.00015997886657714844,
+        "status": "ERROR: __init__() got an unexpected keyword argument 'status'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_04_break_starvation.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 48.734920263290405,
+        "status": "ERROR: 'ScheduleResult' object has no attribute 'status'"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.0002307891845703125,
+        "status": "ERROR: __init__() got an unexpected keyword argument 'status'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_07_location_convoy.json",
+      "total_students": 12,
+      "standard": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.34737610816955566,
+        "status": "ERROR: 'ScheduleResult' object has no attribute 'status'"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.0002727508544921875,
+        "status": "ERROR: __init__() got an unexpected keyword argument 'status'"
+      }
+    }
+  ]
+}

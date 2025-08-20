@@ -1,0 +1,135 @@
+{
+  "_test_description": "CHAOS 02: Harmonic Resonance Pattern - Lesson durations that create harmonic interference preventing optimal packing",
+  "_expected_failure": "Duration combinations create impossible packing scenarios with massive unused time slots",
+  "_pathological_aspect": "Mathematical harmonics where certain combinations lock out all others",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Harmonic_15min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Harmonic_15min_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 15
+    },
+    {
+      "name": "Harmonic_30min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Harmonic_30min_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 30
+    },
+    {
+      "name": "Harmonic_45min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Harmonic_45min_B",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 45
+    },
+    {
+      "name": "Harmonic_60min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Harmonic_75min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 75
+    },
+    {
+      "name": "Harmonic_90min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 90
+    },
+    {
+      "name": "Harmonic_105min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 105
+    },
+    {
+      "name": "Harmonic_120min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 120
+    },
+    {
+      "name": "Harmonic_135min_A",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 135
+    },
+    {
+      "name": "Disruptor_37min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 37
+    },
+    {
+      "name": "Disruptor_53min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 53
+    },
+    {
+      "name": "Disruptor_71min",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 71
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Studio"}
+  ]
+}
