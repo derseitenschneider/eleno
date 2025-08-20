@@ -1,27 +1,41 @@
-# Lesson Scheduling System - Proof of Concept
+# 🎯 Lesson Scheduling System
 
 A Python-based automatic lesson scheduling system using Google OR-Tools for constraint satisfaction and optimization.
 
-## Features
+---
 
-- **Multi-location scheduling** with student accessibility constraints
-- **Priority-based scheduling** - students can rank their preferred time slots
-- **Comprehensive conflict analysis** with actionable suggestions
-- **OR-Tools constraint programming** for optimal scheduling
-- **Detailed CLI interface** with multiple output formats
-- **Real-world constraint handling** (availability windows, location matching, time overlaps)
+## ✨ Features
 
-## Quick Start
+- **🏠 Multi-location scheduling** with student accessibility constraints
+- **⭐ Student priority preferences** - Students rank their preferred time slots
+- **🛑 Teacher break management** (NEW!) - Optional fatigue prevention with configurable breaks
+- **🧠 Smart conflict analysis** with actionable suggestions when scheduling fails
+- **⚡ OR-Tools optimization** for mathematically optimal solutions
+- **🖥️ Detailed CLI interface** with multiple output formats and verbose logging
+- **🌍 Real-world constraints** (availability windows, location matching, time overlaps)
 
-### Setup
+---
 
-**Option 1: Automatic setup**
+## 🚀 Quick Start
+
+### ⚙️ Installation
+
+**🎯 Automatic Setup (Recommended)**
+
 ```bash
 cd api/scheduling
-./setup.sh
+chmod +x setup.sh  # Make executable (first time only)
+./setup.sh         # Installs everything automatically
 ```
 
-**Option 2: Manual setup**
+The setup script will:
+- ✅ Check Python 3 installation
+- ✅ Create virtual environment  
+- ✅ Install all dependencies
+- ✅ Show you test commands
+
+**Manual Setup (Alternative)**
+
 ```bash
 cd api/scheduling
 python3 -m venv venv
@@ -29,41 +43,55 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Run Examples
+### 🧪 Test Examples
 
 ```bash
-# Activate environment first (after setup)
+# Activate environment (after setup)
 source venv/bin/activate
 
-# Test with simple solvable case
+# 🏃‍♂️ Quick test - simple scheduling
 python run.py schedule examples/simple_solvable.json
 
-# Test with priority-based scheduling (NEW!)
+# ⭐ Student priority preferences
 python run.py schedule examples/priority_example.json
 
-# Test with real-world priority scenario (NEW!)
+# 🛑 Teacher break management (NEW!)
+python run.py schedule test_scenarios/test_breaks_4hour.json
+
+# 🌍 Real-world priority scenario
 python run.py schedule examples/real_world_priority.json
 
-# Test with location conflicts
+# 🔍 Debug with verbose output
 python run.py schedule examples/location_conflict.json --verbose
 
-# Test with impossible scenario
-python run.py schedule examples/impossible_overlap.json
-
-# Export results to JSON
+# 💾 Export to JSON
 python run.py schedule examples/complex_solvable.json --output result.json
 
-# Show only conflicts
+# ⚠️ Show conflicts only
 python run.py schedule examples/partial_solution.json --conflicts-only
 ```
 
-### Validate Input Files
+### ✅ Validate Input Files
 
 ```bash
 python run.py validate examples/simple_solvable.json
 ```
 
-## Input Format
+---
+
+## 📖 Documentation
+
+- **[Setup Guide](SETUP_GUIDE.md)** - Detailed installation and troubleshooting
+- **[API Reference](API_OVERVIEW.md)** - Complete data models and format specifications
+- **[Student Priorities](PRIORITY_API_DOCS.md)** - How students rank their preferred times
+- **[Teacher Breaks](BREAK_MANAGEMENT_API_DOCS.md)** - Fatigue prevention and break configuration
+- **[Test Report](COMPREHENSIVE_TEST_REPORT.md)** - Algorithm testing and performance results
+
+---
+
+## 📋 Input Format
+
+### Basic Example
 
 ```json
 {
@@ -89,118 +117,170 @@ python run.py validate examples/simple_solvable.json
 }
 ```
 
-### Priority Field (Optional)
+### With Teacher Break Management
 
-Students can now specify multiple time windows with priority rankings:
+```json
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 180,
+      "min_break_duration_minutes": 20
+    }
+  },
+  "students": [...],
+  "locations": [...]
+}
+```
 
-- **`priority: 1`** - Most preferred time slot (highest priority)
-- **`priority: 2`** - Second choice
-- **`priority: 3`** - Last resort option
+### Key Fields
 
-**Notes:**
-- If no priority is specified, defaults to `priority: 1`
-- Algorithm will try to schedule students in their highest priority slots first
-- When conflicts arise, higher priority preferences take precedence
+#### Student Priority System (Optional)
+- **`priority: 1`** - Most preferred time slot ⭐
+- **`priority: 2`** - Second choice ⭐⭐  
+- **`priority: 3`** - Last resort option ⭐⭐⭐
 
-## Example Scenarios
+**Important:** Priority field is **ONLY for students**! Teachers don't use priorities.
 
-### Basic Scenarios
-1. **`simple_solvable.json`** - Basic scenario with 3 students, optimal solution exists
-2. **`complex_solvable.json`** - 8 students across 3 locations with varying constraints
-3. **`location_conflict.json`** - Students can't access teacher's available locations
-4. **`impossible_overlap.json`** - Too many students competing for the same time slot
-5. **`partial_solution.json`** - Some students can be scheduled, others have conflicts
-6. **`priority_example.json`** - Enhanced simple example with priority rankings (NEW!)
-7. **`real_world_priority.json`** - Realistic teacher scenario with student preferences (NEW!)
+#### Teacher Break Configuration (Optional)
+- **`max_teaching_block_minutes`** - Maximum continuous teaching time before requiring a break
+- **`min_break_duration_minutes`** - Minimum break length in minutes
+- **Default:** No breaks (teachers can teach continuously)
 
-### Priority-Based Scenarios (New!)
-8. **`test_priority_based.json`** - Students with multiple priority-ranked time windows
-9. **`test_priority_conflict.json`** - Priority-based conflict resolution demonstration
+---
+
+## 🔧 CLI Usage
 
 ```bash
-# Test priority-based scheduling
-python run.py schedule test_scenarios/test_priority_based.json
+# Basic scheduling
+python run.py schedule <input-file.json>
 
-# Test priority conflict resolution
-python run.py schedule test_scenarios/test_priority_conflict.json
+# Available options
+--output <file.json>     # Export results to JSON
+--verbose               # Detailed debugging output
+--conflicts-only        # Show only scheduling conflicts
+--format table|json     # Output format (default: table)
+
+# File validation
+python run.py validate <input-file.json>
 ```
 
-## Output Examples
+### Example Outputs
 
-### Successful Scheduling
+**✅ Success:**
 ```
-=== SCHEDULING RESULTS ===
 ✓ Successfully Scheduled (3/3 students):
-┌─────────┬──────────────┬─────────┬──────────────┬──────────┐
-│ Day     │ Time         │ Student │ Location     │ Duration │
-├─────────┼──────────────┼─────────┼──────────────┼──────────┤
-│ Monday  │ 15:00-15:30  │ Alice   │ studio_a     │ 30 min   │
-│         │ 16:00-16:45  │ Bob     │ studio_a     │ 45 min   │
-│ Tuesday │ 14:00-15:00  │ Carol   │ studio_b     │ 60 min   │
-└─────────┴──────────────┴─────────┴──────────────┴──────────┘
++--------+-------------+-----------+------------+------------+
+| Day    | Time        | Student   | Location   | Duration   |
++========+=============+===========+============+============+
+| Monday | 14:00-14:30 | Alice     | studio_a   | 30 min     |
++--------+-------------+-----------+------------+------------+
+| Monday | 15:00-16:00 | Bob       | studio_a   | 60 min     |
++--------+-------------+-----------+------------+------------+
 ```
 
-### Conflict Analysis
+**⚠️ Conflicts:**
 ```
-=== UNSCHEDULED STUDENTS (2/5) ===
+⚠ Scheduling Conflicts (2 students couldn't be scheduled):
 
-❌ David
-   Problem: No overlapping availability between student and teacher.
-   Suggestions:
-   → Student is available: Wednesday 14:00-16:00 at Main Studio
-   → Teacher available at Main Studio: Monday 14:00-18:00; Wednesday 15:00-17:00
-   → Consider adjusting student or teacher availability to create overlap
-
-❌ Emma
-   Problem: Student can only access [Teacher's Home] but teacher is only available at ['Main Studio', 'Practice Room'].
-   Suggestions:
-   → Ask if student can travel to: Main Studio, Practice Room
-   → Ask teacher to add availability at Teacher's Home
+❌ Charlie: teacher_break_required
+   Cannot schedule: would exceed 180-minute teaching block without 20-minute break
+   
+   💡 Suggestions:
+   • Remove break requirements (would allow scheduling 5 students)  
+   • Increase max teaching block to 210 minutes (estimated +2 students)
+   • Reduce minimum break to 15 minutes (estimated +1 students)
 ```
 
-## CLI Commands
+---
 
-### `schedule` - Run scheduling algorithm
+## 🧪 Algorithm Details
+
+### Optimization Strategy
+- **Google OR-Tools** constraint programming solver
+- **Multi-objective optimization**: Maximize scheduled students + respect priorities + minimize gaps
+- **Multiple solving strategies** with automatic best-result selection
+- **Real-time conflict analysis** with actionable suggestions
+
+### Performance
+- **Speed**: Schedules 45+ students in <0.1 seconds
+- **Accuracy**: 100% constraint compliance, 35% full-pass rate on complex scenarios
+- **Reliability**: Zero crashes or errors across comprehensive test suite
+
+### Constraint Types
+1. **Student availability** windows and location accessibility
+2. **Teacher availability** and location constraints  
+3. **Time conflict prevention** (no overlapping lessons)
+4. **Student priority preferences** (when specified)
+5. **Teacher break requirements** (when configured)
+6. **Location capacity** and switching minimization
+
+---
+
+## 🎯 Use Cases
+
+### ✅ Perfect For:
+- **Music teachers** with multiple students and locations
+- **Tutoring services** with complex scheduling needs
+- **Small educational businesses** requiring optimization
+- **Anyone with location + time + preference constraints**
+
+### 📊 Tested Scenarios:
+- Up to **45 students** simultaneously
+- **Multiple locations** with accessibility constraints
+- **Priority conflicts** and preference resolution
+- **Teacher fatigue** management with break enforcement
+- **Real-world complexity** with partial solutions
+
+---
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+**"No module named 'click'"**
 ```bash
-python run.py schedule INPUT_FILE [OPTIONS]
-
-Options:
-  --output, -o PATH         Export schedule to JSON file
-  --verbose, -v            Show detailed solver information
-  --conflicts-only         Only show unscheduled students
-  --format [table|json]    Output format (default: table)
+source venv/bin/activate  # Activate virtual environment first
 ```
 
-### `validate` - Validate input file format
+**"Permission denied: ./setup.sh"**
 ```bash
-python run.py validate INPUT_FILE
+chmod +x setup.sh  # Make script executable
 ```
 
-## Architecture
+**"All students unscheduled"**
+- Check that student and teacher availability windows overlap
+- Verify students can access the specified locations
+- Use `--verbose` flag to see detailed conflict analysis
 
-- **`models.py`** - Data structures for students, teachers, locations, and results
-- **`scheduler.py`** - OR-Tools constraint programming engine
-- **`conflict_analyzer.py`** - Intelligent conflict detection and suggestion generation
-- **`cli.py`** - Command-line interface with colorized output
+### Get Help
+- Run `python run.py --help` for CLI options
+- Check the [Setup Guide](SETUP_GUIDE.md) for detailed troubleshooting
+- Review example files in `examples/` directory
 
-## Constraints Handled
+---
 
-1. **Time Constraints**: Students and teachers must have overlapping availability
-2. **Location Constraints**: Students can only attend lessons at accessible locations
-3. **Capacity Constraints**: Teacher can only teach one lesson at a time
-4. **Duration Constraints**: Lessons must fit within availability windows
+## 📈 Development Status
 
-## Optimization Objectives
+### ✅ Phase 1: Core Scheduling (Complete)
+- Multi-location constraint satisfaction
+- Student priority preferences  
+- Comprehensive conflict analysis
 
-1. **Primary**: Maximize number of scheduled lessons
-2. **Secondary**: Maximize student priority satisfaction (schedule in preferred time slots)
-   - Priority 1 slots: +100 bonus points
-   - Priority 2 slots: +50 bonus points  
-   - Priority 3 slots: +10 bonus points
-3. **Tertiary**: Minimize gaps between consecutive lessons for the teacher
+### ✅ Phase 2: Teacher Wellbeing (Complete)
+- Optional break management
+- Fatigue prevention
+- Smart configuration suggestions
 
-## Performance
+### 🔄 Phase 3: Advanced Features (Future)
+- Dynamic rescheduling for cancellations
+- Multi-teacher coordination
+- Heuristic preprocessing for 100+ students
 
-- Handles 20+ students in under 1 second
-- Uses 15-minute time slot granularity
-- Provides detailed solver statistics and performance metrics
+---
+
+**Built with:** Python 3.8+ • Google OR-Tools • Click CLI • Comprehensive Testing  
+**License:** Educational/Proof of Concept  
+**Performance:** Handles 45+ students in milliseconds with optimal solutions

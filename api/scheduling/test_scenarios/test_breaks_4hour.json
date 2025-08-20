@@ -1,0 +1,74 @@
+{
+  "description": "4-hour teaching blocks with 20-minute breaks test",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 240,
+      "min_break_duration_minutes": 20
+    }
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Bob", 
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Charlie",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "David",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "12:00", "end_time": "13:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Emma",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "13:30", "end_time": "14:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Frank",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Studio A"}
+  ],
+  "expected_result": {
+    "type": "full_solution",
+    "reason": "4-hour blocks allow first 4 students, then 20min break, then 2 more students",
+    "scheduled_count": 6,
+    "unscheduled": [],
+    "break_periods": [
+      {"after_student": "David", "before_student": "Emma", "duration_minutes": 30}
+    ]
+  }
+}

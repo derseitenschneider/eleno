@@ -1,0 +1,59 @@
+{
+  "description": "Default behavior test - no break configuration (continuous teaching allowed)",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"}
+    ]
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Bob", 
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Charlie",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "David",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "12:00", "end_time": "13:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Emma",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "13:00", "end_time": "14:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Studio A"}
+  ],
+  "expected_result": {
+    "type": "full_solution",
+    "reason": "No break constraints - teacher can teach continuously for 5 hours",
+    "scheduled_count": 5,
+    "unscheduled": []
+  }
+}

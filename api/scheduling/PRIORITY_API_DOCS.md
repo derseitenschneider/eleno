@@ -2,7 +2,17 @@
 
 ## Overview
 
-The scheduling system now supports **priority-based scheduling**, allowing students to rank their preferred time slots. This enhancement improves student satisfaction by trying to schedule lessons in their most preferred time windows first.
+The scheduling system supports **priority-based scheduling**, allowing **STUDENTS** to rank their preferred time slots. This enhancement improves student satisfaction by trying to schedule lessons in their most preferred time windows first.
+
+## ⚠️ Important: Student-Only Feature
+
+**Priorities are EXCLUSIVELY for students!**
+
+- ✅ **Students** use priorities to rank their preferred time slots (1=best, 2=good, 3=ok)  
+- ❌ **Teachers** do NOT use priorities - they are ignored by the algorithm
+- 🔄 If priority appears in teacher data, it has no effect on scheduling
+
+This design separates concerns: students express preferences, teachers provide availability.
 
 ## API Changes
 
@@ -197,6 +207,67 @@ python run.py schedule test_scenarios/test_priority_based.json
 # Validate priority field format
 python run.py validate test_scenarios/test_priority_based.json
 ```
+
+---
+
+## ❓ Frequently Asked Questions
+
+### Q: Can teachers use priorities?
+
+**A:** No! Priorities are exclusively for students. Teachers provide availability windows, students rank their preferences within those windows.
+
+### Q: What happens if I put priority in teacher data?
+
+**A:** The priority field is ignored for teachers. The algorithm only processes student priorities.
+
+### Q: Why are priorities student-only?
+
+**A:** This design separates concerns clearly:
+- **Teachers** indicate when/where they're available to teach
+- **Students** express preferences among available options
+- **Algorithm** optimizes student satisfaction within teacher constraints
+
+### Q: Do I have to use priorities?
+
+**A:** No! Priorities are completely optional. Students without priorities are treated as having priority=1 for all time slots.
+
+### Q: Can students have the same priority?
+
+**A:** Yes! Multiple time slots can have the same priority. The algorithm will choose the best option among equal-priority slots.
+
+### Q: What's the difference between no priority and priority=1?
+
+**A:** None! If priority is omitted, it defaults to 1 (highest priority).
+
+---
+
+## 🔄 Migration from Teacher Priorities
+
+If you previously used teacher priorities:
+
+**Before (ignored):**
+```json
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a", "priority": 1}
+    ]
+  }
+}
+```
+
+**After (clean):**
+```json
+{
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "14:00", "end_time": "18:00", "location": "studio_a"}
+    ]
+  }
+}
+```
+
+**Result:** No functional change - teacher priorities were already ignored!
 
 ## Performance Impact
 

@@ -1,0 +1,112 @@
+{
+  "description": "Comprehensive teacher break management demonstration - showing optional fatigue prevention",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"},
+      {"day": "tuesday", "start_time": "10:00", "end_time": "17:00", "location": "home"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 240,
+      "min_break_duration_minutes": 30
+    }
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Bob",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Carol",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "David",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "12:00", "end_time": "13:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Emma",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "14:30", "end_time": "15:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Frank",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "15:30", "end_time": "16:30", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Grace",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "tuesday", "start_time": "10:00", "end_time": "11:00", "location": "home", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Henry",
+      "accessible_locations": ["home"],
+      "availability": [
+        {"day": "tuesday", "start_time": "15:00", "end_time": "16:00", "location": "home", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Main Music Studio", "address": "123 Music Lane"},
+    {"id": "home", "name": "Teacher's Home Studio", "address": "456 Residential St"}
+  ],
+  "expected_result": {
+    "type": "full_solution_with_breaks",
+    "reason": "240-minute teaching blocks with 30-minute mandatory breaks",
+    "scheduled_count": 8,
+    "break_analysis": {
+      "monday": {
+        "morning_block": "09:00-13:00 (4 hours teaching)",
+        "mandatory_break": "13:00-14:30 (90 minutes - includes travel time)",
+        "afternoon_block": "14:30-16:30 (2 hours teaching)"
+      },
+      "tuesday": {
+        "light_schedule": "Only 2 students, no breaks needed"
+      }
+    },
+    "teaching_statistics": {
+      "total_teaching_minutes": 480,
+      "total_break_minutes": 90,
+      "longest_continuous_block": 240,
+      "break_compliance": true
+    }
+  },
+  "demonstration_notes": [
+    "🛑 Break Config: Max 240 minutes (4 hours) teaching before mandatory 30-minute break",
+    "📅 Monday: 4 consecutive lessons (09:00-13:00), then 90-min break, then 2 more lessons",
+    "📅 Tuesday: Light schedule with just 2 students - no breaks needed",
+    "⚡ Algorithm automatically enforces break requirements without user intervention",
+    "🎯 Students still get their preferred time slots while respecting teacher fatigue limits",
+    "🔄 Break management is completely optional - remove 'break_config' to allow continuous teaching"
+  ]
+}

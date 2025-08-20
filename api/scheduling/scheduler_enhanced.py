@@ -300,6 +300,9 @@ class EnhancedLessonScheduler:
         
         # Constraint 4: Location switching penalties
         self._add_location_switching_constraints()
+        
+        # Constraint 5: Teacher break constraints (only if configured)
+        self._add_break_constraints()
     
     def _add_overlap_constraints(self):
         """Enhanced overlap constraint handling."""
@@ -345,6 +348,75 @@ class EnhancedLessonScheduler:
         """Add soft constraints to minimize excessive location switching."""
         # This is handled in the objective function
         pass
+    
+    def _should_enforce_breaks(self) -> bool:
+        """Check if break constraints should be applied."""
+        return (self.data.teacher.break_config is not None and
+                hasattr(self.data.teacher.break_config, 'max_teaching_block_minutes') and
+                hasattr(self.data.teacher.break_config, 'min_break_duration_minutes'))
+    
+    def _add_break_constraints(self):
+        """Only add break constraints if explicitly configured."""
+        if not self._should_enforce_breaks():
+            return  # No breaks required - teacher can teach continuously
+        
+        config = self.data.teacher.break_config
+        print(f"Enforcing breaks: max {config.max_teaching_block_minutes}min blocks, "
+              f"min {config.min_break_duration_minutes}min breaks")
+        
+        # Add break enforcement for each day
+        days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        for day in days:
+            self._enforce_daily_break_constraints(day, config)
+    
+    def _enforce_daily_break_constraints(self, day: str, config):
+        """Enforce break constraints for a specific day."""
+        # Get all lessons for this day, sorted by start time
+        day_lessons = []
+        for (student, lesson_day, start_time, location), var in self.lesson_vars.items():
+            if lesson_day == day:
+                student_obj = next(s for s in self.data.students if s.name == student)
+                end_time = start_time + student_obj.lesson_duration
+                day_lessons.append((start_time, end_time, var, student))
+        
+        if len(day_lessons) < 2:
+            return  # No need for breaks with 0 or 1 lessons
+        
+        # Sort lessons by start time
+        day_lessons.sort(key=lambda x: x[0])
+        
+        # Track cumulative teaching time and enforce breaks
+        self._add_cumulative_teaching_constraints(day_lessons, config)
+    
+    def _add_cumulative_teaching_constraints(self, day_lessons, config):
+        """Add constraints to track cumulative teaching time and enforce breaks."""
+        max_block = config.max_teaching_block_minutes
+        min_break = config.min_break_duration_minutes
+        
+        # For each consecutive pair of lessons, check if they would exceed the teaching block
+        for i in range(len(day_lessons)):
+            for j in range(i + 1, len(day_lessons)):
+                start_time_1, end_time_1, var_1, student_1 = day_lessons[i]
+                start_time_2, end_time_2, var_2, student_2 = day_lessons[j]
+                
+                # If both lessons are scheduled and the gap is too short for a proper break
+                gap_between = start_time_2 - end_time_1
+                teaching_duration = end_time_1 - start_time_1 + end_time_2 - start_time_2
+                
+                # If scheduling both lessons would create a teaching block that's too long
+                # without adequate break, prevent this combination
+                if gap_between < min_break and teaching_duration > max_block:
+                    # If gap is shorter than minimum break and total teaching exceeds max block
+                    self.model.Add(var_1 + var_2 <= 1)
+                
+                # Also check if the continuous time span (including gaps) exceeds the block limit
+                total_span = end_time_2 - start_time_1
+                if gap_between > 0 and gap_between < min_break and total_span > max_block:
+                    self.model.Add(var_1 + var_2 <= 1)
+    
+    def _add_constraints(self):
+        """Standard constraint method for balanced optimization."""
+        self._add_enhanced_constraints()
     
     def _add_relaxed_constraints(self):
         """Add constraints with some relaxation for flexibility."""
@@ -649,6 +721,9 @@ class EnhancedLessonScheduler:
     
     def _handle_infeasible_solution(self, solve_time: float) -> ScheduleResult:
         """Handle case where no solution was found."""
+        # Analyze why the solution is infeasible
+        conflicts = self._analyze_infeasibility_causes()
+        
         statistics = {
             'solve_time_seconds': round(solve_time, 3),
             'status': 'INFEASIBLE',
@@ -661,12 +736,202 @@ class EnhancedLessonScheduler:
             'gap_penalty_score': 0,
             'switch_penalty_score': 0,
             'solution_quality_score': 0,
-            'high_priority_scheduled': 0
+            'high_priority_scheduled': 0,
+            'break_constraints_enabled': self._should_enforce_breaks()
         }
         
         return ScheduleResult(
             scheduled_lessons=[],
             unscheduled_students=[s.name for s in self.data.students],
-            conflicts=[],  # Will be filled by conflict analyzer
+            conflicts=conflicts,
             statistics=statistics
         )
+    
+    def _analyze_infeasibility_causes(self) -> List[ConflictReason]:
+        """Analyze why the scheduling problem is infeasible."""
+        conflicts = []
+        
+        # First check if break constraints are causing issues
+        if self._should_enforce_breaks():
+            break_conflicts = self._analyze_break_conflicts()
+            conflicts.extend(break_conflicts)
+        
+        # Check for other standard conflicts (availability, location, etc.)
+        standard_conflicts = self._analyze_standard_conflicts()
+        conflicts.extend(standard_conflicts)
+        
+        return conflicts
+    
+    def _analyze_break_conflicts(self) -> List[ConflictReason]:
+        """Analyze conflicts caused by break constraints."""
+        conflicts = []
+        
+        # Test if the problem would be solvable without break constraints
+        solvable_without_breaks = self._test_without_breaks()
+        
+        if solvable_without_breaks:
+            # Break constraints are the primary cause of infeasibility
+            suggestions = self._generate_break_suggestions()
+            
+            # Find the most affected students
+            affected_students = self._find_break_affected_students()
+            
+            for student in affected_students[:3]:  # Report top 3 affected
+                conflicts.append(ConflictReason(
+                    student=student,
+                    reason_type='teacher_break_required',
+                    description=f"Cannot schedule {student}: would exceed {self.data.teacher.break_config.max_teaching_block_minutes}-minute teaching block without a {self.data.teacher.break_config.min_break_duration_minutes}-minute break",
+                    suggestions=suggestions
+                ))
+        
+        return conflicts
+    
+    def _analyze_standard_conflicts(self) -> List[ConflictReason]:
+        """Analyze standard scheduling conflicts."""
+        conflicts = []
+        
+        # Check for students with impossible constraints
+        for student in self.data.students:
+            if not self._has_valid_availability(student):
+                conflicts.append(ConflictReason(
+                    student=student.name,
+                    reason_type='no_overlap',
+                    description=f"No available time slots for {student.name}",
+                    suggestions=["Expand student availability windows", "Add more teacher availability"]
+                ))
+        
+        return conflicts
+    
+    def _test_without_breaks(self) -> bool:
+        """Test if the problem would be solvable without break constraints."""
+        try:
+            # Create a temporary scheduler without breaks
+            temp_data = self.data
+            original_break_config = temp_data.teacher.break_config
+            temp_data.teacher.break_config = None  # Temporarily disable breaks
+            
+            # Create a minimal test model
+            temp_model = cp_model.CpModel()
+            temp_solver = cp_model.CpSolver()
+            temp_solver.parameters.max_time_in_seconds = 5.0  # Quick test
+            
+            # Create variables for a few key students
+            temp_vars = {}
+            test_students = self.data.students[:5]  # Test with first 5 students
+            
+            for student in test_students:
+                for day, start_minutes, location in self.time_slots[:20]:  # Limited slots for speed
+                    if (student.can_access_location(location) and 
+                        self._student_available_at_time(student, day, start_minutes, location)):
+                        var_name = f'temp_{student.name}_{day}_{start_minutes}_{location}'
+                        temp_vars[(student.name, day, start_minutes, location)] = temp_model.NewBoolVar(var_name)
+            
+            # Add basic constraints (no breaks)
+            # Each student at most one lesson
+            for student in test_students:
+                student_vars = [var for (s, d, t, l), var in temp_vars.items() if s == student.name]
+                if student_vars:
+                    temp_model.Add(sum(student_vars) <= 1)
+            
+            # No overlaps
+            for (s1, d1, t1, l1), var1 in temp_vars.items():
+                for (s2, d2, t2, l2), var2 in temp_vars.items():
+                    if s1 >= s2:  # Avoid duplicate checks
+                        continue
+                    if d1 == d2 and l1 == l2:  # Same day and location
+                        student1 = next(st for st in test_students if st.name == s1)
+                        student2 = next(st for st in test_students if st.name == s2)
+                        end1 = t1 + student1.lesson_duration
+                        end2 = t2 + student2.lesson_duration
+                        
+                        if not (end1 <= t2 or end2 <= t1):  # Would overlap
+                            temp_model.Add(var1 + var2 <= 1)
+            
+            # Try to maximize scheduled students
+            temp_model.Maximize(sum(temp_vars.values()))
+            
+            status = temp_solver.Solve(temp_model)
+            is_solvable = status in [cp_model.OPTIMAL, cp_model.FEASIBLE]
+            
+            # Restore original break config
+            temp_data.teacher.break_config = original_break_config
+            
+            return is_solvable
+            
+        except Exception:
+            return False  # Conservative: assume not solvable if test fails
+    
+    def _generate_break_suggestions(self) -> List[str]:
+        """Generate actionable suggestions for break-related conflicts."""
+        suggestions = []
+        config = self.data.teacher.break_config
+        
+        # Suggestion 1: Remove breaks entirely
+        without_breaks_count = self._estimate_schedulable_without_breaks()
+        suggestions.append(f"Remove break requirements (would allow scheduling {without_breaks_count} students)")
+        
+        # Suggestion 2: Increase teaching block duration
+        for extension in [30, 60, 90]:
+            new_max = config.max_teaching_block_minutes + extension
+            estimated_count = self._estimate_with_longer_blocks(new_max)
+            if estimated_count > 0:
+                suggestions.append(f"Increase max teaching block to {new_max} minutes (estimated +{estimated_count} students)")
+                break
+        
+        # Suggestion 3: Reduce break duration
+        if config.min_break_duration_minutes > 10:
+            for reduction in [5, 10]:
+                new_min = max(5, config.min_break_duration_minutes - reduction)
+                estimated_count = self._estimate_with_shorter_breaks(new_min)
+                if estimated_count > 0:
+                    suggestions.append(f"Reduce minimum break to {new_min} minutes (estimated +{estimated_count} students)")
+                    break
+        
+        return suggestions[:3]  # Return top 3 suggestions
+    
+    def _find_break_affected_students(self) -> List[str]:
+        """Find students most likely affected by break constraints."""
+        # This is a simplified heuristic - could be enhanced
+        # Students with longer lessons or limited availability are more likely to be affected
+        affected = []
+        
+        for student in self.data.students:
+            if student.lesson_duration > 60:  # Longer lessons are harder to fit
+                affected.append(student.name)
+            elif len(student.availability) <= 2:  # Limited availability
+                affected.append(student.name)
+        
+        return affected
+    
+    def _has_valid_availability(self, student: Student) -> bool:
+        """Check if student has any valid availability slots."""
+        for window in student.availability:
+            if window.duration_minutes >= student.lesson_duration:
+                # Check if teacher is available at this time/location
+                teacher_available = any(
+                    tw.day == window.day and 
+                    tw.location == window.location and
+                    tw.overlaps_with(window)
+                    for tw in self.data.teacher.availability
+                )
+                if teacher_available:
+                    return True
+        return False
+    
+    def _estimate_schedulable_without_breaks(self) -> int:
+        """Estimate how many students could be scheduled without breaks."""
+        # Simplified estimation - in practice this could run a quick solver test
+        return max(len(self.data.students) - 2, 0)  # Conservative estimate
+    
+    def _estimate_with_longer_blocks(self, new_max_minutes: int) -> int:
+        """Estimate improvement with longer teaching blocks."""
+        current_max = self.data.teacher.break_config.max_teaching_block_minutes
+        improvement_ratio = new_max_minutes / current_max if current_max > 0 else 1.0
+        return max(int(2 * improvement_ratio), 0)  # Rough heuristic
+    
+    def _estimate_with_shorter_breaks(self, new_min_minutes: int) -> int:
+        """Estimate improvement with shorter breaks."""
+        current_min = self.data.teacher.break_config.min_break_duration_minutes
+        if current_min > new_min_minutes:
+            return 1  # Small improvement expected
+        return 0

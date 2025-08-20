@@ -1,0 +1,56 @@
+{
+  "description": "Impossible break configuration - should trigger suggestions",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "12:00", "location": "studio_a"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 60,
+      "min_break_duration_minutes": 30
+    }
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Bob", 
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Charlie",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Studio A"}
+  ],
+  "expected_result": {
+    "type": "infeasible_with_suggestions",
+    "reason": "60-minute blocks with 30-minute breaks impossible in 3-hour window",
+    "scheduled_count": 0,
+    "conflicts": [
+      {
+        "reason_type": "teacher_break_required",
+        "suggestions": [
+          "Remove break requirements (would allow scheduling 3 students)",
+          "Increase max teaching block to 90 minutes (estimated +2 students)",
+          "Reduce minimum break to 25 minutes (estimated +1 students)"
+        ]
+      }
+    ]
+  }
+}

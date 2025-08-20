@@ -10,12 +10,17 @@ import json
 
 @dataclass
 class TimeWindow:
-    """Represents a time window with day, start/end times, location, and priority."""
+    """Represents a time window with day, start/end times, and location.
+    
+    Note: The priority field is used ONLY for student preferences to rank 
+    their preferred time slots (1=most preferred, 2=second choice, etc.). 
+    For teachers, this field is ignored by the scheduling algorithm.
+    """
     day: str  # monday, tuesday, etc.
     start_time: str  # HH:MM format
     end_time: str  # HH:MM format
     location: str
-    priority: int = 1  # 1 = highest priority, 2 = medium, 3 = lowest
+    priority: int = 1  # For STUDENTS only: 1=highest, 2=medium, 3=lowest. IGNORED for teachers.
     
     def to_minutes(self, time_str: str) -> int:
         """Convert HH:MM to minutes since midnight."""
@@ -69,9 +74,17 @@ class Location:
 
 
 @dataclass
+class TeacherBreakConfig:
+    """Teacher's break requirements configuration (completely optional)."""
+    max_teaching_block_minutes: int  # No default - must be explicitly set
+    min_break_duration_minutes: int  # No default - must be explicitly set
+
+
+@dataclass
 class TeacherSchedule:
     """Represents teacher's availability across different locations."""
     availability: List[TimeWindow]
+    break_config: Optional['TeacherBreakConfig'] = None  # Default: None (no breaks)
     
     def get_availability_at_location(self, location: str) -> List[TimeWindow]:
         """Get teacher's availability windows at a specific location."""
@@ -107,7 +120,7 @@ class ScheduleEntry:
 class ConflictReason:
     """Represents why a student couldn't be scheduled."""
     student: str
-    reason_type: str  # 'location_mismatch', 'no_overlap', 'slots_taken'
+    reason_type: str  # 'location_mismatch', 'no_overlap', 'slots_taken', 'teacher_break_required'
     description: str
     suggestions: List[str]
 
@@ -158,11 +171,17 @@ class SchedulingData:
         # Parse teacher schedule
         teacher_windows = []
         for window_data in data['teacher']['availability']:
-            # Add default priority if not specified
+            # Add default priority if not specified (ignored by algorithm for teachers)
             if 'priority' not in window_data:
                 window_data['priority'] = 1
             teacher_windows.append(TimeWindow(**window_data))
-        teacher = TeacherSchedule(teacher_windows)
+        
+        # Parse optional break configuration
+        break_config = None
+        if 'break_config' in data['teacher']:
+            break_config = TeacherBreakConfig(**data['teacher']['break_config'])
+        
+        teacher = TeacherSchedule(teacher_windows, break_config)
         
         # Parse students
         students = []

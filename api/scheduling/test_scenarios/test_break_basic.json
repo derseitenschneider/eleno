@@ -1,0 +1,47 @@
+{
+  "description": "Basic break enforcement test - 2 hour blocks with 15min breaks",
+  "teacher": {
+    "availability": [
+      {"day": "monday", "start_time": "09:00", "end_time": "17:00", "location": "studio_a"}
+    ],
+    "break_config": {
+      "max_teaching_block_minutes": 120,
+      "min_break_duration_minutes": 15
+    }
+  },
+  "students": [
+    {
+      "name": "Alice",
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "09:00", "end_time": "10:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Bob", 
+      "accessible_locations": ["studio_a"],
+      "availability": [
+        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    },
+    {
+      "name": "Charlie",
+      "accessible_locations": ["studio_a"], 
+      "availability": [
+        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+      ],
+      "lesson_duration": 60
+    }
+  ],
+  "locations": [
+    {"id": "studio_a", "name": "Studio A"}
+  ],
+  "expected_result": {
+    "type": "partial_solution",
+    "reason": "Third student (Charlie) cannot be scheduled due to break requirement after 2 hours of teaching",
+    "scheduled_count": 2,
+    "unscheduled": ["Charlie"]
+  }
+}
