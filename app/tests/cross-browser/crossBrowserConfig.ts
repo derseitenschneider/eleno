@@ -5,15 +5,14 @@ import { devices } from '@playwright/test'
 export const browserConfigs = {
   chromium: {
     name: 'chromium',
-    browser: 'chromium',
-    channel: undefined,
+    browserName: 'chromium',
     launchOptions: {
       args: ['--disable-dev-shm-usage', '--disable-blink-features=AutomationControlled'],
     },
   },
   chrome: {
     name: 'chrome',
-    browser: 'chromium',
+    browserName: 'chromium',
     channel: 'chrome',
     launchOptions: {
       args: ['--disable-dev-shm-usage', '--disable-blink-features=AutomationControlled'],
@@ -21,8 +20,7 @@ export const browserConfigs = {
   },
   firefox: {
     name: 'firefox',
-    browser: 'firefox',
-    channel: undefined,
+    browserName: 'firefox',
     launchOptions: {
       firefoxUserPrefs: {
         'media.navigator.streams.fake': true,
@@ -32,35 +30,34 @@ export const browserConfigs = {
   },
   webkit: {
     name: 'webkit',
-    browser: 'webkit',
-    channel: undefined,
+    browserName: 'webkit',
     launchOptions: {
       // WebKit specific options
     },
   },
   'mobile-chrome': {
     name: 'mobile-chrome',
-    browser: 'chromium',
-    channel: undefined,
+    browserName: 'chromium',
     ...devices['Pixel 5'],
+    hasTouch: true,
   },
   'mobile-safari': {
     name: 'mobile-safari',
-    browser: 'webkit',
-    channel: undefined,
+    browserName: 'webkit',
     ...devices['iPhone 12'],
+    hasTouch: true,
   },
   'tablet-chrome': {
     name: 'tablet-chrome',
-    browser: 'chromium',
-    channel: undefined,
+    browserName: 'chromium',
     ...devices['iPad Pro'],
+    hasTouch: true,
   },
   'tablet-safari': {
     name: 'tablet-safari',
-    browser: 'webkit',
-    channel: undefined,
+    browserName: 'webkit',
     ...devices['iPad Pro'],
+    hasTouch: true,
   },
 }
 
@@ -147,7 +144,7 @@ export function generateCrossBrowserProjects(): PlaywrightTestConfig['projects']
           }),
         },
         metadata: {
-          browser: browserConfig.browser,
+          browser: browserConfig.browserName,
           suite: suite.name,
           description: suite.description,
         },

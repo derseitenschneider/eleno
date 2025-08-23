@@ -2,13 +2,14 @@
 # Deployment is blocked if tests fail.
 name: 🔌 [PRODUCTION] Deploy server on push main
 on:
-  push:
-    branches:
-      - main
-    # This ensures the workflow only runs when changes are made
-    # in the api directory
-    paths:
-      - "api/**"
+  # push:
+  #   branches:
+  #     - main
+  #   # This ensures the workflow only runs when changes are made
+  #   # in the api directory
+  #   paths:
+  #     - "api/**"
+  workflow_dispatch:
 
 jobs:
   # PHP Tests and Static Analysis

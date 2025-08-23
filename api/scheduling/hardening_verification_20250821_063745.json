@@ -1,0 +1,74 @@
+{
+  "verification_session": {
+    "timestamp": "2025-08-21T06:37:45.929086",
+    "total_scenarios": 4,
+    "total_improvements": -8,
+    "avg_improvement": -2.0
+  },
+  "detailed_results": [
+    {
+      "scenario": "test_scenarios/test_chaos_01_priority_inversion.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 15,
+        "success_rate": 100.0,
+        "solve_time": 0.27290892601013184,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 15,
+        "success_rate": 100.0,
+        "solve_time": 0.07583093643188477,
+        "status": "OPTIMAL"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_02_harmonic_resonance.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 7,
+        "success_rate": 46.666666666666664,
+        "solve_time": 0.3371307849884033,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 7,
+        "success_rate": 46.666666666666664,
+        "solve_time": 4.276708126068115,
+        "status": "OPTIMAL"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_04_break_starvation.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 8,
+        "success_rate": 53.333333333333336,
+        "solve_time": 25.52683401107788,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 11.14246416091919,
+        "status": "ERROR: Evaluating a BoundedLinearExpression \"(lesson_EdgeCase_179min_MaxBlock_monday_540_studio_a + -lesson_EdgeCase_181min_OverBlock_monday_540_studio_a) <= -1\" as a Boolean value is not supported."
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_07_location_convoy.json",
+      "total_students": 12,
+      "standard": {
+        "scheduled": 8,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.35480499267578125,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 8,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.09572601318359375,
+        "status": "OPTIMAL"
+      }
+    }
+  ]
+}

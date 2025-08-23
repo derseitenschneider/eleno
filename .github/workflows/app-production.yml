@@ -3,17 +3,18 @@
 
 name: 📱 [PRODUCTION] Deploy application on push main
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "app/**"
-  workflow_run:
-    workflows: ["🧪 Comprehensive Test Suite"]
-    types:
-      - completed
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "app/**"
+  # workflow_run:
+  #   workflows: ["🧪 Comprehensive Test Suite"]
+  #   types:
+  #     - completed
+  #   branches:
+  #     - main
+  workflow_dispatch:
 
 jobs:
   # Check if tests passed for this commit

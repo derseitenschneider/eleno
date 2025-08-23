@@ -2,41 +2,56 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Compatibility: Browser Features', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/dashboard')
-    await expect(page.getByTestId('dashboard-page')).toBeVisible({ timeout: 15000 })
+    // Set consistent theme for testing
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'light')
+      document.documentElement.classList.remove('dark-mode')
+      document.documentElement.classList.add('light-mode')
+    })
+
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
   })
 
-  test('should support essential JavaScript APIs', async ({ page, browserName }) => {
+  test('should support essential JavaScript APIs', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing JavaScript API support in ${browserName}`)
 
     const apiSupport = await page.evaluate(() => {
       return {
         // Storage APIs
-        localStorage: typeof localStorage !== 'undefined' && localStorage !== null,
-        sessionStorage: typeof sessionStorage !== 'undefined' && sessionStorage !== null,
-        
+        localStorage:
+          typeof localStorage !== 'undefined' && localStorage !== null,
+        sessionStorage:
+          typeof sessionStorage !== 'undefined' && sessionStorage !== null,
+
         // Network APIs
         fetch: typeof fetch !== 'undefined',
         XMLHttpRequest: typeof XMLHttpRequest !== 'undefined',
-        
+
         // Modern JS features
         promises: typeof Promise !== 'undefined',
-        asyncAwait: typeof (async function() {})().then === 'function',
+        asyncAwait: typeof (async function() { })().then === 'function',
         arrow: (() => true)() === true,
-        destructuring: (() => { const [a] = [1]; return a === 1 })(),
-        
+        destructuring: (() => {
+          const [a] = [1]
+          return a === 1
+        })(),
+
         // DOM APIs
         querySelector: typeof document.querySelector !== 'undefined',
         addEventListener: typeof document.addEventListener !== 'undefined',
-        
+
         // Date and JSON
         JSON: typeof JSON !== 'undefined' && typeof JSON.parse !== 'undefined',
         Date: typeof Date !== 'undefined',
-        
+
         // Browser info
         userAgent: navigator.userAgent,
         cookieEnabled: navigator.cookieEnabled,
-        
+
         // CSS support
         getComputedStyle: typeof window.getComputedStyle !== 'undefined',
       }
@@ -56,13 +71,16 @@ test.describe('Compatibility: Browser Features', () => {
     console.log(`Browser: ${apiSupport.userAgent}`)
   })
 
-  test('should handle CSS features correctly', async ({ page, browserName }) => {
+  test('should handle CSS features correctly', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing CSS feature support in ${browserName}`)
 
     const cssSupport = await page.evaluate(() => {
       const testDiv = document.createElement('div')
       document.body.appendChild(testDiv)
-      
+
       const features = {
         flexbox: false,
         grid: false,
@@ -97,12 +115,14 @@ test.describe('Compatibility: Browser Features', () => {
 
         // Test Box Shadow
         testDiv.style.boxShadow = '0 0 5px black'
-        features.boxShadow = testDiv.style.boxShadow.includes('0px') || testDiv.style.boxShadow.includes('black')
+        features.boxShadow =
+          testDiv.style.boxShadow.includes('0px') ||
+          testDiv.style.boxShadow.includes('black')
 
         // Test CSS Custom Properties
         testDiv.style.setProperty('--test-var', 'test')
-        features.customProperties = testDiv.style.getPropertyValue('--test-var') === 'test'
-
+        features.customProperties =
+          testDiv.style.getPropertyValue('--test-var') === 'test'
       } catch (error) {
         console.log('CSS feature testing error:', error)
       } finally {
@@ -126,7 +146,10 @@ test.describe('Compatibility: Browser Features', () => {
     console.log(`✅ CSS features work correctly in ${browserName}`)
   })
 
-  test('should handle event handling consistently', async ({ page, browserName }) => {
+  test('should handle event handling consistently', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing event handling in ${browserName}`)
 
     // Test basic click events
@@ -154,7 +177,7 @@ test.describe('Compatibility: Browser Features', () => {
         }
 
         document.body.removeChild(button)
-        
+
         resolve({
           clickWorked: clickFired,
           touchEventsSupported: touchSupported,
@@ -162,7 +185,7 @@ test.describe('Compatibility: Browser Features', () => {
       })
     })
 
-    expect(clickTest.clickFired).toBe(true)
+    expect(clickTest.clickWorked).toBe(true)
     console.log(`Touch events supported: ${clickTest.touchEventsSupported}`)
 
     // Test keyboard events on actual page elements
@@ -171,7 +194,7 @@ test.describe('Compatibility: Browser Features', () => {
       // Test keyboard navigation
       await userMenu.focus()
       await page.keyboard.press('Enter')
-      
+
       // Verify something happened (menu opened or page changed)
       await page.waitForTimeout(1000)
       console.log('Keyboard events working')
@@ -180,7 +203,10 @@ test.describe('Compatibility: Browser Features', () => {
     console.log(`✅ Event handling works in ${browserName}`)
   })
 
-  test('should handle media queries correctly', async ({ page, browserName }) => {
+  test('should handle media queries correctly', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing media query support in ${browserName}`)
 
     const mediaQuerySupport = await page.evaluate(() => {
@@ -211,20 +237,24 @@ test.describe('Compatibility: Browser Features', () => {
     })
 
     expect(mediaQuerySupport.mediaQueriesSupported).toBe(true)
-    
+
     // Test responsive behavior by changing viewport
     const originalSize = page.viewportSize()
-    
+
     // Test mobile query
     await page.setViewportSize({ width: 400, height: 600 })
-    const mobileQuery = await page.evaluate(() => window.matchMedia('(max-width: 768px)').matches)
+    const mobileQuery = await page.evaluate(
+      () => window.matchMedia('(max-width: 768px)').matches,
+    )
     expect(mobileQuery).toBe(true)
-    
+
     // Test desktop query
     await page.setViewportSize({ width: 1200, height: 800 })
-    const desktopQuery = await page.evaluate(() => window.matchMedia('(min-width: 1025px)').matches)
+    const desktopQuery = await page.evaluate(
+      () => window.matchMedia('(min-width: 1025px)').matches,
+    )
     expect(desktopQuery).toBe(true)
-    
+
     // Restore original size
     if (originalSize) {
       await page.setViewportSize(originalSize)
@@ -257,7 +287,7 @@ test.describe('Compatibility: Browser Features', () => {
       if (features.htmlValidation) {
         emailInput.value = 'invalid-email'
         features.invalidEmailDetected = !emailInput.checkValidity()
-        
+
         emailInput.value = 'valid@email.com'
         features.validEmailAccepted = emailInput.checkValidity()
       }
@@ -278,24 +308,27 @@ test.describe('Compatibility: Browser Features', () => {
     console.log(`✅ Form validation works in ${browserName}`)
   })
 
-  test('should handle local storage correctly', async ({ page, browserName }) => {
+  test('should handle local storage correctly', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing local storage in ${browserName}`)
 
     const storageTest = await page.evaluate(() => {
       try {
         const testKey = 'playwright-test-key'
         const testValue = 'test-value-123'
-        
+
         // Test localStorage
         localStorage.setItem(testKey, testValue)
         const retrievedValue = localStorage.getItem(testKey)
         localStorage.removeItem(testKey)
-        
+
         // Test sessionStorage
         sessionStorage.setItem(testKey, testValue)
         const sessionRetrieved = sessionStorage.getItem(testKey)
         sessionStorage.removeItem(testKey)
-        
+
         return {
           localStorageWorks: retrievedValue === testValue,
           sessionStorageWorks: sessionRetrieved === testValue,

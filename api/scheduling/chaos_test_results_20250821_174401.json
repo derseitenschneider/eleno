@@ -1,0 +1,487 @@
+{
+  "chaos_test_session": {
+    "timestamp": "2025-08-21T17:42:34.104830",
+    "total_scenarios": 10,
+    "total_tests_run": 20,
+    "summary_stats": {
+      "standard_scheduler": {
+        "avg_success_rate": 0.0,
+        "min_success_rate": 0.0,
+        "max_success_rate": 0.0,
+        "avg_solve_time": 2.2378724098205565,
+        "max_solve_time": 20.057098150253296,
+        "total_failures": 10
+      },
+      "enhanced_scheduler": {
+        "avg_success_rate": 0.0,
+        "min_success_rate": 0.0,
+        "max_success_rate": 0.0,
+        "avg_solve_time": 6.4772930383682255,
+        "max_solve_time": 57.72737717628479,
+        "total_failures": 10
+      }
+    }
+  },
+  "test_results": [
+    {
+      "test_file": "test_chaos_01_priority_inversion.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 01: Priority Inversion Cascade - High priority students with flexible availability vs low priority students that can only fit in prime slots",
+        "expected_failure": "Algorithm either ignores priorities to maximize schedules OR respects priorities and massively under-schedules",
+        "pathological_aspect": "Forces algorithm to choose between optimization objectives",
+        "file": "test_scenarios/test_chaos_01_priority_inversion.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.3753190040588379,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_01_priority_inversion.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 01: Priority Inversion Cascade - High priority students with flexible availability vs low priority students that can only fit in prime slots",
+        "expected_failure": "Algorithm either ignores priorities to maximize schedules OR respects priorities and massively under-schedules",
+        "pathological_aspect": "Forces algorithm to choose between optimization objectives",
+        "file": "test_scenarios/test_chaos_01_priority_inversion.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.6817560195922852,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_02_harmonic_resonance.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 02: Harmonic Resonance Pattern - Lesson durations that create harmonic interference preventing optimal packing",
+        "expected_failure": "Duration combinations create impossible packing scenarios with massive unused time slots",
+        "pathological_aspect": "Mathematical harmonics where certain combinations lock out all others",
+        "file": "test_scenarios/test_chaos_02_harmonic_resonance.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.3425159454345703,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_02_harmonic_resonance.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 02: Harmonic Resonance Pattern - Lesson durations that create harmonic interference preventing optimal packing",
+        "expected_failure": "Duration combinations create impossible packing scenarios with massive unused time slots",
+        "pathological_aspect": "Mathematical harmonics where certain combinations lock out all others",
+        "file": "test_scenarios/test_chaos_02_harmonic_resonance.json"
+      },
+      "execution": {
+        "solve_time_seconds": 1.0972230434417725,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_03_quantum_entanglement.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 03: Quantum Entanglement - Scheduling any one student determines the fate of multiple others through overlapping constraints",
+        "expected_failure": "Greedy decisions early in search tree eliminate massive branches, causing poor global solutions",
+        "pathological_aspect": "Complex dependency web where local optimization creates global catastrophe",
+        "file": "test_scenarios/test_chaos_03_quantum_entanglement.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.027268171310424805,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_03_quantum_entanglement.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 03: Quantum Entanglement - Scheduling any one student determines the fate of multiple others through overlapping constraints",
+        "expected_failure": "Greedy decisions early in search tree eliminate massive branches, causing poor global solutions",
+        "pathological_aspect": "Complex dependency web where local optimization creates global catastrophe",
+        "file": "test_scenarios/test_chaos_03_quantum_entanglement.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.0800931453704834,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_04_break_starvation.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 04: Break-Induced Starvation - Teacher break requirements create systematic bias against certain students",
+        "expected_failure": "Break constraints create artificial scarcity that starves students with specific lesson durations",
+        "pathological_aspect": "Well-intentioned break policy creates unfair systematic discrimination",
+        "file": "test_scenarios/test_chaos_04_break_starvation.json"
+      },
+      "execution": {
+        "solve_time_seconds": 20.057098150253296,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_04_break_starvation.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 04: Break-Induced Starvation - Teacher break requirements create systematic bias against certain students",
+        "expected_failure": "Break constraints create artificial scarcity that starves students with specific lesson durations",
+        "pathological_aspect": "Well-intentioned break policy creates unfair systematic discrimination",
+        "file": "test_scenarios/test_chaos_04_break_starvation.json"
+      },
+      "execution": {
+        "solve_time_seconds": 57.72737717628479,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 15,
+        "scheduled_students": 0,
+        "unscheduled_students": 15,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_05_oscillator.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 05: The Oscillator - Two identical groups force tie-breaking logic to oscillate between solutions",
+        "expected_failure": "Unstable sorting causes algorithm to flip between equivalent solutions, possible infinite loops",
+        "pathological_aspect": "Identical priorities and constraints expose instability in tie-breaking logic",
+        "file": "test_scenarios/test_chaos_05_oscillator.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.0068149566650390625,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 13,
+        "scheduled_students": 0,
+        "unscheduled_students": 13,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_05_oscillator.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 05: The Oscillator - Two identical groups force tie-breaking logic to oscillate between solutions",
+        "expected_failure": "Unstable sorting causes algorithm to flip between equivalent solutions, possible infinite loops",
+        "pathological_aspect": "Identical priorities and constraints expose instability in tie-breaking logic",
+        "file": "test_scenarios/test_chaos_05_oscillator.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.013486146926879883,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 13,
+        "scheduled_students": 0,
+        "unscheduled_students": 13,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_06_gap_trap.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 06: Gap Optimization Trap - Minimizing gaps creates suboptimal overall schedule",
+        "expected_failure": "Gap minimization objective conflicts with student maximization, creates local optimum trap",
+        "pathological_aspect": "Well-intentioned optimization objective sabotages main goal",
+        "file": "test_scenarios/test_chaos_06_gap_trap.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.0063648223876953125,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 14,
+        "scheduled_students": 0,
+        "unscheduled_students": 14,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_06_gap_trap.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 06: Gap Optimization Trap - Minimizing gaps creates suboptimal overall schedule",
+        "expected_failure": "Gap minimization objective conflicts with student maximization, creates local optimum trap",
+        "pathological_aspect": "Well-intentioned optimization objective sabotages main goal",
+        "file": "test_scenarios/test_chaos_06_gap_trap.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.01742696762084961,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 14,
+        "scheduled_students": 0,
+        "unscheduled_students": 14,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_07_location_convoy.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 07: Location Convoy Effect - Greedy location filling starves students with limited access",
+        "expected_failure": "Algorithm fills popular location first, leaving location-restricted students unscheduled",
+        "pathological_aspect": "First-come-first-served location allocation creates systematic unfairness",
+        "file": "test_scenarios/test_chaos_07_location_convoy.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.3431260585784912,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 12,
+        "scheduled_students": 0,
+        "unscheduled_students": 12,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_07_location_convoy.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 07: Location Convoy Effect - Greedy location filling starves students with limited access",
+        "expected_failure": "Algorithm fills popular location first, leaving location-restricted students unscheduled",
+        "pathological_aspect": "First-come-first-served location allocation creates systematic unfairness",
+        "file": "test_scenarios/test_chaos_07_location_convoy.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.9784810543060303,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 12,
+        "scheduled_students": 0,
+        "unscheduled_students": 12,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_08_fibonacci_spiral.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 08: Fibonacci Spiral - Lesson durations following Fibonacci sequence create impossible packing puzzles",
+        "expected_failure": "Mathematical sequence creates non-optimal packing with significant wasted time",
+        "pathological_aspect": "Natural mathematical patterns that don't align with scheduling grid create inefficiencies",
+        "file": "test_scenarios/test_chaos_08_fibonacci_spiral.json"
+      },
+      "execution": {
+        "solve_time_seconds": 1.2060391902923584,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 16,
+        "scheduled_students": 0,
+        "unscheduled_students": 16,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_08_fibonacci_spiral.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 08: Fibonacci Spiral - Lesson durations following Fibonacci sequence create impossible packing puzzles",
+        "expected_failure": "Mathematical sequence creates non-optimal packing with significant wasted time",
+        "pathological_aspect": "Natural mathematical patterns that don't align with scheduling grid create inefficiencies",
+        "file": "test_scenarios/test_chaos_08_fibonacci_spiral.json"
+      },
+      "execution": {
+        "solve_time_seconds": 4.140727758407593,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 16,
+        "scheduled_students": 0,
+        "unscheduled_students": 16,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_09_cascading_failures.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 09: Cascading Failures - Scheduling any student eliminates multiple others in domino effect",
+        "expected_failure": "High constraint density causes exponential search space explosion and poor decisions",
+        "pathological_aspect": "Extreme constraint coupling where every decision has massive consequences",
+        "file": "test_scenarios/test_chaos_09_cascading_failures.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.003226041793823242,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 14,
+        "scheduled_students": 0,
+        "unscheduled_students": 14,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_09_cascading_failures.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 09: Cascading Failures - Scheduling any student eliminates multiple others in domino effect",
+        "expected_failure": "High constraint density causes exponential search space explosion and poor decisions",
+        "pathological_aspect": "Extreme constraint coupling where every decision has massive consequences",
+        "file": "test_scenarios/test_chaos_09_cascading_failures.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.004900932312011719,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 14,
+        "scheduled_students": 0,
+        "unscheduled_students": 14,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_10_paradox_engine.json",
+      "scheduler_type": "Standard",
+      "metadata": {
+        "description": "CHAOS 10: Paradox Engine - Circular dependencies where A blocks B, B blocks C, C blocks A",
+        "expected_failure": "Circular constraints create unsolvable scenarios with no clear optimal choice",
+        "pathological_aspect": "Perfect circular logic trap where any choice leads to same suboptimal result",
+        "file": "test_scenarios/test_chaos_10_paradox_engine.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.010951757431030273,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 11,
+        "scheduled_students": 0,
+        "unscheduled_students": 11,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    },
+    {
+      "test_file": "test_chaos_10_paradox_engine.json",
+      "scheduler_type": "Enhanced",
+      "metadata": {
+        "description": "CHAOS 10: Paradox Engine - Circular dependencies where A blocks B, B blocks C, C blocks A",
+        "expected_failure": "Circular constraints create unsolvable scenarios with no clear optimal choice",
+        "pathological_aspect": "Perfect circular logic trap where any choice leads to same suboptimal result",
+        "file": "test_scenarios/test_chaos_10_paradox_engine.json"
+      },
+      "execution": {
+        "solve_time_seconds": 0.031458139419555664,
+        "status": "ERROR",
+        "error": "'ScheduleEntry' object has no attribute 'student_name'"
+      },
+      "outcomes": {
+        "total_students": 11,
+        "scheduled_students": 0,
+        "unscheduled_students": 11,
+        "success_rate": 0.0,
+        "efficiency_percent": 0
+      },
+      "algorithm_failure": true
+    }
+  ]
+}

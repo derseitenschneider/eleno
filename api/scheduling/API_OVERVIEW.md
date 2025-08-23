@@ -6,14 +6,14 @@ Complete reference guide for all data models, input formats, and API specificati
 
 ## 📋 Quick Reference
 
-| Component | Purpose | Required |
-|-----------|---------|----------|
-| **Teacher** | Instructor availability and break preferences | ✅ Yes |
-| **Students** | Student availability and lesson preferences | ✅ Yes |
-| **Locations** | Physical locations where lessons can occur | ✅ Yes |
-| **TimeWindow** | Time slot with optional student priority | ✅ Yes |
-| **Priority** | Student preference ranking (1=best) | ❌ Optional |
-| **Break Config** | Teacher fatigue management settings | ❌ Optional |
+| Component        | Purpose                                       | Required    |
+| ---------------- | --------------------------------------------- | ----------- |
+| **Teacher**      | Instructor availability and break preferences | ✅ Yes      |
+| **Students**     | Student availability and lesson preferences   | ✅ Yes      |
+| **Locations**    | Physical locations where lessons can occur    | ✅ Yes      |
+| **TimeWindow**   | Time slot with optional student priority      | ✅ Yes      |
+| **Priority**     | Student preference ranking (1=best)           | ❌ Optional |
+| **Break Config** | Teacher fatigue management settings           | ❌ Optional |
 
 ---
 
@@ -31,7 +31,7 @@ Complete reference guide for all data models, input formats, and API specificati
 
 ---
 
-## 👨‍🏫 Teacher Schedule
+## 👨🏫 Teacher Schedule
 
 ### TeacherSchedule Object
 
@@ -42,10 +42,10 @@ Complete reference guide for all data models, input formats, and API specificati
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `availability` | Array of TimeWindow | ✅ Yes | When and where teacher is available |
-| `break_config` | TeacherBreakConfig or null | ❌ No | Optional fatigue management (default: no breaks) |
+| Field          | Type                       | Required | Description                                      |
+| -------------- | -------------------------- | -------- | ------------------------------------------------ |
+| `availability` | Array of TimeWindow        | ✅ Yes   | When and where teacher is available              |
+| `break_config` | TeacherBreakConfig or null | ❌ No    | Optional fatigue management (default: no breaks) |
 
 ### TeacherBreakConfig Object
 
@@ -56,10 +56,10 @@ Complete reference guide for all data models, input formats, and API specificati
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `max_teaching_block_minutes` | integer | ✅ Yes | Maximum continuous teaching time before break required |
-| `min_break_duration_minutes` | integer | ✅ Yes | Minimum break duration in minutes |
+| Field                        | Type    | Required | Description                                            |
+| ---------------------------- | ------- | -------- | ------------------------------------------------------ |
+| `max_teaching_block_minutes` | integer | ✅ Yes   | Maximum continuous teaching time before break required |
+| `min_break_duration_minutes` | integer | ✅ Yes   | Minimum break duration in minutes                      |
 
 **Example Teacher Configurations:**
 
@@ -85,7 +85,7 @@ Complete reference guide for all data models, input formats, and API specificati
 
 ---
 
-## 👨‍🎓 Student
+## 👨🎓 Student
 
 ### Student Object
 
@@ -98,12 +98,12 @@ Complete reference guide for all data models, input formats, and API specificati
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | ✅ Yes | Unique student identifier |
-| `accessible_locations` | Array of strings | ✅ Yes | Location IDs student can attend |
-| `availability` | Array of TimeWindow | ✅ Yes | When and where student is available |
-| `lesson_duration` | integer | ✅ Yes | Lesson length in minutes |
+| Field                  | Type                | Required | Description                         |
+| ---------------------- | ------------------- | -------- | ----------------------------------- |
+| `name`                 | string              | ✅ Yes   | Unique student identifier           |
+| `accessible_locations` | Array of strings    | ✅ Yes   | Location IDs student can attend     |
+| `availability`         | Array of TimeWindow | ✅ Yes   | When and where student is available |
+| `lesson_duration`      | integer             | ✅ Yes   | Lesson length in minutes            |
 
 **Example Students:**
 
@@ -141,30 +141,30 @@ Complete reference guide for all data models, input formats, and API specificati
 {
   "day": "monday",
   "start_time": "14:00",
-  "end_time": "16:00", 
+  "end_time": "16:00",
   "location": "studio_a",
   "priority": 1
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `day` | string | ✅ Yes | Day of week: "monday", "tuesday", ..., "sunday" |
-| `start_time` | string | ✅ Yes | Start time in "HH:MM" format (24-hour) |
-| `end_time` | string | ✅ Yes | End time in "HH:MM" format (24-hour) |
-| `location` | string | ✅ Yes | Location ID where availability applies |
-| `priority` | integer | ❌ No | **STUDENTS ONLY**: Preference ranking (default: 1) |
+| Field        | Type    | Required | Description                                        |
+| ------------ | ------- | -------- | -------------------------------------------------- |
+| `day`        | string  | ✅ Yes   | Day of week: "monday", "tuesday", ..., "sunday"    |
+| `start_time` | string  | ✅ Yes   | Start time in "HH:MM" format (24-hour)             |
+| `end_time`   | string  | ✅ Yes   | End time in "HH:MM" format (24-hour)               |
+| `location`   | string  | ✅ Yes   | Location ID where availability applies             |
+| `priority`   | integer | ❌ No    | **STUDENTS ONLY**: Preference ranking (default: 1) |
 
 ### Priority System (Students Only)
 
 **⚠️ Important:** Priority field is **ONLY meaningful for students**. Teachers can have the field but it's **ignored by the algorithm**.
 
-| Priority | Meaning | Algorithm Weight | Use Case |
-|----------|---------|------------------|----------|
-| `1` | Most preferred ⭐ | +100 points | Perfect time for student |
-| `2` | Second choice ⭐⭐ | +50 points | Good backup option |
-| `3` | Last resort ⭐⭐⭐ | +10 points | Will accept if needed |
-| `4+` | Lower priority | +1 point | Minimal preference |
+| Priority | Meaning            | Algorithm Weight | Use Case                 |
+| -------- | ------------------ | ---------------- | ------------------------ |
+| `1`      | Most preferred ⭐  | +100 points      | Perfect time for student |
+| `2`      | Second choice ⭐⭐ | +50 points       | Good backup option       |
+| `3`      | Last resort ⭐⭐⭐ | +10 points       | Will accept if needed    |
+| `4+`     | Lower priority     | +1 point         | Minimal preference       |
 
 **Example Priority Usage:**
 
@@ -200,19 +200,23 @@ Complete reference guide for all data models, input formats, and API specificati
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `id` | string | ✅ Yes | Unique location identifier (used in TimeWindows) |
-| `name` | string | ✅ Yes | Human-readable location name |
-| `address` | string | ❌ No | Physical address (for display only) |
+| Field     | Type   | Required | Description                                      |
+| --------- | ------ | -------- | ------------------------------------------------ |
+| `id`      | string | ✅ Yes   | Unique location identifier (used in TimeWindows) |
+| `name`    | string | ✅ Yes   | Human-readable location name                     |
+| `address` | string | ❌ No    | Physical address (for display only)              |
 
 **Example Locations:**
 
 ```json
 [
-  {"id": "home", "name": "Teacher's Home Studio", "address": "123 Main St"},
-  {"id": "school", "name": "Music School Room A"},
-  {"id": "community_center", "name": "Community Center", "address": "456 Oak Ave"}
+  { "id": "home", "name": "Teacher's Home Studio", "address": "123 Main St" },
+  { "id": "school", "name": "Music School Room A" },
+  {
+    "id": "community_center",
+    "name": "Community Center",
+    "address": "456 Oak Ave"
+  }
 ]
 ```
 
@@ -283,8 +287,18 @@ Complete reference guide for all data models, input formats, and API specificati
 {
   "teacher": {
     "availability": [
-      {"day": "monday", "start_time": "13:00", "end_time": "17:00", "location": "studio_a"},
-      {"day": "tuesday", "start_time": "14:00", "end_time": "18:00", "location": "home"}
+      {
+        "day": "monday",
+        "start_time": "13:00",
+        "end_time": "17:00",
+        "location": "studio_a"
+      },
+      {
+        "day": "tuesday",
+        "start_time": "14:00",
+        "end_time": "18:00",
+        "location": "home"
+      }
     ]
   },
   "students": [
@@ -292,7 +306,12 @@ Complete reference guide for all data models, input formats, and API specificati
       "name": "Alice",
       "accessible_locations": ["studio_a"],
       "availability": [
-        {"day": "monday", "start_time": "15:00", "end_time": "16:00", "location": "studio_a"}
+        {
+          "day": "monday",
+          "start_time": "15:00",
+          "end_time": "16:00",
+          "location": "studio_a"
+        }
       ],
       "lesson_duration": 45
     },
@@ -300,14 +319,19 @@ Complete reference guide for all data models, input formats, and API specificati
       "name": "Bob",
       "accessible_locations": ["home"],
       "availability": [
-        {"day": "tuesday", "start_time": "16:00", "end_time": "17:00", "location": "home"}
+        {
+          "day": "tuesday",
+          "start_time": "16:00",
+          "end_time": "17:00",
+          "location": "home"
+        }
       ],
       "lesson_duration": 30
     }
   ],
   "locations": [
-    {"id": "studio_a", "name": "Music Studio"},
-    {"id": "home", "name": "Home Studio"}
+    { "id": "studio_a", "name": "Music Studio" },
+    { "id": "home", "name": "Home Studio" }
   ]
 }
 ```
@@ -318,7 +342,12 @@ Complete reference guide for all data models, input formats, and API specificati
 {
   "teacher": {
     "availability": [
-      {"day": "monday", "start_time": "09:00", "end_time": "18:00", "location": "studio_a"}
+      {
+        "day": "monday",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "location": "studio_a"
+      }
     ],
     "break_config": {
       "max_teaching_block_minutes": 180,
@@ -330,8 +359,20 @@ Complete reference guide for all data models, input formats, and API specificati
       "name": "Emma",
       "accessible_locations": ["studio_a"],
       "availability": [
-        {"day": "monday", "start_time": "10:00", "end_time": "11:00", "location": "studio_a", "priority": 1},
-        {"day": "monday", "start_time": "14:00", "end_time": "15:00", "location": "studio_a", "priority": 2}
+        {
+          "day": "monday",
+          "start_time": "10:00",
+          "end_time": "11:00",
+          "location": "studio_a",
+          "priority": 1
+        },
+        {
+          "day": "monday",
+          "start_time": "14:00",
+          "end_time": "15:00",
+          "location": "studio_a",
+          "priority": 2
+        }
       ],
       "lesson_duration": 60
     },
@@ -339,14 +380,18 @@ Complete reference guide for all data models, input formats, and API specificati
       "name": "Frank",
       "accessible_locations": ["studio_a"],
       "availability": [
-        {"day": "monday", "start_time": "11:00", "end_time": "12:00", "location": "studio_a", "priority": 1}
+        {
+          "day": "monday",
+          "start_time": "11:00",
+          "end_time": "12:00",
+          "location": "studio_a",
+          "priority": 1
+        }
       ],
       "lesson_duration": 45
     }
   ],
-  "locations": [
-    {"id": "studio_a", "name": "Main Studio"}
-  ]
+  "locations": [{ "id": "studio_a", "name": "Main Studio" }]
 }
 ```
 
@@ -363,7 +408,7 @@ The system validates that all required fields are present:
 - teacher.availability must not be empty
 - Each availability window must have valid day/time/location
 
-# Student validation  
+# Student validation
 - student.name must be unique across all students
 - student.accessible_locations must not be empty
 - student.lesson_duration must be positive integer
@@ -415,21 +460,21 @@ The system validates that all required fields are present:
 
 ### Constraint Handling
 
-| Constraint Type | Behavior | Failure Handling |
-|-----------------|----------|------------------|
-| **Student Availability** | Hard constraint - must be respected | Student marked unscheduled |
-| **Teacher Availability** | Hard constraint - must be respected | No lessons in unavailable times |
-| **Location Access** | Hard constraint - student must access location | Student filtered from impossible slots |
-| **Time Conflicts** | Hard constraint - no overlapping lessons | Conflicting combinations prevented |
-| **Break Requirements** | Hard constraint when configured | Students blocked if breaks needed |
-| **Priority Preferences** | Soft constraint - influences optimization | Lower priority used if needed |
+| Constraint Type          | Behavior                                       | Failure Handling                       |
+| ------------------------ | ---------------------------------------------- | -------------------------------------- |
+| **Student Availability** | Hard constraint - must be respected            | Student marked unscheduled             |
+| **Teacher Availability** | Hard constraint - must be respected            | No lessons in unavailable times        |
+| **Location Access**      | Hard constraint - student must access location | Student filtered from impossible slots |
+| **Time Conflicts**       | Hard constraint - no overlapping lessons       | Conflicting combinations prevented     |
+| **Break Requirements**   | Hard constraint when configured                | Students blocked if breaks needed      |
+| **Priority Preferences** | Soft constraint - influences optimization      | Lower priority used if needed          |
 
 ### Solving Strategies
 
 The algorithm uses multiple solving strategies automatically:
 
 1. **Priority-First Strategy:** Schedule high-priority students first
-2. **Constraint-First Strategy:** Focus on students with limited options  
+2. **Constraint-First Strategy:** Focus on students with limited options
 3. **Balanced Strategy:** Balance all factors equally
 
 The best result across all strategies is returned.
@@ -440,15 +485,16 @@ The best result across all strategies is returned.
 
 ### Scalability
 
-| Student Count | Typical Solve Time | Memory Usage | Success Rate |
-|---------------|-------------------|--------------|--------------|
-| 1-10 students | < 0.01 seconds | < 50MB | 95%+ |
-| 11-25 students | 0.01-0.05 seconds | 50-100MB | 80%+ |
-| 26-45 students | 0.05-0.1 seconds | 100-200MB | 65%+ |
+| Student Count  | Typical Solve Time | Memory Usage | Success Rate |
+| -------------- | ------------------ | ------------ | ------------ |
+| 1-10 students  | < 0.01 seconds     | < 50MB       | 95%+         |
+| 11-25 students | 0.01-0.05 seconds  | 50-100MB     | 80%+         |
+| 26-45 students | 0.05-0.1 seconds   | 100-200MB    | 65%+         |
 
 ### Complexity Factors
 
 **Increases solve time:**
+
 - More students
 - More locations
 - Complex availability patterns
@@ -456,6 +502,7 @@ The best result across all strategies is returned.
 - Priority conflicts
 
 **Reduces solve time:**
+
 - Simpler availability patterns
 - Fewer location switches required
 - No break constraints
@@ -493,3 +540,4 @@ export MEMORY_LIMIT=2048  # MB
 ---
 
 This API reference covers all data models and usage patterns. For practical examples, see the [README](README.md) and files in the `examples/` directory.
+

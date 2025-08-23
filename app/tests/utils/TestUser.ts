@@ -30,6 +30,7 @@ export type UserFlow =
   | 'yearly-monthly'
   | 'share-homework'
   | 'general-user'
+  | 'lifetime-user'
 
 type StripeFixture =
   | 'monthly-checkout'
@@ -214,6 +215,11 @@ export class TestUser {
       throw new Error('No data present to create subscription row for.')
     }
 
+    // Check if this should be a lifetime subscription
+    if (this.userflow === 'lifetime-user') {
+      return this.createLifetimeSubscriptionRow()
+    }
+
     const today = new Date()
     const futureDate = new Date(today)
     futureDate.setDate(today.getDate() + 30)
@@ -225,6 +231,35 @@ export class TestUser {
       period_end: futureDate.toISOString(),
       subscription_status: 'trial',
     }
+    const { error } = await supabaseAdmin
+      .from('stripe_subscriptions')
+      .insert(data)
+
+    if (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  private async createLifetimeSubscriptionRow() {
+    if (!this.user || !this.customer) {
+      throw new Error('No data present to create lifetime subscription row for.')
+    }
+
+    const data = {
+      user_id: this.user.id,
+      stripe_customer_id: this.customer.id,
+      stripe_subscription_id: null, // Lifetime is one-time payment, not recurring
+      stripe_invoice_id: null, // Test environment doesn't need real invoice
+      payment_status: 'paid',
+      currency: 'chf',
+      period_start: null, // Lifetime has no period
+      period_end: null, // Never expires
+      plan: 'lifetime',
+      subscription_status: 'active',
+      failed_payment_attempts: 0,
+      needs_stripe_customer: true,
+    }
+
     const { error } = await supabaseAdmin
       .from('stripe_subscriptions')
       .insert(data)
@@ -374,6 +409,29 @@ export class TestUser {
   }> {
     const testUser = new TestUser({
       userflow: 'general-user',
+      project: 'general',
+    })
+
+    await testUser.init()
+
+    return {
+      email: testUser.email,
+      password: testUser.password,
+      authFile: testUser.authFile,
+    }
+  }
+
+  /**
+   * Static method to create a lifetime user for edge-case visual regression tests.
+   * Creates a user with lifetime subscription to avoid trial expiration issues.
+   */
+  public static async createLifetimeUser(): Promise<{
+    email: string
+    password: string
+    authFile: string
+  }> {
+    const testUser = new TestUser({
+      userflow: 'lifetime-user',
       project: 'general',
     })
 

@@ -2,17 +2,18 @@
 # Deployment is blocked if tests fail.
 name: 📱 [STAGING] Deploy application on push dev
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - "app/**"
-  workflow_run:
-    workflows: ["🧪 Comprehensive Test Suite"]
-    types:
-      - completed
-    branches:
-      - dev
+  # push:
+  #   branches:
+  #     - dev
+  #   paths:
+  #     - "app/**"
+  # workflow_run:
+  #   workflows: ["🧪 Comprehensive Test Suite"]
+  #   types:
+  #     - completed
+  #   branches:
+  #     - dev
+  workflow_dispatch:
 
 jobs:
   # TEMPORARILY COMMENTED OUT - Check if tests passed for this commit

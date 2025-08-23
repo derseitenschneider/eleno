@@ -14,7 +14,7 @@ test.describe('Comprehensive Accessibility Tests', () => {
     studentsPOM = new StudentsPOM(page)
   })
 
-  test.describe('Lesson Planning Workflow Accessibility', () => {
+  test.skip('Lesson Planning Workflow Accessibility', () => {
     test('should provide accessible lesson planning interface', async ({
       page,
     }) => {

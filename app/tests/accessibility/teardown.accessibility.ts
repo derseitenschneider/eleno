@@ -2,28 +2,78 @@ import { test as teardown } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { existsSync } from 'fs'
+import { rmdir } from 'fs/promises'
+import { resolveJoin } from '../utils/resolveJoin'
+import { stripeClient } from '../utils/stripeClient'
+import supabaseAdmin from '../utils/supabaseAdmin'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+type UserData = {
+  userId: string
+  customerId: string
+  clockId: string
+}
+
+const dataPath = resolveJoin('../data/general')
+
 teardown('cleanup accessibility test artifacts', async ({ page }) => {
   console.log('Starting accessibility test cleanup...')
 
+  // Clean up TestUser data first
+  if (existsSync(dataPath)) {
+    const files = fs
+      .readdirSync(dataPath)
+      .filter((file) => file.endsWith('.json'))
+
+    for (const file of files) {
+      const filePath = path.join(dataPath, file)
+      try {
+        const data = fs.readFileSync(filePath, 'utf8')
+        const { userId, clockId } = JSON.parse(data) as UserData
+
+        // Deleting the clock will delete all customers and subscriptions
+        // attached to it.
+        if (clockId) {
+          await stripeClient.testHelpers.testClocks.del(clockId)
+          console.log(`Deleted Stripe test clock: ${clockId}`)
+        }
+
+        // Delete the user from Supabase (cascades to delete all related data)
+        const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
+        if (error) {
+          console.error(`Could not delete user ${userId}: ${error.message}`)
+        } else {
+          console.log(`Deleted user and all related data: ${userId}`)
+        }
+
+        fs.unlinkSync(filePath)
+        console.log(`Cleaned up data file: ${file}`)
+      } catch (error) {
+        console.error(`Error cleaning up ${file}:`, error)
+      }
+    }
+  }
+
   try {
-    // Clear any test data that may have been created during accessibility tests
-    await page.goto('/')
+    // Clear any remaining browser data
+    if (page) {
+      await page.goto('/')
 
-    // Clear localStorage and sessionStorage
-    await page.evaluate(() => {
-      localStorage.clear()
-      sessionStorage.clear()
-    })
+      // Clear localStorage and sessionStorage
+      await page.evaluate(() => {
+        localStorage.clear()
+        sessionStorage.clear()
+      })
 
-    // Clear cookies
-    const context = page.context()
-    await context.clearCookies()
+      // Clear cookies
+      const context = page.context()
+      await context.clearCookies()
 
-    console.log('Browser storage cleared successfully')
+      console.log('Browser storage cleared successfully')
+    }
   } catch (error) {
     console.log('Error clearing browser storage:', error)
   }

@@ -1,16 +1,16 @@
 name: 🌐 Cross-Browser Testing
 
 on:
-  push:
-    branches: [main, dev]
-    paths:
-      - "app/**"
-      - ".github/workflows/cross-browser.yml"
-  pull_request:
-    branches: [main, dev]
-    paths:
-      - "app/**"
-      - ".github/workflows/cross-browser.yml"
+  # push:
+  #   branches: [main, dev]
+  #   paths:
+  #     - "app/**"
+  #     - ".github/workflows/cross-browser.yml"
+  # pull_request:
+  #   branches: [main, dev]
+  #   paths:
+  #     - "app/**"
+  #     - ".github/workflows/cross-browser.yml"
   workflow_dispatch:
     inputs:
       test_suite:

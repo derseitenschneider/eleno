@@ -1,0 +1,74 @@
+{
+  "verification_session": {
+    "timestamp": "2025-08-21T06:36:25.202086",
+    "total_scenarios": 4,
+    "total_improvements": -38,
+    "avg_improvement": -9.5
+  },
+  "detailed_results": [
+    {
+      "scenario": "test_scenarios/test_chaos_01_priority_inversion.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 15,
+        "success_rate": 100.0,
+        "solve_time": 0.35863399505615234,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.0002281665802001953,
+        "status": "ERROR: '<' not supported between instances of 'Student' and 'Student'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_02_harmonic_resonance.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 7,
+        "success_rate": 46.666666666666664,
+        "solve_time": 0.35698390007019043,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.00028395652770996094,
+        "status": "ERROR: '<' not supported between instances of 'Student' and 'Student'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_04_break_starvation.json",
+      "total_students": 15,
+      "standard": {
+        "scheduled": 8,
+        "success_rate": 53.333333333333336,
+        "solve_time": 40.34070301055908,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.0002391338348388672,
+        "status": "ERROR: '<' not supported between instances of 'Student' and 'Student'"
+      }
+    },
+    {
+      "scenario": "test_scenarios/test_chaos_07_location_convoy.json",
+      "total_students": 12,
+      "standard": {
+        "scheduled": 8,
+        "success_rate": 66.66666666666666,
+        "solve_time": 0.3594822883605957,
+        "status": "OPTIMAL"
+      },
+      "hardened": {
+        "scheduled": 0,
+        "success_rate": 0.0,
+        "solve_time": 0.00014781951904296875,
+        "status": "ERROR: '<' not supported between instances of 'Student' and 'Student'"
+      }
+    }
+  ]
+}

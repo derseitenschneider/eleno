@@ -18,9 +18,10 @@ setup('setup edge-case test data', async ({ page, context }) => {
   // This ensures subscription badges show same remaining days
   await page.clock.install({ time: new Date('2025-08-15T12:00:00.000Z') })
 
-  // Create a test user with default student and subscription
+  // Create a test user with lifetime subscription for edge-case tests
+  // This avoids trial expiration issues and subscription badge date conflicts
   const testUser = new TestUser({
-    userflow: 'general-user',
+    userflow: 'lifetime-user',
     project: 'general',
   })
 

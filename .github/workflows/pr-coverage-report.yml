@@ -1,11 +1,12 @@
 name: 📈 PR Coverage Report
 
 on:
-  pull_request:
-    branches: [main, dev]
-    paths:
-      - "app/**"
-    types: [opened, synchronize, reopened]
+  # pull_request:
+  #   branches: [main, dev]
+  #   paths:
+  #     - "app/**"
+  #   types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

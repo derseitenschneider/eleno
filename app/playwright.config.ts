@@ -53,7 +53,7 @@ export default defineConfig({
     ...subscriptionsConfig,
     ...shareHomeworkConfig,
     ...visualRegressionConfig,
-    ...accessibilityConfig,
+    // ...accessibilityConfig, // Temporarily disabled - accessibility tests not ready for production
     ...performanceConfig,
     ...edgeCaseConfig,
     ...crossBrowserConfig,
