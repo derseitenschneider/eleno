@@ -1,9 +1,7 @@
+import { Info } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
 
-import DataProvider from './services/context/DataProvider.component'
-
 import { Toaster as Sonner } from '@/components/ui/sonner'
-import { Info } from 'lucide-react'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
 import Banner from './components/ui/Banner.component'
 import { SidebarProvider } from './components/ui/sidebar'
@@ -12,6 +10,7 @@ import { AppHeader } from './layouts/appHeader/AppHeader'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 import { AppSidebar } from './layouts/sidebar/AppSidebar.component'
 import { DarkModeProvider } from './services/context/DarkModeContext'
+import DataProvider from './services/context/DataProvider.component'
 import { LoadingProvider } from './services/context/LoadingContext'
 import MainContext from './services/context/MainContext'
 import { SubscriptionProvider } from './services/context/SubscriptionContext'
@@ -22,7 +21,7 @@ export default function Application() {
   useOAuthTracker()
 
   return (
-    <div>
+    <>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
@@ -66,6 +65,6 @@ export default function Application() {
           info: <Info />,
         }}
       />
-    </div>
+    </>
   )
 }

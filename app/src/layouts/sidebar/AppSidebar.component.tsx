@@ -14,8 +14,6 @@ import { Link, useLocation } from 'react-router-dom'
 
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import useTodosQuery from '@/components/features/todos/todosQuery'
-import LogoText from '@/components/ui/LogoText.component'
-import { UserInfo } from '@/components/ui/UserInfo.component'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import LogoText from '@/components/ui/LogoText.component'
 import {
   Sidebar,
   SidebarContent,
@@ -38,6 +37,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { UserInfo } from '@/components/ui/UserInfo.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useMessageNotification } from '@/hooks/useMessageNotification'
@@ -156,7 +156,7 @@ export function AppSidebar() {
                   }}
                   disabled={isLoading || undefined}
                   isActive={isActive('/lessons')}
-                  data-testid='lesson-nav-sidebar'
+                  data-testid='lesson-navigation'
                   autoFocus={false}
                 >
                   <GraduationCap

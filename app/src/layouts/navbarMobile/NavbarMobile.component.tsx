@@ -1,8 +1,3 @@
-import useTodosQuery from '@/components/features/todos/todosQuery'
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import { cn } from '@/lib/utils'
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { useLoading } from '@/services/context/LoadingContext'
 import {
   CheckSquare2,
   GaugeCircle,
@@ -11,6 +6,10 @@ import {
   Users,
 } from 'lucide-react'
 import { useState } from 'react'
+import useTodosQuery from '@/components/features/todos/todosQuery'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
+import { useLoading } from '@/services/context/LoadingContext'
 import { ActionDrawer } from './ActionDrawer.component'
 import NavbarMobileItem from './NavbarMobileItem.component'
 
@@ -27,16 +26,6 @@ function NavbarMobile() {
       if (todo.due < new Date()) return true
       return false
     })
-
-  const {
-    activeSortedHolders: lessonHolders,
-    currentLessonPointer: lessonPointer,
-  } = useLessonHolders()
-  const currentLessonHolder = lessonHolders[lessonPointer]
-  let currentHolderQuery = 'no-students'
-  if (currentLessonHolder) {
-    currentHolderQuery = `${currentLessonHolder.type}-${currentLessonHolder.holder.id}`
-  }
 
   return (
     <>
@@ -81,6 +70,7 @@ function NavbarMobile() {
             }
           />
           <NavbarMobileItem
+            data-testid='lesson-navigation'
             isButton
             onClick={navigateToCurrentHolder}
             isActive={window.location.pathname.includes('lessons')}

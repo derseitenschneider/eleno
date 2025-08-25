@@ -1,4 +1,4 @@
-import { type Project, devices } from '@playwright/test'
+import { devices, type Project } from '@playwright/test'
 
 export const shareHomeworkConfig: Array<Project> = [
   {

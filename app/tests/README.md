@@ -7,6 +7,7 @@ This document provides comprehensive guidance for AI agents working on testing t
 The Eleno application uses a **dual navigation system** that changes based on viewport size:
 
 ### Desktop/Tablet Navigation (≥768px - `md:` breakpoint+)
+
 - **Component**: `AppSidebar` (`/src/layouts/sidebar/AppSidebar.component.tsx`)
 - **Framework**: shadcn/ui Sidebar component
 - **Key Locator**: `[data-sidebar="sidebar"]`
@@ -14,6 +15,7 @@ The Eleno application uses a **dual navigation system** that changes based on vi
 - **Structure**: Left sidebar with collapsible icon mode
 
 ### Mobile Navigation (<768px - below `md:` breakpoint)
+
 - **Component**: `NavbarMobile` (`/src/layouts/navbarMobile/NavbarMobile.component.tsx`)
 - **Structure**: Bottom navigation bar
 - **Key Locator**: `nav.fixed.bottom-0`
@@ -22,30 +24,32 @@ The Eleno application uses a **dual navigation system** that changes based on vi
 ## Theme System
 
 ### Theme Implementation
+
 - **Classes**: `.light-mode` and `.dark-mode` applied to `document.documentElement` (NOT body)
 - **Context**: `DarkModeContext` (`/src/services/context/DarkModeContext.tsx`)
 - **Storage**: `localStorage.setItem('isDarkMode', 'true/false')`
 - **Default Detection**: `window.matchMedia('(prefers-color-scheme:dark)').matches`
 
 ### Theme Initialization in Tests
+
 When writing visual regression tests, you MUST initialize the theme correctly:
 
 ```typescript
 // Theme initialization for visual tests
 await page.evaluate(() => {
-  const html = document.documentElement
-  const isDarkTest = window.matchMedia('(prefers-color-scheme: dark)').matches
-  
+  const html = document.documentElement;
+  const isDarkTest = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
   if (isDarkTest) {
-    html.classList.add('dark-mode')
-    html.classList.remove('light-mode')
-    localStorage.setItem('isDarkMode', 'true')
+    html.classList.add("dark-mode");
+    html.classList.remove("light-mode");
+    localStorage.setItem("isDarkMode", "true");
   } else {
-    html.classList.add('light-mode')
-    html.classList.remove('dark-mode')
-    localStorage.setItem('isDarkMode', 'false')
+    html.classList.add("light-mode");
+    html.classList.remove("dark-mode");
+    localStorage.setItem("isDarkMode", "false");
   }
-})
+});
 ```
 
 ## Visual Regression Test Patterns
@@ -53,45 +57,49 @@ await page.evaluate(() => {
 ### Navigation Component Testing Pattern
 
 ```typescript
-test('navigation component test', async ({ page }) => {
-  const visual = createVisualTestHelper(page)
-  
+test("navigation component test", async ({ page }) => {
+  const visual = createVisualTestHelper(page);
+
   // Initialize theme first
-  await page.evaluate(() => { /* theme init code above */ })
-  
+  await page.evaluate(() => {
+    /* theme init code above */
+  });
+
   // Check viewport to determine which navigation to test
-  const viewport = page.viewportSize()
-  const isMobileTest = viewport && viewport.width < 768
-  
+  const viewport = page.viewportSize();
+  const isMobileTest = viewport && viewport.width < 768;
+
   if (isMobileTest) {
     // Test mobile navigation
-    const mobileNav = page.locator('nav.fixed.bottom-0')
+    const mobileNav = page.locator("nav.fixed.bottom-0");
     if (await mobileNav.isVisible()) {
-      await visual.testComponentStates(mobileNav, 'nav-mobile', [
-        { name: 'default', action: async () => {} }
-      ])
+      await visual.testComponentStates(mobileNav, "nav-mobile", [
+        { name: "default", action: async () => {} },
+      ]);
     }
   } else {
     // Test desktop sidebar
-    const desktopSidebar = page.locator('[data-sidebar="sidebar"]')
+    const desktopSidebar = page.locator('[data-sidebar="sidebar"]');
     if (await desktopSidebar.first().isVisible()) {
-      const nav = desktopSidebar.first()
-      await visual.testComponentStates(nav, 'nav-sidebar', [
-        { name: 'default', action: async () => {} }
-      ])
+      const nav = desktopSidebar.first();
+      await visual.testComponentStates(nav, "nav-sidebar", [
+        { name: "default", action: async () => {} },
+      ]);
     }
   }
-})
+});
 ```
 
 ## Common Test Locators
 
 ### Navigation Components
-- **Desktop Sidebar**: `[data-sidebar="sidebar"]`
-- **Mobile Navigation**: `nav.fixed.bottom-0`
-- **Lesson Navigation Button**: `[data-testid="lesson-nav-sidebar"]` (button within sidebar)
+
+- **Desktop Sidebar**: `[data-testid="app-sidebar"]`
+- **Mobile Navigation**: `[data-testid='mobile-nav]`
+- **Lesson Navigation Button**: `[data-testid="lesson-navigation"]` (button within sidebar)
 
 ### shadcn/ui Components
+
 - **Sidebar Inner**: `[data-sidebar="sidebar"]` (main sidebar content)
 - **Sidebar Container**: `[data-slot="sidebar-container"]`
 - **Sidebar Menu**: `[data-sidebar="menu"]`
@@ -100,15 +108,17 @@ test('navigation component test', async ({ page }) => {
 ## Test Configuration
 
 ### Visual Regression Projects
+
 The app has 5 visual regression test configurations:
 
 1. **visual-regression-setup** - Authentication setup
 2. **visual-regression-desktop** - Light theme, desktop viewport (1440x900)
-3. **visual-regression-dark-desktop** - Dark theme, desktop viewport  
+3. **visual-regression-dark-desktop** - Dark theme, desktop viewport
 4. **visual-regression-mobile** - Light theme, mobile viewport (390x844)
 5. **visual-regression-dark-mobile** - Dark theme, mobile viewport
 
 ### Theme Detection in Tests
+
 - Light theme tests: `colorScheme: 'light'` in playwright config
 - Dark theme tests: `colorScheme: 'dark'` in playwright config
 - Detection: `window.matchMedia('(prefers-color-scheme: dark)').matches`
@@ -116,16 +126,19 @@ The app has 5 visual regression test configurations:
 ## Common Issues & Solutions
 
 ### 1. Sidebar Not Visible in Tests
+
 **Problem**: `[data-sidebar="sidebar"]` timeout errors
 **Cause**: Testing desktop sidebar on mobile viewport or vice versa
 **Solution**: Check viewport size and test appropriate navigation component
 
 ### 2. Dark Mode Not Applied
+
 **Problem**: Theme not showing correctly in visual tests
 **Cause**: Using standard `dark` class instead of `.dark-mode`/.light-mode`
 **Solution**: Use proper theme initialization code (see Theme System section)
 
 ### 3. Visual Test Failures After Navigation Changes
+
 **Problem**: Screenshot size/content mismatches
 **Cause**: Changed from button locator to full component locator
 **Solution**: Update snapshots with `--update-snapshots` flag
@@ -161,4 +174,5 @@ npm run pw:ui
 
 ## Architecture Context
 
-For additional context on the overall application architecture, component patterns, and development workflows, refer to `/AGENTS.md`. This file focuses specifically on testing patterns and should be used by agents working on test-related tasks.
+For additional context on the overall application architecture, component patterns, and development workflows, refer to `/CLAUDE.md`. This file focuses specifically on testing patterns and should be used by agents working on test-related tasks.
+

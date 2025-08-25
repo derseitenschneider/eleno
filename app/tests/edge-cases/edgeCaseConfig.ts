@@ -1,10 +1,10 @@
-import type { PlaywrightTestConfig } from '@playwright/test'
+import type { Project } from '@playwright/test'
 
 /**
  * Edge-case device configurations for comprehensive viewport testing
  * These configurations test problematic viewport sizes discovered in production
  */
-export const edgeCaseConfig: PlaywrightTestConfig['projects'] = [
+export const edgeCaseConfig: Array<Project> = [
   {
     name: 'edge-case-teardown',
     testDir: './tests/edge-cases',

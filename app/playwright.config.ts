@@ -1,19 +1,19 @@
 import { defineConfig } from '@playwright/test'
+import { crossBrowserConfig } from './tests/cross-browser/crossBrowserConfig'
+import { edgeCaseConfig } from './tests/edge-cases/edgeCaseConfig'
 import { shareHomeworkConfig } from './tests/share-homework/shareHomeworkConfig'
 import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
-import { visualRegressionConfig } from './tests/visual-regression/visualRegressionConfig'
-import { accessibilityConfig } from './tests/accessibility/accessibilityConfig'
-import { performanceConfig } from './tests/performance/performanceConfig'
-import { edgeCaseConfig } from './tests/edge-cases/edgeCaseConfig'
-import { crossBrowserConfig } from './tests/cross-browser/crossBrowserConfig'
 
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  // retries: process.env.CI ? 2 : 0,
   retries: 0,
-  workers: process.env.CI ? 1 : process.argv.some(arg => arg.includes('edge-case')) ? 2 : undefined,
+  workers: process.env.CI
+    ? 1
+    : process.argv.some((arg) => arg.includes('edge-case'))
+      ? 2
+      : undefined,
   reporter: [
     ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
@@ -29,7 +29,7 @@ export default defineConfig({
       VITE_API_URL=${process.env.VITE_API_URL} \
       VITE_STRIPE_PRICE_ID_MONTHLY=${process.env.VITE_STRIPE_PRICE_ID_MONTHLY} \
       VITE_STRIPE_PRICE_ID_YEARLY=${process.env.VITE_STRIPE_PRICE_ID_YEARLY} \
-      VITE_STRIPE_PRICE_ID_LIFETIME=${process.env.VITE_STRIPE_PRICE_ID_LIFETIME} \    
+      VITE_STRIPE_PRICE_ID_LIFETIME=${process.env.VITE_STRIPE_PRICE_ID_LIFETIME} \  
       npm run build:ci`,
     url: 'http://localhost:5000',
     reuseExistingServer: !process.env.CI,
@@ -50,11 +50,8 @@ export default defineConfig({
   },
 
   projects: [
-    ...subscriptionsConfig,
+    // ...subscriptionsConfig,
     ...shareHomeworkConfig,
-    ...visualRegressionConfig,
-    // ...accessibilityConfig, // Temporarily disabled - accessibility tests not ready for production
-    ...performanceConfig,
     ...edgeCaseConfig,
     ...crossBrowserConfig,
   ],

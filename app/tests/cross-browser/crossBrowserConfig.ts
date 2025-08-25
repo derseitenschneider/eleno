@@ -1,4 +1,4 @@
-import type { PlaywrightTestConfig } from '@playwright/test'
+import type { PlaywrightTestConfig, Project } from '@playwright/test'
 import { devices } from '@playwright/test'
 
 // Browser configurations with specific settings
@@ -7,7 +7,10 @@ export const browserConfigs = {
     name: 'chromium',
     browserName: 'chromium',
     launchOptions: {
-      args: ['--disable-dev-shm-usage', '--disable-blink-features=AutomationControlled'],
+      args: [
+        '--disable-dev-shm-usage',
+        '--disable-blink-features=AutomationControlled',
+      ],
     },
   },
   chrome: {
@@ -15,7 +18,10 @@ export const browserConfigs = {
     browserName: 'chromium',
     channel: 'chrome',
     launchOptions: {
-      args: ['--disable-dev-shm-usage', '--disable-blink-features=AutomationControlled'],
+      args: [
+        '--disable-dev-shm-usage',
+        '--disable-blink-features=AutomationControlled',
+      ],
     },
   },
   firefox: {
@@ -67,9 +73,7 @@ export const testSuites = {
     name: 'critical',
     description: 'Critical user journeys',
     browsers: ['chromium', 'firefox', 'webkit'],
-    testMatch: [
-      '**/tests/cross-browser/critical/**/*.spec.ts',
-    ],
+    testMatch: ['**/tests/cross-browser/critical/**/*.spec.ts'],
     timeout: 60000,
     retries: 2,
   },
@@ -77,19 +81,20 @@ export const testSuites = {
     name: 'subscription',
     description: 'Subscription flows across browsers',
     browsers: ['chromium', 'firefox', 'webkit'],
-    testMatch: [
-      '**/tests/cross-browser/subscription/**/*.spec.ts',
-    ],
+    testMatch: ['**/tests/cross-browser/subscription/**/*.spec.ts'],
     timeout: 90000,
     retries: 1,
   },
   responsive: {
     name: 'responsive',
     description: 'Responsive design testing',
-    browsers: ['mobile-chrome', 'mobile-safari', 'tablet-chrome', 'tablet-safari'],
-    testMatch: [
-      '**/tests/cross-browser/responsive/**/*.spec.ts',
+    browsers: [
+      'mobile-chrome',
+      'mobile-safari',
+      'tablet-chrome',
+      'tablet-safari',
     ],
+    testMatch: ['**/tests/cross-browser/responsive/**/*.spec.ts'],
     timeout: 45000,
     retries: 1,
   },
@@ -97,16 +102,14 @@ export const testSuites = {
     name: 'compatibility',
     description: 'Browser compatibility features',
     browsers: ['chromium', 'chrome', 'firefox', 'webkit'],
-    testMatch: [
-      '**/tests/cross-browser/compatibility/**/*.spec.ts',
-    ],
+    testMatch: ['**/tests/cross-browser/compatibility/**/*.spec.ts'],
     timeout: 30000,
     retries: 2,
   },
 }
 
 // Generate project configurations
-export function generateCrossBrowserProjects(): PlaywrightTestConfig['projects'] {
+export function generateCrossBrowserProjects(): Array<Project> {
   const projects: PlaywrightTestConfig['projects'] = []
 
   // Setup project
@@ -118,10 +121,11 @@ export function generateCrossBrowserProjects(): PlaywrightTestConfig['projects']
   })
 
   // Generate projects for each test suite and browser combination
-  Object.entries(testSuites).forEach(([suiteKey, suite]) => {
+  Object.entries(testSuites).forEach(([_, suite]) => {
     suite.browsers.forEach((browserKey) => {
-      const browserConfig = browserConfigs[browserKey as keyof typeof browserConfigs]
-      
+      const browserConfig =
+        browserConfigs[browserKey as keyof typeof browserConfigs]
+
       projects.push({
         name: `cross-browser-${suite.name}-${browserConfig.name}`,
         testDir: './tests/cross-browser',
@@ -168,21 +172,85 @@ export const crossBrowserConfig = generateCrossBrowserProjects()
 // Browser compatibility matrix for reporting
 export const compatibilityMatrix = {
   browsers: {
-    chromium: { name: 'Chromium', engine: 'Blink', mobile: false, priority: 'high' },
-    chrome: { name: 'Chrome', engine: 'Blink', mobile: false, priority: 'high' },
-    firefox: { name: 'Firefox', engine: 'Gecko', mobile: false, priority: 'high' },
-    webkit: { name: 'WebKit/Safari', engine: 'WebKit', mobile: false, priority: 'high' },
-    'mobile-chrome': { name: 'Mobile Chrome', engine: 'Blink', mobile: true, priority: 'medium' },
-    'mobile-safari': { name: 'Mobile Safari', engine: 'WebKit', mobile: true, priority: 'high' },
-    'tablet-chrome': { name: 'Tablet Chrome', engine: 'Blink', mobile: true, priority: 'medium' },
-    'tablet-safari': { name: 'Tablet Safari', engine: 'WebKit', mobile: true, priority: 'medium' },
+    chromium: {
+      name: 'Chromium',
+      engine: 'Blink',
+      mobile: false,
+      priority: 'high',
+    },
+    chrome: {
+      name: 'Chrome',
+      engine: 'Blink',
+      mobile: false,
+      priority: 'high',
+    },
+    firefox: {
+      name: 'Firefox',
+      engine: 'Gecko',
+      mobile: false,
+      priority: 'high',
+    },
+    webkit: {
+      name: 'WebKit/Safari',
+      engine: 'WebKit',
+      mobile: false,
+      priority: 'high',
+    },
+    'mobile-chrome': {
+      name: 'Mobile Chrome',
+      engine: 'Blink',
+      mobile: true,
+      priority: 'medium',
+    },
+    'mobile-safari': {
+      name: 'Mobile Safari',
+      engine: 'WebKit',
+      mobile: true,
+      priority: 'high',
+    },
+    'tablet-chrome': {
+      name: 'Tablet Chrome',
+      engine: 'Blink',
+      mobile: true,
+      priority: 'medium',
+    },
+    'tablet-safari': {
+      name: 'Tablet Safari',
+      engine: 'WebKit',
+      mobile: true,
+      priority: 'medium',
+    },
   },
   features: {
-    authentication: ['chromium', 'firefox', 'webkit', 'mobile-chrome', 'mobile-safari'],
-    lessons: ['chromium', 'firefox', 'webkit', 'mobile-chrome', 'mobile-safari'],
-    students: ['chromium', 'firefox', 'webkit', 'mobile-chrome', 'mobile-safari'],
+    authentication: [
+      'chromium',
+      'firefox',
+      'webkit',
+      'mobile-chrome',
+      'mobile-safari',
+    ],
+    lessons: [
+      'chromium',
+      'firefox',
+      'webkit',
+      'mobile-chrome',
+      'mobile-safari',
+    ],
+    students: [
+      'chromium',
+      'firefox',
+      'webkit',
+      'mobile-chrome',
+      'mobile-safari',
+    ],
     subscription: ['chromium', 'firefox', 'webkit'],
-    responsive: ['mobile-chrome', 'mobile-safari', 'tablet-chrome', 'tablet-safari'],
+    responsive: [
+      'mobile-chrome',
+      'mobile-safari',
+      'tablet-chrome',
+      'tablet-safari',
+    ],
     javascript: ['chromium', 'chrome', 'firefox', 'webkit'],
   },
 }
+
