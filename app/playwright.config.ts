@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 import { crossBrowserConfig } from './tests/cross-browser/crossBrowserConfig'
 import { edgeCaseConfig } from './tests/edge-cases/edgeCaseConfig'
 import { shareHomeworkConfig } from './tests/share-homework/shareHomeworkConfig'
-import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
+// import { subscriptionsConfig } from './tests/subscriptions/subscriptionsConfig'
 
 export default defineConfig({
   testDir: './tests',
@@ -20,24 +20,29 @@ export default defineConfig({
     ['json', { outputFile: 'test-results/results.json' }],
     ['junit', { outputFile: 'test-results/junit.xml' }],
   ],
-  webServer: {
-    command: `
-      VITE_ENV=${process.env.VITE_ENV} \
-      VITE_SUPABASE_URL=${process.env.VITE_SUPABASE_URL} \
-      VITE_SUPABASE_KEY=${process.env.VITE_SUPABASE_KEY} \
-      VITE_STRIPE_PUBLISHABLE_KEY=${process.env.VITE_STRIPE_PUBLISHABLE_KEY} \
-      VITE_API_URL=${process.env.VITE_API_URL} \
-      VITE_STRIPE_PRICE_ID_MONTHLY=${process.env.VITE_STRIPE_PRICE_ID_MONTHLY} \
-      VITE_STRIPE_PRICE_ID_YEARLY=${process.env.VITE_STRIPE_PRICE_ID_YEARLY} \
-      VITE_STRIPE_PRICE_ID_LIFETIME=${process.env.VITE_STRIPE_PRICE_ID_LIFETIME} \  
-      npm run build:ci`,
-    url: 'http://localhost:5000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  // Only start webServer for local development, not in CI
+  ...(process.env.CI
+    ? {}
+    : {
+      webServer: {
+        command: `
+        VITE_ENV=${process.env.VITE_ENV} \
+        VITE_SUPABASE_URL=${process.env.VITE_SUPABASE_URL} \
+        VITE_SUPABASE_KEY=${process.env.VITE_SUPABASE_KEY} \
+        VITE_STRIPE_PUBLISHABLE_KEY=${process.env.VITE_STRIPE_PUBLISHABLE_KEY} \
+        VITE_API_URL=${process.env.VITE_API_URL} \
+        VITE_STRIPE_PRICE_ID_MONTHLY=${process.env.VITE_STRIPE_PRICE_ID_MONTHLY} \
+        VITE_STRIPE_PRICE_ID_YEARLY=${process.env.VITE_STRIPE_PRICE_ID_YEARLY} \
+        VITE_STRIPE_PRICE_ID_LIFETIME=${process.env.VITE_STRIPE_PRICE_ID_LIFETIME} \  
+        npm run build:ci`,
+        url: 'http://localhost:5000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120 * 1000,
+      },
+    }),
   use: {
     baseURL: process.env.CI
-      ? 'http://localhost:5000'
+      ? 'https://dev.eleno.net'
       : process.env.LOCAL_TEST
         ? 'http://localhost:5173'
         : 'https://dev.eleno.net',
