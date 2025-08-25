@@ -1,5 +1,5 @@
 # Deployment Status Tracking and Monitoring
-# Tracks deployment health, creates status badges, and provides monitoring dashboard
+# Tracks deployment health and provides monitoring dashboard
 
 name: 📊 Deployment Monitoring
 
@@ -223,70 +223,6 @@ jobs:
               ;;
           esac
 
-      - name: 📊 Generate Status Badges
-        run: |
-          mkdir -p badges
-          
-          # Function to generate badge JSON
-          generate_badge() {
-            local label="$1"
-            local message="$2"
-            local color="$3"
-            
-            cat > "badges/${label,,}-status.json" << EOF
-          {
-            "schemaVersion": 1,
-            "label": "$label",
-            "message": "$message",
-            "color": "$color"
-          }
-          EOF
-          }
-          
-          # Generate badges for each service
-          if [ "${{ needs.health-monitoring.outputs.app-staging-status }}" = "healthy" ]; then
-            generate_badge "App Staging" "healthy" "brightgreen"
-          else
-            generate_badge "App Staging" "unhealthy" "red"
-          fi
-          
-          if [ "${{ needs.health-monitoring.outputs.app-production-status }}" = "healthy" ]; then
-            generate_badge "App Production" "healthy" "brightgreen"
-          else
-            generate_badge "App Production" "unhealthy" "red"
-          fi
-          
-          if [ "${{ needs.health-monitoring.outputs.api-staging-status }}" = "healthy" ]; then
-            generate_badge "API Staging" "healthy" "brightgreen"
-          else
-            generate_badge "API Staging" "unhealthy" "red"
-          fi
-          
-          if [ "${{ needs.health-monitoring.outputs.api-production-status }}" = "healthy" ]; then
-            generate_badge "API Production" "healthy" "brightgreen"
-          else
-            generate_badge "API Production" "unhealthy" "red"
-          fi
-          
-          # Overall health badge
-          case "${{ needs.health-monitoring.outputs.overall-health }}" in
-            healthy)
-              generate_badge "Overall Status" "operational" "brightgreen"
-              ;;
-            degraded)
-              generate_badge "Overall Status" "degraded" "yellow"
-              ;;
-            critical)
-              generate_badge "Overall Status" "critical" "red"
-              ;;
-          esac
-
-      - name: 📤 Upload status badges
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployment-status-badges-${{ github.run_id }}
-          path: badges/
-          retention-days: 7
 
   # Alert on critical issues
   alert-on-issues:

@@ -51,8 +51,8 @@ npm run test:cov
 # Run tests with coverage and threshold checking
 npm run test:cov:check
 
-# Generate coverage badges
-npm run test:cov:badges
+# View coverage report in browser
+open coverage/index.html
 
 # Check thresholds only (requires existing coverage data)
 npm run coverage:check

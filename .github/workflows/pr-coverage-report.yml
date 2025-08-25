@@ -47,16 +47,11 @@ jobs:
         run: node scripts/check-coverage-thresholds.js
         continue-on-error: true
         
-      - name: 🎨 Generate PR coverage badges
-        run: node scripts/generate-coverage-badges.js
 
       - name: 💾 Save PR coverage
         run: |
           cp coverage/coverage-summary.json pr-coverage.json
           node scripts/generate-test-summary.js coverage > pr-coverage-data.json
-          if [ -f coverage/badges.json ]; then
-            cp coverage/badges.json pr-badges.json
-          fi
 
       - name: 🔄 Checkout base branch
         run: |

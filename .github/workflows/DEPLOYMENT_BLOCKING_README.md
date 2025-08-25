@@ -227,7 +227,6 @@ Critical alerts are triggered for:
 Access real-time status via:
 - GitHub Actions summary pages
 - Deployment monitoring workflow results  
-- Status badges (auto-generated)
 - Health check logs and history
 
 ## 🔍 Troubleshooting

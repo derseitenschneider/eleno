@@ -1,16 +1,10 @@
-name: 🧪 Comprehensive Test Suite
+name: 🧪 Legacy Test Suite (DISABLED)
 
 on:
-  # push:
-  #   branches: [main, dev]
-  #   paths:
-  #     - "app/**"
-  #     - ".github/workflows/test.yml"
-  # pull_request:
-  #   branches: [main, dev]
-  #   paths:
-  #     - "app/**"
-  #     - ".github/workflows/test.yml"
+  # DISABLED: Replaced by streamlined workflows
+  # - test-and-deploy-dev.yml (runs on dev pushes)  
+  # - deploy-production.yml (runs on main pushes)
+  # - test-comprehensive.yml (runs nightly)
   workflow_dispatch:
 
 concurrency:
@@ -78,12 +72,6 @@ jobs:
             !app/coverage/**/*.tmp
           retention-days: 30
 
-      - name: 🎨 Generate coverage badges
-        if: always()
-        run: |
-          if [ -f coverage/coverage-summary.json ]; then
-            node scripts/generate-coverage-badges.js
-          fi
 
       - name: 📊 Generate coverage summary
         if: always()
@@ -116,17 +104,10 @@ jobs:
             echo "⚠️ Coverage data not available" >> $GITHUB_STEP_SUMMARY
           fi
           
-          # Add badge information if available
-          if [ -f coverage/badges.md ]; then
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 🎯 Coverage Quality Gate" >> $GITHUB_STEP_SUMMARY
-            cat coverage/badges.md >> $GITHUB_STEP_SUMMARY
-          fi
           
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Artifacts" >> $GITHUB_STEP_SUMMARY
           echo "- [Coverage Report HTML](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
-          echo "- [Coverage Badges](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
 
       - name: ❌ Fail build if coverage thresholds not met
         if: steps.coverage-check.outcome == 'failure'

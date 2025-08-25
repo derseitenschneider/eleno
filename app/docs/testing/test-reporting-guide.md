@@ -133,24 +133,6 @@ The system uses watermarks to color-code coverage:
 3. **Check for timeout issues**
 4. **Optimize test execution** where needed
 
-## 📊 Coverage Badges
-
-### Available Badges
-
-Coverage badges are automatically generated and available as artifacts:
-
-- **Statements Coverage**: `![Statements](badge-url)`
-- **Branches Coverage**: `![Branches](badge-url)`  
-- **Functions Coverage**: `![Functions](badge-url)`
-- **Lines Coverage**: `![Lines](badge-url)`
-
-### Badge Integration
-
-To use badges in documentation:
-
-1. Download `coverage-badges-{run-id}` artifact
-2. Copy badge markdown from `coverage-badges.md`
-3. Add to README or documentation files
 
 ## 🔄 PR Coverage Comparison
 
@@ -192,7 +174,6 @@ Examples:
 | Playwright Reports | 30 days | Test result review |
 | Test Results | 30 days | Debugging support |
 | Failure Artifacts | 14 days | Immediate debugging |
-| Coverage Badges | 90 days | Long-term reference |
 
 ## 🚀 Local Development
 

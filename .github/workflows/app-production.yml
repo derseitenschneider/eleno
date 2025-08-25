@@ -1,19 +1,12 @@
-# Deploys the application from [main] to production.
-# Deployment is blocked if tests fail.
+# LEGACY: Replaced by deploy-production.yml
+# This workflow is disabled in favor of the streamlined approach
 
-name: 📱 [PRODUCTION] Deploy application on push main
+name: 📱 [PRODUCTION] Legacy Deploy (DISABLED)
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - "app/**"
-  # workflow_run:
-  #   workflows: ["🧪 Comprehensive Test Suite"]
-  #   types:
-  #     - completed
-  #   branches:
-  #     - main
+  # DISABLED: Replaced by deploy-production.yml which handles:
+  # - Run same critical E2E tests that run after dev deploy
+  # - Deploy to production (only if tests pass)
+  # - Smoke test production after deploy
   workflow_dispatch:
 
 jobs:

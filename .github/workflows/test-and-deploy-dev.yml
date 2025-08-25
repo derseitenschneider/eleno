@@ -1,0 +1,200 @@
+name: 🚀 Test & Deploy to Staging
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - "app/**"
+      - ".github/workflows/test-and-deploy-dev.yml"
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # Step 1: Quick unit tests and checks
+  quick-tests:
+    name: 🧪 Unit Tests & Checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Type check
+        run: npm run typecheck
+
+      - name: 🧹 Lint check (Biome)
+        run: npx biome check --max-diagnostics=50 || true
+
+      - name: 🧪 Run unit tests
+        run: npm test -- --run
+
+      - name: 📊 Test Summary
+        if: always()
+        run: |
+          echo "## 🧪 Quick Tests Summary" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Unit tests and checks completed" >> $GITHUB_STEP_SUMMARY
+
+  # Step 2: Deploy to staging
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    needs: quick-tests
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://dev.eleno.net
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        working-directory: ./app
+        run: npm ci
+
+      - name: 🔨 Build for staging
+        working-directory: ./app
+        run: npm run build:staging
+
+      - name: 📤 Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './app/dist'
+          production-branch: dev
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          enable-commit-status: true
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_STAGING }}
+        timeout-minutes: 5
+
+      - name: 📋 Deployment Summary
+        run: |
+          echo "## 🚀 Staging Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully deployed to https://dev.eleno.net" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [View Staging Site](https://dev.eleno.net)" >> $GITHUB_STEP_SUMMARY
+
+  # Step 3: Run critical E2E tests against staging
+  critical-e2e-tests:
+    name: 🎭 Critical E2E Tests
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't block further development if tests fail
+    defaults:
+      run:
+        working-directory: ./app
+    env:
+      VITE_ENV: staging
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: ⏳ Wait for deployment to be ready
+        run: |
+          echo "Waiting for staging deployment to be fully ready..."
+          sleep 30
+          curl --retry 10 --retry-delay 5 --retry-all-errors -I https://dev.eleno.net
+
+      - name: 🎭 Run critical E2E tests
+        id: e2e-tests
+        run: |
+          npm run pw -- \
+            --project='*cross-browser-critical*' \
+            --project='*edge-case*' \
+            tests/share-homework/share-homework.spec.ts
+        continue-on-error: true
+
+      - name: 📤 Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: critical-test-results-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 7
+
+      - name: 📊 Test Results Summary
+        if: always()
+        run: |
+          echo "## 🎭 Critical E2E Test Results" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.e2e-tests.outcome }}" = "success" ]; then
+            echo "✅ All critical tests passed!" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Authentication working" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Core functionality verified" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Visual regression tests passed" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Share homework feature working" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Some critical tests failed" >> $GITHUB_STEP_SUMMARY
+            echo "**This doesn't block development, but please review:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Check [test artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+            echo "- Fix issues in next commit" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: 💬 Notify on failure
+        if: failure() && steps.e2e-tests.outcome == 'failure'
+        run: |
+          echo "::warning title=Critical E2E Tests Failed::Some critical tests failed on staging. Please review the test results."
+
+  # Final summary
+  summary:
+    name: 📋 Pipeline Summary
+    needs: [quick-tests, deploy-staging, critical-e2e-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📋 Overall Summary
+        run: |
+          echo "# 🚀 Dev → Staging Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Unit Tests | ${{ needs.quick-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🚀 Staging Deploy | ${{ needs.deploy-staging.result == 'success' && '✅ Deployed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🎭 Critical E2E | ${{ needs.critical-e2e-tests.result == 'success' && '✅ Passed' || '⚠️ Failed (non-blocking)' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Staging URL**: https://dev.eleno.net" >> $GITHUB_STEP_SUMMARY

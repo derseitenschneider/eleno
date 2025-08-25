@@ -1,0 +1,305 @@
+name: 🧪 Comprehensive Test Suite
+
+on:
+  schedule:
+    # Run every night at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'cross-browser'
+          - 'subscriptions'
+          - 'performance'
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # Full cross-browser testing (all browsers)
+  cross-browser-comprehensive:
+    name: 🌐 Cross-Browser Tests
+    if: github.event.inputs.test_suite == 'cross-browser' || github.event.inputs.test_suite == 'all' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    env:
+      VITE_ENV: staging
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: 🔍 Verify staging is ready
+        run: |
+          curl --fail --retry 10 --retry-delay 10 https://dev.eleno.net
+
+      - name: 🌐 Run full cross-browser tests
+        run: npm run pw:cross-browser
+        continue-on-error: true
+
+      - name: 📤 Upload cross-browser results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-browser-results-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 14
+
+  # Subscription flow testing (when enabled)
+  subscription-tests:
+    name: 💳 Subscription Tests
+    if: github.event.inputs.test_suite == 'subscriptions' || github.event.inputs.test_suite == 'all' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    env:
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_TEST_SECRET_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY_STAGING }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
+      VITE_ENV: staging
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: 💳 Run subscription tests
+        run: npm run pw:subs
+        continue-on-error: true
+
+      - name: 📤 Upload subscription results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: subscription-results-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 14
+
+  # Performance testing
+  performance-tests:
+    name: ⚡ Performance Tests
+    if: github.event.inputs.test_suite == 'performance' || github.event.inputs.test_suite == 'all' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    env:
+      VITE_ENV: staging
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: ⚡ Run performance tests
+        run: npm run pw:performance
+        continue-on-error: true
+
+      - name: 📤 Upload performance results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-results-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 14
+
+  # Accessibility testing
+  accessibility-tests:
+    name: ♿ Accessibility Tests  
+    if: github.event.inputs.test_suite == 'all' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+    env:
+      VITE_ENV: staging
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: ♿ Run accessibility tests
+        run: npm run pw:accessibility
+        continue-on-error: true
+
+      - name: 📤 Upload accessibility results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-results-${{ github.run_id }}
+          path: |
+            app/playwright-report/
+            app/test-results/
+          retention-days: 14
+
+  # Test summary and reporting
+  test-summary:
+    name: 📊 Test Summary Report
+    needs: [cross-browser-comprehensive, subscription-tests, performance-tests, accessibility-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📊 Generate comprehensive test report
+        run: |
+          echo "# 🧪 Comprehensive Test Suite Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run Date**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger**: ${{ github.event_name == 'schedule' && 'Scheduled (Nightly)' || 'Manual' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## Test Results Overview" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test Suite | Status | Duration |" >> $GITHUB_STEP_SUMMARY
+          echo "|------------|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          
+          # Cross-browser results
+          if [ "${{ needs.cross-browser-comprehensive.result }}" = "success" ]; then
+            echo "| 🌐 Cross-Browser | ✅ Passed | - |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.cross-browser-comprehensive.result }}" = "failure" ]; then
+            echo "| 🌐 Cross-Browser | ⚠️ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| 🌐 Cross-Browser | ⏭️ Skipped | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Subscription results
+          if [ "${{ needs.subscription-tests.result }}" = "success" ]; then
+            echo "| 💳 Subscriptions | ✅ Passed | - |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.subscription-tests.result }}" = "failure" ]; then
+            echo "| 💳 Subscriptions | ⚠️ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| 💳 Subscriptions | ⏭️ Skipped | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Performance results
+          if [ "${{ needs.performance-tests.result }}" = "success" ]; then
+            echo "| ⚡ Performance | ✅ Passed | - |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.performance-tests.result }}" = "failure" ]; then
+            echo "| ⚡ Performance | ⚠️ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ⚡ Performance | ⏭️ Skipped | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Accessibility results
+          if [ "${{ needs.accessibility-tests.result }}" = "success" ]; then
+            echo "| ♿ Accessibility | ✅ Passed | - |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.accessibility-tests.result }}" = "failure" ]; then
+            echo "| ♿ Accessibility | ⚠️ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ♿ Accessibility | ⏭️ Skipped | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Test Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "All test results, screenshots, and reports are available in the [Actions artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "- Review any failed tests and create issues if needed" >> $GITHUB_STEP_SUMMARY
+          echo "- Check staging environment health: [dev.eleno.net](https://dev.eleno.net)" >> $GITHUB_STEP_SUMMARY
+          echo "- Critical tests that gate production are run separately on each dev deploy" >> $GITHUB_STEP_SUMMARY
+
+      - name: 💬 Create issue on critical failures
+        if: needs.cross-browser-comprehensive.result == 'failure' || needs.subscription-tests.result == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Comprehensive Test Suite Failures - ' + new Date().toISOString().split('T')[0],
+              body: `Comprehensive test suite failed on ${new Date().toISOString().split('T')[0]}
+              
+              **Failed Tests:**
+              - Cross-Browser: ${{ needs.cross-browser-comprehensive.result }}
+              - Subscriptions: ${{ needs.subscription-tests.result }}
+              - Performance: ${{ needs.performance-tests.result }}
+              - Accessibility: ${{ needs.accessibility-tests.result }}
+              
+              **Action Run:** https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+              
+              Please investigate and fix these test failures.`,
+              labels: ['bug', 'testing', 'high-priority']
+            })

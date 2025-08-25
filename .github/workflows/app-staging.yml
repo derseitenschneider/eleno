@@ -1,18 +1,11 @@
-# Deploys the application from [dev] to staging.
-# Deployment is blocked if tests fail.
-name: 📱 [STAGING] Deploy application on push dev
+# LEGACY: Replaced by test-and-deploy-dev.yml
+# This workflow is disabled in favor of the streamlined approach
+name: 📱 [STAGING] Legacy Deploy (DISABLED)
 on:
-  # push:
-  #   branches:
-  #     - dev
-  #   paths:
-  #     - "app/**"
-  # workflow_run:
-  #   workflows: ["🧪 Comprehensive Test Suite"]
-  #   types:
-  #     - completed
-  #   branches:
-  #     - dev
+  # DISABLED: Replaced by test-and-deploy-dev.yml which handles:
+  # - Unit tests + typecheck + lint
+  # - Deploy to staging  
+  # - Critical E2E tests against staging
   workflow_dispatch:
 
 jobs:

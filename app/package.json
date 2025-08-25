@@ -97,7 +97,11 @@
     "test:open-coverage": "open coverage/index.html || start coverage/index.html || xdg-open coverage/index.html",
     "test:open-playwright": "npx playwright show-report",
     "test:cross-browser-report": "node scripts/generate-cross-browser-report.js",
-    "test:cross-browser-report:json": "node scripts/generate-cross-browser-report.js --format=json --output=cross-browser-report.json"
+    "test:cross-browser-report:json": "node scripts/generate-cross-browser-report.js --format=json --output=cross-browser-report.json",
+    "test:critical": "npm run pw -- --project='*cross-browser-critical*' --project='*edge-case*' tests/share-homework/share-homework.spec.ts",
+    "test:critical:local": "npm run pw:local -- --project='*cross-browser-critical*' --project='*edge-case*' tests/share-homework/share-homework.spec.ts",
+    "test:before-deploy": "npm run typecheck && npm run test && npx biome check --max-diagnostics=50",
+    "test:smoke": "node scripts/smoke-test.js"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
