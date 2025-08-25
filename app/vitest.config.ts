@@ -9,6 +9,17 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
     css: true,
+    env: {
+      VITE_ENV: 'development',
+      VITE_SUPABASE_URL: 'https://test.supabase.co',
+      VITE_SUPABASE_KEY: 'test-key-123',
+      VITE_STRIPE_PUBLISHABLE_KEY: 'pk_test_123',
+      VITE_API_URL: 'http://localhost:8000',
+      VITE_APP_URL: 'http://localhost:5173',
+      VITE_STRIPE_PRICE_ID_MONTHLY: 'price_test_monthly',
+      VITE_STRIPE_PRICE_ID_YEARLY: 'price_test_yearly',
+      VITE_STRIPE_PRICE_ID_LIFETIME: 'price_test_lifetime',
+    },
     outputFile: {
       json: './test-results/vitest-results.json',
       junit: './test-results/vitest-junit.xml',
