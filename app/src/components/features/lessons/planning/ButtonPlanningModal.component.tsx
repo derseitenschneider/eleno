@@ -43,10 +43,10 @@ export function ButtonPlanningModal() {
         className='gap-2 font-normal'
       >
         <CalendarClockIcon className='size-4 text-primary' />
-        Lektionsplanung
+        <span className='hidden sm:inline'>Lektionsplanung</span>
       </Button>
       <DrawerOrDialog open={modalOpen === 'PLAN'} onOpenChange={closeModal}>
-        <DrawerOrDialogContent className='md:max-h-[80vh] lg:overflow-hidden'>
+        <DrawerOrDialogContent className='lg:overflow-hidden'>
           <DrawerOrDialogClose asChild>
             <Button
               variant='ghost'
@@ -63,7 +63,7 @@ export function ButtonPlanningModal() {
           <DrawerOrDialogDescription className='hidden'>
             Bereite eine Lektion vor
           </DrawerOrDialogDescription>
-          <div className='md:w-[80vw]'>
+          <div className='lg:w-[80vw]'>
             <CreatePlannedLessonForm onClose={closeModal} />
           </div>
         </DrawerOrDialogContent>

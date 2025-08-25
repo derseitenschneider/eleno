@@ -14,7 +14,7 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import useCurrentHolder from '../useCurrentHolder'
-import PrepareLessonDropDown from './PlannedLessonDropdown.component'
+import PlannedLessonDropdown from './PlannedLessonDropdown.component'
 
 export type PreparedLessonItemProps = {
   currentLesson: Lesson
@@ -71,7 +71,7 @@ export function PreparedLessonItem({
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <PrepareLessonDropDown
+          <PlannedLessonDropdown
             insertLesson={insertLesson}
             lessonId={currentLesson.id}
           />

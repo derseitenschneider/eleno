@@ -12,7 +12,6 @@ import {
 import { useActiveNotesQuery } from '../../components/features/notes/notesQueries'
 import useStudentsQuery from '../../components/features/students/studentsQueries'
 import useTodosQuery from '../../components/features/todos/todosQuery'
-import Banner from '../../components/ui/Banner.component'
 import { useLoading } from './LoadingContext'
 
 interface DataProviderProps {
@@ -64,12 +63,7 @@ function DataProvider({ children }: DataProviderProps) {
     isLoadingProfile,
   ])
 
-  return (
-    <>
-      <Banner />
-      <div id='main'>{children}</div>
-    </>
-  )
+  return <div id='main'>{children}</div>
 }
 
 export default DataProvider

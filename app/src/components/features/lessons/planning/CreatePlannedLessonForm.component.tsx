@@ -54,9 +54,7 @@ export function CreatePlannedLessonForm({
       if (currentLessonHolder.type === 's') {
         return lesson.studentId === currentLessonHolder.holder.id
       }
-      if (currentLessonHolder.type === 'g') {
-        return lesson.groupId === currentLessonHolder?.holder.id
-      }
+      return lesson.groupId === currentLessonHolder?.holder.id
     })
     .sort((a, b) => {
       if (a.date > b.date) return 1
@@ -65,6 +63,7 @@ export function CreatePlannedLessonForm({
 
   const handlerInputDate = (inputDate: Date | undefined) => {
     if (!inputDate) return
+    setError('')
     setDate(inputDate)
   }
 
@@ -194,9 +193,17 @@ export function CreatePlannedLessonForm({
             />
           </div>
         </div>
-        <div className='flex justify-between gap-1'>
-          {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
-          <div className='ml-auto  mt-4 flex w-full items-center gap-1'>
+        {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}
+        <div className='mt-4 flex flex-col-reverse items-center justify-end gap-2 sm:flex-row'>
+          <Button
+            variant='outline'
+            size='sm'
+            className='w-full sm:w-auto'
+            onClick={onClose}
+          >
+            Abbrechen
+          </Button>
+          <div className='flex w-full items-center gap-1 sm:w-auto'>
             <Button
               disabled={isDisabledSave}
               size='sm'
@@ -210,8 +217,8 @@ export function CreatePlannedLessonForm({
         </div>
       </div>
 
-      <div className='h-full flex-col gap-4 lg:flex'>
-        <p className='font-medium'>Geplante Lektionen</p>
+      <div className='mt-8 h-full flex-col gap-4  md:mt-0 lg:flex'>
+        <p className='mb-2 font-medium md:mb-0'>Geplante Lektionen</p>
         {currentHolderPlannedLessons &&
         currentHolderPlannedLessons.length > 0 ? (
           <Card className='max-h-full lg:h-[538px] lg:overflow-hidden'>

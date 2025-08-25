@@ -28,7 +28,7 @@ type PreviousLessonDropDownProps = {
 }
 type ModalOpen = 'DELETE' | undefined
 
-export default function PrepareLessonDropDown({
+export default function PlannedLessonDropdown({
   lessonId,
   insertLesson,
 }: PreviousLessonDropDownProps) {

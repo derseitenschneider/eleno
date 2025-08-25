@@ -144,7 +144,7 @@ const DrawerOrDialogContent = React.forwardRef<
 
   return (
     <DialogContent ref={ref} className={className} {...props}>
-      <div className='max-h-[80vh]'>
+      <div className='max-h-[100dvh]'>
         <ScrollArea className='h-full'>{children}</ScrollArea>
       </div>
     </DialogContent>

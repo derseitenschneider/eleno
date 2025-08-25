@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
-import Banner from './components/ui/Banner.component'
 import { SidebarProvider } from './components/ui/sidebar'
 import { useOAuthTracker } from './hooks/useOAuthTracker'
 import { AppHeader } from './layouts/appHeader/AppHeader'
@@ -29,7 +28,6 @@ export default function Application() {
               <SubscriptionProvider>
                 <MainContext>
                   <DarkModeProvider>
-                    <Banner />
                     <SidebarProvider defaultOpen={false}>
                       <AppSidebar />
                       <main className='flex-1'>
