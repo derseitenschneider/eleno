@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateGroupApi } from '@/services/api/groups.api'
 import type { Group } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useAuthorizeGroupHomeworkLink() {
   const queryClient = useQueryClient()

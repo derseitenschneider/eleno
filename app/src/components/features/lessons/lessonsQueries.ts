@@ -1,13 +1,13 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
   fetchAllLessonsApi,
   fetchAllLessonsCSVApi,
   fetchLatestLessons,
-  fetchLessonYears,
   fetchLessonsByYearApi,
+  fetchLessonYears,
   fetchPlannedLessons,
 } from '@/services/api/lessons.api'
 import { useUser } from '@/services/context/UserContext'
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export function useLessonYears(holderId: number, holderType: 's' | 'g') {
   const { user } = useUser()

@@ -1,3 +1,15 @@
+import { DialogDescription } from '@radix-ui/react-dialog'
+import type { ColumnDef } from '@tanstack/react-table'
+import parse from 'html-react-parser'
+import {
+  ArrowUpDown,
+  InfoIcon,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
   DrawerOrDialogContent,
@@ -5,7 +17,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -27,17 +38,6 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { DialogDescription } from '@radix-ui/react-dialog'
-import type { ColumnDef } from '@tanstack/react-table'
-import parse from 'html-react-parser'
-import {
-  ArrowUpDown,
-  InfoIcon,
-  MoreVertical,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
-import { useState } from 'react'
 import DeleteRepertoireItem from '../DeleteRepertoireItem.component'
 import UpdateRepertoireItem from '../UpdateRepertoireItem.component'
 

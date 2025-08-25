@@ -11,7 +11,7 @@ export default defineConfig({
     css: true,
     outputFile: {
       json: './test-results/vitest-results.json',
-      junit: './test-results/vitest-junit.xml'
+      junit: './test-results/vitest-junit.xml',
     },
     reporter: ['default', 'json'],
     // Parallel execution configuration with better isolation

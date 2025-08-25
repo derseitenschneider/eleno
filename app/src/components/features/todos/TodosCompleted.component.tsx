@@ -1,5 +1,8 @@
+import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import DeleteTodos from '@/components/features/todos/DeleteTodos.component'
 import useTodosQuery from '@/components/features/todos/todosQuery'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -8,10 +11,7 @@ import {
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
 import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { X } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import compareDateTodos from '../../../utils/sortTodos'
 import TodoItem from './TodoItem.component'
 import { TodoMobileDrawer } from './TodoMobileDrawer.component'

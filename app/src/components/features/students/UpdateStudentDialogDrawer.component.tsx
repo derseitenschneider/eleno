@@ -1,3 +1,5 @@
+import { ChevronLeft, X } from 'lucide-react'
+import type { MouseEvent } from 'react'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -6,8 +8,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { ChevronLeft, X } from 'lucide-react'
-import type { MouseEvent } from 'react'
 import UpdateStudents from './UpdateStudents.component'
 
 export type UpdateStudentsDialogDrawerProps = {

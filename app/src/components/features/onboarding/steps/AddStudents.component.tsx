@@ -1,3 +1,6 @@
+import { ChevronLeft } from 'lucide-react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -6,7 +9,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,10 +17,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { useState } from 'react'
 import CreateStudents from '../../students/CreateStudents.component'
 import UpdateStudents from '../../students/UpdateStudents.component'
-import { ChevronLeft } from 'lucide-react'
 
 export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)

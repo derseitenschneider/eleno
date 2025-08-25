@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import type { SetStateAction } from 'react'
+import { cn } from '@/lib/utils'
 import type { NotesBackgrounds } from '../../../types/types'
 
 type TNoteColorProps = {

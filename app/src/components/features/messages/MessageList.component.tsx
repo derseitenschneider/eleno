@@ -1,12 +1,11 @@
+import format from 'date-fns/format'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-
+import { useSearchParams } from 'react-router-dom'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Message } from '@/types/types'
 import getLocale from '@/utils/getLocale'
-import format from 'date-fns/format'
-import { useSearchParams } from 'react-router-dom'
 import { useReadMessage } from './useReadMessage'
 
 interface MailListProps {

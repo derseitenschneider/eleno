@@ -1,3 +1,5 @@
+import type { ColumnDef, SortingFn } from '@tanstack/react-table'
+import { ArrowUpDown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -8,8 +10,6 @@ import {
 } from '@/components/ui/popover'
 import type { Group } from '@/types/types'
 import { customDaySorting } from '@/utils/sortDayOfLesson'
-import type { ColumnDef, SortingFn } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
 import GroupRowDropdown from './rowDropdown'
 
 export const groupsColumns: ColumnDef<Group>[] = [

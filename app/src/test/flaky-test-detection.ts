@@ -1,6 +1,6 @@
 /**
  * Flaky Test Detection Utilities
- * 
+ *
  * Tools to identify and monitor test flakiness, especially in parallel execution
  */
 
@@ -26,20 +26,25 @@ export interface FlakinesReport {
 export class FlakyTestDetector {
   private testRuns: Map<string, TestRun[]> = new Map()
 
-  recordTestRun(testName: string, status: 'pass' | 'fail', duration: number, error?: string) {
+  recordTestRun(
+    testName: string,
+    status: 'pass' | 'fail',
+    duration: number,
+    error?: string,
+  ) {
     const run: TestRun = {
       id: crypto.randomUUID(),
       name: testName,
       status,
       duration,
       timestamp: Date.now(),
-      error
+      error,
     }
 
     if (!this.testRuns.has(testName)) {
       this.testRuns.set(testName, [])
     }
-    
+
     this.testRuns.get(testName)!.push(run)
   }
 
@@ -47,16 +52,16 @@ export class FlakyTestDetector {
     const runs = this.testRuns.get(testName)
     if (!runs || runs.length === 0) return null
 
-    const passCount = runs.filter(r => r.status === 'pass').length
-    const failCount = runs.filter(r => r.status === 'fail').length
+    const passCount = runs.filter((r) => r.status === 'pass').length
+    const failCount = runs.filter((r) => r.status === 'fail').length
     const totalRuns = runs.length
     const flakiness = (Math.min(passCount, failCount) / totalRuns) * 100
-    
+
     const failureReasons = runs
-      .filter(r => r.status === 'fail' && r.error)
-      .map(r => r.error!)
+      .filter((r) => r.status === 'fail' && r.error)
+      .map((r) => r.error!)
       .filter((error, index, array) => array.indexOf(error) === index) // unique
-    
+
     const avgDuration = runs.reduce((sum, r) => sum + r.duration, 0) / totalRuns
 
     return {
@@ -66,19 +71,21 @@ export class FlakyTestDetector {
       failCount,
       flakiness,
       failureReasons,
-      avgDuration
+      avgDuration,
     }
   }
 
   getAllReports(): FlakinesReport[] {
     return Array.from(this.testRuns.keys())
-      .map(testName => this.generateReport(testName))
+      .map((testName) => this.generateReport(testName))
       .filter((report): report is FlakinesReport => report !== null)
       .sort((a, b) => b.flakiness - a.flakiness) // highest flakiness first
   }
 
-  getFlakyTests(threshold: number = 5): FlakinesReport[] {
-    return this.getAllReports().filter(report => report.flakiness >= threshold)
+  getFlakyTests(threshold = 5): FlakinesReport[] {
+    return this.getAllReports().filter(
+      (report) => report.flakiness >= threshold,
+    )
   }
 
   clear() {
@@ -103,8 +110,8 @@ export function createFlakinessReporter() {
       const status = test.result?.state === 'pass' ? 'pass' : 'fail'
       const duration = test.result?.duration || 0
       const error = test.result?.errors?.[0]?.message
-      
+
       globalFlakyDetector.recordTestRun(testName, status, duration, error)
-    }
+    },
   }
 }

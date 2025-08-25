@@ -1,8 +1,8 @@
+import { Outlet } from 'react-router-dom'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import StudentsSkeleton from '@/components/ui/skeletons/StudentsSkeleton.component'
 import { cn } from '@/lib/utils'
 import { useLoading } from '@/services/context/LoadingContext'
-import { Outlet } from 'react-router-dom'
 import Navbar from '../layouts/Navbar.component'
 
 const navLinks = [

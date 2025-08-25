@@ -1,8 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateGroupApi } from '@/services/api/groups.api'
 import type { Group, Student } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useUpdateGroup() {
   const queryClient = useQueryClient()

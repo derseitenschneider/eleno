@@ -1,4 +1,9 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
+import { useCallback } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import {
@@ -10,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import {
   Select,
   SelectContent,
@@ -20,16 +26,10 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
+import { useUser } from '@/services/context/UserContext'
 import type { GroupPartial } from '@/types/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useCallback } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 import { Blocker } from '../subscription/Blocker'
 import { useCreateGroup } from './useCreateGroup'
-import { useUser } from '@/services/context/UserContext'
 
 type CreateGroupsProps = {
   onSuccess: () => void

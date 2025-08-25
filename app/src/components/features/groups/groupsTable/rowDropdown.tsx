@@ -1,3 +1,13 @@
+import {
+  Archive,
+  CheckSquare2,
+  FileDown,
+  GraduationCap,
+  MoreVertical,
+  Pencil,
+  TableProperties,
+} from 'lucide-react'
+import { type MouseEvent, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,16 +24,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import {
-  Archive,
-  CheckSquare2,
-  FileDown,
-  GraduationCap,
-  MoreVertical,
-  Pencil,
-  TableProperties,
-} from 'lucide-react'
-import { type MouseEvent, useState } from 'react'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import CreateTodo from '../../todos/CreateTodo.component'
 import UpdateGroup from '../UpdateGroup.component'

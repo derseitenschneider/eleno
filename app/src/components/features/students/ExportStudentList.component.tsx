@@ -1,13 +1,11 @@
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
-
-import type { Student } from '../../../types/types'
-
 import { Button } from '@/components/ui/button'
 import { DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import type { Student } from '../../../types/types'
 import StudentListPDF from '../pdf/StudentlistPDF.component'
 import useProfileQuery from '../user/profileQuery'
 

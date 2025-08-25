@@ -1,7 +1,7 @@
-import SearchBar from '@/components/ui/SearchBar.component'
-import type { Group, Student } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
+import SearchBar from '@/components/ui/SearchBar.component'
+import type { Group, Student } from '@/types/types'
 import { InactiveStudentsActionDropdown } from './actionDropdown'
 
 type StudentsControlProps = {

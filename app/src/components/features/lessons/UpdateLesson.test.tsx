@@ -1,10 +1,10 @@
-import { createMockLesson } from '@/test/factories'
-import { renderWithProviders } from '@/test/testUtils'
-import type { Lesson } from '@/types/types'
 import { QueryClient } from '@tanstack/react-query'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createMockLesson } from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
+import type { Lesson } from '@/types/types'
 import UpdateLesson from './UpdateLesson.component'
 import * as useUpdateLessonModule from './useUpdateLesson'
 
@@ -182,7 +182,9 @@ describe('UpdateLesson', () => {
         },
       })
 
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, {
+        queryClient: freshQueryClient,
+      })
 
       const editors = screen.getAllByTestId('custom-editor')
       expect(editors[0]).toHaveValue('')
@@ -424,7 +426,9 @@ describe('UpdateLesson', () => {
       )
       freshQueryClient.setQueryData(['latest-3-lessons'], [])
 
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, {
+        queryClient: freshQueryClient,
+      })
 
       const editors = screen.getAllByTestId('custom-editor')
       expect(editors[0]).toHaveValue('')
@@ -462,7 +466,9 @@ describe('UpdateLesson', () => {
       freshQueryClient.setQueryData(['latest-3-lessons'], [latestLessonsLesson])
 
       // Test finding lesson from all lessons
-      renderWithProviders(<UpdateLesson lessonId={1} />, { queryClient: freshQueryClient })
+      renderWithProviders(<UpdateLesson lessonId={1} />, {
+        queryClient: freshQueryClient,
+      })
       expect(screen.getAllByTestId('custom-editor')[0]).toHaveValue(
         'All lessons content',
       )

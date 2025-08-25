@@ -1,5 +1,5 @@
-import PricingPlans from '@/components/features/subscription/PricingPlans.component'
 import { SubscriptionInfos } from '@/components/features/subscription/infos/SubscriptionInfos'
+import PricingPlans from '@/components/features/subscription/PricingPlans.component'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 

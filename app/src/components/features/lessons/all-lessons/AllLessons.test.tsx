@@ -1,17 +1,17 @@
 import { QueryClient } from '@tanstack/react-query'
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { renderWithProviders } from '@/test/testUtils'
 import {
+  createMockGroup,
   createMockLesson,
   createMockStudent,
-  createMockGroup,
 } from '@/test/factories'
 import {
-  createMockLoadingQueryResult,
   createMockErrorQueryResult,
+  createMockLoadingQueryResult,
   createMockSuccessQueryResult,
 } from '@/test/mockHelpers'
+import { renderWithProviders } from '@/test/testUtils'
 import AllLessons from './AllLessons.component'
 
 // Mock hooks and modules
@@ -61,9 +61,10 @@ const mockUseAllLessonsPerYear = vi.hoisted(() => vi.fn())
 const mockUseLessonYears = vi.hoisted(() => vi.fn())
 const mockUseCurrentHolder = vi.hoisted(() => vi.fn())
 
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
 import useCurrentHolder from '../useCurrentHolder'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+
 const mockAllLessons = vi.mocked(useAllLessonsPerYear)
 const mockLessonYears = vi.mocked(useLessonYears)
 const mockCurrentHolder = vi.mocked(useCurrentHolder)
@@ -188,7 +189,9 @@ describe('AllLessons Component', () => {
       const { container } = renderWithProviders(<AllLessons />, { queryClient })
 
       // The component should return null, but due to provider wrappers, check if main content is absent
-      expect(container.querySelector('[data-testid="all-lessons-table"]')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('[data-testid="all-lessons-table"]'),
+      ).not.toBeInTheDocument()
     })
   })
 

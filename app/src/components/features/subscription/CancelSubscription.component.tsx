@@ -1,14 +1,14 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
 import supabase from '@/services/api/supabase'
-import { useState } from 'react'
-import { toast } from 'sonner'
 import useMessagesQuery from '../messages/messagesQueries'
 import useProfileQuery from '../user/profileQuery'
 import useSubscriptionQuery from './subscriptionQuery'

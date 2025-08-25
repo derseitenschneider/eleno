@@ -1,3 +1,5 @@
+import { Minus, Pause, Play, Plus } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -7,8 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Minus, Pause, Play, Plus } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 import MetronomeScheduler from './metronomeWorker'
 
 type TimeSignature = '1/4' | '2/4' | '3/4' | '4/4' | '5/4' | '6/8' | '7/8'

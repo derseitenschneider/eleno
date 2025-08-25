@@ -1,3 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState } from '@tanstack/react-table'
+import {
+  Archive,
+  ChevronsUpDown,
+  FileDown,
+  History,
+  Pencil,
+} from 'lucide-react'
+import { useState } from 'react'
 import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,16 +25,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { Student } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState } from '@tanstack/react-table'
-import {
-  Archive,
-  ChevronsUpDown,
-  FileDown,
-  History,
-  Pencil,
-} from 'lucide-react'
-import { useState } from 'react'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'

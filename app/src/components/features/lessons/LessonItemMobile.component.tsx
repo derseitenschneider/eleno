@@ -1,3 +1,11 @@
+import {
+  ChevronLeft,
+  MessageSquareShare,
+  PencilIcon,
+  Trash2,
+  X,
+} from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Drawer,
@@ -11,18 +19,10 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
-import {
-  ChevronLeft,
-  MessageSquareShare,
-  PencilIcon,
-  Trash2,
-  X,
-} from 'lucide-react'
-import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
+import ShareHomework from './homework/ShareHomework.component'
 import { LessonItem } from './LessonItem.component'
 import EditLesson from './UpdateLesson.component'
-import ShareHomework from './homework/ShareHomework.component'
 
 type LessonItemMobileProps = {
   lesson: Lesson

@@ -1,11 +1,11 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { useState } from 'react'
 import { useUpdatePassword } from '../../user/useUpdatePassword'
 
 interface EditPasswordProps {

@@ -1,10 +1,10 @@
 import fs from 'node:fs'
 import type { User } from '@supabase/supabase-js'
 import type Stripe from 'stripe'
-import { StripeService } from './StripeService'
-import { resolveJoin } from './resolveJoin'
-import supabaseAdmin from './supabaseAdmin'
 import type { GroupPartial } from '../../src/types/types'
+import { resolveJoin } from './resolveJoin'
+import { StripeService } from './StripeService'
+import supabaseAdmin from './supabaseAdmin'
 
 export type UserFlow =
   | 'trial-active'
@@ -242,7 +242,9 @@ export class TestUser {
 
   private async createLifetimeSubscriptionRow() {
     if (!this.user || !this.customer) {
-      throw new Error('No data present to create lifetime subscription row for.')
+      throw new Error(
+        'No data present to create lifetime subscription row for.',
+      )
     }
 
     const data = {

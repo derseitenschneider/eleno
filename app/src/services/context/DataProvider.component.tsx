@@ -1,9 +1,9 @@
+import { useEffect } from 'react'
 import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
 import useMessagesQuery from '@/components/features/messages/messagesQueries'
 import useSettingsQuery from '@/components/features/settings/settingsQuery'
 import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
 import useProfileQuery from '@/components/features/user/profileQuery'
-import { useEffect } from 'react'
 import useGroupsQuery from '../../components/features/groups/groupsQuery'
 import {
   useLatestLessons,

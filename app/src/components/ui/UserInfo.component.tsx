@@ -1,11 +1,14 @@
+import type { User } from '@supabase/supabase-js'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useInitials } from '@/hooks/useInitials'
-import type { User } from '@supabase/supabase-js'
 
 export function UserInfo({
   user,
   showEmail = false,
-}: { user: User; showEmail?: boolean }) {
+}: {
+  user: User
+  showEmail?: boolean
+}) {
   const getInitials = useInitials()
   const { user_metadata: userMeta } = user
   const userFullName = `${userMeta.firstName} ${userMeta.lastName}`

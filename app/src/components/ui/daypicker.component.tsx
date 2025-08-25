@@ -1,5 +1,5 @@
 import { Calendar as CalendarIcon } from 'lucide-react'
-
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useState } from 'react'
 
 type DayPickerProps = {
   className?: string

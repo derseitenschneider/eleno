@@ -1,8 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateLessonAPI } from '@/services/api/lessons.api'
 import type { Lesson } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useUpdateLesson() {
   const queryClient = useQueryClient()

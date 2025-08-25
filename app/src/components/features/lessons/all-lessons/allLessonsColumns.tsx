@@ -1,3 +1,13 @@
+import type { ColumnDef } from '@tanstack/react-table'
+import parse from 'html-react-parser'
+import {
+  ArrowUpDown,
+  MessageSquareShare,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -16,20 +26,10 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import type { ColumnDef } from '@tanstack/react-table'
-import parse from 'html-react-parser'
-import {
-  ArrowUpDown,
-  MessageSquareShare,
-  MoreVertical,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
-import { useState } from 'react'
 import DeleteLesson from '../DeleteLesson.component'
-import EditLesson from '../UpdateLesson.component'
 import { HomeworkExpired } from '../homework/HomeworkExpired.component'
 import ShareHomework from '../homework/ShareHomework.component'
+import EditLesson from '../UpdateLesson.component'
 
 export const allLessonsColumns: ColumnDef<Lesson>[] = [
   {

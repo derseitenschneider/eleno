@@ -1,13 +1,14 @@
+import { useEffect, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import Empty from '@/components/ui/Empty.component'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { LessonItem } from './LessonItem.component'
 import { LessonItemMobile } from './LessonItemMobile.component'
 import { useLatestLessons } from './lessonsQueries'
 import useCurrentHolder from './useCurrentHolder'
+
 type PreviousLessonsProps = {
   layout: 'regular' | 'reverse'
 }

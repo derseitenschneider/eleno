@@ -1,5 +1,5 @@
-import type { RepertoireItem } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { RepertoireItem } from '@/types/types'
 import { RepertoireMobileDrawer } from './RepertoireMobileDrawer.component'
 
 export const repertoireColumnsMobile: ColumnDef<RepertoireItem>[] = [

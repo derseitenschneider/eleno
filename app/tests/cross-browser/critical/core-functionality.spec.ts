@@ -134,7 +134,7 @@ test.describe('Critical: Core Functionality', () => {
 
     expect(bodyStyles.display).not.toBe('none')
     expect(bodyStyles.visibility).toBe('visible')
-    expect(parseFloat(bodyStyles.opacity)).toBeGreaterThan(0)
+    expect(Number.parseFloat(bodyStyles.opacity)).toBeGreaterThan(0)
 
     console.log(`✅ CSS rendering works in ${browserName}`)
   })
@@ -151,14 +151,14 @@ test.describe('Critical: Core Functionality', () => {
     // Set different viewport sizes and test responsiveness
     const viewports = isMobile
       ? [
-        { width: 375, height: 667 },
-        { width: 414, height: 896 },
-      ]
+          { width: 375, height: 667 },
+          { width: 414, height: 896 },
+        ]
       : [
-        { width: 768, height: 1024 },
-        { width: 1024, height: 768 },
-        { width: 1920, height: 1080 },
-      ]
+          { width: 768, height: 1024 },
+          { width: 1024, height: 768 },
+          { width: 1920, height: 1080 },
+        ]
 
     for (const viewport of viewports) {
       await page.setViewportSize(viewport)
@@ -207,4 +207,3 @@ test.describe('Critical: Core Functionality', () => {
     console.log(`✅ Application state handling works in ${browserName}`)
   })
 })
-

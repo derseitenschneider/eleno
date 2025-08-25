@@ -7,8 +7,8 @@
  * and track performance impact of changes.
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs'
-import { join, extname } from 'path'
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { extname, join } from 'node:path'
 
 const DIST_PATH = './dist'
 const ASSETS_PATH = join(DIST_PATH, 'assets')
@@ -133,11 +133,11 @@ function analyzeBundle() {
 function getFileType(filename) {
   if (filename.includes('vendor') || filename.includes('node_modules')) {
     return 'vendor'
-  } else if (filename.includes('chunk') || filename.includes('.chunk.')) {
-    return 'chunk'
-  } else {
-    return 'app'
   }
+  if (filename.includes('chunk') || filename.includes('.chunk.')) {
+    return 'chunk'
+  }
+  return 'app'
 }
 
 function getBundleHealth(totalSize, fileCount) {

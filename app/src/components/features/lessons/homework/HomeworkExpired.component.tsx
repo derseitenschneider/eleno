@@ -1,5 +1,5 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { Lesson } from '@/types/types'
 import { useReactivateHomeworkLink } from '../useReactivateHomeworkLink'
 

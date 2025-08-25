@@ -1,8 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { appConfig } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { useNavigate } from 'react-router-dom'
 
 export type BlockerProps = {
   variant?: 'inline' | 'block'

@@ -1,5 +1,5 @@
-import LogoText from '@/components/ui/LogoText.component'
 import { Outlet } from 'react-router-dom'
+import LogoText from '@/components/ui/LogoText.component'
 
 export default function OnboardingPage() {
   return (

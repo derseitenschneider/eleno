@@ -1,3 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { ChevronsUpDown, Trash2, Undo2 } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,11 +21,6 @@ import {
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { useDeleteHolders } from '@/hooks/useDeleteHolders'
 import type { Student } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState } from '@tanstack/react-table'
-import { ChevronsUpDown, Trash2, Undo2 } from 'lucide-react'
-import { useState } from 'react'
-import { toast } from 'sonner'
 import DeleteHolders from '../DeleteHolders.component'
 import { useReactivateStudents } from '../useReactivateStudents'
 

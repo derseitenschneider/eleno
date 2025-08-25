@@ -1,3 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -14,9 +17,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import type { Note, PartialNote } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { Layers2, MoreVertical, Pencil, Trash2 } from 'lucide-react'
-import { useState } from 'react'
 import DeleteNote from './DeleteNote.component'
 import UpdateNote from './UpdateNote.component'
 import { useDuplicateNote } from './useDuplicateNote'

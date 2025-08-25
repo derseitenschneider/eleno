@@ -1,10 +1,10 @@
+import { screen } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as useIsMobileDeviceModule from '@/hooks/useIsMobileDevice'
 import * as useUserLocaleModule from '@/services/context/UserLocaleContext'
 import { createMockLesson } from '@/test/factories'
 import { renderWithProviders } from '@/test/testUtils'
 import type { Lesson } from '@/types/types'
-import { screen } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { LessonItem } from './LessonItem.component'
 
 // Mock modules
@@ -262,14 +262,18 @@ describe('LessonItem', () => {
       const { container } = renderWithProviders(
         <LessonItem lesson={null as any} />,
       )
-      expect(container.querySelector('[data-testid="lesson-item"]')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('[data-testid="lesson-item"]'),
+      ).not.toBeInTheDocument()
     })
 
     it('should handle undefined lesson', () => {
       const { container } = renderWithProviders(
         <LessonItem lesson={undefined as any} />,
       )
-      expect(container.querySelector('[data-testid="lesson-item"]')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('[data-testid="lesson-item"]'),
+      ).not.toBeInTheDocument()
     })
 
     it('should render with minimal lesson data', () => {

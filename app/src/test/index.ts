@@ -1,18 +1,18 @@
 // Test utilities
-export * from './testUtils'
-export * from './mocks'
-export * from './factories'
-export * from './msw'
 
 // Re-export commonly used testing functions
 export {
-  vi,
-  expect,
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
   describe,
+  expect,
   it,
   test,
-  beforeEach,
-  beforeAll,
-  afterEach,
-  afterAll,
+  vi,
 } from 'vitest'
+export * from './factories'
+export * from './mocks.lightweight'
+export * from './msw'
+export * from './testUtils'

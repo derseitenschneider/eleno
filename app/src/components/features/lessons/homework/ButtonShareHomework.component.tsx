@@ -1,3 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { MessageSquareShare } from 'lucide-react'
+import { useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import {
   DrawerOrDialog,
   DrawerOrDialogContent,
@@ -14,10 +18,6 @@ import {
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { MessageSquareShare } from 'lucide-react'
-import { useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
 import { Blocker } from '../../subscription/Blocker'
 import useProfileQuery from '../../user/profileQuery'
 import { HomeworkExpired } from './HomeworkExpired.component'

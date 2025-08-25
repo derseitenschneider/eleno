@@ -1,8 +1,8 @@
 import type {
-  UseQueryResult,
-  QueryObserverSuccessResult,
-  QueryObserverLoadingResult,
   QueryObserverLoadingErrorResult,
+  QueryObserverLoadingResult,
+  QueryObserverSuccessResult,
+  UseQueryResult,
 } from '@tanstack/react-query'
 
 /**

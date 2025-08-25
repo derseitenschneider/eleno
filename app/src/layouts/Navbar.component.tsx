@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import { NavLink } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 
 type NavbarProps = {
   navLinks: {

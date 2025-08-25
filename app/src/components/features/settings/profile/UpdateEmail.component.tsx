@@ -1,17 +1,17 @@
+import { Mail } from 'lucide-react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialogDescription,
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import MiniLoader from '@/components/ui/MiniLoader.component'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { Mail } from 'lucide-react'
-import { useState } from 'react'
 import validateEmail from '../../../../utils/validateEmail'
 import { useUpdateEmail } from '../../user/useUpdateEmail'
 

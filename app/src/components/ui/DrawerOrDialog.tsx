@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
   Dialog,
   type DialogClose,
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/drawer'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import * as React from 'react'
 import { ScrollArea } from './scroll-area'
 
 // 1. Create a Context

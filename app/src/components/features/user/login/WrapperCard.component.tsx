@@ -1,5 +1,5 @@
-import Logo from '@/components/ui/Logo.component'
 import { Card, CardContent } from '@/components/ui/card'
+import Logo from '@/components/ui/Logo.component'
 import { cn } from '@/lib/utils'
 
 type WrapperCardProps = {

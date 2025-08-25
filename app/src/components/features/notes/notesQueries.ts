@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchActiveNotesAPI } from '@/services/api/notes.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export function useActiveNotesQuery() {
   const { user } = useUser()

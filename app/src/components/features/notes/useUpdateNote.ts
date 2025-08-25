@@ -1,8 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateNoteAPI } from '@/services/api/notes.api'
 import type { Note } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useUpdateNote() {
   const queryClient = useQueryClient()

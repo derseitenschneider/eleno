@@ -1,6 +1,6 @@
+import { useSearchParams } from 'react-router-dom'
 import AllLessonsSkeleton from '@/components/ui/skeletons/lessons/AllLessonsSkeleton.component'
 import ErrorPage from '@/pages/Error'
-import { useSearchParams } from 'react-router-dom'
 import { useAllLessonsPerYear, useLessonYears } from '../lessonsQueries'
 import useCurrentHolder from '../useCurrentHolder'
 import AllLessonsTable from './allLessonsTable'

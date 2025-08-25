@@ -1,4 +1,6 @@
-import SearchBar from '@/components/ui/SearchBar.component'
+import { useQueryClient } from '@tanstack/react-query'
+import { FileDown } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,10 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import SearchBar from '@/components/ui/SearchBar.component'
 import type { RepertoireItem } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { FileDown } from 'lucide-react'
-import { useState } from 'react'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
 import ExportRepertoire from '../ExportRepertoire.component'
 

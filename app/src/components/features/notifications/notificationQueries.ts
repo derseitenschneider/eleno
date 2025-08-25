@@ -1,12 +1,12 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   type CreateNotificationViewPayload,
   createNotificationViewApi,
-  getNotificationViewsApi,
   getNotificationsApi,
+  getNotificationViewsApi,
 } from '@/services/api/notifications.api'
 import { useUser } from '@/services/context/UserContext'
 import type { Notification, NotificationView } from '@/types/types'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export function useNotificationsQuery() {
   const { user } = useUser()

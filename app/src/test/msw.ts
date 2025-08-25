@@ -1,6 +1,6 @@
 /**
  * Optimized MSW Handlers with Performance Enhancements
- * 
+ *
  * This module provides high-performance MSW handlers that:
  * - Pre-compute and cache response data
  * - Use intelligent response generation strategies
@@ -9,17 +9,22 @@
  * - Support lazy loading of expensive mock data
  */
 
-import { http, HttpResponse } from 'msw'
+import { HttpResponse, http } from 'msw'
 import { setupServer } from 'msw/node'
-import { mockCache, studentCache, lessonCache, createCachedFactory } from './mockCache'
-import { 
-  createBulkStudents, 
-  createBulkGroups, 
-  createBulkLessons, 
+import {
+  createBulkGroups,
+  createBulkLessons,
   createBulkNotes,
+  createBulkStudents,
   createMockTodo,
-  getFactoryStats
+  getFactoryStats,
 } from './factories'
+import {
+  createCachedFactory,
+  lessonCache,
+  mockCache,
+  studentCache,
+} from './mockCache'
 
 // Pre-computed mock data with lazy initialization
 let _preComputedData: {
@@ -41,16 +46,16 @@ let _isPreComputed = false
  */
 async function preComputeMockData() {
   if (_isPreComputed || _isPreComputing) return
-  
+
   _isPreComputing = true
-  
+
   try {
     // Use optimized bulk creation methods
     const [students, groups, lessons, notes] = await Promise.all([
       createBulkStudents(5),
-      createBulkGroups(3), 
+      createBulkGroups(3),
       createBulkLessons(10),
-      createBulkNotes(6)
+      createBulkNotes(6),
     ])
 
     _preComputedData = {
@@ -81,7 +86,7 @@ async function preComputeMockData() {
         plan: 'monthly',
         created_at: '2023-01-01T00:00:00Z',
         updated_at: '2023-01-01T00:00:00Z',
-      }
+      },
     }
 
     _isPreComputed = true
@@ -94,8 +99,8 @@ async function preComputeMockData() {
  * Get or compute mock data on demand
  */
 async function getMockData<K extends keyof typeof _preComputedData>(
-  key: K
-): Promise<typeof _preComputedData[K]> {
+  key: K,
+): Promise<(typeof _preComputedData)[K]> {
   if (!_isPreComputed) {
     await preComputeMockData()
   }
@@ -105,7 +110,7 @@ async function getMockData<K extends keyof typeof _preComputedData>(
 /**
  * Fast response generator that uses cached data
  */
-function createFastResponse<T>(data: T, status = 200) {
+function createFastResponse(data: any, status = 200) {
   return HttpResponse.json(data, { status })
 }
 
@@ -114,17 +119,13 @@ function createFastResponse<T>(data: T, status = 200) {
  */
 const cachedHandlers = {
   // Students with intelligent caching
-  getStudents: createCachedFactory(
-    studentCache,
-    'students-list',
-    async () => getMockData('students')
+  getStudents: createCachedFactory(studentCache, 'students-list', async () =>
+    getMockData('students'),
   ),
 
   // Groups with caching
-  getGroups: createCachedFactory(
-    studentCache,
-    'groups-list', 
-    async () => getMockData('groups')
+  getGroups: createCachedFactory(studentCache, 'groups-list', async () =>
+    getMockData('groups'),
   ),
 
   // Lessons with query parameter handling
@@ -134,38 +135,32 @@ const cachedHandlers = {
     async (params?: { status?: string }) => {
       const lessons = await getMockData('lessons')
       if (!lessons) return []
-      
+
       if (params?.status === 'eq.prepared') {
         return lessons.filter((l) => l.status === 'prepared')
       }
       return lessons.filter((l) => l.status === 'documented')
-    }
+    },
   ),
 
   // Notes with caching
-  getNotes: createCachedFactory(
-    lessonCache,
-    'notes-list',
-    async () => getMockData('notes')
+  getNotes: createCachedFactory(lessonCache, 'notes-list', async () =>
+    getMockData('notes'),
   ),
 
   // Static data with long-term caching
-  getProfile: createCachedFactory(
-    mockCache,
-    'user-profile',
-    async () => getMockData('profile')
+  getProfile: createCachedFactory(mockCache, 'user-profile', async () =>
+    getMockData('profile'),
   ),
 
-  getSettings: createCachedFactory(
-    mockCache,
-    'user-settings', 
-    async () => getMockData('settings')
+  getSettings: createCachedFactory(mockCache, 'user-settings', async () =>
+    getMockData('settings'),
   ),
 
   getSubscription: createCachedFactory(
     mockCache,
     'user-subscription',
-    async () => getMockData('subscription')
+    async () => getMockData('subscription'),
   ),
 }
 
@@ -178,27 +173,27 @@ export const optimizedHandlers = [
   }),
 
   http.post('/rest/v1/students', async ({ request }) => {
-    const newStudent = await request.json() as any
+    const newStudent = (await request.json()) as any
     const createdStudent = {
       id: Date.now(),
       ...newStudent,
       created_at: new Date().toISOString(),
     }
-    
+
     // Invalidate students cache
     studentCache.invalidate(['students-list'])
-    
+
     return createFastResponse(createdStudent, 201)
   }),
 
   http.patch('/rest/v1/students', async ({ request }) => {
-    const updates = await request.json() as any
+    const updates = (await request.json()) as any
     const students = await getMockData('students')
     const updatedStudent = { ...students?.[0], ...updates }
-    
+
     // Invalidate students cache
     studentCache.invalidate(['students-list'])
-    
+
     return createFastResponse(updatedStudent)
   }),
 
@@ -215,27 +210,27 @@ export const optimizedHandlers = [
   }),
 
   http.post('/rest/v1/groups', async ({ request }) => {
-    const newGroup = await request.json() as any
+    const newGroup = (await request.json()) as any
     const createdGroup = {
       id: Date.now(),
       ...newGroup,
       created_at: new Date().toISOString(),
     }
-    
+
     // Invalidate groups cache
     studentCache.invalidate(['groups-list'])
-    
+
     return createFastResponse(createdGroup, 201)
   }),
 
   http.patch('/rest/v1/groups', async ({ request }) => {
-    const updates = await request.json() as any
+    const updates = (await request.json()) as any
     const groups = await getMockData('groups')
     const updatedGroup = { ...groups?.[0], ...updates }
-    
+
     // Invalidate groups cache
     studentCache.invalidate(['groups-list'])
-    
+
     return createFastResponse(updatedGroup)
   }),
 
@@ -243,16 +238,16 @@ export const optimizedHandlers = [
   http.get('/rest/v1/lessons', async ({ request }) => {
     const url = new URL(request.url)
     const status = url.searchParams.get('status')
-    
-    const lessons = await cachedHandlers.getLessons({ 
-      status: status || undefined 
+
+    const lessons = await cachedHandlers.getLessons({
+      status: status || undefined,
     })
-    
+
     return createFastResponse(lessons)
   }),
 
   http.post('/rest/v1/lessons', async ({ request }) => {
-    const newLesson = await request.json() as any
+    const newLesson = (await request.json()) as any
     const createdLesson = {
       id: Date.now(),
       ...newLesson,
@@ -260,21 +255,21 @@ export const optimizedHandlers = [
       expiration_base: '7d',
       homeworkKey: 'test-key',
     }
-    
+
     // Invalidate lessons cache
     lessonCache.invalidate(['lessons-list'])
-    
+
     return createFastResponse(createdLesson, 201)
   }),
 
   http.patch('/rest/v1/lessons', async ({ request }) => {
-    const updates = await request.json() as any
+    const updates = (await request.json()) as any
     const lessons = await getMockData('lessons')
     const updatedLesson = { ...lessons?.[0], ...updates }
-    
+
     // Invalidate lessons cache
     lessonCache.invalidate(['lessons-list'])
-    
+
     return createFastResponse(updatedLesson)
   }),
 
@@ -291,27 +286,27 @@ export const optimizedHandlers = [
   }),
 
   http.post('/rest/v1/notes', async ({ request }) => {
-    const newNote = await request.json() as any
+    const newNote = (await request.json()) as any
     const createdNote = {
       id: Date.now(),
       ...newNote,
       created_at: new Date().toISOString(),
     }
-    
+
     // Invalidate notes cache
     lessonCache.invalidate(['notes-list'])
-    
+
     return createFastResponse(createdNote, 201)
   }),
 
   http.patch('/rest/v1/notes', async ({ request }) => {
-    const updates = await request.json() as any
+    const updates = (await request.json()) as any
     const notes = await getMockData('notes')
     const updatedNote = { ...notes?.[0], ...updates }
-    
+
     // Invalidate notes cache
     lessonCache.invalidate(['notes-list'])
-    
+
     return createFastResponse(updatedNote)
   }),
 
@@ -326,7 +321,7 @@ export const optimizedHandlers = [
   }),
 
   http.post('/rest/v1/todos', async ({ request }) => {
-    const newTodo = await request.json() as any
+    const newTodo = (await request.json()) as any
     const createdTodo = {
       id: Date.now(),
       ...newTodo,
@@ -384,20 +379,20 @@ export const optimizedServer = setupServer(...optimizedHandlers)
 export async function preWarmMockCache() {
   console.log('🔥 Pre-warming mock cache...')
   const start = performance.now()
-  
+
   await preComputeMockData()
-  
+
   // Pre-warm specific caches
   await Promise.all([
     cachedHandlers.getStudents(),
-    cachedHandlers.getGroups(), 
+    cachedHandlers.getGroups(),
     cachedHandlers.getLessons(),
     cachedHandlers.getNotes(),
     cachedHandlers.getProfile(),
     cachedHandlers.getSettings(),
     cachedHandlers.getSubscription(),
   ])
-  
+
   const end = performance.now()
   console.log(`✅ Mock cache pre-warmed in ${(end - start).toFixed(2)}ms`)
 }
@@ -409,7 +404,7 @@ export function resetOptimizedServer() {
   _preComputedData = {}
   _isPreComputed = false
   _isPreComputing = false
-  
+
   // Clear all caches
   mockCache.clear()
   studentCache.clear()
@@ -429,27 +424,25 @@ export function getOptimizedServerMetrics() {
     },
     cacheInfo: {
       mockCache: mockCache.getCacheInfo(),
-      studentCache: studentCache.getCacheInfo(), 
+      studentCache: studentCache.getCacheInfo(),
       lessonCache: lessonCache.getCacheInfo(),
     },
     preComputedData: {
       isPreComputed: _isPreComputed,
       isPreComputing: _isPreComputing,
       dataKeys: Object.keys(_preComputedData),
-    }
+    },
   }
 }
 
 // Error simulation helpers for optimized server
 export function simulateOptimizedNetworkError(endpoint: string) {
-  optimizedServer.use(
-    http.get(endpoint, () => HttpResponse.error())
-  )
+  optimizedServer.use(http.get(endpoint, () => HttpResponse.error()))
 }
 
 export function simulateOptimizedServerError(endpoint: string, status = 500) {
   optimizedServer.use(
-    http.get(endpoint, () => new HttpResponse('Server Error', { status }))
+    http.get(endpoint, () => new HttpResponse('Server Error', { status })),
   )
 }
 

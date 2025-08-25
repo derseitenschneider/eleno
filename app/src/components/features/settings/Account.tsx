@@ -1,3 +1,8 @@
+import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -6,11 +11,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Button } from '@/components/ui/button'
-import { X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 import { Blocker } from '../subscription/Blocker'
 import useProfileQuery from '../user/profileQuery'
 import DeleteAccount from './profile/DeleteAccount.component'

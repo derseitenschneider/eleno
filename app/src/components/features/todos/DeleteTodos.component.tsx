@@ -1,12 +1,12 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import type { TTodoItem } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
 import { Blocker } from '../subscription/Blocker'
 import { useDeleteTodos } from './useDeleteTodos'
 

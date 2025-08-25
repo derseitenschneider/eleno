@@ -1,3 +1,6 @@
+import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
+import { type MouseEvent, useState } from 'react'
+import { toast } from 'sonner'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,9 +18,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { LessonHolder } from '@/types/types'
-import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
-import { type MouseEvent, useState } from 'react'
-import { toast } from 'sonner'
 import ExportLessons from '../../lessons/ExportLessons.component'
 import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
 import { useReactivateStudents } from '../useReactivateStudents'

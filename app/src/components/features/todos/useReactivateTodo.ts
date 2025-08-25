@@ -1,8 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { reactivateTodoApi } from '@/services/api/todos.api'
 import type { TTodoItem } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 export function useReactivateTodo() {
   const queryClient = useQueryClient()

@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { deletestudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useDeleteStudents() {
   const queryClient = useQueryClient()

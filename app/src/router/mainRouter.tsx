@@ -1,12 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom'
-import ErrorPage from '../pages/Error'
-
-import Application from '../Application'
-
-import Account from '../components/features/settings/Account'
-import TodosCompleted from '../components/features/todos/TodosCompleted.component'
-import TodosOpen from '../components/features/todos/TodosOpen.component'
-
 import FirstStepsWizzard from '@/components/features/onboarding/FirstStepsWizzard.component'
 import PasswordCard from '@/components/features/onboarding/PasswordCard.component'
 import ProfileCard from '@/components/features/onboarding/ProfileCard.component'
@@ -20,6 +12,11 @@ import Settings from '@/pages/Settings.page'
 import SubscriptionPage from '@/pages/Subscription.page'
 import Timetable from '@/pages/Timetable.page'
 import Todos from '@/pages/Todos.page'
+import Application from '../Application'
+import Account from '../components/features/settings/Account'
+import TodosCompleted from '../components/features/todos/TodosCompleted.component'
+import TodosOpen from '../components/features/todos/TodosOpen.component'
+import ErrorPage from '../pages/Error'
 import lessonsRoutes from './lessonsRouter'
 import studentsRoutes from './studentsRouter'
 

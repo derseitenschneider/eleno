@@ -1,3 +1,7 @@
+import { screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { toast } from 'sonner'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as draftsContextModule from '@/services/context/DraftsContext'
 import * as lessonPlanningContextModule from '@/services/context/LessonPlanningContext'
 import * as userLocaleContextModule from '@/services/context/UserLocaleContext'
@@ -8,10 +12,6 @@ import {
 } from '@/test/factories'
 import { renderWithProviders } from '@/test/testUtils'
 import type { LessonHolder } from '@/types/types'
-import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { toast } from 'sonner'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as useCurrentHolderModule from '../useCurrentHolder'
 import { PreparedLessonItem } from './PlannedLessonItem.component'
 
@@ -131,7 +131,7 @@ describe('PreparedLessonItem', () => {
       await waitFor(() => {
         expect(screen.getByText('15.01.2024')).toBeInTheDocument()
       })
-      
+
       expect(screen.getByText('Lektion')).toBeInTheDocument()
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
       expect(screen.getByTestId('insert-icon')).toBeInTheDocument()
@@ -198,24 +198,20 @@ describe('PreparedLessonItem', () => {
         setSelectedForUpdating: vi.fn(),
       })
 
-      renderWithProviders(
-        <PreparedLessonItem currentLesson={mockLesson} />,
-      )
+      renderWithProviders(<PreparedLessonItem currentLesson={mockLesson} />)
 
       // Wait for component to render - focusing on functional content
       await waitFor(() => {
         expect(screen.getByText('15.01.2024')).toBeInTheDocument()
       })
-      
+
       // Component should render its content regardless of visual state
       expect(screen.getByText('Lektion')).toBeInTheDocument()
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
     })
 
     it('renders correctly when not selected for updating', async () => {
-      renderWithProviders(
-        <PreparedLessonItem currentLesson={mockLesson} />,
-      )
+      renderWithProviders(<PreparedLessonItem currentLesson={mockLesson} />)
 
       // Wait for component to render - focusing on functional content
       await waitFor(() => {
@@ -237,9 +233,7 @@ describe('PreparedLessonItem', () => {
         setSelectedForUpdating: vi.fn(),
       })
 
-      renderWithProviders(
-        <PreparedLessonItem currentLesson={mockLesson} />,
-      )
+      renderWithProviders(<PreparedLessonItem currentLesson={mockLesson} />)
 
       // Wait for component to render - focusing on functional content
       await waitFor(() => {

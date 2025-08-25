@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { convertStudentToGroupApi } from '@/services/api/students.api'
 import type { Group, Student } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { GroupSchema } from '../groups/CreateGroup.component'
 
 export function useConvertStudentToGroup() {
@@ -12,8 +12,10 @@ export function useConvertStudentToGroup() {
     mutationFn: ({
       student,
       groupData,
-    }: { student: Student; groupData: GroupSchema }) =>
-      convertStudentToGroupApi(student, groupData),
+    }: {
+      student: Student
+      groupData: GroupSchema
+    }) => convertStudentToGroupApi(student, groupData),
     onSuccess: (newGroup, context) => {
       // Update the groups cache
       queryClient.setQueryData(['groups'], (oldGroups: Group[] | undefined) =>

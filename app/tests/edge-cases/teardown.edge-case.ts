@@ -1,8 +1,8 @@
-import { test as teardown } from '@playwright/test'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import supabaseAdmin from '../utils/supabaseAdmin'
+import { test as teardown } from '@playwright/test'
 import { stripeClient } from '../utils/stripeClient'
+import supabaseAdmin from '../utils/supabaseAdmin'
 
 /**
  * Cleanup test data created for edge-case visual regression tests
@@ -36,7 +36,9 @@ teardown('cleanup edge-case test data', async () => {
         if (userError) {
           console.error('Error deleting user:', userError.message)
         } else {
-          console.log('Deleted test user successfully (CASCADE handled all related data)')
+          console.log(
+            'Deleted test user successfully (CASCADE handled all related data)',
+          )
         }
       }
 

@@ -1,8 +1,7 @@
-import { DragDropContext, type DropResult, Droppable } from '@hello-pangea/dnd'
+import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
+import { Plus, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-import CreateNote from './CreateNote.component'
-import Note from './Note.component'
+import { Button } from '@/components/ui/button'
 
 import {
   DrawerOrDialog,
@@ -12,13 +11,13 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Button } from '@/components/ui/button'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import type { Note as TNote, ActiveNote } from '@/types/types'
-import { Plus, X } from 'lucide-react'
+import type { ActiveNote, Note as TNote } from '@/types/types'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
+import CreateNote from './CreateNote.component'
+import Note from './Note.component'
 import { NoteMobile } from './NoteMobile.component'
 import { useActiveNotesQuery } from './notesQueries'
 import { useUpdateNote } from './useUpdateNote'
@@ -58,13 +57,12 @@ function NoteList() {
           studentId: note.studentId,
           groupId: undefined as never,
         } as TNote
-      } else {
-        return {
-          ...baseNote,
-          studentId: undefined as never,
-          groupId: note.groupId ?? 0,
-        } as TNote
       }
+      return {
+        ...baseNote,
+        studentId: undefined as never,
+        groupId: note.groupId ?? 0,
+      } as TNote
     })
     setNotes(notesWithCreatedAt)
   }, [data, fieldType, currentLessonHolder?.holder.id])

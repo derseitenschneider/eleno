@@ -1,5 +1,9 @@
-import Logo from '@/components/ui/Logo.component'
+import format from 'date-fns/format'
+import parse from 'html-react-parser'
+import { ChevronLeft, Trash2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import Logo from '@/components/ui/Logo.component'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -10,10 +14,6 @@ import {
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Message } from '@/types/types'
 import getLocale from '@/utils/getLocale'
-import format from 'date-fns/format'
-import parse from 'html-react-parser'
-import { ChevronLeft, Trash2 } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import { useDeleteMessage } from './useDeleteMessage'
 
 interface MessageViewProps {

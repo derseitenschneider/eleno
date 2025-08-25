@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import type { ComponentPropsWithoutRef } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
+import { cn } from '@/lib/utils'
 
 interface ButtonRemoveProps extends ComponentPropsWithoutRef<'button'> {
   onRemove: () => void

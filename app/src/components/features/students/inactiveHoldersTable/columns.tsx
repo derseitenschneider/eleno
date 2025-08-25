@@ -1,9 +1,9 @@
+import type { ColumnDef, Row } from '@tanstack/react-table'
+import { ArrowUpDown, Users } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { LessonHolder } from '@/types/types'
-import type { ColumnDef, Row } from '@tanstack/react-table'
-import { ArrowUpDown, Users } from 'lucide-react'
 import InactiveStudentRowDropdown from './rowDropdown'
 
 export const inactiveHoldersColumns: ColumnDef<LessonHolder>[] = [

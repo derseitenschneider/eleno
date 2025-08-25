@@ -1,15 +1,15 @@
+import { LayoutGrid, type LucideIcon } from 'lucide-react'
+import type React from 'react'
+import { lazy, Suspense, useState } from 'react'
+import type { IconType } from 'react-icons/lib'
+import { PiGauge } from 'react-icons/pi'
+import { TbMetronome } from 'react-icons/tb'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { LayoutGrid, type LucideIcon } from 'lucide-react'
-import type React from 'react'
-import { Suspense, lazy, useState } from 'react'
-import type { IconType } from 'react-icons/lib'
-import { PiGauge } from 'react-icons/pi'
-import { TbMetronome } from 'react-icons/tb'
 import FloatingWindow from './FloatingWindow.component'
 
 const Metronome = lazy(() => import('./Metronome.component'))

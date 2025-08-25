@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import { IoSearchOutline } from 'react-icons/io5'
+import { cn } from '@/lib/utils'
 import { DebouncedInput } from './debounce-input.component'
 
 interface SearchBarProps {

@@ -1,6 +1,6 @@
-import useStudentsQuery from '@/components/features/students/studentsQueries'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import useStudentsQuery from '@/components/features/students/studentsQueries'
 
 export type BreadcrumbItemType = {
   title: string

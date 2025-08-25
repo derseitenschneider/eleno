@@ -1,3 +1,6 @@
+import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -14,16 +17,13 @@ import { Textarea } from '@/components/ui/textarea'
 import {
   type InfoNotificationContent,
   type NotificationQuestion,
-  type SurveyNotificationContent,
   notificationsContent,
+  type SurveyNotificationContent,
 } from '@/config/notificationsConfig'
 import { cn } from '@/lib/utils'
 import { useLoading } from '@/services/context/LoadingContext'
 import { useUser } from '@/services/context/UserContext'
 import type { Notification as DbNotification } from '@/types/types'
-import { X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
 import useProfileQuery from '../user/profileQuery'
 import {
   useCreateNotificationView,
@@ -108,7 +108,7 @@ export function NotificationManager() {
     if (currentDbNotification.type === 'survey') {
       const filteredResponses: Record<string, string | string[]> = {}
       for (const key in surveyResponses) {
-        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
+        if (Object.hasOwn(surveyResponses, key)) {
           const value = surveyResponses[key]
           // Filter out both null and undefined values
           if (value !== null && value !== undefined) {
@@ -153,7 +153,7 @@ export function NotificationManager() {
     if (currentDbNotification.type === 'survey') {
       const filteredResponses: Record<string, string | string[]> = {}
       for (const key in surveyResponses) {
-        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {
+        if (Object.hasOwn(surveyResponses, key)) {
           const value = surveyResponses[key]
           // Filter out both null and undefined values
           if (value !== null && value !== undefined) {

@@ -1,7 +1,5 @@
-import type { Student } from '@/types/types'
+import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { useState } from 'react'
-
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -13,8 +11,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Separator } from '@/components/ui/separator'
-import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
+import type { Student } from '@/types/types'
 import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
 

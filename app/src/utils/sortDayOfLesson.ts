@@ -1,5 +1,5 @@
-import type { Group, Student } from '@/types/types'
 import type { Row, SortingFn } from '@tanstack/react-table'
+import type { Group, Student } from '@/types/types'
 
 export const customDaySorting: SortingFn<Student | Group> = (
   rowA: Row<Student | Group>,

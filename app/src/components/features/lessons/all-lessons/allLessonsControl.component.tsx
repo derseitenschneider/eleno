@@ -1,4 +1,8 @@
-import SearchBar from '@/components/ui/SearchBar.component'
+import { useQueryClient } from '@tanstack/react-query'
+import type { Table } from '@tanstack/react-table'
+import { ChevronLeft, FileDown } from 'lucide-react'
+import { useState } from 'react'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -6,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import SearchBar from '@/components/ui/SearchBar.component'
 import {
   Select,
   SelectContent,
@@ -14,11 +19,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import type { Lesson } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import type { Table } from '@tanstack/react-table'
-import { ChevronLeft, FileDown } from 'lucide-react'
-import { useState } from 'react'
-import { NavLink, useSearchParams } from 'react-router-dom'
 import ExportLessons from '../ExportLessons.component'
 import useCurrentHolder from '../useCurrentHolder'
 

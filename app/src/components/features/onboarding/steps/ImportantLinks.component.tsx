@@ -1,4 +1,3 @@
-import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import {
   BookMarkedIcon,
   CheckSquare2Icon,
@@ -6,6 +5,7 @@ import {
   UserIcon,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
 
 export default function ImportantLinks() {

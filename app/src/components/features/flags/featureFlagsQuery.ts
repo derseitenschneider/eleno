@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchAllFeatureFlags } from '@/services/api/feature-flags.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export default function useFeatureFlagQuery() {
   const { user } = useUser()

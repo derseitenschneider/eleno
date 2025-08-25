@@ -1,7 +1,7 @@
+import { useEffect } from 'react'
 import useTodosQuery from '@/components/features/todos/todosQuery'
 import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import { useEffect } from 'react'
 import compareDateTodos from '../../../utils/sortTodos'
 import CreateTodo from './CreateTodo.component'
 import TodoDescription from './TodoDescription.component'

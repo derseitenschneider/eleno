@@ -1,6 +1,6 @@
 import Groups from '@/components/features/groups/Groups.component'
-import InactiveLessonHolders from '@/components/features/students/InactiveLessonHolders.component'
 import ActiveStudents from '@/components/features/students/activeStudents/ActiveStudents.component'
+import InactiveLessonHolders from '@/components/features/students/InactiveLessonHolders.component'
 import Students from '@/pages/Students'
 
 const studentsRoutes = [

@@ -1,5 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronLeftIcon } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { Link, useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 import { ButtonGoogle } from '@/components/ui/ButtonGoogle.component'
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -9,15 +13,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import supabase from '@/services/api/supabase'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeftIcon } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { Link, useSearchParams } from 'react-router-dom'
-import { z } from 'zod'
 import WrapperCard from './WrapperCard.component'
 
 const loginSchema = z.object({

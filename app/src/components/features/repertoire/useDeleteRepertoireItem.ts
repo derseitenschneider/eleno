@@ -1,9 +1,9 @@
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import { deleteRepertoireItemAPI } from '@/services/api/repertoire.api'
-import type { Lesson, RepertoireItem } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { deleteRepertoireItemAPI } from '@/services/api/repertoire.api'
+import type { Lesson, RepertoireItem } from '@/types/types'
 
 export function useDeleteRepertoireItem() {
   const queryClient = useQueryClient()

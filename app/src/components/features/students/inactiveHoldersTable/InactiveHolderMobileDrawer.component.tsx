@@ -1,7 +1,7 @@
-import type { LessonHolder } from '@/types/types'
 import { format } from 'date-fns'
+import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
 import { type MouseEvent, useState } from 'react'
-
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -14,8 +14,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
-import { ChevronLeft, ChevronRight, Trash2, Undo2, X } from 'lucide-react'
-import { toast } from 'sonner'
+import type { LessonHolder } from '@/types/types'
 import { useReactivateGroups } from '../../groups/useReactivateGroups'
 import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
 import { useReactivateStudents } from '../useReactivateStudents'

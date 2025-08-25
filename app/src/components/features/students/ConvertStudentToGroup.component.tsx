@@ -1,4 +1,9 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { DialogDescription } from '@radix-ui/react-dialog'
+import { Plus } from 'lucide-react'
+import { useCallback } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -10,6 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import {
   Select,
   SelectContent,
@@ -18,12 +24,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { DialogDescription } from '@radix-ui/react-dialog'
-import { Plus } from 'lucide-react'
-import { useCallback } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import {
   type GroupSchema,
   groupValidationSchema,

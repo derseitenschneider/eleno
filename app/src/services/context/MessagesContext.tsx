@@ -1,8 +1,8 @@
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import type { Message } from '@/types/types'
 import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useEffect } from 'react'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import type { Message } from '@/types/types'
 import supabase from '../api/supabase'
 import { useUser } from './UserContext'
 

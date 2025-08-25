@@ -1,5 +1,5 @@
-import ForgotPassword from '@/components/features/user/login/PasswordRecovery.component'
 import { useSearchParams } from 'react-router-dom'
+import ForgotPassword from '@/components/features/user/login/PasswordRecovery.component'
 import Login from '../components/features/user/login/Login.component'
 import Signup from '../components/features/user/signup/Signup.component'
 

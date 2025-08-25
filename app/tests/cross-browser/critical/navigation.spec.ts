@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Critical: Navigation', () => {
   test.beforeEach(async ({ page }) => {
@@ -8,7 +8,7 @@ test.describe('Critical: Navigation', () => {
       document.documentElement.classList.remove('dark-mode')
       document.documentElement.classList.add('light-mode')
     })
-    
+
     // Start from dashboard
     await page.goto('/dashboard')
     await page.waitForSelector('[data-testid="dashboard-header"]', {
@@ -17,16 +17,19 @@ test.describe('Critical: Navigation', () => {
     })
   })
 
-  test('should navigate to all main sections via URL', async ({ page, browserName }) => {
+  test('should navigate to all main sections via URL', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing main navigation via URL in ${browserName}`)
 
     const routes = [
       '/students',
-      '/lessons', 
+      '/lessons',
       '/timetable',
       '/todos',
       '/notes',
-      '/dashboard'
+      '/dashboard',
     ]
 
     for (const route of routes) {
@@ -34,16 +37,21 @@ test.describe('Critical: Navigation', () => {
       await page.goto(route)
       await expect(page).toHaveURL(new RegExp(route.replace('/', '\\/')))
       await page.waitForLoadState('networkidle')
-      
+
       // Verify page loads some content
-      const hasContent = await page.locator('main, [data-testid], .page, body > div').count()
+      const hasContent = await page
+        .locator('main, [data-testid], .page, body > div')
+        .count()
       expect(hasContent).toBeGreaterThan(0)
     }
 
     console.log(`✅ Main navigation works in ${browserName}`)
   })
 
-  test('should handle browser back/forward buttons', async ({ page, browserName }) => {
+  test('should handle browser back/forward buttons', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing browser navigation in ${browserName}`)
 
     // Navigate to different pages via URL
@@ -76,7 +84,7 @@ test.describe('Critical: Navigation', () => {
       '/timetable',
       '/todos',
       '/notes',
-      '/settings'
+      '/settings',
     ]
 
     for (const route of testRoutes) {
@@ -84,16 +92,21 @@ test.describe('Critical: Navigation', () => {
       await page.goto(route)
       await expect(page).toHaveURL(new RegExp(route.replace('/', '\\/')))
       await page.waitForLoadState('networkidle')
-      
+
       // Verify the page loads content instead of checking specific test-ids
-      const hasContent = await page.locator('main, [data-testid], .page, body > div').count()
+      const hasContent = await page
+        .locator('main, [data-testid], .page, body > div')
+        .count()
       expect(hasContent).toBeGreaterThan(0)
     }
 
     console.log(`✅ Direct URL access works in ${browserName}`)
   })
 
-  test('should handle invalid routes gracefully', async ({ page, browserName }) => {
+  test('should handle invalid routes gracefully', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing 404 handling in ${browserName}`)
 
     // Navigate to non-existent route
@@ -102,13 +115,18 @@ test.describe('Critical: Navigation', () => {
 
     // Should either show 404 page, redirect to dashboard, or show some error handling
     // We don't want to be too specific about what happens, just that it doesn't crash
-    const hasContent = await page.locator('main, [data-testid], .page, body > div').count()
+    const hasContent = await page
+      .locator('main, [data-testid], .page, body > div')
+      .count()
     expect(hasContent).toBeGreaterThan(0)
 
     console.log(`✅ Invalid route handling works in ${browserName}`)
   })
 
-  test('should maintain URL state during page reloads', async ({ page, browserName }) => {
+  test('should maintain URL state during page reloads', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing URL state persistence in ${browserName}`)
 
     // Navigate to students page
@@ -126,14 +144,17 @@ test.describe('Critical: Navigation', () => {
     console.log(`✅ URL state persistence works in ${browserName}`)
   })
 
-  test('should handle navigation timing across browsers', async ({ page, browserName }) => {
+  test('should handle navigation timing across browsers', async ({
+    page,
+    browserName,
+  }) => {
     console.log(`Testing navigation timing in ${browserName}`)
 
     const startTime = Date.now()
 
     // Navigate through several pages
     const routes = ['/students', '/lessons', '/dashboard']
-    
+
     for (const route of routes) {
       await page.goto(route)
       await page.waitForLoadState('networkidle')
@@ -144,7 +165,7 @@ test.describe('Critical: Navigation', () => {
     const totalTime = endTime - startTime
 
     console.log(`Navigation completed in ${totalTime}ms on ${browserName}`)
-    
+
     // Basic sanity check - shouldn't take more than 30 seconds for 3 page navigations
     expect(totalTime).toBeLessThan(30000)
 

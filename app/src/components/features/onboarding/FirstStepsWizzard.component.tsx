@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button'
-import StepperProgress, { type Step } from '@/components/ui/stepper.component'
 import {
   CheckIcon,
   ChevronLeftIcon,
@@ -9,6 +7,8 @@ import {
   Users2,
 } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import StepperProgress, { type Step } from '@/components/ui/stepper.component'
 import AddGroup from './steps/AddGroup.component'
 import AddStudents from './steps/AddStudents.component'
 import ImportantLinks from './steps/ImportantLinks.component'

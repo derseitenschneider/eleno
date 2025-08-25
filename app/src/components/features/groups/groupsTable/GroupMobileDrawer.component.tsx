@@ -1,8 +1,6 @@
-import type { Group, Student } from '@/types/types'
 import { format } from 'date-fns'
+import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
 import { useState } from 'react'
-
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 // import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
@@ -15,8 +13,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Separator } from '@/components/ui/separator'
-import { Archive, ChevronLeft, ChevronRight, PencilIcon, X } from 'lucide-react'
+import type { Group, Student } from '@/types/types'
 import { UpdateGroupDialogDrawer } from '../UpdateGroupDialogDrawer.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
 

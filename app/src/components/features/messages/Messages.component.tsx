@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom'
 import {
   Drawer,
   DrawerContent,
@@ -9,7 +10,6 @@ import { Separator } from '@/components/ui/separator'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
-import { useSearchParams } from 'react-router-dom'
 import MessageList from './MessageList.component'
 import { MessageView } from './MessageView.component'
 import useMessagesQuery from './messagesQueries'

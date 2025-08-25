@@ -1,3 +1,5 @@
+import { CheckSquare2, User, Users, X } from 'lucide-react'
+import { useState } from 'react'
 import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
 import { CreateStudentDialogDrawer } from '@/components/features/students/CreateStudentDialogDrawer.component'
 import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
@@ -11,8 +13,6 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
-import { CheckSquare2, User, Users, X } from 'lucide-react'
-import { useState } from 'react'
 import { ActionItem } from './ActionItem.component'
 
 export type ActionDrawerProps = {

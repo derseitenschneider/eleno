@@ -1,9 +1,9 @@
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import { deleteLessonAPI } from '@/services/api/lessons.api'
-import type { Lesson } from '@/types/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { deleteLessonAPI } from '@/services/api/lessons.api'
+import type { Lesson } from '@/types/types'
 
 export function useDeleteLesson() {
   const queryClient = useQueryClient()

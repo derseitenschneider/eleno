@@ -1,4 +1,4 @@
-import { type Project, devices } from '@playwright/test'
+import { devices, type Project } from '@playwright/test'
 import { subscriptionStates } from './subscriptionStates'
 
 export const subscriptionsConfig: Array<Project> = [

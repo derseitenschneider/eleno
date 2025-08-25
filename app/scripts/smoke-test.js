@@ -5,8 +5,8 @@
  * Tests basic functionality after production deploy
  */
 
-const https = require('https')
-const http = require('http')
+const https = require('node:https')
+const http = require('node:http')
 
 // Configuration
 const PRODUCTION_URL = 'https://app.eleno.net'
@@ -15,10 +15,10 @@ const MAX_RETRIES = 5
 const RETRY_DELAY = 2000
 
 // Test results
-let results = {
+const results = {
   passed: 0,
   failed: 0,
-  tests: []
+  tests: [],
 }
 
 /**
@@ -31,24 +31,28 @@ function makeRequest(url, options = {}) {
       reject(new Error(`Request timeout after ${TIMEOUT}ms`))
     }, TIMEOUT)
 
-    const req = client.request(url, {
-      method: options.method || 'GET',
-      headers: {
-        'User-Agent': 'Eleno-SmokeTest/1.0',
-        ...options.headers
-      }
-    }, (res) => {
-      clearTimeout(timeoutId)
-      let data = ''
-      res.on('data', chunk => data += chunk)
-      res.on('end', () => {
-        resolve({
-          statusCode: res.statusCode,
-          headers: res.headers,
-          data: data
+    const req = client.request(
+      url,
+      {
+        method: options.method || 'GET',
+        headers: {
+          'User-Agent': 'Eleno-SmokeTest/1.0',
+          ...options.headers,
+        },
+      },
+      (res) => {
+        clearTimeout(timeoutId)
+        let data = ''
+        res.on('data', (chunk) => (data += chunk))
+        res.on('end', () => {
+          resolve({
+            statusCode: res.statusCode,
+            headers: res.headers,
+            data: data,
+          })
         })
-      })
-    })
+      },
+    )
 
     req.on('error', (err) => {
       clearTimeout(timeoutId)
@@ -69,7 +73,7 @@ async function retryRequest(url, options = {}, retries = MAX_RETRIES) {
     } catch (error) {
       if (i === retries - 1) throw error
       console.log(`  Attempt ${i + 1} failed, retrying in ${RETRY_DELAY}ms...`)
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY))
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY))
     }
   }
 }
@@ -79,17 +83,17 @@ async function retryRequest(url, options = {}, retries = MAX_RETRIES) {
  */
 async function runTest(name, testFn) {
   process.stdout.write(`🔍 ${name}... `)
-  
+
   try {
     const startTime = Date.now()
     await testFn()
     const duration = Date.now() - startTime
-    
+
     console.log(`✅ (${duration}ms)`)
     results.passed++
     results.tests.push({ name, status: 'passed', duration })
   } catch (error) {
-    console.log(`❌`)
+    console.log('❌')
     console.log(`   Error: ${error.message}`)
     results.failed++
     results.tests.push({ name, status: 'failed', error: error.message })
@@ -122,17 +126,17 @@ async function testLoginPageAccessible() {
 async function testAppStructure() {
   const response = await retryRequest(PRODUCTION_URL)
   const html = response.data
-  
+
   // Check for essential HTML structure
   if (!html.includes('<html') || !html.includes('</html>')) {
     throw new Error('Invalid HTML structure')
   }
-  
+
   // Check for React root element
   if (!html.includes('id="root"')) {
     throw new Error('React root element not found')
   }
-  
+
   // Check for CSS/JS assets
   if (!html.includes('<script') || !html.includes('<link')) {
     throw new Error('Assets not properly linked')
@@ -143,13 +147,8 @@ async function testAppStructure() {
  * Test: Critical routes return 200 (not 404)
  */
 async function testCriticalRoutes() {
-  const routes = [
-    '/students',
-    '/lessons', 
-    '/repertoire',
-    '/notes'
-  ]
-  
+  const routes = ['/students', '/lessons', '/repertoire', '/notes']
+
   for (const route of routes) {
     const response = await retryRequest(`${PRODUCTION_URL}${route}`)
     // SPA routes should return 200 (served by index.html)
@@ -165,7 +164,7 @@ async function testCriticalRoutes() {
 async function testSecurityHeaders() {
   const response = await retryRequest(PRODUCTION_URL)
   const headers = response.headers
-  
+
   // Check for basic security headers (adjust based on your setup)
   if (!headers['x-content-type-options']) {
     console.log('   Warning: X-Content-Type-Options header missing')
@@ -180,7 +179,7 @@ async function testApiConnectivity() {
   try {
     const response = await retryRequest(PRODUCTION_URL)
     const html = response.data
-    
+
     // Look for any obvious API connection errors in the HTML
     if (html.includes('NetworkError') || html.includes('Failed to fetch')) {
       throw new Error('Potential API connectivity issues detected')
@@ -224,12 +223,14 @@ async function runSmokeTests() {
   if (results.failed > 0) {
     console.log('\n❌ SMOKE TESTS FAILED')
     console.log('Production deployment has issues that need investigation!')
-    
+
     // Print failed tests
-    results.tests.filter(t => t.status === 'failed').forEach(test => {
-      console.log(`  • ${test.name}: ${test.error}`)
-    })
-    
+    results.tests
+      .filter((t) => t.status === 'failed')
+      .forEach((test) => {
+        console.log(`  • ${test.name}: ${test.error}`)
+      })
+
     process.exit(1)
   } else {
     console.log('\n✅ ALL SMOKE TESTS PASSED')
@@ -260,5 +261,5 @@ if (require.main === module) {
 module.exports = {
   runSmokeTests,
   makeRequest,
-  retryRequest
+  retryRequest,
 }

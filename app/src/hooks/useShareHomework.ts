@@ -1,3 +1,8 @@
+import type { CheckedState } from '@radix-ui/react-checkbox'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { useAuthorizeGroupHomeworkLink } from '@/components/features/students/useAuthorizeGroupsHomeworkLink'
 import { useAuthorizeStudentHomeworkLink } from '@/components/features/students/useAuthorizeStudentsHomeworkLink'
 import useProfileQuery from '@/components/features/user/profileQuery'
@@ -5,11 +10,6 @@ import { appConfig } from '@/config'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
-import type { CheckedState } from '@radix-ui/react-checkbox'
-import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { toast } from 'sonner'
 
 export function useShareHomework(lessonId: number) {
   const { data: userProfile } = useProfileQuery()

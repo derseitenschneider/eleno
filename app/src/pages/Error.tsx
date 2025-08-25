@@ -1,6 +1,6 @@
-import NavbarMobile from '@/layouts/navbarMobile/NavbarMobile.component'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import NavbarMobile from '@/layouts/navbarMobile/NavbarMobile.component'
 
 export default function ErrorPage() {
   const [countdown, setCountdown] = useState(5)

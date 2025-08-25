@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,8 +12,6 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { useBreadcrumbs } from '@/hooks/useBreadcrumbs' // Import the new hook
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import { Fragment } from 'react'
-import { Link } from 'react-router-dom'
 import SubscriptionStatusBadge from './SubscriptionStatusBadge.component'
 
 export function AppHeader() {

@@ -1,3 +1,4 @@
+import { ChevronLeft, X } from 'lucide-react'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -6,7 +7,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { ChevronLeft, X } from 'lucide-react'
 import CreateGroup from './CreateGroup.component'
 
 export type CreateStudentDialogDrawerProps = {

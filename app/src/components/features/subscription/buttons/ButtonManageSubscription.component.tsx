@@ -1,11 +1,11 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { appConfig } from '@/config'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import supabase from '@/services/api/supabase'
 import { useSubscription } from '@/services/context/SubscriptionContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
-import { useEffect, useState } from 'react'
 
 export default function ButtonManageSubscription() {
   const { subscription, subscriptionState } = useSubscription()

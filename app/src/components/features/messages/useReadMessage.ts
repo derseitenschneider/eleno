@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateMessageApi } from '@/services/api/messages.api'
 import type { Message, TTodoItem } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useReadMessage() {
   const queryClient = useQueryClient()

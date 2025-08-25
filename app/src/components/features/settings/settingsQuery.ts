@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { getSettingsApi } from '@/services/api/settings.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export default function useSettingsQuery() {
   const { user } = useUser()

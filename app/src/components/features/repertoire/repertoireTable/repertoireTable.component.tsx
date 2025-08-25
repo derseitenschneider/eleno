@@ -1,6 +1,14 @@
+import {
+  type FilterFn,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import { ChevronLeft, Plus, X } from 'lucide-react'
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-
-import Empty from '@/components/ui/Empty.component'
 import { Button } from '@/components/ui/button'
 import {
   Drawer,
@@ -10,19 +18,10 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import Empty from '@/components/ui/Empty.component'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { RepertoireItem } from '@/types/types'
-import {
-  type FilterFn,
-  type SortingState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-import { ChevronLeft, Plus, X } from 'lucide-react'
-import { useState } from 'react'
 import { DataTable } from '../../../ui/data-table'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
 import CreateRepertoireItem from '../CreateRepertoireItem.component'

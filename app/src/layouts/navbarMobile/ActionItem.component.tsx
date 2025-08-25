@@ -1,4 +1,4 @@
-import { type ReactElement, cloneElement } from 'react'
+import { cloneElement, type ReactElement } from 'react'
 
 export type ActionItemProps = {
   onClick: () => void

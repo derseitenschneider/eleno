@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom'
 import useFeatureFlag from '@/hooks/useFeatureFlag'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import useIsOnline from '@/hooks/useIsOnline'
 import { cn } from '@/lib/utils'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { Link } from 'react-router-dom'
 
 function Banner() {
   const isOnline = useIsOnline()

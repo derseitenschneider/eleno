@@ -1,5 +1,3 @@
-import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import { cn } from '@/lib/utils'
 import {
   BookMarked,
   BookOpen,
@@ -9,6 +7,8 @@ import {
   Settings2,
   UserRoundPlus,
 } from 'lucide-react'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import { cn } from '@/lib/utils'
 import QuickLinkItem from './QuickLinkItem.component'
 
 function QuickLinks() {

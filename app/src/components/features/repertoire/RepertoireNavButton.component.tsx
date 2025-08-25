@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import { TableProperties } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 
 export function RepertoireNavButton() {
   const isRepertoirePage = window.location.pathname.includes('repertoire')

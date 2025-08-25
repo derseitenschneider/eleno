@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import { Link2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from './button'
 import { Input } from './input'
 import { Label } from './label'

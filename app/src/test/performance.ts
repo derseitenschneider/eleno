@@ -1,6 +1,6 @@
 /**
  * Comprehensive Performance Monitoring and Profiling Tools
- * 
+ *
  * This module provides detailed performance monitoring for mock operations:
  * - Mock execution time tracking with histogram analysis
  * - Memory usage monitoring and leak detection
@@ -10,7 +10,7 @@
  * - Comparative performance analysis and regression detection
  */
 
-import { performance } from 'perf_hooks'
+import { performance } from 'node:perf_hooks'
 
 // Performance tracking interfaces
 interface PerformanceEntry {
@@ -54,7 +54,7 @@ interface BenchmarkResult {
 let performanceEntries: PerformanceEntry[] = []
 let memorySnapshots: MemorySnapshot[] = []
 let isMonitoringActive = false
-let performanceTimers = new Map<string, number>()
+const performanceTimers = new Map<string, number>()
 
 /**
  * Start performance monitoring
@@ -64,7 +64,7 @@ export function startPerformanceMonitoring() {
   performanceEntries = []
   memorySnapshots = []
   console.log('📊 Performance monitoring started')
-  
+
   // Take initial memory snapshot
   takeMemorySnapshot()
 }
@@ -85,16 +85,16 @@ export function takeMemorySnapshot(): MemorySnapshot | null {
     const usage = process.memoryUsage()
     const snapshot: MemorySnapshot = {
       timestamp: Date.now(),
-      heapUsed: Math.round(usage.heapUsed / 1024 / 1024 * 100) / 100, // MB
-      heapTotal: Math.round(usage.heapTotal / 1024 / 1024 * 100) / 100, // MB
-      external: Math.round(usage.external / 1024 / 1024 * 100) / 100, // MB
-      rss: Math.round(usage.rss / 1024 / 1024 * 100) / 100, // MB
+      heapUsed: Math.round((usage.heapUsed / 1024 / 1024) * 100) / 100, // MB
+      heapTotal: Math.round((usage.heapTotal / 1024 / 1024) * 100) / 100, // MB
+      external: Math.round((usage.external / 1024 / 1024) * 100) / 100, // MB
+      rss: Math.round((usage.rss / 1024 / 1024) * 100) / 100, // MB
     }
-    
+
     if (isMonitoringActive) {
       memorySnapshots.push(snapshot)
     }
-    
+
     return snapshot
   }
   return null
@@ -113,7 +113,7 @@ export function getMemoryUsage(): MemorySnapshot | null {
 export function startTimer(name: string, metadata?: Record<string, any>): void {
   const startTime = performance.now()
   performanceTimers.set(name, startTime)
-  
+
   if (isMonitoringActive && metadata) {
     // Store metadata for later use
     const key = `${name}_metadata`
@@ -127,22 +127,24 @@ export function startTimer(name: string, metadata?: Record<string, any>): void {
 export function endTimer(name: string): number {
   const endTime = performance.now()
   const startTime = performanceTimers.get(name)
-  
+
   if (startTime === undefined) {
     console.warn(`⚠️  Timer '${name}' was not started`)
     return 0
   }
-  
+
   const duration = endTime - startTime
   performanceTimers.delete(name)
-  
+
   // Get metadata if available
   const metadataKey = `${name}_metadata`
-  const metadata = performanceTimers.get(metadataKey) as Record<string, any> | undefined
+  const metadata = performanceTimers.get(metadataKey) as
+    | Record<string, any>
+    | undefined
   if (metadata) {
     performanceTimers.delete(metadataKey)
   }
-  
+
   if (isMonitoringActive) {
     performanceEntries.push({
       name,
@@ -152,7 +154,7 @@ export function endTimer(name: string): number {
       metadata,
     })
   }
-  
+
   return duration
 }
 
@@ -162,10 +164,10 @@ export function endTimer(name: string): number {
 export async function measureTime<T>(
   name: string,
   fn: () => T | Promise<T>,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<{ result: T; duration: number }> {
   startTimer(name, metadata)
-  
+
   try {
     const result = await fn()
     const duration = endTimer(name)
@@ -183,33 +185,33 @@ export async function benchmarkFunction<T>(
   fn: () => T | Promise<T>,
   name: string,
   iterations = 1000,
-  warmupIterations = 100
+  warmupIterations = 100,
 ): Promise<BenchmarkResult> {
   console.log(`🏃‍♂️ Benchmarking '${name}' (${iterations} iterations)...`)
-  
+
   // Warmup phase
   for (let i = 0; i < warmupIterations; i++) {
     await fn()
   }
-  
+
   // Collect garbage before benchmark
   if (global.gc) {
     global.gc()
   }
-  
+
   const times: number[] = []
   const startTime = performance.now()
-  
+
   for (let i = 0; i < iterations; i++) {
     const iterationStart = performance.now()
     await fn()
     const iterationEnd = performance.now()
     times.push(iterationEnd - iterationStart)
   }
-  
+
   const totalTime = performance.now() - startTime
   const metrics = calculateMetrics(times)
-  
+
   const result: BenchmarkResult = {
     name,
     iterations,
@@ -218,9 +220,11 @@ export async function benchmarkFunction<T>(
     opsPerSecond: Math.round(iterations / (totalTime / 1000)),
     metrics,
   }
-  
-  console.log(`✅ Completed '${name}': ${result.averageTime.toFixed(3)}ms avg, ${result.opsPerSecond} ops/sec`)
-  
+
+  console.log(
+    `✅ Completed '${name}': ${result.averageTime.toFixed(3)}ms avg, ${result.opsPerSecond} ops/sec`,
+  )
+
   return result
 }
 
@@ -241,20 +245,21 @@ function calculateMetrics(times: number[]): PerformanceMetrics {
       standardDeviation: 0,
     }
   }
-  
+
   const sorted = [...times].sort((a, b) => a - b)
   const total = times.reduce((sum, time) => sum + time, 0)
   const average = total / times.length
-  
+
   // Calculate percentiles
   const p50 = percentile(sorted, 50)
   const p95 = percentile(sorted, 95)
   const p99 = percentile(sorted, 99)
-  
+
   // Calculate standard deviation
-  const variance = times.reduce((sum, time) => sum + Math.pow(time - average, 2), 0) / times.length
+  const variance =
+    times.reduce((sum, time) => sum + (time - average) ** 2, 0) / times.length
   const standardDeviation = Math.sqrt(variance)
-  
+
   return {
     totalCalls: times.length,
     totalTime: total,
@@ -273,25 +278,31 @@ function calculateMetrics(times: number[]): PerformanceMetrics {
  */
 function percentile(sortedArray: number[], percentile: number): number {
   if (sortedArray.length === 0) return 0
-  
+
   const index = (percentile / 100) * (sortedArray.length - 1)
   const lower = Math.floor(index)
   const upper = Math.ceil(index)
-  
+
   if (lower === upper) {
-    return sortedArray[lower]
+    return sortedArray[lower] ?? 0
   }
-  
+
+  const lowerValue = sortedArray[lower] ?? 0
+  const upperValue = sortedArray[upper] ?? 0
   const weight = index - lower
-  return sortedArray[lower] * (1 - weight) + sortedArray[upper] * weight
+  return lowerValue * (1 - weight) + upperValue * weight
 }
 
 /**
  * Get performance metrics for a specific operation
  */
-export function getMetricsForOperation(operationName: string): PerformanceMetrics {
-  const entries = performanceEntries.filter(entry => entry.name === operationName)
-  const times = entries.map(entry => entry.duration)
+export function getMetricsForOperation(
+  operationName: string,
+): PerformanceMetrics {
+  const entries = performanceEntries.filter(
+    (entry) => entry.name === operationName,
+  )
+  const times = entries.map((entry) => entry.duration)
   return calculateMetrics(times)
 }
 
@@ -324,13 +335,13 @@ export function analyzeMemoryUsage() {
     console.log('📊 Not enough memory snapshots for analysis')
     return null
   }
-  
-  const first = memorySnapshots[0]
-  const last = memorySnapshots[memorySnapshots.length - 1]
-  const peak = memorySnapshots.reduce((max, snapshot) => 
-    snapshot.heapUsed > max.heapUsed ? snapshot : max
+
+  const first = memorySnapshots[0]!
+  const last = memorySnapshots[memorySnapshots.length - 1]!
+  const peak = memorySnapshots.reduce((max, snapshot) =>
+    snapshot.heapUsed > max.heapUsed ? snapshot : max,
   )
-  
+
   const analysis = {
     totalSnapshots: memorySnapshots.length,
     duration: last.timestamp - first.timestamp,
@@ -339,9 +350,11 @@ export function analyzeMemoryUsage() {
     peakHeap: peak.heapUsed,
     heapGrowth: last.heapUsed - first.heapUsed,
     peakGrowth: peak.heapUsed - first.heapUsed,
-    averageHeap: memorySnapshots.reduce((sum, s) => sum + s.heapUsed, 0) / memorySnapshots.length,
+    averageHeap:
+      memorySnapshots.reduce((sum, s) => sum + s.heapUsed, 0) /
+      memorySnapshots.length,
   }
-  
+
   console.log('\n💾 Memory Usage Analysis:')
   console.log(`  • Duration: ${analysis.duration}ms`)
   console.log(`  • Initial heap: ${analysis.initialHeap}MB`)
@@ -349,11 +362,13 @@ export function analyzeMemoryUsage() {
   console.log(`  • Peak heap: ${analysis.peakHeap}MB`)
   console.log(`  • Heap growth: ${analysis.heapGrowth.toFixed(2)}MB`)
   console.log(`  • Average heap: ${analysis.averageHeap.toFixed(2)}MB`)
-  
+
   if (analysis.heapGrowth > 10) {
-    console.log(`  ⚠️  Significant memory growth detected: ${analysis.heapGrowth}MB`)
+    console.log(
+      `  ⚠️  Significant memory growth detected: ${analysis.heapGrowth}MB`,
+    )
   }
-  
+
   return analysis
 }
 
@@ -362,72 +377,82 @@ export function analyzeMemoryUsage() {
  */
 export function printPerformanceReport() {
   console.log('\n📊 Comprehensive Performance Report')
-  console.log('=' .repeat(50))
-  
+  console.log('='.repeat(50))
+
   if (performanceEntries.length === 0) {
     console.log('No performance data collected')
     return
   }
-  
+
   // Group entries by operation name
   const operationGroups = new Map<string, PerformanceEntry[]>()
-  
+
   for (const entry of performanceEntries) {
     if (!operationGroups.has(entry.name)) {
       operationGroups.set(entry.name, [])
     }
     operationGroups.get(entry.name)!.push(entry)
   }
-  
+
   // Analyze each operation
   console.log('\n🎯 Operation Performance:')
-  
+
   for (const [name, entries] of operationGroups) {
-    const times = entries.map(e => e.duration)
+    const times = entries.map((e) => e.duration)
     const metrics = calculateMetrics(times)
-    
+
     console.log(`\n  ${name}:`)
     console.log(`    • Calls: ${metrics.totalCalls}`)
     console.log(`    • Average: ${metrics.averageTime.toFixed(3)}ms`)
-    console.log(`    • Min/Max: ${metrics.minTime.toFixed(3)}ms / ${metrics.maxTime.toFixed(3)}ms`)
-    console.log(`    • P50/P95/P99: ${metrics.p50.toFixed(3)}ms / ${metrics.p95.toFixed(3)}ms / ${metrics.p99.toFixed(3)}ms`)
+    console.log(
+      `    • Min/Max: ${metrics.minTime.toFixed(3)}ms / ${metrics.maxTime.toFixed(3)}ms`,
+    )
+    console.log(
+      `    • P50/P95/P99: ${metrics.p50.toFixed(3)}ms / ${metrics.p95.toFixed(3)}ms / ${metrics.p99.toFixed(3)}ms`,
+    )
     console.log(`    • Std Dev: ${metrics.standardDeviation.toFixed(3)}ms`)
-    
+
     if (metrics.averageTime > 10) {
-      console.log(`    ⚠️  Slow operation detected (avg > 10ms)`)
+      console.log('    ⚠️  Slow operation detected (avg > 10ms)')
     }
-    
+
     if (metrics.standardDeviation > metrics.averageTime * 0.5) {
-      console.log(`    ⚠️  High variability detected`)
+      console.log('    ⚠️  High variability detected')
     }
   }
-  
+
   // Overall statistics
-  const allTimes = performanceEntries.map(e => e.duration)
+  const allTimes = performanceEntries.map((e) => e.duration)
   const overallMetrics = calculateMetrics(allTimes)
-  
+
   console.log('\n📈 Overall Statistics:')
   console.log(`  • Total operations: ${overallMetrics.totalCalls}`)
   console.log(`  • Total time: ${overallMetrics.totalTime.toFixed(2)}ms`)
-  console.log(`  • Average operation time: ${overallMetrics.averageTime.toFixed(3)}ms`)
+  console.log(
+    `  • Average operation time: ${overallMetrics.averageTime.toFixed(3)}ms`,
+  )
   console.log(`  • Slowest operation: ${overallMetrics.maxTime.toFixed(3)}ms`)
-  
+
   // Memory analysis
   analyzeMemoryUsage()
-  
+
   // Performance recommendations
   console.log('\n💡 Performance Recommendations:')
-  
+
   for (const [name, entries] of operationGroups) {
-    const times = entries.map(e => e.duration)
+    const times = entries.map((e) => e.duration)
     const metrics = calculateMetrics(times)
-    
+
     if (metrics.averageTime > 5) {
-      console.log(`  • Consider optimizing '${name}' (${metrics.averageTime.toFixed(1)}ms avg)`)
+      console.log(
+        `  • Consider optimizing '${name}' (${metrics.averageTime.toFixed(1)}ms avg)`,
+      )
     }
-    
+
     if (metrics.standardDeviation > metrics.averageTime * 0.5) {
-      console.log(`  • Investigate variability in '${name}' (σ=${metrics.standardDeviation.toFixed(1)}ms)`)
+      console.log(
+        `  • Investigate variability in '${name}' (σ=${metrics.standardDeviation.toFixed(1)}ms)`,
+      )
     }
   }
 }
@@ -440,8 +465,12 @@ export function comparePerformance(
   fn1: () => any,
   name2: string,
   fn2: () => any,
-  iterations = 1000
-): Promise<{ faster: string; improvement: number; results: [BenchmarkResult, BenchmarkResult] }> {
+  iterations = 1000,
+): Promise<{
+  faster: string
+  improvement: number
+  results: [BenchmarkResult, BenchmarkResult]
+}> {
   return Promise.all([
     benchmarkFunction(fn1, name1, iterations),
     benchmarkFunction(fn2, name2, iterations),
@@ -449,14 +478,16 @@ export function comparePerformance(
     const faster = result1.averageTime < result2.averageTime ? name1 : name2
     const slower = faster === name1 ? result2 : result1
     const fasterResult = faster === name1 ? result1 : result2
-    
-    const improvement = ((slower.averageTime - fasterResult.averageTime) / slower.averageTime) * 100
-    
-    console.log(`\n🏆 Performance Comparison Results:`)
+
+    const improvement =
+      ((slower.averageTime - fasterResult.averageTime) / slower.averageTime) *
+      100
+
+    console.log('\n🏆 Performance Comparison Results:')
     console.log(`  • ${faster} is ${improvement.toFixed(1)}% faster`)
     console.log(`  • ${name1}: ${result1.averageTime.toFixed(3)}ms`)
     console.log(`  • ${name2}: ${result2.averageTime.toFixed(3)}ms`)
-    
+
     return {
       faster,
       improvement,
@@ -471,10 +502,10 @@ export function comparePerformance(
 export class PerformanceMonitor {
   private intervalId?: NodeJS.Timeout
   private samples: MemorySnapshot[] = []
-  
+
   start(intervalMs = 1000) {
     this.stop() // Stop any existing monitoring
-    
+
     console.log(`📡 Starting continuous monitoring (${intervalMs}ms intervals)`)
     this.intervalId = setInterval(() => {
       const snapshot = takeMemorySnapshot()
@@ -483,7 +514,7 @@ export class PerformanceMonitor {
       }
     }, intervalMs)
   }
-  
+
   stop() {
     if (this.intervalId) {
       clearInterval(this.intervalId)
@@ -491,36 +522,42 @@ export class PerformanceMonitor {
       console.log('📡 Continuous monitoring stopped')
     }
   }
-  
+
   getSamples() {
     return [...this.samples]
   }
-  
+
   reset() {
     this.samples = []
   }
-  
+
   analyze() {
     if (this.samples.length < 2) {
       console.log('Not enough samples for analysis')
       return null
     }
-    
+
     const analysis = {
       sampleCount: this.samples.length,
-      duration: this.samples[this.samples.length - 1].timestamp - this.samples[0].timestamp,
-      memoryGrowth: this.samples[this.samples.length - 1].heapUsed - this.samples[0].heapUsed,
-      peakMemory: Math.max(...this.samples.map(s => s.heapUsed)),
-      averageMemory: this.samples.reduce((sum, s) => sum + s.heapUsed, 0) / this.samples.length,
+      duration:
+        this.samples[this.samples.length - 1]!.timestamp -
+        this.samples[0]!.timestamp,
+      memoryGrowth:
+        this.samples[this.samples.length - 1]!.heapUsed -
+        this.samples[0]!.heapUsed,
+      peakMemory: Math.max(...this.samples.map((s) => s.heapUsed)),
+      averageMemory:
+        this.samples.reduce((sum, s) => sum + s.heapUsed, 0) /
+        this.samples.length,
     }
-    
+
     console.log('\n📡 Continuous Monitoring Analysis:')
     console.log(`  • Duration: ${analysis.duration}ms`)
     console.log(`  • Samples: ${analysis.sampleCount}`)
     console.log(`  • Memory growth: ${analysis.memoryGrowth.toFixed(2)}MB`)
     console.log(`  • Peak memory: ${analysis.peakMemory.toFixed(2)}MB`)
     console.log(`  • Average memory: ${analysis.averageMemory.toFixed(2)}MB`)
-    
+
     return analysis
   }
 }
@@ -531,10 +568,10 @@ export class PerformanceMonitor {
 export function profileMockOperation<T>(
   operation: () => T,
   operationName: string,
-  iterations = 100
+  iterations = 100,
 ): { result: T; profile: BenchmarkResult } {
   console.log(`🔍 Profiling mock operation: ${operationName}`)
-  
+
   let result: T
   const profile = benchmarkFunction(
     () => {
@@ -542,9 +579,9 @@ export function profileMockOperation<T>(
       return result
     },
     operationName,
-    iterations
+    iterations,
   )
-  
+
   return { result: result!, profile: profile as any }
 }
 
@@ -559,12 +596,14 @@ export function exportPerformanceData() {
     summary: {
       totalOperations: performanceEntries.length,
       totalTime: performanceEntries.reduce((sum, e) => sum + e.duration, 0),
-      averageTime: performanceEntries.length > 0 
-        ? performanceEntries.reduce((sum, e) => sum + e.duration, 0) / performanceEntries.length 
-        : 0,
+      averageTime:
+        performanceEntries.length > 0
+          ? performanceEntries.reduce((sum, e) => sum + e.duration, 0) /
+            performanceEntries.length
+          : 0,
     },
   }
-  
+
   return JSON.stringify(data, null, 2)
 }
 
@@ -573,12 +612,12 @@ export function exportPerformanceData() {
  */
 export function withRenderTiming<T extends (...args: any[]) => any>(
   renderFunction: T,
-  componentName: string
+  componentName: string,
 ): T {
   return ((...args: any[]) => {
     const timerName = `Render ${componentName}`
     startTimer(timerName, { componentName })
-    
+
     try {
       const result = renderFunction(...args)
       endTimer(timerName)

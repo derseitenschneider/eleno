@@ -1,3 +1,7 @@
+import { Trash2 } from 'lucide-react'
+import { memo, useCallback } from 'react'
+import type { UseFieldArrayRemove } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -10,10 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { Trash2 } from 'lucide-react'
-import { memo, useCallback } from 'react'
-import { useFormContext } from 'react-hook-form'
-import type { UseFieldArrayRemove } from 'react-hook-form'
 import type { StudentSchema } from './CreateStudents.component'
 
 type StudentFormRowProps = {

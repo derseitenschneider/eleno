@@ -1,15 +1,15 @@
 import { QueryClient } from '@tanstack/react-query'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { renderWithProviders } from '@/test/testUtils'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import {
+  createMockGroup,
   createMockLesson,
   createMockStudent,
-  createMockGroup,
 } from '@/test/factories'
+import { renderWithProviders } from '@/test/testUtils'
 import type { LessonHolder } from '@/types/types'
 import ShareHomework from './ShareHomework.component'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 
 // Mock hooks and modules
 vi.mock('@/hooks/useIsMobileDevice', () => ({
@@ -64,6 +64,7 @@ const mockUseShareHomework = vi.hoisted(() => vi.fn())
 vi.mocked(mockUseShareHomework)
 
 import { useShareHomework } from '@/hooks/useShareHomework'
+
 const mockShareHomework = vi.mocked(useShareHomework)
 const mockIsMobileDevice = vi.mocked(useIsMobileDevice)
 
@@ -518,7 +519,9 @@ describe('ShareHomework Component', () => {
         },
       )
 
-      expect(container.querySelector('[data-testid="share-homework"]')).not.toBeInTheDocument()
+      expect(
+        container.querySelector('[data-testid="share-homework"]'),
+      ).not.toBeInTheDocument()
     })
 
     it('should handle missing lesson data gracefully', () => {

@@ -1,19 +1,19 @@
-import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
-import { DataTable } from '@/components/ui/data-table'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import type { Group } from '@/types/types'
 import {
   type FilterFn,
-  type RowSelectionState,
-  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  type RowSelectionState,
+  type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { DataTable } from '@/components/ui/data-table'
+import Empty from '@/components/ui/Empty.component'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import type { Group } from '@/types/types'
 import { groupsColumns } from './columns'
 import { groupsColumnsMobile } from './columnsMobile'
 import GroupsControl from './control'

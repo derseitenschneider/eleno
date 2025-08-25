@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { getOrganizationApi } from '@/services/api/organisations.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 import useProfileQuery from '../../user/profileQuery'
 
 export default function useOrganizationQuery() {

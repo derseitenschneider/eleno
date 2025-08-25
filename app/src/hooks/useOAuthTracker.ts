@@ -1,5 +1,5 @@
-import supabase from '@/services/api/supabase'
 import { useEffect } from 'react'
+import supabase from '@/services/api/supabase'
 
 export function useOAuthTracker() {
   useEffect(() => {

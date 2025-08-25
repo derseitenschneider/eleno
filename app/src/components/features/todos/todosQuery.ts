@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchTodosApi } from '@/services/api/todos.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export default function useTodosQuery() {
   const { user } = useUser()

@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateStudentsApi } from '@/services/api/students.api'
 import type { Student } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useAuthorizeStudentHomeworkLink() {
   const queryClient = useQueryClient()

@@ -1,3 +1,5 @@
+import { Users } from 'lucide-react'
+import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import ButtonRemove from '@/components/ui/buttonRemove'
@@ -18,8 +20,7 @@ import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import type { LessonHolder } from '@/types/types'
-import { Users } from 'lucide-react'
-import { useState } from 'react'
+
 type AddHolderComboboxProps = {
   selectedHolderId: string
   setSelectedHolderId: React.Dispatch<React.SetStateAction<string>>
@@ -77,7 +78,7 @@ export default function AddHolderCombobox({
                 <Badge
                   className={cn(
                     selectedHolder.holder.archive &&
-                    'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
+                      'bg-foreground/30 hover:bg-foreground/30 cursor-auto text-white/70 line-through',
                   )}
                 >
                   {selectedHolder.type === 'g' && (

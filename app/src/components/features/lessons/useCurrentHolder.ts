@@ -1,5 +1,5 @@
-import type { Group, LessonHolder, Student } from '@/types/types'
 import { useParams } from 'react-router-dom'
+import type { Group, LessonHolder, Student } from '@/types/types'
 import useGroupsQuery from '../groups/groupsQuery'
 import useStudentsQuery from '../students/studentsQueries'
 

@@ -1,6 +1,6 @@
 /**
  * Lightweight Mock Alternatives for Simple Tests
- * 
+ *
  * This module provides ultra-fast, minimal mocks for tests that don't need
  * full mock functionality:
  * - Static mock data without dynamic generation
@@ -101,7 +101,11 @@ const STATIC_MOCK_DATA = Object.freeze({
 
   // Basic API responses
   successResponse: Object.freeze({ status: 200, data: null, error: null }),
-  errorResponse: Object.freeze({ status: 400, data: null, error: 'Test error' }),
+  errorResponse: Object.freeze({
+    status: 400,
+    data: null,
+    error: 'Test error',
+  }),
 })
 
 /**
@@ -109,9 +113,9 @@ const STATIC_MOCK_DATA = Object.freeze({
  */
 export const lightweightSupabaseClient = Object.freeze({
   auth: Object.freeze({
-    getUser: vi.fn().mockResolvedValue({ 
-      data: { user: STATIC_MOCK_DATA.user }, 
-      error: null 
+    getUser: vi.fn().mockResolvedValue({
+      data: { user: STATIC_MOCK_DATA.user },
+      error: null,
     }),
     getSession: vi.fn().mockResolvedValue({
       data: { session: { user: STATIC_MOCK_DATA.user } },
@@ -172,23 +176,27 @@ export const lightweightLocation = Object.freeze({
 /**
  * Lightweight hook mocks with static returns
  */
-export const lightweightUseQuery = vi.fn().mockReturnValue(Object.freeze({
-  data: undefined,
-  error: null,
-  isLoading: false,
-  isError: false,
-  isSuccess: true,
-}))
+export const lightweightUseQuery = vi.fn().mockReturnValue(
+  Object.freeze({
+    data: undefined,
+    error: null,
+    isLoading: false,
+    isError: false,
+    isSuccess: true,
+  }),
+)
 
-export const lightweightUseMutation = vi.fn().mockReturnValue(Object.freeze({
-  mutate: vi.fn(),
-  mutateAsync: vi.fn(),
-  isLoading: false,
-  isError: false,
-  isSuccess: false,
-  error: null,
-  data: undefined,
-}))
+export const lightweightUseMutation = vi.fn().mockReturnValue(
+  Object.freeze({
+    mutate: vi.fn(),
+    mutateAsync: vi.fn(),
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    error: null,
+    data: undefined,
+  }),
+)
 
 /**
  * Lightweight context mocks
@@ -278,31 +286,31 @@ export const createSimpleNote = (id = 1) => ({
 /**
  * Minimal collections for testing
  */
-export const getSimpleStudents = (count = 3) => 
+export const getSimpleStudents = (count = 3) =>
   Array.from({ length: count }, (_, i) => createSimpleStudent(i + 1))
 
-export const getSimpleGroups = (count = 2) => 
+export const getSimpleGroups = (count = 2) =>
   Array.from({ length: count }, (_, i) => createSimpleGroup(i + 1))
 
-export const getSimpleLessons = (count = 5) => 
+export const getSimpleLessons = (count = 5) =>
   Array.from({ length: count }, (_, i) => createSimpleLesson(i + 1))
 
-export const getSimpleNotes = (count = 4) => 
+export const getSimpleNotes = (count = 4) =>
   Array.from({ length: count }, (_, i) => createSimpleNote(i + 1))
 
 /**
  * Lightweight API response generators
  */
-export const createSimpleSuccess = <T>(data: T) => ({ 
-  data, 
-  error: null, 
-  status: 200 
+export const createSimpleSuccess = <T>(data: T) => ({
+  data,
+  error: null,
+  status: 200,
 })
 
-export const createSimpleError = (message = 'Test error') => ({ 
-  data: null, 
-  error: message, 
-  status: 400 
+export const createSimpleError = (message = 'Test error') => ({
+  data: null,
+  error: message,
+  status: 400,
 })
 
 export const createSimpleQuery = <T>(data: T, loading = false) => ({
@@ -328,7 +336,7 @@ export const lightweightMockConfigs = Object.freeze({
   minimalQueryClient: Object.freeze({
     retry: false,
     gcTime: 0,
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -375,17 +383,22 @@ export const lightweightMockBundles = Object.freeze({
 /**
  * Performance helpers for lightweight mocks
  */
-export const measureLightweightAccess = <T>(accessor: () => T, iterations = 1000): T => {
+export const measureLightweightAccess = <T>(
+  accessor: () => T,
+  iterations = 1000,
+): T => {
   const start = performance.now()
   let result: T
-  
+
   for (let i = 0; i < iterations; i++) {
     result = accessor()
   }
-  
+
   const end = performance.now()
-  console.log(`🏃‍♂️ Lightweight access (${iterations}x): ${(end - start).toFixed(2)}ms`)
-  
+  console.log(
+    `🏃‍♂️ Lightweight access (${iterations}x): ${(end - start).toFixed(2)}ms`,
+  )
+
   return result!
 }
 
@@ -395,10 +408,10 @@ export const measureLightweightAccess = <T>(accessor: () => T, iterations = 1000
 export const generateBulkStaticData = <T>(
   template: T,
   count: number,
-  modifier?: (item: T, index: number) => Partial<T>
+  modifier?: (item: T, index: number) => Partial<T>,
 ): T[] => {
   const result: T[] = []
-  
+
   for (let i = 0; i < count; i++) {
     if (modifier) {
       result.push({ ...template, ...modifier(template, i) })
@@ -406,7 +419,7 @@ export const generateBulkStaticData = <T>(
       result.push(template)
     }
   }
-  
+
   return result
 }
 
@@ -474,17 +487,21 @@ export function setupLightweightMocks() {
  */
 export function compareLightweightPerformance() {
   console.log('\n⚡ Lightweight Mock Performance Comparison:')
-  
+
   // Test static data access
   const staticResult = measureLightweightAccess(getStaticUser, 10000)
-  
+
   // Test simple creation
   const creationStart = performance.now()
   for (let i = 0; i < 1000; i++) {
     createSimpleStudent(i)
   }
   const creationEnd = performance.now()
-  
-  console.log(`🏗️  Simple creation (1000x): ${(creationEnd - creationStart).toFixed(2)}ms`)
-  console.log(`📦 Static data is ${typeof staticResult === 'object' ? 'ready' : 'invalid'}`)
+
+  console.log(
+    `🏗️  Simple creation (1000x): ${(creationEnd - creationStart).toFixed(2)}ms`,
+  )
+  console.log(
+    `📦 Static data is ${typeof staticResult === 'object' ? 'ready' : 'invalid'}`,
+  )
 }

@@ -1,19 +1,20 @@
-import { DataTable } from '@/components/ui/data-table'
-import useIsMobileDevice from '@/hooks/useIsMobileDevice'
-import type { LessonHolder } from '@/types/types'
 import {
   type FilterFn,
-  type RowSelectionState,
-  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  type RowSelectionState,
+  type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
+import { DataTable } from '@/components/ui/data-table'
+import useIsMobileDevice from '@/hooks/useIsMobileDevice'
+import type { LessonHolder } from '@/types/types'
 import { inactiveHoldersColumns } from './columns'
 import { inactiveHoldersColumnsMobile } from './columnsMobile'
 import InactiveHoldersControl from './control'
+
 type TInactiveHoldersTable = {
   inactiveHolders: Array<LessonHolder>
   isPending: boolean

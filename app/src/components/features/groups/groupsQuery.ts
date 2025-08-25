@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchGroupsApi } from '@/services/api/groups.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export default function useGroupsQuery() {
   const { user } = useUser()

@@ -1,6 +1,6 @@
-import Empty from '@/components/ui/Empty.component'
-import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import Empty from '@/components/ui/Empty.component'
 
 export default function NoStudents() {
   const navigate = useNavigate()

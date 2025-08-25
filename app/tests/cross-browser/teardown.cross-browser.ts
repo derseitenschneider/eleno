@@ -1,8 +1,8 @@
-import { test as teardown } from '@playwright/test'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import supabaseAdmin from '../utils/supabaseAdmin'
+import { test as teardown } from '@playwright/test'
 import { stripeClient } from '../utils/stripeClient'
+import supabaseAdmin from '../utils/supabaseAdmin'
 
 /**
  * Cross-browser test cleanup
@@ -10,8 +10,10 @@ import { stripeClient } from '../utils/stripeClient'
  * Uses CASCADE DELETE for efficient cleanup and Stripe test clock deletion
  */
 teardown('cleanup cross-browser test data', async ({ browser }) => {
-  console.log(`Cleaning up cross-browser tests for ${browser.browserType().name()}`)
-  
+  console.log(
+    `Cleaning up cross-browser tests for ${browser.browserType().name()}`,
+  )
+
   const authDir = './tests/cross-browser/.auth'
   const testDataPath = path.join(authDir, 'test-data.json')
 
@@ -39,7 +41,9 @@ teardown('cleanup cross-browser test data', async ({ browser }) => {
         if (userError) {
           console.error('Error deleting user:', userError.message)
         } else {
-          console.log('Deleted test user successfully (CASCADE handled all related data)')
+          console.log(
+            'Deleted test user successfully (CASCADE handled all related data)',
+          )
         }
       }
 
@@ -57,13 +61,13 @@ teardown('cleanup cross-browser test data', async ({ browser }) => {
       fs.rmSync(authDir, { recursive: true, force: true })
       console.log('Cleaned up auth directory')
     }
-    
+
     // Clean up any browser-specific temporary files
     const tempPaths = [
       './tests/cross-browser/temp',
       './tests/cross-browser/downloads',
     ]
-    
+
     tempPaths.forEach((tempPath) => {
       try {
         fs.rmSync(path.resolve(tempPath), { recursive: true, force: true })
@@ -71,10 +75,15 @@ teardown('cleanup cross-browser test data', async ({ browser }) => {
         // Ignore cleanup errors for non-existent paths
       }
     })
-    
-    console.log(`✅ Cross-browser cleanup complete for ${browser.browserType().name()}`)
+
+    console.log(
+      `✅ Cross-browser cleanup complete for ${browser.browserType().name()}`,
+    )
   } catch (error) {
-    console.error(`⚠️ Cross-browser cleanup warning for ${browser.browserType().name()}:`, error)
+    console.error(
+      `⚠️ Cross-browser cleanup warning for ${browser.browserType().name()}:`,
+      error,
+    )
     // Don't fail the build for cleanup issues
   }
 })

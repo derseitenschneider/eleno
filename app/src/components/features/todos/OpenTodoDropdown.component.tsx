@@ -1,3 +1,5 @@
+import { MoreVertical, Pencil } from 'lucide-react'
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -11,8 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreVertical, Pencil } from 'lucide-react'
-import { useState } from 'react'
 import UpdateTodo from './UpdateTodo.component'
 
 type OpenTodoDropdownProps = {

@@ -1,6 +1,6 @@
 /**
  * Mock Response Caching System
- * 
+ *
  * Provides intelligent caching for mock responses to reduce computation overhead
  * and improve test execution speed through:
  * - Response memoization with configurable TTL
@@ -9,7 +9,7 @@
  * - Cache hit rate monitoring
  */
 
-import { performance } from 'perf_hooks'
+import { performance } from 'node:perf_hooks'
 
 interface CacheEntry<T = any> {
   data: T
@@ -49,7 +49,7 @@ class MockResponseCache {
     averageComputationTime: 0,
     averageCacheTime: 0,
   }
-  
+
   private config: CacheConfig = {
     defaultTTL: 5 * 60 * 1000, // 5 minutes default
     maxEntries: 1000,
@@ -70,7 +70,7 @@ class MockResponseCache {
   async get<T>(
     key: string,
     factory: () => T | Promise<T>,
-    ttl?: number
+    ttl?: number,
   ): Promise<T> {
     const startTime = performance.now()
     this.metrics.totalRequests++
@@ -79,7 +79,7 @@ class MockResponseCache {
     const now = Date.now()
 
     // Check if cached entry is valid
-    if (entry && (now - entry.timestamp) < entry.ttl) {
+    if (entry && now - entry.timestamp < entry.ttl) {
       entry.hits++
       this.metrics.cacheHits++
       this.metrics.totalCacheTime += performance.now() - startTime
@@ -90,11 +90,11 @@ class MockResponseCache {
     // Cache miss - compute new value
     this.metrics.cacheMisses++
     const computeStart = performance.now()
-    
+
     try {
       const data = await factory()
       const computationTime = performance.now() - computeStart
-      
+
       // Store in cache
       this.cache.set(key, {
         data,
@@ -119,16 +119,20 @@ class MockResponseCache {
    * Generate cache key from request parameters
    */
   generateKey(endpoint: string, params?: Record<string, any>): string {
-    const paramString = params ? JSON.stringify(params, Object.keys(params).sort()) : ''
+    const paramString = params
+      ? JSON.stringify(params, Object.keys(params).sort())
+      : ''
     return `${endpoint}:${paramString}`
   }
 
   /**
    * Pre-warm cache with common responses
    */
-  async preWarm(entries: Array<{ key: string; factory: () => any; ttl?: number }>) {
-    const promises = entries.map(({ key, factory, ttl }) => 
-      this.get(key, factory, ttl)
+  async preWarm(
+    entries: Array<{ key: string; factory: () => any; ttl?: number }>,
+  ) {
+    const promises = entries.map(({ key, factory, ttl }) =>
+      this.get(key, factory, ttl),
     )
     await Promise.all(promises)
   }
@@ -155,7 +159,7 @@ class MockResponseCache {
    */
   invalidate(keys: string | string[]) {
     const keyArray = Array.isArray(keys) ? keys : [keys]
-    keyArray.forEach(key => this.cache.delete(key))
+    keyArray.forEach((key) => this.cache.delete(key))
   }
 
   /**
@@ -196,9 +200,11 @@ class MockResponseCache {
       memoryEstimateMB: (memoryEstimate / 1024 / 1024).toFixed(2),
       oldestEntry: Math.min(...entries.map(([, entry]) => entry.timestamp)),
       newestEntry: Math.max(...entries.map(([, entry]) => entry.timestamp)),
-      mostHitEntry: entries.reduce((max, [key, entry]) => 
-        entry.hits > max.hits ? { key, hits: entry.hits } : max, { key: '', hits: 0 }
-      )
+      mostHitEntry: entries.reduce(
+        (max, [key, entry]) =>
+          entry.hits > max.hits ? { key, hits: entry.hits } : max,
+        { key: '', hits: 0 },
+      ),
     }
   }
 
@@ -213,17 +219,20 @@ class MockResponseCache {
   }
 
   private updateMetrics() {
-    this.metrics.hitRate = this.metrics.totalRequests > 0 
-      ? (this.metrics.cacheHits / this.metrics.totalRequests) * 100 
-      : 0
-    
-    this.metrics.averageComputationTime = this.metrics.cacheMisses > 0 
-      ? this.metrics.totalComputationTime / this.metrics.cacheMisses 
-      : 0
-    
-    this.metrics.averageCacheTime = this.metrics.cacheHits > 0 
-      ? this.metrics.totalCacheTime / this.metrics.cacheHits 
-      : 0
+    this.metrics.hitRate =
+      this.metrics.totalRequests > 0
+        ? (this.metrics.cacheHits / this.metrics.totalRequests) * 100
+        : 0
+
+    this.metrics.averageComputationTime =
+      this.metrics.cacheMisses > 0
+        ? this.metrics.totalComputationTime / this.metrics.cacheMisses
+        : 0
+
+    this.metrics.averageCacheTime =
+      this.metrics.cacheHits > 0
+        ? this.metrics.totalCacheTime / this.metrics.cacheHits
+        : 0
   }
 
   private enforceMaxEntries() {
@@ -232,10 +241,13 @@ class MockResponseCache {
     // Remove oldest entries
     const entries = Array.from(this.cache.entries())
     entries.sort(([, a], [, b]) => a.timestamp - b.timestamp)
-    
+
     const entriesToRemove = this.cache.size - this.config.maxEntries
-    for (let i = 0; i < entriesToRemove; i++) {
-      this.cache.delete(entries[i][0])
+    for (let i = 0; i < entriesToRemove && i < entries.length; i++) {
+      const entry = entries[i]
+      if (entry) {
+        this.cache.delete(entry[0])
+      }
     }
   }
 
@@ -248,7 +260,7 @@ class MockResponseCache {
   private cleanupExpiredEntries() {
     const now = Date.now()
     for (const [key, entry] of this.cache) {
-      if ((now - entry.timestamp) > entry.ttl) {
+      if (now - entry.timestamp > entry.ttl) {
         this.cache.delete(key)
       }
     }
@@ -290,7 +302,7 @@ export const quickCache = new MockResponseCache({
 export function createCachedFactory<T>(
   cache: MockResponseCache,
   keyPrefix: string,
-  factory: (params?: any) => T
+  factory: (params?: any) => T,
 ) {
   return async (params?: any): Promise<T> => {
     const key = cache.generateKey(keyPrefix, params)
@@ -304,16 +316,16 @@ export function createCachedFactory<T>(
 export function cached(
   cache: MockResponseCache = mockCache,
   ttl?: number,
-  keyGenerator?: (...args: any[]) => string
+  keyGenerator?: (...args: any[]) => string,
 ) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {
-      const key = keyGenerator 
+      const key = keyGenerator
         ? keyGenerator(...args)
         : cache.generateKey(`${target.constructor.name}.${propertyKey}`, args)
-      
+
       return cache.get(key, () => originalMethod.apply(this, args), ttl)
     }
 
@@ -341,7 +353,7 @@ export function resetAllCaches() {
 // Print cache performance report
 export function printCacheReport() {
   console.log('\n📊 Mock Cache Performance Report:')
-  
+
   const caches = [
     { name: 'Global Cache', cache: mockCache },
     { name: 'Student Cache', cache: studentCache },
@@ -352,7 +364,7 @@ export function printCacheReport() {
   for (const { name, cache } of caches) {
     const metrics = cache.getMetrics()
     const info = cache.getCacheInfo()
-    
+
     if (metrics.totalRequests === 0) continue
 
     console.log(`\n  ${name}:`)
@@ -360,11 +372,17 @@ export function printCacheReport() {
     console.log(`    • Hit rate: ${metrics.hitRate.toFixed(1)}%`)
     console.log(`    • Cache entries: ${info.entryCount}`)
     console.log(`    • Memory usage: ${info.memoryEstimateMB}MB`)
-    console.log(`    • Avg computation time: ${metrics.averageComputationTime.toFixed(2)}ms`)
-    console.log(`    • Avg cache time: ${metrics.averageCacheTime.toFixed(2)}ms`)
-    
+    console.log(
+      `    • Avg computation time: ${metrics.averageComputationTime.toFixed(2)}ms`,
+    )
+    console.log(
+      `    • Avg cache time: ${metrics.averageCacheTime.toFixed(2)}ms`,
+    )
+
     if (info.mostHitEntry.hits > 0) {
-      console.log(`    • Most hit entry: ${info.mostHitEntry.key} (${info.mostHitEntry.hits} hits)`)
+      console.log(
+        `    • Most hit entry: ${info.mostHitEntry.key} (${info.mostHitEntry.hits} hits)`,
+      )
     }
   }
 }

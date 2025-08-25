@@ -1,18 +1,17 @@
-import { useUserLocale } from '@/services/context/UserLocaleContext'
-import type { Lesson } from '@/types/types'
 import {
   type FilterFn,
-  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-
+import { useState } from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { Lesson } from '@/types/types'
 import { allLessonsColumns } from './allLessonsColumns'
 import { allLessonsColumnsMobile } from './allLessonsColumnsMobile'
 import AllLessonsControl from './allLessonsControl.component'

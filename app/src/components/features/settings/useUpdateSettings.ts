@@ -1,7 +1,7 @@
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import { updateSettingsApi } from '@/services/api/settings.api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import { updateSettingsApi } from '@/services/api/settings.api'
 
 export function useUpdateSettings() {
   const queryClient = useQueryClient()

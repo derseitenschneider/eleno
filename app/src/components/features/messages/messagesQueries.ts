@@ -1,11 +1,11 @@
+import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { getMessagesApi } from '@/services/api/messages.api'
 import supabase from '@/services/api/supabase'
 import { useUser } from '@/services/context/UserContext'
 import type { Message } from '@/types/types'
-import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 // Test
 export default function useMessagesQuery() {

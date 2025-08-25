@@ -1,9 +1,9 @@
+import type { ColumnDef, SortingFn } from '@tanstack/react-table'
+import { ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Student } from '@/types/types'
 import { customDaySorting } from '@/utils/sortDayOfLesson'
-import type { ColumnDef, SortingFn } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
 import ActiveStudentRowDropdown from './rowDropdown'
 
 export const studentsColumns: ColumnDef<Student>[] = [

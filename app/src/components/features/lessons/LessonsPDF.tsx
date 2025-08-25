@@ -1,6 +1,6 @@
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
 import Html from 'react-pdf-html'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 import BaseLayoutPDF from '../pdf/BaseLayoutPDF.component'
 import TablePDF from '../pdf/TablePDF.component'
 

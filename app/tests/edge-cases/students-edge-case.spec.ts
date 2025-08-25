@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 /**
  * Edge-case visual regression tests for Students pages
@@ -10,21 +10,31 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     await page.addInitScript(() => {
       // Mock Date to return consistent date for tests
       const OriginalDate = Date
-      window.Date = class extends OriginalDate {
-        constructor(...args) {
+      const MockDate = class extends OriginalDate {
+        constructor(...args: any[]) {
           if (args.length === 0) {
             super('2025-08-13T10:00:00Z')
           } else {
-            super(...args)
+            super(...(args as [string | number | Date]))
           }
         }
         static now() {
-          return new Date('2025-08-13T10:00:00Z').getTime()
+          return new OriginalDate('2025-08-13T10:00:00Z').getTime()
         }
-      }
+      } as any
+
+      // Properly assign all Date static methods
+      Object.setPrototypeOf(MockDate, OriginalDate)
+      Object.getOwnPropertyNames(OriginalDate).forEach((name) => {
+        if (name !== 'prototype' && name !== 'name' && name !== 'length') {
+          ;(MockDate as any)[name] = (OriginalDate as any)[name]
+        }
+      })
+
+      window.Date = MockDate
       Object.setPrototypeOf(window.Date, OriginalDate)
       Object.setPrototypeOf(window.Date.prototype, OriginalDate.prototype)
-      
+
       // Set theme
       localStorage.setItem('theme', 'light')
       document.documentElement.classList.remove('dark-mode')
@@ -49,13 +59,15 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     await page.waitForLoadState('networkidle')
 
     // Wait for navigation to be rendered with correct active state
-    await page.waitForSelector('nav a[aria-current="page"]', {
-      state: 'attached',
-      timeout: 5000,
-    }).catch(() => {
-      // Navigation might not be present on all viewports, continue
-    })
-    
+    await page
+      .waitForSelector('nav a[aria-current="page"]', {
+        state: 'attached',
+        timeout: 5000,
+      })
+      .catch(() => {
+        // Navigation might not be present on all viewports, continue
+      })
+
     // Additional wait for any animations or lazy loading
     await page.waitForTimeout(1000)
 
@@ -112,15 +124,17 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
 
     // Wait for data to load
     await page.waitForLoadState('networkidle')
-    
+
     // Wait for navigation to be rendered with correct active state
-    await page.waitForSelector('nav a[aria-current="page"]', {
-      state: 'attached',
-      timeout: 5000,
-    }).catch(() => {
-      // Navigation might not be present on all viewports, continue
-    })
-    
+    await page
+      .waitForSelector('nav a[aria-current="page"]', {
+        state: 'attached',
+        timeout: 5000,
+      })
+      .catch(() => {
+        // Navigation might not be present on all viewports, continue
+      })
+
     await page.waitForTimeout(1000)
 
     // Log archive count for debugging (don't fail test on count)
@@ -168,15 +182,17 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
 
     // Wait for data
     await page.waitForLoadState('networkidle')
-    
+
     // Wait for navigation to be rendered with correct active state
-    await page.waitForSelector('nav a[aria-current="page"]', {
-      state: 'attached',
-      timeout: 5000,
-    }).catch(() => {
-      // Navigation might not be present on all viewports, continue
-    })
-    
+    await page
+      .waitForSelector('nav a[aria-current="page"]', {
+        state: 'attached',
+        timeout: 5000,
+      })
+      .catch(() => {
+        // Navigation might not be present on all viewports, continue
+      })
+
     await page.waitForTimeout(2000) // Give more time for groups to load
 
     // Take screenshot
@@ -199,15 +215,17 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     })
 
     await page.waitForLoadState('networkidle')
-    
+
     // Wait for navigation to be rendered with correct active state
-    await page.waitForSelector('nav a[aria-current=\"page\"]', {
-      state: 'attached',
-      timeout: 5000,
-    }).catch(() => {
-      // Navigation might not be present on all viewports, continue
-    })
-    
+    await page
+      .waitForSelector('nav a[aria-current=\"page\"]', {
+        state: 'attached',
+        timeout: 5000,
+      })
+      .catch(() => {
+        // Navigation might not be present on all viewports, continue
+      })
+
     await page.waitForTimeout(500)
 
     const viewport = page.viewportSize()
@@ -255,15 +273,17 @@ test.describe('Students Page - Edge Case Visual Regression', () => {
     await page.goto('/students')
 
     await page.waitForLoadState('networkidle')
-    
+
     // Wait for navigation to be rendered with correct active state
-    await page.waitForSelector('nav a[aria-current=\"page\"]', {
-      state: 'attached',
-      timeout: 5000,
-    }).catch(() => {
-      // Navigation might not be present on all viewports, continue
-    })
-    
+    await page
+      .waitForSelector('nav a[aria-current=\"page\"]', {
+        state: 'attached',
+        timeout: 5000,
+      })
+      .catch(() => {
+        // Navigation might not be present on all viewports, continue
+      })
+
     await page.waitForTimeout(500)
 
     const viewport = page.viewportSize()

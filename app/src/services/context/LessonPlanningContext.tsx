@@ -8,7 +8,9 @@ export const LessonPlanningContext = createContext<ContextTypeLessonPlanning>({
 
 export function LessonPlanningProvider({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode
+}) {
   const [selectedForUpdating, setSelectedForUpdating] = useState<Lesson | null>(
     null,
   )

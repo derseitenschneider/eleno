@@ -1,6 +1,6 @@
 /**
  * Optimized Test Setup with Performance Enhancements
- * 
+ *
  * This setup file integrates all mock performance improvements:
  * - Optimized MSW server with pre-computed responses
  * - Factory pooling and object reuse
@@ -14,14 +14,24 @@ import '@testing-library/jest-dom'
 import * as matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { afterAll, afterEach, beforeAll, expect, vi } from 'vitest'
-
+import {
+  clearFactoryPools,
+  resetFactoryStats,
+  warmupFactoryPools,
+} from './factories'
+import { cleanupAllCaches, resetAllCaches } from './mockCache'
+import {
+  resetLightweightMocks,
+  setupLightweightMocks,
+} from './mocks.lightweight'
 // Optimized implementations
 import { optimizedServer, preWarmMockCache, resetOptimizedServer } from './msw'
-import { warmupFactoryPools, clearFactoryPools, resetFactoryStats } from './factories'
+import {
+  resetAllPerformanceTracking,
+  startPerformanceMonitoring,
+  stopPerformanceMonitoring,
+} from './performance'
 import { cleanupAllTestUtils, resetRenderMetrics } from './testUtils'
-import { resetAllCaches, cleanupAllCaches } from './mockCache'
-import { resetAllPerformanceTracking, startPerformanceMonitoring, stopPerformanceMonitoring } from './performance'
-import { setupLightweightMocks, resetLightweightMocks } from './mocks.lightweight'
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers)
@@ -32,31 +42,26 @@ let isPerformanceMonitoringEnabled = false
 // Setup optimized MSW server
 beforeAll(async () => {
   console.log('🚀 Initializing optimized test environment...')
-  
+
   // Start performance monitoring if enabled
   if (process.env.VITEST_PERFORMANCE_MONITORING === 'true') {
     isPerformanceMonitoringEnabled = true
     startPerformanceMonitoring()
     console.log('📊 Performance monitoring enabled')
   }
-  
+
   // Setup optimized MSW server
-  optimizedServer.listen({ 
+  optimizedServer.listen({
     onUnhandledRequest: 'error',
-    // Reduce logging in test environment for better performance
-    quiet: process.env.NODE_ENV === 'test'
   })
-  
+
   // Pre-warm all caches and pools for better performance
   console.log('🔥 Pre-warming caches and pools...')
-  await Promise.all([
-    preWarmMockCache(),
-    warmupFactoryPools(),
-  ])
-  
+  await Promise.all([preWarmMockCache(), warmupFactoryPools()])
+
   // Setup global lightweight mocks
   setupLightweightMocks()
-  
+
   console.log('✅ Optimized test environment ready')
 })
 
@@ -64,19 +69,19 @@ beforeAll(async () => {
 afterEach(() => {
   // Reset MSW handlers but keep server running for performance
   optimizedServer.resetHandlers()
-  
+
   // Clean up React Testing Library
   cleanup()
-  
+
   // Reset lightweight mocks (very fast operation)
   resetLightweightMocks()
-  
+
   // Reset factory stats but keep pools warm
   resetFactoryStats()
-  
+
   // Reset render metrics
   resetRenderMetrics()
-  
+
   // Note: We don't clear caches or pools here for performance
   // They will be cleaned up in afterAll
 })
@@ -85,25 +90,25 @@ afterEach(() => {
 afterAll(async () => {
   // Stop MSW server
   optimizedServer.close()
-  
+
   // Stop performance monitoring
   if (isPerformanceMonitoringEnabled) {
     stopPerformanceMonitoring()
   }
-  
+
   // Clean up all optimized systems
   await Promise.all([
     cleanupAllTestUtils(),
     cleanupAllCaches(),
     clearFactoryPools(),
   ])
-  
+
   // Reset optimized server state
   resetOptimizedServer()
-  
+
   // Reset performance tracking
   resetAllPerformanceTracking()
-  
+
   console.log('🧹 Optimized test environment cleaned up')
 })
 
@@ -193,7 +198,7 @@ Object.defineProperty(window, 'scrollTo', {
 // to reduce I/O overhead (can be enabled via environment variable)
 if (process.env.VITEST_MOCK_CONSOLE === 'true') {
   const originalConsole = { ...console }
-  
+
   beforeAll(() => {
     Object.assign(console, {
       log: vi.fn(),
@@ -203,7 +208,7 @@ if (process.env.VITEST_MOCK_CONSOLE === 'true') {
       debug: vi.fn(),
     })
   })
-  
+
   afterAll(() => {
     Object.assign(console, originalConsole)
   })
@@ -214,52 +219,51 @@ if (process.env.VITEST_AGGRESSIVE_CLEANUP === 'true') {
   afterEach(() => {
     // Clear any remaining DOM elements
     document.body.innerHTML = ''
-    
+
     // Clear any remaining timers
     vi.clearAllTimers()
-    
+
     // Clear storage caches
     localStorageCache.clear()
     sessionStorageCache.clear()
   })
 }
 
-// Performance testing utilities for individual tests
-export {
-  startPerformanceMonitoring,
-  stopPerformanceMonitoring,
-  resetAllPerformanceTracking,
-  printPerformanceReport
-} from './performance'
-
-export {
-  mockCache,
-  studentCache,
-  lessonCache,
-  printCacheReport,
-  resetAllCaches
-} from './mockCache'
-
 export {
   getFactoryStats,
   printFactoryReport,
-  resetFactoryStats
+  resetFactoryStats,
 } from './factories'
+
+export {
+  lessonCache,
+  mockCache,
+  printCacheReport,
+  resetAllCaches,
+  studentCache,
+} from './mockCache'
+// Performance testing utilities for individual tests
+export {
+  printPerformanceReport,
+  resetAllPerformanceTracking,
+  startPerformanceMonitoring,
+  stopPerformanceMonitoring,
+} from './performance'
 
 export {
   getRenderMetrics,
   printRenderReport,
-  resetRenderMetrics
+  resetRenderMetrics,
 } from './testUtils'
 
 // Utility function to enable performance monitoring for specific tests
 export function withPerformanceMonitoring<T>(testFn: () => T): T {
   const wasEnabled = isPerformanceMonitoringEnabled
-  
+
   if (!wasEnabled) {
     startPerformanceMonitoring()
   }
-  
+
   try {
     return testFn()
   } finally {
@@ -273,27 +277,29 @@ export function withPerformanceMonitoring<T>(testFn: () => T): T {
 export async function benchmarkTest<T>(
   testFn: () => T | Promise<T>,
   testName: string,
-  iterations = 10
+  iterations = 10,
 ): Promise<{ result: T; averageTime: number; totalTime: number }> {
   const times: number[] = []
   let result: T
-  
+
   for (let i = 0; i < iterations; i++) {
     const start = performance.now()
     result = await testFn()
     const end = performance.now()
     times.push(end - start)
-    
+
     // Clean up between iterations
     cleanup()
     resetLightweightMocks()
   }
-  
+
   const totalTime = times.reduce((sum, time) => sum + time, 0)
   const averageTime = totalTime / iterations
-  
-  console.log(`⏱️  ${testName}: ${averageTime.toFixed(2)}ms avg (${iterations} iterations)`)
-  
+
+  console.log(
+    `⏱️  ${testName}: ${averageTime.toFixed(2)}ms avg (${iterations} iterations)`,
+  )
+
   return {
     result: result!,
     averageTime,
@@ -306,7 +312,8 @@ if (process.env.NODE_ENV === 'test') {
   // Reduce promise scheduling overhead in test environment
   if (typeof queueMicrotask !== 'undefined') {
     const originalQueueMicrotask = queueMicrotask
-    queueMicrotask = (callback: () => void) => {
+    // Use globalThis to safely override queueMicrotask in test environment
+    ;(globalThis as any).queueMicrotask = (callback: () => void) => {
       // In tests, execute microtasks synchronously for better performance
       if (process.env.VITEST_SYNC_MICROTASKS === 'true') {
         callback()

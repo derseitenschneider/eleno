@@ -1,3 +1,5 @@
+import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import {
   DrawerOrDialog,
   DrawerOrDialogContent,
@@ -12,12 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
-import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
-import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
 import { useLatestLessons } from './lessonsQueries'
+import EditLesson from './UpdateLesson.component'
 
 type PreviousLessonDropDownProps = {
   lessonId: number

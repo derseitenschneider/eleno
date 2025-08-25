@@ -1,3 +1,6 @@
+import { Search, Users } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,9 +20,6 @@ import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import type { LessonHolder } from '@/types/types'
 import getNewestLessonYear from '@/utils/getNewestLessonYear'
-import { Search, Users } from 'lucide-react'
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useLatestLessons } from '../lessons/lessonsQueries'
 
 export default function SearchStudentCombobox() {

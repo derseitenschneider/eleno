@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Compatibility: Browser Features', () => {
   test.beforeEach(async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe('Compatibility: Browser Features', () => {
 
         // Modern JS features
         promises: typeof Promise !== 'undefined',
-        asyncAwait: typeof (async function() { })().then === 'function',
+        asyncAwait: typeof (async () => {})().then === 'function',
         arrow: (() => true)() === true,
         destructuring: (() => {
           const [a] = [1]
@@ -153,37 +153,39 @@ test.describe('Compatibility: Browser Features', () => {
     console.log(`Testing event handling in ${browserName}`)
 
     // Test basic click events
-    const clickTest = await page.evaluate(() => {
-      return new Promise((resolve) => {
-        const button = document.createElement('button')
-        button.textContent = 'Test Button'
-        button.id = 'test-event-button'
-        document.body.appendChild(button)
+    const clickTest = await page.evaluate(
+      (): Promise<{ clickWorked: boolean; touchEventsSupported: boolean }> => {
+        return new Promise((resolve) => {
+          const button = document.createElement('button')
+          button.textContent = 'Test Button'
+          button.id = 'test-event-button'
+          document.body.appendChild(button)
 
-        let clickFired = false
-        button.addEventListener('click', () => {
-          clickFired = true
+          let clickFired = false
+          button.addEventListener('click', () => {
+            clickFired = true
+          })
+
+          button.click()
+
+          // Test touch events if available
+          let touchSupported = false
+          try {
+            const touchEvent = new TouchEvent('touchstart')
+            touchSupported = touchEvent instanceof TouchEvent
+          } catch (e) {
+            // Touch events not supported
+          }
+
+          document.body.removeChild(button)
+
+          resolve({
+            clickWorked: clickFired,
+            touchEventsSupported: touchSupported,
+          })
         })
-
-        button.click()
-
-        // Test touch events if available
-        let touchSupported = false
-        try {
-          const touchEvent = new TouchEvent('touchstart')
-          touchSupported = touchEvent instanceof TouchEvent
-        } catch (e) {
-          // Touch events not supported
-        }
-
-        document.body.removeChild(button)
-
-        resolve({
-          clickWorked: clickFired,
-          touchEventsSupported: touchSupported,
-        })
-      })
-    })
+      },
+    )
 
     expect(clickTest.clickWorked).toBe(true)
     console.log(`Touch events supported: ${clickTest.touchEventsSupported}`)
@@ -212,7 +214,7 @@ test.describe('Compatibility: Browser Features', () => {
     const mediaQuerySupport = await page.evaluate(() => {
       const features = {
         mediaQueriesSupported: typeof window.matchMedia !== 'undefined',
-        currentMatches: {},
+        currentMatches: {} as Record<string, boolean>,
       }
 
       if (features.mediaQueriesSupported) {
@@ -261,7 +263,7 @@ test.describe('Compatibility: Browser Features', () => {
     }
 
     console.log(`✅ Media queries work correctly in ${browserName}`)
-    console.log(`Media query states:`, mediaQuerySupport.currentMatches)
+    console.log('Media query states:', mediaQuerySupport.currentMatches)
   })
 
   test('should handle form validation', async ({ page, browserName }) => {
@@ -281,6 +283,8 @@ test.describe('Compatibility: Browser Features', () => {
         htmlValidation: typeof emailInput.checkValidity !== 'undefined',
         requiredAttribute: emailInput.required === true,
         emailType: emailInput.type === 'email',
+        invalidEmailDetected: undefined as boolean | undefined,
+        validEmailAccepted: undefined as boolean | undefined,
       }
 
       // Test validation
@@ -341,7 +345,7 @@ test.describe('Compatibility: Browser Features', () => {
           sessionStorageWorks: false,
           localStorageAvailable: false,
           sessionStorageAvailable: false,
-          error: error.message,
+          error: error instanceof Error ? error.message : String(error),
         }
       }
     })

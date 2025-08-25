@@ -1,7 +1,3 @@
-import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
-import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import useFeatureFlag from '@/hooks/useFeatureFlag'
-import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import type {
   RealtimePostgresChangesPayload,
   RealtimePostgresUpdatePayload,
@@ -15,6 +11,10 @@ import {
   useMemo,
   useState,
 } from 'react'
+import useSubscriptionQuery from '@/components/features/subscription/subscriptionQuery'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
+import { getSubscriptionState } from '@/utils/getSubscriptionState'
 import type { ContextTypeSubscription, Subscription } from '../../types/types'
 import supabase from '../api/supabase'
 import { useUserLocale } from './UserLocaleContext'

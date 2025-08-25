@@ -1,8 +1,8 @@
 import {
+  expect,
   type Locator,
   type Page,
   type TestInfo,
-  expect,
 } from '@playwright/test'
 import { cleanupToasts } from '../utils/cleanupToasts'
 

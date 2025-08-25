@@ -1,5 +1,5 @@
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import parse from 'html-react-parser'
+import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { News } from '../../../../types/types'
 
 interface NewsItemProps {

@@ -1,3 +1,6 @@
+import { screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as lessonPlanningContextModule from '@/services/context/LessonPlanningContext'
 import * as useSubscriptionModule from '@/services/context/SubscriptionContext'
 import {
@@ -8,9 +11,6 @@ import {
 } from '@/test/factories'
 import { renderWithProviders } from '@/test/testUtils'
 import type { LessonHolder } from '@/types/types'
-import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as settingsQueryModule from '../../settings/settingsQuery'
 import * as lessonsQueriesModule from '../lessonsQueries'
 import * as useCreateLessonModule from '../useCreateLesson'
@@ -177,7 +177,9 @@ describe('CreatePlannedLessonForm', () => {
       // Component should not render any form elements when no current holder
       expect(screen.queryByTestId('lesson-content')).not.toBeInTheDocument()
       expect(screen.queryByTestId('homework')).not.toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: /speichern/i })).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /speichern/i }),
+      ).not.toBeInTheDocument()
     })
 
     it('returns null when no settings', () => {
@@ -189,7 +191,9 @@ describe('CreatePlannedLessonForm', () => {
       // Component should not render any form elements when no settings
       expect(screen.queryByTestId('lesson-content')).not.toBeInTheDocument()
       expect(screen.queryByTestId('homework')).not.toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: /speichern/i })).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /speichern/i }),
+      ).not.toBeInTheDocument()
     })
   })
 

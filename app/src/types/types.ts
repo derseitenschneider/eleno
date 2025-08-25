@@ -357,9 +357,10 @@ export type PartialRepertoireItem = Omit<
   RepertoireItem,
   'id' | 'user_id' | 'created_at'
 >
+
+import type { ColumnMeta, Row } from '@tanstack/react-table'
 import type { TSubscriptionPlan } from '@/services/context/SubscriptionContext'
 import type { TSubscriptionState } from '@/utils/getSubscriptionState'
-import type { ColumnMeta, Row } from '@tanstack/react-table'
 
 export type CustomColumnMeta<TData> = ColumnMeta<TData, unknown> & {
   colSpan?: (row: Row<TData>) => number

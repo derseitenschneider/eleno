@@ -1,5 +1,5 @@
-import type { Student } from '@/types/types'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { Student } from '@/types/types'
 import { StudentMobileDrawer } from './StudentMobileDrawer.component'
 
 export const studentsColumnsMobile: ColumnDef<Student>[] = [

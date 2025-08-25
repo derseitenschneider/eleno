@@ -1,5 +1,5 @@
-import { useSubscription } from '@/services/context/SubscriptionContext'
 import { BadgeCheckIcon, Building } from 'lucide-react'
+import { useSubscription } from '@/services/context/SubscriptionContext'
 
 export default function PlanRow() {
   const { plan, subscriptionState } = useSubscription()

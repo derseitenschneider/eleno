@@ -1,4 +1,9 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronLeftIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -10,14 +15,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { recoverPasswordSupabase } from '@/services/api/user.api'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeftIcon } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useSearchParams } from 'react-router-dom'
-import { z } from 'zod'
 import ResetSuccess from './ResetSuccess.component'
 import WrapperCard from './WrapperCard.component'
 

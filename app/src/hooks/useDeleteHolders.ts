@@ -1,8 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { useDeleteGroups } from '@/components/features/groups/useDeleteGroups'
 import { useDeleteStudents } from '@/components/features/students/useDeleteStudents'
 import type { Group, Student } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import useFetchErrorToast from './fetchErrorToast'
 
 export function useDeleteHolders(

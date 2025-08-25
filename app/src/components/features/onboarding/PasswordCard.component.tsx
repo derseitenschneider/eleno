@@ -1,5 +1,9 @@
-import Logo from '@/components/ui/Logo.component'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowRightIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -11,17 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import Logo from '@/components/ui/Logo.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
 import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 import supabase from '@/services/api/supabase'
 import { useUser } from '@/services/context/UserContext'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRightIcon } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
 
 const passwordSchema = z.object({
   password: z

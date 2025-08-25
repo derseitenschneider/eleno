@@ -1,3 +1,5 @@
+import { PencilIcon } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,8 +9,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import { PencilIcon } from 'lucide-react'
-import { useState } from 'react'
 import { CreateGroupDialogDrawer } from '../../groups/CreateGroupDialogDrawer.component'
 import UpdateGroup from '../../groups/UpdateGroup.component'
 

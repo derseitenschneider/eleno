@@ -1,5 +1,8 @@
-import Logo from '@/components/ui/Logo.component'
-import MiniLoader from '@/components/ui/MiniLoader.component'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowRightIcon } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -12,14 +15,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Logo from '@/components/ui/Logo.component'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { cn } from '@/lib/utils'
 import { updateFluentCRMContact } from '@/services/api/fluent-crm.api'
 import { useUser } from '@/services/context/UserContext'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRightIcon } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
 import { useUpdateProfileMeta } from '../user/useUpateProfileMeta'
 
 const profileSchema = z.object({

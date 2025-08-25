@@ -1,4 +1,8 @@
-import SearchBar from '@/components/ui/SearchBar.component'
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { FileDown, Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -6,12 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import SearchBar from '@/components/ui/SearchBar.component'
 import type { Group } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState } from '@tanstack/react-table'
-import { FileDown, Plus } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import { CreateGroupDialogDrawer } from '../CreateGroupDialogDrawer.component'
 import ExportGroupList from '../ExportGroupList.component'
 import { GroupsActionDropdown } from './actionDropdown'

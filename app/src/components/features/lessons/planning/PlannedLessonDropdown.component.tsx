@@ -1,4 +1,11 @@
 import {
+  BetweenHorizonalStart,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
+import { useState } from 'react'
+import {
   DrawerOrDialog,
   DrawerOrDialogContent,
   DrawerOrDialogHeader,
@@ -12,13 +19,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { usePlanLessons } from '@/services/context/LessonPlanningContext'
-import {
-  BetweenHorizonalStart,
-  MoreVertical,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
-import { useState } from 'react'
 import DeleteLesson from '../DeleteLesson.component'
 import { usePlannedLessonsQuery } from '../lessonsQueries'
 

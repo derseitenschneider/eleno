@@ -1,8 +1,8 @@
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import { test as setup } from '@playwright/test'
 import { loginUser } from '../utils/loginUser'
 import { TestUser } from '../utils/TestUser'
-import * as fs from 'node:fs'
-import * as path from 'node:path'
 
 /**
  * Setup authentication and test data for edge-case visual regression tests

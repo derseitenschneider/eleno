@@ -1,3 +1,6 @@
+import parse from 'html-react-parser'
+import { BetweenHorizonalStart } from 'lucide-react'
+import { toast } from 'sonner'
 import {
   Tooltip,
   TooltipContent,
@@ -10,9 +13,6 @@ import { usePlanLessons } from '@/services/context/LessonPlanningContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import parse from 'html-react-parser'
-import { BetweenHorizonalStart } from 'lucide-react'
-import { toast } from 'sonner'
 import useCurrentHolder from '../useCurrentHolder'
 import PrepareLessonDropDown from './PlannedLessonDropdown.component'
 

@@ -1,5 +1,5 @@
-import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Button } from '@/components/ui/button'
+import MiniLoader from '@/components/ui/MiniLoader.component'
 import { useDeleteNote } from './useDeleteNote'
 
 interface DeleteNoteProps {

@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchStudentsApi } from '@/services/api/students.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export default function useStudentsQuery() {
   const { user } = useUser()

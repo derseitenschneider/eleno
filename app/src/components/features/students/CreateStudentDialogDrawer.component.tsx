@@ -1,3 +1,5 @@
+import { ChevronLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -6,8 +8,6 @@ import {
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-import { Button } from '@/components/ui/button'
-import { ChevronLeft } from 'lucide-react'
 import CreateStudents from './CreateStudents.component'
 
 export type CreateStudentDialogDrawerProps = {

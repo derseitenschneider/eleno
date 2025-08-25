@@ -1,7 +1,7 @@
+import { Check } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Check } from 'lucide-react'
 import ButtonCheckoutMonthly from './buttons/ButtonCheckoutMonthly.component'
 import ButtonCheckoutYearly from './buttons/ButtonCheckoutYearly.component'
 import commonFeatures from './commonFeatures'

@@ -1,7 +1,7 @@
-import type { Message } from '@/types/types'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import type { Message } from '@/types/types'
 
 export function useMessageNotification(messages: Message[] | undefined) {
   const navigate = useNavigate()

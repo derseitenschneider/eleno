@@ -1,3 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query'
+import type { RowSelectionState } from '@tanstack/react-table'
+import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -13,10 +17,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { Group } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import type { RowSelectionState } from '@tanstack/react-table'
-import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
-import { useState } from 'react'
 import BulkExportLessons from '../../lessons/BulkExportLessons.component'
 import ResetGroups from '../ResetGroups.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'

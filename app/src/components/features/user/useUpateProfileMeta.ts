@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateUserMetaApi } from '@/services/api/user.api'
 import type { Profile } from '@/types/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export function useUpdateProfileMeta() {
   const fetchErrorToast = useFetchErrorToast()

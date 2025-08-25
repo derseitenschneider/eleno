@@ -1,6 +1,6 @@
 /**
  * Optimized Test Utilities with Provider Chain Optimization
- * 
+ *
  * This module provides high-performance test utilities that:
  * - Use memoized providers to avoid unnecessary re-renders
  * - Support selective provider rendering for lighter tests
@@ -34,47 +34,63 @@ let renderMetrics: RenderMetrics = {
 }
 
 // Provider component cache for reuse
-const providerCache = new Map<string, React.ComponentType<any>>()
+const providerCache = new Map<
+  string,
+  React.ComponentType<{ children: ReactNode }>
+>()
 
 // Optimized mock providers with memoization
-export const OptimizedMockUserLocaleProvider = memo(({ children }: { children: ReactNode }) => {
-  return <>{children}</>
-})
+export const OptimizedMockUserLocaleProvider = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
 OptimizedMockUserLocaleProvider.displayName = 'OptimizedMockUserLocaleProvider'
 
-export const OptimizedMockLoadingProvider = memo(({ children }: { children: ReactNode }) => {
-  return <>{children}</>
-})
+export const OptimizedMockLoadingProvider = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
 OptimizedMockLoadingProvider.displayName = 'OptimizedMockLoadingProvider'
 
-export const OptimizedMockAuthProvider = memo(({ children }: { children: ReactNode }) => {
-  return <>{children}</>
-})
+export const OptimizedMockAuthProvider = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
 OptimizedMockAuthProvider.displayName = 'OptimizedMockAuthProvider'
 
-export const OptimizedMockSubscriptionProvider = memo(({ 
-  children 
-}: { children: ReactNode }) => {
-  return <>{children}</>
-})
-OptimizedMockSubscriptionProvider.displayName = 'OptimizedMockSubscriptionProvider'
+export const OptimizedMockSubscriptionProvider = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
+OptimizedMockSubscriptionProvider.displayName =
+  'OptimizedMockSubscriptionProvider'
 
-export const OptimizedMockMainContext = memo(({ children }: { children: ReactNode }) => {
-  return <>{children}</>
-})
+export const OptimizedMockMainContext = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
 OptimizedMockMainContext.displayName = 'OptimizedMockMainContext'
 
-export const OptimizedMockDarkModeProvider = memo(({ children }: { children: ReactNode }) => {
-  return <>{children}</>
-})
+export const OptimizedMockDarkModeProvider = memo(
+  ({ children }: { children: ReactNode }) => {
+    return <>{children}</>
+  },
+)
 OptimizedMockDarkModeProvider.displayName = 'OptimizedMockDarkModeProvider'
 
 // Cached QueryClient instances with different configurations
 const queryClientCache = new Map<string, QueryClient>()
 
-function getOrCreateQueryClient(config?: 'fast' | 'standard' | 'minimal'): QueryClient {
+function getOrCreateQueryClient(
+  config?: 'fast' | 'standard' | 'minimal',
+): QueryClient {
   const cacheKey = config || 'standard'
-  
+
   if (queryClientCache.has(cacheKey)) {
     return queryClientCache.get(cacheKey)!
   }
@@ -99,14 +115,14 @@ function getOrCreateQueryClient(config?: 'fast' | 'standard' | 'minimal'): Query
         },
       })
       break
-    
+
     case 'minimal':
       queryClient = new QueryClient({
         defaultOptions: {
           queries: {
             retry: false,
             gcTime: 0,
-            staleTime: Infinity, // Never refetch in minimal mode
+            staleTime: Number.POSITIVE_INFINITY, // Never refetch in minimal mode
             refetchOnWindowFocus: false,
             refetchOnMount: false,
             refetchOnReconnect: false,
@@ -119,7 +135,7 @@ function getOrCreateQueryClient(config?: 'fast' | 'standard' | 'minimal'): Query
         },
       })
       break
-    
+
     default:
       queryClient = new QueryClient({
         defaultOptions: {
@@ -136,7 +152,7 @@ function getOrCreateQueryClient(config?: 'fast' | 'standard' | 'minimal'): Query
 
   queryClientCache.set(cacheKey, queryClient)
   renderMetrics.queryClientCreations++
-  
+
   return queryClient
 }
 
@@ -160,116 +176,144 @@ interface OptimizedTestProviderProps {
   config?: ProviderConfig
 }
 
-export const OptimizedTestProviders = memo(({
-  children,
-  initialEntries = ['/'],
-  queryClient: customQueryClient,
-  config = {},
-}: OptimizedTestProviderProps) => {
-  const {
-    queryClientMode = 'standard',
-    enableRouter = true,
-    enableAuth = true,
-    enableSubscription = true,
-    enableLoading = true,
-    enableDarkMode = true,
-    enableMainContext = true,
-    enableUserLocale = true,
-  } = config
-
-  const queryClient = useMemo(() => {
-    return customQueryClient || getOrCreateQueryClient(queryClientMode)
-  }, [customQueryClient, queryClientMode])
-
-  const wrappedChildren = useMemo(() => {
-    let content = children
-
-    // Apply providers in reverse order (innermost first)
-    if (enableDarkMode) {
-      content = <OptimizedMockDarkModeProvider>{content}</OptimizedMockDarkModeProvider>
-    }
-
-    if (enableMainContext) {
-      content = <OptimizedMockMainContext>{content}</OptimizedMockMainContext>
-    }
-
-    if (enableSubscription) {
-      content = <OptimizedMockSubscriptionProvider>{content}</OptimizedMockSubscriptionProvider>
-    }
-
-    if (enableAuth) {
-      content = <OptimizedMockAuthProvider>{content}</OptimizedMockAuthProvider>
-    }
-
-    if (enableLoading) {
-      content = <OptimizedMockLoadingProvider>{content}</OptimizedMockLoadingProvider>
-    }
-
-    if (enableUserLocale) {
-      content = <OptimizedMockUserLocaleProvider>{content}</OptimizedMockUserLocaleProvider>
-    }
-
-    // QueryClient provider (always needed if any providers are enabled)
-    content = <QueryClientProvider client={queryClient}>{content}</QueryClientProvider>
-
-    // Router provider (outer most)
-    if (enableRouter) {
-      content = <BrowserRouter>{content}</BrowserRouter>
-    }
-
-    return content
-  }, [
+export const OptimizedTestProviders = memo(
+  ({
     children,
-    queryClient,
-    enableRouter,
-    enableAuth,
-    enableSubscription,
-    enableLoading,
-    enableDarkMode,
-    enableMainContext,
-    enableUserLocale,
-  ])
+    initialEntries = ['/'],
+    queryClient: customQueryClient,
+    config = {},
+  }: OptimizedTestProviderProps) => {
+    const {
+      queryClientMode = 'standard',
+      enableRouter = true,
+      enableAuth = true,
+      enableSubscription = true,
+      enableLoading = true,
+      enableDarkMode = true,
+      enableMainContext = true,
+      enableUserLocale = true,
+    } = config
 
-  return <>{wrappedChildren}</>
-})
+    const queryClient = useMemo(() => {
+      return customQueryClient || getOrCreateQueryClient(queryClientMode)
+    }, [customQueryClient, queryClientMode])
+
+    const wrappedChildren = useMemo(() => {
+      let content = children
+
+      // Apply providers in reverse order (innermost first)
+      if (enableDarkMode) {
+        content = (
+          <OptimizedMockDarkModeProvider>
+            {content}
+          </OptimizedMockDarkModeProvider>
+        )
+      }
+
+      if (enableMainContext) {
+        content = <OptimizedMockMainContext>{content}</OptimizedMockMainContext>
+      }
+
+      if (enableSubscription) {
+        content = (
+          <OptimizedMockSubscriptionProvider>
+            {content}
+          </OptimizedMockSubscriptionProvider>
+        )
+      }
+
+      if (enableAuth) {
+        content = (
+          <OptimizedMockAuthProvider>{content}</OptimizedMockAuthProvider>
+        )
+      }
+
+      if (enableLoading) {
+        content = (
+          <OptimizedMockLoadingProvider>{content}</OptimizedMockLoadingProvider>
+        )
+      }
+
+      if (enableUserLocale) {
+        content = (
+          <OptimizedMockUserLocaleProvider>
+            {content}
+          </OptimizedMockUserLocaleProvider>
+        )
+      }
+
+      // QueryClient provider (always needed if any providers are enabled)
+      content = (
+        <QueryClientProvider client={queryClient}>
+          {content}
+        </QueryClientProvider>
+      )
+
+      // Router provider (outer most)
+      if (enableRouter) {
+        content = <BrowserRouter>{content}</BrowserRouter>
+      }
+
+      return content
+    }, [
+      children,
+      queryClient,
+      enableRouter,
+      enableAuth,
+      enableSubscription,
+      enableLoading,
+      enableDarkMode,
+      enableMainContext,
+      enableUserLocale,
+    ])
+
+    return <>{wrappedChildren}</>
+  },
+)
 OptimizedTestProviders.displayName = 'OptimizedTestProviders'
 
 // Standard test provider configurations
-export const FullTestProviders = memo(({ children, ...props }: OptimizedTestProviderProps) => (
-  <OptimizedTestProviders {...props}>{children}</OptimizedTestProviders>
-))
+export const FullTestProviders = memo(
+  ({ children, ...props }: OptimizedTestProviderProps) => (
+    <OptimizedTestProviders {...props}>{children}</OptimizedTestProviders>
+  ),
+)
 FullTestProviders.displayName = 'FullTestProviders'
 
-export const MinimalTestProviders = memo(({ children, ...props }: OptimizedTestProviderProps) => (
-  <OptimizedTestProviders
-    {...props}
-    config={{
-      queryClientMode: 'minimal',
-      enableAuth: false,
-      enableSubscription: false,
-      enableLoading: false,
-      enableDarkMode: false,
-      enableMainContext: false,
-      enableUserLocale: false,
-      ...props.config,
-    }}
-  >
-    {children}
-  </OptimizedTestProviders>
-))
+export const MinimalTestProviders = memo(
+  ({ children, ...props }: OptimizedTestProviderProps) => (
+    <OptimizedTestProviders
+      {...props}
+      config={{
+        queryClientMode: 'minimal',
+        enableAuth: false,
+        enableSubscription: false,
+        enableLoading: false,
+        enableDarkMode: false,
+        enableMainContext: false,
+        enableUserLocale: false,
+        ...props.config,
+      }}
+    >
+      {children}
+    </OptimizedTestProviders>
+  ),
+)
 MinimalTestProviders.displayName = 'MinimalTestProviders'
 
-export const FastTestProviders = memo(({ children, ...props }: OptimizedTestProviderProps) => (
-  <OptimizedTestProviders
-    {...props}
-    config={{
-      queryClientMode: 'fast',
-      ...props.config,
-    }}
-  >
-    {children}
-  </OptimizedTestProviders>
-))
+export const FastTestProviders = memo(
+  ({ children, ...props }: OptimizedTestProviderProps) => (
+    <OptimizedTestProviders
+      {...props}
+      config={{
+        queryClientMode: 'fast',
+        ...props.config,
+      }}
+    >
+      {children}
+    </OptimizedTestProviders>
+  ),
+)
 FastTestProviders.displayName = 'FastTestProviders'
 
 // Custom render options with performance tracking
@@ -301,7 +345,7 @@ export function renderWithProviders(
 
   // Don't cache providers when custom queryClient is provided
   let AllTheProviders: React.ComponentType<{ children: ReactNode }>
-  
+
   if (queryClient) {
     // Create a fresh provider wrapper for custom queryClient
     AllTheProviders = ({ children }: { children: ReactNode }) => {
@@ -329,10 +373,10 @@ export function renderWithProviders(
   } else {
     // Use caching for default queryClient
     const cacheKey = JSON.stringify({ config, hasWrapper: !!Wrapper })
-    
-    AllTheProviders = providerCache.get(cacheKey)
-    
-    if (!AllTheProviders) {
+
+    const cachedProvider = providerCache.get(cacheKey)
+
+    if (!cachedProvider) {
       AllTheProviders = ({ children }: { children: ReactNode }) => {
         if (Wrapper) {
           return (
@@ -357,6 +401,8 @@ export function renderWithProviders(
       }
 
       providerCache.set(cacheKey, AllTheProviders)
+    } else {
+      AllTheProviders = cachedProvider
     }
   }
 
@@ -366,7 +412,8 @@ export function renderWithProviders(
     const renderTime = performance.now() - startTime
     renderMetrics.renderCount++
     renderMetrics.totalRenderTime += renderTime
-    renderMetrics.averageRenderTime = renderMetrics.totalRenderTime / renderMetrics.renderCount
+    renderMetrics.averageRenderTime =
+      renderMetrics.totalRenderTime / renderMetrics.renderCount
   }
 
   return result
@@ -453,9 +500,15 @@ export function resetRenderMetrics() {
 export function printRenderReport() {
   console.log('\n🎭 Render Performance Report:')
   console.log(`  • Total renders: ${renderMetrics.renderCount}`)
-  console.log(`  • Average render time: ${renderMetrics.averageRenderTime.toFixed(2)}ms`)
-  console.log(`  • Total render time: ${renderMetrics.totalRenderTime.toFixed(2)}ms`)
-  console.log(`  • QueryClient instances created: ${renderMetrics.queryClientCreations}`)
+  console.log(
+    `  • Average render time: ${renderMetrics.averageRenderTime.toFixed(2)}ms`,
+  )
+  console.log(
+    `  • Total render time: ${renderMetrics.totalRenderTime.toFixed(2)}ms`,
+  )
+  console.log(
+    `  • QueryClient instances created: ${renderMetrics.queryClientCreations}`,
+  )
   console.log(`  • Provider cache entries: ${providerCache.size}`)
   console.log(`  • QueryClient cache entries: ${queryClientCache.size}`)
 }
@@ -465,17 +518,17 @@ export function printRenderReport() {
  */
 export function withRenderTiming<T extends (...args: any[]) => any>(
   renderFn: T,
-  label?: string
+  label?: string,
 ): T {
   return ((...args: any[]) => {
     const start = performance.now()
     const result = renderFn(...args)
     const end = performance.now()
-    
+
     if (label) {
       console.log(`⏱️  ${label}: ${(end - start).toFixed(2)}ms`)
     }
-    
+
     return result
   }) as T
 }
@@ -507,7 +560,7 @@ export function cleanupAllTestUtils() {
 export async function batchRender(
   renderFn: () => void,
   iterations: number,
-  batchSize = 10
+  batchSize = 10,
 ): Promise<{ totalTime: number; averageTime: number; batchResults: number[] }> {
   const batchResults: number[] = []
   const totalStart = performance.now()
@@ -515,16 +568,16 @@ export async function batchRender(
   for (let i = 0; i < iterations; i += batchSize) {
     const batchStart = performance.now()
     const currentBatchSize = Math.min(batchSize, iterations - i)
-    
+
     for (let j = 0; j < currentBatchSize; j++) {
       renderFn()
     }
-    
+
     const batchTime = performance.now() - batchStart
     batchResults.push(batchTime)
-    
+
     // Yield control between batches
-    await new Promise(resolve => setTimeout(resolve, 0))
+    await new Promise((resolve) => setTimeout(resolve, 0))
   }
 
   const totalTime = performance.now() - totalStart

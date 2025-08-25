@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query'
 import { fetchRepertoireAPI } from '@/services/api/repertoire.api'
 import { useUser } from '@/services/context/UserContext'
-import { useQuery } from '@tanstack/react-query'
 
 export function useRepertoireQuery(holderId: number, holderType: 's' | 'g') {
   const { user } = useUser()

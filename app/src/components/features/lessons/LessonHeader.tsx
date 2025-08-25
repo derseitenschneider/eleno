@@ -1,5 +1,5 @@
+import { User, Users } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-
 import HolderDropdownLesson from '@/components/features/lessons/StudentDropdownLesson.component'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -8,7 +8,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { User, Users } from 'lucide-react'
 import { RepertoireNavButton } from '../repertoire/RepertoireNavButton.component'
 import useCurrentHolder from './useCurrentHolder'
 

@@ -1,9 +1,9 @@
+import { Info, XIcon } from 'lucide-react'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { HiCheck, HiOutlineClipboard, HiOutlineMail } from 'react-icons/hi'
 import { IoLogoWhatsapp } from 'react-icons/io5'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { SiThreema } from 'react-icons/si'
-
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -17,7 +17,6 @@ import { appConfig } from '@/config'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useShareHomework } from '@/hooks/useShareHomework'
 import { cn } from '@/lib/utils'
-import { Info, XIcon } from 'lucide-react'
 
 interface ShareHomeworkProps {
   lessonId: number

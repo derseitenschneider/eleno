@@ -134,7 +134,13 @@ export function generateCrossBrowserProjects(): Array<Project> {
         timeout: suite.timeout,
         retries: suite.retries,
         use: {
-          ...browserConfig,
+          browserName: browserConfig.browserName as any,
+          ...('channel' in browserConfig && browserConfig.channel
+            ? { channel: browserConfig.channel }
+            : {}),
+          ...('launchOptions' in browserConfig
+            ? { launchOptions: browserConfig.launchOptions }
+            : {}),
           // Common settings for all browsers
           storageState: './tests/cross-browser/.auth/user.json',
           actionTimeout: 15000,
@@ -143,9 +149,9 @@ export function generateCrossBrowserProjects(): Array<Project> {
           video: 'retain-on-failure',
           trace: 'retain-on-failure',
           // Browser-specific viewport if not mobile
-          ...(browserConfig.viewport || {
-            viewport: { width: 1440, height: 900 },
-          }),
+          ...('viewport' in browserConfig && browserConfig.viewport
+            ? { viewport: browserConfig.viewport }
+            : { viewport: { width: 1440, height: 900 } }),
         },
         metadata: {
           browser: browserConfig.browserName,
@@ -253,4 +259,3 @@ export const compatibilityMatrix = {
     javascript: ['chromium', 'chrome', 'firefox', 'webkit'],
   },
 }
-

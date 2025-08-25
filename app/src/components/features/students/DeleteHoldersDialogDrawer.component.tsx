@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query'
+import { X } from 'lucide-react'
 import {
   DrawerOrDialog,
   DrawerOrDialogClose,
@@ -8,8 +10,6 @@ import {
 } from '@/components/ui/DrawerOrDialog'
 import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import type { Group, Student } from '@/types/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { X } from 'lucide-react'
 import DeleteHolders from './DeleteHolders.component'
 
 export type DeleteHoldersDialogDrawerProps = {

@@ -1,5 +1,5 @@
-import type { RepertoireItem } from '@/types/types'
 import parse from 'html-react-parser'
+import { ChevronLeft, ChevronRight, PencilIcon, Trash2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
+import type { RepertoireItem } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
-import { ChevronLeft, ChevronRight, PencilIcon, Trash2 } from 'lucide-react'
 import { DeleteRepertoireItemDrawerDialog } from '../DeleteReperoireItemDeleteDrawerDialog.component'
 import { UpdateRepertoireItemDrawerDialog } from '../UpdateRepertoireItemDrawerDialog.component'
 

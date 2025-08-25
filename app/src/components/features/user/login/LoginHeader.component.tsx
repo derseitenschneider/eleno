@@ -1,5 +1,5 @@
-import LogoText from '@/components/ui/LogoText.component'
 import { Button } from '@/components/ui/button'
+import LogoText from '@/components/ui/LogoText.component'
 
 type LoginHeaderProps = {
   preText: string
