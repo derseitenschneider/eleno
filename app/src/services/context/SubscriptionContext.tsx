@@ -38,7 +38,9 @@ export type TSubscriptionPlan =
 
 export function SubscriptionProvider({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode
+}) {
   const queryClient = useQueryClient()
   const fetchErrorToast = useFetchErrorToast()
   const isPaymentFeatureEnabled = useFeatureFlag('stripe-payment')

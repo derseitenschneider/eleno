@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "css": {
     "formatter": {
       "enabled": false
@@ -22,13 +22,14 @@
     }
   },
   "files": {
-    "ignore": [
-      "coverage",
-      "playwright-report",
-      "test-results",
-      "node_modules",
-      "supabase/functions",
-      "src/scss/tailwind.css"
+    "includes": [
+      "**",
+      "!**/coverage",
+      "!**/playwright-report",
+      "!**/test-results",
+      "!**/node_modules",
+      "!**/supabase/functions",
+      "!**/src/scss/tailwind.css"
     ]
   },
   "linter": {
@@ -36,13 +37,30 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noConsoleLog": "warn"
+        "noConsole": { "level": "warn", "options": { "allow": [] } }
+      },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   },
   "overrides": [
     {
-      "include": ["tests/**/*", "src/test/**/*", "**/*.test.*", "**/*.spec.*"],
+      "includes": [
+        "**/tests/**/*",
+        "**/src/test/**/*",
+        "**/*.test.*",
+        "**/*.spec.*"
+      ],
       "linter": {
         "rules": {
           "suspicious": {

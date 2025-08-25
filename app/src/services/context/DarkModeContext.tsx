@@ -8,7 +8,7 @@ type TDarkModeContext = {
 
 const DarkModeContext = createContext<TDarkModeContext>({
   isDarkMode: false,
-  toggleDarkMode: () => {},
+  toggleDarkMode: () => { },
 })
 
 function DarkModeProvider({ children }: { children: React.ReactNode }) {

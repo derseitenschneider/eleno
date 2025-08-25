@@ -37,7 +37,6 @@ export default function Application() {
                         <AppHeader />
                         <Outlet />
                       </main>
-                      {/* <Sidebar /> */}
                     </SidebarProvider>
                     <NavbarMobile />
                     <NotificationManager />

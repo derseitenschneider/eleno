@@ -1,7 +1,6 @@
 import NavbarMobile from '@/layouts/navbarMobile/NavbarMobile.component'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Sidebar from '../layouts/sidebar/Sidebar2.component'
 
 export default function ErrorPage() {
   const [countdown, setCountdown] = useState(5)
@@ -23,7 +22,6 @@ export default function ErrorPage() {
 
   return (
     <>
-      <Sidebar />
       <NavbarMobile />
       <div className='mt-[20%] grid h-full w-full content-center text-center'>
         <h1 className='mb-4 font-bold'>Oops! Etwas ist schiefgelaufen</h1>

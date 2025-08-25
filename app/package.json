@@ -158,7 +158,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
-    "@biomejs/biome": "1.7.1",
+    "@biomejs/biome": "2.0.6",
     "@playwright/test": "^1.51.0",
     "@tanstack/react-query-devtools": "^5.49.2",
     "@testing-library/jest-dom": "^6.4.2",
