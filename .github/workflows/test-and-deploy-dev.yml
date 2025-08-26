@@ -174,7 +174,7 @@ jobs:
         run: npm ci
 
       - name: 📥 Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: ⏳ Wait for deployment to be ready
         run: |
@@ -182,22 +182,9 @@ jobs:
           sleep 30
           curl --retry 10 --retry-delay 5 --retry-all-errors -I https://dev.eleno.net
 
-      - name: 🎭 Run critical E2E tests
+      - name: 🎭 Run E2E tests
         id: e2e-tests
-        run: |
-          # Run share-homework test
-          npm run pw -- --project=share-homework
-          
-          # Run critical cross-browser tests
-          npm run pw -- \
-            --project=cross-browser-critical-chromium \
-            --project=cross-browser-critical-firefox \
-            --project=cross-browser-critical-webkit
-          
-          # Run select edge-case tests
-          npm run pw -- \
-            --project=edge-case-iphone-xr \
-            --project=edge-case-standard-laptop
+        run: npm run pw
         continue-on-error: true
 
       - name: 📤 Upload test results
