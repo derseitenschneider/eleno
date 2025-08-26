@@ -97,6 +97,17 @@ jobs:
     environment:
       name: production
       url: https://app.eleno.net
+    env:
+      VITE_API_URL: ${{ secrets.API_URL }}
+      VITE_APP_URL: ${{ secrets.APP_URL }}
+
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+      VITE_STRIPE_PRICE_ID_MONTHLY: ${{ secrets.STRIPE_PRICE_ID_MONTHLY }}
+      VITE_STRIPE_PRICE_ID_YEARLY: ${{ secrets.STRIPE_PRICE_ID_YEARLY }}
+      VITE_STRIPE_PRICE_ID_LIFETIME: ${{ secrets.STRIPE_PRICE_ID_LIFETIME }}
     
     steps:
       - name: 🚚 Checkout code
@@ -117,22 +128,14 @@ jobs:
         working-directory: ./app
         run: npm run build
 
-      - name: 📤 Deploy to Netlify Production
-        uses: nwtgck/actions-netlify@v3.0
+      - name: 📂 Sync files
+        id: deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          publish-dir: './app/dist'
-          production-branch: main
-          production-deploy: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Production deployment from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: false
-          enable-commit-status: true
-          overwrites-pull-request-comment: false
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PRODUCTION }}
-        timeout-minutes: 10
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: app/dist/
 
       - name: 📋 Deployment Summary
         run: |

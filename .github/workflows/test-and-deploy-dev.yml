@@ -142,6 +142,8 @@ jobs:
     needs: deploy-staging
     runs-on: ubuntu-latest
     continue-on-error: true # Don't block further development if tests fail
+    environment:
+      name: app.staging
     defaults:
       run:
         working-directory: ./app
@@ -151,6 +153,11 @@ jobs:
       VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
       VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
       VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+      
+      # Test environment variables needed for E2E test utilities
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
 
     steps:
       - name: 🚚 Checkout code
