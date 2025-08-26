@@ -333,3 +333,23 @@ export const PERFORMANCE_CONFIG = {
 } as const
 
 console.log('📦 Optimized test setup loaded successfully')
+
+// Polyfill for hasPointerCapture
+if (!('hasPointerCapture' in Element.prototype)) {
+  Element.prototype.hasPointerCapture = function (pointerId) {
+    return this.getPointerCapture(pointerId) !== undefined
+  }
+}
+
+if (!('releasePointerCapture' in Element.prototype)) {
+  Element.prototype.releasePointerCapture = function (pointerId) {
+    // No-op
+  }
+}
+
+if (!('setPointerCapture' in Element.prototype)) {
+  Element.prototype.setPointerCapture = function (pointerId) {
+    // No-op
+  }
+}
+

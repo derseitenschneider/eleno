@@ -120,7 +120,12 @@ export const fetchAllLessonsCSVApi = async ({
 }
 
 export const createLessonAPI = async (lesson: LessonPartial) => {
-  const { date } = lesson
+  const { date, lesson_type, absence_reason } = lesson
+
+  if (lesson_type === 'held' && absence_reason) {
+    lesson.absence_reason = null
+  }
+
   const utcDate = new Date(`${date.toDateString()} UTC`)
 
   const { data: newLesson, error: errorLesson } = await supabase
@@ -162,6 +167,12 @@ export const deleteLessonAPI = async (lessonId: number) => {
 export const updateLessonAPI = async (
   lesson: Lesson,
 ): Promise<LessonWithGroupId | LessonWithStudentId> => {
+  const { lesson_type, absence_reason } = lesson
+
+  if (lesson_type === 'held' && absence_reason) {
+    lesson.absence_reason = null
+  }
+
   const utcDate = new Date(`${lesson.date?.toDateString()} UTC`)
   const { data, error } = await supabase
     .from('lessons')

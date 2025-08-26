@@ -19,6 +19,20 @@ vi.mock('@/services/context/SubscriptionContext')
 vi.mock('./useCreateLesson')
 vi.mock('./useUpdateLesson')
 vi.mock('../settings/settingsQuery')
+vi.mock('./LessonStatusSelect.component', () => ({
+  LessonStatusSelect: ({ value, onChange, disabled }: any) => (
+    <select
+      data-testid="lesson-status-select"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      disabled={disabled}
+    >
+      <option value="held">Stattgefunden</option>
+      <option value="student_absent">Schüler abwesend</option>
+      <option value="teacher_absent">Lehrer abwesend</option>
+    </select>
+  ),
+}))
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),
@@ -121,6 +135,7 @@ describe('CreateLessonForm', () => {
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
       expect(screen.getByTestId('lesson-content')).toBeInTheDocument()
       expect(screen.getByTestId('homework')).toBeInTheDocument()
+      expect(screen.getByTestId('lesson-status-select')).toBeInTheDocument()
       expect(
         screen.getByRole('button', { name: 'Speichern' }),
       ).toBeInTheDocument()
@@ -199,6 +214,18 @@ describe('CreateLessonForm', () => {
 
       // Verify draft was updated
       expect(mockSetDrafts).toHaveBeenCalled()
+    })
+
+    it('should show absence reason field when lesson type is changed to absent', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<CreateLessonForm />)
+
+      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
+      await user.selectOptions(lessonStatusSelect, 'student_absent')
+
+      expect(screen.getByText('Abwesenheitsgrund')).toBeInTheDocument()
+      expect(screen.queryByText('Lektion')).not.toBeInTheDocument()
+      expect(screen.queryByText('Hausaufgaben')).not.toBeInTheDocument()
     })
   })
 
@@ -330,6 +357,17 @@ describe('CreateLessonForm', () => {
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       expect(saveButton).toBeEnabled()
     })
+
+    it('should disable save button when lesson is absent and reason is empty', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<CreateLessonForm />)
+
+      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
+      await user.selectOptions(lessonStatusSelect, 'student_absent')
+
+      const saveButton = screen.getByRole('button', { name: 'Speichern' })
+      expect(saveButton).toBeDisabled()
+    })
   })
 
   describe('Lesson Creation', () => {
@@ -392,6 +430,38 @@ describe('CreateLessonForm', () => {
         expect.any(Object),
       )
     })
+
+    it('should create an absent lesson with correct data', async () => {
+      const user = userEvent.setup()
+      const mockCreateLesson = vi.fn()
+      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
+        createLesson: mockCreateLesson,
+        isCreating: false,
+      })
+
+      renderWithProviders(<CreateLessonForm />)
+
+      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
+      await user.selectOptions(lessonStatusSelect, 'student_absent')
+
+      const absenceReasonInput = screen.getByPlaceholderText(
+        'Grund für die Abwesenheit...',
+      )
+      await user.type(absenceReasonInput, 'Student was sick')
+
+      const saveButton = screen.getByRole('button', { name: 'Speichern' })
+      await user.click(saveButton)
+
+      expect(mockCreateLesson).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lesson_type: 'student_absent',
+          absence_reason: 'Student was sick',
+          studentId: mockStudent.id,
+          status: 'documented',
+        }),
+        expect.any(Object),
+      )
+    })
   })
 
   describe('Planned Lesson Update', () => {
@@ -427,6 +497,53 @@ describe('CreateLessonForm', () => {
           status: 'documented',
           lessonContent: 'Planned lesson content',
           homework: 'Planned homework',
+        }),
+        expect.objectContaining({
+          onSuccess: expect.any(Function),
+        }),
+      )
+    })
+
+    it('should update a lesson to be an absent lesson', async () => {
+      const user = userEvent.setup()
+      const mockUpdateLesson = vi.fn()
+      const mockDraft = {
+        studentId: mockStudent.id,
+        lessonContent: 'Planned lesson content',
+        homework: 'Planned homework',
+        date: new Date('2023-12-01'),
+        status: 'prepared' as const,
+        id: 1,
+      }
+
+      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
+        drafts: [mockDraft],
+        setDrafts: vi.fn(),
+      })
+      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+        updateLesson: mockUpdateLesson,
+        isUpdating: false,
+      })
+
+      renderWithProviders(<CreateLessonForm />)
+
+      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
+      await user.selectOptions(lessonStatusSelect, 'teacher_absent')
+
+      const absenceReasonInput = screen.getByPlaceholderText(
+        'Grund für die Abwesenheit...',
+      )
+      await user.type(absenceReasonInput, 'Teacher was sick')
+
+      const saveButton = screen.getByRole('button', { name: 'Speichern' })
+      await user.click(saveButton)
+
+      expect(mockUpdateLesson).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: 1,
+          status: 'documented',
+          lesson_type: 'teacher_absent',
+          absence_reason: 'Teacher was sick',
         }),
         expect.objectContaining({
           onSuccess: expect.any(Function),

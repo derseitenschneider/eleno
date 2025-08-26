@@ -11,9 +11,11 @@ import type { Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import useSettingsQuery from '../settings/settingsQuery'
 import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
+import { LessonStatusSelect } from './LessonStatusSelect.component'
 import { useCreateLesson } from './useCreateLesson'
 import useCurrentHolder from './useCurrentHolder'
 import { useUpdateLesson } from './useUpdateLesson'
+import type { AbsenceType } from '@/types/types'
 
 export function CreateLessonForm() {
   const getInitialDate = () => {
@@ -29,9 +31,15 @@ export function CreateLessonForm() {
   const { currentLessonHolder } = useCurrentHolder()
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
+  const [lessonType, setLessonType] = useState<AbsenceType>('held')
+  const [absenceReason, setAbsenceReason] = useState('')
   const [error, setError] = useState('')
   const isDisabledSave =
-    isCreating || isUpdating || !hasAccess || (!lessonContent && !homework)
+    isCreating ||
+    isUpdating ||
+    !hasAccess ||
+    (lessonType === 'held' && !lessonContent && !homework) ||
+    (lessonType !== 'held' && !absenceReason)
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -44,10 +52,14 @@ export function CreateLessonForm() {
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
       setDate(currentDraft.date || getInitialDate())
+      setLessonType(currentDraft.lesson_type || 'held')
+      setAbsenceReason(currentDraft.absence_reason || '')
     } else {
       setLessonContent('')
       setHomework('')
       setDate(getInitialDate())
+      setLessonType('held')
+      setAbsenceReason('')
     }
   }, [drafts, typeField, currentLessonHolder?.holder.id])
 
@@ -69,13 +81,18 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, date: inputDate }
+            ? { ...draft, date: inputDate, lesson_type: lessonType, absence_reason: absenceReason }
             : draft,
         )
       }
       return [
         ...prev,
-        { [typeField]: currentLessonHolder?.holder.id, date: inputDate },
+        {
+          [typeField]: currentLessonHolder?.holder.id,
+          date: inputDate,
+          lesson_type: lessonType,
+          absence_reason: absenceReason,
+        },
       ]
     })
   }
@@ -90,7 +107,7 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, lessonContent: content, date }
+            ? { ...draft, lessonContent: content, date, lesson_type: lessonType, absence_reason: absenceReason }
             : draft,
         )
       }
@@ -100,6 +117,8 @@ export function CreateLessonForm() {
           [typeField]: currentLessonHolder?.holder.id,
           lessonContent: content,
           date,
+          lesson_type: lessonType,
+          absence_reason: absenceReason,
         },
       ]
     })
@@ -117,7 +136,7 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, homework: content, date }
+            ? { ...draft, homework: content, date, lesson_type: lessonType, absence_reason: absenceReason }
             : draft,
         )
       }
@@ -127,6 +146,64 @@ export function CreateLessonForm() {
           [typeField]: currentLessonHolder?.holder.id,
           homework: content,
           date,
+          lesson_type: lessonType,
+          absence_reason: absenceReason,
+        },
+      ]
+    })
+  }
+
+  function handleAbsenceReason(content: string) {
+    setError('')
+    setAbsenceReason(content)
+
+    setDrafts((prev) => {
+      if (
+        prev.some(
+          (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+        )
+      ) {
+        return prev.map((draft) =>
+          draft[typeField] === currentLessonHolder?.holder.id
+            ? { ...draft, absence_reason: content, date, lesson_type: lessonType }
+            : draft,
+        )
+      }
+      return [
+        ...prev,
+        {
+          [typeField]: currentLessonHolder?.holder.id,
+          absence_reason: content,
+          date,
+          lesson_type: lessonType,
+        },
+      ]
+    })
+  }
+
+  function handleLessonType(type: AbsenceType) {
+    setError('')
+    setLessonType(type)
+
+    setDrafts((prev) => {
+      if (
+        prev.some(
+          (draft) => draft[typeField] === currentLessonHolder?.holder.id,
+        )
+      ) {
+        return prev.map((draft) =>
+          draft[typeField] === currentLessonHolder?.holder.id
+            ? { ...draft, lesson_type: type, date, absence_reason: absenceReason }
+            : draft,
+        )
+      }
+      return [
+        ...prev,
+        {
+          [typeField]: currentLessonHolder?.holder.id,
+          lesson_type: type,
+          date,
+          absence_reason: absenceReason,
         },
       ]
     })
@@ -136,6 +213,8 @@ export function CreateLessonForm() {
     window.scrollTo(0, 0)
     setHomework('')
     setLessonContent('')
+    setAbsenceReason('')
+    setLessonType('held')
     setDrafts((prev) =>
       prev.filter(
         (draft) => draft[typeField] !== currentLessonHolder?.holder.id,
@@ -144,11 +223,15 @@ export function CreateLessonForm() {
   }
 
   function handleSave() {
-    if (!lessonContent && !homework) {
+    if (lessonType === 'held' && !lessonContent && !homework) {
       return setError(
         'Die Lektion benötigt mindestens Inhalt oder Hausaufgaben.',
       )
     }
+    if (lessonType !== 'held' && !absenceReason) {
+      return setError('Ein Grund für die Abwesenheit ist erforderlich.')
+    }
+
     if (!currentLessonHolder?.holder.id) return
     const fieldType = currentLessonHolder.type === 's' ? 'studentId' : 'groupId'
     const currentDraft = drafts.find((draft) => draft[fieldType])
@@ -161,6 +244,8 @@ export function CreateLessonForm() {
           lessonContent: removeHTMLAttributes(lessonContent),
           date,
           status: 'documented',
+          lesson_type: lessonType,
+          absence_reason: absenceReason,
           expiration_base: new Date().toISOString(),
         },
         {
@@ -180,6 +265,8 @@ export function CreateLessonForm() {
         date,
         expiration_base: new Date().toISOString(),
         status: 'documented',
+        lesson_type: lessonType,
+        absence_reason: absenceReason,
       },
       {
         onSuccess: resetFields,
@@ -195,6 +282,7 @@ export function CreateLessonForm() {
           <p>Datum</p>
           <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
         </div>
+        <LessonStatusSelect value={lessonType} onChange={handleLessonType} />
 
         <div>
           <ButtonPlannedLessonAvailable date={date} />
@@ -206,26 +294,41 @@ export function CreateLessonForm() {
           'grid min-[1148px]:grid-cols-2 gap-6',
         )}
       >
-        <div>
-          <p>Lektion</p>
-          <CustomEditor
-            key={`lessonContent-${currentLessonHolder.holder.id}`}
-            disabled={isCreating}
-            value={lessonContent}
-            onChange={handleLessonContent}
-            placeholder='Lektion...'
-          />
-        </div>
-        <div>
-          <p>Hausaufgaben</p>
-          <CustomEditor
-            key={`homework-${currentLessonHolder.holder.id}`}
-            disabled={isCreating}
-            value={homework}
-            onChange={handleHomework}
-            placeholder='Hausaufgaben...'
-          />
-        </div>
+        {lessonType === 'held' ? (
+          <>
+            <div>
+              <p>Lektion</p>
+              <CustomEditor
+                key={`lessonContent-${currentLessonHolder.holder.id}`}
+                disabled={isCreating}
+                value={lessonContent}
+                onChange={handleLessonContent}
+                placeholder='Lektion...'
+              />
+            </div>
+            <div>
+              <p>Hausaufgaben</p>
+              <CustomEditor
+                key={`homework-${currentLessonHolder.holder.id}`}
+                disabled={isCreating}
+                value={homework}
+                onChange={handleHomework}
+                placeholder='Hausaufgaben...'
+              />
+            </div>
+          </>
+        ) : (
+          <div className="min-[1148px]:col-span-2">
+            <p>Abwesenheitsgrund</p>
+            <CustomEditor
+              key={`absence-${currentLessonHolder.holder.id}`}
+              disabled={isCreating}
+              value={absenceReason}
+              onChange={handleAbsenceReason}
+              placeholder='Grund für die Abwesenheit...'
+            />
+          </div>
+        )}
       </div>
       <div className='flex justify-between gap-1'>
         {error !== '' && <p className='mt-2 text-sm text-warning'>{error}</p>}

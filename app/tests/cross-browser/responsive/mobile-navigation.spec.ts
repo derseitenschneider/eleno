@@ -52,7 +52,7 @@ test.describe('Responsive: Mobile Navigation', () => {
     console.log(`Testing touch interactions in ${browserName}`)
 
     // Test basic touch interaction on the page
-    await page.tap('body')
+    await page.click('body')
 
     // Test that the page is interactive on mobile
     const hasContent = await page
