@@ -1,6 +1,11 @@
+# ⚠️ ACTIVE WORKFLOW - MANUAL TRIGGER ONLY
+# This deploys the PHP API to production
+# Auto-deployment is intentionally disabled for safety
+# To deploy: Actions → This workflow → Run workflow
+#
 # Deploys the api server from [main] to production.
 # Deployment is blocked if tests fail.
-name: 🔌 [PRODUCTION] Deploy server on push main
+name: 🔌 [PRODUCTION] Deploy API server (MANUAL)
 on:
   # push:
   #   branches:

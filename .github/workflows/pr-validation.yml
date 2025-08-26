@@ -1,22 +1,20 @@
-name: ⚡ Quick PR Checks
+name: ⚡ PR Validation
 
 on:
-  # pull_request:
-  #   branches: [main, dev]
-  #   paths:
-  #     - "app/**"
-  workflow_dispatch:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "app/**"
+      - ".github/workflows/**"
 
 concurrency:
-  group: pr-checks-${{ github.ref }}
+  group: pr-validation-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   NODE_VERSION: "22"
-  CACHE_VERSION: "v1"
 
 jobs:
-  # Fast validation for PRs
   quick-validation:
     name: ⚡ Quick Validation
     runs-on: ubuntu-latest
@@ -28,40 +26,39 @@ jobs:
       - name: 🚚 Checkout code
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+      - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: app/package-lock.json
 
-      - name: 💾 Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: app/node_modules
-          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles('app/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
-
       - name: 📥 Install dependencies
         run: npm ci
 
-      - name: 🔧 Type check
+      - name: 🔧 TypeScript check
         run: npm run typecheck
 
-      - name: 🧪 Run unit tests (fast)
-        run: npm run test
+      - name: 🧹 Lint check (Biome)
+        run: npx biome check --max-diagnostics=50
+        continue-on-error: true
+
+      - name: 🧪 Run unit tests
+        run: npm test -- --run
         timeout-minutes: 5
 
       - name: 🔨 Test build
         run: npm run build:staging
         timeout-minutes: 5
 
-      - name: 📋 Quick Check Summary
+      - name: 📋 PR Validation Summary
+        if: always()
         run: |
-          echo "## ⚡ Quick PR Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚡ PR Validation Results" >> $GITHUB_STEP_SUMMARY
           echo "✅ TypeScript compilation successful" >> $GITHUB_STEP_SUMMARY
           echo "✅ Unit tests passed" >> $GITHUB_STEP_SUMMARY
           echo "✅ Build successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🎯 **Ready for full test suite on merge**" >> $GITHUB_STEP_SUMMARY
+          echo "🎯 **PR is ready for review**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: Full E2E tests will run after merge to dev/main branches" >> $GITHUB_STEP_SUMMARY

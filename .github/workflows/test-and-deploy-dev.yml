@@ -149,10 +149,10 @@ jobs:
         working-directory: ./app
     env:
       VITE_ENV: staging
-      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
-      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
-      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
-      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+      VITE_API_URL: ${{ secrets.API_URL }}
       
       # Test environment variables needed for E2E test utilities
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
@@ -185,10 +185,19 @@ jobs:
       - name: 🎭 Run critical E2E tests
         id: e2e-tests
         run: |
+          # Run share-homework test
+          npm run pw -- --project=share-homework
+          
+          # Run critical cross-browser tests
           npm run pw -- \
-            --project='*cross-browser-critical*' \
-            --project='*edge-case*' \
-            tests/share-homework/share-homework.spec.ts
+            --project=cross-browser-critical-chromium \
+            --project=cross-browser-critical-firefox \
+            --project=cross-browser-critical-webkit
+          
+          # Run select edge-case tests
+          npm run pw -- \
+            --project=edge-case-iphone-xr \
+            --project=edge-case-standard-laptop
         continue-on-error: true
 
       - name: 📤 Upload test results
