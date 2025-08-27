@@ -60,38 +60,45 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     },
   },
   {
-    accessorKey: 'lessonContent',
-    header: ({ column }) => {
-      return (
-        <Button
-          className='p-0'
-          variant='ghost'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Lektionsinhalt
-          <ArrowUpDown className='ml-1 size-3' />
-        </Button>
-      )
-    },
-    size: 45,
+    accessorKey: 'lessonDetails',
+    header: () => <span>Details</span>,
+    size: 90,
     minSize: 0,
     cell: ({ row }) => {
+      const lessonType = row.original.lesson_type
+      const absenceReason = row.original.absence_reason
+      const lessonContent = row.original.lessonContent
+      const homework = row.original.homework
+
       return (
-        <div className='has-list [&_*]:!text-foreground'>
-          {parse(removeHTMLAttributes(row.getValue('lessonContent') || ''))}
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: 'homework',
-    header: () => <span>Hausaufgaben</span>,
-    size: 45,
-    minSize: 0,
-    cell: ({ row }) => {
-      return (
-        <div className='![&>*]text-foreground has-list'>
-          {parse(removeHTMLAttributes(row.getValue('homework') || ''))}
+        <div className='h-full w-full p-2'>
+          {lessonType !== 'held' ? (
+            <div className='text-sm text-foreground'>
+              <p className='font-medium'>
+                {lessonType === 'student_absent'
+                  ? 'Schülerabsenz'
+                  : 'Lehrerabsenz'}
+              </p>
+              <p className='italic text-foreground/85'>
+                {absenceReason || '—'}
+              </p>
+            </div>
+          ) : (
+            <div className='grid gap-6 md:grid-cols-2'>
+              <div>
+                <p>Lektion</p>
+                <div className='has-list break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
+                  {parse(removeHTMLAttributes(lessonContent || '—'))}
+                </div>
+              </div>
+              <div>
+                <p>Hausaufgaben</p>
+                <div className='has-list break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
+                  {parse(removeHTMLAttributes(homework || '—'))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )
     },
@@ -130,13 +137,15 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
                   <span>Lektion bearbeiten</span>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem
-                  onClick={() => setOpenModal('SHARE')}
-                  className='flex items-center gap-2'
-                >
-                  <MessageSquareShare className='size-4 text-primary' />
-                  <span>Hausaufgaben teilen</span>
-                </DropdownMenuItem>
+                {row.original.lesson_type === 'held' && (
+                  <DropdownMenuItem
+                    onClick={() => setOpenModal('SHARE')}
+                    className='flex items-center gap-2'
+                  >
+                    <MessageSquareShare className='size-4 text-primary' />
+                    <span>Hausaufgaben teilen</span>
+                  </DropdownMenuItem>
+                )}
 
                 <DropdownMenuSeparator />
 
@@ -166,21 +175,23 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
             </DialogContent>
           </Dialog>
 
-          <Dialog open={openModal === 'SHARE'} onOpenChange={closeModal}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Hausaufgaben teilen</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className='hidden'>
-                Teile die Hausaufgaben
-              </DialogDescription>
-              {isExpired ? (
-                <HomeworkExpired currentLesson={row.original} />
-              ) : (
-                <ShareHomework lessonId={row.original.id} />
-              )}
-            </DialogContent>
-          </Dialog>
+          {row.original.lesson_type === 'held' && (
+            <Dialog open={openModal === 'SHARE'} onOpenChange={closeModal}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Hausaufgaben teilen</DialogTitle>
+                </DialogHeader>
+                <DialogDescription className='hidden'>
+                  Teile die Hausaufgaben
+                </DialogDescription>
+                {isExpired ? (
+                  <HomeworkExpired currentLesson={row.original} />
+                ) : (
+                  <ShareHomework lessonId={row.original.id} />
+                )}
+              </DialogContent>
+            </Dialog>
+          )}
 
           <Dialog open={openModal === 'DELETE'} onOpenChange={closeModal}>
             <DialogContent>

@@ -13,6 +13,8 @@ export type PDFProps = {
         homework: string | null
         date: string
         id: number
+        lesson_type: 'held' | 'student_absent' | 'teacher_absent'
+        absence_reason: string | null
       }>
     | undefined
 }
@@ -23,6 +25,12 @@ const styles = StyleSheet.create({
   },
   col2: { width: '47%', borderLeft: '1px solid #e2e8f0', padding: '8px 5px' },
   col3: { width: '47%', borderLeft: '1px solid #e2e8f0', padding: '8px 5px' },
+  warningBorder: {
+    borderLeft: '4px solid #F59E0B', // A solid orange border
+  },
+  warningBackground: { // New style for background
+    backgroundColor: 'rgba(245, 158, 11, 0.5)', // warning/50
+  },
 })
 const contentStyles = {
   li: {
@@ -48,24 +56,44 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
         <View key={lesson.id}>
           <TablePDF index={index}>
             <Text style={styles.col1}>{lesson.date}</Text>
-            <View style={styles.col2} wrap={false}>
-              <Html
-                stylesheet={contentStyles}
-                resetStyles
-                style={{ fontSize: '10px' }}
+            {lesson.lesson_type !== 'held' ? (
+              <View
+                style={[
+                  styles.col2,
+                  styles.col3,
+                  styles.warningBorder,
+                  { flexGrow: 1, borderLeftWidth: 0 }, // Span two columns, remove internal border
+                ]}
               >
-                {lesson.lessonContent || ''}
-              </Html>
-            </View>
-            <View style={styles.col3}>
-              <Html
-                resetStyles
-                stylesheet={contentStyles}
-                style={{ fontSize: '10px' }}
-              >
-                {lesson.homework || ''}
-              </Html>
-            </View>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {lesson.lesson_type === 'student_absent'
+                    ? 'Schülerabsenz'
+                    : 'Lehrerabsenz'}
+                </Text>
+                <Text>{lesson.absence_reason || '—'}</Text>
+              </View>
+            ) : (
+              <>
+                <View style={styles.col2} wrap={false}>
+                  <Html
+                    stylesheet={contentStyles}
+                    resetStyles
+                    style={{ fontSize: '10px' }}
+                  >
+                    {lesson.lessonContent || ''}
+                  </Html>
+                </View>
+                <View style={styles.col3}>
+                  <Html
+                    resetStyles
+                    stylesheet={contentStyles}
+                    style={{ fontSize: '10px' }}
+                  >
+                    {lesson.homework || ''}
+                  </Html>
+                </View>
+              </>
+            )}
           </TablePDF>
         </View>
       ))}

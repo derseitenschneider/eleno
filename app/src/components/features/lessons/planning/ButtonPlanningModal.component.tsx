@@ -57,7 +57,7 @@ export function ButtonPlanningModal() {
           </DrawerOrDialogClose>
           <DrawerOrDialogHeader>
             <DrawerOrDialogTitle>
-              Lektionen für {holderName} planen
+              Lektionsplanung {holderName}
             </DrawerOrDialogTitle>
           </DrawerOrDialogHeader>
           <DrawerOrDialogDescription className='hidden'>

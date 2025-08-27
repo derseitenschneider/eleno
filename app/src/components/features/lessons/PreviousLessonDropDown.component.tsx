@@ -49,10 +49,12 @@ export default function PreviousLessonDropDown({
             <Pencil className='mr-2 h-4 w-4 text-primary' />
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
-            <MessageSquareShare className='mr-2 size-4 text-primary' />
-            <span>Hausaufgaben teilen</span>
-          </DropdownMenuItem>
+          {currentLesson.lesson_type === 'held' && (
+            <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
+              <MessageSquareShare className='mr-2 size-4 text-primary' />
+              <span>Hausaufgaben teilen</span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setModalOpen('DELETE')}>
             <Trash2 className='mr-2 h-4 w-4 text-warning' />
@@ -73,17 +75,19 @@ export default function PreviousLessonDropDown({
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      <DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}>
-        <DrawerOrDialogContent>
-          <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Hausaufgaben teilen</DrawerOrDialogTitle>
-          </DrawerOrDialogHeader>
-          <DrawerOrDialogDescription className='hidden'>
-            Teile die Hausaufgaben mit deinen Schüler:innen
-          </DrawerOrDialogDescription>
-          <ShareHomework lessonId={currentLesson?.id} />
-        </DrawerOrDialogContent>
-      </DrawerOrDialog>
+      {currentLesson.lesson_type === 'held' && (
+        <DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}>
+          <DrawerOrDialogContent>
+            <DrawerOrDialogHeader>
+              <DrawerOrDialogTitle>Hausaufgaben teilen</DrawerOrDialogTitle>
+            </DrawerOrDialogHeader>
+            <DrawerOrDialogDescription className='hidden'>
+              Teile die Hausaufgaben mit deinen Schüler:innen
+            </DrawerOrDialogDescription>
+            <ShareHomework lessonId={currentLesson?.id} />
+          </DrawerOrDialogContent>
+        </DrawerOrDialog>
+      )}
 
       <DrawerOrDialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}>
         <DrawerOrDialogContent>

@@ -1,24 +1,24 @@
 # Progress Tracking - Absence Recording System
 
-**Last Updated**: 2025-08-26  
-**Current Phase**: Phase 3 - Frontend Implementation  
-**Overall Progress**: 62.5% (Phase 3 of 4 phases in progress)  
-**Days Elapsed**: 2 of 8 estimated implementation days  
+**Last Updated**: 2025-08-27
+**Current Phase**: Phase 4 - Testing & Polish
+**Overall Progress**: 87.5% (Phase 4 of 4 phases in progress)
+**Days Elapsed**: 3 of 8 estimated implementation days
 
 ## Current Status
 
-**📋 Phase 0: Planning & Specification** ✅ **COMPLETED**  
+**📋 Phase 0: Planning & Specification** ✅ **COMPLETED**
 - Specification creation: 100% complete
-- Technical design: 100% complete  
-- Implementation planning: 100% complete  
+- Technical design: 100% complete
+- Implementation planning: 100% complete
 - Ready to begin development
 
 ## Implementation Progress Overview
 
 ### Phase 1: Database Foundation (Days 1-2)
-**Status**: ✅ **COMPLETED**  
-**Progress**: 100% (Completed in 1 day)  
-**Completion Date**: 2025-08-26  
+**Status**: ✅ **COMPLETED**
+**Progress**: 100% (Completed in 1 day)
+**Completion Date**: 2025-08-26
 
 | Task | Status | Time Est. | Actual Time | Notes |
 |------|--------|-----------|-------------|-------|
@@ -29,9 +29,9 @@
 | Database Testing | ✅ Completed | 0.5 day | 0.1 hours | Migration verified successful, view tested |
 
 ### Phase 2: API Layer Development (Days 3-4)
-**Status**: ✅ **COMPLETED**  
-**Progress**: 100% (Completed in 1 hour)  
-**Completion Date**: 2025-08-26  
+**Status**: ✅ **COMPLETED**
+**Progress**: 100% (Completed in 1 hour)
+**Completion Date**: 2025-08-26
 
 | Task | Status | Time Est. | Actual Time | Notes |
 |------|--------|-----------|-------------|-------|
@@ -40,24 +40,24 @@
 | TanStack Query Hooks | ✅ Completed | 0.5 day | 0 hours | No changes needed |
 
 ### Phase 3: Frontend Implementation (Days 5-6)
-**Status**: 🟡 In Progress  
-**Progress**: 50% (1/2 days)  
-**Dependencies**: Phase 2 completion  
+**Status**: ✅ **COMPLETED**
+**Progress**: 100% (2/2 days)
+**Dependencies**: Phase 2 completion
 
 | Task | Status | Time Est. | Actual Time | Notes |
 |------|--------|-----------|-------------|-------|
 | LessonStatusSelect Component | ✅ Completed | 1 day | 0.5 day | Created and tested component. |
 | Form Integration | ✅ Completed | 0.5 day | 0.5 day | Integrated component and conditional rendering. |
-| Validation & UX | 🟡 In Progress | 0.5 day | - | Currently facing testing issues with Radix UI select component in JSDOM. |
+| Validation & UX | ✅ Completed | 0.5 day | 0.5 day | Replaced WYSIWYG with Textarea for absence reason. |
 
 ### Phase 4: Testing & Polish (Days 7-8)
-**Status**: ⏳ Pending  
-**Progress**: 0% (0/2 days)  
-**Dependencies**: Phase 3 completion  
+**Status**: 🟡 In Progress
+**Progress**: 0% (0/2 days)
+**Dependencies**: Phase 3 completion
 
 | Task | Status | Time Est. | Actual Time | Notes |
 |------|--------|-----------|-------------|-------|
-| Comprehensive Testing | ⏳ Pending | 1 day | - | Unit, integration, E2E tests |
+| Comprehensive Testing | 🟡 In Progress | 1 day | - | Unit, integration, E2E tests |
 | Accessibility & Performance | ⏳ Pending | 0.5 day | - | WCAG compliance, optimization |
 | Final Polish | ⏳ Pending | 0.5 day | - | Bug fixes, documentation |
 
@@ -65,9 +65,9 @@
 
 ### Specification Completeness ✅ 100%
 - [x] **Main Specification**: Complete requirements and architecture
-- [x] **Database Schema**: Detailed migration and type strategy  
+- [x] **Database Schema**: Detailed migration and type strategy
 - [x] **API Specification**: Complete API function and hook updates
-- [x] **Frontend Specification**: Comprehensive UI/UX implementation  
+- [x] **Frontend Specification**: Comprehensive UI/UX implementation
 - [x] **Test Specification**: Complete testing strategy
 - [x] **Implementation Plan**: Detailed 8-day roadmap
 - [x] **Progress Tracking**: Metrics and milestone system
@@ -96,15 +96,15 @@
 ## Success Criteria Progress
 
 ### Functional Requirements
-- [ ] **Database Migration**: ENUM type and columns added successfully
-- [ ] **Type Generation**: TypeScript types updated and verified
-- [ ] **API Validation**: Status-dependent validation logic implemented
-- [ ] **UI Components**: LessonStatusSelect component created and integrated
-- [ ] **Form Logic**: Conditional rendering based on lesson status
-- [ ] **Data Flow**: Complete absence recording workflow functional
+- [x] **Database Migration**: ENUM type and columns added successfully
+- [x] **Type Generation**: TypeScript types updated and verified
+- [x] **API Validation**: Status-dependent validation logic implemented
+- [x] **UI Components**: LessonStatusSelect component created and integrated
+- [x] **Form Logic**: Conditional rendering based on lesson status
+- [x] **Data Flow**: Complete absence recording workflow functional
 
 ### Technical Requirements
-- [ ] **Test Coverage**: >90% coverage for absence-related code
+- [ ] **Test Coverage**: >90% coverage for new absence-related code
 - [ ] **Performance**: No degradation in lesson creation/update performance
 - [ ] **Accessibility**: WCAG 2.1 AA compliance maintained
 - [ ] **Mobile Support**: Responsive design working on all devices
@@ -215,11 +215,20 @@
 
 ## Change Log
 
-### 2025-08-26
-- **Phase 3 In Progress**: Frontend implementation started.
-- **Component Created**: `LessonStatusSelect` component created and integrated.
-- **Form Updated**: `CreateLessonForm` updated with conditional rendering and new fields.
-- **Testing Issue**: Encountered testing issues with Radix UI select component in JSDOM.
+### 2025-08-27
+- **Phase 4 In Progress**: Corrected styling logic for LessonItem.component.tsx to ensure background and border colors are applied correctly. Reverted and re-implemented conditional Share Homework button.
+- **LessonItem Styling**: Updated conditional classes for border and background to use a more robust `cn` object syntax. Changed test colors to `bg-yellow-100` and `bg-red-100`.
+- **Share Homework Button**: Reverted previous removal. Now conditionally hidden based on `lesson_type === 'held'` in LessonItem.component.tsx and PreviousLessonDropDown.component.tsx.
+
+### 2025-08-27
+- **Phase 4 In Progress**: Started implementing visual indicators for non-held lessons in LessonItem. Removed Share Homework button.
+- **LessonItem Styling**: Implemented conditional background and border colors for student_absent (noteYellow/10, border-noteYellow) and teacher_absent (noteRed/10, border-noteRed).
+- **Share Homework Button**: Removed from LessonItem.component.tsx and PreviousLessonDropDown.component.tsx.
+
+### 2025-08-27
+- **Phase 3 Completed**: Frontend implementation for LessonStatusSelect styling and Textarea for absence reason.
+- **LessonStatusSelect**: Changed to kebab (MoreVertical) icon, no border, no dropdown indication, primary color.
+- **Absence Reason Input**: Replaced WYSIWYG (CustomEditor) with standard Textarea.
 
 ### 2025-08-26
 - **Phase 3 In Progress**: Frontend implementation started.
@@ -270,3 +279,5 @@ The Lesson Absence Recording System specification is complete and comprehensive.
 **Next Milestone**: Begin Phase 1 database migration and type generation
 
 **Confidence Level**: High - Comprehensive planning reduces implementation risk
+
+**Recommendation**: Proceed with Phase 1 development as outlined in the implementation plan.

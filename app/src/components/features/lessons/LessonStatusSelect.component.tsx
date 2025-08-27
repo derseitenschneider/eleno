@@ -1,4 +1,11 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from '@/components/ui/select'
+import { MoreVertical } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import type { AbsenceType } from '@/types/types'
 
 interface LessonStatusSelectProps {
@@ -7,17 +14,35 @@ interface LessonStatusSelectProps {
   disabled?: boolean
 }
 
-export function LessonStatusSelect({ value, onChange, disabled }: LessonStatusSelectProps) {
+export function LessonStatusSelect({
+  value,
+  onChange,
+  disabled,
+}: LessonStatusSelectProps) {
+  const isAbsent = value === 'student_absent' || value === 'teacher_absent'
+  const badgeText =
+    value === 'student_absent' ? 'Schülerabsenz' : 'Lehrerabsenz'
+
   return (
-    <Select onValueChange={onChange} value={value} disabled={disabled}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Status" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="held">Stattgefunden</SelectItem>
-        <SelectItem value="student_absent">Schüler abwesend</SelectItem>
-        <SelectItem value="teacher_absent">Lehrer abwesend</SelectItem>
-      </SelectContent>
-    </Select>
+    <div className='flex items-center gap-2'>
+      <Select onValueChange={onChange} value={value} disabled={disabled}>
+        <SelectTrigger
+          className='h-fit w-fit border-none bg-transparent p-0 shadow-none focus-visible:outline-none data-[state=open]:bg-transparent'
+          hideChevron
+        >
+          <MoreVertical className='h-4 w-4 text-primary' />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value='held'>Stattgefunden</SelectItem>
+          <SelectItem value='student_absent'>Schülerabsenz</SelectItem>
+          <SelectItem value='teacher_absent'>Lehrerabsenz</SelectItem>
+        </SelectContent>
+      </Select>
+      {isAbsent && (
+        <Badge variant={value === 'student_absent' ? 'destructive' : 'warning'}>
+          {badgeText}
+        </Badge>
+      )}
+    </div>
   )
 }

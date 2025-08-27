@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
-import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
@@ -56,22 +56,6 @@ vi.mock('../ExportLessons.component', () => ({
       <button onClick={onSuccess}>Mock Export Button</button>
     </div>
   ),
-}))
-
-// Mock DebouncedInput to remove debounce delay in tests
-vi.mock('@/components/ui/debounce-input.component', () => ({
-  DebouncedInput: ({ value, onChange, ...props }: any) => {
-    return (
-      <input
-        {...props}
-        value={value || ''}
-        onChange={(e) => {
-          // Immediately call onChange with the new value (no debounce)
-          onChange(e.target.value)
-        }}
-      />
-    )
-  },
 }))
 
 const mockUseAllLessonsPerYear = vi.hoisted(() => vi.fn())
@@ -274,9 +258,161 @@ describe('AllLessons Component', () => {
     })
   })
 
-  // Filtering and Search tests removed due to complex interaction between
-  // DebouncedInput debounce timing and TanStack Table filtering in test environment.
-  // The search functionality works correctly in the actual application.
+  describe('Filtering and Search', () => {
+    beforeEach(() => {
+      mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
+      mockLessonYears.mockReturnValue(createMockSuccessQueryResult([]))
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        }),
+      )
+
+      queryClient.setQueryData(
+        ['lesson-years', { holder: 's-1' }],
+        [{ entity_id: 1, years: [2024, 2023] }],
+      )
+    })
+
+    it('should filter lessons by search term in lesson content', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      // First verify all content is present
+      expect(screen.getByText('Scales and arpeggios practice')).toBeInTheDocument()
+      expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+      expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+
+      const searchInput = screen.getByPlaceholderText('suchen')
+      await user.clear(searchInput)
+      await user.type(searchInput, 'Chopin')
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+          expect(
+            screen.queryByText('Scales and arpeggios practice'),
+          ).not.toBeInTheDocument()
+          expect(
+            screen.queryByText('Bach invention study'),
+          ).not.toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+
+    it('should filter lessons by search term in homework', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      // First verify all content is present
+      expect(screen.getByText('Practice C major scale')).toBeInTheDocument()
+      expect(screen.getByText('Learn first page of Etude Op. 10 No. 1')).toBeInTheDocument()
+      expect(screen.getByText('Memorize Invention No. 1')).toBeInTheDocument()
+
+      const searchInput = screen.getByPlaceholderText('suchen')
+      await user.clear(searchInput)
+      await user.type(searchInput, 'scale')
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Practice C major scale')).toBeInTheDocument()
+          expect(
+            screen.queryByText('Learn first page of Etude Op. 10 No. 1'),
+          ).not.toBeInTheDocument()
+          expect(
+            screen.queryByText('Memorize Invention No. 1'),
+          ).not.toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+
+    it('should filter lessons by date', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      // First verify all content is present
+      expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+      expect(screen.getByText('Scales and arpeggios practice')).toBeInTheDocument()
+      expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+
+      const searchInput = screen.getByPlaceholderText('suchen')
+      await user.clear(searchInput)
+      await user.type(searchInput, '22.01')
+
+      await waitFor(
+        () => {
+          expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+          expect(
+            screen.queryByText('Scales and arpeggios practice'),
+          ).not.toBeInTheDocument()
+          expect(
+            screen.queryByText('Bach invention study'),
+          ).not.toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+
+    it('should show no results when search term does not match', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      // First verify all content is present
+      expect(screen.getByText('Scales and arpeggios practice')).toBeInTheDocument()
+
+      const searchInput = screen.getByPlaceholderText('suchen')
+      await user.clear(searchInput)
+      await user.type(searchInput, 'nonexistent')
+
+      await waitFor(
+        () => {
+          expect(
+            screen.getByText('Keine Lektionen vorhanden'),
+          ).toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+
+    it('should clear search filter', async () => {
+      const user = userEvent.setup()
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      // First verify all content is present
+      expect(screen.getByText('Scales and arpeggios practice')).toBeInTheDocument()
+      expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+      expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+
+      const searchInput = screen.getByPlaceholderText('suchen')
+
+      // Filter
+      await user.clear(searchInput)
+      await user.type(searchInput, 'Chopin')
+      await waitFor(
+        () => {
+          expect(
+            screen.queryByText('Scales and arpeggios practice'),
+          ).not.toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+
+      // Clear filter
+      await user.clear(searchInput)
+      await waitFor(
+        () => {
+          expect(
+            screen.getByText('Scales and arpeggios practice'),
+          ).toBeInTheDocument()
+          expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+          expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+  })
 
   describe('Year Selection', () => {
     beforeEach(() => {
@@ -389,9 +525,54 @@ describe('AllLessons Component', () => {
     })
   })
 
-  // Sorting functionality tests removed due to table header text variations
-  // between mobile and desktop views. Sorting functionality works correctly
-  // in the actual application.
+  describe('Sorting Functionality', () => {
+    beforeEach(() => {
+      mockCurrentHolder.mockReturnValue(defaultCurrentHolder)
+      mockLessonYears.mockReturnValue(createMockSuccessQueryResult([]))
+      mockAllLessons.mockReturnValue(
+        createMockSuccessQueryResult(mockLessons, {
+          isFetching: false,
+        }),
+      )
+
+      queryClient.setQueryData(
+        ['lesson-years', { holder: 's-1' }],
+        [{ entity_id: 1, years: [2024] }],
+      )
+    })
+
+    it('should allow sorting by date column', async () => {
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      const dateColumn = screen.getByText('Datum')
+      fireEvent.click(dateColumn)
+
+      // Just verify that the table content is still present after sorting
+      await waitFor(() => {
+        expect(
+          screen.getByText('Scales and arpeggios practice'),
+        ).toBeInTheDocument()
+        expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+        expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+      })
+    })
+
+    it('should allow sorting by lesson content column', async () => {
+      renderWithProviders(<AllLessons />, { queryClient })
+
+      const contentColumn = screen.getByText('Lektionsinhalt')
+      fireEvent.click(contentColumn)
+
+      // Just verify that the table content is still present after sorting
+      await waitFor(() => {
+        expect(
+          screen.getByText('Scales and arpeggios practice'),
+        ).toBeInTheDocument()
+        expect(screen.getByText('Chopin etude work')).toBeInTheDocument()
+        expect(screen.getByText('Bach invention study')).toBeInTheDocument()
+      })
+    })
+  })
 
   describe('Group Lessons Support', () => {
     const mockGroupData = createMockGroup({

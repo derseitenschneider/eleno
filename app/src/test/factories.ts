@@ -228,6 +228,8 @@ const baseTemplates = Object.freeze({
     studentId: 1,
     groupId: null,
     status: 'documented',
+    lesson_type: 'held',
+    absence_reason: null,
   }),
 
   note: Object.freeze({

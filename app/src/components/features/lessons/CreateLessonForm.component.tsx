@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button'
 import CustomEditor from '@/components/ui/CustomEditor.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
+import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { useDrafts } from '@/services/context/DraftsContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import type { Lesson } from '@/types/types'
+import type { AbsenceType, Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import useSettingsQuery from '../settings/settingsQuery'
-import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
 import { LessonStatusSelect } from './LessonStatusSelect.component'
+import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
 import { useCreateLesson } from './useCreateLesson'
 import useCurrentHolder from './useCurrentHolder'
 import { useUpdateLesson } from './useUpdateLesson'
-import type { AbsenceType } from '@/types/types'
 
 export function CreateLessonForm() {
   const getInitialDate = () => {
@@ -81,7 +81,12 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, date: inputDate, lesson_type: lessonType, absence_reason: absenceReason }
+            ? {
+              ...draft,
+              date: inputDate,
+              lesson_type: lessonType,
+              absence_reason: absenceReason,
+            }
             : draft,
         )
       }
@@ -107,7 +112,13 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, lessonContent: content, date, lesson_type: lessonType, absence_reason: absenceReason }
+            ? {
+              ...draft,
+              lessonContent: content,
+              date,
+              lesson_type: lessonType,
+              absence_reason: absenceReason,
+            }
             : draft,
         )
       }
@@ -136,7 +147,13 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, homework: content, date, lesson_type: lessonType, absence_reason: absenceReason }
+            ? {
+              ...draft,
+              homework: content,
+              date,
+              lesson_type: lessonType,
+              absence_reason: absenceReason,
+            }
             : draft,
         )
       }
@@ -165,7 +182,12 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, absence_reason: content, date, lesson_type: lessonType }
+            ? {
+              ...draft,
+              absence_reason: content,
+              date,
+              lesson_type: lessonType,
+            }
             : draft,
         )
       }
@@ -193,7 +215,12 @@ export function CreateLessonForm() {
       ) {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
-            ? { ...draft, lesson_type: type, date, absence_reason: absenceReason }
+            ? {
+              ...draft,
+              lesson_type: type,
+              date,
+              absence_reason: absenceReason,
+            }
             : draft,
         )
       }
@@ -277,16 +304,11 @@ export function CreateLessonForm() {
   if (!currentLessonHolder || !settings) return null
   return (
     <>
-      <div className='mb-3 items-center md:flex md:gap-2'>
-        <div className='flex items-center gap-2'>
-          <p>Datum</p>
-          <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
-        </div>
+      <div className='mb-3 flex items-center gap-2'>
+        <p>Datum</p>
+        <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
         <LessonStatusSelect value={lessonType} onChange={handleLessonType} />
-
-        <div>
-          <ButtonPlannedLessonAvailable date={date} />
-        </div>
+        <ButtonPlannedLessonAvailable date={date} />
       </div>
       <div
         className={cn(
@@ -318,13 +340,14 @@ export function CreateLessonForm() {
             </div>
           </>
         ) : (
-          <div className="min-[1148px]:col-span-2">
+          <div className='min-[1148px]:col-span-2'>
             <p>Abwesenheitsgrund</p>
-            <CustomEditor
+            <Textarea
+              autoFocus
               key={`absence-${currentLessonHolder.holder.id}`}
               disabled={isCreating}
               value={absenceReason}
-              onChange={handleAbsenceReason}
+              onChange={(e) => handleAbsenceReason(e.target.value)}
               placeholder='Grund für die Abwesenheit...'
             />
           </div>

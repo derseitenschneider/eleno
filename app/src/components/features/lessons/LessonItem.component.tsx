@@ -22,7 +22,12 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
   return (
     <div
       data-testid='lesson-item'
-      className='rounded-sm border border-hairline bg-background100 p-3'
+      className={cn('rounded-sm p-3', {
+        'border-t border-r border-b border-hairline border-l-4 border-l-warning/50 ':
+          lesson.lesson_type !== 'held',
+        'border border-hairline bg-background100':
+          lesson.lesson_type === 'held',
+      })}
     >
       {!isDisplayOnly && (
         <div className='flex items-start justify-between'>
@@ -37,7 +42,9 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
           <div className='flex items-center gap-6 md:gap-4'>
             {!isMobile ? (
               <>
-                <ButtonShareHomework lessonId={lesson.id} />
+                {lesson.lesson_type === 'held' && (
+                  <ButtonShareHomework lessonId={lesson.id} />
+                )}
                 <PreviousLessonDropDown lessonId={lesson.id} />
               </>
             ) : (
@@ -47,24 +54,39 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
         </div>
       )}
       <div className={cn('md:grid-cols-2 grid gap-6')}>
-        <div>
-          <p>Lektion</p>
-          <div
-            data-testid='lessons-prev-lesson'
-            className='break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
-          >
-            {parse(removeHTMLAttributes(lesson.lessonContent || '—'))}
+        {lesson.lesson_type === 'held' ? (
+          <>
+            <div>
+              <p>Lektion</p>
+              <div
+                data-testid='lessons-prev-lesson'
+                className='break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
+              >
+                {parse(removeHTMLAttributes(lesson.lessonContent || '—'))}
+              </div>
+            </div>
+            <div>
+              <p>Hausaufgaben</p>
+              <div
+                data-testid='lessons-prev-homework'
+                className='break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
+              >
+                {parse(removeHTMLAttributes(lesson.homework || '—'))}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className='min-[1148px]:col-span-2'>
+            <p className='font-medium'>
+              {lesson.lesson_type === 'student_absent'
+                ? 'Schülerabsenz'
+                : 'Lehrerabsenz'}
+            </p>
+            <div className='break-words text-sm italic text-foreground/85'>
+              {lesson.absence_reason || '—'}
+            </div>
           </div>
-        </div>
-        <div>
-          <p>Hausaufgaben</p>
-          <div
-            data-testid='lessons-prev-homework'
-            className='break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'
-          >
-            {parse(removeHTMLAttributes(lesson.homework || '—'))}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   )

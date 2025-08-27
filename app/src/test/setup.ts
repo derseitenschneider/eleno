@@ -334,6 +334,13 @@ export const PERFORMANCE_CONFIG = {
 
 console.log('📦 Optimized test setup loaded successfully')
 
+// Polyfill for getPointerCapture
+if (!('getPointerCapture' in Element.prototype)) {
+  Element.prototype.getPointerCapture = function (pointerId) {
+    return undefined
+  }
+}
+
 // Polyfill for hasPointerCapture
 if (!('hasPointerCapture' in Element.prototype)) {
   Element.prototype.hasPointerCapture = function (pointerId) {
@@ -349,6 +356,13 @@ if (!('releasePointerCapture' in Element.prototype)) {
 
 if (!('setPointerCapture' in Element.prototype)) {
   Element.prototype.setPointerCapture = function (pointerId) {
+    // No-op
+  }
+}
+
+// Polyfill for scrollIntoView
+if (!('scrollIntoView' in Element.prototype)) {
+  Element.prototype.scrollIntoView = function (options) {
     // No-op
   }
 }

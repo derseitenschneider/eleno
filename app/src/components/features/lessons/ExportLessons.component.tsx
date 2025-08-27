@@ -160,6 +160,8 @@ function ExportLessons({
           month: '2-digit',
           year: '2-digit',
         }),
+        lesson_type: lesson.lesson_type,
+        absence_reason: lesson.absence_reason,
       }))
 
       if (!allLessons) return
