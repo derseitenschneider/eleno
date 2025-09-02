@@ -7,7 +7,7 @@ import {
   Pencil,
   TableProperties,
 } from 'lucide-react'
-import { type MouseEvent, useState } from 'react'
+import { lazy, type MouseEvent, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,10 +24,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import ExportLessons from '../../lessons/ExportLessons.component'
+import ExportLessonsSkeleton from '../../lessons/ExportLessonsSkeleton.component'
 import CreateTodo from '../../todos/CreateTodo.component'
 import UpdateGroup from '../UpdateGroup.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
+
+const ExportLessons = lazy(
+  () => import('../../lessons/ExportLessons.component'),
+)
 
 type StudentRowDropdownProps = {
   groupId: number
@@ -173,11 +177,13 @@ export default function GroupRowDropdown({ groupId }: StudentRowDropdownProps) {
           <DialogDescription className='hidden'>
             Exportiere die Lektionsliste der Gruppe
           </DialogDescription>
-          <ExportLessons
-            onSuccess={closeModal}
-            holderId={groupId}
-            holderType='g'
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <ExportLessons
+              onSuccess={closeModal}
+              holderId={groupId}
+              holderType='g'
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </>

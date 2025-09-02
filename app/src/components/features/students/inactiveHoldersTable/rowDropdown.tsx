@@ -1,5 +1,5 @@
 import { FileDown, MoreVertical, Trash2, Undo2 } from 'lucide-react'
-import { type MouseEvent, useState } from 'react'
+import { lazy, type MouseEvent, Suspense, useState } from 'react'
 import { toast } from 'sonner'
 import { useReactivateGroups } from '@/components/features/groups/useReactivateGroups'
 import { Button } from '@/components/ui/button'
@@ -18,9 +18,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { LessonHolder } from '@/types/types'
-import ExportLessons from '../../lessons/ExportLessons.component'
+import ExportLessonsSkeleton from '../../lessons/ExportLessonsSkeleton.component'
 import { DeleteHoldersDialogDrawer } from '../DeleteHoldersDialogDrawer.component'
 import { useReactivateStudents } from '../useReactivateStudents'
+
+const ExportLessons = lazy(
+  () => import('../../lessons/ExportLessons.component'),
+)
 
 type StudentRowDropdownProps = {
   holder: LessonHolder
@@ -112,11 +116,13 @@ export default function InactiveStudentRowDropdown({
           <DialogDescription className='hidden'>
             Exportiere die Lektionsliste
           </DialogDescription>
-          <ExportLessons
-            onSuccess={closeModal}
-            holderId={holder.holder.id}
-            holderType={holder.type}
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <ExportLessons
+              onSuccess={closeModal}
+              holderId={holder.holder.id}
+              holderType={holder.type}
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
 

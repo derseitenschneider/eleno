@@ -145,7 +145,7 @@ export default function BulkExportLessons({
       URL.revokeObjectURL(csvUrl)
       document.body.removeChild(link)
       onSuccess()
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
@@ -156,7 +156,8 @@ export default function BulkExportLessons({
     try {
       setIsLoading(true)
 
-      const { pdf, LessonsPDF } = await import('../pdf')
+      const module = 'index'
+      const { pdf, LessonsPDF } = await import(`../pdf/${module}.ts`)
 
       const { data: allLessons } = await fetchAllLessons()
       if (!allLessons || allLessons.length === 0)
@@ -175,12 +176,7 @@ export default function BulkExportLessons({
 
       const allLessonsGrouped: Record<
         string,
-        Array<{
-          id: number
-          date: string
-          lessonContent: string | null
-          homework: string | null
-        }>
+        NonNullable<PDFProps['lessons']>
       > = {}
 
       for (const lesson of sanitizedLessons) {
@@ -237,7 +233,7 @@ export default function BulkExportLessons({
       window.URL.revokeObjectURL(dataURLPDF)
       document.body.removeChild(link)
       toast.success('Export abgeschlossen.')
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)

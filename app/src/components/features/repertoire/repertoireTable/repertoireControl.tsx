@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { FileDown } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,9 @@ import {
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { RepertoireItem } from '@/types/types'
 import useCurrentHolder from '../../lessons/useCurrentHolder'
-import ExportRepertoire from '../ExportRepertoire.component'
+import ExportRepertoireSkeleton from '../ExportRepertoireSkeleton.component'
+
+const ExportRepertoire = lazy(() => import('../ExportRepertoire.component'))
 
 type RepertoireControlProps = {
   globalFilter: string
@@ -73,7 +75,9 @@ export default function RepertoireControl({
           <DialogDescription className='hidden'>
             Exportiere die Repertoireliste.
           </DialogDescription>
-          <ExportRepertoire lessonHolder={currentLessonHolder} />
+          <Suspense fallback={<ExportRepertoireSkeleton />}>
+            <ExportRepertoire lessonHolder={currentLessonHolder} />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </div>

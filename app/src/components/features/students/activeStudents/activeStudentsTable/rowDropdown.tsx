@@ -8,7 +8,7 @@ import {
   TableProperties,
   Users,
 } from 'lucide-react'
-import { type MouseEvent, useState } from 'react'
+import { lazy, type MouseEvent, Suspense, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,13 +25,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { appConfig } from '@/config'
 import useNavigateToHolder from '@/hooks/useNavigateToHolder'
-import ExportLessons from '../../../lessons/ExportLessons.component'
+import ExportLessonsSkeleton from '../../../lessons/ExportLessonsSkeleton.component'
 import CreateTodo from '../../../todos/CreateTodo.component'
 import ConvertStudentToGroup from '../../ConvertStudentToGroup.component'
 import { UpdateStudentsDialogDrawer } from '../../UpdateStudentDialogDrawer.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
+
+const ExportLessons = lazy(
+  () => import('../../../lessons/ExportLessons.component'),
+)
 
 type StudentRowDropdownProps = {
   studentId: number
@@ -189,11 +192,13 @@ export default function ActiveStudentRowDropdown({
           <DialogDescription className='hidden'>
             Lektionsliste exportieren
           </DialogDescription>
-          <ExportLessons
-            onSuccess={closeModal}
-            holderId={studentId}
-            holderType='s'
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <ExportLessons
+              onSuccess={closeModal}
+              holderId={studentId}
+              holderType='s'
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
       <Dialog open={openModal === 'TRANSFORM'} onOpenChange={closeModal}>

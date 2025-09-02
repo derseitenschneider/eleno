@@ -1,5 +1,5 @@
 import { FileDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -9,10 +9,14 @@ import {
 } from '@/components/ui/dialog'
 import Empty from '@/components/ui/Empty.component'
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
-import ExportTimetable from '../components/features/timetable/ExportTimetable'
+import ExportTimetableSkeleton from '../components/features/timetable/ExportTimetableSkeleton.component'
 import TimeTableDay from '../components/features/timetable/TimetableDay.component'
 import type { TimetableDay } from '../types/types'
 import { sortLessonHolders } from '../utils/sortLessonHolders'
+
+const ExportTimetable = lazy(
+  () => import('../components/features/timetable/ExportTimetable'),
+)
 
 export default function Timetable() {
   const { activeSortedHolders: lessonHolders } = useLessonHolders()
@@ -124,13 +128,11 @@ export default function Timetable() {
         )}
       </div>
       {days.some((day) => day.lessonHolders.length) ? (
-        <>
-          {days.map((day) =>
-            day.lessonHolders.length ? (
-              <TimeTableDay day={day} key={day.day} />
-            ) : null,
-          )}
-        </>
+        days.map((day) =>
+          day.lessonHolders.length ? (
+            <TimeTableDay day={day} key={day.day} />
+          ) : null,
+        )
       ) : (
         <Empty
           emptyMessage='Keine Unterrichtsdaten vorhanden.'
@@ -148,7 +150,9 @@ export default function Timetable() {
           <DialogHeader>
             <DialogTitle>Stundenplan exportieren</DialogTitle>
           </DialogHeader>
-          <ExportTimetable days={days} />
+          <Suspense fallback={<ExportTimetableSkeleton />}>
+            <ExportTimetable days={days} />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </div>

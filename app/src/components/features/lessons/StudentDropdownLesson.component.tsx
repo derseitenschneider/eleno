@@ -1,5 +1,5 @@
 import { CheckSquare2, FileDown, MoreVertical, Pencil } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -17,8 +17,10 @@ import {
 import UpdateGroup from '../groups/UpdateGroup.component'
 import UpdateStudents from '../students/UpdateStudents.component'
 import CreateTodo from '../todos/CreateTodo.component'
-import ExportLessons from './ExportLessons.component'
+import ExportLessonsSkeleton from './ExportLessonsSkeleton.component'
 import useCurrentHolder from './useCurrentHolder'
+
+const ExportLessons = lazy(() => import('./ExportLessons.component'))
 
 type Modals = 'EDIT' | 'TODO' | 'EXPORT' | null
 
@@ -124,11 +126,13 @@ export default function HolderDropdownLesson() {
           <DialogDescription className='hidden'>
             Exportiere die Lektionsliste.
           </DialogDescription>
-          <ExportLessons
-            holderType={currentLessonHolder?.type}
-            holderId={currentLessonHolder?.holder.id}
-            onSuccess={closeModal}
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <ExportLessons
+              holderType={currentLessonHolder?.type}
+              holderId={currentLessonHolder?.holder.id}
+              onSuccess={closeModal}
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </>

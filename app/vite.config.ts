@@ -3,9 +3,8 @@
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import preload from 'vite-plugin-preload'
 import { VitePWA } from 'vite-plugin-pwa'
-import { darkManifest, lightManifest, lightManifestDesktop } from './manifest'
+import { lightManifestDesktop } from './manifest'
 
 export default defineConfig({
   base: '/',
@@ -69,42 +68,41 @@ export default defineConfig({
         manualChunks(id) {
           // Group PDF-related dependencies together
           // These will ALL be lazy-loaded as one chunk when PDF exports are used
-          if (id.includes('@react-pdf') || 
-              id.includes('fontkit') || 
-              id.includes('restructure') || 
-              id.includes('unicode-properties') ||
-              id.includes('pdfkit') ||
-              id.includes('yoga-layout') ||  // Used by PDF renderer
-              id.includes('brotli') ||        // Used by fontkit
-              id.includes('react-pdf-html') || // PDF HTML rendering
-              id.includes('pako')) {           // Compression used by PDF
-            return 'pdf-renderer';
-          }
-          
+          // if (id.includes('@react-pdf') ||
+          //     id.includes('fontkit') ||
+          //     id.includes('restructure') ||
+          //     id.includes('unicode-properties') ||
+          //     id.includes('pdfkit') ||
+          //     id.includes('yoga-layout') ||  // Used by PDF renderer
+          //     id.includes('brotli') ||        // Used by fontkit
+          //     id.includes('react-pdf-html') || // PDF HTML rendering
+          //     id.includes('pako')) {           // Compression used by PDF
+          //   return 'pdf-renderer';
+          // }
+
           // Keep core React ecosystem together
-          if (id.includes('react-router') || 
-              id.includes('@remix-run')) {
-            return 'react-router';
+          if (id.includes('react-router') || id.includes('@remix-run')) {
+            return 'react-router'
           }
-          
+
           // Group UI libraries
           if (id.includes('@radix-ui')) {
-            return 'radix-ui';
+            return 'radix-ui'
           }
-          
+
           // Group data fetching
           if (id.includes('@tanstack')) {
-            return 'tanstack-query';
+            return 'tanstack-query'
           }
-          
+
           // Group Supabase
           if (id.includes('@supabase')) {
-            return 'supabase';
+            return 'supabase'
           }
-          
+
           // Let Vite handle automatic splitting for the rest
           // This allows better code splitting for lazy-loaded components
-          return undefined;
+          return undefined
         },
       },
     },

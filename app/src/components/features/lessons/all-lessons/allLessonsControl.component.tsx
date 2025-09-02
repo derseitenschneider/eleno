@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import type { Table } from '@tanstack/react-table'
 import { ChevronLeft, FileDown } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,8 +19,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import type { Lesson } from '@/types/types'
-import ExportLessons from '../ExportLessons.component'
+import ExportLessonsSkeleton from '../ExportLessonsSkeleton.component'
 import useCurrentHolder from '../useCurrentHolder'
+
+const ExportLessons = lazy(() => import('../ExportLessons.component'))
 
 type AllLessonsControlPros = {
   table: Table<Lesson>
@@ -112,11 +114,13 @@ export default function AllLessonsControl({
           <DialogHeader>
             <DialogTitle>Lektionsliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportLessons
-            onSuccess={closeModal}
-            holderType={currentLessonHolder.type}
-            holderId={currentLessonHolder.holder.id}
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <ExportLessons
+              onSuccess={closeModal}
+              holderType={currentLessonHolder.type}
+              holderId={currentLessonHolder.holder.id}
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </div>

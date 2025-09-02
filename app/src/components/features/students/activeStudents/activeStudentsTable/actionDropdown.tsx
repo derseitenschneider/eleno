@@ -7,8 +7,7 @@ import {
   History,
   Pencil,
 } from 'lucide-react'
-import { useState } from 'react'
-import BulkExportLessons from '@/components/features/lessons/BulkExportLessons.component'
+import { lazy, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -25,9 +24,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { Student } from '@/types/types'
+import ExportLessonsSkeleton from '../../../lessons/ExportLessonsSkeleton.component'
 import ResetStudents from '../../ResetStudents.component'
 import UpdateStudents from '../../UpdateStudents.component'
 import { useDeactivateStudents } from '../../useDeactivateStudents'
+
+const BulkExportLessons = lazy(
+  () => import('@/components/features/lessons/BulkExportLessons.component'),
+)
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -123,11 +127,13 @@ export function ActiveStudentsActionDropdown({
           <DialogDescription className='hidden'>
             Schüler:innen bearbeiten
           </DialogDescription>
-          <BulkExportLessons
-            onSuccess={closeModal}
-            holderIds={selectedStudentIds}
-            holderType='s'
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <BulkExportLessons
+              onSuccess={closeModal}
+              holderIds={selectedStudentIds}
+              holderType='s'
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
 

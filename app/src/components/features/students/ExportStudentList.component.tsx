@@ -39,36 +39,37 @@ function ExportStudentList({ students }: ExportStudentListProps) {
   async function handleDownloadPDF() {
     try {
       setIsLoadingPDF(true)
-      
+
       // Dynamically import the PDF bundle
-      const { pdf, StudentListPDF } = await import('../pdf')
-      
+      const module = 'index'
+      const { pdf, StudentListPDF } = await import(`../pdf/${module}.ts`)
+
       const props = {
         students,
         userName,
         title,
       }
-      
+
       const blob = await pdf(createElement(StudentListPDF, props)).toBlob()
-      
+
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      
+
       const fileName = title
         ? title.split(' ').join('-').toLowerCase()
         : `schüler:innen-${userNameDashes}.pdf`
-      
+
       link.setAttribute('download', fileName)
       link.style.display = 'none'
-      
+
       document.body.appendChild(link)
       link.click()
-      
+
       toast.success('Datei heruntergeladen.')
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoadingPDF(false)
@@ -115,11 +116,7 @@ function ExportStudentList({ students }: ExportStudentListProps) {
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
         <div className='flex items-center gap-2'>
-          <Button 
-            size='sm' 
-            onClick={handleDownloadPDF}
-            disabled={isLoadingPDF}
-          >
+          <Button size='sm' onClick={handleDownloadPDF} disabled={isLoadingPDF}>
             PDF herunterladen
           </Button>
           {isLoadingPDF && (

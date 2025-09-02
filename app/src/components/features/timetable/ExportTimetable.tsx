@@ -48,39 +48,40 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
 
   async function handleDownloadPDF() {
     if (selectedDays.length === 0) return
-    
+
     try {
       setIsLoadingPDF(true)
-      
+
       // Dynamically import the PDF bundle
-      const { pdf, TimetablePDF } = await import('../pdf')
-      
+      const module = 'index'
+      const { pdf, TimetablePDF } = await import(`../pdf/${module}.ts`)
+
       const props = {
         days: selectedDaysSorted,
         title,
         userName,
       }
-      
+
       const blob = await pdf(createElement(TimetablePDF, props)).toBlob()
-      
+
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      
+
       const fileName = title
         ? title.split(' ').join('-').toLowerCase()
         : `stundenplan-${userNameDashes}.pdf`
-      
+
       link.setAttribute('download', fileName)
       link.style.display = 'none'
-      
+
       document.body.appendChild(link)
       link.click()
-      
+
       toast.success('Datei heruntergeladen.')
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoadingPDF(false)

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { Archive, ChevronsUpDown, FileDown, History } from 'lucide-react'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,9 +17,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { Group } from '@/types/types'
-import BulkExportLessons from '../../lessons/BulkExportLessons.component'
+import ExportLessonsSkeleton from '../../lessons/ExportLessonsSkeleton.component'
 import ResetGroups from '../ResetGroups.component'
 import { useDeactivateGroups } from '../useDeactivateGroups'
+
+const BulkExportLessons = lazy(
+  () => import('../../lessons/BulkExportLessons.component'),
+)
 
 type ActiveStudentsActionDropdownProps = {
   selected: RowSelectionState
@@ -91,11 +95,13 @@ export function GroupsActionDropdown({
           <DialogHeader>
             <DialogTitle>Lektionslisten exportieren</DialogTitle>
           </DialogHeader>
-          <BulkExportLessons
-            holderIds={selectedGroupIds}
-            holderType='g'
-            onSuccess={closeModal}
-          />
+          <Suspense fallback={<ExportLessonsSkeleton />}>
+            <BulkExportLessons
+              holderIds={selectedGroupIds}
+              holderType='g'
+              onSuccess={closeModal}
+            />
+          </Suspense>
         </DialogContent>
       </Dialog>
 

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { FileDown, Plus } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,8 +13,12 @@ import {
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Student } from '@/types/types'
 import { CreateStudentDialogDrawer } from '../../CreateStudentDialogDrawer.component'
-import ExportStudentList from '../../ExportStudentList.component'
+import ExportStudentListSkeleton from '../../ExportStudentListSkeleton.component'
 import { ActiveStudentsActionDropdown } from './actionDropdown'
+
+const ExportStudentList = lazy(
+  () => import('../../ExportStudentList.component'),
+)
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -100,7 +104,9 @@ export default function StudentsControl({
           <DialogHeader>
             <DialogTitle>Schülerliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportStudentList students={activeStudents} />
+          <Suspense fallback={<ExportStudentListSkeleton />}>
+            <ExportStudentList students={activeStudents} />
+          </Suspense>
         </DialogContent>
       </Dialog>
 

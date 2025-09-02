@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import type { RowSelectionState } from '@tanstack/react-table'
 import { FileDown, Plus } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,8 +13,10 @@ import {
 import SearchBar from '@/components/ui/SearchBar.component'
 import type { Group } from '@/types/types'
 import { CreateGroupDialogDrawer } from '../CreateGroupDialogDrawer.component'
-import ExportGroupList from '../ExportGroupList.component'
+import ExportGroupListSkeleton from '../ExportGroupListSkeleton.component'
 import { GroupsActionDropdown } from './actionDropdown'
+
+const ExportGroupList = lazy(() => import('../ExportGroupList.component'))
 
 type StudentsControlProps = {
   isFetching: boolean
@@ -92,7 +94,9 @@ export default function GroupsControl({
           <DialogHeader>
             <DialogTitle>Gruppenliste exportieren</DialogTitle>
           </DialogHeader>
-          <ExportGroupList activeGroups={activeGroups} />
+          <Suspense fallback={<ExportGroupListSkeleton />}>
+            <ExportGroupList activeGroups={activeGroups} />
+          </Suspense>
         </DialogContent>
       </Dialog>
 

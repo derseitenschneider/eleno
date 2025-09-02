@@ -134,7 +134,7 @@ function ExportLessons({
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
       onSuccess()
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
@@ -145,7 +145,8 @@ function ExportLessons({
     try {
       setIsLoading(true)
 
-      const { pdf, LessonsPDF } = await import('../pdf')
+      const module = 'index'
+      const { pdf, LessonsPDF } = await import(`../pdf/${module}.ts`)
 
       const { data: allLessons } = await fetchAllLessons()
       const localizedLessons = allLessons?.map((lesson) => ({
@@ -187,7 +188,7 @@ function ExportLessons({
       URL.revokeObjectURL(url)
       document.body.removeChild(link)
       onSuccess()
-    } catch (e) {
+    } catch (_e) {
       fetchErrorToast()
     } finally {
       setIsLoading(false)
