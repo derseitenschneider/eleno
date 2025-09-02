@@ -1,12 +1,13 @@
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import { useState } from 'react'
+import { createElement, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import type { Group } from '../../../types/types'
-import GrouplistPDF from '../pdf/GrouplistPDF.component'
 import useProfileQuery from '../user/profileQuery'
 
 interface ExportGroupListProps {
@@ -17,7 +18,9 @@ export default function ExportGroupList({
   activeGroups,
 }: ExportGroupListProps) {
   const [title, setTitle] = useState('')
+  const [isLoadingPDF, setIsLoadingPDF] = useState(false)
   const { data: userProfile } = useProfileQuery()
+  const fetchErrorToast = useFetchErrorToast()
 
   const userName = `${userProfile?.first_name} ${userProfile?.last_name}`
 
@@ -32,6 +35,45 @@ export default function ExportGroupList({
   }))
 
   const userNameDashes = userName.toLowerCase().split(' ').join('-')
+
+  async function handleDownloadPDF() {
+    try {
+      setIsLoadingPDF(true)
+      
+      // Dynamically import the PDF bundle
+      const { pdf, GrouplistPDF } = await import('../pdf')
+      
+      const props = {
+        activeGroups,
+        userName,
+        title,
+      }
+      
+      const blob = await pdf(createElement(GrouplistPDF, props)).toBlob()
+      
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      
+      const fileName = title
+        ? title.split(' ').join('-').toLowerCase()
+        : `gruppen-${userNameDashes}.pdf`
+      
+      link.setAttribute('download', fileName)
+      link.style.display = 'none'
+      
+      document.body.appendChild(link)
+      link.click()
+      
+      toast.success('Datei heruntergeladen.')
+      URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (e) {
+      fetchErrorToast()
+    } finally {
+      setIsLoadingPDF(false)
+    }
+  }
 
   return (
     <div className='space-y-8'>
@@ -70,22 +112,20 @@ export default function ExportGroupList({
         >
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
-        <PDFDownloadLink
-          document={
-            <GrouplistPDF
-              groups={activeGroups}
-              userName={userName}
-              title={title}
-            />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `gruppen-${userNameDashes}.pdf`
-          }
-        >
-          <Button size='sm'>PDF herunterladen</Button>
-        </PDFDownloadLink>
+        <div className='flex items-center gap-2'>
+          <Button 
+            size='sm' 
+            onClick={handleDownloadPDF}
+            disabled={isLoadingPDF}
+          >
+            PDF herunterladen
+          </Button>
+          {isLoadingPDF && (
+            <div className='text-primary'>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

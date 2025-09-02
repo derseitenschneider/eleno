@@ -11,7 +11,7 @@ export default defineConfig({
   base: '/',
   plugins: [
     react(),
-    preload(),
+    // preload(), // Disabled to prevent PDF chunk from loading on initial page load
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
@@ -21,6 +21,7 @@ export default defineConfig({
       minify: true,
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globIgnores: ['**/pdf-renderer-*.js'],
         runtimeCaching: [
           {
             urlPattern: /manifest\.webmanifest$/,
@@ -61,17 +62,49 @@ export default defineConfig({
   },
   build: {
     cssMinify: true,
+    // Disable module preload generation to prevent PDF chunk loading on startup
+    modulePreload: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id
-              ?.toString()
-              ?.split('node_modules/')[1]
-              ?.split('/')[0]
-              ?.toString()
+          // Group PDF-related dependencies together
+          // These will ALL be lazy-loaded as one chunk when PDF exports are used
+          if (id.includes('@react-pdf') || 
+              id.includes('fontkit') || 
+              id.includes('restructure') || 
+              id.includes('unicode-properties') ||
+              id.includes('pdfkit') ||
+              id.includes('yoga-layout') ||  // Used by PDF renderer
+              id.includes('brotli') ||        // Used by fontkit
+              id.includes('react-pdf-html') || // PDF HTML rendering
+              id.includes('pako')) {           // Compression used by PDF
+            return 'pdf-renderer';
           }
-          return null
+          
+          // Keep core React ecosystem together
+          if (id.includes('react-router') || 
+              id.includes('@remix-run')) {
+            return 'react-router';
+          }
+          
+          // Group UI libraries
+          if (id.includes('@radix-ui')) {
+            return 'radix-ui';
+          }
+          
+          // Group data fetching
+          if (id.includes('@tanstack')) {
+            return 'tanstack-query';
+          }
+          
+          // Group Supabase
+          if (id.includes('@supabase')) {
+            return 'supabase';
+          }
+          
+          // Let Vite handle automatic splitting for the rest
+          // This allows better code splitting for lazy-loaded components
+          return undefined;
         },
       },
     },

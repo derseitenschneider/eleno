@@ -1,13 +1,14 @@
-import { PDFDownloadLink } from '@react-pdf/renderer'
 import { useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { createElement, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import Empty from '@/components/ui/Empty.component'
 import { Input } from '@/components/ui/input'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import type { LessonHolder, RepertoireItem } from '../../../types/types'
-import RepertoirePDF from '../pdf/RepertoirePDF.component'
 
 type ExportRepertoireProps = { lessonHolder: LessonHolder }
 
@@ -15,6 +16,8 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
   const queryClient = useQueryClient()
   const { userLocale } = useUserLocale()
   const [title, setTitle] = useState('')
+  const [isLoadingPDF, setIsLoadingPDF] = useState(false)
+  const fetchErrorToast = useFetchErrorToast()
 
   const repertoire = queryClient.getQueryData([
     'repertoire',
@@ -68,6 +71,45 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
       : '',
   }))
 
+  async function handleDownloadPDF() {
+    try {
+      setIsLoadingPDF(true)
+      
+      // Dynamically import the PDF bundle
+      const { pdf, RepertoirePDF } = await import('../pdf')
+      
+      const props = {
+        studentFullName: holderName,
+        repertoire: localizedRepertoire,
+        title,
+      }
+      
+      const blob = await pdf(createElement(RepertoirePDF, props)).toBlob()
+      
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      
+      const fileName = title
+        ? title.split(' ').join('-').toLowerCase()
+        : `repertoire-${holderNameDashes}.pdf`
+      
+      link.setAttribute('download', fileName)
+      link.style.display = 'none'
+      
+      document.body.appendChild(link)
+      link.click()
+      
+      toast.success('Datei heruntergeladen.')
+      URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (e) {
+      fetchErrorToast()
+    } finally {
+      setIsLoadingPDF(false)
+    }
+  }
+
   return (
     <div className='space-y-8'>
       <p>
@@ -115,22 +157,20 @@ function ExportRepertoire({ lessonHolder }: ExportRepertoireProps) {
           <Button size='sm'>CSV herunterladen</Button>
         </CSVLink>
 
-        <PDFDownloadLink
-          document={
-            <RepertoirePDF
-              studentFullName={holderName}
-              repertoire={localizedRepertoire}
-              title={title}
-            />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `repertoire-${holderNameDashes}`
-          }
-        >
-          <Button size='sm'> PDF Herunterladen</Button>
-        </PDFDownloadLink>
+        <div className='flex items-center gap-2'>
+          <Button 
+            size='sm' 
+            onClick={handleDownloadPDF}
+            disabled={isLoadingPDF}
+          >
+            PDF Herunterladen
+          </Button>
+          {isLoadingPDF && (
+            <div className='text-primary'>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

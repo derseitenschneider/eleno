@@ -14,7 +14,7 @@ import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { sanitizeHTMLforPDF } from '@/utils/sanitizeHTML'
 import type { Group, LessonHolder, Student } from '../../../types/types'
 import stripHtmlTags from '../../../utils/stripHtmlTags'
-import type { PDFProps } from './LessonsPDF'
+import type { PDFProps } from '../pdf/types'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 
 type ExportLessonsProps = {
@@ -145,8 +145,7 @@ function ExportLessons({
     try {
       setIsLoading(true)
 
-      const { pdf } = await import('@react-pdf/renderer')
-      const { LessonsPDF } = await import('./LessonsPDF')
+      const { pdf, LessonsPDF } = await import('../pdf')
 
       const { data: allLessons } = await fetchAllLessons()
       const localizedLessons = allLessons?.map((lesson) => ({

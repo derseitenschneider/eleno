@@ -1,14 +1,14 @@
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import { useState } from 'react'
-
+import { createElement, useState } from 'react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import MiniLoader from '@/components/ui/MiniLoader.component'
+import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import sortTimeTableDays from '@/utils/sortTimetableDays'
 import type { TimetableDay } from '../../../types/types'
-import TimetablePDF from '../pdf/TimetablePDF.component'
 import useProfileQuery from '../user/profileQuery'
 
 interface ExportTimeTableProps {
@@ -19,6 +19,8 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
   const { data: userProfile } = useProfileQuery()
   const [selectedDays, setSelectedDays] = useState<TimetableDay[]>([])
   const [title, setTitle] = useState('')
+  const [isLoadingPDF, setIsLoadingPDF] = useState(false)
+  const fetchErrorToast = useFetchErrorToast()
 
   const daysWithStudents = days.filter((day) => day.lessonHolders.length > 0)
   const selectedDaysSorted = sortTimeTableDays(selectedDays)
@@ -41,6 +43,47 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
       setSelectedDays([])
     } else {
       setSelectedDays(daysWithStudents)
+    }
+  }
+
+  async function handleDownloadPDF() {
+    if (selectedDays.length === 0) return
+    
+    try {
+      setIsLoadingPDF(true)
+      
+      // Dynamically import the PDF bundle
+      const { pdf, TimetablePDF } = await import('../pdf')
+      
+      const props = {
+        days: selectedDaysSorted,
+        title,
+        userName,
+      }
+      
+      const blob = await pdf(createElement(TimetablePDF, props)).toBlob()
+      
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      
+      const fileName = title
+        ? title.split(' ').join('-').toLowerCase()
+        : `stundenplan-${userNameDashes}.pdf`
+      
+      link.setAttribute('download', fileName)
+      link.style.display = 'none'
+      
+      document.body.appendChild(link)
+      link.click()
+      
+      toast.success('Datei heruntergeladen.')
+      URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (e) {
+      fetchErrorToast()
+    } finally {
+      setIsLoadingPDF(false)
     }
   }
 
@@ -93,34 +136,22 @@ function ExportTimetable({ days }: ExportTimeTableProps) {
         />
       </div>
       <div className='flex justify-end'>
-        <PDFDownloadLink
-          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-            if (selectedDays.length === 0) {
-              e.preventDefault()
-            }
-          }}
-          document={
-            <TimetablePDF
-              days={selectedDaysSorted}
-              title={title}
-              userName={userName}
-            />
-          }
-          fileName={
-            title
-              ? title.split(' ').join('-').toLowerCase()
-              : `stundenplan-${userNameDashes}`
-          }
-        >
+        <div className='flex items-center gap-2'>
           <Button
             variant='default'
             className='mt-4'
             size='sm'
-            disabled={selectedDays.length === 0}
+            disabled={selectedDays.length === 0 || isLoadingPDF}
+            onClick={handleDownloadPDF}
           >
             PDF herunterladen
           </Button>
-        </PDFDownloadLink>
+          {isLoadingPDF && (
+            <div className='text-primary mt-4'>
+              <MiniLoader />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

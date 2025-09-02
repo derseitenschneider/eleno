@@ -15,7 +15,7 @@ import { useUser } from '@/services/context/UserContext'
 import { useUserLocale } from '@/services/context/UserLocaleContext'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import stripHtmlTags from '@/utils/stripHtmlTags'
-import type { PDFProps } from './LessonsPDF'
+import type { PDFProps } from '../pdf/types'
 import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'
 
 type BulkExportLessonsProps = {
@@ -156,8 +156,7 @@ export default function BulkExportLessons({
     try {
       setIsLoading(true)
 
-      const { pdf } = await import('@react-pdf/renderer')
-      const { LessonsPDF } = await import('./LessonsPDF')
+      const { pdf, LessonsPDF } = await import('../pdf')
 
       const { data: allLessons } = await fetchAllLessons()
       if (!allLessons || allLessons.length === 0)

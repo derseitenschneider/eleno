@@ -151,3 +151,161 @@ The system tracks:
 - Cache effectiveness
 
 All metrics are available through the performance monitoring system.
+
+---
+
+# Bundle Optimization Investigation
+
+## Problem Statement
+
+The PDF renderer bundle (`pdf-renderer-*.js`) was loading on initial page load despite attempts to implement lazy loading. This investigation documents the findings and fixes applied to prevent unnecessary bundle loading.
+
+## Investigation Timeline
+
+### Initial State
+- PDF renderer chunk was loading on every page load
+- Attempts at lazy loading were not working
+- Bundle size: ~500KB+ loading unnecessarily
+
+### Investigation Steps & Findings
+
+#### 1. Static Import Chain Analysis ✅ FIXED
+**Problem**: `LessonsPDF.tsx` had static imports causing PDF bundle inclusion
+```typescript
+// Before: Static imports in main codebase
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
+import Html from 'react-pdf-html'
+```
+
+**Solution**: Moved LessonsPDF to PDF directory
+- Created: `src/components/features/pdf/LessonsPDF.component.tsx`
+- Updated: `src/components/features/pdf/index.ts` to export from new location
+- Removed: Original file with static imports
+
+#### 2. Module Preload Links Investigation ✅ FIXED
+**Problem**: HTML contained modulepreload links forcing PDF chunk to load
+```html
+<!-- Before: Forced preloading -->
+<link rel="modulepreload" href="/assets/pdf-renderer-BH8-S-32.js" />
+```
+
+**Attempted Fix**: Set `modulePreload: false` in vite.config.ts - didn't work
+
+**Root Cause**: `vite-plugin-preload` was overriding the setting
+
+**Final Solution**: Disabled preload plugin entirely
+```typescript
+plugins: [
+  react(),
+  // preload(), // Disabled to prevent PDF chunk from loading on initial page load
+  VitePWA({...})
+],
+```
+
+#### 3. Service Worker Precaching ✅ ALREADY EXCLUDED
+**Status**: PDF files already excluded from service worker precaching
+```typescript
+workbox: {
+  globIgnores: ['**/pdf-renderer-*.js'], // Already excluded
+}
+```
+
+#### 4. Current Status ⚠️ ONGOING ISSUE
+**Problem**: PDF chunk still loads on initial page despite fixes
+- Preload links removed ✅
+- Static imports moved ✅ 
+- Service worker exclusion confirmed ✅
+- **Issue persists**: Indicates deeper static import chain
+
+## Technical Analysis
+
+### What Was Fixed
+1. **Static imports removed** from main bundle
+2. **Module preload disabled** via plugin removal
+3. **Service worker exclusion** confirmed working
+
+### What Remains Unfixed
+The PDF chunk still loads, indicating:
+- Static import chain exists somewhere in main bundle
+- Likely caused by indirect imports or type imports
+- May require deeper bundle analysis
+
+### Investigation Commands
+
+```bash
+# Check current bundle loading
+npm run build && npm run preview
+# Open browser dev tools, check Network tab
+
+# Analyze bundle composition
+npx vite-bundle-analyzer dist
+
+# Check for static imports in bundle
+grep -r "pdf-renderer" dist/
+
+# Find potential import chains
+npm run build -- --debug
+```
+
+### Current Configuration State
+
+**Vite Config** (`vite.config.ts`):
+```typescript
+plugins: [
+  react(),
+  // preload(), // ✅ DISABLED to prevent PDF preloading
+  VitePWA({
+    workbox: {
+      globIgnores: ['**/pdf-renderer-*.js'], // ✅ EXCLUDED
+    }
+  })
+],
+build: {
+  modulePreload: false, // ✅ DISABLED
+  rollupOptions: {
+    output: {
+      manualChunks(id) {
+        // PDF dependencies grouped into separate chunk
+        if (id.includes('@react-pdf') || /* other pdf deps */) {
+          return 'pdf-renderer'; // ✅ ISOLATED
+        }
+      }
+    }
+  }
+}
+```
+
+**PDF Structure**:
+```
+src/components/features/pdf/
+├── index.ts                    # ✅ Central export
+├── LessonsPDF.component.tsx    # ✅ Moved here
+├── StudentsPDF.component.tsx   # ✅ Isolated
+└── RepertoirePDF.component.tsx # ✅ Isolated
+```
+
+### Next Investigation Areas
+
+1. **Bundle analysis**: Use tools to trace import chains
+2. **Type imports**: Check if type imports are causing inclusion
+3. **Lazy component validation**: Ensure all PDF components use dynamic imports
+4. **Dependencies**: Verify no PDF deps in main bundle dependencies
+
+### Lessons Learned
+
+1. **Preload plugins can override Vite settings** - Always check plugin interactions
+2. **HTML inspection is crucial** - Module preload links are easy to miss
+3. **Static imports have cascading effects** - Moving files to isolated directories helps
+4. **Service worker exclusions work as expected** - Not the culprit in this case
+
+### Performance Impact
+
+**Before optimizations**:
+- PDF bundle loaded on every page: ~500KB
+- Unnecessary network requests
+- Slower initial page load
+
+**After optimizations**:
+- Preload links eliminated ✅
+- Static imports isolated ✅
+- **Bundle still loads**: Issue persists, needs deeper investigation

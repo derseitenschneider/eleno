@@ -82,11 +82,11 @@ export function CreateLessonForm() {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
-              ...draft,
-              date: inputDate,
-              lesson_type: lessonType,
-              absence_reason: absenceReason,
-            }
+                ...draft,
+                date: inputDate,
+                lesson_type: lessonType,
+                absence_reason: absenceReason,
+              }
             : draft,
         )
       }
@@ -113,12 +113,12 @@ export function CreateLessonForm() {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
-              ...draft,
-              lessonContent: content,
-              date,
-              lesson_type: lessonType,
-              absence_reason: absenceReason,
-            }
+                ...draft,
+                lessonContent: content,
+                date,
+                lesson_type: lessonType,
+                absence_reason: absenceReason,
+              }
             : draft,
         )
       }
@@ -148,12 +148,12 @@ export function CreateLessonForm() {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
-              ...draft,
-              homework: content,
-              date,
-              lesson_type: lessonType,
-              absence_reason: absenceReason,
-            }
+                ...draft,
+                homework: content,
+                date,
+                lesson_type: lessonType,
+                absence_reason: absenceReason,
+              }
             : draft,
         )
       }
@@ -183,11 +183,11 @@ export function CreateLessonForm() {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
-              ...draft,
-              absence_reason: content,
-              date,
-              lesson_type: lessonType,
-            }
+                ...draft,
+                absence_reason: content,
+                date,
+                lesson_type: lessonType,
+              }
             : draft,
         )
       }
@@ -216,11 +216,11 @@ export function CreateLessonForm() {
         return prev.map((draft) =>
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
-              ...draft,
-              lesson_type: type,
-              date,
-              absence_reason: absenceReason,
-            }
+                ...draft,
+                lesson_type: type,
+                date,
+                absence_reason: absenceReason,
+              }
             : draft,
         )
       }
@@ -308,6 +308,7 @@ export function CreateLessonForm() {
         <p>Datum</p>
         <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
         <LessonStatusSelect value={lessonType} onChange={handleLessonType} />
+
         <ButtonPlannedLessonAvailable date={date} />
       </div>
       <div
