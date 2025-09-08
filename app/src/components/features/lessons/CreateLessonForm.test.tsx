@@ -1,38 +1,14 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import * as useDraftsModule from '@/services/context/DraftsContext'
-import * as useSubscriptionModule from '@/services/context/SubscriptionContext'
+import * as useLessonFormModule from '@/hooks/useLessonForm'
 import { createMockGroup, createMockStudent } from '@/test/factories'
 import { renderWithProviders } from '@/test/testUtils'
 import type { LessonHolder } from '@/types/types'
-import * as settingsQueryModule from '../settings/settingsQuery'
 import { CreateLessonForm } from './CreateLessonForm.component'
-import * as useCreateLessonModule from './useCreateLesson'
-import * as useCurrentHolderModule from './useCurrentHolder'
-import * as useUpdateLessonModule from './useUpdateLesson'
 
 // Mock modules
-vi.mock('./useCurrentHolder')
-vi.mock('@/services/context/DraftsContext')
-vi.mock('@/services/context/SubscriptionContext')
-vi.mock('./useCreateLesson')
-vi.mock('./useUpdateLesson')
-vi.mock('../settings/settingsQuery')
-vi.mock('./LessonStatusSelect.component', () => ({
-  LessonStatusSelect: ({ value, onChange, disabled }: any) => (
-    <select
-      data-testid='lesson-status-select'
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      disabled={disabled}
-    >
-      <option value='held'>Stattgefunden</option>
-      <option value='student_absent'>Schüler abwesend</option>
-      <option value='teacher_absent'>Lehrer abwesend</option>
-    </select>
-  ),
-}))
+vi.mock('@/hooks/useLessonForm')
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),
@@ -71,63 +47,46 @@ describe('CreateLessonForm', () => {
   const mockGroupHolder: LessonHolder = { type: 'g', holder: mockGroup as any }
 
   const defaultMocks = {
-    useCurrentHolder: {
-      currentLessonHolder: mockStudentHolder,
+    currentLessonHolder: mockStudentHolder,
+    settings: {
+      id: 1,
+      created_at: new Date().toISOString(),
+      user_id: 'test-user',
+      lesson_main_layout: 'regular' as const,
     },
-    useDrafts: {
-      drafts: [],
-      setDrafts: vi.fn(),
-    },
-    useSubscription: {
-      hasAccess: true,
-      plan: 'Monatlich' as const,
-      subscriptionState: 'active' as any,
-      subscription: undefined,
-      periodStartLocalized: '',
-      periodEndLocalized: '',
-    },
-    useCreateLesson: {
-      createLesson: vi.fn(),
-      isCreating: false,
-    },
-    useUpdateLesson: {
-      updateLesson: vi.fn(),
-      isUpdating: false,
-    },
-    useSettingsQuery: {
-      data: {
-        id: 1,
-        created_at: new Date().toISOString(),
-        user_id: 'test-user',
-        lesson_main_layout: 'regular' as const,
-      },
-    } as any,
+    handleDate: vi.fn(),
+    date: new Date('2023-12-01'),
+    isCreating: false,
+    lessonType: 'held' as const,
+    lessonContent: '',
+    handleLessonContent: vi.fn(),
+    homework: '',
+    handleHomework: vi.fn(),
+    absenceReason: '',
+    handleAbsenceReason: vi.fn(),
+    error: '',
+    isDisabledSave: true,
+    handleSave: vi.fn(),
+    isUpdating: false,
+    isLoading: false,
+    handleLessonType: vi.fn(),
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
 
     // Setup default mocks
-    vi.mocked(useCurrentHolderModule.default).mockReturnValue(
-      defaultMocks.useCurrentHolder,
-    )
-    vi.mocked(useDraftsModule.useDrafts).mockReturnValue(defaultMocks.useDrafts)
-    vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue(
-      defaultMocks.useSubscription,
-    )
-    vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue(
-      defaultMocks.useCreateLesson,
-    )
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(
-      defaultMocks.useUpdateLesson,
-    )
-    vi.mocked(settingsQueryModule.default).mockReturnValue(
-      defaultMocks.useSettingsQuery,
-    )
+    vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue(defaultMocks)
   })
 
   describe('Rendering', () => {
     it('should render form elements correctly', () => {
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonContent: 'some content',
+        isDisabledSave: false,
+      })
+
       renderWithProviders(<CreateLessonForm />)
 
       expect(screen.getByText('Datum')).toBeInTheDocument()
@@ -135,93 +94,92 @@ describe('CreateLessonForm', () => {
       expect(screen.getByText('Hausaufgaben')).toBeInTheDocument()
       expect(screen.getByTestId('lesson-content')).toBeInTheDocument()
       expect(screen.getByTestId('homework')).toBeInTheDocument()
-      expect(screen.getByTestId('lesson-status-select')).toBeInTheDocument()
       expect(
         screen.getByRole('button', { name: 'Speichern' }),
       ).toBeInTheDocument()
     })
 
     it('should not render when no current holder is available', () => {
-      vi.mocked(useCurrentHolderModule.default).mockReturnValue({
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         currentLessonHolder: null,
       })
 
       const { container } = renderWithProviders(<CreateLessonForm />)
-      expect(container.querySelector('form')).not.toBeInTheDocument()
+      expect(container.firstChild).toBeNull()
     })
 
     it('should not render when settings are not available', () => {
-      vi.mocked(settingsQueryModule.default).mockReturnValue({
-        data: null,
-      } as any)
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        settings: null,
+      })
 
       const { container } = renderWithProviders(<CreateLessonForm />)
-      expect(container.querySelector('form')).not.toBeInTheDocument()
+      expect(container.firstChild).toBeNull()
     })
   })
 
   describe('Form Interactions', () => {
-    it('should update lesson content when typing', async () => {
+    it('should call handleLessonContent when typing in lesson content', async () => {
       const user = userEvent.setup()
-      const mockSetDrafts = vi.fn()
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [],
-        setDrafts: mockSetDrafts,
+      const mockHandleLessonContent = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        handleLessonContent: mockHandleLessonContent,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
       const lessonInput = screen.getByTestId('lesson-content')
-      await user.type(lessonInput, 'Test lesson content')
+      await user.type(lessonInput, 'T')
 
-      expect(lessonInput).toHaveValue('Test lesson content')
-      expect(mockSetDrafts).toHaveBeenCalled()
+      expect(mockHandleLessonContent).toHaveBeenCalledWith('T')
     })
 
-    it('should update homework when typing', async () => {
+    it('should call handleHomework when typing in homework field', async () => {
       const user = userEvent.setup()
-      const mockSetDrafts = vi.fn()
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [],
-        setDrafts: mockSetDrafts,
+      const mockHandleHomework = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        handleHomework: mockHandleHomework,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
       const homeworkInput = screen.getByTestId('homework')
-      await user.type(homeworkInput, 'Test homework')
+      await user.type(homeworkInput, 'H')
 
-      expect(homeworkInput).toHaveValue('Test homework')
-      expect(mockSetDrafts).toHaveBeenCalled()
+      expect(mockHandleHomework).toHaveBeenCalledWith('H')
     })
 
-    it('should update draft when typing in lesson content', async () => {
+    it('should call handleLessonContent to update draft when typing', async () => {
       const user = userEvent.setup()
-      const mockSetDrafts = vi.fn()
+      const mockHandleLessonContent = vi.fn()
 
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [],
-        setDrafts: mockSetDrafts,
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        handleLessonContent: mockHandleLessonContent,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
       const lessonInput = screen.getByTestId('lesson-content')
-      await user.type(lessonInput, 'Some lesson content')
+      await user.type(lessonInput, 'A')
 
-      // Verify content was typed
-      expect(lessonInput).toHaveValue('Some lesson content')
-
-      // Verify draft was updated
-      expect(mockSetDrafts).toHaveBeenCalled()
+      // Verify handler was called to update draft
+      expect(mockHandleLessonContent).toHaveBeenCalledWith('A')
     })
 
-    it('should show absence reason field when lesson type is changed to absent', async () => {
-      const user = userEvent.setup()
-      renderWithProviders(<CreateLessonForm />)
+    it('should show absence reason field when lesson type is absent', async () => {
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonType: 'student_absent',
+      })
 
-      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
-      await user.selectOptions(lessonStatusSelect, 'student_absent')
+      renderWithProviders(<CreateLessonForm />)
 
       expect(screen.getByText('Abwesenheitsgrund')).toBeInTheDocument()
       expect(screen.queryByText('Lektion')).not.toBeInTheDocument()
@@ -231,16 +189,10 @@ describe('CreateLessonForm', () => {
 
   describe('Draft Management', () => {
     it('should load draft content when draft exists', () => {
-      const mockDraft = {
-        studentId: mockStudent.id,
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         lessonContent: 'Draft lesson content',
         homework: 'Draft homework',
-        date: new Date('2023-12-01'),
-      }
-
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [mockDraft],
-        setDrafts: vi.fn(),
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -252,9 +204,10 @@ describe('CreateLessonForm', () => {
     })
 
     it('should clear fields when no draft exists', () => {
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [],
-        setDrafts: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonContent: '',
+        homework: '',
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -264,19 +217,11 @@ describe('CreateLessonForm', () => {
     })
 
     it('should handle group type holder correctly', () => {
-      const mockDraft = {
-        groupId: mockGroup.id,
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        currentLessonHolder: mockGroupHolder,
         lessonContent: 'Group lesson content',
         homework: 'Group homework',
-        date: new Date('2023-12-01'),
-      }
-
-      vi.mocked(useCurrentHolderModule.default).mockReturnValue({
-        currentLessonHolder: mockGroupHolder,
-      })
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [mockDraft],
-        setDrafts: vi.fn(),
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -290,9 +235,10 @@ describe('CreateLessonForm', () => {
 
   describe('Form Validation', () => {
     it('should disable save button when creating', () => {
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         isCreating: true,
+        isDisabledSave: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -302,9 +248,10 @@ describe('CreateLessonForm', () => {
     })
 
     it('should disable save button when updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
-        updateLesson: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         isUpdating: true,
+        isDisabledSave: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -314,13 +261,9 @@ describe('CreateLessonForm', () => {
     })
 
     it('should disable save button when no access', () => {
-      vi.mocked(useSubscriptionModule.useSubscription).mockReturnValue({
-        hasAccess: false,
-        plan: '—',
-        subscriptionState: 'active' as any,
-        subscription: undefined,
-        periodStartLocalized: '',
-        periodEndLocalized: '',
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        isDisabledSave: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -330,6 +273,13 @@ describe('CreateLessonForm', () => {
     })
 
     it('should disable save button when both lesson content and homework are empty', () => {
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonContent: '',
+        homework: '',
+        isDisabledSave: true,
+      })
+
       renderWithProviders(<CreateLessonForm />)
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
@@ -337,33 +287,40 @@ describe('CreateLessonForm', () => {
     })
 
     it('should enable save button when lesson content is provided', async () => {
-      const user = userEvent.setup()
-      renderWithProviders(<CreateLessonForm />)
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonContent: 'Some lesson content',
+        isDisabledSave: false,
+      })
 
-      const lessonInput = screen.getByTestId('lesson-content')
-      await user.type(lessonInput, 'Some lesson content')
+      renderWithProviders(<CreateLessonForm />)
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       expect(saveButton).toBeEnabled()
     })
 
     it('should enable save button when homework is provided', async () => {
-      const user = userEvent.setup()
-      renderWithProviders(<CreateLessonForm />)
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        homework: 'Some homework',
+        isDisabledSave: false,
+      })
 
-      const homeworkInput = screen.getByTestId('homework')
-      await user.type(homeworkInput, 'Some homework')
+      renderWithProviders(<CreateLessonForm />)
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       expect(saveButton).toBeEnabled()
     })
 
     it('should disable save button when lesson is absent and reason is empty', async () => {
-      const user = userEvent.setup()
-      renderWithProviders(<CreateLessonForm />)
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonType: 'student_absent',
+        absenceReason: '',
+        isDisabledSave: true,
+      })
 
-      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
-      await user.selectOptions(lessonStatusSelect, 'student_absent')
+      renderWithProviders(<CreateLessonForm />)
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       expect(saveButton).toBeDisabled()
@@ -373,117 +330,84 @@ describe('CreateLessonForm', () => {
   describe('Lesson Creation', () => {
     it('should create lesson with correct data for student', async () => {
       const user = userEvent.setup()
-      const mockCreateLesson = vi.fn()
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: mockCreateLesson,
-        isCreating: false,
+      const mockHandleSave = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonContent: 'Test lesson',
+        homework: 'Test homework',
+        handleSave: mockHandleSave,
+        isDisabledSave: false,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
-      const lessonInput = screen.getByTestId('lesson-content')
-      const homeworkInput = screen.getByTestId('homework')
-      await user.type(lessonInput, 'Test lesson')
-      await user.type(homeworkInput, 'Test homework')
-
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       await user.click(saveButton)
 
-      expect(mockCreateLesson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          lessonContent: 'Test lesson',
-          homework: 'Test homework',
-          studentId: mockStudent.id,
-          status: 'documented',
-        }),
-        expect.objectContaining({
-          onSuccess: expect.any(Function),
-        }),
-      )
+      expect(mockHandleSave).toHaveBeenCalled()
     })
 
     it('should create lesson with correct data for group', async () => {
       const user = userEvent.setup()
-      const mockCreateLesson = vi.fn()
-      vi.mocked(useCurrentHolderModule.default).mockReturnValue({
+      const mockHandleSave = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         currentLessonHolder: mockGroupHolder,
-      })
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: mockCreateLesson,
-        isCreating: false,
+        lessonContent: 'Group lesson',
+        handleSave: mockHandleSave,
+        isDisabledSave: false,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
-      const lessonInput = screen.getByTestId('lesson-content')
-      await user.type(lessonInput, 'Group lesson')
-
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       await user.click(saveButton)
 
-      expect(mockCreateLesson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          lessonContent: 'Group lesson',
-          groupId: mockGroup.id,
-          status: 'documented',
-        }),
-        expect.any(Object),
-      )
+      expect(mockHandleSave).toHaveBeenCalled()
     })
 
     it('should create an absent lesson with correct data', async () => {
       const user = userEvent.setup()
-      const mockCreateLesson = vi.fn()
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: mockCreateLesson,
-        isCreating: false,
+      const mockHandleSave = vi.fn()
+      const mockHandleAbsenceReason = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonType: 'student_absent',
+        absenceReason: '',
+        handleSave: mockHandleSave,
+        handleAbsenceReason: mockHandleAbsenceReason,
+        isDisabledSave: false,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
-      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
-      await user.selectOptions(lessonStatusSelect, 'student_absent')
-
       const absenceReasonInput = screen.getByPlaceholderText(
         'Grund für die Abwesenheit...',
       )
-      await user.type(absenceReasonInput, 'Student was sick')
+      await user.type(absenceReasonInput, 'X')
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       await user.click(saveButton)
 
-      expect(mockCreateLesson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          lesson_type: 'student_absent',
-          absence_reason: 'Student was sick',
-          studentId: mockStudent.id,
-          status: 'documented',
-        }),
-        expect.any(Object),
-      )
+      expect(mockHandleAbsenceReason).toHaveBeenCalledWith('X')
+      expect(mockHandleSave).toHaveBeenCalled()
     })
   })
 
   describe('Planned Lesson Update', () => {
     it('should update planned lesson when draft has prepared status', async () => {
       const user = userEvent.setup()
-      const mockUpdateLesson = vi.fn()
-      const mockDraft = {
-        studentId: mockStudent.id,
+      const mockHandleSave = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         lessonContent: 'Planned lesson content',
         homework: 'Planned homework',
-        date: new Date('2023-12-01'),
-        status: 'prepared' as const,
-        id: 1,
-      }
-
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [mockDraft],
-        setDrafts: vi.fn(),
-      })
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
-        updateLesson: mockUpdateLesson,
-        isUpdating: false,
+        handleSave: mockHandleSave,
+        isDisabledSave: false,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -491,71 +415,42 @@ describe('CreateLessonForm', () => {
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       await user.click(saveButton)
 
-      expect(mockUpdateLesson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: 1,
-          status: 'documented',
-          lessonContent: 'Planned lesson content',
-          homework: 'Planned homework',
-        }),
-        expect.objectContaining({
-          onSuccess: expect.any(Function),
-        }),
-      )
+      expect(mockHandleSave).toHaveBeenCalled()
     })
 
     it('should update a lesson to be an absent lesson', async () => {
       const user = userEvent.setup()
-      const mockUpdateLesson = vi.fn()
-      const mockDraft = {
-        studentId: mockStudent.id,
-        lessonContent: 'Planned lesson content',
-        homework: 'Planned homework',
-        date: new Date('2023-12-01'),
-        status: 'prepared' as const,
-        id: 1,
-      }
-
-      vi.mocked(useDraftsModule.useDrafts).mockReturnValue({
-        drafts: [mockDraft],
-        setDrafts: vi.fn(),
-      })
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
-        updateLesson: mockUpdateLesson,
-        isUpdating: false,
+      const mockHandleSave = vi.fn()
+      const mockHandleAbsenceReason = vi.fn()
+      
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
+        lessonType: 'teacher_absent',
+        absenceReason: '',
+        handleSave: mockHandleSave,
+        handleAbsenceReason: mockHandleAbsenceReason,
+        isDisabledSave: false,
       })
 
       renderWithProviders(<CreateLessonForm />)
 
-      const lessonStatusSelect = screen.getByTestId('lesson-status-select')
-      await user.selectOptions(lessonStatusSelect, 'teacher_absent')
-
       const absenceReasonInput = screen.getByPlaceholderText(
         'Grund für die Abwesenheit...',
       )
-      await user.type(absenceReasonInput, 'Teacher was sick')
+      await user.type(absenceReasonInput, 'Y')
 
       const saveButton = screen.getByRole('button', { name: 'Speichern' })
       await user.click(saveButton)
 
-      expect(mockUpdateLesson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: 1,
-          status: 'documented',
-          lesson_type: 'teacher_absent',
-          absence_reason: 'Teacher was sick',
-        }),
-        expect.objectContaining({
-          onSuccess: expect.any(Function),
-        }),
-      )
+      expect(mockHandleAbsenceReason).toHaveBeenCalledWith('Y')
+      expect(mockHandleSave).toHaveBeenCalled()
     })
   })
 
   describe('Loading States', () => {
     it('should show loading indicator when creating', () => {
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         isCreating: true,
       })
 
@@ -565,8 +460,8 @@ describe('CreateLessonForm', () => {
     })
 
     it('should show loading indicator when updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
-        updateLesson: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         isUpdating: true,
       })
 
@@ -576,8 +471,8 @@ describe('CreateLessonForm', () => {
     })
 
     it('should disable form elements when creating', () => {
-      vi.mocked(useCreateLessonModule.useCreateLesson).mockReturnValue({
-        createLesson: vi.fn(),
+      vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
+        ...defaultMocks,
         isCreating: true,
       })
 

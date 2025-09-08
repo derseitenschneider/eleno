@@ -3,7 +3,7 @@ import CustomEditor from '@/components/ui/CustomEditor.component'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { Textarea } from '@/components/ui/textarea'
-import { useLesson } from '@/hooks/useLesson'
+import { useLessonForm } from '@/hooks/useLessonForm'
 import { cn } from '@/lib/utils'
 import { ButtonPlannedLessonAvailable } from './planning/ButtonPlannedLessonAvailable.component'
 
@@ -13,7 +13,6 @@ export function CreateLessonForm() {
     settings,
     handleDate,
     date,
-    isCreating,
     lessonType,
     lessonContent,
     handleLessonContent,
@@ -24,21 +23,23 @@ export function CreateLessonForm() {
     error,
     isDisabledSave,
     handleSave,
+    isLoading,
+    isCreating,
     isUpdating,
-  } = useLesson()
+  } = useLessonForm({ mode: 'create' })
 
   if (!currentLessonHolder || !settings) return null
   return (
     <>
       <div className='mb-3 flex items-center gap-2'>
         <p>Datum</p>
-        <DayPicker setDate={handleDate} date={date} disabled={isCreating} />
+        <DayPicker setDate={handleDate} date={date} disabled={isLoading} />
 
         <ButtonPlannedLessonAvailable date={date} />
       </div>
       <div
         className={cn(
-          isCreating && 'opacity-50',
+          isLoading && 'opacity-50',
           'grid min-[1148px]:grid-cols-2 gap-6',
         )}
       >
@@ -48,7 +49,7 @@ export function CreateLessonForm() {
               <p>Lektion</p>
               <CustomEditor
                 key={`lessonContent-${currentLessonHolder.holder.id}`}
-                disabled={isCreating}
+                disabled={isLoading}
                 value={lessonContent}
                 onChange={handleLessonContent}
                 placeholder='Lektion...'
@@ -58,7 +59,7 @@ export function CreateLessonForm() {
               <p>Hausaufgaben</p>
               <CustomEditor
                 key={`homework-${currentLessonHolder.holder.id}`}
-                disabled={isCreating}
+                disabled={isLoading}
                 value={homework}
                 onChange={handleHomework}
                 placeholder='Hausaufgaben...'
@@ -71,7 +72,7 @@ export function CreateLessonForm() {
             <Textarea
               autoFocus
               key={`absence-${currentLessonHolder.holder.id}`}
-              disabled={isCreating}
+              disabled={isLoading}
               rows={5}
               value={absenceReason}
               onChange={(e) => handleAbsenceReason(e.target.value)}
@@ -91,7 +92,7 @@ export function CreateLessonForm() {
           >
             Speichern
           </Button>
-          {(isCreating || isUpdating) && <MiniLoader />}
+          {isLoading && <MiniLoader />}
         </div>
       </div>
     </>

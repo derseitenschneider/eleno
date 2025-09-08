@@ -15,7 +15,7 @@ import useSettingsQuery from '../../settings/settingsQuery'
 import { usePlannedLessonsQuery } from '../lessonsQueries'
 import { useCreateLesson } from '../useCreateLesson'
 import useCurrentHolder from '../useCurrentHolder'
-import { useUpdateLesson } from '../useUpdateLesson'
+import { useUpdateLessonMutation } from '../useUpdateLessonMutation'
 import { PreparedLessonItem } from './PlannedLessonItem.component'
 
 export type CreatePlannedLessonFormProps = {
@@ -29,7 +29,7 @@ export function CreatePlannedLessonForm({
   const { data: plannedLessons } = usePlannedLessonsQuery()
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
-  const { updateLesson, isUpdating } = useUpdateLesson()
+  const { updateLesson, isUpdating } = useUpdateLessonMutation()
   const { hasAccess } = useSubscription()
   const { currentLessonHolder } = useCurrentHolder()
 
@@ -152,6 +152,8 @@ export function CreatePlannedLessonForm({
         date,
         expiration_base: new Date().toISOString(),
         status: 'prepared',
+        lesson_type: 'held',
+        absence_reason: '',
       },
       {
         onSuccess: resetFields,

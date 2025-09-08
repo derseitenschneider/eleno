@@ -4,7 +4,7 @@ import useFetchErrorToast from '@/hooks/fetchErrorToast'
 import { updateLessonAPI } from '@/services/api/lessons.api'
 import type { Lesson } from '@/types/types'
 
-export function useUpdateLesson() {
+export function useUpdateLessonMutation() {
   const queryClient = useQueryClient()
   const fetchErrorToast = useFetchErrorToast()
   const { mutate: updateLesson, isPending: isUpdating } = useMutation({

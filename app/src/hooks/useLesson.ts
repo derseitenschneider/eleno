@@ -1,6 +1,6 @@
 import { useCreateLesson } from '@/components/features/lessons/useCreateLesson'
 import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
-import { useUpdateLesson } from '@/components/features/lessons/useUpdateLesson'
+import { useUpdateLessonMutation } from '@/components/features/lessons/useUpdateLessonMutation'
 import useSettingsQuery from '@/components/features/settings/settingsQuery'
 import { useDrafts } from '@/services/context/DraftsContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
@@ -17,7 +17,7 @@ export function useLesson() {
   const [date, setDate] = useState<Date>(getInitialDate())
   const { data: settings } = useSettingsQuery()
   const { createLesson, isCreating } = useCreateLesson()
-  const { updateLesson, isUpdating } = useUpdateLesson()
+  const { updateLesson, isUpdating } = useUpdateLessonMutation()
   const { hasAccess } = useSubscription()
   const { drafts, setDrafts } = useDrafts()
   const { currentLessonHolder } = useCurrentHolder()

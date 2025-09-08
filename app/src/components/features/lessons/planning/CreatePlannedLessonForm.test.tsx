@@ -15,14 +15,14 @@ import * as settingsQueryModule from '../../settings/settingsQuery'
 import * as lessonsQueriesModule from '../lessonsQueries'
 import * as useCreateLessonModule from '../useCreateLesson'
 import * as useCurrentHolderModule from '../useCurrentHolder'
-import * as useUpdateLessonModule from '../useUpdateLesson'
+import * as useUpdateLessonMutationModule from '../useUpdateLessonMutation'
 import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
 
 // Mock modules
 vi.mock('../useCurrentHolder')
 vi.mock('@/services/context/SubscriptionContext')
 vi.mock('../useCreateLesson')
-vi.mock('../useUpdateLesson')
+vi.mock('../useUpdateLessonMutation')
 vi.mock('../../settings/settingsQuery')
 vi.mock('../lessonsQueries')
 vi.mock('@/services/context/LessonPlanningContext')
@@ -125,7 +125,7 @@ describe('CreatePlannedLessonForm', () => {
       isCreating: defaultMocks.isCreating,
     })
 
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+    vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
       updateLesson: mockUpdateLesson,
       isUpdating: defaultMocks.isUpdating,
     })
@@ -375,7 +375,7 @@ describe('CreatePlannedLessonForm', () => {
     })
 
     it('disables save button when updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: true,
       })
@@ -733,7 +733,7 @@ describe('CreatePlannedLessonForm', () => {
     })
 
     it('shows mini loader when updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: true,
       })

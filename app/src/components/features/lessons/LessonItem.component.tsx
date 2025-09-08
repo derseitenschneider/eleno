@@ -24,7 +24,9 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
       data-testid='lesson-item'
       className={cn('rounded-sm p-3', {
         'border-t border-r border-b border-hairline border-l-4 border-l-warning/50 ':
-          lesson.lesson_type !== 'held',
+          lesson.lesson_type === 'student_absent',
+        'border-t border-r border-b border-hairline border-l-4 border-l-yellow-600/50 ':
+          lesson.lesson_type === 'teacher_absent',
         'border border-hairline bg-background100':
           lesson.lesson_type === 'held',
       })}

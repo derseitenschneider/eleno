@@ -6,10 +6,10 @@ import { createMockLesson } from '@/test/factories'
 import { renderWithProviders } from '@/test/testUtils'
 import type { Lesson } from '@/types/types'
 import UpdateLesson from './UpdateLesson.component'
-import * as useUpdateLessonModule from './useUpdateLesson'
+import * as useUpdateLessonMutationModule from './useUpdateLessonMutation'
 
 // Mock modules
-vi.mock('./useUpdateLesson')
+vi.mock('./useUpdateLessonMutation')
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),
@@ -104,7 +104,7 @@ describe('UpdateLesson', () => {
   }
 
   const defaultMocks = {
-    useUpdateLesson: {
+    useUpdateLessonMutation: {
       updateLesson: vi.fn(),
       isUpdating: false,
     },
@@ -131,8 +131,8 @@ describe('UpdateLesson', () => {
     queryClient.setQueryData(['latest-3-lessons'], [mockLesson])
 
     // Setup default mocks
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue(
-      defaultMocks.useUpdateLesson,
+    vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue(
+      defaultMocks.useUpdateLessonMutation,
     )
   })
 
@@ -238,7 +238,7 @@ describe('UpdateLesson', () => {
       const user = userEvent.setup()
       const mockUpdateLesson = vi.fn()
 
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
       })
@@ -280,7 +280,7 @@ describe('UpdateLesson', () => {
         options.onSuccess()
       })
 
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
       })
@@ -302,7 +302,7 @@ describe('UpdateLesson', () => {
       const user = userEvent.setup()
       const mockUpdateLesson = vi.fn()
 
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: false,
       })
@@ -321,7 +321,7 @@ describe('UpdateLesson', () => {
 
   describe('Loading States', () => {
     it('should disable form elements when updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: vi.fn(),
         isUpdating: true,
       })
@@ -341,7 +341,7 @@ describe('UpdateLesson', () => {
     })
 
     it('should show saving state in button text', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: vi.fn(),
         isUpdating: true,
       })
@@ -353,7 +353,7 @@ describe('UpdateLesson', () => {
     })
 
     it('should enable form elements when not updating', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: vi.fn(),
         isUpdating: false,
       })

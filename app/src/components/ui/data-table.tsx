@@ -83,8 +83,11 @@ export function DataTable<TData, TValue>({
                 className={cn(
                   'bg-background100 sm:even:bg-background50',
                   isSelectable && 'cursor-pointer',
-                  row.original?.lesson_type !== 'held' &&
-                    'border-l-4 border-warning/60 ',
+                  row.original?.lesson_type === 'student_absent' &&
+                    'border-l-4 border-warning/50 ',
+                  row.original?.lesson_type === 'teacher_absent' &&
+                    'border-l-4 border-yellow-600/50 ',
+                  row.original?.lesson_type === 'held' && 'border-none',
                 )}
                 onClick={() => toggleSelection(row)}
               >

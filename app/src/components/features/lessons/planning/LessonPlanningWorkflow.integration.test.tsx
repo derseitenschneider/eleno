@@ -18,7 +18,7 @@ import * as settingsQueryModule from '../../settings/settingsQuery'
 import * as lessonsQueriesModule from '../lessonsQueries'
 import * as useCreateLessonModule from '../useCreateLesson'
 import * as useCurrentHolderModule from '../useCurrentHolder'
-import * as useUpdateLessonModule from '../useUpdateLesson'
+import * as useUpdateLessonMutationModule from '../useUpdateLessonMutation'
 import { CreatePlannedLessonForm } from './CreatePlannedLessonForm.component'
 import { PreparedLessonItem } from './PlannedLessonItem.component'
 
@@ -26,7 +26,7 @@ import { PreparedLessonItem } from './PlannedLessonItem.component'
 vi.mock('../useCurrentHolder')
 vi.mock('@/services/context/SubscriptionContext')
 vi.mock('../useCreateLesson')
-vi.mock('../useUpdateLesson')
+vi.mock('../useUpdateLessonMutation')
 vi.mock('../../settings/settingsQuery')
 vi.mock('../lessonsQueries')
 vi.mock('@/services/context/LessonPlanningContext')
@@ -131,7 +131,7 @@ describe('Lesson Planning Workflow Integration', () => {
       isCreating: false,
     })
 
-    vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+    vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
       updateLesson: mockUpdateLesson,
       isUpdating: false,
     })
@@ -462,7 +462,7 @@ describe('Lesson Planning Workflow Integration', () => {
     })
 
     it('should handle updating state correctly', () => {
-      vi.mocked(useUpdateLessonModule.useUpdateLesson).mockReturnValue({
+      vi.mocked(useUpdateLessonMutationModule.useUpdateLessonMutation).mockReturnValue({
         updateLesson: mockUpdateLesson,
         isUpdating: true,
       })
