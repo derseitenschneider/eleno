@@ -1,12 +1,13 @@
+import { useLesson } from '@/hooks/useLesson'
 import { cn } from '@/lib/utils'
 import { LessonPlanningProvider } from '@/services/context/LessonPlanningContext'
-import useSettingsQuery from '../settings/settingsQuery'
 import { Blocker } from '../subscription/Blocker'
 import { CreateLessonForm } from './CreateLessonForm.component'
+import { LessonStatusSelect } from './LessonStatusSelect.component'
 import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 
 function CreateLesson() {
-  const { data: settings } = useSettingsQuery()
+  const { lessonType, handleLessonType, settings } = useLesson()
 
   return (
     <LessonPlanningProvider>
@@ -18,7 +19,13 @@ function CreateLesson() {
       >
         <Blocker blockerId='createLesson' />
         <div className='mb-1 flex items-center justify-between'>
-          <h5 className=' m-0'>Neue Lektion</h5>
+          <div className='flex items-center gap-2'>
+            <h5 className=' m-0'>Neue Lektion</h5>
+            <LessonStatusSelect
+              value={lessonType}
+              onChange={handleLessonType}
+            />
+          </div>
           <ButtonPlanningModal />
         </div>
         <CreateLessonForm />

@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as useDraftsModule from '@/services/context/DraftsContext'
@@ -22,14 +22,14 @@ vi.mock('../settings/settingsQuery')
 vi.mock('./LessonStatusSelect.component', () => ({
   LessonStatusSelect: ({ value, onChange, disabled }: any) => (
     <select
-      data-testid="lesson-status-select"
+      data-testid='lesson-status-select'
       value={value}
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
     >
-      <option value="held">Stattgefunden</option>
-      <option value="student_absent">Schüler abwesend</option>
-      <option value="teacher_absent">Lehrer abwesend</option>
+      <option value='held'>Stattgefunden</option>
+      <option value='student_absent'>Schüler abwesend</option>
+      <option value='teacher_absent'>Lehrer abwesend</option>
     </select>
   ),
 }))

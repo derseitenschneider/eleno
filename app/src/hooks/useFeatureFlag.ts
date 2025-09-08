@@ -1,5 +1,4 @@
 import useFeatureFlagQuery from '@/components/features/flags/featureFlagsQuery'
-import { appConfig } from '@/config'
 import { useUser } from '@/services/context/UserContext'
 
 const useFeatureFlag = (flagName: string): boolean => {

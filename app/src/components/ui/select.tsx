@@ -1,18 +1,22 @@
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
-import { useEffect, useState } from 'react'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
+
+type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
+  shouldRenderNativeMobile?: boolean
+}
 
 // --- Modified Select Component ---
 const Select = ({
   children,
+  shouldRenderNativeMobile = true,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) => {
+}: SelectProps) => {
   const isMobile = useIsMobileDevice()
 
-  if (isMobile) {
+  if (isMobile && shouldRenderNativeMobile) {
     let placeholder: string | undefined
     let contentChildren: React.ReactNode = null
 
@@ -111,7 +115,7 @@ const SelectValue = SelectPrimitive.Value
 
 interface SelectTriggerProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
-  hideChevron?: boolean;
+  hideChevron?: boolean
 }
 
 const SelectTrigger = React.forwardRef<

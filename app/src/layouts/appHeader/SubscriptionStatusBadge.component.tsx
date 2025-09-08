@@ -41,7 +41,7 @@ export default function SubscriptionStatusBadge() {
         variant = 'destructive'
         text = isMobile
           ? 'Probezeit abgelaufen'
-          : 'Ihre Probezeit ist abgelaufen'
+          : 'Deine Probezeit ist abgelaufen'
       }
     } else {
       switch (subscription_status) {
