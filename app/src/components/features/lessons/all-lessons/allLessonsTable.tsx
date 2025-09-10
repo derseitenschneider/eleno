@@ -33,7 +33,8 @@ export default function AllLessonsTable({
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
     const date = row.original.date as Date
     const lessonContent = row.original.lessonContent as string
-    const homework = row.original.homework
+    const homework = row.original.homework as string
+    const absenceReason = row.original.absence_reason as string
 
     return (
       date
@@ -46,6 +47,7 @@ export default function AllLessonsTable({
         .includes(value?.toLowerCase()) ||
       lessonContent?.toLowerCase().includes(value?.toLowerCase()) ||
       homework?.toLowerCase().includes(value?.toLowerCase()) ||
+      absenceReason?.toLowerCase().includes(value?.toLowerCase()) ||
       false
     )
   }

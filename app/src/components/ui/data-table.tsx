@@ -65,9 +65,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 )
               })}
@@ -84,9 +84,9 @@ export function DataTable<TData, TValue>({
                   'bg-background100 sm:even:bg-background50',
                   isSelectable && 'cursor-pointer',
                   row.original?.lesson_type === 'student_absent' &&
-                    'border-l-4 border-warning/50 ',
+                  'border-l-4 border-warning/50 ',
                   row.original?.lesson_type === 'teacher_absent' &&
-                    'border-l-4 border-yellow-600/50 ',
+                  'sm:border-l-4 border-yellow-600/50',
                   row.original?.lesson_type === 'held' && 'border-none',
                 )}
                 onClick={() => toggleSelection(row)}

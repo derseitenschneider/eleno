@@ -60,15 +60,14 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     },
   },
   {
-    accessorKey: 'lessonDetails',
-    header: () => <span>Details</span>,
-    size: 90,
+    accessorKey: 'lessonContent',
+    header: () => <span>Lektion</span>,
+    size: 45,
     minSize: 0,
     cell: ({ row }) => {
       const lessonType = row.original.lesson_type
       const absenceReason = row.original.absence_reason
       const lessonContent = row.original.lessonContent
-      const homework = row.original.homework
 
       return (
         <div className='h-full w-full p-2'>
@@ -84,20 +83,31 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
               </p>
             </div>
           ) : (
-            <div className='grid gap-6 md:grid-cols-2'>
-              <div>
-                <p>Lektion</p>
-                <div className='has-list break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
-                  {parse(removeHTMLAttributes(lessonContent || '—'))}
-                </div>
-              </div>
-              <div>
-                <p>Hausaufgaben</p>
-                <div className='has-list break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
-                  {parse(removeHTMLAttributes(homework || '—'))}
-                </div>
-              </div>
+            <div className='has-list break-words text-sm text-foreground [&_a:link]:underline [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
+              {parse(removeHTMLAttributes(lessonContent || '—'))}
             </div>
+          )}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: 'homework',
+    header: () => <span>Hausaufgaben</span>,
+    size: 45,
+    minSize: 0,
+    cell: ({ row }) => {
+      const lessonType = row.original.lesson_type
+      const homework = row.original.homework
+
+      return (
+        <div className='h-full w-full p-2'>
+          {lessonType === 'held' ? (
+            <div className='has-list break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
+              {parse(removeHTMLAttributes(homework || '—'))}
+            </div>
+          ) : (
+            <div className='text-sm text-foreground/50'>—</div>
           )}
         </div>
       )
