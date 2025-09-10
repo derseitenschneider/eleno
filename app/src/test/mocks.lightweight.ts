@@ -216,6 +216,7 @@ export const lightweightLoadingContext = Object.freeze({
 export const lightweightSubscriptionContext = Object.freeze({
   subscription: null,
   isLoading: false,
+  hasAccess: true,
 })
 
 export const lightweightLessonHolderContext = Object.freeze({

@@ -452,6 +452,7 @@ describe('CreateLessonForm', () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
         isCreating: true,
+        isLoading: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -463,6 +464,7 @@ describe('CreateLessonForm', () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
         isUpdating: true,
+        isLoading: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -474,6 +476,7 @@ describe('CreateLessonForm', () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
         isCreating: true,
+        isLoading: true,
       })
 
       renderWithProviders(<CreateLessonForm />)
