@@ -81,12 +81,12 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
                 className={cn(
-                  'bg-background100 sm:even:bg-background50',
+                  'bg-background100 min-[769px]:even:bg-background50',
                   isSelectable && 'cursor-pointer',
                   row.original?.lesson_type === 'student_absent' &&
-                  'border-l-4 border-warning/50 ',
+                  'min-[769px]:border-l-4 border-warning/50 ',
                   row.original?.lesson_type === 'teacher_absent' &&
-                  'sm:border-l-4 border-yellow-600/50',
+                  'min-[769px]:border-l-4 border-yellow-600/50',
                   row.original?.lesson_type === 'held' && 'border-none',
                 )}
                 onClick={() => toggleSelection(row)}

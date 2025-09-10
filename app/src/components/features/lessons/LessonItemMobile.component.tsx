@@ -83,19 +83,20 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
               Bearbeiten
             </Button>
 
-            <Button
-              variant='outline'
-              onClick={() => {
-                setModalOpen('SHARE_HOMEWORK')
-                setOpen(false)
-              }}
-              className='flex w-full items-center gap-2'
-              size='sm'
-            >
-              <MessageSquareShare className='size-4' />
-              Hausaufgaben teilen
-            </Button>
-
+            {lesson.lesson_type === 'held' && (
+              <Button
+                variant='outline'
+                onClick={() => {
+                  setModalOpen('SHARE_HOMEWORK')
+                  setOpen(false)
+                }}
+                className='flex w-full items-center gap-2'
+                size='sm'
+              >
+                <MessageSquareShare className='size-4' />
+                Hausaufgaben teilen
+              </Button>
+            )}
             <Button
               variant='destructive'
               onClick={() => {

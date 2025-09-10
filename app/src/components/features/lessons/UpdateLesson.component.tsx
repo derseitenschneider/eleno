@@ -3,12 +3,12 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { DayPicker } from '@/components/ui/daypicker.component'
 import { SaveAbortButtons } from '@/components/ui/SaveAbortButtonGroup'
 import { Separator } from '@/components/ui/separator'
+import { useLessonForm } from '@/hooks/useLessonForm'
 import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
+import { Textarea } from '../../ui/textarea'
 import { Blocker } from '../subscription/Blocker'
 import { LessonStatusSelect } from './LessonStatusSelect.component'
-import { Textarea } from '../../ui/textarea'
-import { useLessonForm } from '@/hooks/useLessonForm'
 
 type EditLessonProps = {
   lessonId: number
@@ -53,19 +53,23 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
     handleSave,
     isLoading,
     isDisabledSave,
-  } = useLessonForm({ 
-    mode: 'update', 
+  } = useLessonForm({
+    mode: 'update',
     initialLesson: lessonToUpdate,
-    onSuccess: onCloseModal 
+    onSuccess: onCloseModal,
   })
 
   return (
-    <div className='relative pb-4'>
+    <div className='relative px-1 pb-4'>
       <Blocker />
       <div className='mb-3 flex items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isLoading} date={date} setDate={handleDate} />
-        <LessonStatusSelect value={lessonType} onChange={handleLessonType} disabled={isLoading} />
+        <LessonStatusSelect
+          value={lessonType}
+          onChange={handleLessonType}
+          disabled={isLoading}
+        />
       </div>
       <div className='mb-6 items-center gap-8 lg:flex'>
         {lessonType === 'held' ? (
@@ -91,7 +95,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
             </div>
           </>
         ) : (
-          <div className="md:w-[450px]">
+          <div className='md:w-[450px]'>
             <p className='text-foreground/70'>Abwesenheitsgrund</p>
             <Textarea
               disabled={isLoading}
