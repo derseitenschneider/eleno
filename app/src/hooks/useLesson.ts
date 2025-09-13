@@ -4,7 +4,7 @@ import { useUpdateLessonMutation } from '@/components/features/lessons/useUpdate
 import useSettingsQuery from '@/components/features/settings/settingsQuery'
 import { useDrafts } from '@/services/context/DraftsContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { AbsenceType, Lesson } from '@/types/types'
+import { AttendanceStatus, Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -23,15 +23,15 @@ export function useLesson() {
   const { currentLessonHolder } = useCurrentHolder()
   const [lessonContent, setLessonContent] = useState('')
   const [homework, setHomework] = useState('')
-  const [lessonType, setLessonType] = useState<AbsenceType>('held')
+  const [attendanceStatus, setAttendanceStatus] = useState<AttendanceStatus>('held')
   const [absenceReason, setAbsenceReason] = useState('')
   const [error, setError] = useState('')
   const isDisabledSave =
     isCreating ||
     isUpdating ||
     !hasAccess ||
-    (lessonType === 'held' && !lessonContent && !homework) ||
-    (lessonType !== 'held' && !absenceReason)
+    (attendanceStatus === 'held' && !lessonContent && !homework) ||
+    (attendanceStatus !== 'held' && !absenceReason)
 
   const typeField: 'studentId' | 'groupId' =
     currentLessonHolder?.type === 's' ? 'studentId' : 'groupId'
@@ -44,13 +44,13 @@ export function useLesson() {
       setLessonContent(currentDraft.lessonContent || '')
       setHomework(currentDraft.homework || '')
       setDate(currentDraft.date || getInitialDate())
-      setLessonType(currentDraft.lesson_type || 'held')
+      setAttendanceStatus(currentDraft.attendance_status || 'held')
       setAbsenceReason(currentDraft.absence_reason || '')
     } else {
       setLessonContent('')
       setHomework('')
       setDate(getInitialDate())
-      setLessonType('held')
+      setAttendanceStatus('held')
       setAbsenceReason('')
     }
   }, [drafts, typeField, currentLessonHolder?.holder.id])
@@ -76,7 +76,7 @@ export function useLesson() {
             ? {
                 ...draft,
                 date: inputDate,
-                lesson_type: lessonType,
+                attendance_status: attendanceStatus,
                 absence_reason: absenceReason,
               }
             : draft,
@@ -87,7 +87,7 @@ export function useLesson() {
         {
           [typeField]: currentLessonHolder?.holder.id,
           date: inputDate,
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
         },
       ]
@@ -108,7 +108,7 @@ export function useLesson() {
                 ...draft,
                 lessonContent: content,
                 date,
-                lesson_type: lessonType,
+                attendance_status: attendanceStatus,
                 absence_reason: absenceReason,
               }
             : draft,
@@ -120,7 +120,7 @@ export function useLesson() {
           [typeField]: currentLessonHolder?.holder.id,
           lessonContent: content,
           date,
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
         },
       ]
@@ -143,7 +143,7 @@ export function useLesson() {
                 ...draft,
                 homework: content,
                 date,
-                lesson_type: lessonType,
+                attendance_status: attendanceStatus,
                 absence_reason: absenceReason,
               }
             : draft,
@@ -155,7 +155,7 @@ export function useLesson() {
           [typeField]: currentLessonHolder?.holder.id,
           homework: content,
           date,
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
         },
       ]
@@ -178,7 +178,7 @@ export function useLesson() {
                 ...draft,
                 absence_reason: content,
                 date,
-                lesson_type: lessonType,
+                attendance_status: attendanceStatus,
               }
             : draft,
         )
@@ -189,15 +189,15 @@ export function useLesson() {
           [typeField]: currentLessonHolder?.holder.id,
           absence_reason: content,
           date,
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
         },
       ]
     })
   }
 
-  function handleLessonType(type: AbsenceType) {
+  function handleAttendanceStatus(type: AttendanceStatus) {
     setError('')
-    setLessonType(type)
+    setAttendanceStatus(type)
 
     setDrafts((prev) => {
       if (
@@ -209,7 +209,7 @@ export function useLesson() {
           draft[typeField] === currentLessonHolder?.holder.id
             ? {
                 ...draft,
-                lesson_type: type,
+                attendance_status: type,
                 date,
                 absence_reason: absenceReason,
               }
@@ -220,7 +220,7 @@ export function useLesson() {
         ...prev,
         {
           [typeField]: currentLessonHolder?.holder.id,
-          lesson_type: type,
+          attendance_status: type,
           date,
           absence_reason: absenceReason,
         },
@@ -233,7 +233,7 @@ export function useLesson() {
     setHomework('')
     setLessonContent('')
     setAbsenceReason('')
-    setLessonType('held')
+    setAttendanceStatus('held')
     setDrafts((prev) =>
       prev.filter(
         (draft) => draft[typeField] !== currentLessonHolder?.holder.id,
@@ -242,12 +242,12 @@ export function useLesson() {
   }
 
   function handleSave() {
-    if (lessonType === 'held' && !lessonContent && !homework) {
+    if (attendanceStatus === 'held' && !lessonContent && !homework) {
       return setError(
         'Die Lektion benötigt mindestens Inhalt oder Hausaufgaben.',
       )
     }
-    if (lessonType !== 'held' && !absenceReason) {
+    if (attendanceStatus !== 'held' && !absenceReason) {
       return setError('Ein Grund für die Abwesenheit ist erforderlich.')
     }
 
@@ -263,7 +263,7 @@ export function useLesson() {
           lessonContent: removeHTMLAttributes(lessonContent),
           date,
           status: 'documented',
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
           expiration_base: new Date().toISOString(),
         },
@@ -284,7 +284,7 @@ export function useLesson() {
         date,
         expiration_base: new Date().toISOString(),
         status: 'documented',
-        lesson_type: lessonType,
+        attendance_status: attendanceStatus,
         absence_reason: absenceReason,
       },
       {
@@ -299,7 +299,7 @@ export function useLesson() {
     handleDate,
     date,
     isCreating,
-    lessonType,
+    attendanceStatus,
     lessonContent,
     handleLessonContent,
     homework,
@@ -310,6 +310,6 @@ export function useLesson() {
     isDisabledSave,
     handleSave,
     isUpdating,
-    handleLessonType,
+    handleAttendanceStatus,
   }
 }

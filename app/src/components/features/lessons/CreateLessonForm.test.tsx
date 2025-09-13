@@ -57,7 +57,7 @@ describe('CreateLessonForm', () => {
     handleDate: vi.fn(),
     date: new Date('2023-12-01'),
     isCreating: false,
-    lessonType: 'held' as const,
+    attendanceStatus: 'held' as const,
     lessonContent: '',
     handleLessonContent: vi.fn(),
     homework: '',
@@ -69,7 +69,7 @@ describe('CreateLessonForm', () => {
     handleSave: vi.fn(),
     isUpdating: false,
     isLoading: false,
-    handleLessonType: vi.fn(),
+    handleAttendanceStatus: vi.fn(),
   }
 
   beforeEach(() => {
@@ -112,7 +112,7 @@ describe('CreateLessonForm', () => {
     it('should not render when settings are not available', () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
-        settings: null,
+        settings: undefined,
       })
 
       const { container } = renderWithProviders(<CreateLessonForm />)
@@ -176,7 +176,7 @@ describe('CreateLessonForm', () => {
     it('should show absence reason field when lesson type is absent', async () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
-        lessonType: 'student_absent',
+        attendanceStatus: 'student_absent_excused',
       })
 
       renderWithProviders(<CreateLessonForm />)
@@ -315,7 +315,7 @@ describe('CreateLessonForm', () => {
     it('should disable save button when lesson is absent and reason is empty', async () => {
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
-        lessonType: 'student_absent',
+        attendanceStatus: 'student_absent_excused',
         absenceReason: '',
         isDisabledSave: true,
       })
@@ -375,7 +375,7 @@ describe('CreateLessonForm', () => {
       
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
-        lessonType: 'student_absent',
+        attendanceStatus: 'student_absent_excused',
         absenceReason: '',
         handleSave: mockHandleSave,
         handleAbsenceReason: mockHandleAbsenceReason,
@@ -425,7 +425,7 @@ describe('CreateLessonForm', () => {
       
       vi.mocked(useLessonFormModule.useLessonForm).mockReturnValue({
         ...defaultMocks,
-        lessonType: 'teacher_absent',
+        attendanceStatus: 'teacher_absent',
         absenceReason: '',
         handleSave: mockHandleSave,
         handleAbsenceReason: mockHandleAbsenceReason,

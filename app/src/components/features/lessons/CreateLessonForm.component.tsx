@@ -13,7 +13,7 @@ export function CreateLessonForm() {
     settings,
     handleDate,
     date,
-    lessonType,
+    attendanceStatus,
     lessonContent,
     handleLessonContent,
     homework,
@@ -42,7 +42,7 @@ export function CreateLessonForm() {
           'grid min-[1148px]:grid-cols-2 gap-6',
         )}
       >
-        {lessonType === 'held' ? (
+        {attendanceStatus === 'held' ? (
           <>
             <div>
               <p>Lektion</p>

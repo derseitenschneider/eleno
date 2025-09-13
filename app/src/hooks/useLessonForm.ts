@@ -6,7 +6,7 @@ import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
 import useSettingsQuery from '@/components/features/settings/settingsQuery'
 import { useDrafts } from '@/services/context/DraftsContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import type { AbsenceType, Lesson } from '@/types/types'
+import type { AttendanceStatus, Lesson } from '@/types/types'
 import { removeHTMLAttributes } from '@/utils/sanitizeHTML'
 
 export type UseLessonFormProps = {
@@ -30,8 +30,8 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
   const [homework, setHomework] = useState(
     mode === 'update' && initialLesson ? initialLesson.homework || '' : ''
   )
-  const [lessonType, setLessonType] = useState<AbsenceType>(
-    mode === 'update' && initialLesson ? initialLesson.lesson_type || 'held' : 'held'
+  const [attendanceStatus, setAttendanceStatus] = useState<AttendanceStatus>(
+    mode === 'update' && initialLesson ? initialLesson.attendance_status || 'held' : 'held'
   )
   const [absenceReason, setAbsenceReason] = useState(
     mode === 'update' && initialLesson ? initialLesson.absence_reason || '' : ''
@@ -51,7 +51,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
       setDate(initialLesson.date || new Date())
       setLessonContent(initialLesson.lessonContent || '')
       setHomework(initialLesson.homework || '')
-      setLessonType(initialLesson.lesson_type || 'held')
+      setAttendanceStatus(initialLesson.attendance_status || 'held')
       setAbsenceReason(initialLesson.absence_reason || '')
     }
   }, [mode, initialLesson])
@@ -69,13 +69,13 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
         setLessonContent(currentDraft.lessonContent || '')
         setHomework(currentDraft.homework || '')
         setDate(currentDraft.date || new Date())
-        setLessonType(currentDraft.lesson_type || 'held')
+        setAttendanceStatus(currentDraft.attendance_status || 'held')
         setAbsenceReason(currentDraft.absence_reason || '')
       } else {
         setLessonContent('')
         setHomework('')
         setDate(new Date())
-        setLessonType('held')
+        setAttendanceStatus('held')
         setAbsenceReason('')
       }
     }
@@ -96,7 +96,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
     date: Date
     lessonContent: string
     homework: string
-    lesson_type: AbsenceType
+    attendance_status: AttendanceStatus
     absence_reason: string
   }>) => {
     if (mode !== 'create' || !currentLessonHolder) return
@@ -111,7 +111,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
         date: updates.date || date,
         lessonContent: updates.lessonContent !== undefined ? updates.lessonContent : lessonContent,
         homework: updates.homework !== undefined ? updates.homework : homework,
-        lesson_type: updates.lesson_type || lessonType,
+        attendance_status: updates.attendance_status || attendanceStatus,
         absence_reason: updates.absence_reason !== undefined ? updates.absence_reason : absenceReason,
       }
 
@@ -157,11 +157,11 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
     }
   }
 
-  const handleLessonType = (type: AbsenceType) => {
+  const handleAttendanceStatus = (type: AttendanceStatus) => {
     setError('')
-    setLessonType(type)
+    setAttendanceStatus(type)
     if (mode === 'create') {
-      updateDraft({ lesson_type: type })
+      updateDraft({ attendance_status: type })
     }
   }
 
@@ -171,7 +171,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
       setHomework('')
       setLessonContent('')
       setAbsenceReason('')
-      setLessonType('held')
+      setAttendanceStatus('held')
       setDrafts((prev) =>
         prev.filter(
           (draft) => draft[typeField] !== currentLessonHolder?.holder.id,
@@ -181,11 +181,11 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
   }
 
   const validateFields = () => {
-    if (lessonType === 'held' && !lessonContent && !homework) {
+    if (attendanceStatus === 'held' && !lessonContent && !homework) {
       setError('Die Lektion benötigt mindestens Inhalt oder Hausaufgaben.')
       return false
     }
-    if (lessonType !== 'held' && !absenceReason) {
+    if (attendanceStatus !== 'held' && !absenceReason) {
       setError('Ein Grund für die Abwesenheit ist erforderlich.')
       return false
     }
@@ -204,7 +204,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
           lessonContent: removeHTMLAttributes(lessonContent),
           homework: removeHTMLAttributes(homework),
           date,
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
         },
         {
@@ -227,7 +227,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
             lessonContent: removeHTMLAttributes(lessonContent),
             date,
             status: 'documented',
-            lesson_type: lessonType,
+            attendance_status: attendanceStatus,
             absence_reason: absenceReason,
             expiration_base: new Date().toISOString(),
           },
@@ -249,7 +249,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
           date,
           expiration_base: new Date().toISOString(),
           status: 'documented',
-          lesson_type: lessonType,
+          attendance_status: attendanceStatus,
           absence_reason: absenceReason,
         },
         {
@@ -266,15 +266,15 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
   const isDisabledSave =
     isLoading ||
     !hasAccess ||
-    (lessonType === 'held' && !lessonContent && !homework) ||
-    (lessonType !== 'held' && !absenceReason)
+    (attendanceStatus === 'held' && !lessonContent && !homework) ||
+    (attendanceStatus !== 'held' && !absenceReason)
 
   return {
     // State
     date,
     lessonContent,
     homework,
-    lessonType,
+    attendanceStatus,
     absenceReason,
     error,
     
@@ -283,7 +283,7 @@ export function useLessonForm({ mode, initialLesson, onSuccess }: UseLessonFormP
     handleLessonContent,
     handleHomework,
     handleAbsenceReason,
-    handleLessonType,
+    handleAttendanceStatus,
     handleSave,
     
     // Computed values

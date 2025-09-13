@@ -24,11 +24,13 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
       data-testid='lesson-item'
       className={cn('rounded-sm p-3', {
         'border-t border-r border-b border-hairline border-l-4 border-l-warning/50 ':
-          lesson.lesson_type === 'student_absent',
+          lesson.attendance_status === 'student_absent_excused',
+        'border-t border-r border-b border-hairline border-l-4 border-l-red-600/50 ':
+          lesson.attendance_status === 'student_absent_not_excused',
         'border-t border-r border-b border-hairline border-l-4 border-l-yellow-600/50 ':
-          lesson.lesson_type === 'teacher_absent',
+          lesson.attendance_status === 'teacher_absent',
         'border border-hairline bg-background100':
-          lesson.lesson_type === 'held',
+          lesson.attendance_status === 'held',
       })}
     >
       {!isDisplayOnly && (
@@ -44,7 +46,7 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
           <div className='flex items-center gap-6 md:gap-4'>
             {!isMobile ? (
               <>
-                {lesson.lesson_type === 'held' && (
+                {lesson.attendance_status === 'held' && (
                   <ButtonShareHomework lessonId={lesson.id} />
                 )}
                 <PreviousLessonDropDown lessonId={lesson.id} />
@@ -56,7 +58,7 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
         </div>
       )}
       <div className={cn('md:grid-cols-2 grid gap-6')}>
-        {lesson.lesson_type === 'held' ? (
+        {lesson.attendance_status === 'held' ? (
           <>
             <div>
               <p>Lektion</p>
@@ -80,8 +82,10 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
         ) : (
           <div className='min-[1148px]:col-span-2'>
             <p className='font-medium'>
-              {lesson.lesson_type === 'student_absent'
-                ? 'Schülerabsenz'
+              {lesson.attendance_status === 'student_absent_excused'
+                ? 'Schülerabsenz (entschuldigt)'
+                : lesson.attendance_status === 'student_absent_not_excused'
+                ? 'Schülerabsenz (unentschuldigt)'
                 : 'Lehrerabsenz'}
             </p>
             <div className='break-words text-sm italic text-foreground/85'>

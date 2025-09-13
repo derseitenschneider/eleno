@@ -160,7 +160,7 @@ function ExportLessons({
           month: '2-digit',
           year: '2-digit',
         }),
-        lesson_type: lesson.lesson_type,
+        attendance_status: lesson.attendance_status,
         absence_reason: lesson.absence_reason,
       }))
 

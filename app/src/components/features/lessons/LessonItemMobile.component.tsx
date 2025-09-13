@@ -83,7 +83,7 @@ export function LessonItemMobile({ lesson }: LessonItemMobileProps) {
               Bearbeiten
             </Button>
 
-            {lesson.lesson_type === 'held' && (
+            {lesson.attendance_status === 'held' && (
               <Button
                 variant='outline'
                 onClick={() => {

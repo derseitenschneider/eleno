@@ -52,7 +52,6 @@ This ensures all Agent OS specifications remain current and accurate for future 
 
 - `npm run dev:prod` - Start development server in production mode
 - `npm run build` - Production build
-- `npm run build:staging` - Build for staging environment
 
 ### Code Quality & Testing
 
@@ -88,9 +87,9 @@ This ensures all Agent OS specifications remain current and accurate for future 
 
 ### Type Generation
 
+ALWAYS generate types for database via the supabase script and then derive from them. Never craft types for the database manually!
+
 - `npm run generate-types:prod` - Generate types from production Supabase
-- `npm run generate-types:staging` - Generate types from staging Supabase
-- `npm run generate-types:local` - Generate types from local Supabase
 
 ## Application Architecture
 

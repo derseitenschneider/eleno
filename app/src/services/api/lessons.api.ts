@@ -120,9 +120,9 @@ export const fetchAllLessonsCSVApi = async ({
 }
 
 export const createLessonAPI = async (lesson: LessonPartial) => {
-  const { date, lesson_type, absence_reason } = lesson
+  const { date, attendance_status, absence_reason } = lesson
 
-  if (lesson_type === 'held' && absence_reason) {
+  if (attendance_status === 'held' && absence_reason) {
     lesson.absence_reason = null
   }
 
@@ -167,9 +167,9 @@ export const deleteLessonAPI = async (lessonId: number) => {
 export const updateLessonAPI = async (
   lesson: Lesson,
 ): Promise<LessonWithGroupId | LessonWithStudentId> => {
-  const { lesson_type, absence_reason } = lesson
+  const { attendance_status, absence_reason } = lesson
 
-  if (lesson_type === 'held' && absence_reason) {
+  if (attendance_status === 'held' && absence_reason) {
     lesson.absence_reason = null
   }
 

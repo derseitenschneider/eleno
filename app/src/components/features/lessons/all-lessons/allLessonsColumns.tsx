@@ -65,17 +65,19 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     size: 45,
     minSize: 0,
     cell: ({ row }) => {
-      const lessonType = row.original.lesson_type
+      const attendanceStatus = row.original.attendance_status
       const absenceReason = row.original.absence_reason
       const lessonContent = row.original.lessonContent
 
       return (
         <div className='h-full w-full p-2'>
-          {lessonType !== 'held' ? (
+          {attendanceStatus !== 'held' ? (
             <div className='text-sm text-foreground'>
               <p className='font-medium'>
-                {lessonType === 'student_absent'
-                  ? 'Schülerabsenz'
+                {attendanceStatus === 'student_absent_excused'
+                  ? 'Schülerabsenz (entschuldigt)'
+                  : attendanceStatus === 'student_absent_not_excused'
+                  ? 'Schülerabsenz (unentschuldigt)'
                   : 'Lehrerabsenz'}
               </p>
               <p className='italic text-foreground/85'>
@@ -97,12 +99,12 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
     size: 45,
     minSize: 0,
     cell: ({ row }) => {
-      const lessonType = row.original.lesson_type
+      const attendanceStatus = row.original.attendance_status
       const homework = row.original.homework
 
       return (
         <div className='h-full w-full p-2'>
-          {lessonType === 'held' ? (
+          {attendanceStatus === 'held' ? (
             <div className='has-list break-words text-sm text-foreground [&_ol]:ml-[16px] [&_ol]:list-decimal [&_ul]:ml-[16px] [&_ul]:list-disc'>
               {parse(removeHTMLAttributes(homework || '—'))}
             </div>
@@ -147,7 +149,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
                   <span>Lektion bearbeiten</span>
                 </DropdownMenuItem>
 
-                {row.original.lesson_type === 'held' && (
+                {row.original.attendance_status === 'held' && (
                   <DropdownMenuItem
                     onClick={() => setOpenModal('SHARE')}
                     className='flex items-center gap-2'
@@ -185,7 +187,7 @@ export const allLessonsColumns: ColumnDef<Lesson>[] = [
             </DialogContent>
           </Dialog>
 
-          {row.original.lesson_type === 'held' && (
+          {row.original.attendance_status === 'held' && (
             <Dialog open={openModal === 'SHARE'} onOpenChange={closeModal}>
               <DialogContent>
                 <DialogHeader>

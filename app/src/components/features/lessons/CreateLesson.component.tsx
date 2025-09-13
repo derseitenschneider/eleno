@@ -7,7 +7,7 @@ import { LessonStatusSelect } from './LessonStatusSelect.component'
 import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 
 function CreateLesson() {
-  const { lessonType, handleLessonType, settings } = useLesson()
+  const { attendanceStatus, handleAttendanceStatus, settings } = useLesson()
 
   return (
     <LessonPlanningProvider>
@@ -22,8 +22,8 @@ function CreateLesson() {
           <div className='flex items-center gap-2'>
             <h5 className=' m-0'>Neue Lektion</h5>
             <LessonStatusSelect
-              value={lessonType}
-              onChange={handleLessonType}
+              value={attendanceStatus}
+              onChange={handleAttendanceStatus}
             />
           </div>
           <ButtonPlanningModal />

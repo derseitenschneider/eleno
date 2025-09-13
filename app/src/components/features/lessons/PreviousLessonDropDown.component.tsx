@@ -49,7 +49,7 @@ export default function PreviousLessonDropDown({
             <Pencil className='mr-2 h-4 w-4 text-primary' />
             <span>Lektion bearbeiten</span>
           </DropdownMenuItem>
-          {currentLesson.lesson_type === 'held' && (
+          {currentLesson.attendance_status === 'held' && (
             <DropdownMenuItem onClick={() => setModalOpen('SHARE')}>
               <MessageSquareShare className='mr-2 size-4 text-primary' />
               <span>Hausaufgaben teilen</span>
@@ -75,7 +75,7 @@ export default function PreviousLessonDropDown({
         </DrawerOrDialogContent>
       </DrawerOrDialog>
 
-      {currentLesson.lesson_type === 'held' && (
+      {currentLesson.attendance_status === 'held' && (
         <DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}>
           <DrawerOrDialogContent>
             <DrawerOrDialogHeader>

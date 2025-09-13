@@ -152,7 +152,7 @@ export function CreatePlannedLessonForm({
         date,
         expiration_base: new Date().toISOString(),
         status: 'prepared',
-        lesson_type: 'held',
+        attendance_status: 'held',
         absence_reason: '',
       },
       {

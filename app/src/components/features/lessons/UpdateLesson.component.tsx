@@ -42,13 +42,13 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
     date,
     lessonContent,
     homework,
-    lessonType,
+    attendanceStatus,
     absenceReason,
     error,
     handleDate,
     handleLessonContent,
     handleHomework,
-    handleLessonType,
+    handleAttendanceStatus,
     handleAbsenceReason,
     handleSave,
     isLoading,
@@ -66,13 +66,13 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isLoading} date={date} setDate={handleDate} />
         <LessonStatusSelect
-          value={lessonType}
-          onChange={handleLessonType}
+          value={attendanceStatus}
+          onChange={handleAttendanceStatus}
           disabled={isLoading}
         />
       </div>
       <div className='mb-6 items-center gap-8 lg:flex'>
-        {lessonType === 'held' ? (
+        {attendanceStatus === 'held' ? (
           <>
             <div className='mb-6 md:w-[450px] lg:mb-0'>
               <p className='text-foreground/70'>Lektion</p>

@@ -106,6 +106,9 @@ export type Database = {
       lessons: {
         Row: {
           absence_reason: string | null
+          attendance_status:
+            | Database["public"]["Enums"]["attendance_status_enum"]
+            | null
           created_at: string | null
           date: string | null
           expiration_base: string
@@ -113,7 +116,6 @@ export type Database = {
           homework: string | null
           homeworkKey: string
           id: number
-          lesson_type: Database["public"]["Enums"]["absence_type"]
           lessonContent: string | null
           status: Database["public"]["Enums"]["lesson_status"]
           studentId: number | null
@@ -121,6 +123,9 @@ export type Database = {
         }
         Insert: {
           absence_reason?: string | null
+          attendance_status?:
+            | Database["public"]["Enums"]["attendance_status_enum"]
+            | null
           created_at?: string | null
           date?: string | null
           expiration_base?: string
@@ -128,7 +133,6 @@ export type Database = {
           homework?: string | null
           homeworkKey?: string
           id?: number
-          lesson_type?: Database["public"]["Enums"]["absence_type"]
           lessonContent?: string | null
           status?: Database["public"]["Enums"]["lesson_status"]
           studentId?: number | null
@@ -136,6 +140,9 @@ export type Database = {
         }
         Update: {
           absence_reason?: string | null
+          attendance_status?:
+            | Database["public"]["Enums"]["attendance_status_enum"]
+            | null
           created_at?: string | null
           date?: string | null
           expiration_base?: string
@@ -143,7 +150,6 @@ export type Database = {
           homework?: string | null
           homeworkKey?: string
           id?: number
-          lesson_type?: Database["public"]["Enums"]["absence_type"]
           lessonContent?: string | null
           status?: Database["public"]["Enums"]["lesson_status"]
           studentId?: number | null
@@ -661,6 +667,9 @@ export type Database = {
       last_3_lessons: {
         Row: {
           absence_reason: string | null
+          attendance_status:
+            | Database["public"]["Enums"]["attendance_status_enum"]
+            | null
           created_at: string | null
           date: string | null
           expiration_base: string | null
@@ -668,7 +677,6 @@ export type Database = {
           homework: string | null
           homeworkKey: string | null
           id: number | null
-          lesson_type: Database["public"]["Enums"]["absence_type"] | null
           lessonContent: string | null
           status: Database["public"]["Enums"]["lesson_status"] | null
           studentId: number | null
@@ -769,7 +777,11 @@ export type Database = {
       }
     }
     Enums: {
-      absence_type: "held" | "student_absent" | "teacher_absent"
+      attendance_status_enum:
+        | "held"
+        | "student_absent_excused"
+        | "student_absent_not_excused"
+        | "teacher_absent"
       background_colors: "blue" | "red" | "green" | "yellow"
       billing_interval: "month" | "year"
       currencies: "CHF" | "EUR"
@@ -925,7 +937,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      absence_type: ["held", "student_absent", "teacher_absent"],
+      attendance_status_enum: [
+        "held",
+        "student_absent_excused",
+        "student_absent_not_excused",
+        "teacher_absent",
+      ],
       background_colors: ["blue", "red", "green", "yellow"],
       billing_interval: ["month", "year"],
       currencies: ["CHF", "EUR"],

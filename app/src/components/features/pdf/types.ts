@@ -10,7 +10,7 @@ export type PDFProps = {
         homework: string | null
         date: string
         id: number
-        lesson_type: 'held' | 'student_absent' | 'teacher_absent'
+        attendance_status: 'held' | 'student_absent_excused' | 'student_absent_not_excused' | 'teacher_absent' | null
         absence_reason: string | null
       }>
     | undefined

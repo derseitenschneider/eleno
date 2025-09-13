@@ -42,7 +42,7 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
         <View key={lesson.id}>
           <TablePDF index={index}>
             <Text style={styles.col1}>{lesson.date}</Text>
-            {lesson.lesson_type !== 'held' ? (
+            {lesson.attendance_status && lesson.attendance_status !== 'held' ? (
               <View
                 style={[
                   styles.col2,
@@ -52,8 +52,10 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
                 ]}
               >
                 <Text style={{ fontWeight: 'bold' }}>
-                  {lesson.lesson_type === 'student_absent'
-                    ? 'Schülerabsenz'
+                  {lesson.attendance_status === 'student_absent_excused'
+                    ? 'Schülerabsenz (entschuldigt)'
+                    : lesson.attendance_status === 'student_absent_not_excused'
+                    ? 'Schülerabsenz (unentschuldigt)'
                     : 'Lehrerabsenz'}
                 </Text>
                 <Text>{lesson.absence_reason || '—'}</Text>
