@@ -18,19 +18,18 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
   const { userLocale } = useUserLocale()
 
   if (!lesson) return
+  const { attendance_status } = lesson
 
   return (
     <div
       data-testid='lesson-item'
       className={cn('rounded-sm p-3', {
-        'border-t border-r border-b border-hairline border-l-4 border-l-warning/50 ':
-          lesson.attendance_status === 'student_absent_excused',
         'border-t border-r border-b border-hairline border-l-4 border-l-red-600/50 ':
-          lesson.attendance_status === 'student_absent_not_excused',
+          attendance_status === 'student_absent_not_excused',
         'border-t border-r border-b border-hairline border-l-4 border-l-yellow-600/50 ':
-          lesson.attendance_status === 'teacher_absent',
-        'border border-hairline bg-background100':
-          lesson.attendance_status === 'held',
+          attendance_status === 'teacher_absent' ||
+          attendance_status === 'student_absent_excused',
+        'border border-hairline bg-background100': attendance_status === 'held',
       })}
     >
       {!isDisplayOnly && (
@@ -85,8 +84,8 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
               {lesson.attendance_status === 'student_absent_excused'
                 ? 'Schülerabsenz (entschuldigt)'
                 : lesson.attendance_status === 'student_absent_not_excused'
-                ? 'Schülerabsenz (unentschuldigt)'
-                : 'Lehrerabsenz'}
+                  ? 'Schülerabsenz (unentschuldigt)'
+                  : 'Lehrerabsenz'}
             </p>
             <div className='break-words text-sm italic text-foreground/85'>
               {lesson.absence_reason || '—'}
