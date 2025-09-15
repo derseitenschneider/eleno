@@ -87,53 +87,6 @@ function CustomEditor({
     document.execCommand('insertHTML', false, cleanedText)
   }
 
-  function handleTouchStart(e: React.TouchEvent) {
-    // Only handle touch for contentEditable elements and when not disabled
-    const target = e.target as HTMLElement
-    if (target.isContentEditable && !disabled && isMobile) {
-      // Store touch position and time to detect scrolling vs tapping
-      const touch = e.touches[0]
-      if (touch) {
-        ;(target as any)._touchStartY = touch.clientY
-        ;(target as any)._touchStartTime = Date.now()
-      }
-    }
-  }
-
-  function handleTouchEnd(e: React.TouchEvent) {
-    // Only focus if it was an intentional tap, not a scroll gesture
-    const target = e.target as HTMLElement
-    if (target.isContentEditable && !disabled && isMobile) {
-      const touchEndTime = Date.now()
-      const touchDuration = touchEndTime - ((target as any)._touchStartTime || 0)
-      const touchStartY = (target as any)._touchStartY || 0
-      const touchEndY = e.changedTouches[0]?.clientY || 0
-      const deltaY = Math.abs(touchEndY - touchStartY)
-
-      // Only focus if it was a quick tap with minimal movement (not a scroll)
-      if (touchDuration < 300 && deltaY < 10) {
-        target.focus()
-        handleSelectionChange()
-      }
-    }
-  }
-
-  function handleSelectionChange() {
-    // iOS selection fix - force iOS to recognize the selection
-    if (isMobile && window.getSelection) {
-      const selection = window.getSelection()
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-        // Small delay to let iOS process the selection
-        setTimeout(() => {
-          if (selection.rangeCount > 0) {
-            selection.removeAllRanges()
-            selection.addRange(range)
-          }
-        }, 10)
-      }
-    }
-  }
 
   if (type === 'mini')
     // TODO: Make toolbar appear only on focus without loosing link popover functionality.
@@ -141,13 +94,9 @@ function CustomEditor({
       <EditorProvider>
         <Editor
           onPaste={handlePaste}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          onSelect={handleSelectionChange}
           value={value}
           disabled={disabled}
           onChange={onChangeEditor}
-          className={isMobile ? 'mobile-editor' : ''}
         >
           <Toolbar
             style={{
@@ -182,13 +131,9 @@ function CustomEditor({
     <EditorProvider>
       <Editor
         onPaste={handlePaste}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onSelect={handleSelectionChange}
         value={value}
         disabled={disabled}
         onChange={onChangeEditor}
-        className={isMobile ? 'mobile-editor' : ''}
       >
         <Toolbar
           style={{ position: 'relative' }}

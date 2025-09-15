@@ -212,12 +212,6 @@ h5 {
 
 .rsw-ce {
   @apply bg-background50/40 h-[170px] overflow-auto no-scrollbar text-foreground !p-[10px] focus:bg-background100;
-
-  /* Mobile text selection fixes */
-  -webkit-user-select: text;
-  user-select: text;
-  -webkit-touch-callout: default;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Mini Editor */
@@ -258,92 +252,6 @@ h5 {
   text-decoration: underline;
 }
 
-/* Mobile-specific overrides for better text selection */
-@media (max-width: 768px) {
-  .rsw-ce {
-    /* Keep base styles but adjust height and overflow */
-    height: auto !important;
-    min-height: 170px;
-    /* Use auto overflow instead of visible to prevent layout issues */
-    overflow: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    word-wrap: break-word;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  /* Mini editor mobile override */
-  .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
-    min-height: 36px;
-    height: auto !important;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  .rsw-editor {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .mobile-editor .rsw-ce {
-    /* Enhanced mobile selection handling */
-    -webkit-user-select: text !important;
-    user-select: text !important;
-    cursor: text;
-  }
-
-  .mobile-editor .rsw-ce:focus {
-    outline: none;
-    -webkit-user-select: text !important;
-    user-select: text !important;
-  }
-}
-
-/* iOS-specific fixes using feature detection */
-@supports (-webkit-touch-callout: none) {
-  .rsw-ce {
-    /* Ensure text selection works on iOS */
-    -webkit-user-select: text !important;
-    user-select: text !important;
-    /* Fix selection handles */
-    -webkit-touch-callout: default !important;
-    /* Prevent selection issues */
-    -webkit-user-drag: none;
-    /* Use touch scrolling but allow selection */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .rsw-ce:focus {
-    /* Ensure focus doesn't break selection */
-    -webkit-user-select: text !important;
-    user-select: text !important;
-  }
-}
-
-/* Targeted fixes for text selection without breaking drawer functionality */
-@media (max-width: 768px) {
-  /* More targeted approach - only affect the contentEditable area */
-  [data-vaul-drawer] .rsw-ce,
-  [data-vaul-no-drag] .rsw-ce {
-    /* Use contain to prevent layout issues while allowing selection */
-    contain: layout style;
-    /* Allow text selection without breaking scrolling */
-    -webkit-user-select: text !important;
-    user-select: text !important;
-    /* Keep height auto for selection to work */
-    height: auto !important;
-    min-height: 170px;
-    /* Use hidden overflow for x-axis only */
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  [data-vaul-drawer] .rsw-editor:has(span[data-type="mini"]) .rsw-ce,
-  [data-vaul-no-drag] .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
-    min-height: 36px;
-    height: auto !important;
-  }
-}
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
