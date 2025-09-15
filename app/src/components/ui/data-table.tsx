@@ -96,12 +96,12 @@ export function DataTable<TData, TValue>({
                   hasAttendanceStatus(row.original) &&
                   row.original.attendance_status ===
                   'student_absent_not_excused' &&
-                  'min-[769px]:border-l-4 border-warning/50 !bg-warning/[7%]',
+                  'min-[769px]:border-l-4 border-warning/50 sm:!bg-warning/[7%]',
                   hasAttendanceStatus(row.original) &&
                   (row.original.attendance_status ===
                     'student_absent_excused' ||
                     row.original.attendance_status === 'teacher_absent') &&
-                  'min-[769px]:border-l-4 border-yellow-600/50 !bg-yellow-600/[3%]',
+                  'min-[769px]:border-l-4 border-yellow-600/50 sm:!bg-yellow-600/[3%]',
                   hasAttendanceStatus(row.original) &&
                   row.original.attendance_status === 'held' &&
                   'border-none',
