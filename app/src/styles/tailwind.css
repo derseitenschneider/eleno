@@ -212,6 +212,12 @@ h5 {
 
 .rsw-ce {
   @apply bg-background50/40 h-[170px] overflow-auto no-scrollbar text-foreground !p-[10px] focus:bg-background100;
+
+  /* Mobile text selection fixes */
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Mini Editor */
@@ -250,6 +256,33 @@ h5 {
 
 .rsw-ce a:link {
   text-decoration: underline;
+}
+
+/* Mobile-specific overrides for better text selection */
+@media (max-width: 768px) {
+  .rsw-ce {
+    overflow-x: visible;
+    overflow-y: auto;
+    word-wrap: break-word;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .rsw-editor {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-editor .rsw-ce {
+    /* Enhanced mobile selection handling */
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    cursor: text;
+  }
+
+  .mobile-editor .rsw-ce:focus {
+    outline: none;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {

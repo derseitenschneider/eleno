@@ -87,15 +87,24 @@ function CustomEditor({
     document.execCommand('insertHTML', false, cleanedText)
   }
 
+  function handleTouchStart(e: React.TouchEvent) {
+    // Ensure proper focus on touch for better selection
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.focus()
+    }
+  }
+
   if (type === 'mini')
     // TODO: Make toolbar appear only on focus without loosing link popover functionality.
     return (
       <EditorProvider>
         <Editor
           onPaste={handlePaste}
+          onTouchStart={handleTouchStart}
           value={value}
           disabled={disabled}
           onChange={onChangeEditor}
+          className={isMobile ? 'mobile-editor' : ''}
         >
           <Toolbar
             style={{
@@ -130,9 +139,11 @@ function CustomEditor({
     <EditorProvider>
       <Editor
         onPaste={handlePaste}
+        onTouchStart={handleTouchStart}
         value={value}
         disabled={disabled}
         onChange={onChangeEditor}
+        className={isMobile ? 'mobile-editor' : ''}
       >
         <Toolbar
           style={{ position: 'relative' }}
