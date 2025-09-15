@@ -24,9 +24,9 @@ export function LessonItem({ lesson, isDisplayOnly }: LessonItemProps) {
     <div
       data-testid='lesson-item'
       className={cn('rounded-sm p-3', {
-        'border-t border-r border-b border-hairline border-l-4 border-l-red-600/50 ':
+        'border-t border-r border-b border-hairline border-l-4 border-l-warning/50 bg-warning/[7%]':
           attendance_status === 'student_absent_not_excused',
-        'border-t border-r border-b border-hairline border-l-4 border-l-yellow-600/50 ':
+        'border-t border-r border-b border-hairline border-l-4 border-l-yellow-600/50 bg-yellow-600/[3%]':
           attendance_status === 'teacher_absent' ||
           attendance_status === 'student_absent_excused',
         'border border-hairline bg-background100': attendance_status === 'held',

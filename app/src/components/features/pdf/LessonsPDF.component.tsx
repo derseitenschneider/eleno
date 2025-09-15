@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer'
 import Html from 'react-pdf-html'
-import { useUserLocale } from '@/services/context/UserLocaleContext'
 import BaseLayoutPDF from './BaseLayoutPDF.component'
 import TablePDF from './TablePDF.component'
 import type { PDFProps } from './types'
+
 const styles = StyleSheet.create({
   col1: {
     width: '12%',
@@ -14,8 +14,19 @@ const styles = StyleSheet.create({
   warningBorder: {
     borderLeft: '4px solid #F59E0B', // A solid orange border
   },
-  warningBackground: { // New style for background
-    backgroundColor: 'rgba(245, 158, 11, 0.5)', // warning/50
+  warningBackgroundExcused: {
+    backgroundColor: 'rgba(254, 243, 199, 0.3)', // warning/100 with 30% opacity for excused absences (lighter)
+  },
+  warningBackgroundUnexcused: {
+    backgroundColor: 'rgba(254, 226, 226, 0.3)', // red/100 with 30% opacity for unexcused absences (lighter)
+  },
+  warningBackgroundTeacher: {
+    backgroundColor: 'rgba(254, 243, 199, 0.3)', // warning/100 with 30% opacity for teacher absences (lighter)
+  },
+  absenceReason: {
+    fontStyle: 'italic',
+    fontWeight: 'normal',
+    fontFamily: 'DM Sans',
   },
 })
 const contentStyles = {
@@ -40,7 +51,16 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
 
       {lessons?.map((lesson, index) => (
         <View key={lesson.id}>
-          <TablePDF index={index}>
+          <TablePDF
+            index={index}
+            customStyle={lesson.attendance_status && lesson.attendance_status !== 'held'
+              ? lesson.attendance_status === 'student_absent_not_excused'
+                ? styles.warningBackgroundUnexcused
+                : lesson.attendance_status === 'student_absent_excused'
+                ? styles.warningBackgroundExcused
+                : styles.warningBackgroundTeacher
+              : undefined}
+          >
             <Text style={styles.col1}>{lesson.date}</Text>
             {lesson.attendance_status && lesson.attendance_status !== 'held' ? (
               <View
@@ -48,17 +68,17 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
                   styles.col2,
                   styles.col3,
                   styles.warningBorder,
-                  { flexGrow: 1, borderLeftWidth: 0 }, // Span two columns, remove internal border
+                  { flexGrow: 1, borderLeftWidth: 0 },
                 ]}
               >
                 <Text style={{ fontWeight: 'bold' }}>
                   {lesson.attendance_status === 'student_absent_excused'
                     ? 'Schülerabsenz (entschuldigt)'
                     : lesson.attendance_status === 'student_absent_not_excused'
-                    ? 'Schülerabsenz (unentschuldigt)'
-                    : 'Lehrerabsenz'}
+                      ? 'Schülerabsenz (unentschuldigt)'
+                      : 'Lehrerabsenz'}
                 </Text>
-                <Text>{lesson.absence_reason || '—'}</Text>
+                <Text style={styles.absenceReason}>{lesson.absence_reason || '—'}</Text>
               </View>
             ) : (
               <>
@@ -88,3 +108,4 @@ export function LessonsPDF({ title, lessons, studentFullName }: PDFProps) {
     </BaseLayoutPDF>
   )
 }
+

@@ -4,6 +4,7 @@ interface TablePDFProps {
   children: React.ReactNode
   index?: number
   wrap?: boolean
+  customStyle?: any
 }
 
 const styles = StyleSheet.create({
@@ -27,14 +28,16 @@ function TableHeadPDF({ children }: { children: React.ReactNode }) {
   return <View style={[styles.table, styles.tableHead]}>{children}</View>
 }
 
-function TablePDF({ children, index, wrap = false }: TablePDFProps) {
+function TablePDF({ children, index, wrap = false, customStyle }: TablePDFProps) {
+  const baseStyle = customStyle
+    ? [styles.table, customStyle]
+    : index && index % 2 === 1
+      ? [styles.table]
+      : [styles.table, styles.rowUneven]
+
   return (
     <View
-      style={
-        index && index % 2 === 1
-          ? [styles.table]
-          : [styles.table, styles.rowUneven]
-      }
+      style={baseStyle}
       wrap={wrap}
     >
       {children}

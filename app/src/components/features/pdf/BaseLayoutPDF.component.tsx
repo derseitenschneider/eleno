@@ -10,7 +10,7 @@ import {
 } from '@react-pdf/renderer'
 
 import fontBold from '../../../assets/fonts/DM_Sans/DMSans-Bold.ttf'
-import fontItalic from '../../../assets/fonts/DM_Sans/DMSans-BoldItalic.ttf'
+import fontItalic from '../../../assets/fonts/DM_Sans/DMSans-Italic.ttf'
 import fontRegular from '../../../assets/fonts/DM_Sans/DMSans-Regular.ttf'
 
 Font.register({
