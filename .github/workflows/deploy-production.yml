@@ -221,28 +221,29 @@ jobs:
           echo "::error title=Production Smoke Test Failed::Production deployment may have issues. Please investigate immediately."
 
   # Final summary
-  summary:
-    name: 📋 Production Deployment Summary
-    needs: [verify-critical-tests, deploy-production, smoke-test]
-    if: always()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 📋 Overall Summary
-        run: |
-          echo "# 🚀 Production Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 🧪 Critical Tests | ${{ needs.verify-critical-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🚀 Production Deploy | ${{ needs.deploy-production.result == 'success' && '✅ Deployed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 💨 Smoke Test | ${{ needs.smoke-test.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ "${{ needs.verify-critical-tests.result }}" = "success" ] && [ "${{ needs.deploy-production.result }}" = "success" ] && [ "${{ needs.smoke-test.result }}" = "success" ]; then
-            echo "🎉 **SUCCESS**: Production deployment completed successfully!" >> $GITHUB_STEP_SUMMARY
-            echo "🔗 **Live Site**: https://app.eleno.net" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "⚠️ **ISSUES DETECTED**: Some steps failed. Please review above." >> $GITHUB_STEP_SUMMARY
-          fi
+  # summary:
+  #   name: 📋 Production Deployment Summary
+  #   needs: [verify-critical-tests, deploy-production, smoke-test]
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: 📋 Overall Summary
+  #       run: |
+  #         echo "# 🚀 Production Deployment Summary" >> $GITHUB_STEP_SUMMARY
+  #         echo "" >> $GITHUB_STEP_SUMMARY
+  #         echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
+  #         echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+  #         echo "| 🧪 Critical Tests | ${{ needs.verify-critical-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| 🚀 Production Deploy | ${{ needs.deploy-production.result == 'success' && '✅ Deployed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| 💨 Smoke Test | ${{ needs.smoke-test.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "" >> $GITHUB_STEP_SUMMARY
+  #
+  #         if [ "${{ needs.verify-critical-tests.result }}" = "success" ] && [ "${{ needs.deploy-production.result }}" = "success" ] && [ "${{ needs.smoke-test.result }}" = "success" ]; then
+  #           echo "🎉 **SUCCESS**: Production deployment completed successfully!" >> $GITHUB_STEP_SUMMARY
+  #           echo "🔗 **Live Site**: https://app.eleno.net" >> $GITHUB_STEP_SUMMARY
+  #         else
+  #           echo "⚠️ **ISSUES DETECTED**: Some steps failed. Please review above." >> $GITHUB_STEP_SUMMARY
+  #         fi
+  #
 
