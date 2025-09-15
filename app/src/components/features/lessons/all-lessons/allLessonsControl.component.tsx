@@ -48,10 +48,18 @@ export default function AllLessonsControl({
 
   const lessonYears = yearsData?.[0]?.years
   const selectedYear = searchParams.get('year')
+  const selectedAttendance = searchParams.get('attendance') || 'all'
   const hasLessonYears = lessonYears?.length ? lessonYears.length > 0 : false
 
   function handleSelect(year: string) {
-    setSearchParams({ year })
+    if (year !== selectedYear) {
+      setSearchParams(prev => ({ ...Object.fromEntries(prev), year }))
+    }
+  }
+  function handleAttendanceFilterChange(value: string) {
+    if (value !== selectedAttendance) {
+      setSearchParams(prev => ({ ...Object.fromEntries(prev), attendance: value }))
+    }
   }
   function closeModal() {
     setModalOpen(undefined)
@@ -88,6 +96,22 @@ export default function AllLessonsControl({
             </SelectContent>
           </Select>
         )}
+
+        <Select
+          disabled={isFetching}
+          onValueChange={handleAttendanceFilterChange}
+          value={selectedAttendance}
+        >
+          <SelectTrigger className='hidden sm:flex w-fit'>
+            <SelectValue placeholder='Filter' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='all'>Alle Lektionen</SelectItem>
+            <SelectItem value='attended'>Nur gehaltene Lektionen</SelectItem>
+            <SelectItem value='absences'>Nur Absenzen</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Button
           size='sm'
           variant='outline'

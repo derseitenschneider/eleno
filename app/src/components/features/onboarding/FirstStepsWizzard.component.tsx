@@ -98,6 +98,7 @@ export default function FirstStepsWizzard() {
           ) : (
             <Button
               type='button'
+              variant='outline'
               size='sm'
               onClick={() => {
                 navigate('/')

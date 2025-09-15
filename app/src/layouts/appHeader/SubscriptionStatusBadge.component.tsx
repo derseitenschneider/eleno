@@ -1,10 +1,10 @@
+import type { VariantProps } from 'class-variance-authority'
+import { differenceInDays } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
 import { Badge, type badgeVariants } from '@/components/ui/badge'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { useLoading } from '@/services/context/LoadingContext'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import type { VariantProps } from 'class-variance-authority'
-import { differenceInDays } from 'date-fns'
-import { useNavigate } from 'react-router-dom'
 
 export default function SubscriptionStatusBadge() {
   const { isLoading } = useLoading()
@@ -39,9 +39,7 @@ export default function SubscriptionStatusBadge() {
           : `Testabo: Noch ${daysRemaining} Tage`
       } else {
         variant = 'destructive'
-        text = isMobile
-          ? 'Probezeit abgelaufen'
-          : 'Deine Probezeit ist abgelaufen'
+        text = isMobile ? 'Abgelaufen' : 'Deine Probezeit ist abgelaufen'
       }
     } else {
       switch (subscription_status) {

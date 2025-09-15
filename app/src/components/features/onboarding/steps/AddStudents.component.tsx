@@ -19,6 +19,7 @@ import {
 import { useLessonHolders } from '@/services/context/LessonHolderContext'
 import CreateStudents from '../../students/CreateStudents.component'
 import UpdateStudents from '../../students/UpdateStudents.component'
+import { Blocker } from '../../subscription/Blocker'
 
 export default function AddStudents() {
   const [modalOpen, setModalOpen] = useState<'CREATE' | 'EDIT' | null>(null)
@@ -43,7 +44,7 @@ export default function AddStudents() {
               type='button'
               size='sm'
               onClick={() => setModalOpen('CREATE')}
-              className='ml-auto w-full'
+              className='ml-auto w-full sm:w-auto'
             >
               Schüler:innen hinzufügen
             </Button>
@@ -96,6 +97,7 @@ export default function AddStudents() {
           <DrawerOrDialogDescription className='hidden'>
             Füge neue Schüler:innen hinzu
           </DrawerOrDialogDescription>
+          <Blocker />
           <CreateStudents onSuccess={() => setModalOpen(null)} />
         </DrawerOrDialogContent>
       </DrawerOrDialog>

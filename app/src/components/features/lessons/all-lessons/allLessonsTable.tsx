@@ -6,7 +6,8 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { DataTable } from '@/components/ui/data-table'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
@@ -28,7 +29,11 @@ export default function AllLessonsTable({
   const isMobile = useIsMobileDevice()
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
+  const [searchParams] = useSearchParams()
   const { userLocale } = useUserLocale()
+
+  // Get attendance filter from URL params, default to 'all'
+  const attendanceFilter = (searchParams.get('attendance') as 'all' | 'attended' | 'absences') || 'all'
 
   const fuzzyFilter: FilterFn<Lesson> = (row, _, value) => {
     const date = row.original.date as Date
@@ -52,8 +57,21 @@ export default function AllLessonsTable({
     )
   }
 
+  // Filter lessons by attendance status
+  const filteredLessons = useMemo(() => {
+    return lessons.filter((lesson) => {
+      if (attendanceFilter === 'attended') {
+        return lesson.attendance_status === 'held'
+      }
+      if (attendanceFilter === 'absences') {
+        return lesson.attendance_status !== 'held'
+      }
+      return true // 'all' - no filtering
+    })
+  }, [lessons, attendanceFilter])
+
   const table = useReactTable({
-    data: lessons,
+    data: filteredLessons,
     globalFilterFn: fuzzyFilter,
     columns: isMobile ? allLessonsColumnsMobile : allLessonsColumns,
     onSortingChange: setSorting,
