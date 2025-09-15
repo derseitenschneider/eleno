@@ -111,6 +111,17 @@ function CustomEditor({
     }
   }
 
+  function handleTouchMove(e: React.TouchEvent) {
+    // For mobile in drawer contexts, prevent default to allow text selection
+    if (isMobile) {
+      const target = e.target as HTMLElement
+      if (target.isContentEditable || target.closest('[contenteditable="true"]')) {
+        e.stopPropagation()
+        // Allow text selection to work
+      }
+    }
+  }
+
   if (type === 'mini')
     // TODO: Make toolbar appear only on focus without loosing link popover functionality.
     return (
@@ -118,6 +129,7 @@ function CustomEditor({
         <Editor
           onPaste={handlePaste}
           onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           onTouchEnd={handleSelectionChange}
           onSelect={handleSelectionChange}
           value={value}
@@ -159,6 +171,7 @@ function CustomEditor({
       <Editor
         onPaste={handlePaste}
         onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleSelectionChange}
         onSelect={handleSelectionChange}
         value={value}

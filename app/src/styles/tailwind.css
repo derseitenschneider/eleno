@@ -318,6 +318,40 @@ h5 {
   }
 }
 
+/* Vaul drawer specific fixes for text selection */
+[data-vaul-drawer] .rsw-ce,
+[data-vaul-no-drag] .rsw-ce {
+  /* Force visible overflow in drawer contexts */
+  overflow: visible !important;
+  /* Prevent drawer drag interference */
+  touch-action: manipulation !important;
+  /* Ensure text selection priority */
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Fix for drawer content containers */
+[data-vaul-drawer] .overflow-y-auto:has(.rsw-editor) {
+  /* Disable overflow on containers with editors */
+  overflow: visible !important;
+}
+
+/* Mobile drawer text selection fix */
+@media (max-width: 768px) {
+  [data-vaul-drawer] .rsw-ce {
+    /* Complete override for mobile drawer contexts */
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 170px;
+    touch-action: manipulation !important;
+  }
+
+  [data-vaul-drawer] .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
+    min-height: 36px;
+    height: auto !important;
+  }
+}
+
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
   tabindex: -1;
