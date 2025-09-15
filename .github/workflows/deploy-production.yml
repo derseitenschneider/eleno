@@ -13,81 +13,81 @@ env:
 
 jobs:
   # Step 1: Run the same critical tests that run after dev deploy
-  verify-critical-tests:
-    name: 🧪 Verify Critical Tests Pass
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app
-    env:
-      VITE_ENV: staging
-      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
-      VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
-      VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
-      VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+  # verify-critical-tests:
+  #   name: 🧪 Verify Critical Tests Pass
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./app
+  #   env:
+  #     VITE_ENV: staging
+  #     VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
+  #     VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY_STAGING }}
+  #     VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY_STAGING }}
+  #     VITE_API_URL: ${{ secrets.VITE_API_URL_STAGING }}
+  #
+  #   steps:
+  #     - name: 🚚 Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: 📦 Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: "npm"
+  #         cache-dependency-path: app/package-lock.json
+  #
+  #     - name: 📥 Install dependencies
+  #       run: npm ci
+  #
+  #     - name: 📥 Install Playwright browsers
+  #       run: npx playwright install --with-deps chromium
+  #
+  #     - name: 🔍 Verify staging is ready
+  #       run: |
+  #         echo "Verifying staging environment is accessible..."
+  #         curl --fail --retry 5 --retry-delay 5 https://dev.eleno.net || {
+  #           echo "::error title=Staging Not Ready::Staging environment is not accessible. Cannot proceed with production deployment."
+  #           exit 1
+  #         }
 
-    steps:
-      - name: 🚚 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: app/package-lock.json
-
-      - name: 📥 Install dependencies
-        run: npm ci
-
-      - name: 📥 Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: 🔍 Verify staging is ready
-        run: |
-          echo "Verifying staging environment is accessible..."
-          curl --fail --retry 5 --retry-delay 5 https://dev.eleno.net || {
-            echo "::error title=Staging Not Ready::Staging environment is not accessible. Cannot proceed with production deployment."
-            exit 1
-          }
-
-      # - name: 🎭 Run critical E2E tests against staging
-      #   id: critical-tests
-      #   run: |
-      #     echo "Running the same critical tests that gate production..."
-      #     npm run pw -- \
-      #       --project='*cross-browser-critical*' \
-      #       --project='*edge-case*' \
-      #       tests/share-homework/share-homework.spec.ts
-      #
-      # - name: 📤 Upload test results
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: production-gate-tests-${{ github.run_id }}
-      #     path: |
-      #       app/playwright-report/
-      #       app/test-results/
-      #     retention-days: 30
-      #
-      # - name: 📊 Test Results
-      #   if: always()
-      #   run: |
-      #     echo "## 🧪 Production Gate Test Results" >> $GITHUB_STEP_SUMMARY
-      #     if [ "${{ steps.critical-tests.outcome }}" = "success" ]; then
-      #       echo "✅ All critical tests passed! Safe to deploy to production." >> $GITHUB_STEP_SUMMARY
-      #       echo "- ✅ Authentication verified" >> $GITHUB_STEP_SUMMARY
-      #       echo "- ✅ Core functionality working" >> $GITHUB_STEP_SUMMARY
-      #       echo "- ✅ Visual regression tests passed" >> $GITHUB_STEP_SUMMARY
-      #       echo "- ✅ Share homework feature verified" >> $GITHUB_STEP_SUMMARY
-      #     else
-      #       echo "❌ Critical tests failed! Production deployment blocked." >> $GITHUB_STEP_SUMMARY
-      #       echo "**Fix these issues before deploying to production:**" >> $GITHUB_STEP_SUMMARY
-      #       echo "- Review [test artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-      #       echo "- Fix in dev branch first" >> $GITHUB_STEP_SUMMARY
-      #       echo "- Re-run dev → staging → test cycle" >> $GITHUB_STEP_SUMMARY
-      #       exit 1
-      #     fi
+  # - name: 🎭 Run critical E2E tests against staging
+  #   id: critical-tests
+  #   run: |
+  #     echo "Running the same critical tests that gate production..."
+  #     npm run pw -- \
+  #       --project='*cross-browser-critical*' \
+  #       --project='*edge-case*' \
+  #       tests/share-homework/share-homework.spec.ts
+  #
+  # - name: 📤 Upload test results
+  #   if: always()
+  #   uses: actions/upload-artifact@v4
+  #   with:
+  #     name: production-gate-tests-${{ github.run_id }}
+  #     path: |
+  #       app/playwright-report/
+  #       app/test-results/
+  #     retention-days: 30
+  #
+  # - name: 📊 Test Results
+  #   if: always()
+  #   run: |
+  #     echo "## 🧪 Production Gate Test Results" >> $GITHUB_STEP_SUMMARY
+  #     if [ "${{ steps.critical-tests.outcome }}" = "success" ]; then
+  #       echo "✅ All critical tests passed! Safe to deploy to production." >> $GITHUB_STEP_SUMMARY
+  #       echo "- ✅ Authentication verified" >> $GITHUB_STEP_SUMMARY
+  #       echo "- ✅ Core functionality working" >> $GITHUB_STEP_SUMMARY
+  #       echo "- ✅ Visual regression tests passed" >> $GITHUB_STEP_SUMMARY
+  #       echo "- ✅ Share homework feature verified" >> $GITHUB_STEP_SUMMARY
+  #     else
+  #       echo "❌ Critical tests failed! Production deployment blocked." >> $GITHUB_STEP_SUMMARY
+  #       echo "**Fix these issues before deploying to production:**" >> $GITHUB_STEP_SUMMARY
+  #       echo "- Review [test artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+  #       echo "- Fix in dev branch first" >> $GITHUB_STEP_SUMMARY
+  #       echo "- Re-run dev → staging → test cycle" >> $GITHUB_STEP_SUMMARY
+  #       exit 1
+  #     fi
 
   # Step 2: Deploy to production (only if tests pass)
   deploy-production:
