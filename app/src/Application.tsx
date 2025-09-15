@@ -20,7 +20,7 @@ export default function Application() {
   useOAuthTracker()
 
   return (
-    <>
+    <div className='after:absolute after:top-0 after:z-50 after:hidden after:h-[1px] after:w-full after:bg-hairline lg:after:block'>
       <UserLocaleProvider>
         <LoadingProvider>
           <AuthProvider>
@@ -63,6 +63,6 @@ export default function Application() {
           info: <Info />,
         }}
       />
-    </>
+    </div>
   )
 }
