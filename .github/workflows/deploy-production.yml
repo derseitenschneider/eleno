@@ -95,7 +95,7 @@ jobs:
     needs: verify-critical-tests
     runs-on: ubuntu-latest
     environment:
-      name: production
+      name: app.production
       url: https://app.eleno.net
     env:
       VITE_API_URL: ${{ secrets.API_URL }}
