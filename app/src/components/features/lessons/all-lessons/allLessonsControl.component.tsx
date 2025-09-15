@@ -21,6 +21,7 @@ import {
 import type { Lesson } from '@/types/types'
 import ExportLessonsSkeleton from '../ExportLessonsSkeleton.component'
 import useCurrentHolder from '../useCurrentHolder'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 const ExportLessons = lazy(() => import('../ExportLessons.component'))
 
@@ -35,6 +36,7 @@ export default function AllLessonsControl({
   globalFilter,
   setGlobalFilter,
 }: AllLessonsControlPros) {
+  const isAbsenceManagementEnabled = useFeatureFlag('absence-management')
   const queryClient = useQueryClient()
   const { currentLessonHolder } = useCurrentHolder()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -100,20 +102,22 @@ export default function AllLessonsControl({
           </Select>
         )}
 
-        <Select
-          disabled={isFetching}
-          onValueChange={handleAttendanceFilterChange}
-          value={selectedAttendance}
-        >
-          <SelectTrigger className='hidden w-fit sm:flex'>
-            <SelectValue placeholder='Filter' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='all'>Alle Lektionen</SelectItem>
-            <SelectItem value='attended'>Nur gehaltene Lektionen</SelectItem>
-            <SelectItem value='absences'>Nur Absenzen</SelectItem>
-          </SelectContent>
-        </Select>
+        {isAbsenceManagementEnabled && (
+          <Select
+            disabled={isFetching}
+            onValueChange={handleAttendanceFilterChange}
+            value={selectedAttendance}
+          >
+            <SelectTrigger className='hidden w-fit sm:flex'>
+              <SelectValue placeholder='Filter' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='all'>Alle Lektionen</SelectItem>
+              <SelectItem value='attended'>Nur gehaltene Lektionen</SelectItem>
+              <SelectItem value='absences'>Nur Absenzen</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
         <Button
           size='sm'
           variant='outline'
