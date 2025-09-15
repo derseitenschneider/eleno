@@ -94,6 +94,23 @@ function CustomEditor({
     }
   }
 
+  function handleSelectionChange() {
+    // iOS selection fix - force iOS to recognize the selection
+    if (isMobile && window.getSelection) {
+      const selection = window.getSelection()
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0)
+        // Small delay to let iOS process the selection
+        setTimeout(() => {
+          if (selection.rangeCount > 0) {
+            selection.removeAllRanges()
+            selection.addRange(range)
+          }
+        }, 10)
+      }
+    }
+  }
+
   if (type === 'mini')
     // TODO: Make toolbar appear only on focus without loosing link popover functionality.
     return (
@@ -101,6 +118,8 @@ function CustomEditor({
         <Editor
           onPaste={handlePaste}
           onTouchStart={handleTouchStart}
+          onTouchEnd={handleSelectionChange}
+          onSelect={handleSelectionChange}
           value={value}
           disabled={disabled}
           onChange={onChangeEditor}
@@ -140,6 +159,8 @@ function CustomEditor({
       <Editor
         onPaste={handlePaste}
         onTouchStart={handleTouchStart}
+        onTouchEnd={handleSelectionChange}
+        onSelect={handleSelectionChange}
         value={value}
         disabled={disabled}
         onChange={onChangeEditor}
