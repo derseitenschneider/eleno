@@ -16,7 +16,7 @@ interface LessonStatusSelectProps {
   disabled?: boolean
 }
 
-export function LessonStatusSelect({
+export function AttendanceStatusSelect({
   value,
   onChange,
   disabled,

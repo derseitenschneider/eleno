@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { LessonPlanningProvider } from '@/services/context/LessonPlanningContext'
 import { Blocker } from '../subscription/Blocker'
 import { CreateLessonForm } from './CreateLessonForm.component'
-import { LessonStatusSelect } from './LessonStatusSelect.component'
+import { AttendanceStatusSelect } from './AttendanceStatusSelect.component'
 import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 
 function CreateLesson() {
@@ -21,7 +21,7 @@ function CreateLesson() {
         <div className='mb-1 flex items-center justify-between'>
           <div className='flex flex-wrap items-center gap-2'>
             <h5 className=' m-0'>Neue Lektion</h5>
-            <LessonStatusSelect
+            <AttendanceStatusSelect
               value={attendanceStatus}
               onChange={handleAttendanceStatus}
             />

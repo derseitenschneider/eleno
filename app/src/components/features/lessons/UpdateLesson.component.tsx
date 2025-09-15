@@ -8,7 +8,7 @@ import type { Lesson } from '../../../types/types'
 import CustomEditor from '../../ui/CustomEditor.component'
 import { Textarea } from '../../ui/textarea'
 import { Blocker } from '../subscription/Blocker'
-import { LessonStatusSelect } from './LessonStatusSelect.component'
+import { AttendanceStatusSelect } from './AttendanceStatusSelect.component'
 
 type EditLessonProps = {
   lessonId: number
@@ -65,7 +65,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
       <div className='mb-3 flex items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isLoading} date={date} setDate={handleDate} />
-        <LessonStatusSelect
+        <AttendanceStatusSelect
           value={attendanceStatus}
           onChange={handleAttendanceStatus}
           disabled={isLoading}
