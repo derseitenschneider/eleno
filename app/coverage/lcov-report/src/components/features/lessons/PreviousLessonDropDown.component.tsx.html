@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.42% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/70</span>
+                <span class='fraction'>8/72</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.42% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/70</span>
+                <span class='fraction'>8/72</span>
             </div>
         
             
@@ -161,7 +161,13 @@
 <a name='L96'></a><a href='#L96'>96</a>
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,8 +185,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,6 +221,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -242,16 +248,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -259,7 +267,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import {
   DrawerOrDialog,
   DrawerOrDialogContent,
   DrawerOrDialogDescription,
@@ -273,12 +283,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MessageSquareShare, MoreVertical, Pencil, Trash2 } from 'lucide-react'
-import { useState } from 'react'
 import DeleteLesson from './DeleteLesson.component'
-import EditLesson from './UpdateLesson.component'
 import ShareHomework from './homework/ShareHomework.component'
 import { useLatestLessons } from './lessonsQueries'
+import EditLesson from './UpdateLesson.component'
 &nbsp;
 type PreviousLessonDropDownProps = {
   lessonId: number
@@ -310,10 +318,12 @@ type ModalOpen = 'EDIT' | 'SHARE' | 'DELETE' | undefined
 <span class="cstat-no" title="statement not covered" >            &lt;Pencil className='mr-2 h-4 w-4 text-primary' /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;span&gt;Lektion bearbeiten&lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/DropdownMenuItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuItem onClick={() =&gt; setModalOpen('SHARE')}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;MessageSquareShare className='mr-2 size-4 text-primary' /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;span&gt;Hausaufgaben teilen&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/DropdownMenuItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >          {currentLesson.attendance_status === 'held' &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;DropdownMenuItem onClick={() =&gt; setModalOpen('SHARE')}&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;MessageSquareShare className='mr-2 size-4 text-primary' /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;span&gt;Hausaufgaben teilen&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/DropdownMenuItem&gt;</span>
+          )}
 <span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuSeparator /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;DropdownMenuItem onClick={() =&gt; setModalOpen('DELETE')}&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;Trash2 className='mr-2 h-4 w-4 text-warning' /&gt;</span>
@@ -334,17 +344,19 @@ type ModalOpen = 'EDIT' | 'SHARE' | 'DELETE' | undefined
 <span class="cstat-no" title="statement not covered" >        &lt;/DrawerOrDialogContent&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/DrawerOrDialog&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;DrawerOrDialogContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DrawerOrDialogHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;DrawerOrDialogTitle&gt;Hausaufgaben teilen&lt;/DrawerOrDialogTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/DrawerOrDialogHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DrawerOrDialogDescription className='hidden'&gt;</span>
-            Teile die Hausaufgaben mit deinen Schüler:innen
-<span class="cstat-no" title="statement not covered" >          &lt;/DrawerOrDialogDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ShareHomework lessonId={currentLesson?.id} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/DrawerOrDialogContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/DrawerOrDialog&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {currentLesson.attendance_status === 'held' &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;DrawerOrDialog open={modalOpen === 'SHARE'} onOpenChange={closeModal}&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;DrawerOrDialogContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;DrawerOrDialogHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;DrawerOrDialogTitle&gt;Hausaufgaben teilen&lt;/DrawerOrDialogTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/DrawerOrDialogHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;DrawerOrDialogDescription className='hidden'&gt;</span>
+              Teile die Hausaufgaben mit deinen Schüler:innen
+<span class="cstat-no" title="statement not covered" >            &lt;/DrawerOrDialogDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;ShareHomework lessonId={currentLesson?.id} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/DrawerOrDialogContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/DrawerOrDialog&gt;</span>
+      )}
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      &lt;DrawerOrDialog open={modalOpen === 'DELETE'} onOpenChange={closeModal}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;DrawerOrDialogContent&gt;</span>
@@ -364,7 +376,7 @@ type ModalOpen = 'EDIT' | 'SHARE' | 'DELETE' | undefined
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

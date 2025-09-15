@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.62% </span>
+                <span class="strong">59.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/32</span>
+                <span class='fraction'>19/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.62% </span>
+                <span class="strong">59.37% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/32</span>
+                <span class='fraction'>19/32</span>
             </div>
         
             
@@ -115,37 +115,27 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -157,28 +147,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button } from '@/components/ui/button'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { appConfig } from '@/config'
 import { useSubscription } from '@/services/context/SubscriptionContext'
-import { useNavigate } from 'react-router-dom'
 &nbsp;
 export type BlockerProps = {
   variant?: 'inline' | 'block'
   blockerId?: string
 }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function Blocker({ variant = 'block', blockerId = '' }: BlockerProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const { hasAccess } = useSubscription()</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate()</span>
+export function Blocker({ variant = 'block', blockerId = '' }: BlockerProps) {
+  const { hasAccess } = useSubscription()
+  const navigate = useNavigate()
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (hasAccess) return null</span>
+  if (hasAccess) return <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (variant === 'inline')</span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
@@ -188,7 +188,7 @@ export <span class="fstat-no" title="function not covered" >function Blocker({ v
       &gt;
 <span class="cstat-no" title="statement not covered" >        &lt;div className='mx-auto flex w-fit items-center gap-4 rounded-sm border border-hairline bg-background100 p-2 px-4 shadow-sm lg:mt-[-10px]'&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p&gt;Nur im Abo verfügbar.&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button size='sm' onClick={() =&gt; navigate('/settings/subscription')}&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Button size='sm' onClick={<span class="fstat-no" title="function not covered" >() =&gt; navigate('/settings/subscription')}&gt;</span></span>
             Jetzt Abo abschliessen
 <span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
@@ -197,22 +197,22 @@ export <span class="fstat-no" title="function not covered" >function Blocker({ v
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      data-testid={`access-blocker${blockerId &amp;&amp; `-${blockerId}`}`}</span>
-<span class="cstat-no" title="statement not covered" >      className='absolute inset-[-0px] z-50 flex flex-col items-center justify-center rounded-md backdrop-blur-[3px]'</span>
+      data-testid={`access-blocker${blockerId &amp;&amp; `-${blockerId}`}`}
+      className='absolute inset-[-0px] z-50 flex flex-col items-center justify-center rounded-md backdrop-blur-[3px]'
     &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;Card className='flex max-w-[90vw] flex-col items-center justify-center p-5 shadow-sm'&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;h4 className='mb-2 font-medium'&gt;Nur im Abo verfügbar&lt;/h4&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className='mb-6 max-w-[35ch] text-center'&gt;</span>
+      &lt;Card className='flex max-w-[90vw] flex-col items-center justify-center p-5 shadow-sm'&gt;
+        &lt;h4 className='mb-2 font-medium'&gt;Nur im Abo verfügbar&lt;/h4&gt;
+        &lt;p className='mb-6 max-w-[35ch] text-center'&gt;
           Diese Funktion ist Teil unseres Premium-Plans. Schliesse jetzt ein Abo
           ab, um darauf zuzugreifen.
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Button onClick={() =&gt; navigate('/settings/subscription')}&gt;</span>
+        &lt;/p&gt;
+        &lt;Button onClick={<span class="fstat-no" title="function not covered" >() =&gt; navigate('/settings/subscription')}&gt;</span>
           Jetzt Abo abschliessen
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+        &lt;/Button&gt;
+      &lt;/Card&gt;
+    &lt;/div&gt;
   )
-<span class="cstat-no" title="statement not covered" >}</span>
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -220,7 +220,7 @@ export <span class="fstat-no" title="function not covered" >function Blocker({ v
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -382,15 +382,8 @@
 <a name='L317'></a><a href='#L317'>317</a>
 <a name='L318'></a><a href='#L318'>318</a>
 <a name='L319'></a><a href='#L319'>319</a>
-<a name='L320'></a><a href='#L320'>320</a>
-<a name='L321'></a><a href='#L321'>321</a>
-<a name='L322'></a><a href='#L322'>322</a>
-<a name='L323'></a><a href='#L323'>323</a>
-<a name='L324'></a><a href='#L324'>324</a>
-<a name='L325'></a><a href='#L325'>325</a>
-<a name='L326'></a><a href='#L326'>326</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L320'></a><a href='#L320'>320</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -568,11 +561,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -713,25 +701,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { removeHTMLAttributes } from '@/utils/sanitizeHTML'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import JSZip from 'jszip'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
 <span class="cstat-no" title="statement not covered" >import { createElement, useState } from 'react'</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >import MiniLoader from '@/components/ui/MiniLoader.component'</span>
+<span class="cstat-no" title="statement not covered" >import { toast } from 'sonner'</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
 <span class="cstat-no" title="statement not covered" >import ButtonRemove from '@/components/ui/buttonRemove'</span>
 <span class="cstat-no" title="statement not covered" >import { Checkbox } from '@/components/ui/checkbox'</span>
 <span class="cstat-no" title="statement not covered" >import { DayPicker } from '@/components/ui/daypicker.component'</span>
 <span class="cstat-no" title="statement not covered" >import { DialogDescription } from '@/components/ui/dialog'</span>
 <span class="cstat-no" title="statement not covered" >import { Label } from '@/components/ui/label'</span>
+<span class="cstat-no" title="statement not covered" >import MiniLoader from '@/components/ui/MiniLoader.component'</span>
 <span class="cstat-no" title="statement not covered" >import useFetchErrorToast from '@/hooks/fetchErrorToast'</span>
 <span class="cstat-no" title="statement not covered" >import { fetchAllLessonsCSVApi } from '@/services/api/lessons.api'</span>
 <span class="cstat-no" title="statement not covered" >import { useLessonHolders } from '@/services/context/LessonHolderContext'</span>
 <span class="cstat-no" title="statement not covered" >import { useUser } from '@/services/context/UserContext'</span>
 <span class="cstat-no" title="statement not covered" >import { useUserLocale } from '@/services/context/UserLocaleContext'</span>
+<span class="cstat-no" title="statement not covered" >import { removeHTMLAttributes } from '@/utils/sanitizeHTML'</span>
 <span class="cstat-no" title="statement not covered" >import stripHtmlTags from '@/utils/stripHtmlTags'</span>
-<span class="cstat-no" title="statement not covered" >import JSZip from 'jszip'</span>
-<span class="cstat-no" title="statement not covered" >import { toast } from 'sonner'</span>
-import type { PDFProps } from './LessonsPDF'
+import type { PDFProps } from '../pdf/types'
 <span class="cstat-no" title="statement not covered" >import { useAllLessons, useAllLessonsCSV } from './lessonsQueries'</span>
 &nbsp;
 type BulkExportLessonsProps = {
@@ -861,7 +848,7 @@ type BulkExportLessonsProps = {
 <span class="cstat-no" title="statement not covered" >      URL.revokeObjectURL(csvUrl)</span>
 <span class="cstat-no" title="statement not covered" >      document.body.removeChild(link)</span>
 <span class="cstat-no" title="statement not covered" >      onSuccess()</span>
-<span class="cstat-no" title="statement not covered" >    } catch (e) {</span>
+<span class="cstat-no" title="statement not covered" >    } catch (_e) {</span>
 <span class="cstat-no" title="statement not covered" >      fetchErrorToast()</span>
 <span class="cstat-no" title="statement not covered" >    } finally {</span>
 <span class="cstat-no" title="statement not covered" >      setIsLoading(false)</span>
@@ -872,8 +859,8 @@ type BulkExportLessonsProps = {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      setIsLoading(true)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      const { pdf } = await import('@react-pdf/renderer')</span>
-<span class="cstat-no" title="statement not covered" >      const { LessonsPDF } = await import('./LessonsPDF')</span>
+<span class="cstat-no" title="statement not covered" >      const module = 'index'</span>
+<span class="cstat-no" title="statement not covered" >      const { pdf, LessonsPDF } = await import(`../pdf/${module}.ts`)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      const { data: allLessons } = await fetchAllLessons()</span>
 <span class="cstat-no" title="statement not covered" >      if (!allLessons || allLessons.length === 0)</span>
@@ -892,12 +879,7 @@ type BulkExportLessonsProps = {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      const allLessonsGrouped: Record&lt;</span>
         string,
-        Array&lt;{
-          id: number
-          date: string
-          lessonContent: string | null
-          homework: string | null
-        }&gt;
+        NonNullable&lt;PDFProps['lessons']&gt;
 <span class="cstat-no" title="statement not covered" >      &gt; = {}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      for (const lesson of sanitizedLessons) {</span>
@@ -954,7 +936,7 @@ type BulkExportLessonsProps = {
 <span class="cstat-no" title="statement not covered" >      window.URL.revokeObjectURL(dataURLPDF)</span>
 <span class="cstat-no" title="statement not covered" >      document.body.removeChild(link)</span>
 <span class="cstat-no" title="statement not covered" >      toast.success('Export abgeschlossen.')</span>
-<span class="cstat-no" title="statement not covered" >    } catch (e) {</span>
+<span class="cstat-no" title="statement not covered" >    } catch (_e) {</span>
 <span class="cstat-no" title="statement not covered" >      fetchErrorToast()</span>
 <span class="cstat-no" title="statement not covered" >    } finally {</span>
 <span class="cstat-no" title="statement not covered" >      setIsLoading(false)</span>
@@ -1045,7 +1027,7 @@ type BulkExportLessonsProps = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

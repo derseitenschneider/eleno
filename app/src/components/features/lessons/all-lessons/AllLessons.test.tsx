@@ -297,18 +297,22 @@ describe('AllLessons Component', () => {
     it('should display year selector with available years', () => {
       renderWithProviders(<AllLessons />, { queryClient })
 
-      expect(screen.getByRole('combobox')).toBeInTheDocument()
+      // Find the year selector specifically by its content
+      const yearSelector = screen.getByText('2024').closest('button')
+      expect(yearSelector).toBeInTheDocument()
+      expect(yearSelector).toHaveAttribute('role', 'combobox')
     })
 
     it('should show available years in dropdown', async () => {
       renderWithProviders(<AllLessons />, { queryClient })
 
-      const selector = screen.getByRole('combobox')
-      fireEvent.click(selector)
+      const yearSelector = screen.getByText('2024').closest('button')
+      expect(yearSelector).toBeInTheDocument()
+      fireEvent.click(yearSelector!)
 
       // Just verify the dropdown interaction doesn't crash the component
       await waitFor(() => {
-        expect(selector).toBeInTheDocument()
+        expect(yearSelector).toBeInTheDocument()
       })
     })
 
@@ -321,8 +325,8 @@ describe('AllLessons Component', () => {
 
       renderWithProviders(<AllLessons />, { queryClient })
 
-      const selector = screen.getByRole('combobox')
-      expect(selector).toBeDisabled()
+      const yearSelector = screen.getByText('2024').closest('button')
+      expect(yearSelector).toBeDisabled()
     })
   })
 

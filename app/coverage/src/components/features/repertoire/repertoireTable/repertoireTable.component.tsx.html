@@ -234,9 +234,16 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -249,17 +256,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -407,9 +405,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { NavLink } from 'react-router-dom'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >import Empty from '@/components/ui/Empty.component'</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import {<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+  type FilterFn,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+<span class="cstat-no" title="statement not covered" >import { ChevronLeft, Plus, X } from 'lucide-react'</span>
+<span class="cstat-no" title="statement not covered" >import { useState } from 'react'</span>
+<span class="cstat-no" title="statement not covered" >import { NavLink } from 'react-router-dom'</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
 <span class="cstat-no" title="statement not covered" >import {</span>
   Drawer,
@@ -419,19 +425,10 @@
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+<span class="cstat-no" title="statement not covered" >import Empty from '@/components/ui/Empty.component'</span>
 <span class="cstat-no" title="statement not covered" >import useIsMobileDevice from '@/hooks/useIsMobileDevice'</span>
 <span class="cstat-no" title="statement not covered" >import { useUserLocale } from '@/services/context/UserLocaleContext'</span>
 import type { RepertoireItem } from '@/types/types'
-<span class="cstat-no" title="statement not covered" >import {</span>
-  type FilterFn,
-  type SortingState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
-<span class="cstat-no" title="statement not covered" >import { ChevronLeft, Plus, X } from 'lucide-react'</span>
-<span class="cstat-no" title="statement not covered" >import { useState } from 'react'</span>
 <span class="cstat-no" title="statement not covered" >import { DataTable } from '../../../ui/data-table'</span>
 <span class="cstat-no" title="statement not covered" >import useCurrentHolder from '../../lessons/useCurrentHolder'</span>
 <span class="cstat-no" title="statement not covered" >import CreateRepertoireItem from '../CreateRepertoireItem.component'</span>
@@ -586,7 +583,7 @@ type RepertoireTableProps = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:52.923Z
+                at 2025-09-15T07:45:48.672Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

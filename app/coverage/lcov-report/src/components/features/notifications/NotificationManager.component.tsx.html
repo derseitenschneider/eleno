@@ -487,6 +487,9 @@
 <a name='L422'></a><a href='#L422'>422</a>
 <a name='L423'></a><a href='#L423'>423</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -508,9 +511,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -907,7 +907,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { X } from 'lucide-react'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >import { useEffect, useState } from 'react'</span>
+<span class="cstat-no" title="statement not covered" >import { toast } from 'sonner'</span>
+<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
 <span class="cstat-no" title="statement not covered" >import {</span>
   Card,
   CardContent,
@@ -923,16 +926,13 @@
 <span class="cstat-no" title="statement not covered" >import {</span>
   type InfoNotificationContent,
   type NotificationQuestion,
-  type SurveyNotificationContent,
   notificationsContent,
+  type SurveyNotificationContent,
 } from '@/config/notificationsConfig'
 <span class="cstat-no" title="statement not covered" >import { cn } from '@/lib/utils'</span>
 <span class="cstat-no" title="statement not covered" >import { useLoading } from '@/services/context/LoadingContext'</span>
 <span class="cstat-no" title="statement not covered" >import { useUser } from '@/services/context/UserContext'</span>
 import type { Notification as DbNotification } from '@/types/types'
-<span class="cstat-no" title="statement not covered" >import { X } from 'lucide-react'</span>
-<span class="cstat-no" title="statement not covered" >import { useEffect, useState } from 'react'</span>
-<span class="cstat-no" title="statement not covered" >import { toast } from 'sonner'</span>
 <span class="cstat-no" title="statement not covered" >import useProfileQuery from '../user/profileQuery'</span>
 <span class="cstat-no" title="statement not covered" >import {</span>
   useCreateNotificationView,
@@ -1017,7 +1017,7 @@ type SurveyResponses = {
 <span class="cstat-no" title="statement not covered" >    if (currentDbNotification.type === 'survey') {</span>
 <span class="cstat-no" title="statement not covered" >      const filteredResponses: Record&lt;string, string | string[]&gt; = {}</span>
 <span class="cstat-no" title="statement not covered" >      for (const key in surveyResponses) {</span>
-<span class="cstat-no" title="statement not covered" >        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (Object.hasOwn(surveyResponses, key)) {</span>
 <span class="cstat-no" title="statement not covered" >          const value = surveyResponses[key]</span>
           // Filter out both null and undefined values
 <span class="cstat-no" title="statement not covered" >          if (value !== null &amp;&amp; value !== undefined) {</span>
@@ -1062,7 +1062,7 @@ type SurveyResponses = {
 <span class="cstat-no" title="statement not covered" >    if (currentDbNotification.type === 'survey') {</span>
 <span class="cstat-no" title="statement not covered" >      const filteredResponses: Record&lt;string, string | string[]&gt; = {}</span>
 <span class="cstat-no" title="statement not covered" >      for (const key in surveyResponses) {</span>
-<span class="cstat-no" title="statement not covered" >        if (Object.prototype.hasOwnProperty.call(surveyResponses, key)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (Object.hasOwn(surveyResponses, key)) {</span>
 <span class="cstat-no" title="statement not covered" >          const value = surveyResponses[key]</span>
           // Filter out both null and undefined values
 <span class="cstat-no" title="statement not covered" >          if (value !== null &amp;&amp; value !== undefined) {</span>
@@ -1336,7 +1336,7 @@ type SurveyResponses = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

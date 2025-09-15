@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/146</span>
+                <span class='fraction'>0/145</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/146</span>
+                <span class='fraction'>0/145</span>
             </div>
         
             
@@ -242,11 +242,8 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,8 +257,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -298,7 +295,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -425,11 +421,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { DragDropContext, type DropResult, Droppable } from '@hello-pangea/dnd'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >import { Plus, X } from 'lucide-react'</span>
 <span class="cstat-no" title="statement not covered" >import { useEffect, useState } from 'react'</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >import CreateNote from './CreateNote.component'</span>
-<span class="cstat-no" title="statement not covered" >import Note from './Note.component'</span>
+<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >import {</span>
   DrawerOrDialog,
@@ -439,13 +434,13 @@
   DrawerOrDialogHeader,
   DrawerOrDialogTitle,
 } from '@/components/ui/DrawerOrDialog'
-<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
 <span class="cstat-no" title="statement not covered" >import useIsMobileDevice from '@/hooks/useIsMobileDevice'</span>
 <span class="cstat-no" title="statement not covered" >import { cn } from '@/lib/utils'</span>
-import type { Note as TNote, ActiveNote } from '@/types/types'
-<span class="cstat-no" title="statement not covered" >import { Plus, X } from 'lucide-react'</span>
+import type { ActiveNote, Note as TNote } from '@/types/types'
 <span class="cstat-no" title="statement not covered" >import useCurrentHolder from '../lessons/useCurrentHolder'</span>
 <span class="cstat-no" title="statement not covered" >import { Blocker } from '../subscription/Blocker'</span>
+<span class="cstat-no" title="statement not covered" >import CreateNote from './CreateNote.component'</span>
+<span class="cstat-no" title="statement not covered" >import Note from './Note.component'</span>
 <span class="cstat-no" title="statement not covered" >import { NoteMobile } from './NoteMobile.component'</span>
 <span class="cstat-no" title="statement not covered" >import { useActiveNotesQuery } from './notesQueries'</span>
 <span class="cstat-no" title="statement not covered" >import { useUpdateNote } from './useUpdateNote'</span>
@@ -485,13 +480,12 @@ import type { Note as TNote, ActiveNote } from '@/types/types'
 <span class="cstat-no" title="statement not covered" >          studentId: note.studentId,</span>
 <span class="cstat-no" title="statement not covered" >          groupId: undefined as never,</span>
 <span class="cstat-no" title="statement not covered" >        } as TNote</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
-<span class="cstat-no" title="statement not covered" >          ...baseNote,</span>
-<span class="cstat-no" title="statement not covered" >          studentId: undefined as never,</span>
-<span class="cstat-no" title="statement not covered" >          groupId: note.groupId ?? 0,</span>
-<span class="cstat-no" title="statement not covered" >        } as TNote</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+<span class="cstat-no" title="statement not covered" >        ...baseNote,</span>
+<span class="cstat-no" title="statement not covered" >        studentId: undefined as never,</span>
+<span class="cstat-no" title="statement not covered" >        groupId: note.groupId ?? 0,</span>
+<span class="cstat-no" title="statement not covered" >      } as TNote</span>
 <span class="cstat-no" title="statement not covered" >    })</span>
 <span class="cstat-no" title="statement not covered" >    setNotes(notesWithCreatedAt)</span>
 <span class="cstat-no" title="statement not covered" >  }, [data, fieldType, currentLessonHolder?.holder.id])</span>
@@ -613,7 +607,7 @@ import type { Note as TNote, ActiveNote } from '@/types/types'
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:52.923Z
+                at 2025-09-15T07:45:48.672Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

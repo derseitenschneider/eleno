@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">76.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/30</span>
+                <span class='fraction'>23/30</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">25% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">76.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/30</span>
+                <span class='fraction'>23/30</span>
             </div>
         
             
@@ -98,76 +98,76 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { Group, LessonHolder, Student } from '@/types/types'
-import { useParams } from 'react-router-dom'
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useParams } from 'react-router-dom'
+import type { Group, LessonHolder, Student } from '@/types/types'
 import useGroupsQuery from '../groups/groupsQuery'
 import useStudentsQuery from '../students/studentsQueries'
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function useCurrentHolder(): {</span></span>
+export default function useCurrentHolder(): {
   currentLessonHolder: LessonHolder | null
-<span class="cstat-no" title="statement not covered" >} {</span>
-<span class="cstat-no" title="statement not covered" >  const { data: students } = useStudentsQuery()</span>
-<span class="cstat-no" title="statement not covered" >  const { data: groups } = useGroupsQuery()</span>
-<span class="cstat-no" title="statement not covered" >  const { holderId } = useParams&lt;{ holderId: string }&gt;()</span>
+} {
+  const { data: students } = useStudentsQuery()
+  const { data: groups } = useGroupsQuery()
+  const { holderId } = useParams&lt;{ holderId: string }&gt;()
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const type = holderId?.split('-').at(0)</span>
-<span class="cstat-no" title="statement not covered" >  const id = Number(holderId?.split('-').at(1))</span>
+  const type = <span class="branch-0 cbranch-no" title="branch not covered" >holderId?.split('</span>-').at(0)
+  const id = Number(<span class="branch-0 cbranch-no" title="branch not covered" >holderId?.split('</span>-').at(1))
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  function findLessonHolder(</span>
-<span class="cstat-no" title="statement not covered" >    type: string | undefined,</span>
-<span class="cstat-no" title="statement not covered" >    id: number,</span>
-<span class="cstat-no" title="statement not covered" >    students: Array&lt;Student&gt; | undefined,</span>
-<span class="cstat-no" title="statement not covered" >    groups: Array&lt;Group&gt; | undefined,</span>
-<span class="cstat-no" title="statement not covered" >  ): LessonHolder | null {</span>
-<span class="cstat-no" title="statement not covered" >    if (type === 's' &amp;&amp; students) {</span>
+  function findLessonHolder(
+    type: string | undefined,
+    id: number,
+    students: Array&lt;Student&gt; | undefined,
+    groups: Array&lt;Group&gt; | undefined,
+  ): LessonHolder | null {
+    if (type === <span class="branch-0 cbranch-no" title="branch not covered" >'s' &amp;&amp; students) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      const student = students.find((student) =&gt; student.id === id)</span>
 <span class="cstat-no" title="statement not covered" >      if (!student) return null</span>
 <span class="cstat-no" title="statement not covered" >      return student ? { type: 's', holder: student } : null</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (type === 'g' &amp;&amp; groups) {</span>
+    if (type === <span class="branch-0 cbranch-no" title="branch not covered" >'g' &amp;&amp; groups) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      const group = groups.find((group) =&gt; group.id === id)</span>
 <span class="cstat-no" title="statement not covered" >      return group ? { type: 'g', holder: group } : null</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return null</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  const currentLessonHolder = findLessonHolder(type, id, students, groups)</span>
-<span class="cstat-no" title="statement not covered" >  return { currentLessonHolder }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+    return null
+  }
+  const currentLessonHolder = findLessonHolder(type, id, students, groups)
+  return { currentLessonHolder }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -175,7 +175,7 @@ import useStudentsQuery from '../students/studentsQueries'
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

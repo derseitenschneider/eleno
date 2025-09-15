@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/44</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/44</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -119,23 +119,13 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,15 +141,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -189,18 +175,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useLessonHolders } from '@/services/context/LessonHolderContext'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-<span class="cstat-no" title="statement not covered" >import {</span>
-  BookMarkedIcon,
-  CheckSquare2Icon,
-  GraduationCapIcon,
-  UserIcon,
-} from 'lucide-react'
-<span class="cstat-no" title="statement not covered" >import { Link } from 'react-router-dom'</span>
-import useCurrentHolder from '../../lessons/useCurrentHolder'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { BookMarkedIcon, CheckSquare2Icon, UserIcon } from 'lucide-react'<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >import { Link, useNavigate } from 'react-router-dom'</span>
+<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
+<span class="cstat-no" title="statement not covered" >import { Separator } from '@/components/ui/separator'</span>
+<span class="cstat-no" title="statement not covered" >import { useLessonHolders } from '@/services/context/LessonHolderContext'</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default function ImportantLinks() {</span>
 <span class="cstat-no" title="statement not covered" >  const { nearestLessonHolder } = useLessonHolders()</span>
+<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate()</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  const lessonSlug = nearestLessonHolder</span>
 <span class="cstat-no" title="statement not covered" >    ? `${nearestLessonHolder.type}-${nearestLessonHolder.holder.id}`</span>
@@ -209,23 +192,19 @@ import useCurrentHolder from '../../lessons/useCurrentHolder'
 <span class="cstat-no" title="statement not covered" >    &lt;div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;h3&gt;Viel Spass mit Eleno!&lt;/h3&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;p className='mb-2'&gt;</span>
-        Super, du bist startklar! Jetzt kannst du dich voll auf deine
-        Leidenschaft, die Musik, konzentrieren.
+        Super, du bist startklar! Erfasse gleich deine erste Lektion und sieh,
+        wie einfach das von jetzt an geht.
 <span class="cstat-no" title="statement not covered" >      &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Button onClick={() =&gt; navigate(`/lessons/${lessonSlug}`)} size='sm'&gt;</span>
+        Erfasse deine erste Lektion
+<span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Separator className='my-6' /&gt;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      &lt;p className='mb-4'&gt;</span>
         Hier sind noch ein paar hilfreiche Links, damit du Eleno optimal nutzen
         kannst:
 <span class="cstat-no" title="statement not covered" >      &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;ul className='flex flex-col space-y-2'&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;li&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Link</span>
-<span class="cstat-no" title="statement not covered" >            to={`/lessons/${lessonSlug}`}</span>
-<span class="cstat-no" title="statement not covered" >            className='items-first flex gap-2'</span>
-          &gt;
-<span class="cstat-no" title="statement not covered" >            &lt;GraduationCapIcon className='size-5' strokeWidth={1.5} /&gt;</span>
-            Unterricht starten
-<span class="cstat-no" title="statement not covered" >          &lt;/Link&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/li&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;li&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;Link to='/todos' className='items-first flex gap-2'&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;CheckSquare2Icon strokeWidth={1.5} className='size-5' /&gt;</span>
@@ -259,7 +238,7 @@ import useCurrentHolder from '../../lessons/useCurrentHolder'
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:52.923Z
+                at 2025-09-15T07:45:48.672Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,52 +86,52 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import useFetchErrorToast from '@/hooks/fetchErrorToast'
-import { getMessagesApi } from '@/services/api/messages.api'
-import supabase from '@/services/api/supabase'
-import { useUser } from '@/services/context/UserContext'
-import type { Message } from '@/types/types'
-import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js'
+<span class="cstat-no" title="statement not covered" >import { useQuery, useQueryClient } from '@tanstack/react-query'</span>
 import { useEffect } from 'react'
+<span class="cstat-no" title="statement not covered" >import useFetchErrorToast from '@/hooks/fetchErrorToast'</span>
+<span class="cstat-no" title="statement not covered" >import { getMessagesApi } from '@/services/api/messages.api'</span>
+import supabase from '@/services/api/supabase'
+<span class="cstat-no" title="statement not covered" >import { useUser } from '@/services/context/UserContext'</span>
+import type { Message } from '@/types/types'
 &nbsp;
 // Test
-export default function useMessagesQuery() {
-  const queryClient = useQueryClient()
-  const fetchErrorToast = useFetchErrorToast()
-  const { user } = useUser()
-  const result = useQuery({
-    queryKey: ['messages'],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; getMessagesApi(user?.id || ''),</span>
-    staleTime: 1000 * 60 * 60 * 24,
-    enabled: Boolean(user),
-  })
+<span class="cstat-no" title="statement not covered" >export default function useMessagesQuery() {</span>
+<span class="cstat-no" title="statement not covered" >  const queryClient = useQueryClient()</span>
+<span class="cstat-no" title="statement not covered" >  const fetchErrorToast = useFetchErrorToast()</span>
+<span class="cstat-no" title="statement not covered" >  const { user } = useUser()</span>
+<span class="cstat-no" title="statement not covered" >  const result = useQuery({</span>
+<span class="cstat-no" title="statement not covered" >    queryKey: ['messages'],</span>
+<span class="cstat-no" title="statement not covered" >    queryFn: () =&gt; getMessagesApi(user?.id || ''),</span>
+<span class="cstat-no" title="statement not covered" >    staleTime: 1000 * 60 * 60 * 24,</span>
+<span class="cstat-no" title="statement not covered" >    enabled: Boolean(user),</span>
+<span class="cstat-no" title="statement not covered" >  })</span>
 &nbsp;
-  return result
-}
+<span class="cstat-no" title="statement not covered" >  return result</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -139,7 +139,7 @@ export default function useMessagesQuery() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:53.325Z
+                at 2025-09-15T07:45:49.322Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

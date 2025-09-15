@@ -30,16 +30,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -408,7 +408,9 @@
 <a name='L343'></a><a href='#L343'>343</a>
 <a name='L344'></a><a href='#L344'>344</a>
 <a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L346'></a><a href='#L346'>346</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -422,19 +424,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -446,7 +440,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -753,35 +753,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import {<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-  DrawerOrDialog,
-  DrawerOrDialogClose,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
-<span class="cstat-no" title="statement not covered" >import MiniLoader from '@/components/ui/MiniLoader.component'</span>
-<span class="cstat-no" title="statement not covered" >import { Badge } from '@/components/ui/badge'</span>
-<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
-<span class="cstat-no" title="statement not covered" >import { Card, CardContent } from '@/components/ui/card'</span>
-<span class="cstat-no" title="statement not covered" >import { Checkbox } from '@/components/ui/checkbox'</span>
-<span class="cstat-no" title="statement not covered" >import {</span>
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
-<span class="cstat-no" title="statement not covered" >import { Separator } from '@/components/ui/separator'</span>
-<span class="cstat-no" title="statement not covered" >import useNavigateToHolder from '@/hooks/useNavigateToHolder'</span>
-<span class="cstat-no" title="statement not covered" >import { cn } from '@/lib/utils'</span>
-<span class="cstat-no" title="statement not covered" >import { useLessonHolders } from '@/services/context/LessonHolderContext'</span>
-<span class="cstat-no" title="statement not covered" >import { useUserLocale } from '@/services/context/UserLocaleContext'</span>
-import type { LessonHolder, TTodoItem } from '@/types/types'
-import { DialogClose } from '@radix-ui/react-dialog'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { DialogClose } from '@radix-ui/react-dialog'
 <span class="cstat-no" title="statement not covered" >import {</span>
   Check,
   ChevronLeft,
@@ -792,6 +764,34 @@ import { DialogClose } from '@radix-ui/react-dialog'
   X,
 } from 'lucide-react'
 <span class="cstat-no" title="statement not covered" >import { useState } from 'react'</span>
+<span class="cstat-no" title="statement not covered" >import { Badge } from '@/components/ui/badge'</span>
+<span class="cstat-no" title="statement not covered" >import { Button } from '@/components/ui/button'</span>
+<span class="cstat-no" title="statement not covered" >import { Card, CardContent } from '@/components/ui/card'</span>
+<span class="cstat-no" title="statement not covered" >import { Checkbox } from '@/components/ui/checkbox'</span>
+<span class="cstat-no" title="statement not covered" >import {</span>
+  DrawerOrDialog,
+  DrawerOrDialogClose,
+  DrawerOrDialogContent,
+  DrawerOrDialogDescription,
+  DrawerOrDialogHeader,
+  DrawerOrDialogTitle,
+} from '@/components/ui/DrawerOrDialog'
+<span class="cstat-no" title="statement not covered" >import {</span>
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+<span class="cstat-no" title="statement not covered" >import MiniLoader from '@/components/ui/MiniLoader.component'</span>
+<span class="cstat-no" title="statement not covered" >import { Separator } from '@/components/ui/separator'</span>
+<span class="cstat-no" title="statement not covered" >import useNavigateToHolder from '@/hooks/useNavigateToHolder'</span>
+<span class="cstat-no" title="statement not covered" >import { cn } from '@/lib/utils'</span>
+<span class="cstat-no" title="statement not covered" >import { useLessonHolders } from '@/services/context/LessonHolderContext'</span>
+<span class="cstat-no" title="statement not covered" >import { useUserLocale } from '@/services/context/UserLocaleContext'</span>
+import type { LessonHolder, TTodoItem } from '@/types/types'
 <span class="cstat-no" title="statement not covered" >import DeleteTodos from './DeleteTodos.component'</span>
 <span class="cstat-no" title="statement not covered" >import UpdateTodo from './UpdateTodo.component'</span>
 <span class="cstat-no" title="statement not covered" >import { useCompleteTodo } from './useCompleteTodo'</span>
@@ -1105,7 +1105,7 @@ interface TodoMobileDrawerProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-18T08:38:52.923Z
+                at 2025-09-15T07:45:48.672Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
