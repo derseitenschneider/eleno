@@ -2,8 +2,8 @@ import { useLesson } from '@/hooks/useLesson'
 import { cn } from '@/lib/utils'
 import { LessonPlanningProvider } from '@/services/context/LessonPlanningContext'
 import { Blocker } from '../subscription/Blocker'
-import { CreateLessonForm } from './CreateLessonForm.component'
 import { AttendanceStatusSelect } from './AttendanceStatusSelect.component'
+import { CreateLessonForm } from './CreateLessonForm.component'
 import { ButtonPlanningModal } from './planning/ButtonPlanningModal.component'
 
 function CreateLesson() {
