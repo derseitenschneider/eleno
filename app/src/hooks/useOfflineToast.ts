@@ -10,7 +10,7 @@ export function useOfflineToast() {
     if (!isOnline && !toastId.current) {
       // Show persistent offline toast
       toastId.current = toast('Du bist momentan offline', {
-        description: 'Deine Daten werden synchronisiert, sobald du wieder online bist.',
+        description: 'Die Funktionsweise ist eingeschränkt, bis du wieder online bist.',
         duration: Number.POSITIVE_INFINITY,
         important: true,
       })
