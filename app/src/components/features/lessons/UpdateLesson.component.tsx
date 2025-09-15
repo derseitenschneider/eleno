@@ -62,7 +62,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
   return (
     <div className='relative px-1 pb-4'>
       <Blocker />
-      <div className='mb-3 flex items-center gap-2'>
+      <div className='mb-3 flex flex-wrap items-center gap-2'>
         <p className='text-foreground/70'>Datum</p>
         <DayPicker disabled={isLoading} date={date} setDate={handleDate} />
         <AttendanceStatusSelect
