@@ -261,13 +261,13 @@ h5 {
 /* Mobile-specific overrides for better text selection */
 @media (max-width: 768px) {
   .rsw-ce {
-    /* Remove the problematic overflow-auto from base styles on mobile */
-    @apply bg-background50/40 text-foreground !p-[10px] focus:bg-background100;
-    /* Remove fixed height and overflow on mobile */
+    /* Keep base styles but adjust height and overflow */
     height: auto !important;
     min-height: 170px;
-    overflow: visible !important;
-    -webkit-overflow-scrolling: unset !important;
+    /* Use auto overflow instead of visible to prevent layout issues */
+    overflow: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     word-wrap: break-word;
     -webkit-text-size-adjust: 100%;
   }
@@ -276,7 +276,8 @@ h5 {
   .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
     min-height: 36px;
     height: auto !important;
-    overflow: visible !important;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .rsw-editor {
@@ -300,15 +301,15 @@ h5 {
 /* iOS-specific fixes using feature detection */
 @supports (-webkit-touch-callout: none) {
   .rsw-ce {
-    /* Disable momentum scrolling which interferes with selection */
-    -webkit-overflow-scrolling: unset !important;
-    /* Ensure text selection works */
+    /* Ensure text selection works on iOS */
     -webkit-user-select: text !important;
     user-select: text !important;
     /* Fix selection handles */
     -webkit-touch-callout: default !important;
     /* Prevent selection issues */
     -webkit-user-drag: none;
+    /* Use touch scrolling but allow selection */
+    -webkit-overflow-scrolling: touch;
   }
 
   .rsw-ce:focus {
@@ -318,35 +319,27 @@ h5 {
   }
 }
 
-/* Vaul drawer specific fixes for text selection */
-[data-vaul-drawer] .rsw-ce,
-[data-vaul-no-drag] .rsw-ce {
-  /* Force visible overflow in drawer contexts */
-  overflow: visible !important;
-  /* Prevent drawer drag interference */
-  touch-action: manipulation !important;
-  /* Ensure text selection priority */
-  -webkit-user-select: text !important;
-  user-select: text !important;
-}
-
-/* Fix for drawer content containers */
-[data-vaul-drawer] .overflow-y-auto:has(.rsw-editor) {
-  /* Disable overflow on containers with editors */
-  overflow: visible !important;
-}
-
-/* Mobile drawer text selection fix */
+/* Targeted fixes for text selection without breaking drawer functionality */
 @media (max-width: 768px) {
-  [data-vaul-drawer] .rsw-ce {
-    /* Complete override for mobile drawer contexts */
-    overflow: visible !important;
+  /* More targeted approach - only affect the contentEditable area */
+  [data-vaul-drawer] .rsw-ce,
+  [data-vaul-no-drag] .rsw-ce {
+    /* Use contain to prevent layout issues while allowing selection */
+    contain: layout style;
+    /* Allow text selection without breaking scrolling */
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    /* Keep height auto for selection to work */
     height: auto !important;
     min-height: 170px;
-    touch-action: manipulation !important;
+    /* Use hidden overflow for x-axis only */
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  [data-vaul-drawer] .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
+  [data-vaul-drawer] .rsw-editor:has(span[data-type="mini"]) .rsw-ce,
+  [data-vaul-no-drag] .rsw-editor:has(span[data-type="mini"]) .rsw-ce {
     min-height: 36px;
     height: auto !important;
   }

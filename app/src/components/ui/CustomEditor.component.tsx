@@ -88,9 +88,33 @@ function CustomEditor({
   }
 
   function handleTouchStart(e: React.TouchEvent) {
-    // Ensure proper focus on touch for better selection
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.focus()
+    // Only handle touch for contentEditable elements and when not disabled
+    const target = e.target as HTMLElement
+    if (target.isContentEditable && !disabled && isMobile) {
+      // Store touch position and time to detect scrolling vs tapping
+      const touch = e.touches[0]
+      if (touch) {
+        ;(target as any)._touchStartY = touch.clientY
+        ;(target as any)._touchStartTime = Date.now()
+      }
+    }
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    // Only focus if it was an intentional tap, not a scroll gesture
+    const target = e.target as HTMLElement
+    if (target.isContentEditable && !disabled && isMobile) {
+      const touchEndTime = Date.now()
+      const touchDuration = touchEndTime - ((target as any)._touchStartTime || 0)
+      const touchStartY = (target as any)._touchStartY || 0
+      const touchEndY = e.changedTouches[0]?.clientY || 0
+      const deltaY = Math.abs(touchEndY - touchStartY)
+
+      // Only focus if it was a quick tap with minimal movement (not a scroll)
+      if (touchDuration < 300 && deltaY < 10) {
+        target.focus()
+        handleSelectionChange()
+      }
     }
   }
 
@@ -111,17 +135,6 @@ function CustomEditor({
     }
   }
 
-  function handleTouchMove(e: React.TouchEvent) {
-    // For mobile in drawer contexts, prevent default to allow text selection
-    if (isMobile) {
-      const target = e.target as HTMLElement
-      if (target.isContentEditable || target.closest('[contenteditable="true"]')) {
-        e.stopPropagation()
-        // Allow text selection to work
-      }
-    }
-  }
-
   if (type === 'mini')
     // TODO: Make toolbar appear only on focus without loosing link popover functionality.
     return (
@@ -129,8 +142,7 @@ function CustomEditor({
         <Editor
           onPaste={handlePaste}
           onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleSelectionChange}
+          onTouchEnd={handleTouchEnd}
           onSelect={handleSelectionChange}
           value={value}
           disabled={disabled}
@@ -171,8 +183,7 @@ function CustomEditor({
       <Editor
         onPaste={handlePaste}
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleSelectionChange}
+        onTouchEnd={handleTouchEnd}
         onSelect={handleSelectionChange}
         value={value}
         disabled={disabled}
