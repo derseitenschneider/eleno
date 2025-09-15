@@ -53,12 +53,15 @@ export default function AllLessonsControl({
 
   function handleSelect(year: string) {
     if (year !== selectedYear) {
-      setSearchParams(prev => ({ ...Object.fromEntries(prev), year }))
+      setSearchParams((prev) => ({ ...Object.fromEntries(prev), year }))
     }
   }
   function handleAttendanceFilterChange(value: string) {
     if (value !== selectedAttendance) {
-      setSearchParams(prev => ({ ...Object.fromEntries(prev), attendance: value }))
+      setSearchParams((prev) => ({
+        ...Object.fromEntries(prev),
+        attendance: value,
+      }))
     }
   }
   function closeModal() {
@@ -77,7 +80,7 @@ export default function AllLessonsControl({
           <span className='text-primary'>Zur Lektion</span>
         </NavLink>
       </div>
-      <div className='flex flex-row-reverse items-center justify-between sm:flex-row sm:gap-4'>
+      <div className='flex flex-col-reverse items-center justify-between gap-2 sm:flex-row sm:gap-4'>
         {hasLessonYears && (
           <Select
             disabled={isFetching}
@@ -102,7 +105,7 @@ export default function AllLessonsControl({
           onValueChange={handleAttendanceFilterChange}
           value={selectedAttendance}
         >
-          <SelectTrigger className='hidden sm:flex w-fit'>
+          <SelectTrigger className='hidden w-fit sm:flex'>
             <SelectValue placeholder='Filter' />
           </SelectTrigger>
           <SelectContent>
@@ -111,7 +114,6 @@ export default function AllLessonsControl({
             <SelectItem value='absences'>Nur Absenzen</SelectItem>
           </SelectContent>
         </Select>
-
         <Button
           size='sm'
           variant='outline'
