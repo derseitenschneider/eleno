@@ -38,6 +38,12 @@ export function DataTable<TData, TValue>({
   isSelectable = true,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobileDevice()
+
+  // Type guard to safely check for attendance_status property
+  function hasAttendanceStatus(data: unknown): data is { attendance_status?: string } {
+    return typeof data === 'object' && data !== null && 'attendance_status' in data
+  }
+
   function toggleSelection(row: Row<TData>) {
     if (!isSelectable || isMobile) return
     row.toggleSelected()
@@ -83,14 +89,15 @@ export function DataTable<TData, TValue>({
                 className={cn(
                   'bg-background100 min-[769px]:even:bg-background50',
                   isSelectable && 'cursor-pointer',
-                  row.original?.attendance_status ===
-                    'student_absent_not_excused' &&
+                  hasAttendanceStatus(row.original) &&
+                    row.original.attendance_status === 'student_absent_not_excused' &&
                     'min-[769px]:border-l-4 border-warning/50 ',
-                  (row.original?.attendance_status ===
-                    'student_absent_excused' ||
-                    row.original?.attendance_status === 'teacher_absent') &&
+                  hasAttendanceStatus(row.original) &&
+                    (row.original.attendance_status === 'student_absent_excused' ||
+                     row.original.attendance_status === 'teacher_absent') &&
                     'min-[769px]:border-l-4 border-yellow-600/50',
-                  row.original?.attendance_status === 'held' && 'border-none',
+                  hasAttendanceStatus(row.original) &&
+                    row.original.attendance_status === 'held' && 'border-none',
                 )}
                 onClick={() => toggleSelection(row)}
               >

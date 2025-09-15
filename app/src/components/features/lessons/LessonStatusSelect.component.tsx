@@ -50,10 +50,10 @@ export function LessonStatusSelect({
         disabled={disabled}
       >
         <SelectTrigger
-          className='h-fit w-fit gap-2 border-none bg-transparent p-0 shadow-none focus-visible:outline-none data-[state=open]:bg-transparent'
+          className='flex h-fit w-fit gap-2 border-none bg-transparent p-0 shadow-none focus-visible:outline-none data-[state=open]:bg-transparent'
           hideChevron
         >
-          <MoreVertical className='h-4 w-4 text-primary' />
+          {!isAbsent && <MoreVertical className='h-4 w-4 text-primary' />}
 
           {isAbsent && (
             <Badge

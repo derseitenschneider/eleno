@@ -19,7 +19,7 @@ function CreateLesson() {
       >
         <Blocker blockerId='createLesson' />
         <div className='mb-1 flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-2'>
             <h5 className=' m-0'>Neue Lektion</h5>
             <LessonStatusSelect
               value={attendanceStatus}
