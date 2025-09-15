@@ -5,6 +5,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner'
 import { NotificationManager } from './components/features/notifications/NotificationManager.component'
 import { SidebarProvider } from './components/ui/sidebar'
 import { useOAuthTracker } from './hooks/useOAuthTracker'
+import { useOfflineToast } from './hooks/useOfflineToast'
 import { AppHeader } from './layouts/appHeader/AppHeader'
 import NavbarMobile from './layouts/navbarMobile/NavbarMobile.component'
 import { AppSidebar } from './layouts/sidebar/AppSidebar.component'
@@ -18,6 +19,7 @@ import { UserLocaleProvider } from './services/context/UserLocaleContext'
 
 export default function Application() {
   useOAuthTracker()
+  useOfflineToast()
 
   return (
     <div className='after:absolute after:top-0 after:z-50 after:hidden after:h-[1px] after:w-full after:bg-hairline lg:after:block'>
