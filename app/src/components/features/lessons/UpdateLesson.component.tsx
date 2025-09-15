@@ -74,7 +74,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
       <div className='mb-6 items-center gap-8 lg:flex'>
         {attendanceStatus === 'held' ? (
           <>
-            <div className='mb-6 md:w-[450px] lg:mb-0'>
+            <div className='mb-6 md:w-[450px] lg:mb-0' data-vaul-no-drag>
               <p className='text-foreground/70'>Lektion</p>
 
               <CustomEditor
@@ -84,7 +84,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
               />
             </div>
 
-            <div className='md:w-[450px]'>
+            <div className='md:w-[450px]' data-vaul-no-drag>
               <p className='text-foreground/70'>Hausaufgaben</p>
 
               <CustomEditor
@@ -95,7 +95,7 @@ function EditLesson({ lessonId, onCloseModal }: EditLessonProps) {
             </div>
           </>
         ) : (
-          <div className='md:w-[450px]'>
+          <div className='md:w-[450px]' data-vaul-no-drag>
             <p className='text-foreground/70'>Abwesenheitsgrund</p>
             <Textarea
               disabled={isLoading}

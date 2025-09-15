@@ -160,7 +160,7 @@ function CustomEditor({
           </div>
           <div className='flex'>
             <BtnClearFormatting title='Formatierung entfernen' tabIndex={-1} />
-            <BtnUndo title='Rückgänging' tabIndex={-1} />
+            <BtnUndo title='Rï¿½ckgï¿½nging' tabIndex={-1} />
             <BtnRedo title='Wiederherstellen' tabIndex={-1} />
           </div>
         </Toolbar>
