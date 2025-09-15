@@ -29,7 +29,7 @@ export function CreateLessonForm() {
   if (!currentLessonHolder || !settings) return null
   return (
     <>
-      <div className='mb-3 flex flex-col items-start gap-1 sm:flex-row'>
+      <div className='mb-3 mt-3 flex flex-col items-start gap-1 sm:mt-0 sm:flex-row'>
         <div className='flex items-center gap-2'>
           <p>Datum</p>
           <DayPicker setDate={handleDate} date={date} disabled={isLoading} />
