@@ -37,10 +37,9 @@ function Lesson() {
         // Navigate to the student closest to current date/time
         navigateToNearestHolder()
         return
-      } else {
-        // Direct student ID provided (e.g., s-123)
-        navigate(`/lessons/${studentParam}`, { replace: true })
       }
+      // Direct student ID provided (e.g., s-123)
+      navigate(`/lessons/${studentParam}`, { replace: true })
     } else if (!currentLessonHolder) {
       // No searchParams and no current holder from route params
       // Check if we have any students at all
