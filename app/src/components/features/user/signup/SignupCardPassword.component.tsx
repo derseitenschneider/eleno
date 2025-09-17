@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import MiniLoader from '@/components/ui/MiniLoader.component'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Separator } from '@/components/ui/separator'
@@ -25,6 +26,8 @@ const passwordSchema = z.object({
   password: z
     .string()
     .min(6, { message: 'Passwort muss mindestens 6 Zeichen lang sein.' }),
+  // Honeypot field - should always be empty for legitimate users
+  website: z.string().max(0, { message: 'Bots not allowed' }).optional(),
 })
 
 type TInput = z.infer<typeof passwordSchema>
@@ -38,6 +41,7 @@ export function SignupCardPassword() {
   const form = useForm<TInput>({
     defaultValues: {
       password: '',
+      website: '', // Honeypot field
     },
     resolver: zodResolver(passwordSchema),
     mode: 'onSubmit',
@@ -119,6 +123,24 @@ export function SignupCardPassword() {
                   />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Honeypot field - hidden from users, visible to bots */}
+          <FormField
+            control={form.control}
+            name='website'
+            render={({ field }) => (
+              <FormItem className='hidden'>
+                <FormLabel>Website</FormLabel>
+                <FormControl>
+                  <Input
+                    type='text'
+                    tabIndex={-1}
+                    autoComplete='off'
+                    {...field}
+                  />
+                </FormControl>
               </FormItem>
             )}
           />
