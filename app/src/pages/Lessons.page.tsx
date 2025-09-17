@@ -1,41 +1,42 @@
+import { useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import NoStudents from '@/components/features/lessons/NoStudents.component'
 import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
 import useSettingsQuery from '@/components/features/settings/settingsQuery'
+import useNavigateToHolder from '@/hooks/useNavigateToHolder'
+import useStudentsQuery from '@/components/features/students/studentsQueries'
+import useGroupsQuery from '@/components/features/groups/groupsQuery'
 import { cn } from '@/lib/utils'
-import { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import CreateLesson from '../components/features/lessons/CreateLesson.component'
 import PreviousLessons from '../components/features/lessons/PreviousLessons.component'
 import NoteList from '../components/features/notes/NoteList.component'
-import { useLoading } from '../services/context/LoadingContext'
 import { useLessonHolders } from '../services/context/LessonHolderContext'
+import { useLoading } from '../services/context/LoadingContext'
 
 function Lesson() {
   const { isLoading } = useLoading()
   const { data: settings } = useSettingsQuery()
   const { currentLessonHolder } = useCurrentHolder()
-  const { currentLessonHolder: contextCurrentHolder, activeSortedHolders } = useLessonHolders()
+  const { currentLessonHolder: contextCurrentHolder, activeSortedHolders } =
+    useLessonHolders()
+  const { isLoading: isLoadingStudents } = useStudentsQuery()
+  const { isLoading: isLoadingGroups } = useGroupsQuery()
+  const { navigateToNearestHolder } = useNavigateToHolder()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const currentHolderId = `${currentLessonHolder?.type}-${currentLessonHolder?.holder.id}`
 
   useEffect(() => {
+    // Skip if still loading data
+    if (isLoadingStudents || isLoadingGroups) return
+
     // Handle searchParams navigation
     const studentParam = searchParams.get('student')
     if (studentParam) {
       if (studentParam === 'current') {
-        // If no students exist, navigate to no-students page
-        if (!activeSortedHolders || activeSortedHolders.length === 0) {
-          navigate('/lessons/no-students', { replace: true })
-          return
-        }
-
-        // Use context's current holder or fallback to first student
-        const targetHolder = contextCurrentHolder || activeSortedHolders[0]
-        if (targetHolder) {
-          const holderId = `${targetHolder.type}-${targetHolder.holder.id}`
-          navigate(`/lessons/${holderId}`, { replace: true })
-        }
+        // Navigate to the student closest to current date/time
+        navigateToNearestHolder()
+        return
       } else {
         // Direct student ID provided (e.g., s-123)
         navigate(`/lessons/${studentParam}`, { replace: true })
@@ -46,11 +47,22 @@ function Lesson() {
       if (activeSortedHolders && activeSortedHolders.length > 0) {
         // Navigate to the current holder from context or first student
         const targetHolder = contextCurrentHolder || activeSortedHolders[0]
-        const holderId = `${targetHolder.type}-${targetHolder.holder.id}`
-        navigate(`/lessons/${holderId}`, { replace: true })
+        if (targetHolder) {
+          const holderId = `${targetHolder.type}-${targetHolder.holder.id}`
+          navigate(`/lessons/${holderId}`, { replace: true })
+        }
       }
     }
-  }, [currentLessonHolder, contextCurrentHolder, activeSortedHolders, navigate, searchParams])
+  }, [
+    isLoadingStudents,
+    isLoadingGroups,
+    currentLessonHolder,
+    contextCurrentHolder,
+    activeSortedHolders,
+    navigate,
+    navigateToNearestHolder,
+    searchParams,
+  ])
 
   if (isLoading || !settings) return <p>...loading</p>
   if (currentLessonHolder)
