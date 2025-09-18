@@ -20,6 +20,16 @@ const LessonsWrapper = () => {
 
 const lessonsRoutes: Array<RouteObject> = [
   {
+    path: '/lessons',
+    element: <LessonsWrapper />,
+    children: [
+      {
+        index: true,
+        element: <LessonsPage />,
+      },
+    ],
+  },
+  {
     path: '/lessons/:holderId',
     element: <LessonsWrapper />,
     children: [

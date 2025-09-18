@@ -6,23 +6,23 @@ name: 📊 Deployment Monitoring
 on:
   schedule:
     # Run every 15 minutes to monitor deployment status
-    - cron: '*/15 * * * *'
+    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       force_check:
-        description: 'Force immediate health check'
+        description: "Force immediate health check"
         required: false
         type: boolean
         default: true
       environment:
-        description: 'Specific environment to check'
+        description: "Specific environment to check"
         required: false
         type: choice
         options:
-          - 'all'
-          - 'staging'
-          - 'production'
-        default: 'all'
+          - "all"
+          - "staging"
+          - "production"
+        default: "all"
 
 env:
   MONITORING_TIMEOUT: 30
@@ -44,8 +44,8 @@ jobs:
         if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'staging' || !github.event.inputs.environment
         run: |
           echo "Checking staging application health..."
-          
-          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://staging.eleno.app" > /dev/null; then
+
+          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://dev.eleno.net" > /dev/null; then
             echo "status=healthy" >> $GITHUB_OUTPUT
             echo "✅ Staging App: Healthy"
           else
@@ -58,8 +58,8 @@ jobs:
         if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'production' || !github.event.inputs.environment
         run: |
           echo "Checking production application health..."
-          
-          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://eleno.app" > /dev/null; then
+
+          if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "https://app.eleno.net" > /dev/null; then
             echo "status=healthy" >> $GITHUB_OUTPUT
             echo "✅ Production App: Healthy"
           else
@@ -72,18 +72,18 @@ jobs:
         if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'staging' || !github.event.inputs.environment
         run: |
           echo "Checking staging API health..."
-          
+
           # Try multiple endpoints for API health
-          ENDPOINTS=("https://api-staging.eleno.app/health" "https://api-staging.eleno.app")
+          ENDPOINTS=("https://api.test.eleno.net")
           API_HEALTHY=false
-          
+
           for endpoint in "${ENDPOINTS[@]}"; do
             if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "$endpoint" > /dev/null; then
               API_HEALTHY=true
               break
             fi
           done
-          
+
           if [ "$API_HEALTHY" = true ]; then
             echo "status=healthy" >> $GITHUB_OUTPUT
             echo "✅ Staging API: Healthy"
@@ -97,18 +97,18 @@ jobs:
         if: github.event.inputs.environment == 'all' || github.event.inputs.environment == 'production' || !github.event.inputs.environment
         run: |
           echo "Checking production API health..."
-          
+
           # Try multiple endpoints for API health
-          ENDPOINTS=("https://api.eleno.app/health" "https://api.eleno.app")
+          ENDPOINTS=("https://api.eleno.net")
           API_HEALTHY=false
-          
+
           for endpoint in "${ENDPOINTS[@]}"; do
             if curl -f -s --max-time ${{ env.MONITORING_TIMEOUT }} "$endpoint" > /dev/null; then
               API_HEALTHY=true
               break
             fi
           done
-          
+
           if [ "$API_HEALTHY" = true ]; then
             echo "status=healthy" >> $GITHUB_OUTPUT
             echo "✅ Production API: Healthy"
@@ -122,28 +122,28 @@ jobs:
         run: |
           UNHEALTHY_COUNT=0
           TOTAL_SERVICES=0
-          
+
           # Count unhealthy services
           if [ "${{ steps.check-app-staging.outputs.status }}" = "unhealthy" ]; then
             UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
           fi
           TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
-          
+
           if [ "${{ steps.check-app-production.outputs.status }}" = "unhealthy" ]; then
             UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
           fi
           TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
-          
+
           if [ "${{ steps.check-api-staging.outputs.status }}" = "unhealthy" ]; then
             UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
           fi
           TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
-          
+
           if [ "${{ steps.check-api-production.outputs.status }}" = "unhealthy" ]; then
             UNHEALTHY_COUNT=$((UNHEALTHY_COUNT + 1))
           fi
           TOTAL_SERVICES=$((TOTAL_SERVICES + 1))
-          
+
           # Determine overall status
           if [ $UNHEALTHY_COUNT -eq 0 ]; then
             echo "status=healthy" >> $GITHUB_OUTPUT
@@ -174,43 +174,43 @@ jobs:
           echo "### 🌐 Application Status" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | Status | Details |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|--------|---------|" >> $GITHUB_STEP_SUMMARY
-          
+
           # App Staging Status
           if [ "${{ needs.health-monitoring.outputs.app-staging-status }}" = "healthy" ]; then
-            echo "| Staging App | ✅ Healthy | [Visit](https://staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Staging App | ✅ Healthy | [Visit](https://dev.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Staging App | ❌ Unhealthy | [Check](https://staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Staging App | ❌ Unhealthy | [Check](https://dev.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           # App Production Status
           if [ "${{ needs.health-monitoring.outputs.app-production-status }}" = "healthy" ]; then
-            echo "| Production App | ✅ Healthy | [Visit](https://eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Production App | ✅ Healthy | [Visit](https://app.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Production App | ❌ Unhealthy | [Check](https://eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Production App | ❌ Unhealthy | [Check](https://app.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🔌 API Status" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | Status | Details |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|--------|---------|" >> $GITHUB_STEP_SUMMARY
-          
+
           # API Staging Status
           if [ "${{ needs.health-monitoring.outputs.api-staging-status }}" = "healthy" ]; then
-            echo "| Staging API | ✅ Healthy | [Check](https://api-staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Staging API | ✅ Healthy | [Check](https://api.test.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Staging API | ❌ Unhealthy | [Check](https://api-staging.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Staging API | ❌ Unhealthy | [Check](https://api.test.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           # API Production Status
           if [ "${{ needs.health-monitoring.outputs.api-production-status }}" = "healthy" ]; then
-            echo "| Production API | ✅ Healthy | [Check](https://api.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Production API | ✅ Healthy | [Check](https://api.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Production API | ❌ Unhealthy | [Check](https://api.eleno.app) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Production API | ❌ Unhealthy | [Check](https://api.eleno.net) |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📈 Overall Health" >> $GITHUB_STEP_SUMMARY
-          
+
           case "${{ needs.health-monitoring.outputs.overall-health }}" in
             healthy)
               echo "🎉 **ALL SYSTEMS OPERATIONAL** - All services are healthy" >> $GITHUB_STEP_SUMMARY
@@ -222,7 +222,6 @@ jobs:
               echo "🚨 **MAJOR OUTAGE** - Critical services are down" >> $GITHUB_STEP_SUMMARY
               ;;
           esac
-
 
   # Alert on critical issues
   alert-on-issues:
@@ -251,7 +250,7 @@ jobs:
           echo "3. Verify network connectivity" >> $GITHUB_STEP_SUMMARY
           echo "4. Consider emergency rollback if recent deployment" >> $GITHUB_STEP_SUMMARY
           echo "5. Monitor user impact and communications" >> $GITHUB_STEP_SUMMARY
-          
+
           # This will fail the workflow to trigger notifications
           exit 1
 
@@ -269,7 +268,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Last 5 Deployments per Environment:**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           # Use GitHub API to get recent workflow runs
           curl -s -H "Authorization: token ${{ github.token }}" \
                -H "Accept: application/vnd.github.v3+json" \
@@ -292,10 +291,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📊 Deployment Metrics (Last 30 Days)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           # Get deployment success rate from the last 30 days
           THIRTY_DAYS_AGO=$(date -d '30 days ago' --iso-8601)
-          
+
           curl -s -H "Authorization: token ${{ github.token }}" \
                -H "Accept: application/vnd.github.v3+json" \
                "https://api.github.com/repos/${{ github.repository }}/actions/runs?created=>$THIRTY_DAYS_AGO" | \
@@ -323,3 +322,4 @@ jobs:
                      printf "- **No deployments in the last 30 days**\n"
                    }
                  }' >> $GITHUB_STEP_SUMMARY
+

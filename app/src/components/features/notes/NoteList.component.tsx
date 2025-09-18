@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/DrawerOrDialog'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
-import type { ActiveNote, Note as TNote } from '@/types/types'
+import type { Note as TNote } from '@/types/types'
 import useCurrentHolder from '../lessons/useCurrentHolder'
 import { Blocker } from '../subscription/Blocker'
 import CreateNote from './CreateNote.component'
@@ -91,7 +91,10 @@ function NoteList() {
   if (!currentLessonHolder?.holder) return null
 
   return (
-    <div className='min-h-[250px] border-t border-hairline px-5 py-6 sm:pl-6 lg:h-[calc(100vh-88px)] lg:border-none lg:p-4 lg:pr-4'>
+    <div
+      data-testid='note-list'
+      className='min-h-[250px] border-t border-hairline px-5 py-6 sm:pl-6 lg:h-[calc(100vh-88px)] lg:border-none lg:p-4 lg:pr-4'
+    >
       <div className='mb-6'>
         <div className='flex items-baseline justify-between'>
           <h5 className='mb-0'>Notizen</h5>

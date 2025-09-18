@@ -46,7 +46,7 @@ function PreviousLessons({ layout }: PreviousLessonsProps) {
   if (!previousLessonsSortedFiltered) return null
 
   return (
-    <div>
+    <div data-testid='previous-lessons'>
       <div
         className={cn(
           layout === 'reverse' ? 'border-hairline border-b' : '',

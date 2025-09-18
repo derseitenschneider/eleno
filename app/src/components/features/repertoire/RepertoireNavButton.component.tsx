@@ -6,6 +6,7 @@ export function RepertoireNavButton() {
   const isRepertoirePage = window.location.pathname.includes('repertoire')
   return (
     <NavLink
+      data-testid='button-repertoire-nav'
       className={cn(
         'py-2 z-2 px-3 rounded-sm text-sm text-foreground relative flex items-center gap-1',
         'hover:no-underline',
