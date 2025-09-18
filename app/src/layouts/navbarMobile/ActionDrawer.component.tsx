@@ -1,6 +1,10 @@
-import { CheckSquare2, User, Users, X } from 'lucide-react'
+import { CalendarPlus, CheckSquare2, Music, StickyNote, User, Users, X } from 'lucide-react'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
+import { CreatePlannedLessonDrawer } from '@/components/features/lessons/planning/CreatePlannedLessonDrawer.component'
+import { CreateNoteDrawer } from '@/components/features/notes/CreateNoteDrawer.component'
+import { CreateRepertoireItemDrawer } from '@/components/features/repertoire/CreateRepertoireItemDrawer.component'
 import { CreateStudentDialogDrawer } from '@/components/features/students/CreateStudentDialogDrawer.component'
 import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
 import { Button } from '@/components/ui/button'
@@ -21,9 +25,13 @@ export type ActionDrawerProps = {
 }
 
 export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
+  const location = useLocation()
   const [modalOpen, setModalOpen] = useState<
-    'CREATE_STUDENT' | 'CREATE_GROUP' | 'CREATE_TODO' | null
+    'CREATE_STUDENT' | 'CREATE_GROUP' | 'CREATE_TODO' | 'PLAN_LESSON' | 'CREATE_NOTE' | 'CREATE_REPERTOIRE' | null
   >(null)
+
+  // Check if we're on the lessons page
+  const isOnLessonsPage = location.pathname.startsWith('/lessons')
 
   return (
     <>
@@ -60,6 +68,41 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
               description='Füge eine neue Gruppe hinzu.'
             />
           </div>
+          
+          {isOnLessonsPage && (
+            <>
+              <Separator className='my-4' />
+              <div className='space-y-6'>
+                <ActionItem
+                  onClick={() => {
+                    setModalOpen('PLAN_LESSON')
+                  }}
+                  icon={<CalendarPlus />}
+                  title='Lektion planen'
+                  description='Plane eine neue Lektion für den aktuellen Schüler.'
+                />
+
+                <ActionItem
+                  onClick={() => {
+                    setModalOpen('CREATE_NOTE')
+                  }}
+                  icon={<StickyNote />}
+                  title='Notiz erfassen'
+                  description='Erfasse eine neue Notiz für den aktuellen Schüler.'
+                />
+
+                <ActionItem
+                  onClick={() => {
+                    setModalOpen('CREATE_REPERTOIRE')
+                  }}
+                  icon={<Music />}
+                  title='Song erfassen (Repertoire)'
+                  description='Füge einen neuen Song zum Repertoire hinzu.'
+                />
+              </div>
+            </>
+          )}
+          
           <Separator className='my-4' />
           <div className='space-y-6'>
             <ActionItem
@@ -89,6 +132,24 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
       <CreateTodoDialogDrawer
         onSuccess={() => setModalOpen(null)}
         open={modalOpen === 'CREATE_TODO'}
+        onOpenChange={() => setModalOpen(null)}
+      />
+
+      <CreatePlannedLessonDrawer
+        onSuccess={() => setModalOpen(null)}
+        open={modalOpen === 'PLAN_LESSON'}
+        onOpenChange={() => setModalOpen(null)}
+      />
+
+      <CreateNoteDrawer
+        onSuccess={() => setModalOpen(null)}
+        open={modalOpen === 'CREATE_NOTE'}
+        onOpenChange={() => setModalOpen(null)}
+      />
+
+      <CreateRepertoireItemDrawer
+        onSuccess={() => setModalOpen(null)}
+        open={modalOpen === 'CREATE_REPERTOIRE'}
         onOpenChange={() => setModalOpen(null)}
       />
     </>
