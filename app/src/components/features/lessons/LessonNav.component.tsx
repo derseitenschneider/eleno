@@ -124,6 +124,7 @@ export default function LessonNav() {
   if (lessonHolderTypeIds.length <= 1) return null
   return (
     <div
+      data-testid='lesson-nav'
       className={cn(
         'z-[60] fixed md:bottom-3 position-mobile-lesson-nav',
         'ml-auto md:ml-0 right-4',

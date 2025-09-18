@@ -25,7 +25,7 @@ function LessonHeader() {
       )}
     >
       <div className='flex flex-1 items-end justify-between'>
-        <div className='w-full'>
+        <div data-testid='lesson-header-studentinfo'>
           <div className='flex items-center'>
             <NavLink
               to={`/lessons/${

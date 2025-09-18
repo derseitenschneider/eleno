@@ -12,6 +12,7 @@ function CreateLesson() {
   return (
     <LessonPlanningProvider>
       <div
+        data-testid='lesson-form'
         className={cn(
           settings?.lesson_main_layout === 'regular' && 'border-b',
           'relative border-hairline px-5 pb-6 pt-6 sm:pl-6 lg:py-4 lg:pb-16 lg:pr-4 min-[1148px]:pb-0',
