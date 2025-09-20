@@ -1,22 +1,12 @@
 import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
-import { Plus, X } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-
-import {
-  DrawerOrDialog,
-  DrawerOrDialogClose,
-  DrawerOrDialogContent,
-  DrawerOrDialogDescription,
-  DrawerOrDialogHeader,
-  DrawerOrDialogTitle,
-} from '@/components/ui/DrawerOrDialog'
 import useIsMobileDevice from '@/hooks/useIsMobileDevice'
 import { cn } from '@/lib/utils'
 import type { Note as TNote } from '@/types/types'
 import useCurrentHolder from '../lessons/useCurrentHolder'
-import { Blocker } from '../subscription/Blocker'
-import CreateNote from './CreateNote.component'
+import { CreateNoteModal } from './CreateNoteModal.component'
 import Note from './Note.component'
 import { NoteMobile } from './NoteMobile.component'
 import { useActiveNotesQuery } from './notesQueries'
@@ -148,33 +138,11 @@ function NoteList() {
         </DragDropContext>
       ) : null}
 
-      <DrawerOrDialog
+      <CreateNoteModal
         open={openModal === 'ADD'}
         onOpenChange={() => setOpenModal(undefined)}
-      >
-        <DrawerOrDialogContent>
-          <DrawerOrDialogClose asChild>
-            <Button
-              variant='ghost'
-              className='absolute right-4 top-4 text-foreground/70'
-            >
-              <X className='size-5' />
-            </Button>
-          </DrawerOrDialogClose>
-          <DrawerOrDialogHeader>
-            <DrawerOrDialogTitle>Neue Notiz erstellen</DrawerOrDialogTitle>
-          </DrawerOrDialogHeader>
-          <DrawerOrDialogDescription className='hidden'>
-            Neue Notiz erstellen
-          </DrawerOrDialogDescription>
-          <Blocker blockerId='createNote' />
-          <CreateNote
-            holderType={currentLessonHolder.type}
-            holderId={currentLessonHolder.holder.id}
-            onCloseModal={() => setOpenModal(undefined)}
-          />
-        </DrawerOrDialogContent>
-      </DrawerOrDialog>
+        onClose={() => setOpenModal(undefined)}
+      />
     </div>
   )
 }

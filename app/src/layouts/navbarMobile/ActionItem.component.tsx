@@ -5,16 +5,18 @@ export type ActionItemProps = {
   title: string
   description: string
   icon: ReactElement
+  bgColor?: string
 }
 export function ActionItem({
   onClick,
   title,
   description,
   icon,
+  bgColor = 'bg-primary',
 }: ActionItemProps) {
   return (
     <button type='button' onClick={onClick} className='flex w-full gap-2'>
-      <div className='flex size-9 items-center justify-center rounded-lg bg-primary'>
+      <div className={`flex size-9 items-center justify-center rounded-lg ${bgColor}`}>
         {cloneElement(icon, {
           className: 'size-5 text-white',
         })}

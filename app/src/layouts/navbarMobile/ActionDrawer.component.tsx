@@ -1,10 +1,19 @@
-import { CalendarPlus, CheckSquare2, Music, StickyNote, User, Users, X } from 'lucide-react'
+import {
+  CalendarPlus,
+  CheckSquare2,
+  Music,
+  StickyNote,
+  User,
+  Users,
+  X,
+} from 'lucide-react'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { CreateGroupDialogDrawer } from '@/components/features/groups/CreateGroupDialogDrawer.component'
-import { CreatePlannedLessonDrawer } from '@/components/features/lessons/planning/CreatePlannedLessonDrawer.component'
-import { CreateNoteDrawer } from '@/components/features/notes/CreateNoteDrawer.component'
-import { CreateRepertoireItemDrawer } from '@/components/features/repertoire/CreateRepertoireItemDrawer.component'
+import { CreatePlannedLessonModal } from '@/components/features/lessons/planning/CreatePlannedLessonModal.component'
+import { CreateNoteModal } from '@/components/features/notes/CreateNoteModal.component'
+import { CreateRepertoireModal } from '@/components/features/repertoire/CreateRepertoireModal.component'
+import useCurrentHolder from '@/components/features/lessons/useCurrentHolder'
 import { CreateStudentDialogDrawer } from '@/components/features/students/CreateStudentDialogDrawer.component'
 import { CreateTodoDialogDrawer } from '@/components/features/todos/CreateTodoDialogDrawer.component'
 import { Button } from '@/components/ui/button'
@@ -18,6 +27,7 @@ import {
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
 import { ActionItem } from './ActionItem.component'
+import useFeatureFlag from '@/hooks/useFeatureFlag'
 
 export type ActionDrawerProps = {
   open: boolean
@@ -25,13 +35,29 @@ export type ActionDrawerProps = {
 }
 
 export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
+  const isPlanningEnabled = useFeatureFlag('lesson-planning')
   const location = useLocation()
+  const { currentLessonHolder } = useCurrentHolder()
   const [modalOpen, setModalOpen] = useState<
-    'CREATE_STUDENT' | 'CREATE_GROUP' | 'CREATE_TODO' | 'PLAN_LESSON' | 'CREATE_NOTE' | 'CREATE_REPERTOIRE' | null
+    | 'CREATE_STUDENT'
+    | 'CREATE_GROUP'
+    | 'CREATE_TODO'
+    | 'PLAN_LESSON'
+    | 'CREATE_NOTE'
+    | 'CREATE_REPERTOIRE'
+    | null
   >(null)
 
   // Check if we're on the lessons page
   const isOnLessonsPage = location.pathname.startsWith('/lessons')
+
+  // Get holder name for dynamic descriptions
+  let holderName = ''
+  if (currentLessonHolder?.type === 's') {
+    holderName = `${currentLessonHolder.holder.firstName} ${currentLessonHolder.holder.lastName}`
+  } else if (currentLessonHolder?.type === 'g') {
+    holderName = currentLessonHolder.holder.name
+  }
 
   return (
     <>
@@ -46,7 +72,7 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
             </Button>
           </DrawerClose>
           <DrawerHeader>
-            <DrawerTitle>Erstellen</DrawerTitle>
+            <DrawerTitle className='hidden'>Erstellen</DrawerTitle>
           </DrawerHeader>
           <DrawerDescription className='hidden'>Erstellen</DrawerDescription>
           <div className='space-y-6'>
@@ -55,7 +81,7 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
                 setModalOpen('CREATE_STUDENT')
               }}
               icon={<User />}
-              title='Schüler:in'
+              title='Schüler:in hinzufügen'
               description='Füge eine neue Schüler:in hinzu.'
             />
 
@@ -64,31 +90,35 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
                 setModalOpen('CREATE_GROUP')
               }}
               icon={<Users />}
-              title='Gruppe'
+              title='Gruppe hinzufügen'
               description='Füge eine neue Gruppe hinzu.'
             />
           </div>
-          
+
           {isOnLessonsPage && (
             <>
               <Separator className='my-4' />
               <div className='space-y-6'>
-                <ActionItem
-                  onClick={() => {
-                    setModalOpen('PLAN_LESSON')
-                  }}
-                  icon={<CalendarPlus />}
-                  title='Lektion planen'
-                  description='Plane eine neue Lektion für den aktuellen Schüler.'
-                />
+                {isPlanningEnabled && (
+                  <ActionItem
+                    onClick={() => {
+                      setModalOpen('PLAN_LESSON')
+                    }}
+                    icon={<CalendarPlus />}
+                    title='Lektion planen'
+                    description={`Plane eine neue Lektion für ${holderName}.`}
+                    bgColor='bg-[#6E6ED6]'
+                  />
+                )}
 
                 <ActionItem
                   onClick={() => {
                     setModalOpen('CREATE_NOTE')
                   }}
                   icon={<StickyNote />}
-                  title='Notiz erfassen'
-                  description='Erfasse eine neue Notiz für den aktuellen Schüler.'
+                  title='Notiz erstellen'
+                  description='Neue Notiz erstellen'
+                  bgColor='bg-[#6E6ED6]'
                 />
 
                 <ActionItem
@@ -97,12 +127,13 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
                   }}
                   icon={<Music />}
                   title='Song erfassen (Repertoire)'
-                  description='Füge einen neuen Song zum Repertoire hinzu.'
+                  description={`Füge einen neuen Song für ${holderName} hinzu.`}
+                  bgColor='bg-[#6E6ED6]'
                 />
               </div>
             </>
           )}
-          
+
           <Separator className='my-4' />
           <div className='space-y-6'>
             <ActionItem
@@ -135,22 +166,22 @@ export function ActionDrawer({ open, onOpenChange }: ActionDrawerProps) {
         onOpenChange={() => setModalOpen(null)}
       />
 
-      <CreatePlannedLessonDrawer
-        onSuccess={() => setModalOpen(null)}
+      <CreatePlannedLessonModal
         open={modalOpen === 'PLAN_LESSON'}
         onOpenChange={() => setModalOpen(null)}
+        onClose={() => setModalOpen(null)}
       />
 
-      <CreateNoteDrawer
-        onSuccess={() => setModalOpen(null)}
+      <CreateNoteModal
         open={modalOpen === 'CREATE_NOTE'}
         onOpenChange={() => setModalOpen(null)}
+        onClose={() => setModalOpen(null)}
       />
 
-      <CreateRepertoireItemDrawer
-        onSuccess={() => setModalOpen(null)}
+      <CreateRepertoireModal
         open={modalOpen === 'CREATE_REPERTOIRE'}
         onOpenChange={() => setModalOpen(null)}
+        onClose={() => setModalOpen(null)}
       />
     </>
   )
